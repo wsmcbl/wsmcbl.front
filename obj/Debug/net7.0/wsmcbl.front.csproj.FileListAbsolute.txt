@@ -806,8 +806,6 @@ c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\7o2V537k.gz
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\pZX4yp4T.gz
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\4ITdGkDp.gz
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\qa0QWaUQ.gz
-c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\vPWU5+Ly.gz
-c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\r5rCCcos.gz
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\qOBKCPGQ.gz
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\blazor.boot.json
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\staticwebassets\msbuild.wsmcbl.front.Microsoft.AspNetCore.StaticWebAssets.props
@@ -823,3 +821,5 @@ c:\Proyect\wsmcbl.front\obj\Debug\net7.0\wsmcbl.front.dll
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\refint\wsmcbl.front.dll
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\wsmcbl.front.pdb
 c:\Proyect\wsmcbl.front\obj\Debug\net7.0\ref\wsmcbl.front.dll
+c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\vPWU5+Ly.gz
+c:\Proyect\wsmcbl.front\obj\Debug\net7.0\build-gz\r5rCCcos.gz
