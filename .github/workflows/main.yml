@@ -2,7 +2,7 @@ on: push
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-    name: 🎉 Deploy del front en Somee.com
+    name: 🎉 Desplegar a Somee.com
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
