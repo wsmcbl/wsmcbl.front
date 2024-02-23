@@ -11,8 +11,8 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: ${{ secrets.FTP_SERVER }}
+        server: cbl.somee.com
         username: ${{ secrets.FTP_PASSWORD }}
         password: ${{ secrets.FTP_USERNAME }}
         protocol: ftp
-        server-dir: ${{ secrets.FTP_SERVERDIR }}
+        server-dir: /www.cbl.somee.com/front/
