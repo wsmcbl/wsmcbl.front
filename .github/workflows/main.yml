@@ -2,7 +2,7 @@ on: push
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Deploy del front a Somme.com
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
@@ -15,4 +15,4 @@ jobs:
         username: cbl
         password: Deploy.cbl.***
         protocol: ftps
-        server-dir: /www.cbl.somee.com/front
+        server-dir: /www.cbl.somee.com/front/
