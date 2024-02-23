@@ -1,0 +1,26 @@
+name: Deploy to Somme.com
+
+on:
+  push:
+    branches:
+      - develop  # Puedes cambiar el nombre de la rama según tu configuración
+      
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup FTP connection
+      uses: wviveiro/ftp-upload-action@v2
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        remoteDir: '	ftp://cbl.somee.com/www.cbl.somee.com\front'  # Cambia esto por la ruta en tu servidor
+
+    - name: Copy files via FTP
+      run: |
+        lftp -e "mirror -R -e -x .git -x .github -x .gitignore -x .gitattributes -x .vscode -x README.md -x LICENSE ." -u ${{ secrets.FTP_USERNAME }}:${{ secrets.FTP_PASSWORD }} ftp://${{ secrets.FTP_SERVER }}/path/to/remote/directory
