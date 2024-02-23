@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj": {}
+    "c:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj": {}
   },
   "projects": {
-    "C:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj": {
+    "c:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj",
+        "projectUniqueName": "c:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj",
         "projectName": "wsmcbl.front",
-        "projectPath": "C:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj",
+        "projectPath": "c:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj",
         "packagesPath": "C:\\Users\\&\\.nuget\\packages\\",
-        "outputPath": "C:\\Proyect\\wsmcbl.front\\obj\\",
+        "outputPath": "c:\\Proyect\\wsmcbl.front\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\&\\AppData\\Roaming\\NuGet\\NuGet.Config",

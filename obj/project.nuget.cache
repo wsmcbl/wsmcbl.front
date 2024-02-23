@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "odFtkOKONlFCsiCqngeRJDT+Hh0VbrRM9RBJ1Z3tX9F7p4hiczkc18xnuk7lozqFSKqIzQ0+22NawD0et1oVhg==",
+  "dgSpecHash": "/lDWPpnDzZ/zxM8HUTFInFpFP2ck+hYxTzAN8i6XouXEgFQsYCqpuyC3n8DSCfQXJCSY1eactvLcUgUiUDCGWQ==",
   "success": true,
-  "projectFilePath": "C:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj",
+  "projectFilePath": "c:\\Proyect\\wsmcbl.front\\wsmcbl.front.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\&\\.nuget\\packages\\microsoft.aspnetcore.authorization\\7.0.11\\microsoft.aspnetcore.authorization.7.0.11.nupkg.sha512",
     "C:\\Users\\&\\.nuget\\packages\\microsoft.aspnetcore.components\\7.0.11\\microsoft.aspnetcore.components.7.0.11.nupkg.sha512",
