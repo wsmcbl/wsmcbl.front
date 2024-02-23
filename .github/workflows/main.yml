@@ -2,7 +2,7 @@ name: Deploy to Somme.com
 
 on:
   push:
-    branches: [ "develop" ] # Puedes cambiar el nombre de la rama según tu configuración
+    branches: [ "master" ] # Puedes cambiar el nombre de la rama según tu configuración
    
     workflow_dispatch:
 
