@@ -9,25 +9,25 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = wsmcbl.front
 build_property.RootNamespace = wsmcbl.front
-build_property.ProjectDir = c:\Proyect\wsmcbl.front\
+build_property.ProjectDir = C:\Proyect\wsmcbl.front\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Proyect\wsmcbl.front
+build_property.MSBuildProjectDirectory = C:\Proyect\wsmcbl.front
 build_property._RazorSourceGeneratorDebug = 
 
-[c:/Proyect/wsmcbl.front/App.razor]
+[C:/Proyect/wsmcbl.front/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Proyect/wsmcbl.front/MainLayout.razor]
+[C:/Proyect/wsmcbl.front/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = TWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Proyect/wsmcbl.front/Pages/Index.razor]
+[C:/Proyect/wsmcbl.front/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Proyect/wsmcbl.front/_Imports.razor]
+[C:/Proyect/wsmcbl.front/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
