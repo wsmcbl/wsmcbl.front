@@ -14,5 +14,5 @@ jobs:
         server: cbl.somee.com
         username: cbl
         password: Deploy.cbl.***
-        protocol: ftps
+        protocol: ftp
         server-dir: /www.cbl.somee.com/front/
