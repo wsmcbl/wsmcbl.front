@@ -12,7 +12,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ftp://cbl.somee.com/www.cbl.somee.com
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        username: cbl
+        password: Deploy.cbl.***
         protocol: ftps
         server-dir: /www.cbl.somee.com/front
