@@ -2,7 +2,7 @@ on: push
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-    name: 🎉 Deploy del front a Somme.com
+    name: 🎉 Deploy del front en Somee.com
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
@@ -11,8 +11,8 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: cbl.somee.com
-        username: cbl
-        password: Deploy.cbl.***
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_PASSWORD }}
+        password: ${{ secrets.FTP_USERNAME }}
         protocol: ftp
-        server-dir: /www.cbl.somee.com/front/
+        server-dir: ${{ secrets.FTP_SERVERDIR }}
