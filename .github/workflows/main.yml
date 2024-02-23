@@ -21,7 +21,7 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        remoteDir: '	ftp://cbl.somee.com/www.cbl.somee.com\front'  # Cambia esto por la ruta en tu servidor
+        remoteDir: 'front'  # Cambia esto por la ruta en tu servidor
 
     - name: Copy files via FTP
       run: |
