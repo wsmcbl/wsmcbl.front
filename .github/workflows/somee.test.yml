@@ -1,7 +1,7 @@
 name: Deploy in somee.com Tests
 on:
   push:
-    branches: ['develop']
+    branches: ['espera']
 jobs:
   web-deploy:
     name: Desplegar a Somee.com
