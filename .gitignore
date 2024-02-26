@@ -1,0 +1,4 @@
+# Directorys ignores
+.vscode/
+obj/
+bin/Debug/
