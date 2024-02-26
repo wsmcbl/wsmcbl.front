@@ -17,4 +17,5 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        server-dir: ${{ secrets.FTP_SERVERDIR }}
+        local-dir: /bin/Release/net7.0/publish
+        server-dir: /www.cbl.somee.com/
