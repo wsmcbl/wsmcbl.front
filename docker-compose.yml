@@ -1,0 +1,34 @@
+version: '3.6'
+
+services:
+
+  wsmcbl-web:
+    container_name: wsmcbl-web
+    build:
+      context: ./nginx
+      args:
+        UID: $U_ID
+    ports:
+      - "400:80"
+    volumes:
+      - ./nginx:/var/log/nginx
+    networks:
+      - wsmcbl-front-network
+    depends_on:
+      - wsmcbl-front
+
+  wsmcbl-front:
+    container_name: wsmcbl-front
+    build:
+      context: .
+      args:
+        UID: $U_ID
+    volumes:
+      - ./:/www
+      - ~/.ssh/id_rsa:/home/appuser/.ssh/id_rsa
+    networks:
+      - wsmcbl-front-network
+
+networks:
+  wsmcbl-front-network:
+    external: true

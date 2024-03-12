@@ -1,4 +1,5 @@
 # Directorys ignores
 .vscode/
+bin/
 obj/
-bin/Debug/
+Properties/
