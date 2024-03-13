@@ -1,4 +1,8 @@
-on: push
+on:
+  push:
+    branches:
+      - CollectTariff
+      - Develop
 name: Deploy website on push
 jobs:
   web-deploy:
@@ -13,6 +17,8 @@ jobs:
       with:
         server: cbl.somee.com
         username: cbl
-        password: Deploy.cbl.***
+        password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        server-dir: /www.cbl.somee.com/front/
+        local-dir: bin/Release/net8.0/publish
+        server-dir: /www.cbl.somee.com/
+
