@@ -23,6 +23,6 @@ jobs:
         username: cbl
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        local-dir: bin/Debug/net8.0/publish/
+        local-dir: bin/Release/net8.0/publish/
         server-dir: /www.cbl.somee.com/
 
