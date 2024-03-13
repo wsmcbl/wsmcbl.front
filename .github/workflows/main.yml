@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - CollectTariff
-      - Develop
 name: Deploy website on push
 jobs:
   web-deploy:
