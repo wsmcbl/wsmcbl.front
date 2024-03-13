@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - CollectTariff
-name: Deploy website on push
+name: Despliegue del Front
 jobs:
   web-deploy:
     name: Desplegar a Somee.com
