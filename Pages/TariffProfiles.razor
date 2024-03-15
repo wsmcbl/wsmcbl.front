@@ -1,0 +1,62 @@
+@page "/accouting/tariff-profiles"
+@using wsmcbl.front.Controllers
+@using wsmcbl.front.Models
+@inject StudentController controller;
+
+@if (students == null)
+{
+    <H1>Loading...</H1>
+    
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Perfiles de cobro</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Año Lectivo</th>
+                        <th>Tutor</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Año Lectivo</th>
+                        <th>Tutor</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @foreach(var item in students)
+                    {
+                        <tr>
+                            <td> @item.studentId </td>
+                            <td> @item.fullName </td>
+                            <td> @item.schoolyear </td>
+                            <td> @item.tutor </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            
+    </div>
+}
+
+@code
+{
+    List<StudentEntity> students;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        students = await controller.GetStudentsFromApiAsync();
+    }
+}

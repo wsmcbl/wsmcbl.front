@@ -1,37 +1,32 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using wsmcbl.front.Models;
 
-namespace wsmcbl.front.Controllers
+namespace wsmcbl.front.Controllers;
+
+public class StudentController
 {
-    public class StudentService
+    private readonly HttpClient _httpClient;
+
+    public StudentController(HttpClient httpClient)
     {
-        private readonly HttpClient _httpClient;
+        _httpClient = httpClient;
+    }
 
-        public StudentService(HttpClient httpClient)
+    public async Task<List<StudentEntity>> GetStudentsFromApiAsync()
+    {
+        // Realizar solicitud HTTP GET a la API
+        var response = await _httpClient.GetAsync("http://cblback.somee.com/v1/accounting/students");
+
+        // Verificar si la solicitud fue exitosa
+        if (response.IsSuccessStatusCode)
         {
-            _httpClient = httpClient;
+            // Deserializar la respuesta JSON en una lista de StudentEntity
+            return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
         }
-
-        public async Task<List<StudentEntity>> GetStudentsFromApiAsync()
+        else
         {
-            // Realizar solicitud HTTP GET a la API
-            var response = await _httpClient.GetAsync("http://cblback.somee.com/students");
-
-            // Verificar si la solicitud fue exitosa
-            if (response.IsSuccessStatusCode)
-            {
-                // Deserializar la respuesta JSON en una lista de StudentEntity
-                return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
-            }
-            else
-            {
-                // Manejar el error si la solicitud no fue exitosa
-                throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
-            }
+            // Manejar el error si la solicitud no fue exitosa
+            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
         }
     }
 }
+
