@@ -1,4 +1,18 @@
 @page "/cobros"
+@using wsmcbl.front.Models
+@using wsmcbl.front.Controllers
+@inject StudentService studentService
+
+@code {
+    List<StudentEntity> students;
+
+    protected override async Task OnInitializedAsync()
+    {
+        students = await studentService.GetStudentsFromApiAsync();
+    }
+}
+
+
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -44,6 +58,19 @@
                             <td>Primaria</td>
                             <td>2024</td>
                         </tr>
+                        
+                        @foreach (var student in students)
+                            {
+                                <tr>
+                                    <td>@student.Id</td>
+                                    <td>@student.Name</td>
+                                    <td>@student.SecondName</td>
+                                    <td>@student.Surname</td>
+                                    <td>@student.SecondSurname</td>
+                                    <td>@(student.Sex ? "Male" : "Female")</td>
+                                    <td>@student.Birthday.ToShortDateString()</td>
+                                </tr>
+                            }
                     </tbody>
                 </table>
             </div>
