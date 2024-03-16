@@ -8,6 +8,13 @@ jobs:
     name: Desplegar a Somee.com
     runs-on: ubuntu-latest
     steps:
+    - name : Instalar lftp OJO
+      run : sudo apt-get update && sudo apt-get install -y lftp
+
+    - name : Limpiar directorio remoto
+      run: |
+        lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
+
     - name: Obtener la ultima compilación del repositorio
       uses: actions/checkout@v3
     
