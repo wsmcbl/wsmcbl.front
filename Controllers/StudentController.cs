@@ -1,6 +1,6 @@
+namespace wsmcbl.front.Controllers;
 using wsmcbl.front.Models;
 
-namespace wsmcbl.front.Controllers;
 
 public class StudentController
 {
@@ -14,7 +14,7 @@ public class StudentController
     public async Task<List<StudentEntity>> GetStudentsFromApiAsync()
     {
         // Realizar solicitud HTTP GET a la API
-        var response = await _httpClient.GetAsync("http://cblback.somee.com/v1/accounting/students");
+        var response = await _httpClient.GetAsync("http://wsmcbl-api.somee.com/v1/accounting/students");
 
         // Verificar si la solicitud fue exitosa
         if (response.IsSuccessStatusCode)

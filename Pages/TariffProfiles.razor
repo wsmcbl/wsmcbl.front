@@ -5,14 +5,15 @@
 
 @if (students == null)
 {
-    <H1>Loading...</H1>
+    <a> Loading... </a>
     
 }
 else
 {
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de cobro</h6>
+            <button type="button" class="btn btn-success btn-sm">Nuevo Estudiante</button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -23,6 +24,7 @@ else
                         <th>Nombre</th>
                         <th>Año Lectivo</th>
                         <th>Tutor</th>
+                        <th>Acción</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -31,6 +33,7 @@ else
                         <th>Nombre</th>
                         <th>Año Lectivo</th>
                         <th>Tutor</th>
+                        <th>Acción</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -41,6 +44,7 @@ else
                             <td> @item.fullName </td>
                             <td> @item.schoolyear </td>
                             <td> @item.tutor </td>
+                            <td> <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Cobro</a> </td>
                         </tr>
                     }
                     </tbody>
