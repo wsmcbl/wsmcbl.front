@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - CollectTariff
-name: Despliegue del Front
+name: Despliegue del Front in Somee.com
 jobs:
   web-deploy:
     name: Desplegar a Somee.com
@@ -16,7 +16,7 @@ jobs:
         git branch  # Verifica la rama actual
         ls -la bin/Release/net8.0/publish/  # Verifica el contenido de la carpeta local
 
-    - name : Instalar lftp
+    - name : Instalar lftp OJO
       run : sudo apt-get update && sudo apt-get install -y lftp
 
     - name : Limpiar directorio remoto
