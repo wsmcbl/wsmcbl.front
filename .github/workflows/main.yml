@@ -21,7 +21,7 @@ jobs:
 
     - name : Limpiar directorio remoto
       run: |
-        lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -r www.cbl.somee.com/"
+        lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
 
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
