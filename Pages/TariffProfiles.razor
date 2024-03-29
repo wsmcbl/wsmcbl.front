@@ -44,7 +44,7 @@ else
                             <td> @item.fullName </td>
                             <td> @item.schoolyear </td>
                             <td> @item.tutor </td>
-                            <td> <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Cobro</a> </td>
+                            <td> <a href="/accouting/tariffcollection/@item.studentId" class="btn btn-success btn-sm">Cobro</a> </td> 
                         </tr>
                     }
                     </tbody>
@@ -55,12 +55,17 @@ else
     </div>
 }
 
+
+
 @code
 {
+    @* Obtenemos la lista de todos los estudiantes a los que le podemos aplicar cobros *@
     List<StudentEntity> students;
-    
     protected override async Task OnInitializedAsync()
     {
         students = await controller.GetStudentsFromApiAsync();
     }
+
 }
+
+

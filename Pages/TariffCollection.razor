@@ -1,203 +1,243 @@
-@page "/accouting/tariffcollection"
+@page "/accouting/tariffcollection/{studentId}"
 
-@* Formularios POP UP *@
+@using wsmcbl.front.Controllers
+@using wsmcbl.front.Models
 
-<!-- Finiish Modal Pay -->
-<div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="finistariff">Detalle de la transacción</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                @* detalles de la transaccion *@
-                <div class="row">
-                    <div class="col">
-                        <p>Concepto: </p>
-                        <p>Monto: </p>
-                    </div>
-                    <div class="col">
-                        <p>Inscripción</p>
-                        <p>C$ 1600.00</p>
-                    </div>
+@inject StudentController controller;
+@inject NavigationManager NavigationManager;
+
+
+@if (student == null)
+{
+    <a> Loading... </a>
+    
+}
+else
+{
+    @* Formularios POP UP *@
+
+    <!-- Finiish Modal Pay -->
+    <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="finistariff">Detalle de la transacción</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-@* cambio y monto total *@
-                <div class="row">
-                    <div class="col">
-                        <p>Recibí: </p>
-                        <p>Cambio: </p>
-                    </div>
-                    <div class="col">
-                        <div class="row mb-1">
-                            <input id="amoun" type="number" class="form-control p1" placeholder="C$ 800.00">
+                <div class="modal-body">
+                    @* detalles de la transaccion *@
+                    <div class="row">
+                        <div class="col">
+                            <p>Concepto: </p>
+                            <p>Monto: </p>
                         </div>
-                        <div class="row mb-1">
-                            <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00">
+                        <div class="col">
+                            <p>Inscripción</p>
+                            <p>C$ 1600.00</p>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success">Terminar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Multi Pagos -->
-<div class="modal fade" id="multitariffmodal" tabindex="-1" aria-labelledby="multitariffmodalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="multitariffmodalLabel">Cobros Multiples</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="p-3 table-responsive">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Selec</th>
-                                <th>#</th>
-                                <th>Fecha Vencimiento</th>
-                                <th>Concepto</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th class="align-middle text-center">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <input class="form-check-input align-items-center" type="checkbox" value="" id="defaultCheck1">
-                                    </div>
-                                </th>
-                                <th>1</th>
-                                <th>15/01/2024</th>
-                                <th>Enero</th>
-                                <th>900.00</th>
-                            </tr>
-
-                            <tr>
-                                <th class="align-middle text-center">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <input class="form-check-input align-items-center justify-content-center" type="checkbox" value="" id="defaultCheck1">
-                                    </div>
-                                </th>
-                                <th>2</th>
-                                <th>15/02/2024</th>
-                                <th>Febrero</th>
-                                <th>900.00</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal" data-target="#finistariff">Terminar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-@* Panel de informacion del estudiante *@
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary">Información</h6>
-            </div>
-            <form class="p-5">
-                <div class="row">
-
-                    <div class="col">
-                        <p class="text-left">Nombre: Ezequiel Urbina Zeledon</p>
-                        <p class="text-left">Año Lectivo: 2024</p>
-                        <p class="text-left">Id: 2019-0056U</p>
-                    </div>
-
-                    <div class="col">
-                        <p class="text-left">Grado: Sexto A</p>
-                        <p class="text-left">Tutor: Juan Gabriel</p>
-                    </div>
-
-                    <div class="col d-flex align-items-center justify-content-center">
-                        <div class="card shadow mb-4 d-inline-block">
-                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                <h6 class="m-0 font-weight-bold text-primary">Descuentos</h6>
+                    @* cambio y monto total *@
+                    <div class="row">
+                        <div class="col">
+                            <p>Recibí: </p>
+                            <p>Cambio: </p>
+                        </div>
+                        <div class="col">
+                            <div class="row mb-1">
+                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 800.00">
                             </div>
-                            <div class="card-body p2">
-                                <div class="row form-check">
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="discount1">
-                                        <label class="form-check-label" for="discount1">
-                                            Hermanos
-                                        </label>
-                                    </div>
+                            <div class="row mb-1">
+                                <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success">Terminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="discount2">
-                                        <label class="form-check-label" for="discount2">
-                                            Trabajador
-                                        </label>
-                                    </div>
 
-                                    <div>
-                                        <input class="form-check-input" type="checkbox" id="discount3">
-                                        <label class="form-check-label" for="discount3">
-                                            Otros
-                                        </label>
-                                    </div>
+    <!-- Multi Pagos -->
+    <div class="modal fade" id="multitariffmodal" tabindex="-1" aria-labelledby="multitariffmodalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="multitariffmodalLabel">Cobros Multiples</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3 table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Selec</th>
+                                    <th>#</th>
+                                    <th>Fecha Vencimiento</th>
+                                    <th>Concepto</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="align-middle text-center">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <input class="form-check-input align-items-center" type="checkbox" value=""
+                                                id="defaultCheck1">
+                                        </div>
+                                    </th>
+                                    <th>1</th>
+                                    <th>15/01/2024</th>
+                                    <th>Enero</th>
+                                    <th>900.00</th>
+                                </tr>
+
+                                <tr>
+                                    <th class="align-middle text-center">
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <input class="form-check-input align-items-center justify-content-center"
+                                                type="checkbox" value="" id="defaultCheck1">
+                                        </div>
+                                    </th>
+                                    <th>2</th>
+                                    <th>15/02/2024</th>
+                                    <th>Febrero</th>
+                                    <th>900.00</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal"
+                        data-target="#finistariff">Terminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @* Panel de informacion del estudiante *@
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Información</h6>
+        </div>
+        <form class="p-5">
+            <div class="row">
+
+                <div class="col">
+                    <p class="text-left">Nombre: @student.fullName</p>
+                    <p class="text-left">Año Lectivo: @student.schoolyear</p>
+                    <p class="text-left">Id: @student.studentId</p>
+                </div>
+
+                <div class="col">
+                    <p class="text-left">Grado: Sexto A</p>
+                    <p class="text-left">Tutor: @student.tutor</p>
+                </div>
+
+                <div class="col d-flex align-items-center justify-content-center">
+                    <div class="card shadow mb-4 d-inline-block">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Descuentos</h6>
+                        </div>
+                        <div class="card-body p2">
+                            <div class="row form-check">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="discount1">
+                                    <label class="form-check-label" for="discount1">
+                                        Hermanos
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="discount2">
+                                    <label class="form-check-label" for="discount2">
+                                        Trabajador
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="discount3">
+                                    <label class="form-check-label" for="discount3">
+                                        Otros
+                                    </label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
-@* Botones *@
-            <div class="p1">
-                <div class="row">
-                    <div class="col-6 text-center">
-                        <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Estado de cuenta</a>
-                    </div>
-                    <div class="col-6 text-center ">
-                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#multitariffmodal">Hacer pagos multiples</button>
-                    </div>
+            </div>
+        </form>
+        @* Botones *@
+        <div class="p1">
+            <div class="row">
+                <div class="col-6 text-center">
+                    <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Estado de cuenta</a>
+                </div>
+                <div class="col-6 text-center ">
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                        data-target="#multitariffmodal">Hacer pagos multiples</button>
                 </div>
             </div>
-@* Tabla de Aranceles *@
-            <div class="p-3 table-responsive ">
-                <table class="table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Fecha Vencimiento</th>
-                            <th>Concepto</th>
-                            <th>Cantidad</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>1</th>
-                            <th>15/01/2024</th>
-                            <th>Enero</th>
-                            <th>900.00</th>
-                            <th>
-                                <button type="button" class="btn btn-success btn-sm " data-toggle="modal" data-target="#finistariff">Cobrar</button>
-                            </th>
-                            </tr>
-                    </tbody>
-                </table>
-            </div>  
         </div>
+        @* Tabla de Aranceles *@
+        <div class="p-3 table-responsive ">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Concepto</th>
+                        <th>Cantidad</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <th>15/01/2024</th>
+                        <th>Enero</th>
+                        <th>900.00</th>
+                        <th>
+                            <button type="button" class="btn btn-success btn-sm " data-toggle="modal"
+                                data-target="#finistariff">Cobrar</button>
+                        </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+
+@code
+{
+
+
+    StudentEntity student;        
+    
+    [Parameter]
+    public string studentId {get; set; }   
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var segments = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).Segments;
+        studentId = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
+        student = await controller.GetStudentEntityAsync(studentId); 
+    }
+
+}
+
 
 
 

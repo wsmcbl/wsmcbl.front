@@ -7,7 +7,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 
-builder.Services.AddSingleton<StudentController>();
+builder.Services.AddSingleton<StudentController>();   
 
 var app = builder.Build();
 

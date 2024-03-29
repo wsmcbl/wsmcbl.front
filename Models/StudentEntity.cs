@@ -6,4 +6,5 @@ public class StudentEntity
     public string fullName { get; set; } = null!;
     public string schoolyear { get; set; } = null!;
     public string tutor { get; set; } = null!;
+    
 }

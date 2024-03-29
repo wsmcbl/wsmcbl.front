@@ -1,4 +1,6 @@
 namespace wsmcbl.front.Controllers;
+
+using Microsoft.AspNetCore.SignalR;
 using wsmcbl.front.Models;
 
 
@@ -6,11 +8,14 @@ public class StudentController
 {
     private readonly HttpClient _httpClient;
 
+    // Constructor
     public StudentController(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
 
+
+    // Get Student List from 
     public async Task<List<StudentEntity>> GetStudentsFromApiAsync()
     {
         // Realizar solicitud HTTP GET a la API
@@ -28,5 +33,37 @@ public class StudentController
             throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
         }
     }
+
+    // Get Info Student for tariff Collections
+    public async Task<StudentEntity> GetStudentEntityAsync(string studentId)
+    {
+
+        StudentEntity student = new StudentEntity();
+        student.studentId = studentId;
+        student.fullName = "Pedro PAblo";
+        student.schoolyear = "2024";
+        student.tutor = "Jeniffer Mi amor";
+        
+        return student;
+
+        /*
+        var response = await _httpClient.GetAsync($"http://wsmcbl-api.somee.com/v1/accounting/students/{studentId}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<StudentEntity>();
+        }
+        else
+        {
+            throw new Exception($"Error al obtener el estudiante con ID {studentId}");
+        } 
+
+        */
+    }
+
+
+
+
+
 }
 
