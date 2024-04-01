@@ -20,6 +20,7 @@ jobs:
 
     - name : Run the script deploy.sh
       run: |
+        chmod +x deploy.sh &&
         Configu/deploy.sh
     
     - name : Debugging
