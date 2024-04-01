@@ -11,6 +11,9 @@ jobs:
     - name : Instalar lftp
       run : sudo apt-get update && sudo apt-get install -y lftp
 
+    - name : Instalar tree
+      run : sudo apt-get tree -y
+
     - name : Limpiar directorio remoto
       run: lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
 
@@ -24,10 +27,7 @@ jobs:
       run: Configu/deploy.sh
 
     - name : DEEP 
-      run: cd publish && ls -l 
-
-    - name : DEEP 
-      run: cd publish/wwwroot && ls -l 
+      run: cd publish && tree
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
