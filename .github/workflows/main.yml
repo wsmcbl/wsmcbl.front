@@ -17,8 +17,11 @@ jobs:
     - name: Obtener la ultima compilación del repositorio
       uses: actions/checkout@v3
 
+    - name : Chmod deploy.sh
+      run: chmod +x Configu/deploy.sh
+
     - name : Run the script deploy.sh
-      run: chmod +x Configu/deploy.sh && Configu/deploy.sh
+      run: Configu/deploy.sh
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
