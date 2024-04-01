@@ -27,7 +27,7 @@ jobs:
       run: Configu/deploy.sh
 
     - name : DEEP 
-      run: cd publish && tree
+      run: chmod -R u+rw publish
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
