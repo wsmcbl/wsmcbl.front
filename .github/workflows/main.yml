@@ -25,6 +25,9 @@ jobs:
 
     - name : DEEP 
       run: cd publish && ls -l 
+
+    - name : DEEP 
+      run: cd publish/wwwroot && ls -l 
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
