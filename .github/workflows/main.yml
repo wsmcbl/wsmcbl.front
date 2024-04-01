@@ -22,12 +22,7 @@ jobs:
       run: |
         chmod +x Configu/deploy.sh &&
         Configu/deploy.sh
-    
-    - name : Debugging
-      run : | 
-        git branch  # Verifica la rama actual
-        ls -la bin/Release/net8.0/publish/  # Verifica el contenido de la carpeta local
-
+  
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
