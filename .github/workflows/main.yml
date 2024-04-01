@@ -5,7 +5,7 @@ on:
 name: Despliegue del Front in Somee.com
 jobs:
   web-deploy:
-    name: Desplegar a Somee.com
+    name: Desplegar a  Somee.com
     runs-on: ubuntu-latest
     steps:
     - name : Instalar lftp
@@ -13,8 +13,7 @@ jobs:
 
     - name : Run the script deploy.sh
       run: |
-        cd Configu && 
-        ./deploy.sh && cd ..
+        ls -l
 
     - name : Limpiar directorio remoto
       run: |
