@@ -36,6 +36,6 @@ jobs:
         username: cbl
         password: ${{ secrets.FTP_PASSWORD }}
         protocol: ftp
-        local-dir:  publish/
+        local-dir: publish/
         server-dir: /www.cbl.somee.com/
 
