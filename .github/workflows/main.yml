@@ -10,15 +10,10 @@ jobs:
     steps:
     - name: Get latest code
       uses: actions/checkout@v3
-    
-    - name : Instalar lftp
-      run : sudo apt-get update && sudo apt-get install -y lftp
 
-    - name : Instalar tree
-      run : sudo apt install -y tree
-
-    - name : Limpiar directorio remoto
-      run: lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
+    - name: Run the script deploy.sh
+      run: |
+        ./deploy.sh
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
