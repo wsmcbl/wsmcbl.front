@@ -13,7 +13,8 @@ jobs:
 
     - name : Run the script deploy.sh
       run: |
-        Configu/deploy.sh
+        cd Configu && 
+        ./deploy.sh && cd ..
 
     - name : Limpiar directorio remoto
       run: |
