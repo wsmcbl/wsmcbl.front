@@ -15,13 +15,13 @@ jobs:
       run: lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
 
     - name: Obtener la ultima compilación del repositorio
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3 && ls -l
 
     - name : Chmod deploy.sh
-      run: chmod +x Configu/deploy.sh
+      run: chmod +x Configu/deploy.sh ls -l
 
     - name : Run the script deploy.sh
-      run: Configu/deploy.sh
+      run: Configu/deploy.sh ls -l
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
