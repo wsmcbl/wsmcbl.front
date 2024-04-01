@@ -5,15 +5,11 @@ on:
 name: Despliegue del Front in Somee.com
 jobs:
   web-deploy:
-    name: Desplegar a  Somee.com
+    name: Desplegar a Somee.com
     runs-on: ubuntu-latest
     steps:
     - name : Instalar lftp
       run : sudo apt-get update && sudo apt-get install -y lftp
-
-    - name : Run the script deploy.sh
-      run: |
-        ls -l
 
     - name : Limpiar directorio remoto
       run: |
@@ -21,6 +17,10 @@ jobs:
 
     - name: Obtener la ultima compilación del repositorio
       uses: actions/checkout@v3
+
+    - name : Run the script deploy.sh
+      run: |
+        Configu/deploy.sh
     
     - name : Debugging
       run : | 
