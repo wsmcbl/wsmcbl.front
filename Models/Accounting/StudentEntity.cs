@@ -1,4 +1,4 @@
-namespace wsmcbl.front.Models;
+namespace wsmcbl.front.Models.Accounting;
 
 public class StudentEntity
 {

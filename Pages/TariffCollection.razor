@@ -1,7 +1,7 @@
 @page "/accouting/tariffcollection/{studentId}"
 
 @using wsmcbl.front.Controllers
-@using wsmcbl.front.Models
+@using wsmcbl.front.Models.Accounting
 
 @inject StudentController controller;
 @inject NavigationManager NavigationManager;
@@ -235,6 +235,8 @@ else
         studentId = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
         student = await controller.GetStudentEntityAsync(studentId); 
     }
+
+
 
 }
 

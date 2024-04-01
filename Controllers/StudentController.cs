@@ -1,7 +1,7 @@
 namespace wsmcbl.front.Controllers;
 
 using Microsoft.AspNetCore.SignalR;
-using wsmcbl.front.Models;
+using wsmcbl.front.Models.Accounting;
 
 
 public class StudentController
@@ -60,10 +60,6 @@ public class StudentController
 
         */
     }
-
-
-
-
 
 }
 
