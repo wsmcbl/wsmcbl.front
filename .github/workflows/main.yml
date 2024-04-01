@@ -8,6 +8,9 @@ jobs:
     name: Desplegar a Somee.com
     runs-on: ubuntu-latest
     steps:
+    - name: Get latest code
+      uses: actions/checkout@v3
+    
     - name : Instalar lftp
       run : sudo apt-get update && sudo apt-get install -y lftp
 
@@ -16,16 +19,9 @@ jobs:
 
     - name : Limpiar directorio remoto
       run: lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
-
-    - name: Obtener la ultima compilación del repositorio
-      uses: actions/checkout@v3
-
-    - name: Run the script deploy.sh
-      run: |
-          ./deploy.sh
   
     - name: Subir Archivos
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: cbl.somee.com
         username: cbl
