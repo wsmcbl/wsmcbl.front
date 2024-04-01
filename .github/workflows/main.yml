@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name : Run the script deploy.sh
-      run: Configu/deploy.sh
+      run: chmod +x Configu/deploy.sh && Configu/deploy.sh
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
