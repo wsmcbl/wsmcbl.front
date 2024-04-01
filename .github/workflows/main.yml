@@ -12,16 +12,13 @@ jobs:
       run : sudo apt-get update && sudo apt-get install -y lftp
 
     - name : Limpiar directorio remoto
-      run: |
-        lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
+      run: lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
 
     - name: Obtener la ultima compilación del repositorio
       uses: actions/checkout@v3
 
     - name : Run the script deploy.sh
-      run: |
-        chmod +x Configu/deploy.sh &&
-        Configu/deploy.sh
+      run: Configu/deploy.sh
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
