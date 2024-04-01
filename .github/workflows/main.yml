@@ -20,8 +20,9 @@ jobs:
     - name: Obtener la ultima compilación del repositorio
       uses: actions/checkout@v3
 
-    - name : Run the script deploy.sh
-      run: ./deploy.sh
+    - name: Run the script deploy.sh
+      run: |
+          ./deploy.sh
   
     - name: Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
