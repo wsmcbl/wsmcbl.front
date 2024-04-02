@@ -37,16 +37,7 @@ public class StudentController
     // Get Info Student for tariff Collections
     public async Task<StudentEntity> GetStudentEntityAsync(string studentId)
     {
-
-        StudentEntity student = new StudentEntity();
-        student.studentId = studentId;
-        student.fullName = "Pedro PAblo";
-        student.schoolyear = "2024";
-        student.tutor = "Jeniffer Mi amor";
         
-        return student;
-
-        /*
         var response = await _httpClient.GetAsync($"http://wsmcbl-api.somee.com/v1/accounting/students/{studentId}");
 
         if (response.IsSuccessStatusCode)
@@ -57,8 +48,6 @@ public class StudentController
         {
             throw new Exception($"Error al obtener el estudiante con ID {studentId}");
         } 
-
-        */
     }
 
 }

@@ -10,12 +10,6 @@ jobs:
     steps:
     - name: Obtener la ultima compilación del repositorio
       uses: actions/checkout@v3
-      
-    - name : Instalar lftp
-      run : sudo apt-get update && sudo apt-get install -y lftp
-
-    - name : Preparar el servidor
-      run: lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
 
     - name : Ejecutar scritp de compilado
       run: chmod +x ./deploy.sh && ./deploy.sh
