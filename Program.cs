@@ -8,6 +8,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 
 builder.Services.AddSingleton<StudentController>();   
+builder.Services.AddSingleton<TariffController>();   
+
 
 var app = builder.Build();
 

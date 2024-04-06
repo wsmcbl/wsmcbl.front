@@ -1,21 +1,148 @@
-@page "/accouting/tariffcollection/{studentId}"
+@page "/accouting/tariffcollection/{StudenID}"
 
+@using System.Text.Json
 @using wsmcbl.front.Controllers
 @using wsmcbl.front.Models.Accounting
 
 @inject StudentController controller;
+@inject TariffController tariffcontroller;
+@inject IJSRuntime jsRuntime;
+
 @inject NavigationManager NavigationManager;
 
-
-@if (student == null)
+@* validamos si el estudiante no es nulo y si la lista de tarifas del catalogo tiene al menos 1 elemento.  *@
+@if (student == null || tariffs == null)
 {
     <a> Loading... </a>
     
 }
 else
 {
-    @* Formularios POP UP *@
+    @* Panel de informacion del estudiante *@
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Información</h6>
+        </div>
+        <form class="p-5">
+            <div class="row">
 
+                <div class="col">
+                    <p class="text-left">Nombre: @student.fullName</p>
+                    <p class="text-left">Año Lectivo: @student.schoolyear</p>
+                    <p class="text-left">Codigo: @student.studentId</p>
+                </div>
+
+                <div class="col">
+                    <p class="text-left">Grado: @student.enrollmentLabel</p>
+                    <p class="text-left">Tutor: @student.tutor</p>
+                </div>
+
+                <div class="col d-flex align-items-center justify-content-center">
+                    <div class="card shadow mb-4 d-inline-block">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Descuentos</h6>
+                        </div>
+                        <div class="card-body p2">
+                            <div class="row form-check">
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="discount1">
+                                    <label class="form-check-label" for="discount1">
+                                        Hermanos
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="discount2">
+                                    <label class="form-check-label" for="discount2">
+                                        Trabajador
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input class="form-check-input" type="checkbox" id="discount3">
+                                    <label class="form-check-label" for="discount3">
+                                        Otros
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        @* Botones *@
+        <div class="p1">
+            <div class="row">
+                <div class="col-6 text-center">
+                    <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Estado de cuenta</a>
+                </div>
+                <div class="col-6 text-center ">
+                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                        data-target="#multitariffmodal">Hacer pagos multiples</button>
+                </div>
+            </div>
+        </div>
+        
+        @* Tabla de Aranceles *@
+        <div class="p-3 table-responsive ">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Concepto</th>
+                        <th>Cantidad</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in tariffs)
+                    {
+                        <tr>
+                            <td>@item.Tariffid</td>
+                            <td>Nunca</td>
+                            <td>@item.Concept</td>
+                            <td>@item.Amount</td>
+                            <td>
+                                @if (student.transactions != null &&
+                                student.transactions.Any(t => t.Tariffs.Any(tt => tt.Tariffid == item.Tariffid)))
+                                {
+                                    <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
+                                        data-target="#finistariff" disabled>Pagado
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-success btn-sm " data-toggle="modal"
+                                        data-target="#finistariff">Cobrar
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-sm" 
+                                    onclick="TariffSelected(@JsonSerializer.Serialize(item))">JavaScript
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button @onclick="Prueba">prueba</button>
+
+    <h1>@test</h1>
+}
+
+
+
+@* 
+Gente que tiene tarifas pagadas
+2019-1000JARR
+2024-2963NSZL
+2024-2175MJOR *@
+
+
+@* Formularios POP UP *@
     <!-- Finiish Modal Pay -->
     <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
         <div class="modal-dialog">
@@ -34,8 +161,8 @@ else
                             <p>Monto: </p>
                         </div>
                         <div class="col">
-                            <p>Inscripción</p>
-                            <p>C$ 1600.00</p>
+                            <p>AAA</p>
+                            <p>C$ 123</p>
                         </div>
                     </div>
                     @* cambio y monto total *@
@@ -61,7 +188,6 @@ else
             </div>
         </div>
     </div>
-
 
     <!-- Multi Pagos -->
     <div class="modal fade" id="multitariffmodal" tabindex="-1" aria-labelledby="multitariffmodalLabel" aria-hidden="true">
@@ -126,122 +252,49 @@ else
 
 
 
-    @* Panel de informacion del estudiante *@
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Información</h6>
-        </div>
-        <form class="p-5">
-            <div class="row">
-
-                <div class="col">
-                    <p class="text-left">Nombre: @student.fullName</p>
-                    <p class="text-left">Año Lectivo: @student.schoolyear</p>
-                    <p class="text-left">Id: @student.studentId</p>
-                </div>
-
-                <div class="col">
-                    <p class="text-left">Grado: Sexto A</p>
-                    <p class="text-left">Tutor: @student.tutor</p>
-                </div>
-
-                <div class="col d-flex align-items-center justify-content-center">
-                    <div class="card shadow mb-4 d-inline-block">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Descuentos</h6>
-                        </div>
-                        <div class="card-body p2">
-                            <div class="row form-check">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="discount1">
-                                    <label class="form-check-label" for="discount1">
-                                        Hermanos
-                                    </label>
-                                </div>
-
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="discount2">
-                                    <label class="form-check-label" for="discount2">
-                                        Trabajador
-                                    </label>
-                                </div>
-
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="discount3">
-                                    <label class="form-check-label" for="discount3">
-                                        Otros
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-        @* Botones *@
-        <div class="p1">
-            <div class="row">
-                <div class="col-6 text-center">
-                    <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Estado de cuenta</a>
-                </div>
-                <div class="col-6 text-center ">
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                        data-target="#multitariffmodal">Hacer pagos multiples</button>
-                </div>
-            </div>
-        </div>
-        @* Tabla de Aranceles *@
-        <div class="p-3 table-responsive ">
-            <table class="table table-bordered" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Fecha Vencimiento</th>
-                        <th>Concepto</th>
-                        <th>Cantidad</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>1</th>
-                        <th>15/01/2024</th>
-                        <th>Enero</th>
-                        <th>900.00</th>
-                        <th>
-                            <button type="button" class="btn btn-success btn-sm " data-toggle="modal"
-                                data-target="#finistariff">Cobrar</button>
-                        </th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-}
-
-
 @code
 {
+    string test = String.Empty;
 
-
+    List<Tariff> tariffs;
     StudentEntity student;        
-    
     [Parameter]
-    public string studentId {get; set; }   
+    public string StudenID {get; set; }   
     
     protected override async Task OnInitializedAsync()
     {
+        //obtenemos el Id del estudiante y su informacion completa
         var segments = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).Segments;
-        studentId = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
-        student = await controller.GetStudentEntityAsync(studentId); 
+        StudenID = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
+        student = await controller.GetStudentEntityAsync(StudenID);
+
+        //Obtenemos la lista completa de tarifas del catalogo
+        tariffs = await tariffcontroller.GetTariffs();
     }
 
-
-
+    public void Prueba()
+    {
+        test = "HOLA FUNCIONE";
+    }
 }
 
 
 
+<script>
+        var tariffId;
+        var concepto;
+        var monto;
 
+    function TariffSelected(tariff) {
+        tariffId = tariff.Tariffid;
+        concepto = tariff.Concept;
+        monto = tariff.Amount;
+
+        // Hacer lo que necesites con los datos del objeto Tariff
+        console.log("Concepto: " + concepto);
+        console.log("Monto: " + monto);
+        console.log("Id: "  + tariffId);
+    }
+</script>
 
 
