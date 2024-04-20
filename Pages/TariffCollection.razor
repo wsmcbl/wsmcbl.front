@@ -6,7 +6,9 @@
 
 @inject StudentController controller;
 @inject TariffController tariffcontroller;
-@inject IJSRuntime jsRuntime;
+@inject IJSRuntime JSRuntime;
+@inject HttpClient httpClient;
+
 
 @inject NavigationManager NavigationManager;
 
@@ -18,6 +20,7 @@
 }
 else
 {
+    <link rel="stylesheet" href="/css/TarriffCollection.css">
     @* Panel de informacion del estudiante *@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -114,10 +117,8 @@ else
                                 else
                                 {
                                     <button type="button" class="btn btn-success btn-sm " data-toggle="modal"
-                                        data-target="#finistariff">Cobrar
-                                    </button>
-                                    <button type="button" class="btn btn-success btn-sm" 
-                                    onclick="TariffSelected(@JsonSerializer.Serialize(item))">JavaScript
+                                        data-target="#finistariff" @onclick="(e) => finalModalPay(item)">
+                                        Cobrar
                                     </button>
                                 }
                             </td>
@@ -128,21 +129,7 @@ else
         </div>
     </div>
 
-    <button @onclick="Prueba">prueba</button>
-
-    <h1>@test</h1>
-}
-
-
-
-@* 
-Gente que tiene tarifas pagadas
-2019-1000JARR
-2024-2963NSZL
-2024-2175MJOR *@
-
-
-@* Formularios POP UP *@
+    @* Formularios POP UP *@
     <!-- Finiish Modal Pay -->
     <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
         <div class="modal-dialog">
@@ -156,26 +143,26 @@ Gente que tiene tarifas pagadas
                 <div class="modal-body">
                     @* detalles de la transaccion *@
                     <div class="row">
-                        <div class="col">
-                            <p>Concepto: </p>
-                            <p>Monto: </p>
+                        <div class="col centrar">
+                            <div>Concepto: </div>
+                            <div>Monto: </div>
                         </div>
-                        <div class="col">
-                            <p>AAA</p>
-                            <p>C$ 123</p>
+                        <div class="col centrar">
+                            <div id="modalConcep">@modalConcep</div>
+                            <div id="modalAmount">@modalAmount</div>
                         </div>
                     </div>
                     @* cambio y monto total *@
                     <div class="row">
-                        <div class="col">
-                            <p>Recibí: </p>
-                            <p>Cambio: </p>
+                        <div class="col centrar">
+                            <div class="centrar">Recibí: </div>
+                            <div class="centrar">Cambio: </div>
                         </div>
-                        <div class="col">
-                            <div class="row mb-1">
-                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 800.00">
+                        <div class="col centrar">
+                            <div class="row">
+                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00">
                             </div>
-                            <div class="row mb-1">
+                            <div class="row">
                                 <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00">
                             </div>
                         </div>
@@ -183,10 +170,13 @@ Gente que tiene tarifas pagadas
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success">Terminar</button>
+                    <button type="button" class="btn btn-success" 
+                    @onclick="(e) => sendPay()">Cobrar
+                    </button>
                 </div>
             </div>
         </div>
+    <script defer src="/js/TarriffCollection.js"></script>
     </div>
 
     <!-- Multi Pagos -->
@@ -250,11 +240,20 @@ Gente que tiene tarifas pagadas
         </div>
     </div>
 
+    
 
+}
+
+@* 
+Gente que tiene tarifas pagadas
+2019-1000JARR
+2024-2963NSZL
+2024-2175MJOR *@
 
 @code
 {
-    string test = String.Empty;
+    string modalConcep;
+    double modalAmount;
 
     List<Tariff> tariffs;
     StudentEntity student;        
@@ -272,29 +271,34 @@ Gente que tiene tarifas pagadas
         tariffs = await tariffcontroller.GetTariffs();
     }
 
-    public void Prueba()
+    public void finalModalPay(Tariff item)
     {
-        test = "HOLA FUNCIONE";
+        modalConcep = item.Concept;
+        modalAmount = item.Amount;
+
     }
+
+    async Task sendPay()
+    {
+        // creamos la lista de las tarifas a pagar
+        var tariffs = new List<Tariff>
+        {
+            new Tariff(modalConcep, modalAmount)
+        };
+
+        // creamos nuestro objeto transaction
+        var obj = new Transaction()
+        {
+            TransactionId = "trans9090",
+            CashierId = "caj-ktinoco",
+            StudentId = StudenID,
+            Total = modalAmount,
+            Discount = 0,
+            DateTime = DateTime.Now,
+            Tariffs = tariffs
+        };
+    }
+
 }
-
-
-
-<script>
-        var tariffId;
-        var concepto;
-        var monto;
-
-    function TariffSelected(tariff) {
-        tariffId = tariff.Tariffid;
-        concepto = tariff.Concept;
-        monto = tariff.Amount;
-
-        // Hacer lo que necesites con los datos del objeto Tariff
-        console.log("Concepto: " + concepto);
-        console.log("Monto: " + monto);
-        console.log("Id: "  + tariffId);
-    }
-</script>
 
 
