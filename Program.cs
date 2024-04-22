@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.front.Data;
 using wsmcbl.front.Controllers;
+using Rotativa.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
 
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<StudentController>();   
@@ -23,6 +25,11 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+//Añadiños el servicio de Rotativa PDF
+RotativaConfiguration.Setup(app.Environment.WebRootPath, "../Rotativa"); 
+
+app.UseRotativa();
 
 app.UseHttpsRedirection();
 

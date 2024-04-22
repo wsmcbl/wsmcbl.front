@@ -1,0 +1,19 @@
+@page "/factura"
+@inject IJSRuntime JS
+
+<h1>Testing Factura</h1>
+<h2>Colegio Bautista Libertad</h2>
+
+
+
+<NavLink class="nav-link" @onclick="@( e => DownloadFileFromURL("pdf-view-name"))">
+
+
+
+@code {
+    private async Task DownloadFileFromURL(string name)
+    {
+        var fileURL = "Pdf/" + name;
+        await JS.InvokeVoidAsync("triggerFileDownload", name, fileURL);
+    }
+}
