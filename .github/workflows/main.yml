@@ -8,13 +8,20 @@ jobs:
     name: Desplegar a Somee.com
     runs-on: ubuntu-latest
     steps:
-    - name: Obtener la ultima compilación del repositorio
+    - name: 1. Obtener la ultima compilación del repositorio
       uses: actions/checkout@v3
 
-    - name : Ejecutar scritp de compilado
+    - name : 2. Ejecutar scritp de compilado
       run: chmod +x ./deploy.sh && ./deploy.sh
+
+    - name : 3. Instalar lftp
+      run : sudo apt-get update && sudo apt-get install -y lftp
+
+    - name : 4. Limpiar directorio remoto
+      run: |
+        lftp -c "open -u cbl,Deploy.cbl.*** cbl.somee.com; rm -rf www.cbl.somee.com/"
   
-    - name: Subir Archivos
+    - name: 5. Subir Archivos
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: cbl.somee.com
