@@ -10,6 +10,6 @@ public class StudentEntity
 
     public int  areas { get; set; }
     public double discount { get; set; }
-    public List<Transaction> transactions {get; set; }
+    public List<Transaction> transactions {get; set; } = null!;
     
 }

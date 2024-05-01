@@ -9,3 +9,6 @@
         cambio.value = (pagaCon - montoTotal);
     })
 
+    function openPrint(url, target) {
+        window.open(url, target);
+    }

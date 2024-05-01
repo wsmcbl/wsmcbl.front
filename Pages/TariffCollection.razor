@@ -9,8 +9,7 @@
 @inject IJSRuntime JSRuntime;
 @inject HttpClient httpClient;
 
-
-@inject NavigationManager NavigationManager;
+@inject NavigationManager navigationManager;
 
 @* validamos si el estudiante no es nulo y si la lista de tarifas del catalogo tiene al menos 1 elemento.  *@
 @if (student == null || tariffs == null)
@@ -102,13 +101,13 @@ else
                     @foreach (var item in tariffs)
                     {
                         <tr>
-                            <td>@item.Tariffid</td>
+                            <td>@item.tariffId</td>
                             <td>Nunca</td>
-                            <td>@item.Concept</td>
-                            <td>@item.Amount</td>
+                            <td>@item.concept</td>
+                            <td>@item.amount</td>
                             <td>
                                 @if (student.transactions != null &&
-                                student.transactions.Any(t => t.Tariffs.Any(tt => tt.Tariffid == item.Tariffid)))
+                                student.transactions.Any(t => t.Tariffs.Any(tt => tt.tariffId == item.tariffId)))
                                 {
                                     <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
                                         data-target="#finistariff" disabled>Pagado
@@ -148,8 +147,8 @@ else
                             <div>Monto: </div>
                         </div>
                         <div class="col centrar">
-                            <div id="modalConcep">@modalConcep</div>
-                            <div id="modalAmount">@modalAmount</div>
+                            <div id="modalConcep">@tariffSelected.concept</div>
+                            <div id="modalAmount">@tariffSelected.amount</div>
                         </div>
                     </div>
                     @* cambio y monto total *@
@@ -171,7 +170,7 @@ else
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-success" 
-                    @onclick="(e) => sendPay()">Cobrar
+                    @onclick="(e) => Pay()">Cobrar
                     </button>
                 </div>
             </div>
@@ -239,9 +238,6 @@ else
             </div>
         </div>
     </div>
-
-    
-
 }
 
 @* 
@@ -252,18 +248,18 @@ Gente que tiene tarifas pagadas
 
 @code
 {
-    string modalConcep;
-    double modalAmount;
+    Tariff tariffSelected = new Tariff();
 
     List<Tariff> tariffs;
-    StudentEntity student;        
+    StudentEntity student;     
+    
     [Parameter]
     public string StudenID {get; set; }   
     
     protected override async Task OnInitializedAsync()
     {
         //obtenemos el Id del estudiante y su informacion completa
-        var segments = NavigationManager.ToAbsoluteUri(NavigationManager.Uri).Segments;
+        var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
         StudenID = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
         student = await controller.GetStudentEntityAsync(StudenID);
 
@@ -273,32 +269,47 @@ Gente que tiene tarifas pagadas
 
     public void finalModalPay(Tariff item)
     {
-        modalConcep = item.Concept;
-        modalAmount = item.Amount;
-
+        tariffSelected = item;
     }
 
-    async Task sendPay()
+    async Task Pay()
     {
         // creamos la lista de las tarifas a pagar
         var tariffs = new List<Tariff>
         {
-            new Tariff(modalConcep, modalAmount)
+            tariffSelected
         };
 
         // creamos nuestro objeto transaction
-        var obj = new Transaction()
+        var obj = new TransactionDto()
         {
-            TransactionId = "trans9090",
-            CashierId = "caj-ktinoco",
-            StudentId = StudenID,
-            Total = modalAmount,
-            Discount = 0,
-            DateTime = DateTime.Now,
-            Tariffs = tariffs
+            cashierId = "caj-ktinoco",
+            studentId = StudenID,
+            discount = 0,
+            dateTime = DateTime.Now,
+            tariffs = tariffs
         };
-    }
 
+        var result = await tariffcontroller.SendPay(obj);
+
+        if (result.IsSuccessStatusCode)
+        {
+            Console.WriteLine("La transacción fue exitosa.");            
+        }
+        else
+        {
+            Console.WriteLine("Error en la transacción.");
+            @* ELIMINAR ESTA LINEA  *@
+            await JSRuntime.InvokeVoidAsync("window.open", "/facturacion", "_blank");
+            @* navigationManager.NavigateTo($"/facturacion?nombre={Uri.EscapeDataString(obj.cashierId)}&edad={obj.studentId}"); *@
+            @* navigationManager.NavigateTo($"/facturacion?cashierId={Uri.EscapeDataString(obj.cashierId)}&fullName={student.fullName}"); *@
+
+
+        }
+    }
 }
+
+
+
 
 

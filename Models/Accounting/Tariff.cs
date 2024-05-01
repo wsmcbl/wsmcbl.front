@@ -1,17 +1,22 @@
 namespace wsmcbl.front.Models.Accounting;
+using Newtonsoft.Json;
+
 
 public class Tariff
 {
-    public int Tariffid { get; set; }
-    public string Concept { get; set; } = null!;
-    public double Amount { get; set; }
+    public int tariffId { get; set; }
+    public string concept { get; set; } = null!;
+    public double amount { get; set; }
 
-
-    public Tariff(string concept, double amount)
+    public Tariff () : this(0,"",0.0)
     {
-        Concept= concept;
-        Amount = amount;
+
     }
 
-
+    public Tariff(int tariffId, string concept, double amount)
+    {
+        this.tariffId = tariffId;
+        this.concept= concept;
+        this.amount = amount;
+    }
 }

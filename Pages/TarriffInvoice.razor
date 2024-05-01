@@ -1,0 +1,151 @@
+@page "/facturacion"
+@layout EmptyLayout
+@inject NavigationManager navigationManager;
+
+
+<link rel="stylesheet" href="/css/Factura.css" />
+
+<div class="factura">
+    <h5 class="izqC">Colegio Bautista Libertad</h5>
+    <p class="direccion">Entrada Norte C.C.Managua, 1c. E. 1c S. 1/2c-E.</p>
+    <p>Telefono: 22705587</p>
+
+    <p class="izqC">Recibo de Caja</p>
+    <hr> 
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">Recibo N°</p>
+            <p class="izqN">Código</p>
+            <p class="izqN">Fecha</p>
+        </div>
+        <div class="col">
+            <p class="izq">41511</p>
+            <p class="izq">1943</p>
+            <p class="izq">15/01/2024</p>
+        </div>
+    </div>
+
+    <p class="der">Hemos recibido de: </p>
+    <p class="izqC">FRANCHESCA VALENTINA HERNANDEZ</p>
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">La suma de:</p>
+            <p class="izqN">Concepto:</p>
+        </div>
+        <div class="col">
+            <p>C$ 1,300.00</p>
+            <p class="izqC">Saldo de Inscripcion</p>
+        </div>
+    </div>
+
+    <blockquote class="izqC">DISTRIBUCIÓN</blockquote>
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">Cuota:</p>
+            <p class="izqN">Mora:</p>
+        </div>
+        <div class="col">
+            <p class="izq">C$ 1,300.00</p>
+            <p class="izq">0.00</p>
+        </div>
+    </div>
+    <hr>
+    
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">T. Bruto:</p>
+            <p class="izqN">Descuento:</p>
+        </div>
+        <div class="col">
+            <p class="izq">C$ 1,300.00</p>
+            <p class="izq">0.00</p>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">T Neto:</p>
+        </div>
+        <div class="col">
+            <p class="izq">C$ 1,300.00</p>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <br>
+    <br>
+    
+
+    <div class="row">
+        <div class="col">
+            <hr>
+            <p>Cliente</p>
+        </div>
+        <div class="col">
+            <hr>
+            <p>Administrador</p>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <hr>
+    <div class="row">
+        <div class="col">
+            <p class="izqN">Balance General</p>
+        </div>
+        <div class="col">
+            <p class="izq">5,600.00</p>
+        </div>
+    </div>
+    <p class="end">NO ES VALIDO SIN FIRMA NI SELLO DEL CAJERO</p>
+    <p>@cashierId</p>
+    <p>@fullName</p>
+</div>
+
+
+@page "/vistaB"
+@inject NavigationManager navigationManager
+
+@code {
+    [Parameter]
+    public string cashierId { get; set; }
+
+    [Parameter]
+    public string fullName { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        // Obtener los parámetros de la URL
+        var uri = new Uri(navigationManager.Uri);
+        var queryString = uri.Query;
+
+        // Parsear los parámetros de la URL
+        var parametros = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString);
+
+        // Obtener los valores de los parámetros
+        if (parametros.TryGetValue("cashierId", out var cashierIdValue))
+        {
+            cashierId = cashierIdValue;
+        }
+
+        if (parametros.TryGetValue("fullName", out var fullNameValue))
+        {
+            fullName = fullNameValue;
+        }
+    }
+}
+
+
+<script src="/js/Facture.js" defer></script>
+
+
+
+
