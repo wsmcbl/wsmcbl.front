@@ -24,7 +24,9 @@
         <!-- Footer -->
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
-                <Footer />
+                <div class="copyright text-center my-auto">
+                    <span> CBL @DateTime.Now.Year</span>
+                </div>
             </div>
         </footer>
         <!-- End of Footer -->
@@ -57,13 +59,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    window.triggerFileDownload = (fileName, url) => {
-        const anchorElement = document.createElement('a');
-        anchorElement.href = url;
-        anchorElement.download = fileName ?? '';
-        anchorElement.click();
-        anchorElement.remove();
-    }
-</script>
