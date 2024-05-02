@@ -1,0 +1,76 @@
+@page "/academy/tariff-profiles"
+
+@if (1 == null)
+{
+    <a> Loading... </a>
+    
+}
+else
+{
+    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Perfiles de Estudiantes</h6>
+            <button type="button" class="btn btn-success btn-sm">Nuevo Estudiante</button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Grado/Sección</th>
+                        <th>Modalidad</th>
+                        <th>Año Lectivo</th>
+                        <th>Acción</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Grado/Sección</th>
+                        <th>Modalidad</th>
+                        <th>Año Lectivo</th>
+                        <th>Acción</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td>2019-0056U</td>
+                        <td>Ezequiel de Jesus</td>
+                        <td>Urbina Zeledon</td>
+                        <td>Decimo A</td>
+                        <td>Secundaria</td>
+                        <td>2023</td>
+                        <td><button class="btn btn-success">Matricular</button></td>
+                    </tr>
+                    <tr>
+                        <td>2019-0000U</td>
+                        <td>Jeniffer Alexandra</td>
+                        <td>Rojas Rios</td>
+                        <td>Primero A</td>
+                        <td>Primaria</td>
+                        <td>2023</td>
+                        <td><button class="btn btn-success">Matricular</button></td>
+                    </tr>
+                    <tr>
+                        <td>2019-1500U</td>
+                        <td>Keni AAA</td>
+                        <td>Tinoco Look</td>
+                        <td>Sexto B</td>
+                        <td>Primaria</td>
+                        <td>2023</td>
+                        <td><button class="btn btn-success">Matricular</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Inicializamos datatable -->
+    <script src="/js/demo/datatables-demo.js"></script>
+}

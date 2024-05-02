@@ -1,0 +1,331 @@
+@page "/academy/tariff-profiles/2019-0056U"
+
+<link rel="stylesheet" href="/css/EnrollStudent.css">
+
+<div class="card shadow mb-4">
+
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="studenInfo" data-toggle="tab" href="#studenData" role="tab"
+                    aria-controls="studenData" aria-selected="true" onclick="mostrarContenido('studenData')">Información
+                    de Ezequielito</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="academyInfo" data-toggle="tab" href="#academyData" role="tab"
+                    aria-controls="academyData" aria-selected="false"
+                    onclick="mostrarContenido('academyData')">Información Administrativa</a>
+            </li>
+        </ul>
+    </div> @* End of card-header *@
+
+    <div class="card-body" id="tabContent">
+        <div class="tab-content ">
+            <div class="tab-pane fade show active" id="studenData" role="tabpanel" aria-labelledby="studenInfo">
+
+                <div class="row"> @* Start of Info Student Data *@
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="row">
+
+                                        <div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="info">Primer Nombre:</div>
+                                                            <div class="info">Segundo Nombre:</div>
+                                                            <div class="info">Primer Apellido:</div>
+                                                            <div class="info">Segundo Apellido:</div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input id="studenNama1" type="text" class="form-control p1" placeholder="Adam">
+                                                            <input id="studenName2" type="text" class="form-control p1" placeholder="Andres">
+                                                            <input id="studentApellido1" type="text" class="form-control p1" placeholder="Martin">
+                                                            <input id="studentApellido2" type="text" class="form-control p1" placeholder="Rojas">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="info">¿Repite?</div>
+                                                            <div class="info">Fecha Nac:</div>
+                                                            <div class="info">Edad:</div>
+                                                            <div class="info">Sexo:</div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="dropdown">
+                                                                <select id="repite" @onchange="GetRepite">
+                                                                    @foreach (var option in repite)
+                                                                    {
+                                                                        <option value="@option">@option</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                            <input id="fechaNacimiento" type="date" class="form-control p1" placeholder="11/02/2001">
+                                                            <input id="edad" type="number" class="form-control p1" placeholder="16"> @*La edad debera ser calculada con la fecha de Nac*@
+                                                            <div class="dropdown">
+                                                                <select id="sexo" @onchange="GetSexo">
+                                                                    @foreach (var option in sexo)
+                                                                    {
+                                                                        <option value="@option">@option</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="info">Padecimientos:</div>
+                                                            <div class="info">Religión:</div>
+                                                            <div class="info">Dirección:</div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input id="padecimientos" type="text" class="form-control p1" placeholder="Presión">
+                                                            <input id="religion" type="text" class="form-control p1" placeholder="Cristiano">
+                                                            <textarea id="direccion" class="input-redimensionable"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="row">
+
+                                        <div class="col-sm-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" style="font-weight: bold;">Padre</h5>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="info">Primer Nombre:</div>
+                                                            <div class="info">Segundo Nombre:</div>
+                                                            <div class="info">Primer Apellido:</div>
+                                                            <div class="info">Segundo Apellido:</div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input id="padreName1" type="text" class="form-control p1" placeholder="Adam">
+                                                            <input id="padreName2" type="text" class="form-control p1" placeholder="Andres">
+                                                            <input id="padreApellido1" type="text" class="form-control p1" placeholder="Martin">
+                                                            <input id="padreApellido2" type="text" class="form-control p1" placeholder="Rojas">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h5 class="card-title" style="font-weight: bold;">Madre</h5>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">
+                                                            <div class="info">Primer Nombre:</div>
+                                                            <div class="info">Segundo Nombre:</div>
+                                                            <div class="info">Primer Apellido:</div>
+                                                            <div class="info">Segundo Apellido:</div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <input id="mamaNombre1" type="text" class="form-control p1" placeholder="Adam">
+                                                            <input id="mamaNombre2" type="text" class="form-control p1" placeholder="Andres">
+                                                            <input id="mamaApellido1" type="text" class="form-control p1" placeholder="Martin">
+                                                            <input id="mamaApellido2" type="text" class="form-control p1" placeholder="Rojas">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> @* End of Info Student Data *@
+
+            <div class="tab-pane fade" id="academyData" role="tabpanel" aria-labelledby="academyInfo"> @* Start Info Academy *@
+                <div class="row">
+
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-weight: bold;">Expediente</h5>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="hojaTraslado" id="o1">
+                                    <label for="o1">Hoja de traslado</label>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="partidaNacimiento" id="o2">
+                                    <label for="o2">Partida de Nacimiento</label>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="cedulaTutor" id="o3">
+                                    <label for="o3">Cedula Tutor</label>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="boletinActual" id="o4">
+                                    <label for="04">Boletín Actual</label>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="consConducta" id="o5">
+                                    <label for="o5">Cons. Conducta</label>
+                                </div>
+
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="solvenciaFinanciera" id="o6">
+                                    <label for="o6">Solvencia Financiera</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-weight: bold;">Medidas</h5>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="info">Peso Kg:</div>
+                                        <div class="info">Medidas Cm:</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input id="peso" type="number" class="form-control p1" placeholder="45">
+                                        <input id="talla" type="number" class="form-control p1" placeholder="150">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-weight: bold;">Grado / Sección</h5>
+                                <div class="row">
+                                    <select id="selectGrade" @onchange="GetGrade">
+                                        @foreach (var option in grade)
+                                        {
+                                            <option value="@option">@option</option>
+                                        }
+                                    </select>
+                                    <select id="selectSection" @onchange="GetSection">
+                                        @foreach (var option in section)
+                                        {
+                                            <option value="@option">@option</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-weight: bold;">Tutor</h5>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="info">Nombre:</div>
+                                        <div class="info">Religión:</div>
+                                        <div class="info">Telefono:</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input id="tutorName" type="text" class="form-control p1" placeholder="Alex">
+                                        <input id="tutorReligion" type="text" class="form-control p1">
+                                        <input id="tutorphone" type="number" class="form-control p1" placeholder="77589641">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> @* End of Info Academy Data *@
+        
+        </div>
+    </div>
+
+</div>
+
+@code {
+    List<string> grade = new List<string> { "Primero", "Segundo", "Tercero" };
+    List<string> section = new List<string> { "A", "B", "C" };
+    List<string> sexo = new List<string> { "Femenino", "Masculino"};
+    List<string> repite = new List<string> { "No", "si"};
+
+    void GetGrade(ChangeEventArgs e)
+    {
+        var selectGrade = e.Value.ToString();
+        // Aquí puedes hacer lo que necesites con el ítem seleccionado
+        Console.WriteLine("Option selected: " + selectGrade);
+    }
+
+    void GetSection(ChangeEventArgs e)
+    {
+        var selectSection = e.Value.ToString();
+        // Aquí puedes hacer lo que necesites con el ítem seleccionado
+        Console.WriteLine("Option selected: " + selectSection);
+    }
+
+    void GetSexo(ChangeEventArgs e)
+    {
+        var selectSexo = e.Value.ToString();
+        // Aquí puedes hacer lo que necesites con el ítem seleccionado
+        Console.WriteLine("Option selected: " + selectSexo);
+    }
+
+    void GetRepite(ChangeEventArgs e)
+    {
+        var selectRepite = e.Value.ToString();
+        // Aquí puedes hacer lo que necesites con el ítem seleccionado
+        Console.WriteLine("Option selected: " + selectRepite);
+    }
+}
+
+<script>
+    function mostrarContenido(tabId) {
+        // Oculta todos los contenidos
+        document.querySelectorAll('.tab-pane').forEach(function(tabContent) {
+            tabContent.classList.remove('show');
+            tabContent.classList.remove('active');
+        });
+
+        // Muestra el contenido de la pestaña seleccionada
+        var tabContentToShow = document.getElementById(tabId);
+        tabContentToShow.classList.add('show');
+        tabContentToShow.classList.add('active');
+    }
+</script>
