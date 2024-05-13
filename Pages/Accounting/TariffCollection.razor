@@ -8,8 +8,8 @@
 @inject TariffController tariffcontroller;
 @inject IJSRuntime JSRuntime;
 @inject HttpClient httpClient;
-
 @inject NavigationManager navigationManager;
+@inject SweetAlertService Swal;
 
 @* validamos si el estudiante no es nulo y si la lista de tarifas del catalogo tiene al menos 1 elemento.  *@
 @if (student == null || tariffs == null)
@@ -294,20 +294,41 @@ Gente que tiene tarifas pagadas
 
         if (result.IsSuccessStatusCode)
         {
-            Console.WriteLine("La transacción fue exitosa.");            
+            await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Pago Exitoso!",
+                    Text = "La transacción se completó correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+
+            await JSRuntime.InvokeVoidAsync("window.open", $"/transactions/invoices/{obj.studentId}", "_blank");
+
+            ReloadPage();
+
         }
         else
         {
-            Console.WriteLine("Error en la transacción.");
-            @* ELIMINAR ESTA LINEA  *@
-            await JSRuntime.InvokeVoidAsync("window.open", "/facturacion", "_blank");
-            @* navigationManager.NavigateTo($"/facturacion?nombre={Uri.EscapeDataString(obj.cashierId)}&edad={obj.studentId}"); *@
-            @* navigationManager.NavigateTo($"/facturacion?cashierId={Uri.EscapeDataString(obj.cashierId)}&fullName={student.fullName}"); *@
-
-
+            await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Error en el Pago!",
+                    Text = "La transacción no se completó correctamente.",
+                    Icon = SweetAlertIcon.Error
+                });
         }
     }
+
+    void ReloadPage()
+    {
+        navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
+    }
+
+
+
 }
+
+
+
+
 
 
 

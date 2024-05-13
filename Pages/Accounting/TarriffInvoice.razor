@@ -1,11 +1,16 @@
-@page "/facturacion"
+@page "/transactions/invoices/{studentId}"
 @layout EmptyLayout
 @inject NavigationManager navigationManager;
 
 
 <link rel="stylesheet" href="/css/Factura.css" />
 
-<div class="factura">
+@if (studentId == null)
+{
+    <a> Loading... </a>
+}else
+{
+    <div class="factura">
     <h5 class="izqC">Colegio Bautista Libertad</h5>
     <p class="direccion">Entrada Norte C.C.Managua, 1c. E. 1c S. 1/2c-E.</p>
     <p>Telefono: 22705587</p>
@@ -21,7 +26,7 @@
         </div>
         <div class="col">
             <p class="izq">41511</p>
-            <p class="izq">1943</p>
+            <p class="izq">@studentId</p>
             <p class="izq">15/01/2024</p>
         </div>
     </div>
@@ -77,8 +82,7 @@
     </div>
     <hr>
     <br>
-    <br>
-    <br>
+
     
 
     <div class="row">
@@ -92,7 +96,6 @@
         </div>
     </div>
     <br>
-    <br>
 
     <hr>
     <div class="row">
@@ -104,47 +107,24 @@
         </div>
     </div>
     <p class="end">NO ES VALIDO SIN FIRMA NI SELLO DEL CAJERO</p>
-    <p>@cashierId</p>
-    <p>@fullName</p>
 </div>
-
-
-@page "/vistaB"
-@inject NavigationManager navigationManager
+}
 
 @code {
-    [Parameter]
-    public string cashierId { get; set; }
 
     [Parameter]
-    public string fullName { get; set; }
+    public string studentId {get; set; }   
 
     protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        
-        // Obtener los parámetros de la URL
-        var uri = new Uri(navigationManager.Uri);
-        var queryString = uri.Query;
-
-        // Parsear los parámetros de la URL
-        var parametros = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString);
-
-        // Obtener los valores de los parámetros
-        if (parametros.TryGetValue("cashierId", out var cashierIdValue))
-        {
-            cashierId = cashierIdValue;
-        }
-
-        if (parametros.TryGetValue("fullName", out var fullNameValue))
-        {
-            fullName = fullNameValue;
-        }
+    {        
+        //obtenemos el Id del estudiante y su informacion completa
+        var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
+        studentId = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
     }
 }
 
 
-<script src="/js/Facture.js" defer></script>
+@* <script src="/js/Facture.js" defer></script> *@
 
 
 

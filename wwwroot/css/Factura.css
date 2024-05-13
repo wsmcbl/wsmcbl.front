@@ -11,7 +11,7 @@
 
 .factura {
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: monospace;
     width: 7.5cm;
     margin: auto;
     text-align: center;
@@ -23,13 +23,12 @@
 /* Alineamos ala izquierda mas negrita */
 .izqN {
     text-align: left; 
-    font-weight: bold;
 }
 
 /* Alineamos al centro mas negrita*/
 .izqC{
     text-align: center; 
-    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 
@@ -45,6 +44,7 @@
 /* tamano del txt direccion */
 .direccion{
     font-size: 12px;
+    margin: 0%;
 }
 
 /* tamano del footer de la factura */
@@ -54,5 +54,9 @@
 
 hr {
     margin-top: 0; /* Elimina el margen superior */
+}
+
+p {
+    margin-bottom: 5px;
 }
 
