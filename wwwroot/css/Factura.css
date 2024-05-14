@@ -60,3 +60,13 @@ p {
     margin-bottom: 5px;
 }
 
+table {
+    width: 100%; /* Ajusta el ancho de la tabla para que ocupe todo el espacio del div */
+    border-collapse: collapse; /* Fusiona los bordes de las celdas */
+}
+
+th, td {
+    border: 1px solid black; /* Añade bordes a las celdas */
+    padding: 0px; /* Espaciado interno de las celdas */
+}
+

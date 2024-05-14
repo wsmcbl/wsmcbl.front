@@ -101,13 +101,13 @@ else
                     @foreach (var item in tariffs)
                     {
                         <tr>
-                            <td>@item.tariffId</td>
+                            <td>@item.TariffId</td>
                             <td>Nunca</td>
-                            <td>@item.concept</td>
-                            <td>@item.amount</td>
+                            <td>@item.Concept</td>
+                            <td>@item.Amount</td>
                             <td>
                                 @if (student.transactions != null &&
-                                student.transactions.Any(t => t.Tariffs.Any(tt => tt.tariffId == item.tariffId)))
+                                student.transactions.Any(t => t.Tariffs.Any(tt => tt.TariffId == item.TariffId)))
                                 {
                                     <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
                                         data-target="#finistariff" disabled>Pagado
@@ -147,8 +147,8 @@ else
                             <div>Monto: </div>
                         </div>
                         <div class="col centrar">
-                            <div id="modalConcep">@tariffSelected.concept</div>
-                            <div id="modalAmount">@tariffSelected.amount</div>
+                            <div id="modalConcep">@tariffSelected.Concept</div>
+                            <div id="modalAmount">@tariffSelected.Amount</div>
                         </div>
                     </div>
                     @* cambio y monto total *@

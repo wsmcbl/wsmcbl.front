@@ -1,6 +1,7 @@
 @page "/transactions/invoices/{studentId}"
 @layout EmptyLayout
 @inject NavigationManager navigationManager;
+@using wsmcbl.front.Models.Accounting
 
 
 <link rel="stylesheet" href="/css/Factura.css" />
@@ -21,42 +22,38 @@
     <div class="row">
         <div class="col">
             <p class="izqN">Recibo N°</p>
-            <p class="izqN">Código</p>
+            <p class="izqN">Cod. Estu</p>
             <p class="izqN">Fecha</p>
         </div>
         <div class="col">
-            <p class="izq">41511</p>
-            <p class="izq">@studentId</p>
-            <p class="izq">15/01/2024</p>
+            <p class="izq">@invoice.TransactionId</p>
+            <p class="izq">@invoice.StudentId</p>
+            <p class="izq">@invoice.DateTime</p>
         </div>
     </div>
 
-    <p class="der">Hemos recibido de: </p>
-    <p class="izqC">FRANCHESCA VALENTINA HERNANDEZ</p>
+    <p class="der">A nombre de: </p>
+    <p class="izqC">@invoice.StudentName</p>
 
-    <div class="row">
-        <div class="col">
-            <p class="izqN">La suma de:</p>
-            <p class="izqN">Concepto:</p>
-        </div>
-        <div class="col">
-            <p>C$ 1,300.00</p>
-            <p class="izqC">Saldo de Inscripcion</p>
-        </div>
-    </div>
+    <blockquote class="izqC">DETALLE</blockquote>
 
-    <blockquote class="izqC">DISTRIBUCIÓN</blockquote>
-
-    <div class="row">
-        <div class="col">
-            <p class="izqN">Cuota:</p>
-            <p class="izqN">Mora:</p>
-        </div>
-        <div class="col">
-            <p class="izq">C$ 1,300.00</p>
-            <p class="izq">0.00</p>
-        </div>
-    </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in invoice.Tariffs)
+                {
+                    <tr>
+                        <td> @item.Concept </td>
+                        <td> @item.Amount </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     <hr>
     
 
@@ -66,8 +63,8 @@
             <p class="izqN">Descuento:</p>
         </div>
         <div class="col">
-            <p class="izq">C$ 1,300.00</p>
-            <p class="izq">0.00</p>
+            <p class="izq">C$ @invoice.Total</p>
+            <p class="izq">@invoice.Discount</p>
         </div>
     </div>
     <hr>
@@ -112,6 +109,9 @@
 
 @code {
 
+    InvoiceDto invoice;
+    List<Tariff> tariffs;
+
     [Parameter]
     public string studentId {get; set; }   
 
@@ -120,11 +120,34 @@
         //obtenemos el Id del estudiante y su informacion completa
         var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
         studentId = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
+
+        
+        tariffs = new List<Tariff>
+        {
+            new Tariff(1, "Tarifa 1", 20.0),
+            new Tariff(2, "Tarifa 2", 30.0),
+            new Tariff(3, "Tarifa 3", 40.0)
+        };
+
+        // Crear un objeto InvoiceDto
+        invoice = new InvoiceDto(
+            "12345",                     // transactionId
+            "Cajero 1",                  // cashierName
+            "S123",                      // studentId
+            "Juan Pérez",                // studentName
+            90.0,                        // total
+            10.0,                        // discount
+            1,                           // areals
+            DateTime.Now,                // dateTime
+            tariffs                      // tariffs
+        );
     }
+
+
 }
 
 
-@* <script src="/js/Facture.js" defer></script> *@
+<script src="/js/Facture.js" defer></script> 
 
 
 

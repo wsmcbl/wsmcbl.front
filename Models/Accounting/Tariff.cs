@@ -4,9 +4,14 @@ using Newtonsoft.Json;
 
 public class Tariff
 {
-    public int tariffId { get; set; }
-    public string concept { get; set; } = null!;
-    public double amount { get; set; }
+    [JsonProperty("tariffId")]
+    public int TariffId { get; set; }
+
+    [JsonProperty("tariffId")]
+    public string Concept { get; set; } = null!;
+
+    [JsonProperty("tariffId")]
+    public double Amount { get; set; }
 
     public Tariff () : this(0,"",0.0)
     {
@@ -15,8 +20,8 @@ public class Tariff
 
     public Tariff(int tariffId, string concept, double amount)
     {
-        this.tariffId = tariffId;
-        this.concept= concept;
-        this.amount = amount;
+        TariffId = tariffId;
+        Concept= concept;
+        Amount = amount;
     }
 }
