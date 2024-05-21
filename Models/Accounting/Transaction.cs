@@ -53,6 +53,9 @@ public class InvoiceDto
     [JsonProperty("total")]
     public double Total { get; set; }
 
+    [JsonProperty("subtotal")]
+    public double Subtotal { get; set; }
+
     [JsonProperty("discount")]
     public double Discount { get; set; }
 
@@ -72,11 +75,12 @@ public class InvoiceDto
         CashierName = cashierName;
         StudentId = studentId;
         StudentName = studentName;
-        Total = tariffs.Sum(tariff => tariff.Amount);;
+        Subtotal = tariffs.Sum(tariff => tariff.Amount);
         Discount = discount;
         Areals = areals;
         DateTime = dateTime;
         Tariffs = tariffs;
+        Total = total;
     }
 
 }

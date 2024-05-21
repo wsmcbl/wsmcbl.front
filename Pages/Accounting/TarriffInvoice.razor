@@ -1,15 +1,19 @@
 @page "/transactions/invoices/{studentId}"
 @layout EmptyLayout
-@inject NavigationManager navigationManager;
 @using wsmcbl.front.Models.Accounting
+@using wsmcbl.front.Controllers
+@inject NavigationManager navigationManager
+@inject TariffController tariffcontroller
+
 
 
 <link rel="stylesheet" href="/css/Factura.css" />
 
-@if (studentId == null)
+@if (studentId == null || invoice == null)
 {
     <a> Loading... </a>
-}else
+}
+else
 {
     <div class="factura">
     <h5 class="izqC">Colegio Bautista Libertad</h5>
@@ -19,16 +23,42 @@
     <p class="izqC">Recibo de Caja</p>
     <hr> 
 
+<p class="izqC">Recibo de Caja</p>
+<hr> 
+
     <div class="row">
         <div class="col">
-            <p class="izqN">Recibo N°</p>
-            <p class="izqN">Cod. Estu</p>
-            <p class="izqN">Fecha</p>
+            <p class="izqN">N°</p>
         </div>
         <div class="col">
             <p class="izq">@invoice.TransactionId</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">Cod. Estu</p>
+        </div>
+        <div class="col">
             <p class="izq">@invoice.StudentId</p>
-            <p class="izq">@invoice.DateTime</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">Fecha</p>
+        </div>
+        <div class="col">
+            <p class="izq">@invoice.DateTime.ToString("dd-MM-yyyy")</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p class="izqN">Cajero</p>
+        </div>
+        <div class="col">
+            <p class="izq">@invoice.CashierName</p>
         </div>
     </div>
 
@@ -63,7 +93,7 @@
             <p class="izqN">Descuento:</p>
         </div>
         <div class="col">
-            <p class="izq">C$ @invoice.Total</p>
+            <p class="izq">C$ @invoice.Subtotal</p>
             <p class="izq">@invoice.Discount</p>
         </div>
     </div>
@@ -74,14 +104,12 @@
             <p class="izqN">T Neto:</p>
         </div>
         <div class="col">
-            <p class="izq">C$ 1,300.00</p>
+            <p class="izq">C$ @invoice.Total</p>
         </div>
     </div>
     <hr>
     <br>
-
     
-
     <div class="row">
         <div class="col">
             <hr>
@@ -107,48 +135,16 @@
 </div>
 }
 
-@code {
-
-    InvoiceDto invoice;
-    List<Tariff> tariffs;
-
+@code
+{
+    InvoiceDto? invoice;
     [Parameter]
-    public string studentId {get; set; }   
+    public string? studentId {get; set; }   
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {        
-        //obtenemos el Id del estudiante y su informacion completa
-        var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
-        studentId = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
-
-        
-        tariffs = new List<Tariff>
-        {
-            new Tariff(1, "Tarifa 1", 20.0),
-            new Tariff(2, "Tarifa 2", 30.0),
-            new Tariff(3, "Tarifa 3", 40.0)
-        };
-
-        // Crear un objeto InvoiceDto
-        invoice = new InvoiceDto(
-            "12345",                     // transactionId
-            "Cajero 1",                  // cashierName
-            "S123",                      // studentId
-            "Juan Pérez",                // studentName
-            90.0,                        // total
-            10.0,                        // discount
-            1,                           // areals
-            DateTime.Now,                // dateTime
-            tariffs                      // tariffs
-        );
+        invoice =  await tariffcontroller.GetInvoice(studentId);
     }
-
-
 }
 
-
-<script src="/js/Facture.js" defer></script> 
-
-
-
-
+<script src="/js/Facture.js" defer></script>

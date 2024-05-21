@@ -1,10 +1,6 @@
 namespace wsmcbl.front.Controllers;
 
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.SignalR;
-
 using wsmcbl.front.Models.Accounting;
 
 public class TariffController 
@@ -49,6 +45,20 @@ public class TariffController
         var respuesta = await _httpClient.PostAsync(url, contenido);
 
         return respuesta;
+    }
+
+
+    public async Task<InvoiceDto?> GetInvoice(string studentId)
+    {
+        var invoices = 
+            await _httpClient.GetAsync($"http://wsmcbl-api.somee.com/v1/accounting/transactions/invoices/{studentId}");
+
+        if (!invoices.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error al obtener los datos de la API: {invoices.ReasonPhrase}");
+        }
+        
+        return await invoices.Content.ReadFromJsonAsync<InvoiceDto>();
     }
 
 }
