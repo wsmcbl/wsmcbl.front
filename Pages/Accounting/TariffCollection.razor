@@ -37,38 +37,6 @@ else
                     <p class="text-left">Grado: @student.enrollmentLabel</p>
                     <p class="text-left">Tutor: @student.tutor</p>
                 </div>
-
-                <div class="col d-flex align-items-center justify-content-center">
-                    <div class="card shadow mb-4 d-inline-block">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h6 class="m-0 font-weight-bold text-primary">Descuentos</h6>
-                        </div>
-                        <div class="card-body p2">
-                            <div class="row form-check">
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="discount1">
-                                    <label class="form-check-label" for="discount1">
-                                        Hermanos
-                                    </label>
-                                </div>
-
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="discount2">
-                                    <label class="form-check-label" for="discount2">
-                                        Trabajador
-                                    </label>
-                                </div>
-
-                                <div>
-                                    <input class="form-check-input" type="checkbox" id="discount3">
-                                    <label class="form-check-label" for="discount3">
-                                        Otros
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </form>
         @* Botones *@
@@ -192,47 +160,47 @@ else
                         <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Selec</th>
                                     <th>#</th>
                                     <th>Fecha Vencimiento</th>
                                     <th>Concepto</th>
-                                    <th>Cantidad</th>
+                                    <th>Monto</th>
+                                    <th>Seleccionar</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <input class="form-check-input align-items-center" type="checkbox" value=""
-                                                id="defaultCheck1">
-                                        </div>
-                                    </th>
-                                    <th>1</th>
-                                    <th>15/01/2024</th>
-                                    <th>Enero</th>
-                                    <th>900.00</th>
-                                </tr>
-
-                                <tr>
-                                    <th class="align-middle text-center">
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <input class="form-check-input align-items-center justify-content-center"
-                                                type="checkbox" value="" id="defaultCheck1">
-                                        </div>
-                                    </th>
-                                    <th>2</th>
-                                    <th>15/02/2024</th>
-                                    <th>Febrero</th>
-                                    <th>900.00</th>
-                                </tr>
+                                @foreach (var item in tariffs)
+                                {
+                                    <tr>
+                                        <td>@item.TariffId</td>
+                                        <td>Nunca</td>
+                                        <td>@item.Concept</td>
+                                        <td>@item.Amount</td>
+                                        <td>
+                                            @if (student.transactions != null &&
+                                            student.transactions.Any(t => t.Tariffs.Any(tt => tt.TariffId == item.TariffId)))
+                                            {
+                                                <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
+                                                    data-target="#finistariff" disabled>Pagado
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <input type="checkbox" @onchange="(e) => OnSelectItemChanged(e, item)" />
+                                                </td>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-dismiss="modal"
-                        data-target="#finistariff">Terminar</button>
+                    <button type="button" class="btn btn-success" 
+                    @onclick="(e) => MultiPay()">Cobrar
+                    </button>
                 </div>
             </div>
         </div>
@@ -248,6 +216,9 @@ Gente que tiene tarifas pagadas
 @code
 {
     Tariff tariffSelected = new Tariff();
+
+    //Lista de tarifas
+    public List<Tariff> selectedTariffs = new List<Tariff>();
 
     List<Tariff> tariffs;
     StudentEntity student;     
@@ -271,6 +242,29 @@ Gente que tiene tarifas pagadas
         tariffSelected = item;
     }
 
+    void ReloadPage()
+    {
+        navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
+    }
+
+    private void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)
+    {
+        if ((bool)e.Value)
+        {
+            if (!selectedTariffs.Contains(tariff))
+            {
+                selectedTariffs.Add(tariff);
+            }
+        }
+        else
+        {
+            if (selectedTariffs.Contains(tariff))
+            {
+                selectedTariffs.Remove(tariff);
+            }
+        }
+    }
+
     async Task Pay()
     {
         // creamos la lista de las tarifas a pagar
@@ -278,6 +272,8 @@ Gente que tiene tarifas pagadas
         {
             tariffSelected
         };
+
+
 
         // creamos nuestro objeto transaction
         var obj = new TransactionDto()
@@ -316,9 +312,43 @@ Gente que tiene tarifas pagadas
         }
     }
 
-    void ReloadPage()
+    async Task MultiPay()
     {
-        navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
+        // creamos nuestro objeto transaction
+        var obj = new TransactionDto()
+        {
+            cashierId = "caj-ktinoco",
+            studentId = StudenID,
+            discount = 0,
+            dateTime = DateTime.Now,
+            tariffs = selectedTariffs
+        };
+
+        var result = await tariffcontroller.SendPay(obj);
+
+        if (result.IsSuccessStatusCode)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Pago Exitoso!",
+                    Text = "La transacción se completó correctamente.",
+                    Icon = SweetAlertIcon.Success
+                });
+
+            await JSRuntime.InvokeVoidAsync("window.open", $"/transactions/invoices/{obj.studentId}", "_blank");
+
+            ReloadPage();
+
+        }
+        else
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+                {
+                    Title = "¡Error en el Pago!",
+                    Text = "La transacción no se completó correctamente.",
+                    Icon = SweetAlertIcon.Error
+                });
+        }
     }
 
 

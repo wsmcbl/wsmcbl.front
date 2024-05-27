@@ -1,0 +1,116 @@
+@page "/accouting/arreas"
+@using wsmcbl.front.Controllers
+@using wsmcbl.front.Models.Accounting
+
+@inject TariffController tariffcontroller
+@inject SweetAlertService Swal
+
+@if (tariffs == null)
+{
+    <div class="loader"></div>
+}
+else
+{
+    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Aplicar Mora</h6>
+            <button type="button" class="btn btn-success" 
+                    @onclick="(e) => Confirm()">Cobrar
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Concepto</th>
+                        <th>Monto</th>
+                        <th>Seleccionar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in tariffs)
+                        {
+                            <tr>
+                                <td>@item.TariffId</td>
+                                <td>Nunca</td>
+                                <td>@item.Concept</td>
+                                <td>@item.Amount</td>
+                                <td>
+                                    <input type="checkbox" @onchange="(e) => OnSelectItemChanged(e, item)" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+@code
+{
+    @* Lista o tariffa a aplicar mora *@
+    public List<Tariff> selectedTariffs = new List<Tariff>();
+
+    @* Lista de tarifas obtenido de la API *@
+    List<Tariff> tariffs = null!;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Obtenemos la lista de tarifas vencidas
+        tariffs = await tariffcontroller.GetTariffs();
+    }
+
+    private void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)
+    {
+        if ((bool)e.Value)
+        {
+            if (!selectedTariffs.Contains(tariff))
+            {
+                selectedTariffs.Add(tariff);
+            }
+        }
+        else
+        {
+            if (selectedTariffs.Contains(tariff))
+            {
+                selectedTariffs.Remove(tariff);
+            }
+        }
+    }
+
+    public async Task Confirm()
+    {
+        SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
+        {
+            Title = "¿Seguro que desea generar mora?",
+            Text = "La mora se aplicara a todos los estudiantes que no hayan pagado a tiempo",
+            ShowDenyButton = true,
+            ConfirmButtonText = "Aplicar",
+            DenyButtonText = "No guardar"
+        });
+
+        if (result.IsConfirmed)
+        {
+            await Swal.FireAsync("Mora generada correctamente!", "", "success");
+        }
+        else if (result.IsDenied)
+        {
+            await Swal.FireAsync("No se ha generado mora", "", "info");
+        }
+
+
+
+
+    }
+
+}
