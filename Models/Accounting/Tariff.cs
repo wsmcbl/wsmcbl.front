@@ -7,21 +7,51 @@ public class Tariff
     [JsonProperty("tariffId")]
     public int TariffId { get; set; }
 
-    [JsonProperty("tariffId")]
+    [JsonProperty("schoolYear")]
+    public string SchoolYear { get; set; } = null!;
+
+    [JsonProperty("concept")]
     public string Concept { get; set; } = null!;
 
-    [JsonProperty("tariffId")]
+    [JsonProperty("amount")]
     public double Amount { get; set; }
 
-    public Tariff () : this(0,"",0.0)
+    [JsonProperty("dueDate")]
+    public string DueDate { get; set; }
+
+    [JsonProperty("isLate")]
+    public bool IsLate { get; set; }
+
+    [JsonProperty("type")]
+    public int Type { get; set; }
+
+
+    public Tariff () : this(0,"","",0.0,"1999-01-01",false,0)
     {
 
     }
 
-    public Tariff(int tariffId, string concept, double amount)
+    public Tariff(int tariffId, string schoolYear, string concept, double amount, string dueDate, bool isLate, int type)
     {
         TariffId = tariffId;
+        SchoolYear = schoolYear;
         Concept= concept;
         Amount = amount;
+        DueDate = dueDate;
+        IsLate = isLate;
+        Type = type;
     }
+}
+
+public class TariffPost
+{
+    [JsonProperty("tariffId")]
+    public int tariffId { get; set; }
+
+    [JsonProperty("discount")]
+    public double discount { get; set; }
+
+    [JsonProperty("arrears")]
+    public double arrears { get; set; }
+    
 }

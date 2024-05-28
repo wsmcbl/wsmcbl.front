@@ -2,7 +2,7 @@
 @using wsmcbl.front.Controllers
 @using wsmcbl.front.Models.Accounting
 @inject StudentController controller;
-
+@inject SweetAlertService Swal;
 
 
 @if (students == null)
@@ -11,7 +11,6 @@
 }
 else
 {
-    
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de cobro</h6>
@@ -39,14 +38,16 @@ else
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach(var item in students)
+                    @foreach (var item in students)
                     {
                         <tr>
                             <td> @item.studentId </td>
                             <td> @item.fullName </td>
                             <td> @item.schoolyear </td>
                             <td> @item.tutor </td>
-                            <td> <a href="/accouting/tariffcollection/@item.studentId" class="btn btn-success btn-sm">Cobro</a> </td> 
+                            <td>
+                                <a href="/accouting/tariffcollection/@item.studentId" class="btn btn-success btn-sm">Cobro</a>
+                            </td>
                         </tr>
                     }
                     </tbody>
@@ -62,13 +63,20 @@ else
 @code
 {
     @* Obtenemos la lista de todos los estudiantes a los que le podemos aplicar cobros *@
-    List<StudentEntity> students;
+    private List<StudentEntity>? students;
+
     protected override async Task OnInitializedAsync()
     {
         students = await controller.GetStudentsFromApiAsync();
+
+        if (students is null)
+        {
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Sin estudiantes",
+                Text = "La transacción no se completó correctamente.",
+                Icon = SweetAlertIcon.Error
+            });
+        }
     }
 }
-
-
-
-
