@@ -10,6 +10,6 @@ public class StudentEntity
     public double discount { get; set; }
     public bool isActive { get; set; }
     
-    public List<Transaction> transactions {get; set; } = null!;
+    public List<TransactionsStudents> transactions {get; set; } = null!;
     
 }

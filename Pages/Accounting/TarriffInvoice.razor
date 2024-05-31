@@ -4,68 +4,74 @@
 @using wsmcbl.front.Controllers
 @inject NavigationManager navigationManager
 @inject TariffController tariffcontroller
+@inject SweetAlertService Swal;
 
 
 
 <link rel="stylesheet" href="/css/Factura.css" />
 
-@if (studentId == null || invoice == null)
+@if (errorMessage != null)
 {
-    <a> Loading... </a>
+    <div class="alert alert-danger">@errorMessage</div>
+    <a href="/" class="btn btn-primary">Ir a la página principal</a>
+}
+else if (studentId == null || invoice == null)
+{
+    <p>Cargando...</p>
 }
 else
 {
     <div class="factura">
-    <h5 class="izqC">Colegio Bautista Libertad</h5>
-    <p class="direccion">Entrada Norte C.C.Managua, 1c. E. 1c S. 1/2c-E.</p>
-    <p>Telefono: 22705587</p>
+        <h5 class="izqC">Colegio Bautista Libertad</h5>
+        <p class="direccion">Entrada Norte C.C.Managua, 1c. E. 1c S. 1/2c-E.</p>
+        <p>Telefono: 22705587</p>
 
-    <p class="izqC">Recibo de Caja</p>
-    <hr> 
+        <p class="izqC">Recibo de Caja</p>
+        <hr>
 
-<p class="izqC">Recibo de Caja</p>
-<hr> 
+        <p class="izqC">Recibo de Caja</p>
+        <hr>
 
-    <div class="row">
-        <div class="col">
-            <p class="izqN">N°</p>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">N°</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.TransactionId</p>
+            </div>
         </div>
-        <div class="col">
-            <p class="izq">@invoice.TransactionId</p>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <p class="izqN">Cod. Estu</p>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Cod. Estu</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.StudentId</p>
+            </div>
         </div>
-        <div class="col">
-            <p class="izq">@invoice.StudentId</p>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <p class="izqN">Fecha</p>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Fecha</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.DateTime.ToString("dd-MM-yyyy")</p>
+            </div>
         </div>
-        <div class="col">
-            <p class="izq">@invoice.DateTime.ToString("dd-MM-yyyy")</p>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <p class="izqN">Cajero</p>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Cajero</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.CashierName</p>
+            </div>
         </div>
-        <div class="col">
-            <p class="izq">@invoice.CashierName</p>
-        </div>
-    </div>
 
-    <p class="der">A nombre de: </p>
-    <p class="izqC">@invoice.StudentName</p>
+        <p class="der">A nombre de: </p>
+        <p class="izqC">@invoice.StudentName</p>
 
-    <blockquote class="izqC">DETALLE</blockquote>
+        <blockquote class="izqC">DETALLE</blockquote>
 
         <table>
             <thead>
@@ -84,67 +90,90 @@ else
                 }
             </tbody>
         </table>
-    <hr>
-    
+        <hr>
 
-    <div class="row">
-        <div class="col">
-            <p class="izqN">T. Bruto:</p>
-            <p class="izqN">Descuento:</p>
-        </div>
-        <div class="col">
-            <p class="izq">C$ @invoice.Subtotal</p>
-            <p class="izq">@invoice.Discount</p>
-        </div>
-    </div>
-    <hr>
 
-    <div class="row">
-        <div class="col">
-            <p class="izqN">T Neto:</p>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">T. Bruto:</p>
+            </div>
+            <div class="col">
+                <p class="izq">C$ @invoice.Subtotal</p>
+            </div>
         </div>
-        <div class="col">
-            <p class="izq">C$ @invoice.Total</p>
-        </div>
-    </div>
-    <hr>
-    <br>
-    
-    <div class="row">
-        <div class="col">
-            <hr>
-            <p>Cliente</p>
-        </div>
-        <div class="col">
-            <hr>
-            <p>Administrador</p>
-        </div>
-    </div>
-    <br>
+        <hr>
 
-    <hr>
-    <div class="row">
-        <div class="col">
-            <p class="izqN">Balance General</p>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">T Neto:</p>
+            </div>
+            <div class="col">
+                <p class="izq">C$ @invoice.Total</p>
+            </div>
         </div>
-        <div class="col">
-            <p class="izq">5,600.00</p>
+        <hr>
+        <br>
+
+        <div class="row">
+            <div class="col">
+                <hr>
+                <p>Cliente</p>
+            </div>
+            <div class="col">
+                <hr>
+                <p>Administrador</p>
+            </div>
         </div>
+        <br>
+
+        <hr>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Balance General</p>
+            </div>
+            <div class="col">
+                <p class="izq">5,600.00</p>
+            </div>
+        </div>
+        <p class="end">NO ES VALIDO SIN FIRMA NI SELLO DEL CAJERO</p>
     </div>
-    <p class="end">NO ES VALIDO SIN FIRMA NI SELLO DEL CAJERO</p>
-</div>
+    <script src="/js/Facture.js" defer></script>
 }
+
 
 @code
 {
     InvoiceDto? invoice;
+    private string? errorMessage;
+    private bool showError;
     [Parameter]
     public string? studentId {get; set; }   
 
     protected override async Task OnInitializedAsync()
-    {        
-        invoice =  await tariffcontroller.GetInvoice(studentId);
+    {   
+        try
+        {
+            invoice =  await tariffcontroller.GetInvoice(studentId);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            showError = true;
+        }     
     }
-}
 
-<script src="/js/Facture.js" defer></script>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (showError)
+        {
+            showError = false; // Resetear la bandera para no mostrar el error múltiples veces.
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Obtuvimos unos problemas",
+                Text = errorMessage,
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+
+}

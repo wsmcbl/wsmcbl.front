@@ -1,6 +1,52 @@
-.centrar{
+.modal-body {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-    margin-bottom: 15px;
+    justify-content: center; /* Centra horizontalmente todo el contenido del modal */
+    align-items: center;    /* Centra verticalmente todo el contenido del modal si es necesario */
+    flex-direction: column; /* Asegura que el contenido se ordene en columna */
+}
+
+.finishpaymodal {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente la tabla */
+    align-items: center;    /* Centra verticalmente la tabla */
+    width: 100%;            /* Asegura que el contenedor ocupe todo el ancho disponible */
+}
+
+.finishpaymodal table {
+    width: 90%;             /* Ajusta el ancho de la tabla */
+    border-collapse: collapse; /* Para eliminar los espacios entre celdas */
+}
+
+.finishpaymodal th,
+.finishpaymodal td {
+    padding: 10px;           /* Ajusta el padding según tus necesidades */
+    text-align: left;        /* Alineación del texto en las celdas */
+}
+
+.finishpaymodal th:last-child,
+.finishpaymodal td:last-child {
+    text-align: right;       /* Alineación derecha para la columna 'Monto' */
+}
+
+
+.row.centrar {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente el contenido dentro de la fila */
+    align-items: center;    /* Centra verticalmente el contenido dentro de la fila si es necesario */
+    width: 100%; 
+    margin-bottom: 10px;           /* Asegura que la fila ocupe todo el ancho disponible */
+}
+
+.pay {
+    margin-bottom: 5px;
+}
+
+.pay div {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Asegura que tome la altura completa del contenedor */
+}
+
+.anchototal{
+    width: 85%;
 }

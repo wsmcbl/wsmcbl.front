@@ -15,7 +15,7 @@ public class TariffController
     public async Task<List<Tariff>> GetTariffs()
     {
         // Realizar solicitud HTTP GET a la API
-        var response = await _httpClient.GetAsync("http://wsmcbl-api.somee.com/v1/accounting/tariffs");
+        var response = await _httpClient.GetAsync(URL.ACCOUNTING+"tariffs");
 
         // Verificar si la solicitud fue exitosa
         if (response.IsSuccessStatusCode)
@@ -33,7 +33,7 @@ public class TariffController
     public async Task<HttpResponseMessage> SendPay(TransactionDto obj)
     {
         // URL a la que enviar la solicitud PUT
-        var url = "http://wsmcbl-api.somee.com/v1/accounting/transactions";
+        var url = URL.ACCOUNTING+"transactions";
 
         // Convertir el objeto a JSON
         var json = JsonSerializer.Serialize<TransactionDto>(obj);
@@ -50,8 +50,7 @@ public class TariffController
 
     public async Task<InvoiceDto?> GetInvoice(string studentId)
     {
-        var invoices = 
-            await _httpClient.GetAsync($"http://wsmcbl-api.somee.com/v1/accounting/transactions/invoices/{studentId}");
+        var invoices = await _httpClient.GetAsync(URL.TRANSACTION+studentId);
 
         if (!invoices.IsSuccessStatusCode)
         {
@@ -59,6 +58,24 @@ public class TariffController
         }
         
         return await invoices.Content.ReadFromJsonAsync<InvoiceDto>();
+    }
+
+
+    public async Task<bool> ActiveArrears(int idtarrif)
+    {
+        var url = URL.APPLYARREARS+idtarrif;
+        var content = new StringContent(string.Empty); // Crear un contenido vacío
+
+        var response = await _httpClient.PutAsync(url, content);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+        }
+        
+            bool success = true;
+
+            return success;
     }
 
 }

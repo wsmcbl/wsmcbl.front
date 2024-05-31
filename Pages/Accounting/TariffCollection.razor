@@ -10,7 +10,7 @@
 @inject HttpClient httpClient;
 @inject NavigationManager navigationManager;
 @inject SweetAlertService Swal;
-z
+
 @* validamos si el estudiante no es nulo y si la lista de tarifas del catalogo tiene al menos 1 elemento.  *@
 @if (student == null || tariffs == null)
 {
@@ -23,6 +23,9 @@ else
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Información</h6>
+            <button type="button" class="btn btn-success" 
+                    @onclick="(e) => ConfirmTransaction()">Cobrar
+            </button>
         </div>
         <form class="p-5">
             <div class="row">
@@ -45,10 +48,6 @@ else
                 <div class="col-6 text-center">
                     <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Estado de cuenta</a>
                 </div>
-                <div class="col-6 text-center ">
-                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                        data-target="#multitariffmodal">Hacer pagos multiples</button>
-                </div>
             </div>
         </div>
         
@@ -58,10 +57,12 @@ else
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Fecha Vencimiento</th>
+                        <th>Año Lectivo</th>
                         <th>Concepto</th>
-                        <th>Cantidad</th>
-                        <th>Acción</th>
+                        <th>Monto</th>
+                        <th>Con Mora</th>
+                        <th>Fecha Vencimiento</th>
+                        <th>Seleccionar</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,12 +70,14 @@ else
                     {
                         <tr>
                             <td>@item.TariffId</td>
-                            <td>Nunca</td>
+                            <td>@item.SchoolYear</td>
                             <td>@item.Concept</td>
                             <td>@item.Amount</td>
+                            <td>@item.IsLate</td>
+                            <td>@item.DueDate</td>
                             <td>
                                 @if (student.transactions != null &&
-                                student.transactions.Any(t => t.Tariffs.Any(tt => tt.TariffId == item.TariffId)))
+                                student.transactions.Any(t => t.Details.Any(tt => tt.TariffId == item.TariffId)))
                                 {
                                     <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
                                         data-target="#finistariff" disabled>Pagado
@@ -82,10 +85,9 @@ else
                                 }
                                 else
                                 {
-                                    <button type="button" class="btn btn-success btn-sm " data-toggle="modal"
-                                        data-target="#finistariff" @onclick="(e) => finalModalPay(item)">
-                                        Cobrar
-                                    </button>
+                                <td>
+                                    <input type="checkbox" @onchange="(e) => OnSelectItemChanged(e, item)" />
+                                </td>
                                 }
                             </td>
                         </tr>
@@ -108,28 +110,55 @@ else
                 </div>
                 <div class="modal-body">
                     @* detalles de la transaccion *@
-                    <div class="row">
-                        <div class="col centrar">
-                            <div>Concepto: </div>
-                            <div>Monto: </div>
-                        </div>
-                        <div class="col centrar">
-                            <div id="modalConcep">@tariffSelected.Concept</div>
-                            <div id="modalAmount">@tariffSelected.Amount</div>
+                    <div class="row centrar">
+                        <div class="finishpaymodal">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Concepto</th>
+                                        <th>Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in selectedTariffs)
+                                    {
+                                        <tr>
+                                            <td>@item.Concept</td>
+                                            <td>@item.Amount</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+                    <hr/>
                     @* cambio y monto total *@
-                    <div class="row">
-                        <div class="col centrar">
-                            <div class="centrar">Recibí: </div>
-                            <div class="centrar">Cambio: </div>
+                    <div class="anchototal">
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Total: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@subtotal">
+                            </div>
                         </div>
-                        <div class="col centrar">
-                            <div class="row">
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Recibí: </div>
+                            </div>
+                            <div class="col pay">
                                 <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00">
                             </div>
-                            <div class="row">
-                                <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00">
+                        </div>
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Cambio: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00" disabled>
                             </div>
                         </div>
                     </div>
@@ -137,7 +166,7 @@ else
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-success" 
-                    @onclick="(e) => Pay()">Cobrar
+                    @onclick="(e) => MultiPay()">Cobrar
                     </button>
                 </div>
             </div>
@@ -145,70 +174,6 @@ else
     <script defer src="/js/TarriffCollection.js"></script>
     </div>
 
-    <!-- Multi Pagos -->
-    <div class="modal fade" id="multitariffmodal" tabindex="-1" aria-labelledby="multitariffmodalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="multitariffmodalLabel">Cobros Multiples</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="p-3 table-responsive">
-                        <table class="table table-bordered" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Año Lectivo</th>
-                                    <th>Concepto</th>
-                                    <th>Monto</th>
-                                    <th>Con Mora</th>
-                                    <th>Fecha Vencimiento</th>
-                                    <th>Seleccionar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in tariffs)
-                                {
-                                    <tr>
-                                        <td>@item.TariffId</td>
-                                        <td>@item.SchoolYear</td>
-                                        <td>@item.Concept</td>
-                                        <td>@item.Amount</td>
-                                        <td>@item.IsLate</td>
-                                        <td>@item.DueDate</td>
-                                        <td>
-                                            @if (student.transactions != null &&
-                                            student.transactions.Any(t => t.Tariffs.Any(tt => tt.TariffId == item.TariffId)))
-                                            {
-                                                <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
-                                                    data-target="#finistariff" disabled>Pagado
-                                                </button>
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    <input type="checkbox" @onchange="(e) => OnSelectItemChanged(e, item)" />
-                                                </td>
-                                            }
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-success" 
-                    @onclick="(e) => MultiPay()">Cobrar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 }
 
 @* 
@@ -219,6 +184,9 @@ Gente que tiene tarifas pagadas
 
 @code
 {
+
+    public double subtotal = 0;
+
     Tariff tariffSelected = new Tariff();
 
     //Lista de tarifas
@@ -258,6 +226,8 @@ Gente que tiene tarifas pagadas
             if (!selectedTariffs.Contains(tariff))
             {
                 selectedTariffs.Add(tariff);
+                subtotal = subtotal + tariff.Amount;
+                Console.WriteLine(subtotal);
             }
         }
         else
@@ -265,13 +235,10 @@ Gente que tiene tarifas pagadas
             if (selectedTariffs.Contains(tariff))
             {
                 selectedTariffs.Remove(tariff);
+                subtotal = subtotal - tariff.Amount;
+                Console.WriteLine(subtotal);
             }
         }
-    }
-
-    async Task Pay()
-    {
-
     }
 
     async Task MultiPay()
@@ -310,4 +277,12 @@ Gente que tiene tarifas pagadas
             });
         }
     }
+
+
+    async Task ConfirmTransaction()
+    {
+        await JSRuntime.InvokeVoidAsync("showModal", "finistariff");
+    }
+
 }
+
