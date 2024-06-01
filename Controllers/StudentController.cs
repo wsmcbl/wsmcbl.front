@@ -26,7 +26,7 @@ public class StudentController
 
     public async Task<StudentEntity> GetStudentEntityAsync(string studentId)
     {
-        var response = await _httpClient.GetAsync($"http://wsmcbl-api.somee.com/v1/accounting/students/{studentId}");
+        var response = await _httpClient.GetAsync(URL.ACCOUNTING + $"students/{studentId}");
 
         if (response.IsSuccessStatusCode)
         {
