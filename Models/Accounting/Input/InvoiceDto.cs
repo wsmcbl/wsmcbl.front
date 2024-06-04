@@ -18,18 +18,19 @@ public class InvoiceDto
     [JsonProperty("total")]
     public double Total { get; set; }
 
-    [JsonProperty("subtotal")]
-    public double Subtotal { get; set; }
-
     [JsonProperty("dateTime")]
     public DateTime DateTime { get; set; }
 
+    [JsonProperty("subtotal")]
+    public double Subtotal { get; set; }
+
+    [JsonProperty("generalBalance")]
+    public float[] GeneralBalance { get; set; }
 
     [JsonProperty("tariffs")]
     public List<TariffStudents> Tariffs { get; set; } = null!;
 
-    public InvoiceDto(string transactionId, string cashierName, string studentId, 
-    string studentName, double total, DateTime dateTime, List<TariffStudents> tariffs)
+    public InvoiceDto(string transactionId, string cashierName, string studentId,  string studentName, double total, DateTime dateTime, List<TariffStudents> tariffs)
     {
         TransactionId = transactionId;
         CashierName = cashierName;

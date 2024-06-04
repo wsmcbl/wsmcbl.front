@@ -73,7 +73,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         //Obtenemos la lista de tarifas vencidas
-        tariffs = await tariffcontroller.GetTariffs();
+        tariffs = await tariffcontroller.GetTariffs("student", "2019.1000.jarr");
     }
 
     private void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)

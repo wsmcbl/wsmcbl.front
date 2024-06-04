@@ -117,6 +117,8 @@ else
                                     <tr>
                                         <th>Concepto</th>
                                         <th>Monto</th>
+                                        <th>Desc</th>
+                                        <th>Mora</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -125,6 +127,23 @@ else
                                         <tr>
                                             <td>@item.Concept</td>
                                             <td>@item.Amount</td>
+                                            <td>@student.discount</td>
+                                                @if (item.IsLate)
+                                                {
+                                                    <td>
+                                                        @{
+                                                            var mora = item.Amount * 0.10;
+                                                            @mora
+                                                        }
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        0
+                                                    </td>
+                                                }
+                                            <td></td>
                                         </tr>
                                     }
                                 </tbody>
@@ -186,7 +205,7 @@ Gente que tiene tarifas pagadas
 {
 
     public double subtotal = 0;
-
+    
     Tariff tariffSelected = new Tariff();
 
     //Lista de tarifas
@@ -206,19 +225,14 @@ Gente que tiene tarifas pagadas
         student = await controller.GetStudentEntityAsync(StudenID);
 
         //Obtenemos la lista completa de tarifas del catalogo
-        tariffs = await tariffcontroller.GetTariffs();
+        tariffs = await tariffcontroller.GetTariffs("student", StudenID);
     }
 
     public void finalModalPay(Tariff item)
     {
         tariffSelected = item;
     }
-
-    void ReloadPage()
-    {
-        navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
-    }
-
+    
     private void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)
     {
         if ((bool)e.Value)
@@ -227,7 +241,6 @@ Gente que tiene tarifas pagadas
             {
                 selectedTariffs.Add(tariff);
                 subtotal = subtotal + tariff.Amount;
-                Console.WriteLine(subtotal);
             }
         }
         else
@@ -236,7 +249,6 @@ Gente que tiene tarifas pagadas
             {
                 selectedTariffs.Remove(tariff);
                 subtotal = subtotal - tariff.Amount;
-                Console.WriteLine(subtotal);
             }
         }
     }
@@ -253,8 +265,9 @@ Gente que tiene tarifas pagadas
         transaction.setTariff(selectedTariffs, student.discount);
 
         var result = await tariffcontroller.SendPay(transaction);
+        
 
-        if (result.IsSuccessStatusCode)
+        if (result != string.Empty)
         {
             await Swal.FireAsync(new SweetAlertOptions
             {
@@ -263,7 +276,7 @@ Gente que tiene tarifas pagadas
                 Icon = SweetAlertIcon.Success
             });
 
-            await JSRuntime.InvokeVoidAsync("window.open", $"/transactions/invoices/{transaction.studentId}", "_blank");
+            await JSRuntime.InvokeVoidAsync("window.open", $"/transactions/invoices/{result}", "_blank");
 
             ReloadPage();
         }
@@ -282,6 +295,11 @@ Gente que tiene tarifas pagadas
     async Task ConfirmTransaction()
     {
         await JSRuntime.InvokeVoidAsync("showModal", "finistariff");
+    }
+    
+    void ReloadPage()
+    {
+        navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
     }
 
 }

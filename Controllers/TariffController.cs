@@ -12,10 +12,10 @@ public class TariffController
         _httpClient = httpClient;
     }
 
-    public async Task<List<Tariff>> GetTariffs()
+    public async Task<List<Tariff>> GetTariffs(string key, string value)
     {
         // Realizar solicitud HTTP GET a la API
-        var response = await _httpClient.GetAsync(URL.ACCOUNTING+"tariffs");
+        var response = await _httpClient.GetAsync($"{URL.ACCOUNTING}tariffs/search?q={key}:{value}");
 
         // Verificar si la solicitud fue exitosa
         if (response.IsSuccessStatusCode)
@@ -30,27 +30,33 @@ public class TariffController
         }
     }
 
-    public async Task<HttpResponseMessage> SendPay(TransactionDto obj)
+    public async Task<string> SendPay(TransactionDto obj)
     {
-        // URL a la que enviar la solicitud PUT
-        var url = URL.ACCOUNTING+"transactions";
+        var url = URL.ACCOUNTING + "transactions";
 
-        // Convertir el objeto a JSON
         var json = JsonSerializer.Serialize<TransactionDto>(obj);
-        
-        // Crear el contenido de la solicitud HTTP
+
         var contenido = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-        // Realizar la solicitud PUT
         var respuesta = await _httpClient.PostAsync(url, contenido);
 
-        return respuesta;
+        if(!respuesta.IsSuccessStatusCode)
+        {
+            return string.Empty;
+        }
+
+        var respuestaContenido = await respuesta.Content.ReadAsStringAsync();
+
+        using JsonDocument doc = JsonDocument.Parse(respuestaContenido);
+        JsonElement root = doc.RootElement;
+        return root.GetProperty("transactionId").GetString()!;
     }
 
 
-    public async Task<InvoiceDto?> GetInvoice(string studentId)
+
+    public async Task<InvoiceDto?> GetInvoice(string transactionId)
     {
-        var invoices = await _httpClient.GetAsync(URL.TRANSACTION+studentId);
+        var invoices = await _httpClient.GetAsync(URL.TRANSACTION+transactionId);
 
         if (!invoices.IsSuccessStatusCode)
         {

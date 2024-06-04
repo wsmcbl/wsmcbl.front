@@ -1,4 +1,4 @@
-@page "/transactions/invoices/{studentId}"
+@page "/transactions/invoices/{transactionId}"
 @layout EmptyLayout
 @using wsmcbl.front.Models.Accounting
 @using wsmcbl.front.Controllers
@@ -15,7 +15,7 @@
     <div class="alert alert-danger">@errorMessage</div>
     <a href="/" class="btn btn-primary">Ir a la página principal</a>
 }
-else if (studentId == null || invoice == null)
+else if (invoice == null)
 {
     <p>Cargando...</p>
 }
@@ -132,7 +132,7 @@ else
                 <p class="izqN">Balance General</p>
             </div>
             <div class="col">
-                <p class="izq">5,600.00</p>
+                <p class="izq">C$ @balanceGeneral</p>
             </div>
         </div>
         <p class="end">NO ES VALIDO SIN FIRMA NI SELLO DEL CAJERO</p>
@@ -144,16 +144,25 @@ else
 @code
 {
     InvoiceDto? invoice;
+    private bool showError; 
     private string? errorMessage;
-    private bool showError;
+    private float balanceGeneral; 
+    
     [Parameter]
-    public string? studentId {get; set; }   
+    public string? transactionId {get; set; }  
+    
 
     protected override async Task OnInitializedAsync()
-    {   
+    {
+        var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
+        transactionId = segments.Last().Trim('/');
+        
         try
         {
-            invoice =  await tariffcontroller.GetInvoice(studentId);
+            invoice =  await tariffcontroller.GetInvoice(transactionId);
+            
+            balanceGeneral = 0;
+            balanceGeneral = invoice!.GeneralBalance[1] - invoice.GeneralBalance[0];
         }
         catch (Exception ex)
         {
