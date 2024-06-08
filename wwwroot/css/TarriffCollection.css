@@ -20,14 +20,22 @@
 .finishpaymodal th,
 .finishpaymodal td {
     padding: 10px;           /* Ajusta el padding según tus necesidades */
-    text-align: left;        /* Alineación del texto en las celdas */
+    text-align: center;        /* Alineación del texto en las celdas */
 }
 
 .finishpaymodal th:last-child,
 .finishpaymodal td:last-child {
-    text-align: right;       /* Alineación derecha para la columna 'Monto' */
+    text-align: center;       /* Alineación derecha para la columna 'Monto' */
 }
 
+.finishpaymodal th:first-child,
+.finishpaymodal td:first-child {
+    text-align: left;       /* Alineación derecha para la columna 'Monto' */
+}
+
+.table th{
+    text-align: center; 
+}
 
 .row.centrar {
     display: flex;
@@ -50,3 +58,72 @@
 .anchototal{
     width: 85%;
 }
+
+td{
+    text-align: center;
+}
+
+.subtotal {
+    color: green;
+}
+
+.discount {
+    color: blue;
+}
+
+.arrears {
+    color: red;
+}
+
+
+    .info-box {
+        display: flex;
+        align-items: center;
+        background: #f8f9fa;
+        border: 1px solid #e3e6f0;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    .info-box-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 0.25rem;
+        margin-right: 1rem;
+    }
+    .info-box-content {
+        flex-grow: 1;
+    }
+    .info-box-text {
+        font-size: 1rem;
+        color: #6c757d;
+        margin-bottom: 0.25rem;
+    }
+    .info-box-value {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .card-footer {
+        background: #f8f9fa;
+    }
+    .btn-success, .btn-info {
+        font-size: 1rem;
+    }
+
+    .center-checkbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+
+
+
+
+

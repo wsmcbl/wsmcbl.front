@@ -19,36 +19,17 @@
 else
 {
     <link rel="stylesheet" href="/css/TarriffCollection.css">
-    @* Panel de informacion del estudiante *@
+    @* Tabla de aranceles del estudiante *@
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Información</h6>
+            <h6 class="m-0 font-weight-bold">
+            <a href="#" data-toggle="modal" data-target="#studentInfoModal">
+                Información de @student.fullName <i class="fas fa-external-link-alt"></i>
+            </a>
+        </h6>
             <button type="button" class="btn btn-success" 
                     @onclick="(e) => ConfirmTransaction()">Cobrar
             </button>
-        </div>
-        <form class="p-5">
-            <div class="row">
-
-                <div class="col">
-                    <p class="text-left">Nombre: @student.fullName</p>
-                    <p class="text-left">Año Lectivo: @student.schoolyear</p>
-                    <p class="text-left">Codigo: @student.studentId</p>
-                </div>
-
-                <div class="col">
-                    <p class="text-left">Grado: @student.enrollmentLabel</p>
-                    <p class="text-left">Tutor: @student.tutor</p>
-                </div>
-            </div>
-        </form>
-        @* Botones *@
-        <div class="p1">
-            <div class="row">
-                <div class="col-6 text-center">
-                    <a href="/accouting/tariffcollection" class="btn btn-success btn-sm">Estado de cuenta</a>
-                </div>
-            </div>
         </div>
         
         @* Tabla de Aranceles *@
@@ -85,8 +66,8 @@ else
                                 }
                                 else
                                 {
-                                <td>
-                                    <input type="checkbox" @onchange="(e) => OnSelectItemChanged(e, item)" />
+                                <td class="center-checkbox">
+                                        <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)" />
                                 </td>
                                 }
                             </td>
@@ -97,7 +78,6 @@ else
         </div>
     </div>
 
-    @* Formularios POP UP *@
     <!-- Finiish Modal Pay -->
     <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
         <div class="modal-dialog">
@@ -112,7 +92,7 @@ else
                     @* detalles de la transaccion *@
                     <div class="row centrar">
                         <div class="finishpaymodal">
-                            <table>
+                            <table class="detailpaytable">
                                 <thead>
                                     <tr>
                                         <th>Concepto</th>
@@ -132,7 +112,7 @@ else
                                                 {
                                                     <td>
                                                         @{
-                                                            var mora = item.Amount * 0.10;
+                                                            var mora = item.Amount * taxArrears;
                                                             @mora
                                                         }
                                                     </td>
@@ -143,10 +123,18 @@ else
                                                         0
                                                     </td>
                                                 }
-                                            <td></td>
                                         </tr>
                                     }
                                 </tbody>
+                                
+                                <tfoot>
+                                    <tr>
+                                        <th>Totales</th>
+                                        <th class="subtotal">@subtotal</th>
+                                        <th class="discount">@discount</th>
+                                        <th class="arrears">@arrears</th>
+                                    </tr>
+                            </tfoot>
                             </table>
                         </div>
                     </div>
@@ -156,19 +144,19 @@ else
 
                         <div class="row">
                             <div class="col pay">
-                                <div>Total: </div>
+                                <div>Recibí: </div>
                             </div>
                             <div class="col pay">
-                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@subtotal">
+                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col pay">
-                                <div>Recibí: </div>
+                                <div>Total: </div>
                             </div>
                             <div class="col pay">
-                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00">
+                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@TOTAL">
                             </div>
                         </div>
 
@@ -183,7 +171,7 @@ else
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
                     <button type="button" class="btn btn-success" 
                     @onclick="(e) => MultiPay()">Cobrar
                     </button>
@@ -192,6 +180,90 @@ else
         </div>
     <script defer src="/js/TarriffCollection.js"></script>
     </div>
+
+
+    @* StudentInfoModa *@
+    <div class="modal fade" id="studentInfoModal" tabindex="-1" aria-labelledby="studentInfoModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="finistariff">Detalle del estudiante</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info text-white"><i class="fas fa-user"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Nombre</span>
+                                        <span class="info-box-value">@student.fullName</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-secondary text-white"><i class="fas fa-id-badge"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Código</span>
+                                        <span class="info-box-value">@student.studentId</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-success text-white"><i class="fas fa-graduation-cap"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Grado</span>
+                                        <span class="info-box-value">@student.enrollmentLabel</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-warning text-white"><i class="fas fa-calendar-alt"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Año Lectivo</span>
+                                        <span class="info-box-value">@student.schoolyear</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-danger text-white"><i class="fas fa-chalkboard-teacher"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Tutor</span>
+                                        <span class="info-box-value">@student.tutor</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-primary text-white"><i class="fas fa-percent"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Descuento</span>
+                                        <span class="info-box-value">@student.discount</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Botones *@
+                    <div class="card-footer text-center">
+                        <a href="/accouting/tariffcollection" class="btn btn-info btn-sm">Estado de cuenta</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 }
 
@@ -203,8 +275,13 @@ Gente que tiene tarifas pagadas
 
 @code
 {
+    public double subtotal = 0.0;
+    public double TOTAL = 0.0;
 
-    public double subtotal = 0;
+    @* Se obtendra de un end-point en el futuro *@
+    public double taxArrears = 0.10;
+    public double arrears = 0.0;
+    public double discount = 0.0;
     
     Tariff tariffSelected = new Tariff();
 
@@ -216,6 +293,7 @@ Gente que tiene tarifas pagadas
     
     [Parameter]
     public string StudenID {get; set; }   
+
     
     protected override async Task OnInitializedAsync()
     {
@@ -241,7 +319,14 @@ Gente que tiene tarifas pagadas
             {
                 selectedTariffs.Add(tariff);
                 subtotal = subtotal + tariff.Amount;
+                discount += student.discount;
+                
+                if(tariff.IsLate)
+                {
+                    arrears += tariff.Amount * taxArrears;
+                }
             }
+            Console.WriteLine(arrears);
         }
         else
         {
@@ -249,8 +334,16 @@ Gente que tiene tarifas pagadas
             {
                 selectedTariffs.Remove(tariff);
                 subtotal = subtotal - tariff.Amount;
+                discount -= student.discount;
+
+                if(tariff.IsLate)
+                {
+                    arrears -= tariff.Amount * taxArrears;
+                }
             }
+            Console.WriteLine(arrears);
         }
+
     }
 
     async Task MultiPay()
@@ -262,7 +355,7 @@ Gente que tiene tarifas pagadas
             dateTime = DateTime.UtcNow,
         };
 
-        transaction.setTariff(selectedTariffs, student.discount);
+        transaction.setTariff(selectedTariffs, student.discount, arrears);
 
         var result = await tariffcontroller.SendPay(transaction);
         
@@ -291,9 +384,9 @@ Gente que tiene tarifas pagadas
         }
     }
 
-
     async Task ConfirmTransaction()
     {
+        TOTAL = subtotal + arrears - discount;
         await JSRuntime.InvokeVoidAsync("showModal", "finistariff");
     }
     

@@ -9,7 +9,7 @@ public class TransactionDto
     
     public List<TariffPost> details { get; set; } = null!;
 
-    public void setTariff(List<Tariff> selectedTariffs, double studentDiscount)
+    public void setTariff(List<Tariff> selectedTariffs, double studentDiscount, double arrears)
     {
         details = new List<TariffPost>();
         foreach (var item in selectedTariffs)
@@ -20,10 +20,8 @@ public class TransactionDto
                 discount = studentDiscount
             };
 
-            if (item.IsLate)
-            {
-                tariff.arrears = 90;
-            }
+                tariff.arrears = arrears;
+
             
             details.Add(tariff);
         }
