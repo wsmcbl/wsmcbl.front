@@ -33,6 +33,14 @@
     text-align: left;       /* Alineación derecha para la columna 'Monto' */
 }
 
+.modal-footer {
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos izquierda y derecha */
+    align-items: center; /* Centra verticalmente los elementos */
+    color: red;
+    font-weight: bold; /* Hace el texto en negrita */
+}
+
 .table th{
     text-align: center; 
 }
@@ -121,7 +129,7 @@ td{
         align-items: center;
         height: 100%;
     }
-
+    
 
 
 

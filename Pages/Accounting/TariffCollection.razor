@@ -23,56 +23,58 @@ else
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold">
-            <a href="#" data-toggle="modal" data-target="#studentInfoModal">
-                Información de @student.fullName <i class="fas fa-external-link-alt"></i>
-            </a>
-        </h6>
-            <button type="button" class="btn btn-success" 
-                    @onclick="(e) => ConfirmTransaction()">Cobrar
+                <a href="#" data-toggle="modal" data-target="#studentInfoModal">
+                    Información de @student.fullName <i class="fas fa-external-link-alt"></i>
+                </a>
+            </h6>
+            <button type="button" class="btn btn-success"
+                    @onclick="(e) => ConfirmTransaction()">
+                Cobrar
             </button>
         </div>
-        
+
         @* Tabla de Aranceles *@
         <div class="p-3 table-responsive ">
             <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Año Lectivo</th>
-                        <th>Concepto</th>
-                        <th>Monto</th>
-                        <th>Con Mora</th>
-                        <th>Fecha Vencimiento</th>
-                        <th>Seleccionar</th>
-                    </tr>
+                <tr>
+                    <th>#</th>
+                    <th>Año Lectivo</th>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                    <th>Con Mora</th>
+                    <th>Fecha Vencimiento</th>
+                    <th>Seleccionar</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in tariffs)
-                    {
-                        <tr>
-                            <td>@item.TariffId</td>
-                            <td>@item.SchoolYear</td>
-                            <td>@item.Concept</td>
-                            <td>@item.Amount</td>
-                            <td>@item.IsLate</td>
-                            <td>@item.DueDate</td>
-                            <td>
-                                @if (student.transactions != null &&
-                                student.transactions.Any(t => t.Details.Any(tt => tt.TariffId == item.TariffId)))
-                                {
-                                    <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
-                                        data-target="#finistariff" disabled>Pagado
-                                    </button>
-                                }
-                                else
-                                {
+                @foreach (var item in tariffs)
+                {
+                    <tr>
+                        <td>@item.TariffId</td>
+                        <td>@item.SchoolYear</td>
+                        <td>@item.Concept</td>
+                        <td>@item.Amount</td>
+                        <td>@item.IsLate</td>
+                        <td>@item.DueDate</td>
+                        <td>
+                            @if (student.transactions != null &&
+                                 student.transactions.Any(t => t.Details.Any(tt => tt.TariffId == item.TariffId)))
+                            {
+                                <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
+                                        data-target="#finistariff" disabled>
+                                    Pagado
+                                </button>
+                            }
+                            else
+                            {
                                 <td class="center-checkbox">
-                                        <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)" />
+                                    <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
                                 </td>
-                                }
-                            </td>
-                        </tr>
-                    }
+                            }
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
@@ -94,47 +96,47 @@ else
                         <div class="finishpaymodal">
                             <table class="detailpaytable">
                                 <thead>
-                                    <tr>
-                                        <th>Concepto</th>
-                                        <th>Monto</th>
-                                        <th>Desc</th>
-                                        <th>Mora</th>
-                                    </tr>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Monto</th>
+                                    <th>Desc</th>
+                                    <th>Mora</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in selectedTariffs)
-                                    {
-                                        <tr>
-                                            <td>@item.Concept</td>
-                                            <td>@item.Amount</td>
-                                            <td>@student.discount</td>
-                                                @if (item.IsLate)
-                                                {
-                                                    <td>
-                                                        @{
-                                                            var mora = item.Amount * taxArrears;
-                                                            @mora
-                                                        }
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td>
-                                                        0
-                                                    </td>
-                                                }
-                                        </tr>
-                                    }
-                                </tbody>
-                                
-                                <tfoot>
+                                @foreach (var item in selectedTariffs)
+                                {
                                     <tr>
-                                        <th>Totales</th>
-                                        <th class="subtotal">@subtotal</th>
-                                        <th class="discount">@discount</th>
-                                        <th class="arrears">@arrears</th>
+                                        <td>@item.Concept</td>
+                                        <td>@item.Amount</td>
+                                        <td>@student.discount</td>
+                                        @if (item.IsLate)
+                                        {
+                                            <td>
+                                                @{
+                                                    var mora = item.Amount * taxArrears;
+                                                    @mora
+                                                }
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                0
+                                            </td>
+                                        }
                                     </tr>
-                            </tfoot>
+                                }
+                                </tbody>
+
+                                <tfoot>
+                                <tr>
+                                    <th>Totales</th>
+                                    <th class="subtotal">@subtotal</th>
+                                    <th class="discount">@discount</th>
+                                    <th class="arrears">@arrears</th>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -170,15 +172,24 @@ else
                         </div>
                     </div>
                 </div>
+                
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
-                    <button type="button" class="btn btn-success" 
-                    @onclick="(e) => MultiPay()">Cobrar
-                    </button>
+                    <div class="left-container">
+                        <input type="checkbox" id="moraCheckbox" class="exomora" @onchange="ExoMora" />
+                        <label class="form-check-label exomora" for="moraCheckbox">Exonerar mora</label>
+                    </div>
+                    
+                    <div class="right-container">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
+                        <button type="button" class="btn btn-success" @onclick="(e) => MultiPay()">Cobrar</button>
+                    </div>
                 </div>
+                
             </div>
         </div>
-    <script defer src="/js/TarriffCollection.js"></script>
+
+
+        <script defer src="/js/TarriffCollection.js"></script>
     </div>
 
 
@@ -198,7 +209,9 @@ else
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-info text-white"><i class="fas fa-user"></i></span>
+                                    <span class="info-box-icon bg-info text-white">
+                                        <i class="fas fa-user"></i>
+                                    </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Nombre</span>
                                         <span class="info-box-value">@student.fullName</span>
@@ -207,7 +220,9 @@ else
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-secondary text-white"><i class="fas fa-id-badge"></i></span>
+                                    <span class="info-box-icon bg-secondary text-white">
+                                        <i class="fas fa-id-badge"></i>
+                                    </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Código</span>
                                         <span class="info-box-value">@student.studentId</span>
@@ -216,7 +231,9 @@ else
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-success text-white"><i class="fas fa-graduation-cap"></i></span>
+                                    <span class="info-box-icon bg-success text-white">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Grado</span>
                                         <span class="info-box-value">@student.enrollmentLabel</span>
@@ -225,7 +242,9 @@ else
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-warning text-white"><i class="fas fa-calendar-alt"></i></span>
+                                    <span class="info-box-icon bg-warning text-white">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Año Lectivo</span>
                                         <span class="info-box-value">@student.schoolyear</span>
@@ -234,7 +253,9 @@ else
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-danger text-white"><i class="fas fa-chalkboard-teacher"></i></span>
+                                    <span class="info-box-icon bg-danger text-white">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Tutor</span>
                                         <span class="info-box-value">@student.tutor</span>
@@ -243,7 +264,9 @@ else
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon bg-primary text-white"><i class="fas fa-percent"></i></span>
+                                    <span class="info-box-icon bg-primary text-white">
+                                        <i class="fas fa-percent"></i>
+                                    </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Descuento</span>
                                         <span class="info-box-value">@student.discount</span>
@@ -262,9 +285,6 @@ else
             </div>
         </div>
     </div>
-
-
-
 }
 
 @* 
@@ -282,19 +302,16 @@ Gente que tiene tarifas pagadas
     public double taxArrears = 0.10;
     public double arrears = 0.0;
     public double discount = 0.0;
-    
-    Tariff tariffSelected = new Tariff();
 
-    //Lista de tarifas
+    //Lista de tarifas a pagar
     public List<Tariff> selectedTariffs = new List<Tariff>();
 
     List<Tariff> tariffs;
-    StudentEntity student;     
-    
-    [Parameter]
-    public string StudenID {get; set; }   
+    StudentEntity student;
 
-    
+    [Parameter] public string StudenID { get; set; }
+
+
     protected override async Task OnInitializedAsync()
     {
         //obtenemos el Id del estudiante y su informacion completa
@@ -306,11 +323,7 @@ Gente que tiene tarifas pagadas
         tariffs = await tariffcontroller.GetTariffs("student", StudenID);
     }
 
-    public void finalModalPay(Tariff item)
-    {
-        tariffSelected = item;
-    }
-    
+
     private void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)
     {
         if ((bool)e.Value)
@@ -320,12 +333,13 @@ Gente que tiene tarifas pagadas
                 selectedTariffs.Add(tariff);
                 subtotal = subtotal + tariff.Amount;
                 discount += student.discount;
-                
-                if(tariff.IsLate)
+
+                if (tariff.IsLate)
                 {
                     arrears += tariff.Amount * taxArrears;
                 }
             }
+
             Console.WriteLine(arrears);
         }
         else
@@ -336,14 +350,14 @@ Gente que tiene tarifas pagadas
                 subtotal = subtotal - tariff.Amount;
                 discount -= student.discount;
 
-                if(tariff.IsLate)
+                if (tariff.IsLate)
                 {
                     arrears -= tariff.Amount * taxArrears;
                 }
             }
+
             Console.WriteLine(arrears);
         }
-
     }
 
     async Task MultiPay()
@@ -358,7 +372,7 @@ Gente que tiene tarifas pagadas
         transaction.setTariff(selectedTariffs, student.discount, arrears);
 
         var result = await tariffcontroller.SendPay(transaction);
-        
+
 
         if (result != string.Empty)
         {
@@ -389,11 +403,24 @@ Gente que tiene tarifas pagadas
         TOTAL = subtotal + arrears - discount;
         await JSRuntime.InvokeVoidAsync("showModal", "finistariff");
     }
-    
+
     void ReloadPage()
     {
         navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
     }
 
-}
+    void ExoMora(ChangeEventArgs e)
+    {
+        if ((bool)e.Value)
+        {
+            TOTAL -= arrears;
+        }
+        else
+        {
+            TOTAL += arrears;
+        }
 
+        Console.WriteLine($"TOTAL: {TOTAL}");
+    }
+
+}
