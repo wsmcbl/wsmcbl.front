@@ -6,6 +6,9 @@ public static class URL
 
     public static string SECRETARY = $"{API_URL}secretary/";
 
+
+
+
     public static string ACCOUNTING = $"{API_URL}accounting/";
     public static string TRANSACTION = $"{ACCOUNTING}transactions/invoices/";
     public static string APPLYARREARS = $"{API_URL}accounting/arrears/";

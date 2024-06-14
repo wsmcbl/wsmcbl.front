@@ -1,17 +1,23 @@
 @page "/academy/tariff-profiles"
+@using wsmcbl.front.Controllers.AcademyController
+@using wsmcbl.front.Models.Secretary.Input
 
-@if (1 == null)
+@inject AcademyController controller;
+
+
+@if (Students == null)
 {
-    <a> Loading... </a>
-    
+    <div class="loader"></div>
 }
 else
 {
-    
+    <link rel="stylesheet" href="/css/Academy/AcademyProfiles.css">
+
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de Estudiantes</h6>
             <button type="button" class="btn btn-success btn-sm">Nuevo Estudiante</button>
+            
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -20,52 +26,35 @@ else
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Grado/Sección</th>
-                        <th>Modalidad</th>
+                        <th>Estado</th>
                         <th>Año Lectivo</th>
-                        <th>Acción</th>
+                        <th>Grado</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Apellidos</th>
-                        <th>Grado/Sección</th>
-                        <th>Modalidad</th>
+                        <th>Estado</th>
                         <th>Año Lectivo</th>
-                        <th>Acción</th>
+                        <th>Grado</th>
                     </tr>
                     </tfoot>
                     <tbody>
-                    <tr>
-                        <td>2019-0056U</td>
-                        <td>Ezequiel de Jesus</td>
-                        <td>Urbina Zeledon</td>
-                        <td>Decimo A</td>
-                        <td>Secundaria</td>
-                        <td>2023</td>
-                        <td><button class="btn btn-success">Matricular</button></td>
-                    </tr>
-                    <tr>
-                        <td>2019-0000U</td>
-                        <td>Jeniffer Alexandra</td>
-                        <td>Rojas Rios</td>
-                        <td>Primero A</td>
-                        <td>Primaria</td>
-                        <td>2023</td>
-                        <td><button class="btn btn-success">Matricular</button></td>
-                    </tr>
-                    <tr>
-                        <td>2019-1500U</td>
-                        <td>Keni AAA</td>
-                        <td>Tinoco Look</td>
-                        <td>Sexto B</td>
-                        <td>Primaria</td>
-                        <td>2023</td>
-                        <td><button class="btn btn-success">Matricular</button></td>
-                    </tr>
+                    @foreach(var item in Students)
+                    {
+                        <tr>
+                            <td>@item.StudentId</td>
+                            <td>@item.Name @item.SecondName @item.Surname @item.SecondSurname</td>
+                            <td>
+                                <span class="status-label @(item.IsActive ? "active-status" : "inactive-status")">
+                                    @(item.IsActive ? "ACTIVO" : "INACTIVO")
+                                </span>
+                            </td>
+                            <td>@item.SchoolYear</td>
+                            <td>@item.EnrollmentLabel</td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
@@ -73,4 +62,32 @@ else
     </div>
     <!-- Inicializamos datatable -->
     <script src="/js/demo/datatables-demo.js"></script>
+}
+
+
+@code
+{
+    List<StudentEntity> Students;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Students = await controller.GetStudents();
+        }
+        catch(Exception ex)
+        {
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 }

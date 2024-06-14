@@ -59,7 +59,7 @@ else
                         <td>@item.DueDate</td>
                         <td>
                             @if (student.transactions != null &&
-                                 student.transactions.Any(t => t.Details.Any(tt => tt.TariffId == item.TariffId)))
+                                student.transactions.Any(t => t.Details.Any(tt => tt.TariffId == item.TariffId)))
                             {
                                 <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
                                         data-target="#finistariff" disabled>
@@ -295,6 +295,7 @@ Gente que tiene tarifas pagadas
 
 @code
 {
+
     public double subtotal = 0.0;
     public double TOTAL = 0.0;
 
@@ -317,7 +318,22 @@ Gente que tiene tarifas pagadas
         //obtenemos el Id del estudiante y su informacion completa
         var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
         StudenID = segments.Last().Trim('/'); // Para asegurarte de quitar cualquier barra adicional al final
-        student = await controller.GetStudentEntityAsync(StudenID);
+
+        try
+        {
+            student = await controller.GetStudentEntityAsync(StudenID);
+        }
+        catch(Exception ex)
+        {
+            SweetAlertResult error = await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Obtuvimos problemas al cargar los datos del estudiante",
+                Text = $"{ex.Message}",
+                Icon = SweetAlertIcon.Warning,
+                ShowCancelButton = true
+            });
+        }
+    
 
         //Obtenemos la lista completa de tarifas del catalogo
         tariffs = await tariffcontroller.GetTariffs("student", StudenID);
