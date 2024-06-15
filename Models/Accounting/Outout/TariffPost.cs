@@ -5,6 +5,9 @@ public class TariffPost
 {
     [JsonProperty("tariffId")]
     public int tariffId { get; set; }
+    
+    [JsonProperty("amount")]
+    public double Amount { get; set; }
 
     [JsonProperty("discount")]
     public double discount { get; set; }
