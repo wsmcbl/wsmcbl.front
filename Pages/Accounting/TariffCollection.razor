@@ -60,9 +60,8 @@ else
                         <td>
                             @if (student.debtHistory.Any(t => t.DebtBalance == 0))
                             {
-                                <button type="button" class="btn btn-danger btn-sm " data-toggle="modal"
-                                        data-target="#finistariff" disabled>
-                                        Pagado
+                                <button type="button" class="btn btn-danger btn-sm " disabled>
+                                    Pagado
                                 </button>
                             }
                             else
@@ -84,7 +83,7 @@ else
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="finistariff">Detalle del estudiante</h5>
+                    <h5 class="modal-title" id="studentInfoModal">Detalle del estudiante</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -177,46 +176,18 @@ else
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="finistariff">Abonar pago</h5>
+                    <h5 class="modal-title" id="middlePay">Abonar pago</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    @* detalles de la transaccion *@
-                    <div class="row centrar">
-                        <div class="middlePay">
-                            <table class="detailpaytable">
-                                <thead>
-                                <tr>
-                                    <th>Concepto</th>
-                                    <th>Monto</th>
-                                    <th>Desc</th>
-                                    <th>Mora</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-
-                                <tfoot>
-                                <tr>
-                                    <th>Totales</th>
-                                    <th class="subtotal">@subtotal</th>
-                                    <th class="discount">@discount</th>
-                                    <th class="arrears">@arrears</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <hr/>
                     @* cambio y monto total *@
                     <div class="anchototal">
 
                         <div class="row">
                             <div class="col pay">
-                                <div>Recibí: </div>
+                                <div>Monto: </div>
                             </div>
                             <div class="col pay">
                                 <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amount">
@@ -252,15 +223,73 @@ else
                     <div class="right-container">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
                         <button type="button" class="btn btn-success" @onclick="(e) => MultiPay()">Cobrar</button>
+                        <button type="button" class="btn btn-success" @onclick="(e) => DistribuirPay()">Distribuir</button>
                     </div>
                 </div>
+
+                @{
+                    if(ATariffs.Count == 0)
+                    {
+                        <h1>Sin tarifas</h1>
+                    }
+                    else
+                    {
+                        <div class="row centrar">
+                            <div class="finishpaymodal">
+                                <table class="detailpaytable">
+                                    <thead>
+                                        <tr>
+                                            <th>Concepto</th>
+                                            <th>Monto</th>
+                                            <th>Desc</th>
+                                            <th>Mora</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ATariffs)
+                                        {
+                                            <tr>
+                                                <td>@item.Concept</td>
+                                                <td>@item.Amount</td>
+                                                <td>@student.discount</td>
+                                                @if (item.IsLate)
+                                                {
+                                                    <td>
+                                                        @{
+                                                            var mora = item.Amount * taxArrears;
+                                                            @mora
+                                                        }
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        0
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                    <tfoot>
+                                        <tr>
+                                            <th>Totales</th>
+                                            <th class="subtotal">@subtotal2</th>
+                                            <th class="discount">@discount2</th>
+                                            <th class="arrears">@arrears2</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
 
             </div>
         </div>
     </div>
     
-    
-    
+
     <!-- Finiish Modal Pay -->
     <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
         <div class="modal-dialog">
@@ -290,12 +319,19 @@ else
                                     <tr>
                                         <td>@item.Concept</td>
                                         <td>@item.Amount</td>
-                                        <td>@student.discount</td>
+                                        <td>
+                                            @{
+                                                var discountAmount = item.Amount * student.discount;
+                                                var total = item.Amount - discountAmount;
+                                                    @total
+                                             }
+                                        </td>
+
                                         @if (item.IsLate)
                                         {
                                             <td>
                                                 @{
-                                                    var mora = item.Amount * taxArrears;
+                                                    var mora = (discountAmount * taxArrears);
                                                     @mora
                                                 }
                                             </td>
@@ -306,6 +342,7 @@ else
                                                 0
                                             </td>
                                         }
+
                                     </tr>
                                 }
                                 </tbody>
@@ -375,33 +412,45 @@ else
     
 }
 
-@* 
-Gente que tiene tarifas pagadas
-2019-1000JARR
-2024-2963NSZL
-2024-2175MJOR *@
 
 @code
 {
-    
-    private double amount { get; set; }
 
-    public double subtotal = 0.0;
-    public double TOTAL = 0.0;
-
-    @* Se obtendra de un end-point en el futuro *@
+    //Se obtendra de un end-point en el futuro
     public double taxArrears = 0.10;
+    private double amount { get; set; }
+    public double TOTAL = 0.0;
+    
+
+    //Usados para pagos enteros de un arancel.
     public double arrears = 0.0;
+    public double subtotal = 0.0;
     public double discount = 0.0;
 
-    //Lista de tarifas a pagar
+    //Usados para el calculo de abonos.
+    public double arrears2 = 0.0;
+    public double subtotal2 = 0.0;
+    public double discount2 = 0.0;
+
+
+
+
+    //Lista de tarifas a pagar en pagos completos
     public List<Tariff> selectedTariffs = new List<Tariff>();
 
+    //Lista de tarifas a abonar
+    public List<Tariff> ATariffs = new List<Tariff>();
+
+    //Lista de todas las tarifas del estudiante.
     List<Tariff> tariffs;
+
+    //Lista de tarifas restando las Pagadas
+    List<Tariff> PrintTariff;
+
     StudentEntity student;
 
     [Parameter] public string StudenID { get; set; }
-    
+
     private Exception loadingException;
 
     protected override async Task OnInitializedAsync()
@@ -422,8 +471,12 @@ Gente que tiene tarifas pagadas
 
         //Obtenemos la lista completa de tarifas del catalogo
         tariffs = await tariffcontroller.GetTariffs("student", StudenID);
+
+        PrintTariff = tariffs
+        .Where(tariff => !student.debtHistory.Any(payment => payment.TariffId == tariff.TariffId))
+        .ToList();
     }
-    
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (loadingException != null)
@@ -446,15 +499,16 @@ Gente que tiene tarifas pagadas
             {
                 selectedTariffs.Add(tariff);
                 subtotal = subtotal + tariff.Amount;
-                discount += student.discount;
 
+                var discountAmount = tariff.Amount * student.discount;
+                discount += tariff.Amount - discountAmount;
+              
                 if (tariff.IsLate)
                 {
                     arrears += tariff.Amount * taxArrears;
                 }
             }
 
-            Console.WriteLine(arrears);
         }
         else
         {
@@ -470,9 +524,76 @@ Gente que tiene tarifas pagadas
                 }
             }
 
-            Console.WriteLine(arrears);
         }
     }
+
+    public void DistribuirPay()
+    {
+
+        if(amount <= 0)
+        {
+            Console.Write(amount);
+        }
+        else
+        {
+            @foreach (var item in PrintTariff)
+            {
+                if (item.IsLate)
+                {
+                    var discountAmount = item.Amount * student.discount;
+                    discount2 = item.Amount - discountAmount;
+                    double total = item.Amount - discount2;
+                    var arrear = total * taxArrears;
+                    arrears2 = arrear;
+                    total = total + arrears2;
+
+                    if (amount >= total)
+                    {
+                        ATariffs.Add(item);
+                        amount = amount - total;
+                    }
+                    else
+                    {
+                        if (amount > 0)
+                        {
+                            ATariffs.Add(new Tariff(
+                            item.TariffId,
+                            item.Concept,
+                            amount,
+                            item.IsLate
+                            ));
+                            amount = amount - total;
+                        }
+                    }   
+                    TOTAL += total;
+                }
+                else
+                {
+
+                    if (amount >= item.Amount)
+                    {
+                        ATariffs.Add(item);
+                        amount = amount - item.Amount;
+                    }
+                    else
+                    {
+                        if(amount > 0)
+                        {
+                           ATariffs.Add(new Tariff(
+                           item.TariffId,
+                           item.Concept,
+                           amount,
+                           item.IsLate
+                           ));
+                            amount = amount - item.Amount;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
 
     async Task MultiPay()
     {
@@ -483,12 +604,7 @@ Gente que tiene tarifas pagadas
             dateTime = DateTime.UtcNow,
         };
         
-        
-
-        
-        
-        
-        
+       
 ///////////////////////////////////////////////////////////////////
         var result = await tariffcontroller.SendPay(transaction);
         if (result != string.Empty)
@@ -520,7 +636,7 @@ Gente que tiene tarifas pagadas
 
         if (selectedTariffs.Count == 0)
         { 
-            TOTAL = subtotal + arrears - discount;
+            TOTAL = subtotal2 + arrears2 - discount2;
             await JSRuntime.InvokeVoidAsync("showModal", "middlePay");    
         }
         else
@@ -545,8 +661,6 @@ Gente que tiene tarifas pagadas
         {
             TOTAL += arrears;
         }
-
-        Console.WriteLine($"TOTAL: {TOTAL}");
     }
 
 }

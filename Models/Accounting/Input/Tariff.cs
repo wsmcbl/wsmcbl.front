@@ -31,6 +31,14 @@ public class Tariff
 
     }
 
+    public Tariff(int tariffId, string concept, double amount, bool isLate)
+    {
+        TariffId = tariffId;
+        Concept = concept;
+        Amount = amount;
+        IsLate = isLate;
+    }
+
     public Tariff(int tariffId, string schoolYear, string concept, double amount, string dueDate, bool isLate, int type)
     {
         TariffId = tariffId;

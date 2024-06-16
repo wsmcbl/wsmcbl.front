@@ -1,5 +1,6 @@
 # Directorys ignores
 .vscode/
+.vs/
 .idea/
 obj/
 bin/Debug/
