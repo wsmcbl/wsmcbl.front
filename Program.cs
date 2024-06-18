@@ -14,8 +14,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 
 builder.Services.AddHttpClient();
-builder.Services.AddSingleton<StudentController>();   
-builder.Services.AddSingleton<TariffController>();  
+builder.Services.AddSingleton<TariffCollectionController>();  
 builder.Services.AddSingleton<AcademyController>();  
 
 builder.Services.AddSweetAlert2();

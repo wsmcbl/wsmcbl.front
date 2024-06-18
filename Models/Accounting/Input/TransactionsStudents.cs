@@ -1,3 +1,5 @@
+using wsmcbl.front.Models.Accounting.Input;
+
 namespace wsmcbl.front.Models.Accounting;
 using Newtonsoft.Json;
 
@@ -19,5 +21,5 @@ public class TransactionsStudents
     public DateTime Date { get; set; }
 
     [JsonProperty("details")]
-    public List<TariffStudents> Details { get; set; } = null!;
+    public List<TransactionDto> Details { get; set; } = null!;
 }

@@ -1,18 +1,15 @@
-namespace wsmcbl.front.Models.Accounting;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-public class TariffPost
+namespace wsmcbl.front.Models.Accounting.Output;
+
+public class DetailDto
 {
     [JsonProperty("tariffId")]
     public int tariffId { get; set; }
     
     [JsonProperty("amount")]
     public double Amount { get; set; }
-
-    [JsonProperty("discount")]
-    public double discount { get; set; }
-
+    
     [JsonProperty("arrears")]
     public double arrears { get; set; }
-    
 }

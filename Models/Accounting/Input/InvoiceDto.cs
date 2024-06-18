@@ -1,3 +1,5 @@
+using wsmcbl.front.Models.Accounting.Input;
+
 namespace wsmcbl.front.Models.Accounting;
 using Newtonsoft.Json;
 
@@ -28,9 +30,9 @@ public class InvoiceDto
     public float[] GeneralBalance { get; set; }
 
     [JsonProperty("tariffs")]
-    public List<TariffStudents> Tariffs { get; set; } = null!;
+    public List<TransactionDto> Tariffs { get; set; } = null!;
 
-    public InvoiceDto(string transactionId, string cashierName, string studentId,  string studentName, double total, DateTime dateTime, List<TariffStudents> tariffs)
+    public InvoiceDto(string transactionId, string cashierName, string studentId,  string studentName, double total, DateTime dateTime, List<TransactionDto> tariffs)
     {
         TransactionId = transactionId;
         CashierName = cashierName;

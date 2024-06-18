@@ -11,4 +11,24 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Accounting\TariffCollection.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Accounting\TariffProfiles.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Accounting\TarrifArreas.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Accounting\TarriffInvoice.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Academy\AcademyProfiles.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Academy\EnrollStudent.razor" />
+    <_ContentIncludedByDefault Remove="Pages\Academy\NewAcademyProfile.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Academy\AcademyProfiles.razor" />
+    <AdditionalFiles Include="Academy\EnrollStudent.razor" />
+    <AdditionalFiles Include="Academy\NewAcademyProfile.razor" />
+    <AdditionalFiles Include="Accounting\TariffCollection.razor" />
+    <AdditionalFiles Include="Accounting\TariffProfiles.razor" />
+    <AdditionalFiles Include="Accounting\TarrifArreas.razor" />
+    <AdditionalFiles Include="Accounting\TarriffInvoice.razor" />
+  </ItemGroup>
+
 </Project>

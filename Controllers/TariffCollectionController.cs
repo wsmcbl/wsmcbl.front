@@ -3,11 +3,11 @@ namespace wsmcbl.front.Controllers;
 using System.Text.Json;
 using wsmcbl.front.Models.Accounting;
 
-public class TariffController 
+public class TariffCollectionController 
 {
     private readonly HttpClient _httpClient;
     // Constructor
-    public TariffController(HttpClient httpClient)
+    public TariffCollectionController(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
@@ -30,11 +30,11 @@ public class TariffController
         }
     }
 
-    public async Task<string> SendPay(TransactionDto obj)
+    public async Task<string> SendPay(Models.Accounting.Output.TransactionDto obj)
     {
         var url = URL.ACCOUNTING + "transactions";
 
-        var json = JsonSerializer.Serialize<TransactionDto>(obj);
+        var json = JsonSerializer.Serialize<Models.Accounting.Output.TransactionDto>(obj);
 
         var contenido = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
@@ -51,9 +51,7 @@ public class TariffController
         JsonElement root = doc.RootElement;
         return root.GetProperty("transactionId").GetString()!;
     }
-
-
-
+    
     public async Task<InvoiceDto?> GetInvoice(string transactionId)
     {
         var invoices = await _httpClient.GetAsync(URL.TRANSACTION+transactionId);
@@ -82,6 +80,33 @@ public class TariffController
             bool success = true;
 
             return success;
+    }
+    
+    
+    public async Task<List<StudentEntity>?> GetStudentsFromApiAsync()
+    {
+        var response = await _httpClient.GetAsync(URL.ACCOUNTING+"students");
+
+        if (response.IsSuccessStatusCode is false)
+        {
+            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+        }
+        
+        return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
+    }
+
+    public async Task<StudentEntity> GetStudentEntityAsync(string studentId)
+    {
+        var response = await _httpClient.GetAsync(URL.ACCOUNTING + $"students/{studentId}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<StudentEntity>();
+        }
+        else
+        {
+            throw new Exception($"Error al obtener el estudiante con ID {studentId}");
+        } 
     }
 
 }

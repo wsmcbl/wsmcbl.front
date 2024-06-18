@@ -1,10 +1,6 @@
-namespace wsmcbl.front.Models.Accounting;
+namespace wsmcbl.front.Models.Accounting.Input;
 using Newtonsoft.Json;
-
-
-
-
-public class TariffStudents
+public class TransactionDto
 {
     [JsonProperty("tariffId")]
     public int TariffId { get; set; }
