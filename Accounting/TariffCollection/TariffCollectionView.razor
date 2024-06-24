@@ -1,8 +1,6 @@
 @page "/accouting/tariffcollection/{StudenID}"
 @using wsmcbl.front.Models.Accounting
-@inherits TariffCollection
-
-@inject HttpClient httpClient;
+@inherits wsmcbl.front.Accounting.TariffCollection.TariffCollectionBase.TariffCollectionBase
 
 @* validamos si el estudiante no es nulo y si la lista de tarifas del catalogo tiene al menos 1 elemento.  *@
 @if (student == null || fullTariffs == null)
@@ -404,51 +402,7 @@ else
 
 @code{
 
-    protected async Task OnInitializedAsync()
-    {
-        var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
-        StudenID = segments.Last().Trim('/');
-        try
-        {
-            student = await controller.GetStudentEntityAsync(StudenID);
-        }
-        catch (Exception ex)
-        {
-            loadingException = ex;
-        }
-
-        fullTariffs = await controller.GetTariffs("student", StudenID);
-
-        debtTariffs = new List<Tariff>();
-        foreach (var item in fullTariffs)
-        {
-            if(item.Type != 1)
-            {
-                continue;
-            }
-            
-            var t = student.paymentHistory.FirstOrDefault(p => p.TariffId == item.TariffId);
-
-            if (t != null && t.DebtBalance == 0)
-            {
-                continue;
-            }
-
-            debtTariffs.Add(item);
-        }
-    }
     
-    protected async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (loadingException != null)
-        {
-            SweetAlertResult error = await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Obtuvimos problemas al cargar los datos del estudiante",
-                Icon = SweetAlertIcon.Warning,
-                ShowCancelButton = true
-            });
-        }
-    }
 
 }
+
