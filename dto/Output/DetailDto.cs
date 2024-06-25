@@ -11,5 +11,5 @@ public class DetailDto
     public double Amount { get; set; }
     
     [JsonProperty("arrears")]
-    public double arrears { get; set; }
+    public bool applyArrear { get; set; }
 }

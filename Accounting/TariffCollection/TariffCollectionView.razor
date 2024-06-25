@@ -1,8 +1,9 @@
 @page "/accouting/tariffcollection/{StudenID}"
+@using wsmcbl.front.Controllers
 @using wsmcbl.front.Models.Accounting
-@inherits wsmcbl.front.Accounting.TariffCollection.TariffCollectionBase.TariffCollectionBase
 
-@* validamos si el estudiante no es nulo y si la lista de tarifas del catalogo tiene al menos 1 elemento.  *@
+@inherits TariffCollectionBase;
+
 @if (student == null || fullTariffs == null)
 {
     <div class="loader"></div>
@@ -213,7 +214,7 @@ else
 
                     <div class="right-container">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="(e) => CleanRequestList()">Atras</button>
-                        <button type="button" class="btn btn-success" @onclick="(e) => MultiPay()">Cobrar</button>
+                        <button type="button" class="btn btn-success" @onclick="(e) => Pay()">Cobrar</button>
                         <button type="button" class="btn btn-success" @onclick="(e) => DistributePay()">Distribuir</button>
                     </div>
                 </div>
@@ -390,7 +391,7 @@ else
 
                     <div class="right-container">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
-                        <button type="button" class="btn btn-success" @onclick="(e) => MultiPay()">Cobrar</button>
+                        <button type="button" class="btn btn-success" @onclick="(e) => Pay()">Cobrar</button>
                     </div>
                 </div>
 
@@ -399,10 +400,3 @@ else
         <script defer src="/js/TarriffCollection.js"></script>
     </div>
 }
-
-@code{
-
-    
-
-}
-

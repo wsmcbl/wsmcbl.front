@@ -6,5 +6,4 @@ public class TransactionDto
     public DateTime dateTime { get; set; }
 
     public List<DetailDto> details { get; set; } = null!;
-    
 }

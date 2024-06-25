@@ -30,4 +30,8 @@
     <AdditionalFiles Include="Accounting\TarriffInvoice.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="dto\" />
+  </ItemGroup>
+
 </Project>

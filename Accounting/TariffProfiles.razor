@@ -70,7 +70,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        students = await Controller.GetStudentsFromApiAsync();
+        students = await Controller.getStudentList();
 
         if (students is null)
         {
