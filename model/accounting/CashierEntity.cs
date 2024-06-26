@@ -11,7 +11,7 @@ public class CashierEntity
     public CashierEntity(string cashierId)
     {
         this.cashierId = cashierId;
-    }
+    }  
 
     private StudentEntity student;
     public void setStudent(StudentEntity student)
