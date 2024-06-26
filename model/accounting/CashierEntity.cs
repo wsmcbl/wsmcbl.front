@@ -17,7 +17,7 @@ public class CashierEntity
     public void setStudent(StudentEntity student)
     {
         this.student = student;
-    }
+    } 
 
     private TransactionDto transaction;
     public TransactionDto getTransaction => transaction;
