@@ -39,7 +39,7 @@ public class TariffCollectionBase : ComponentBase
     private bool applyArear = true;
 
     public List<Tariff> selectedTariffs = new List<Tariff>();
-
+    public List<PaymentDto> calculationTariffs = new List<PaymentDto>();
     public List<Tariff> requestTariffs = new List<Tariff>();
 
     protected List<Tariff> fullTariffs;
@@ -103,10 +103,21 @@ public class TariffCollectionBase : ComponentBase
     {
         if ((bool)e.Value)
         {
-            if (!selectedTariffs.Contains(tariff))
+            if (!selectedTariffs.Contains(tariff))  
             {
-                subtotal = getTotal(tariff);
-                selectedTariffs.Add(tariff);
+                if (student.paymentHistory.Any(t => t.TariffId == tariff.TariffId && t.DebtBalance > 0)) //Existe un abono?
+                {
+                    double payment = student.paymentHistory.FirstOrDefault(t => t.TariffId == tariff.TariffId && t.DebtBalance > 0).DebtBalance;
+                    PaymentDto paymentDto = tariff.ToPaymentDto(payment,0, 0);
+                    calculationTariffs.Add(paymentDto);
+                }
+                else
+                {
+                    var desc = tariff.Amount * student.discount;
+                    var mora = tariff.IsLate ? (tariff.Amount - desc) * taxArrears : 0;
+                    PaymentDto paymentDto = tariff.ToPaymentDto(100, desc,mora);
+                    calculationTariffs.Add(paymentDto);
+                }
             }
         }
         else
@@ -124,7 +135,7 @@ public class TariffCollectionBase : ComponentBase
             }
         }
     }
-    private double getTotal(Tariff item)
+    private double GetTotal(Tariff item)
     {
         var total = 0.0;
         var arrear = 0.0;
@@ -150,7 +161,7 @@ public class TariffCollectionBase : ComponentBase
 
         foreach (var item in debtTariffs)
         {
-            var total = getTotal(item);
+            var total = GetTotal(item);
 
             item.Amount = (amountToDivide < total) ? amountToDivide : total;
 

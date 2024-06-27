@@ -31,14 +31,6 @@ public class Tariff
 
     }
 
-    public Tariff(int tariffId, string concept, double amount, bool isLate)
-    {
-        TariffId = tariffId;
-        Concept = concept;
-        Amount = amount;
-        IsLate = isLate;
-    }
-
     public Tariff(int tariffId, string schoolYear, string concept, double amount, string dueDate, bool isLate, int type)
     {
         TariffId = tariffId;
@@ -49,5 +41,11 @@ public class Tariff
         IsLate = isLate;
         Type = type;
     }
+    
+    public PaymentDto ToPaymentDto(double amount ,double discount, double arrears)
+    {
+        return new PaymentDto(TariffId, Concept, amount, discount, arrears);
+    }
+    
 }
 

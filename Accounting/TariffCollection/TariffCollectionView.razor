@@ -316,28 +316,13 @@ else
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var item in selectedTariffs)
+                                @foreach (var item in calculationTariffs)
                                 {
                                     <tr>
                                         <td>@item.Concept</td>
                                         <td>@item.Amount</td>
                                         <td>@(student.discount*100)%</td>
-                                        @if (item.IsLate)
-                                        {
-                                            <td>
-                                                @{
-                                                    var mora = (item.Amount * taxArrears);
-                                                    @mora
-                                                }
-                                            </td>
-                                        }
-                                        else
-                                        {
-                                            <td>
-                                                0
-                                            </td>
-                                        }
-
+                                        <td>@arrears</td>
                                     </tr>
                                 }
                                 </tbody>

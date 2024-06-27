@@ -1,9 +1,6 @@
 namespace wsmcbl.front.Models.Accounting;
 using Newtonsoft.Json;
 
-
-
-
 public class PaymentDto
 {
     [JsonProperty("tariffId")]
@@ -32,4 +29,17 @@ public class PaymentDto
 
     [JsonProperty("isPaidLate")]
     public bool IsPaidLate { get; set; }
+
+    public PaymentDto(int tariffId, string concept, double amount, double discount, double arrears)
+    {
+        TariffId = tariffId;
+        Concept = concept;
+        Amount = amount;
+        Discount = discount;
+        Arrears = arrears;
+    }
+    
+    
+    
 }
+
