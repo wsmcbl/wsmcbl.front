@@ -74,7 +74,7 @@ public class TariffCollectionBase : ComponentBase
         debtTariffs = new List<Tariff>();
         foreach (var item in fullTariffs)
         {
-            if (item.Type != 1)
+            if (item.Type != 1)//Fix 
             {
                 continue;
             }
@@ -105,16 +105,8 @@ public class TariffCollectionBase : ComponentBase
         {
             if (!selectedTariffs.Contains(tariff))
             {
+                subtotal = getTotal(tariff);
                 selectedTariffs.Add(tariff);
-                subtotal = subtotal + tariff.Amount;
-
-                var discountAmount = tariff.Amount * student.discount;
-                discount += tariff.Amount - discountAmount;
-
-                if (tariff.IsLate)
-                {
-                    arrears += tariff.Amount * taxArrears;
-                }
             }
         }
         else
@@ -123,7 +115,7 @@ public class TariffCollectionBase : ComponentBase
             {
                 selectedTariffs.Remove(tariff);
                 subtotal = subtotal - tariff.Amount;
-                discount -= student.discount;
+                discount = 0;
 
                 if (tariff.IsLate)
                 {
@@ -131,6 +123,25 @@ public class TariffCollectionBase : ComponentBase
                 }
             }
         }
+    }
+    private double getTotal(Tariff item)
+    {
+        var total = 0.0;
+        var arrear = 0.0;
+        
+        if(student.paymentHistory.Any(t => t.TariffId == item.TariffId && t.DebtBalance > 0)) //Existe un abono?
+        {
+            item.Amount = student.paymentHistory.First(t => t.TariffId == item.TariffId && t.DebtBalance > 0).DebtBalance;
+            total = item.Amount;
+            arrear = 1;
+        }
+        else
+        {
+            total = item.Amount * (1 - student.discount);
+            arrear = (item.IsLate) ? (1 + taxArrears) : 1;
+        }
+        
+        return Math.Round(total * arrear);
     }
     protected void DistributePay()
     {
@@ -154,14 +165,6 @@ public class TariffCollectionBase : ComponentBase
             }
         }
     }
-
-    private double getTotal(Tariff item)
-    {
-        var total = item.Amount * (1 - student.discount);
-        var arrear = (item.IsLate) ? (1 + taxArrears) : 1;
-        return Math.Round(total * arrear);
-    }
-    
     protected async Task Pay()
     {
         controller.addDetail(selectedTariffs, applyArear);
@@ -178,7 +181,6 @@ public class TariffCollectionBase : ComponentBase
             await alertService.AlertError("¡Error en el Pago!", "La transacción no se completó correctamente.");
         }
     }
-    
     protected async Task ConfirmTransaction()
     {
         if (selectedTariffs.Count == 0)
@@ -192,8 +194,6 @@ public class TariffCollectionBase : ComponentBase
             await JSRuntime.InvokeVoidAsync("showModal", "finistariff");
         }
     }
-    
-    
     protected void ReloadPage()
     {
         navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);

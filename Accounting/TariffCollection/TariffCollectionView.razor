@@ -46,11 +46,21 @@ else
                         <td>@item.TariffId</td>
                         <td>@item.SchoolYear</td>
                         <td>@item.Concept</td>
-                        <td>@item.Amount</td>
+                        <td>
+                            @if(student.paymentHistory.Any(t => t.TariffId == item.TariffId && t.DebtBalance > 0))
+                            {
+                                var amount = student.paymentHistory.First(t => t.TariffId == item.TariffId && t.DebtBalance > 0).DebtBalance;
+                                @amount
+                            }
+                            else
+                            {
+                                @item.Amount
+                            }
+                        </td>
                         <td>@item.IsLate</td>
                         <td>@item.DueDate</td>
                         <td>
-                            @if (student.paymentHistory.Any(t => t.DebtBalance == 0))
+                            @if (student.paymentHistory.Any(t => t.TariffId == item.TariffId && t.DebtBalance == 0))
                             {
                                 <button type="button" class="btn btn-danger btn-sm " disabled>
                                     Pagado
@@ -311,19 +321,12 @@ else
                                     <tr>
                                         <td>@item.Concept</td>
                                         <td>@item.Amount</td>
-                                        <td>
-                                            @{
-                                                var discountAmount = item.Amount * student.discount;
-                                                var total = item.Amount - discountAmount;
-                                                @total
-                                            }
-                                        </td>
-
+                                        <td>@(student.discount*100)%</td>
                                         @if (item.IsLate)
                                         {
                                             <td>
                                                 @{
-                                                    var mora = (discountAmount * taxArrears);
+                                                    var mora = (item.Amount * taxArrears);
                                                     @mora
                                                 }
                                             </td>
