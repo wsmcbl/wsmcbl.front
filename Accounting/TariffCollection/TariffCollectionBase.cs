@@ -2,15 +2,15 @@
 using Microsoft.JSInterop;
 using wsmcbl.front.Controllers;
 using wsmcbl.front.dto.Input;
-using wsmcbl.front.model.accounting;
 using wsmcbl.front.Models.Accounting;
-using wsmcbl.front.Models.Accounting.Output;
 
 namespace wsmcbl.front.Accounting.TariffCollection;
 
 public class TariffCollectionBase : ComponentBase
 {
-    public TariffCollectionBase() { }
+    public TariffCollectionBase()
+    {
+    }
     
     [Inject]
     protected TariffCollectionController controller { get; set; }
@@ -42,9 +42,9 @@ public class TariffCollectionBase : ComponentBase
 
     private bool applyArear = true;
 
-    public List<TariffModal> selectedTariffs = new List<TariffModal>();
-    public List<TariffModal> calculationTariffs = new List<TariffModal>();
-    public List<TariffModal> requestTariffs = new List<TariffModal>();
+    public List<TariffModal> selectedTariffs;
+    public List<TariffModal> calculationTariffs;
+    public List<TariffModal> requestTariffs;
 
     protected List<Tariff> tariffList;
     protected List<TariffModal> tariffModalList;
@@ -195,7 +195,7 @@ public class TariffCollectionBase : ComponentBase
         }
     }
     
-    protected void ReloadPage()
+    private void ReloadPage()
     {
         navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
     }
@@ -216,6 +216,6 @@ public class TariffCollectionBase : ComponentBase
     
     protected void CleanRequestList()
     {
-        requestTariffs = new List<TariffModal>();
+        requestTariffs = [];
     }
 }

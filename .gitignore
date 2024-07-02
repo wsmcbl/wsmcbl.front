@@ -1,8 +1,9 @@
 # Directorys ignores
-.vscode/
 .vs/
 .idea/
+.vscode/
+
 obj/
-bin/Debug/
-wsmcbl.front.csproj.user
-*.user
+bin/
+
+**/*.user

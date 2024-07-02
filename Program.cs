@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using wsmcbl.front.Data;
 using wsmcbl.front.Controllers;
 using CurrieTechnologies.Razor.SweetAlert2;
 using wsmcbl.front.Accounting;
@@ -10,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
-
 
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<SweetAlertService>();
