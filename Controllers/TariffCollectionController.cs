@@ -1,4 +1,5 @@
 using wsmcbl.front.Accounting;
+using wsmcbl.front.dto.Input;
 using wsmcbl.front.model.accounting;
 
 namespace wsmcbl.front.Controllers;
@@ -107,7 +108,7 @@ public class TariffCollectionController
     
     private CashierEntity cashier;
 
-    public void addDetail(List<Tariff> tariffs, bool isApplyArrear)
+    public void addDetail(List<TariffModal> tariffs, bool isApplyArrear)
     {
         cashier.initTransaction();
         cashier.addDetail(tariffs, isApplyArrear);

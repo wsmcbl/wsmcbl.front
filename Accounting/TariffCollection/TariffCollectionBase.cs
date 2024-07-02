@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.front.Controllers;
+using wsmcbl.front.dto.Input;
 using wsmcbl.front.model.accounting;
 using wsmcbl.front.Models.Accounting;
 using wsmcbl.front.Models.Accounting.Output;
@@ -24,6 +25,9 @@ public class TariffCollectionBase : ComponentBase
     //Se obtendra de un end-point en el futuro
     public double taxArrears = 0.10;
     protected double amountToDivide { get; set; }
+    
+    
+    
     public double TOTAL = 0.0;
 
     //Usados para pagos enteros de un arancel.
@@ -38,22 +42,23 @@ public class TariffCollectionBase : ComponentBase
 
     private bool applyArear = true;
 
-    public List<Tariff> selectedTariffs = new List<Tariff>();
-    public List<PaymentDto> calculationTariffs = new List<PaymentDto>();
-    public List<Tariff> requestTariffs = new List<Tariff>();
+    public List<TariffModal> selectedTariffs = new List<TariffModal>();
+    public List<TariffModal> calculationTariffs = new List<TariffModal>();
+    public List<TariffModal> requestTariffs = new List<TariffModal>();
 
-    protected List<Tariff> fullTariffs;
-    protected List<Tariff> debtTariffs;
+    protected List<Tariff> tariffList;
+    protected List<TariffModal> tariffModalList;
 
     protected StudentEntity student;
     
     [Parameter] 
-    public string StudenID { get; set; }
+    public string StudenId { get; set; }
 
     protected Exception loadingException;
+    
     protected override async Task OnParametersSetAsync()
     {
-        if (string.IsNullOrEmpty(StudenID))
+        if (string.IsNullOrEmpty(StudenId))
         {
             loadingException = new ArgumentException("Student ID is not valid");
             return;
@@ -61,34 +66,34 @@ public class TariffCollectionBase : ComponentBase
 
         try
         {
-            student = await controller.GetStudent(StudenID);
-            controller.setStudent(student);
+            await LoadStudent();
+            tariffList = await controller.GetTariffs("student", StudenId);
+            tariffModalList = getTariffModalList();
         }
         catch (Exception ex)
         {
             loadingException = ex;
         }
-
-        fullTariffs = await controller.GetTariffs("student", StudenID);
-
-        debtTariffs = new List<Tariff>();
-        foreach (var item in fullTariffs)
-        {
-            if (item.Type != 1)//Fix 
-            {
-                continue;
-            }
-
-            var t = student.paymentHistory.FirstOrDefault(p => p.TariffId == item.TariffId);
-
-            if (t != null && t.DebtBalance == 0)
-            {
-                continue;
-            }
-
-            debtTariffs.Add(item);
-        }
     }
+
+    private List<TariffModal> getTariffModalList()
+    {
+        var list = new List<TariffModal>();
+
+        foreach (var item in tariffList)
+        {
+            list.Add(item.ToModalItem(student));
+        }
+
+        return list;
+    }
+
+    private async Task LoadStudent()
+    {
+        student = await controller.GetStudent(StudenId);
+        controller.setStudent(student);
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (loadingException == null)
@@ -101,73 +106,38 @@ public class TariffCollectionBase : ComponentBase
     
     protected void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)
     {
+        var tariffModal = tariffModalList.FirstOrDefault(t => t.TariffId == tariff.TariffId);
+        
         if ((bool)e.Value)
         {
-            if (!selectedTariffs.Contains(tariff))  
+            if (!selectedTariffs.Contains(tariffModal))
             {
-                if (student.paymentHistory.Any(t => t.TariffId == tariff.TariffId && t.DebtBalance > 0)) //Existe un abono?
-                {
-                    double payment = student.paymentHistory.FirstOrDefault(t => t.TariffId == tariff.TariffId && t.DebtBalance > 0).DebtBalance;
-                    PaymentDto paymentDto = tariff.ToPaymentDto(payment,0, 0);
-                    calculationTariffs.Add(paymentDto);
-                }
-                else
-                {
-                    var desc = tariff.Amount * student.discount;
-                    var mora = tariff.IsLate ? (tariff.Amount - desc) * taxArrears : 0;
-                    PaymentDto paymentDto = tariff.ToPaymentDto(100, desc,mora);
-                    calculationTariffs.Add(paymentDto);
-                }
+                calculationTariffs.Add(tariffModal);
             }
         }
         else
         {
-            if (selectedTariffs.Contains(tariff))
+            if (selectedTariffs.Contains(tariffModal))
             {
-                selectedTariffs.Remove(tariff);
-                subtotal = subtotal - tariff.Amount;
-                discount = 0;
-
-                if (tariff.IsLate)
-                {
-                    arrears -= tariff.Amount * taxArrears;
-                }
+                selectedTariffs.Remove(tariffModal);
             }
         }
     }
-    private double GetTotal(Tariff item)
-    {
-        var total = 0.0;
-        var arrear = 0.0;
-        
-        if(student.paymentHistory.Any(t => t.TariffId == item.TariffId && t.DebtBalance > 0)) //Existe un abono?
-        {
-            item.Amount = student.paymentHistory.First(t => t.TariffId == item.TariffId && t.DebtBalance > 0).DebtBalance;
-            total = item.Amount;
-            arrear = 1;
-        }
-        else
-        {
-            total = item.Amount * (1 - student.discount);
-            arrear = (item.IsLate) ? (1 + taxArrears) : 1;
-        }
-        
-        return Math.Round(total * arrear);
-    }
+    
     protected void DistributePay()
     {
         if (amountToDivide <= 0)
             return;
 
-        foreach (var item in debtTariffs)
+        foreach (var item in getDebtTariffList())
         {
-            var total = GetTotal(item);
+            var total = item.Total;
 
-            item.Amount = (amountToDivide < total) ? amountToDivide : total;
+            item.Total = (amountToDivide > total) ?  total : amountToDivide;
 
             requestTariffs.Add(item);
 
-            amountToDivide -= item.Amount;
+            amountToDivide -= item.Total;
             TOTAL += total;
 
             if (amountToDivide == 0)
@@ -176,6 +146,25 @@ public class TariffCollectionBase : ComponentBase
             }
         }
     }
+    
+    private List<TariffModal> getDebtTariffList()
+    {
+        var list = new List<TariffModal>();
+        
+        foreach (var item in tariffList)
+        {
+            if (item.Type != 1 || !student.hasDebt(item.TariffId))
+            {
+                continue;
+            }
+
+            list.Add(item.ToModalItem(student));
+        }
+
+        return list;
+    }
+    
+    
     protected async Task Pay()
     {
         controller.addDetail(selectedTariffs, applyArear);
@@ -194,7 +183,7 @@ public class TariffCollectionBase : ComponentBase
     }
     protected async Task ConfirmTransaction()
     {
-        if (selectedTariffs.Count == 0)
+        if (requestTariffs.Count != 0)
         {
             TOTAL = subtotal2 + arrears2 - discount2;
             await JSRuntime.InvokeVoidAsync("showModal", "middlePay");
@@ -205,10 +194,12 @@ public class TariffCollectionBase : ComponentBase
             await JSRuntime.InvokeVoidAsync("showModal", "finistariff");
         }
     }
+    
     protected void ReloadPage()
     {
         navigationManager.NavigateTo(navigationManager.Uri, forceLoad: true);
     }
+    
     protected void ExoMora(ChangeEventArgs e)
     {
         applyArear = (bool)e.Value;
@@ -222,8 +213,9 @@ public class TariffCollectionBase : ComponentBase
             TOTAL += arrears;
         }
     }
+    
     protected void CleanRequestList()
     {
-        requestTariffs = new List<Tariff>();
+        requestTariffs = new List<TariffModal>();
     }
 }

@@ -1,3 +1,4 @@
+using wsmcbl.front.dto.Input;
 using wsmcbl.front.Models.Accounting;
 using wsmcbl.front.Models.Accounting.Output;
 
@@ -34,23 +35,16 @@ public class CashierEntity
         transaction.details = new List<DetailDto>();
     }
     
-    public void addDetail(List<Tariff> tariffs, bool isApplyArrear)
+    public void addDetail(List<TariffModal> tariffs, bool isApplyArrear)
     {
         foreach (var item in tariffs)
         {
             transaction.details.Add(new DetailDto
             {
                 tariffId = item.TariffId,
-                Amount = getTotal(item),
+                Amount = item.Total,
                 applyArrear = isApplyArrear
             });
         }
-    }
-    
-    private double getTotal(Tariff item)
-    {
-        var total = item.Amount * (1 - student.discount);
-        var arrearAmount = (item.IsLate) ? (1 + arrear) : 1;
-        return Math.Round(total * arrearAmount);
     }
 }

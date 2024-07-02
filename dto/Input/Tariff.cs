@@ -41,11 +41,5 @@ public class Tariff
         IsLate = isLate;
         Type = type;
     }
-    
-    public PaymentDto ToPaymentDto(double amount ,double discount, double arrears)
-    {
-        return new PaymentDto(TariffId, Concept, amount, discount, arrears);
-    }
-    
 }
 
