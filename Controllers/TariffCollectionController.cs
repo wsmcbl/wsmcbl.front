@@ -37,7 +37,7 @@ public class TariffCollectionController
     {
         var url = URL.ACCOUNTING + "transactions";
 
-        var json = JsonSerializer.Serialize<Models.Accounting.Output.TransactionDto>(cashier.getTransaction);
+        var json = JsonSerializer.Serialize(cashier.getTransaction);
 
         var contenido = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
@@ -100,10 +100,8 @@ public class TariffCollectionController
         {
             return await response.Content.ReadFromJsonAsync<StudentEntity>();
         }
-        else
-        {
-            throw new Exception($"Error al obtener el estudiante con ID {studentId}");
-        } 
+
+        throw new Exception($"Error al obtener el estudiante con ID {studentId}");
     }
     
     private CashierEntity cashier;

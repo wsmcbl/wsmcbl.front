@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - CollectTariff
+      - master
 name: Despliegue del Front in Somee.com
 jobs:
   web-deploy:

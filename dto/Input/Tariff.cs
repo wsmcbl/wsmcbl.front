@@ -1,4 +1,4 @@
-namespace wsmcbl.front.Models.Accounting;
+namespace wsmcbl.front.dto.Input;
 using Newtonsoft.Json;
 
 

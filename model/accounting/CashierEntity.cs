@@ -29,16 +29,21 @@ public class CashierEntity
         {
             studentId = student.studentId,
             cashierId = cashierId,
-            dateTime = DateTime.UtcNow
+            dateTime = DateTime.UtcNow,
+            details = []
         };
-
-        transaction.details = new List<DetailDto>();
     }
     
     public void addDetail(List<TariffModal> tariffs, bool isApplyArrear)
     {
         foreach (var item in tariffs)
         {
+            if (!isApplyArrear)
+            {
+                item.Arrear = 0;
+                item.computeTotal();
+            }
+            
             transaction.details.Add(new DetailDto
             {
                 tariffId = item.TariffId,
