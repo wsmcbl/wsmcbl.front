@@ -1,0 +1,364 @@
+@page "/accouting/tariffcollection/{StudentID}"
+
+@inherits TariffCollection;
+
+@if(isLoading())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <link rel="stylesheet" href="/css/TarriffCollection.css">
+    
+    @* Tabla de aranceles del estudiante *@
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold">
+                <a href="#" data-toggle="modal" data-target="#studentInfoModal">
+                    Información de @student.fullName <i class="fas fa-external-link-alt"></i>
+                </a>
+            </h6>
+            <button type="button" class="btn btn-success"
+                    @onclick="(e) => ConfirmTransaction()">
+                Cobrar
+            </button>
+        </div>
+
+        @* Tabla de Aranceles *@
+        <div class="p-3 table-responsive ">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Año Lectivo</th>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                    <th>Con Mora</th>
+                    <th>Fecha Vencimiento</th>
+                    <th>Seleccionar</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in tariffList!)
+                {
+                    <tr>
+                        <td>@item.TariffId</td>
+                        <td>@item.SchoolYear</td>
+                        <td>@item.Concept</td>
+                        @{
+                            var hasDebt = student.hasPayments(item.TariffId);
+                            var amount = hasDebt && student.getDebt(item.TariffId) != 0 ? student.getDebt(item.TariffId) : item.Amount;
+                        }
+                        <td>@amount</td>
+                        <td>@item.IsLate</td>
+                        <td>@item.DueDate</td>
+                        @if(hasDebt && student.getDebt(item.TariffId) == 0)
+                        {
+                            <td><button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button></td>
+                        }
+                        else
+                        {
+                            <td class="center-checkbox">
+                                <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                            </td>
+                        }
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @* StudentInfoModa *@
+    <div class="modal fade" id="studentInfoModal" tabindex="-1" aria-labelledby="studentInfoModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentInfoModal">Detalle del estudiante</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-info text-white">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Nombre</span>
+                                        <span class="info-box-value">@student.fullName</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-secondary text-white">
+                                        <i class="fas fa-id-badge"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Código</span>
+                                        <span class="info-box-value">@student.studentId</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-success text-white">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Grado</span>
+                                        <span class="info-box-value">@student.enrollmentLabel</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-warning text-white">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Año Lectivo</span>
+                                        <span class="info-box-value">@student.schoolyear</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-danger text-white">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Tutor</span>
+                                        <span class="info-box-value">@student.tutor</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="info-box">
+                                    <span class="info-box-icon bg-primary text-white">
+                                        <i class="fas fa-percent"></i>
+                                    </span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Descuento</span>
+                                        <span class="info-box-value">@student.discount</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* Botones *@
+                    <div class="card-footer text-center">
+                        <a href="/accouting/tariffcollection" class="btn btn-info btn-sm">Estado de cuenta</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Middle-Pay -->
+    <div class="modal fade" id="middlePay" tabindex="-1" aria-labelledby="middlePay" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="middlePay">Abonar pago</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="ClearList">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @* cambio y monto total *@
+                    <div class="anchototal">
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Monto: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amountToDivide">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Total: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@Total">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Cambio: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="left-container">
+                        <input type="checkbox" id="moraCheckbox" class="exomora" @onchange="ExonerateArrears"/>
+                        <label class="form-check-label exomora" for="moraCheckbox">Exonerar mora</label>
+                    </div>
+
+                    <div class="right-container">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="(e) => ClearList()">Atras</button>
+                        <button type="button" class="btn btn-success" @onclick="(e) => Pay()">Cobrar</button>
+                        <button type="button" class="btn btn-success" @onclick="(e) => DistributePay()">Distribuir</button>
+                    </div>
+                </div>
+
+                @{
+                    if (tariffsToPay!.Count == 0)
+                    {
+                        <h1>Sin tarifas</h1>
+                    }
+                    else
+                    {
+                        <div class="row centrar">
+                            <div class="finishpaymodal">
+                                <table class="detailpaytable">
+                                    <thead>
+                                    <tr>
+                                        <th>Concepto</th>
+                                        <th>Monto</th>
+                                        <th>Desc</th>
+                                        <th>Mora</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in tariffsToPay)
+                                    {
+                                        <tr>
+                                            <td>@item.Concept</td>
+                                            <td>@item.Amount</td>
+                                            <td>@item.Discount</td>
+                                            <td>@item.Arrear</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+
+                                    <tfoot>
+                                    <tr>
+                                        <th>Totales</th>
+                                        <th class="subtotal">@subtotal</th>
+                                        <th class="discount">@discount</th>
+                                        <th class="arrears">@arrears</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+    
+    <!-- Finiish Modal Pay -->
+    <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="finistariff">Detalle de la transacción</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @* detalles de la transaccion *@
+                    <div class="row centrar">
+                        <div class="finishpaymodal">
+                            <table class="detailpaytable">
+                                <thead>
+                                <tr>
+                                    <th>Concepto</th>
+                                    <th>Monto</th>
+                                    <th>Desc</th>
+                                    <th>Mora</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in tariffsToPay!)
+                                { 
+                                    <tr>
+                                        <td>@item.Concept</td>
+                                        <td>@item.Amount</td>
+                                        <td>@item.Discount</td>
+                                        <td>@item.Arrear</td>
+                                    </tr>
+                                }
+                                </tbody>
+
+                                <tfoot>
+                                <tr>
+                                    <th>Totales</th>
+                                    <th class="subtotal">@subtotal</th>
+                                    <th class="discount">@discount</th>
+                                    <th class="arrears">@arrears</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <hr/>
+                    @* cambio y monto total *@
+                    <div class="anchototal">
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Recibí: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amountToDivide">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Total: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@Total">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col pay">
+                                <div>Cambio: </div>
+                            </div>
+                            <div class="col pay">
+                                <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="left-container">
+                        <input type="checkbox" id="moraCheckbox" class="exomora" @onchange="ExonerateArrears"/>
+                        <label class="form-check-label exomora" for="moraCheckbox">Exonerar mora</label>
+                    </div>
+
+                    <div class="right-container">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
+                        <button type="button" class="btn btn-success" @onclick="(e) => Pay()">Cobrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script defer src="/js/TarriffCollection.js"></script>
+    </div>
+}

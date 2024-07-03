@@ -1,0 +1,185 @@
+@page "/transactions/invoices/{transactionId}"
+@layout EmptyLayout
+@using wsmcbl.front.Models.Accounting
+@using wsmcbl.front.Controllers
+@inject NavigationManager navigationManager
+@inject TariffCollectionController tariffcontroller
+@inject SweetAlertService Swal;
+
+
+
+<link rel="stylesheet" href="/css/Factura.css" />
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+    <a href="/" class="btn btn-primary">Ir a la página principal</a>
+}
+else if (invoice == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="factura">
+        <h5 class="izqC">Colegio Bautista Libertad</h5>
+        <p class="direccion">Entrada Norte C.C.Managua, 1c. E. 1c S. 1/2c-E.</p>
+        <p>Telefono: 22705587</p>
+
+        <p class="izqC">Recibo de Caja</p>
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <p class="izqN">N°</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.TransactionId</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Cod. Estu</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.StudentId</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Fecha</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.DateTime.ToString("dd-MM-yyyy")</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Cajero</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.CashierName</p>
+            </div>
+        </div>
+
+        <p class="der">A nombre de: </p>
+        <p class="izqC">@invoice.StudentName</p>
+
+        <blockquote class="izqC">DETALLE</blockquote>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Concepto</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in invoice.Tariffs)
+                {
+                    <tr>
+                        <td> @item.Concept </td>
+                        <td> @item.Amount </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr>
+
+
+        <div class="row">
+            <div class="col">
+                <p class="izqN">T. Bruto:</p>
+            </div>
+            <div class="col">
+                <p class="izq">C$ @invoice.Subtotal</p>
+            </div>
+        </div>
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <p class="izqN">T Neto:</p>
+            </div>
+            <div class="col">
+                <p class="izq">C$ @invoice.Total</p>
+            </div>
+        </div>
+        <hr>
+        <br>
+
+        <div class="row">
+            <div class="col">
+                <hr>
+                <p>Cliente</p>
+            </div>
+            <div class="col">
+                <hr>
+                <p>Administrador</p>
+            </div>
+        </div>
+        <br>
+
+        <hr>
+        <div class="row">
+            <div class="col">
+                <p class="izqN">Balance General</p>
+            </div>
+            <div class="col">
+                <p class="izq">C$ @balanceGeneral</p>
+            </div>
+        </div>
+        <p class="end">NO ES VALIDO SIN FIRMA NI SELLO DEL CAJERO</p>
+    </div>
+    <script src="/js/Facture.js" defer></script>
+}
+
+
+@code
+{
+    InvoiceDto? invoice;
+    private bool showError; 
+    private string? errorMessage;
+    private float balanceGeneral; 
+    
+    [Parameter]
+    public string? transactionId {get; set; }  
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        var segments = navigationManager.ToAbsoluteUri(navigationManager.Uri).Segments;
+        transactionId = segments.Last().Trim('/');
+        
+        try
+        {
+            invoice =  await tariffcontroller.GetInvoice(transactionId);
+            
+            balanceGeneral = 0;
+            balanceGeneral = invoice!.GeneralBalance[1] - invoice.GeneralBalance[0];
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            showError = true;
+        }     
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (showError)
+        {
+            showError = false; // Resetear la bandera para no mostrar el error múltiples veces.
+            await Swal.FireAsync(new SweetAlertOptions
+            {
+                Title = "Obtuvimos unos problemas",
+                Text = errorMessage,
+                Icon = SweetAlertIcon.Error
+            });
+        }
+    }
+
+}
