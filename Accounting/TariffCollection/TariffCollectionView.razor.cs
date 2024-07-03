@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.front.Controllers;
-using wsmcbl.front.dto.Input;
+using wsmcbl.front.dto.input;
 using wsmcbl.front.model.accounting;
 
 namespace wsmcbl.front.Accounting.TariffCollection;
@@ -24,7 +24,7 @@ public class TariffCollection : ComponentBase
     private bool areArrearsApply { get; set; } = true;
 
 
-    protected List<Tariff>? tariffList { get; set; }
+    protected List<TariffDto>? tariffList { get; set; }
     private List<TariffModal>? tariffModalList { get; set; }
     protected List<TariffModal>? tariffsToPay { get; set; }
     
@@ -90,7 +90,7 @@ public class TariffCollection : ComponentBase
         controller.setStudent(student);
     }
     
-    protected void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)
+    protected void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
     {
         if(e.Value == null) 
             return;

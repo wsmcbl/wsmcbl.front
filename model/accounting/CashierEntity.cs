@@ -1,6 +1,6 @@
-using wsmcbl.front.dto.Input;
-using wsmcbl.front.Models.Accounting;
+using wsmcbl.front.dto.input;
 using wsmcbl.front.Models.Accounting.Output;
+using TransactionDto = wsmcbl.front.Models.Accounting.Output.TransactionDto;
 
 namespace wsmcbl.front.model.accounting;
 

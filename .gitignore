@@ -1,5 +1,9 @@
 # Directorys ignores
+.vs/
+.idea/
 .vscode/
-bin/
+
 obj/
-Properties/
+bin/
+
+**/*.user

@@ -1,6 +1,6 @@
 @page "/accouting/arreas"
 @using wsmcbl.front.Controllers
-@using wsmcbl.front.dto.Input
+@using wsmcbl.front.dto.input
 
 @inject TariffCollectionController tariffcontroller
 @inject SweetAlertService Swal
@@ -62,12 +62,12 @@ else
 @code
 {
     @* Lista o tariffa a aplicar mora *@
-    public List<Tariff> selectedTariffs = new List<Tariff>();
+    public List<TariffDto> selectedTariffs = new List<TariffDto>();
 
     public int applyArreas;
 
     @* Lista de tarifas obtenido de la API *@
-    List<Tariff> tariffs = null!;
+    List<TariffDto> tariffs = null!;
 
 
     protected override async Task OnInitializedAsync()
@@ -76,7 +76,7 @@ else
         tariffs = await tariffcontroller.GetTariffs("student", "2019.1000.jarr");
     }
 
-    private void OnSelectItemChanged(ChangeEventArgs e, Tariff tariff)
+    private void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
     {
         if ((bool)e.Value)
         {

@@ -1,10 +1,10 @@
 using wsmcbl.front.model.accounting;
 
-namespace wsmcbl.front.dto.Input;
+namespace wsmcbl.front.dto.input;
 
 public static class EntityMaker
 {
-    private static TariffModal ToModalItem(this Tariff tariff, StudentEntity student)
+    private static TariffModal ToModalItem(this TariffDto tariff, StudentEntity student)
     {
         var tariffModal = new TariffModal
         {
@@ -27,7 +27,7 @@ public static class EntityMaker
         return tariffModal;
     }
 
-    public static List<TariffModal> ToModalList(this IEnumerable<Tariff> list, StudentEntity student)
+    public static List<TariffModal> ToModalList(this IEnumerable<TariffDto> list, StudentEntity student)
     {
         var listResult = new List<TariffModal>();
         listResult.AddRange(list.Select(item => item.ToModalItem(student)));

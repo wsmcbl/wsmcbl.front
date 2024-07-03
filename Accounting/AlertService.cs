@@ -13,16 +13,16 @@ public class AlertService
 
     public async Task AlertSuccess(string title, string text)
     {
-        await service.FireAsync(new SweetAlertOptions{ Title = title, Icon = SweetAlertIcon.Success});
+        await service.FireAsync(new SweetAlertOptions{ Title = title, Text = text, Icon = SweetAlertIcon.Success});
     }
     
     public async Task AlertError(string title, string text)
     {
-        await service.FireAsync(new SweetAlertOptions{ Title = title, Icon = SweetAlertIcon.Error});
+        await service.FireAsync(new SweetAlertOptions{ Title = title, Text = text,  Icon = SweetAlertIcon.Error});
     }
     
-    public async Task<SweetAlertResult> AlertWarning(string title)
+    public async Task AlertWarning(string title)
     {
-        return await service.FireAsync(new SweetAlertOptions{Title = title, Icon = SweetAlertIcon.Warning, ShowCancelButton = true });
+        await service.FireAsync(new SweetAlertOptions{Title = title, Icon = SweetAlertIcon.Warning, ShowCancelButton = true });
     }
 }

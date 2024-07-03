@@ -1,7 +1,6 @@
+using wsmcbl.front.Accounting;
 using wsmcbl.front.Controllers;
 using CurrieTechnologies.Razor.SweetAlert2;
-using wsmcbl.front.Accounting;
-using wsmcbl.front.Controllers.AcademyController;
 
 var builder = WebApplication.CreateBuilder(args);
 

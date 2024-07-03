@@ -1,11 +1,8 @@
-using wsmcbl.front.Accounting;
-using wsmcbl.front.dto.Input;
+using System.Text.Json;
+using wsmcbl.front.dto.input;
 using wsmcbl.front.model.accounting;
 
 namespace wsmcbl.front.Controllers;
-
-using System.Text.Json;
-using wsmcbl.front.Models.Accounting;
 
 public class TariffCollectionController 
 {
@@ -16,26 +13,22 @@ public class TariffCollectionController
         cashier = new CashierEntity("caj-ktinoco");
     }
     
-    public async Task<List<Tariff>> GetTariffs(string key, string value)
+    public async Task<List<TariffDto>> GetTariffs(string key, string value)
     {
-        // Realizar solicitud HTTP GET a la API
-        var response = await _httpClient.GetAsync($"{URL.ACCOUNTING}tariffs/search?q={key}:{value}");
+        var response = await _httpClient.GetAsync($"{URL.accounting}tariffs/search?q={key}:{value}");
 
-        // Verificar si la solicitud fue exitosa
         if (response.IsSuccessStatusCode)
         {
-            // Deserializar la respuesta JSON en una lista de StudentEntity
-            return await response.Content.ReadFromJsonAsync<List<Tariff>>();
+            return await response.Content.ReadFromJsonAsync<List<TariffDto>>();
         }
-        else
-        {
-            // Manejar el error si la solicitud no fue exitosa
-            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
-        }
+        
+        throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+        
     }
+    
     public async Task<string> SendPay()
     {
-        var url = URL.ACCOUNTING + "transactions";
+        var url = URL.accounting + "transactions";
 
         var json = JsonSerializer.Serialize(cashier.getTransaction);
 
@@ -54,6 +47,7 @@ public class TariffCollectionController
         JsonElement root = doc.RootElement;
         return root.GetProperty("transactionId").GetString()!;
     }
+    
     public async Task<InvoiceDto?> GetInvoice(string transactionId)
     {
         var invoices = await _httpClient.GetAsync(URL.TRANSACTION+transactionId);
@@ -65,10 +59,11 @@ public class TariffCollectionController
         
         return await invoices.Content.ReadFromJsonAsync<InvoiceDto>();
     }
+    
     public async Task<bool> ActiveArrears(int idtarrif)
     {
         var url = URL.APPLYARREARS+idtarrif;
-        var content = new StringContent(string.Empty); // Crear un contenido vacío
+        var content = new StringContent(string.Empty);
 
         var response = await _httpClient.PutAsync(url, content);
 
@@ -77,13 +72,12 @@ public class TariffCollectionController
             throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
         }
         
-            bool success = true;
-
-            return success;
+        return true;
     }
+    
     public async Task<List<StudentEntity>?> getStudentList()
     {
-        var response = await _httpClient.GetAsync(URL.ACCOUNTING+"students");
+        var response = await _httpClient.GetAsync(URL.accounting+"students");
 
         if (response.IsSuccessStatusCode is false)
         {
@@ -92,9 +86,10 @@ public class TariffCollectionController
         
         return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
     }
+    
     public async Task<StudentEntity> GetStudent(string studentId)
     {
-        var response = await _httpClient.GetAsync(URL.ACCOUNTING + $"students/{studentId}");
+        var response = await _httpClient.GetAsync(URL.accounting + $"students/{studentId}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -103,6 +98,7 @@ public class TariffCollectionController
 
         throw new Exception($"Error al obtener el estudiante con ID {studentId}");
     }
+    
     
     private CashierEntity cashier;
 
