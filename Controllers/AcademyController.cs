@@ -1,9 +1,6 @@
-namespace wsmcbl.front.Controllers.AcademyController;
-
-
 using wsmcbl.front.Models.Secretary.Input;
-using wsmcbl.front.Controllers;
 
+namespace wsmcbl.front.Controllers;
 
 public class AcademyController(HttpClient httpClient)
 {
@@ -11,7 +8,7 @@ public class AcademyController(HttpClient httpClient)
 
     public async Task<List<StudentEntity>?> GetStudents()
     {
-        var response = await _httpClient.GetAsync(URL.SECRETARY + "students");
+        var response = await _httpClient.GetAsync(URL.secretary + "students");
 
         if (response.IsSuccessStatusCode is false)
         {

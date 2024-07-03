@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - master
+      - develop
 name: Despliegue del Front in Somee.com
 jobs:
   web-deploy:

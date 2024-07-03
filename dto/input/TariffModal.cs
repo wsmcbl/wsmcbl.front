@@ -1,6 +1,4 @@
-using Newtonsoft.Json;
-
-namespace wsmcbl.front.dto.Input;
+namespace wsmcbl.front.dto.input;
 
 public class TariffModal
 {

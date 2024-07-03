@@ -19,6 +19,12 @@
     <_ContentIncludedByDefault Remove="Pages\Academy\AcademyProfiles.razor" />
     <_ContentIncludedByDefault Remove="Pages\Academy\EnrollStudent.razor" />
     <_ContentIncludedByDefault Remove="Pages\Academy\NewAcademyProfile.razor" />
+    <_ContentIncludedByDefault Remove="publish\web.config" />
+    <_ContentIncludedByDefault Remove="publish\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="publish\appsettings.json" />
+    <_ContentIncludedByDefault Remove="publish\wsmcbl.front.deps.json" />
+    <_ContentIncludedByDefault Remove="publish\wsmcbl.front.runtimeconfig.json" />
+    <_ContentIncludedByDefault Remove="publish\wwwroot\Tema\vendor\fontawesome-free\package.json" />
   </ItemGroup>
 
   <ItemGroup>
