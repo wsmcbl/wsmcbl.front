@@ -181,36 +181,14 @@ else
                                 <div>Monto: </div>
                             </div>
                             <div class="col pay">
-                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amountToDivide">
+                                <input id="amoun2" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amountToDivide">
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col pay">
-                                <div>Total: </div>
-                            </div>
-                            <div class="col pay">
-                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@Total">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col pay">
-                                <div>Cambio: </div>
-                            </div>
-                            <div class="col pay">
-                                <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00" disabled>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <div class="left-container">
-                        <input type="checkbox" id="moraCheckbox" class="exomora" @onchange="ExonerateArrears"/>
-                        <label class="form-check-label exomora" for="moraCheckbox">Exonerar mora</label>
-                    </div>
-
                     <div class="right-container">
                         <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="(e) => ClearList()">Atras</button>
                         <button type="button" class="btn btn-success" @onclick="(e) => Pay()">Cobrar</button>
@@ -296,9 +274,9 @@ else
                                 { 
                                     <tr>
                                         <td>@item.Concept</td>
-                                        <td>@item.Amount</td>
-                                        <td>@item.Discount</td>
-                                        <td>@item.Arrear</td>
+                                        <td>@Math.Round(item.Amount, 1)</td>
+                                        <td>@Math.Round(item.Discount, 1)</td>
+                                        <td>@Math.Round(item.Arrear, 1)</td>
                                     </tr>
                                 }
                                 </tbody>
@@ -306,9 +284,9 @@ else
                                 <tfoot>
                                 <tr>
                                     <th>Totales</th>
-                                    <th class="subtotal">@subtotal</th>
-                                    <th class="discount">@discount</th>
-                                    <th class="arrears">@arrears</th>
+                                    <th class="subtotal">@Math.Round(subtotal ,1)</th>
+                                    <th class="discount">@Math.Round(discount, 1)</th>
+                                    <th class="arrears">@Math.Round(arrears, 1)</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -324,7 +302,7 @@ else
                             </div>
                             <div class="col pay">
                                 <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amountToDivide">
-                            </div>
+                             </div>
                         </div>
 
                         <div class="row">
@@ -332,7 +310,7 @@ else
                                 <div>Total: </div>
                             </div>
                             <div class="col pay">
-                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@Total">
+                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@Math.Round(Total, 1)">
                             </div>
                         </div>
 
@@ -341,7 +319,7 @@ else
                                 <div>Cambio: </div>
                             </div>
                             <div class="col pay">
-                                <input id="chamge" type="number" class="form-control p1" placeholder="C$ 00.00" disabled>
+                                <input id="chamge" type="text" class="form-control p1" placeholder="C$ 00.00" disabled>
                             </div>
                         </div>
                     </div>

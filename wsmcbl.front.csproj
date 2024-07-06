@@ -33,7 +33,6 @@
     <AdditionalFiles Include="Academy\NewAcademyProfile.razor" />
     <AdditionalFiles Include="Accounting\TariffProfiles.razor" />
     <AdditionalFiles Include="Accounting\TarrifArreas.razor" />
-    <AdditionalFiles Include="Accounting\TarriffInvoice.razor" />
   </ItemGroup>
 
   <ItemGroup>

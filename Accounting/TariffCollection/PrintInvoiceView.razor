@@ -54,6 +54,15 @@ else
 
         <div class="row">
             <div class="col">
+                <p class="izqN">Hora</p>
+            </div>
+            <div class="col">
+                <p class="izq">@invoice.DateTime.ToString("HH:mm:ss")</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
                 <p class="izqN">Cajero</p>
             </div>
             <div class="col">
@@ -71,6 +80,7 @@ else
                 <tr>
                     <th>Concepto</th>
                     <th>Monto</th>
+                    <th>Mora</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,23 +89,13 @@ else
                     <tr>
                         <td> @item.Concept </td>
                         <td> @item.Amount </td>
+                        <td> @item.Arrears </td>
                     </tr>
                 }
             </tbody>
         </table>
         <hr>
-
-
-        <div class="row">
-            <div class="col">
-                <p class="izqN">T. Bruto:</p>
-            </div>
-            <div class="col">
-                <p class="izq">C$ @invoice.Subtotal</p>
-            </div>
-        </div>
-        <hr>
-
+        
         <div class="row">
             <div class="col">
                 <p class="izqN">T Neto:</p>

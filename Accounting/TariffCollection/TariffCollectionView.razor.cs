@@ -152,7 +152,7 @@ public class TariffCollection : ComponentBase
         {
             if (item.Total > amountToDivide)
             {
-                item.Total = amountToDivide;
+                item.Total = Math.Round(amountToDivide, 1);
             }
             
             tariffsToPay!.Add(item);
