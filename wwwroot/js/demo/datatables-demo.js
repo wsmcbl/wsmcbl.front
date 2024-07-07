@@ -4,6 +4,7 @@ console.log("ultimo en cargar")
 
 $(document).ready(function() {
     $('#dataTable').DataTable({
+        "responsive": true,
         "language": {
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",

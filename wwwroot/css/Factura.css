@@ -9,6 +9,10 @@
     size: 7.5cm;
 }
 
+.space{
+    margin: 75px;
+}
+
 .factura {
     padding: 0;
     font-family: monospace;

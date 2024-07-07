@@ -9,79 +9,139 @@
 else
 {
     <link rel="stylesheet" href="/css/TarriffCollection.css">
-    
-    @* Tabla de aranceles del estudiante *@
+    //------------------------------------------------------------------------old----------------------------------------------------------------------------
+   
+    <!-- Tabs Of Options -->
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold">
-                <a href="#" data-toggle="modal" data-target="#studentInfoModal">
-                    Información de @student.fullName <i class="fas fa-external-link-alt"></i>
-                </a>
-            </h6>
+
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="TabTariffs" data-toggle="tab" href="#PanelTariffs" role="tab"
+                       aria-controls="PanelTariffs" aria-selected="true">Mensualidades</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="TabServices" data-toggle="tab" href="#PanelServices" role="tab"
+                       aria-controls="PanelServices" aria-selected="false">Servicios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
+                       aria-controls="PanelStudent" aria-selected="false">Info Estudiante</a>
+                </li>
+            </ul>
+            
             <button type="button" class="btn btn-success"
                     @onclick="(e) => ConfirmTransaction()">
                 Cobrar
             </button>
+            
         </div>
 
-        @* Tabla de Aranceles *@
-        <div class="p-3 table-responsive ">
-            <table class="table table-bordered" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Año Lectivo</th>
-                    <th>Concepto</th>
-                    <th>Monto</th>
-                    <th>Con Mora</th>
-                    <th>Fecha Vencimiento</th>
-                    <th>Seleccionar</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in tariffList!)
-                {
-                    <tr>
-                        <td>@item.TariffId</td>
-                        <td>@item.SchoolYear</td>
-                        <td>@item.Concept</td>
-                        @{
-                            var hasDebt = student.hasPayments(item.TariffId);
-                            var amount = hasDebt && student.getDebt(item.TariffId) != 0 ? student.getDebt(item.TariffId) : item.Amount;
-                        }
-                        <td>@amount</td>
-                        <td>@item.IsLate</td>
-                        <td>@item.DueDate</td>
-                        @if(hasDebt && student.getDebt(item.TariffId) == 0)
-                        {
-                            <td><button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button></td>
-                        }
-                        else
-                        {
-                            <td class="center-checkbox">
-                                <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
-                            </td>
-                        }
-                    </tr>
-                }
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    @* StudentInfoModa *@
-    <div class="modal fade" id="studentInfoModal" tabindex="-1" aria-labelledby="studentInfoModal" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="studentInfoModal">Detalle del estudiante</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+        <div class="card-body" id="tabContent">
+            <div class="tab-content">
+                
+                <div class="tab-pane fade show active" id="PanelTariffs" role="tabpanel" aria-labelledby="TabTariffs">
+                    <div>
+                        <div class="p-3 table-responsive ">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Año Lectivo</th>
+                                    <th>Concepto</th>
+                                    <th>Monto</th>
+                                    <th>Con Mora</th>
+                                    <th>Fecha Vencimiento</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in tariffList!)
+                                {
+                                    if (item.Type == 1)
+                                    {
+                                        <tr>
+                                            <td>@item.TariffId</td>
+                                            <td>@item.SchoolYear</td>
+                                            <td>@item.Concept</td>
+                                            @{
+                                                var hasDebt = student.hasPayments(item.TariffId);
+                                                var amount = hasDebt && student.getDebt(item.TariffId) != 0 ? student.getDebt(item.TariffId) : item.Amount;
+                                            }
+                                            <td>@amount</td>
+                                            <td>@item.IsLate</td>
+                                            <td>@item.DueDate</td>
+                                            @if (hasDebt && student.getDebt(item.TariffId) == 0)
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center-checkbox">
+                                                    <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
 
-                    <div class="card-body">
+                <div class="tab-pane fade" id="PanelServices" role="tabpanel" aria-labelledby="TabServices">
+                    <div>
+                        <div class="p-3 table-responsive ">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Año Lectivo</th>
+                                    <th>Concepto</th>
+                                    <th>Monto</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in tariffList!)
+                                {
+                                    if (item.Type != 1)
+                                    {
+                                        <tr>
+                                            <td>@item.TariffId</td>
+                                            <td>@item.SchoolYear</td>
+                                            <td>@item.Concept</td>
+                                            @{
+                                                var hasDebt = student.hasPayments(item.TariffId);
+                                                var amount = hasDebt && student.getDebt(item.TariffId) != 0 ? student.getDebt(item.TariffId) : item.Amount;
+                                            }
+                                            <td>@amount</td>
+                                            @if (hasDebt && student.getDebt(item.TariffId) == 0)
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td class="center-checkbox">
+                                                    <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
+                    <div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="info-box">
@@ -150,18 +210,16 @@ else
                                 </div>
                             </div>
                         </div>
+                        <div class="card-footer text-center">
+                            <a href="/accouting/tariffcollection" class="btn btn-info btn-sm">Estado de cuenta</a>
+                        </div>
                     </div>
-
-                    @* Botones *@
-                    <div class="card-footer text-center">
-                        <a href="/accouting/tariffcollection" class="btn btn-info btn-sm">Estado de cuenta</a>
-                    </div>
-
                 </div>
+
             </div>
         </div>
     </div>
-
+    
     <!-- Modal Middle-Pay -->
     <div class="modal fade" id="middlePay" tabindex="-1" aria-labelledby="middlePay" aria-hidden="true">
         <div class="modal-dialog">
@@ -199,7 +257,11 @@ else
                 @{
                     if (tariffsToPay!.Count == 0)
                     {
-                        <h1>Sin tarifas</h1>
+                        <div class="finishpaymodal">
+                            <div class="card mb-4 py-3 border-left-danger" style="padding: 20px">
+                                <h7> Ingrese un monto y de click en distribuir.</h7>
+                            </div>
+                        </div>
                     }
                     else
                     {
@@ -256,6 +318,7 @@ else
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                
                 <div class="modal-body">
                     @* detalles de la transaccion *@
                     <div class="row centrar">
@@ -340,5 +403,7 @@ else
             </div>
         </div>
         <script defer src="/js/TarriffCollection.js"></script>
+        
+
     </div>
 }
