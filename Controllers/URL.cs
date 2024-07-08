@@ -8,5 +8,5 @@ public static class URL
     public static readonly string accounting = $"{api}/accounting/";
     
     public static string TRANSACTION = $"{accounting}transactions/invoices/";
-    public static string APPLYARREARS = $"{api}accounting/arrears/";
+    public static string APPLYARREARS = $"{api}/accounting/arrears/";
 }

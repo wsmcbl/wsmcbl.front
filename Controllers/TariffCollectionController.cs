@@ -26,6 +26,19 @@ public class TariffCollectionController
         
     }
     
+    public async Task<List<TariffDto>> GetTariffsOverdue(string value)
+    {
+        var response = await _httpClient.GetAsync($"{URL.accounting}tariffs/search?q={value}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<List<TariffDto>>();
+        }
+        
+        throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+        
+    }
+    
     public async Task<string> SendPay()
     {
         var url = URL.accounting + "transactions";

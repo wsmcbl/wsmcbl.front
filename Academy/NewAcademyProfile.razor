@@ -1,116 +1,74 @@
 @page "/academy/tariff-profiles/new"
+@using wsmcbl.front.Controllers
+@using wsmcbl.front.model.Secretary.Output
 
+
+@inject AcademyController controller;
 
 <link rel="stylesheet" href="/css/Academy/NewAcademyProfile.css">
 
-
 <div class="card shadow mb-4">
-
-    <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-            <h5>Nuevo Estudiante</h5>
-        </ul>
-    </div> @* End of card-header *@
-
-    <div class="card-body" id="tabContent">
-        <div class="tab-content ">
-            <div class="tab-pane fade show active" id="studenData" role="tabpanel" aria-labelledby="studenInfo">
-
-                @* Start of Info Student Data *@
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="card-title">
-                                <div class="row">
-
-                                    <div class="col-sm-6">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <div class="info">Primer Nombre:</div>
-                                                        <div class="info">Segundo Nombre:</div>
-                                                        <div class="info">Primer Apellido:</div>
-                                                        <div class="info">Segundo Apellido:</div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <input id="studenName1" type="text" class="form-control p1"
-                                                            placeholder="Adam">
-                                                        <input id="studenName2" type="text" class="form-control p1"
-                                                            placeholder="Andres">
-                                                        <input id="studentApellido1" type="text" class="form-control p1"
-                                                            placeholder="Martin">
-                                                        <input id="studentApellido2" type="text" class="form-control p1"
-                                                            placeholder="Rojas">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <div class="card">
-                                            <div class="card-body">
-
-                                                <div class="row">
-                                                    <div class="col-sm-6 container">
-                                                        <div class="info">Tutor:</div>
-                                                    </div>
-                                                    <div class="col-sm-6 container">
-                                                        <input id="sex" type="text" class="form-control p1"
-                                                        placeholder="Adam">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-sm-6 container">
-                                                        <div class="info">Fecha de Nacimiento:</div>
-                                                    </div>
-                                                    <div class="col-sm-6 container">
-                                                        <input id="fechaNacimiento" type="date" class="form-control p1" 
-                                                        placeholder="11/02/2001">
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-sm-6 container">
-                                                        <div class="info">Sexo:</div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="dropdown container">
-                                                            <select id="sexo" @onchange="GetSexo">
-                                                                @foreach (var option in sexo)
-                                                                {
-                                                                    <option value="@option">@option</option>
-                                                                }
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">Nuevo Perfil de Estudiante</h6>
+        <button type="button" class="btn btn-success"
+                @onclick="(e) => Save()">Guardar
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <label style="display: inline-block; width: 150px;">Primer Nombre:</label>
+                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsName">
+                            
+                            <label style="display: inline-block; width: 150px;">Segundo Nombre:</label>
+                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondName">
+                            
+                            <label style="display: inline-block; width: 150px;">Primer Apellido:</label>
+                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsSurName">
+                            
+                            <label style="display: inline-block; width: 150px;">Segundo Apellido:</label>
+                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondSurName">
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-6">
+                <div class="card-body">
+                    <div class="col">
+                        <label style="display: inline-block; width: 150px;">Tutor:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor">
 
+                        <label style="display: inline-block; width: 150px;">Sexo:</label>
+                        <select id="sexo" style="margin: 0px" @onchange="GetSexo">
+                            @foreach (var option in sexo)
+                            {
+                            <option value="@option">@option</option>
+                            }
+                        </select>
 
-
-            </div> @* End of Info Student Data *@
-
+                        <label style="display: inline-block; width: 150px; margin-top: 15px">Fecha de Nacimiento</label>
+                        <input id="fechaNacimiento" type="date" class="form-control p1" placeholder="11/02/2001" @bind="Birthday">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
-
 
 @code
 {
-    bool sex = false;
+    private string FirsName;
+    private string SecondName;
+    private string FirsSurName;
+    private string SecondSurName;
+    
+    private string Tutor;
+    private bool Sex;
+    private DateTime Birthday;
+
     List<string> sexo = new List<string> { "Femenino", "Masculino"};
 
     void GetSexo(ChangeEventArgs e)
@@ -119,10 +77,42 @@
 
         if(selectSexo == "Femenino")
         {
-            sex = false;
+            Sex = false;
         }else{
-            sex = true;
+            Sex = true;
         }
     }
+
+    protected async Task Save()
+    {
+        Console.WriteLine(FirsName);
+        Console.WriteLine(SecondName);
+        Console.WriteLine(FirsSurName);
+        Console.WriteLine(SecondSurName);
+        Console.WriteLine(Tutor);
+        Console.WriteLine(Birthday);
+        Console.WriteLine(Sex);
+
+        StudentEntityDto NewStudent = new StudentEntityDto
+        {
+            Name = FirsName,
+            SecondName = SecondName,
+            Surname = FirsSurName,
+            SecondSurname = SecondSurName,
+            Sex = Sex,
+            Birthday = new Birthday
+            {
+                Year = Birthday.Year,
+                Month = Birthday.Month,
+                Day = Birthday.Day
+            },
+            Tutor = Tutor
+        };
+
+        var result = await controller.PostNewStudent(NewStudent);
+
+    }
+    
+    
 
 }

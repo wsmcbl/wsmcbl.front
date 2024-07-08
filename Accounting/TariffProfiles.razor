@@ -56,6 +56,7 @@ else
         </div>
     </div>
 
+    
     <!-- Inicializamos datatable -->
     <script defer src="/js/demo/datatables-demo.js"></script>
 }
@@ -71,7 +72,6 @@ else
     protected override async Task OnInitializedAsync()
     {
         students = await Controller.getStudentList();
-
         if (students is null)
         {
             await Swal.FireAsync(new SweetAlertOptions
