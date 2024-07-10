@@ -1,9 +1,5 @@
 @page "/academy/tariff-profiles/new"
-@using wsmcbl.front.Controllers
-@using wsmcbl.front.model.Secretary.Output
-
-
-@inject AcademyController controller;
+@inherits NewAcademyProfiles_razor;
 
 <link rel="stylesheet" href="/css/Academy/NewAcademyProfile.css">
 
@@ -20,16 +16,16 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <label style="display: inline-block; width: 150px;">Primer Nombre:</label>
+                            <label style="display: inline-block; width: 200px;">Primer Nombre:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsName">
                             
-                            <label style="display: inline-block; width: 150px;">Segundo Nombre:</label>
+                            <label style="display: inline-block; width: 200px;">Segundo Nombre:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondName">
                             
-                            <label style="display: inline-block; width: 150px;">Primer Apellido:</label>
+                            <label style="display: inline-block; width: 200px;">Primer Apellido:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsSurName">
                             
-                            <label style="display: inline-block; width: 150px;">Segundo Apellido:</label>
+                            <label style="display: inline-block; width: 200px;">Segundo Apellido:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondSurName">
                         </div>
                     </div>
@@ -38,18 +34,18 @@
             <div class="col-6">
                 <div class="card-body">
                     <div class="col">
-                        <label style="display: inline-block; width: 150px;">Tutor:</label>
+                        <label style="display: inline-block; width: 200px;">Tutor:</label>
                         <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor">
 
-                        <label style="display: inline-block; width: 150px;">Sexo:</label>
-                        <select id="sexo" style="margin: 0px" @onchange="GetSexo">
+                        <label style="display: inline-block; width: 200px;">Sexo:</label>
+                        <select id="sexo"  class="form-control" style="margin: 0px" @onchange="GetSexo">
                             @foreach (var option in sexo)
                             {
                             <option value="@option">@option</option>
                             }
                         </select>
 
-                        <label style="display: inline-block; width: 150px; margin-top: 15px">Fecha de Nacimiento</label>
+                        <label style="display: inline-block; width: 200px; margin-top: 15px">Fecha de Nacimiento</label>
                         <input id="fechaNacimiento" type="date" class="form-control p1" placeholder="11/02/2001" @bind="Birthday">
                     </div>
                 </div>
@@ -57,62 +53,3 @@
         </div>
     </div>
 </div>
-
-@code
-{
-    private string FirsName;
-    private string SecondName;
-    private string FirsSurName;
-    private string SecondSurName;
-    
-    private string Tutor;
-    private bool Sex;
-    private DateTime Birthday;
-
-    List<string> sexo = new List<string> { "Femenino", "Masculino"};
-
-    void GetSexo(ChangeEventArgs e)
-    {
-        var selectSexo = e.Value.ToString();
-
-        if(selectSexo == "Femenino")
-        {
-            Sex = false;
-        }else{
-            Sex = true;
-        }
-    }
-
-    protected async Task Save()
-    {
-        Console.WriteLine(FirsName);
-        Console.WriteLine(SecondName);
-        Console.WriteLine(FirsSurName);
-        Console.WriteLine(SecondSurName);
-        Console.WriteLine(Tutor);
-        Console.WriteLine(Birthday);
-        Console.WriteLine(Sex);
-
-        StudentEntityDto NewStudent = new StudentEntityDto
-        {
-            Name = FirsName,
-            SecondName = SecondName,
-            Surname = FirsSurName,
-            SecondSurname = SecondSurName,
-            Sex = Sex,
-            Birthday = new Birthday
-            {
-                Year = Birthday.Year,
-                Month = Birthday.Month,
-                Day = Birthday.Day
-            },
-            Tutor = Tutor
-        };
-
-        var result = await controller.PostNewStudent(NewStudent);
-
-    }
-    
-    
-
-}

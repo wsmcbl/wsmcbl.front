@@ -1,9 +1,6 @@
 @page "/accouting/tariff-profiles"
-@using wsmcbl.front.Controllers
-@using wsmcbl.front.model.accounting
-@inject TariffCollectionController Controller;
-@inject SweetAlertService Swal;
 
+@inherits TariffProfiles_razor
 
 @if (students == null)
 {
@@ -55,31 +52,6 @@ else
             </div>
         </div>
     </div>
-
-    
     <!-- Inicializamos datatable -->
     <script defer src="/js/demo/datatables-demo.js"></script>
-}
-
-    
-
-
-@code
-{
-    @* Obtenemos la lista de todos los estudiantes a los que le podemos aplicar cobros *@
-    private List<StudentEntity>? students;
-
-    protected override async Task OnInitializedAsync()
-    {
-        students = await Controller.getStudentList();
-        if (students is null)
-        {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Sin estudiantes",
-                Text = "La transacción no se completó correctamente.",
-                Icon = SweetAlertIcon.Error
-            });
-        }
-    }
 }

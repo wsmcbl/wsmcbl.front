@@ -1,9 +1,6 @@
 @page "/accouting/arreas"
-@using wsmcbl.front.Controllers
-@using wsmcbl.front.dto.input
 
-@inject TariffCollectionController tariffcontroller
-@inject SweetAlertService Swal
+@inherits TarrifArreas_razor;
 
 @if (tariffs == null)
 {
@@ -53,83 +50,4 @@ else
             </div>
         </div>
     </div>
-}
-
-
-
-
-
-@code
-{
-    @* Lista o tariffa a aplicar mora *@
-    public List<TariffDto> selectedTariffs = new List<TariffDto>();
-
-    public int applyArreas;
-
-    @* Lista de tarifas obtenido de la API *@
-    List<TariffDto> tariffs = null!;
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        //Obtenemos la lista de tarifas vencidas
-        tariffs = await tariffcontroller.GetTariffsOverdue("state:overdue");
-    }
-
-    private void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
-    {
-        if ((bool)e.Value)
-        {
-            if (!selectedTariffs.Contains(tariff))
-            {
-                selectedTariffs.Add(tariff);
-                applyArreas = tariff.TariffId;
-            }
-        }
-        else
-        {
-            if (selectedTariffs.Contains(tariff))
-            {
-                selectedTariffs.Remove(tariff);
-            }
-        }
-    }
-
-    public async Task Confirm()
-    {
-        try
-        {
-            SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "¿Seguro que desea generar mora?",
-                Text = "La mora se aplicara a todos los estudiantes que no hayan pagado a tiempo",
-                ShowDenyButton = true,
-                ConfirmButtonText = "Aplicar",
-                DenyButtonText = "No guardar"
-            });
-
-            if (result.IsConfirmed)
-            {
-                var response = await tariffcontroller.ActiveArrears(applyArreas);
-
-                if (response)
-                {
-                    await Swal.FireAsync("Mora generada correctamente!", "", "success");
-                }
-                else
-                {
-                    await Swal.FireAsync("Obtuvimos problemas al generar la mora", "", "info");
-                }
-            }
-            else if (result.IsDenied)
-            {
-                await Swal.FireAsync("No se ha generado mora", "", "info");
-            }
-        }
-        catch(Exception ex)
-        {
-            await Swal.FireAsync("Error", $"Ha ocurrido un error: {ex.Message}", "error");
-        }    
-    }
-
 }

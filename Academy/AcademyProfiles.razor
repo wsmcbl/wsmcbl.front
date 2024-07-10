@@ -1,9 +1,6 @@
 @page "/academy/tariff-profiles"
 
-@using wsmcbl.front.Controllers
-@using wsmcbl.front.Models.Secretary.Input
-
-@inject AcademyController controller;
+@inherits AcademyProfiles_razor;
 
 
 @if (Students == null)
@@ -63,32 +60,4 @@ else
     </div>
     <!-- Inicializamos datatable -->
     <script src="/js/demo/datatables-demo.js"></script>
-}
-
-
-@code
-{
-    List<StudentEntity> Students;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            Students = await controller.GetStudents();
-        }
-        catch(Exception ex)
-        {
-
-        }
-    }
-
-
-
-
-
-
-
-
-
-
 }
