@@ -1,7 +1,8 @@
 using System.Text;
 using Newtonsoft.Json;
 using wsmcbl.front.model.Secretary.Output;
-using wsmcbl.front.Models.Secretary.Input;
+using wsmcbl.front.model.accounting; 
+using wsmcbl.front.model.Secretary.Input;
 
 namespace wsmcbl.front.Controllers;
 
@@ -9,7 +10,7 @@ public class AcademyController(HttpClient httpClient)
 {
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<List<StudentEntity>?> GetStudents()
+    public async Task<List<wsmcbl.front.model.Secretary.Input.StudentEntity>?> GetStudents()
     {
         var response = await _httpClient.GetAsync(URL.secretary + "students");
 
@@ -18,7 +19,7 @@ public class AcademyController(HttpClient httpClient)
             throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
         }
 
-        return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
+        return await response.Content.ReadFromJsonAsync<List<wsmcbl.front.model.Secretary.Input.StudentEntity>>();
     }
     
     public async Task<bool> PostNewStudent(StudentEntityDto student)

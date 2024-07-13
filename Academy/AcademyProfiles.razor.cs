@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controllers;
-using wsmcbl.front.Models.Secretary.Input;
+using wsmcbl.front.model.Secretary.Input;
 
 namespace wsmcbl.front.Academy;
 
