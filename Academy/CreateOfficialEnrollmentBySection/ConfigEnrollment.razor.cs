@@ -5,19 +5,20 @@ using wsmcbl.front.model.Secretary.Input;
 
 namespace wsmcbl.front.Academy.CreateOfficialEnrollmentBySection;
 
-public partial class ConfigEnrollment_razor : EnrollmentBrich_razor
+public class ConfigEnrollment_razor : EnrollmentBrich_razor
 {
-    [Parameter] public string? IdEnrollment { get; set; }
+    [Parameter] public string Number { get; set; }
     [Inject] protected AlertService alertService { get; set; } = null!;
     
     protected List<Enrollments>? Enrollments { get; set; }
     protected Enrollments? Enrollment;
+    protected int tabNumber;
 
-    protected override async void OnInitialized()
+    protected override async void OnParametersSet()
     {
         Enrollment = await LoadEnrollment();
+        tabNumber = Convert.ToInt32(Number);
     }
-
     
     private async Task<Enrollments> LoadEnrollment()
     {
