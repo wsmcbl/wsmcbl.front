@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <Folder Include="dto\" />
-    <Folder Include="model\Academy\Output\" />
   </ItemGroup>
 
 </Project>

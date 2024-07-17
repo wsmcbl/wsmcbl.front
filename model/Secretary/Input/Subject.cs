@@ -1,4 +1,4 @@
-namespace wsmcbl.front.model.Academy.Input;
+namespace wsmcbl.front.model.Secretary.Input;
 
 public class Subject
 {

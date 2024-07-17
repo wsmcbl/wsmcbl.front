@@ -1,0 +1,143 @@
+@page "/academy/schoolyear/new"
+@inherits ConfigSchoolYear_razor;
+
+<style>
+    .year-box {
+        display: inline-block;
+        background-color: red;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+</style>
+
+@if (ListGrade == null)
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo  <span class="year-box">2024</span> </h6>
+            <a class="btn btn-success btn-sm" role="button">Guardar</a>
+        </div>
+        <div class="card-body">
+
+            <div id="accordion">
+                
+                <div class="card">
+                    <div class="card-header" id="panel1">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo1" aria-expanded="true" aria-controls="collapseOne">
+                                Grados disponible para este año lectivo.
+                            </button>
+                        </h3>
+                    </div>
+
+                    <div id="panelinfo1" class="collapse show" aria-labelledby="panel1" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="gradetable" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Año Lectivo</th>
+                                        <th>Nombre</th>
+                                        <th>Modalidad</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Año Lectivo</th>
+                                        <th>Nombre</th>
+                                        <th>Modalidad</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    @foreach (var item in ListGrade)
+                                    {
+                                        <tr>
+                                            <td>@item.GradeId</td>
+                                            <td>@item.SchoolYear</td>
+                                            <td>@item.Label</td>
+                                            <td>@item.Modality</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center" id="headingThree">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#panelinfo3" aria-expanded="false" aria-controls="collapseThree">
+                                Listado de tarifas y aranceles
+                            </button>
+                        </h3>
+                        <a class="btn btn-success btn-sm" role="button">Nuevo</a>
+                    </div>
+                    <div id="panelinfo3" class="collapse" aria-labelledby="panel3" data-parent="#accordion">
+                        <div class="card-body">
+                            <p>Aqui va estar </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center" id="panel2">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#panelinfo2" aria-expanded="false" aria-controls="collapseTwo">
+                                Listado de asignaturas total
+                            </button>
+                        </h3>
+                        <a class="btn btn-success btn-sm" role="button">Nuevo</a>
+                    </div>
+                    <div id="panelinfo2" class="collapse" aria-labelledby="panel2" data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="gradetable" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Grado</th>
+                                        <th>Nombre</th>
+                                        <th>Modalidad</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Año Lectivo</th>
+                                        <th>Nombre</th>
+                                        <th>Modalidad</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    @foreach (var item in ListSubject)
+                                    {
+                                    <tr>
+                                        <td>@item.SubjectID</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Modality</td>
+                                    </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+}
+

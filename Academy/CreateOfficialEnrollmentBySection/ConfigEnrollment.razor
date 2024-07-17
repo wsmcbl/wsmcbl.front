@@ -1,5 +1,32 @@
-@page "/academy/enrollments/{IdEnrollment}"
+@page "/academy/enrollments/configuration"
 @inherits ConfigEnrollment_razor;
+
+
+@if (tabsCreated)
+{
+<div class="card-body" id="tabContent">
+    <ul class="nav nav-tabs" role="tablist">
+        @for (int i = 1; i <= SecctionsNumber; i++)
+        {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link @(i == 1 ? "active" : "")" id="tab-@i" data-bs-toggle="tab" data-bs-target="#panel@i" type="button" role="tab" aria-controls="panel@i" aria-selected="@(i == 1 ? "true" : "false")">
+                Pestaña @i
+            </button>
+        </li>
+        }
+    </ul>
+    <div class="tab-content">
+        @for (int i = 1; i <= SecctionsNumber; i++)
+        {
+        <div class="tab-pane fade @(i == 1 ? "show active" : "")" id="panel@i" role="tabpanel" aria-labelledby="tab-@i">
+            <label for="input@i" class="form-label">Input @i</label>
+            <input type="text" class="form-control" id="input@i" />
+        </div>
+        }
+    </div>
+</div>
+}
+
 
 
 <link rel="stylesheet" href="/css/Academy/AcademyProfiles.css">

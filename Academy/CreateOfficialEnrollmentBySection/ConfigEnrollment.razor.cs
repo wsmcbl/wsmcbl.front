@@ -5,37 +5,21 @@ using wsmcbl.front.model.Secretary.Input;
 
 namespace wsmcbl.front.Academy.CreateOfficialEnrollmentBySection;
 
-public partial class ConfigEnrollment_razor : ComponentBase
+public partial class ConfigEnrollment_razor : EnrollmentBrich_razor
 {
     [Parameter] public string? IdEnrollment { get; set; }
     [Inject] protected AlertService alertService { get; set; } = null!;
     
-    protected List<EnrollmentEntity>? Enrollments { get; set; }
-    protected EnrollmentEntity? Enrollment;
+    protected List<Enrollments>? Enrollments { get; set; }
+    protected Enrollments? Enrollment;
+
+    protected override async void OnInitialized()
+    {
+        Enrollment = await LoadEnrollment();
+    }
 
     
-    protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            if (string.IsNullOrEmpty(IdEnrollment))
-            {
-                throw new ArgumentException("Emrollment Id is not valid");
-            }
-            
-            Enrollment = await LoadEnrollment();
-        }
-        catch (ArgumentException ae)
-        {
-            await alertService.AlertWarning(ae.Message);
-        }
-        catch
-        {
-            await alertService.AlertWarning("Obtuvimos problemas al cargar los datos");
-        }
-    }
-    
-    private async Task<EnrollmentEntity> LoadEnrollment()
+    private async Task<Enrollments> LoadEnrollment()
     {
         var students = new List<StudentEntity>
         {
@@ -95,7 +79,7 @@ public partial class ConfigEnrollment_razor : ComponentBase
             Subjects = subjects
         };
         
-        var enrollment = new EnrollmentEntity
+        var enrollment = new Enrollments
         {
             EnrollmentId = "1",
             Label = "Primer Grado",

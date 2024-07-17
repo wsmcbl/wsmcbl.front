@@ -12,6 +12,8 @@ builder.Services.AddTransient<SweetAlertService>();
 builder.Services.AddTransient<AlertService>();
 builder.Services.AddTransient<TariffCollectionController>();
 builder.Services.AddTransient<AcademyController>();  
+builder.Services.AddTransient<SecretaryController>();  
+
 
 builder.Services.AddSweetAlert2();
 

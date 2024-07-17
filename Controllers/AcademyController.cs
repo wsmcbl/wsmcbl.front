@@ -1,18 +1,15 @@
 using System.Text;
 using Newtonsoft.Json;
 using wsmcbl.front.model.Secretary.Output;
-using wsmcbl.front.model.accounting; 
-using wsmcbl.front.model.Secretary.Input;
+
 
 namespace wsmcbl.front.Controllers;
 
 public class AcademyController(HttpClient httpClient)
 {
-    private readonly HttpClient _httpClient = httpClient;
-
-    public async Task<List<wsmcbl.front.model.Secretary.Input.StudentEntity>?> GetStudents()
+    public async Task<List<model.Secretary.Input.StudentEntity>?> GetStudents()
     {
-        var response = await _httpClient.GetAsync(URL.secretary + "students");
+        var response = await httpClient.GetAsync(URL.secretary + "students");
 
         if (response.IsSuccessStatusCode is false)
         {
@@ -30,7 +27,7 @@ public class AcademyController(HttpClient httpClient)
         
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var response = await _httpClient.PostAsync(url, content);
+        var response = await httpClient.PostAsync(url, content);
 
         if (!response.IsSuccessStatusCode)
         {
