@@ -3,15 +3,15 @@ using wsmcbl.front.Accounting;
 using wsmcbl.front.model.Academy.Input;
 using wsmcbl.front.model.Secretary.Input;
 
-namespace wsmcbl.front.Academy.CreateOfficialEnrollmentBySection;
+namespace wsmcbl.front.Secretary.Enrollments;
 
-public class ConfigEnrollment_razor : EnrollmentBrich_razor
+public class ConfigEnrollment_razor : ComponentBase
 {
     [Parameter] public string Number { get; set; }
     [Inject] protected AlertService alertService { get; set; } = null!;
     
-    protected List<Enrollments>? Enrollments { get; set; }
-    protected Enrollments? Enrollment;
+    protected List<model.Secretary.Input.Enrollments>? Enrollments { get; set; }
+    protected model.Secretary.Input.Enrollments? Enrollment;
     protected int tabNumber;
 
     protected override async void OnParametersSet()
@@ -20,7 +20,7 @@ public class ConfigEnrollment_razor : EnrollmentBrich_razor
         tabNumber = Convert.ToInt32(Number);
     }
     
-    private async Task<Enrollments> LoadEnrollment()
+    private async Task<model.Secretary.Input.Enrollments> LoadEnrollment()
     {
         var students = new List<StudentEntity>
         {
@@ -80,7 +80,7 @@ public class ConfigEnrollment_razor : EnrollmentBrich_razor
             Subjects = subjects
         };
         
-        var enrollment = new Enrollments
+        var enrollment = new model.Secretary.Input.Enrollments
         {
             EnrollmentId = "1",
             Label = "Primer Grado",

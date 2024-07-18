@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.model.Secretary.Input;
 
-namespace wsmcbl.front.Academy.CreateOfficialEnrollmentBySection;
+namespace wsmcbl.front.Secretary.SchoolYears;
 
-public class SchoolYearView_razor : ComponentBase
+public class ListSchoolYears_razor : ComponentBase
 {
     protected List<SchoolYearEntity>? SchoolYear;
 
@@ -17,7 +17,7 @@ public class SchoolYearView_razor : ComponentBase
         var years = new SchoolYearEntity()
         {
             SchoolYearId = "001",
-            Label = "Primer Grado",
+            Label = "2023",
             StartDate = new DateOnly(2023, 1, 1),
             DeadLine = new DateOnly(2023,12,31),
             IsActive = false,

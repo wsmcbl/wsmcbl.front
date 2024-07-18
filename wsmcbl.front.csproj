@@ -28,15 +28,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="Academy\AcademyProfiles.razor" />
     <AdditionalFiles Include="Academy\EnrollStudent.razor" />
-    <AdditionalFiles Include="Academy\NewAcademyProfile.razor" />
     <AdditionalFiles Include="Accounting\TariffProfiles.razor" />
     <AdditionalFiles Include="Accounting\TarrifArreas.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="dto\" />
+    <Folder Include="Secretary\Components\" />
   </ItemGroup>
 
 </Project>
