@@ -9,12 +9,12 @@ namespace wsmcbl.front.Secretary.SchoolYears;
 
 public  class NewSchoolYear_razor : ComponentBase
 {
-    [Inject] protected SecretaryController SController { get; set; } = null!;
+    [Inject] protected CreateOfficialEnrollmentController SController { get; set; } = null!;
     [Inject] protected AlertService AlertService { get; set; } = null!;
 
     protected SchoolYearEntity SchoolYearEntity;
     protected SchoolYearTariffs? SelectedTariff;
-    protected NewTariffDto? NewTariffItem;    
+    protected TariffDataDto? NewTariffItem;    
     
     protected override async Task OnParametersSetAsync()
     {
@@ -70,13 +70,13 @@ public  class NewSchoolYear_razor : ComponentBase
     }
     protected void NewTariff()
     {
-        NewTariffItem = new NewTariffDto
+        NewTariffItem = new TariffDataDto
         {
             Concept = string.Empty,
             Amount = 0,
             Type = 0,
             Modality = 0,
-            DueDate = new Date()
+            dueDate = new Date()
             {
                 Year = 0,
                 Month = 0,
@@ -85,22 +85,21 @@ public  class NewSchoolYear_razor : ComponentBase
         };
     }
 
-    protected async Task SaveNewTariff(NewTariffDto tariffs)
+    protected async Task SaveNewTariff(TariffDataDto tariffsData)
     { 
-        if (tariffs?.DueDate != null &&
-            tariffs.DueDate.Year == 0 &&
-            tariffs.DueDate.Month == 0 &&
-            tariffs.DueDate.Day == 0)
+        if (tariffsData?.dueDate != null &&
+            tariffsData.dueDate.Year == 0 &&
+            tariffsData.dueDate.Month == 0 &&
+            tariffsData.dueDate.Day == 0)
         {
-            tariffs.DueDate = null;
+            tariffsData.dueDate = null;
         }
 
-        var response = await SController.NewTariff(tariffs);
+        var response = await SController.createNewTariff(tariffsData);
 
         if (response?.Success == true)
         {
             NewTariffItem = null;
-            StateHasChanged();
             await AlertService.AlertSuccess("Éxito", response.Message);
         }
         else

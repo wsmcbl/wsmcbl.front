@@ -9,7 +9,7 @@ namespace wsmcbl.front.Secretary.SchoolYears;
 public class ListSchoolYears_razor : ComponentBase
 {
     protected List<SchoolYearDto>? SchoolYear;
-    [Inject] protected SecretaryController controller { get; set; } = null!;
+    [Inject] protected CreateOfficialEnrollmentController controller { get; set; } = null!;
     
     protected override async Task OnParametersSetAsync()
     {

@@ -6,10 +6,10 @@ using wsmcbl.front.model.Secretary.Input;
 
 namespace wsmcbl.front.Controllers;
 
-public class SecretaryController
+public class CreateOfficialEnrollmentController
 {
     private readonly HttpClient _httpClient;
-    public SecretaryController(HttpClient httpClient)
+    public CreateOfficialEnrollmentController(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
@@ -53,15 +53,15 @@ public class SecretaryController
         return respuesta.IsSuccessStatusCode;
     }
     
-    public async Task<ApiResponse> NewTariff(NewTariffDto tariffs)
+    public async Task<ApiResponse> createNewTariff(TariffDataDto tariffDto)
     {
         try
         {
             var url = URL.NewSchoolYearTariff;
-            var json = JsonConvert.SerializeObject(tariffs);
+            var json = JsonConvert.SerializeObject(tariffDto);
             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var respuesta = await _httpClient.PostAsync(url, contenido);
+            var respuesta = await getResponse(url, contenido);
 
             if (respuesta.IsSuccessStatusCode)
             {
@@ -79,6 +79,6 @@ public class SecretaryController
         }
     }
 
-
-
+    private async Task<HttpResponseMessage> getResponse(string url, StringContent content)
+        => await _httpClient.PostAsync(url, content);
 }

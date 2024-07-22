@@ -1,6 +1,6 @@
 @page "/secretary/schoolyear/new"
 @inherits NewSchoolYear_razor;
-@using wsmcbl.front.Secretary.Components;
+
 
 <style>
     .year-box {
@@ -237,9 +237,9 @@ else
                             <h7>Vence:</h7>
                         </div>
                         <div class="form-group">
-                            <InputNumber class="form-control" @bind-Value="NewTariffItem.DueDate.Year"/>
-                            <InputNumber class="form-control" @bind-Value="NewTariffItem.DueDate.Month"/>
-                            <InputNumber class="form-control" @bind-Value="NewTariffItem.DueDate.Day"/>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.dueDate.Year"/>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.dueDate.Month"/>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.dueDate.Day"/>
                         </div>
 
                         <button type="submit" class="btn btn-success">Guardar</button>
