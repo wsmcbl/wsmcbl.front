@@ -1,5 +1,6 @@
 @page "/secretary/schoolyear/new"
 @inherits NewSchoolYear_razor;
+@using wsmcbl.front.Secretary.Components;
 
 <style>
     .year-box {
@@ -12,7 +13,7 @@
     }
 </style>
 
-@if (ListGrade == null)
+@if (SchoolYearEntity == null)
 {
     <div class="loader"></div>
 }
@@ -20,8 +21,8 @@ else
 {
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo  <span class="year-box">2024</span> </h6>
-            <a class="btn btn-success btn-sm" role="button">Guardar</a>
+            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo  <span class="year-box">@SchoolYearEntity.SchoolYearId</span> </h6>
+            <a class="btn btn-success btn-sm" role="button" @onclick="() => SaveSchoolYear(SchoolYearEntity)">Guardar</a>
         </div>
         <div class="card-body">
 
@@ -42,7 +43,6 @@ else
                                 <table id="gradetable" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Año Lectivo</th>
                                         <th>Nombre</th>
                                         <th>Modalidad</th>
@@ -50,17 +50,15 @@ else
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Año Lectivo</th>
                                         <th>Nombre</th>
                                         <th>Modalidad</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    @foreach (var item in ListGrade)
+                                    @foreach (var item in SchoolYearEntity.Grades)
                                     {
                                         <tr>
-                                            <td>@item.GradeId</td>
                                             <td>@item.SchoolYear</td>
                                             <td>@item.Label</td>
                                             <td>@item.Modality</td>
@@ -80,53 +78,48 @@ else
                                 Listado de tarifas y aranceles
                             </button>
                         </h3>
-                        <a class="btn btn-success btn-sm" role="button">Nuevo</a>
+                        <button class="btn btn-success btn-sm" @onclick="() => NewTariff()">Nueva</button>
                     </div>
                     <div id="panelinfo3" class="collapse" aria-labelledby="panel3" data-parent="#accordion">
-                        <div class="card-body">
-                            <p>Aqui va estar </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card">
-                    <div class="card-header py-3 d-flex justify-content-between align-items-center" id="panel2">
-                        <h3 class="mb-0">
-                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#panelinfo2" aria-expanded="false" aria-controls="collapseTwo">
-                                Listado de asignaturas total
-                            </button>
-                        </h3>
-                        <a class="btn btn-success btn-sm" role="button">Nuevo</a>
-                    </div>
-                    <div id="panelinfo2" class="collapse" aria-labelledby="panel2" data-parent="#accordion">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="gradetable" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>Grado</th>
-                                        <th>Nombre</th>
+                                        <th>Año Lectivo</th>
+                                        <th>Concepto</th>
+                                        <th>Precio</th>
+                                        <th>Vencimiento</th>
+                                        <th>Tipo</th>
                                         <th>Modalidad</th>
+                                        <th>Editar</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Año Lectivo</th>
-                                        <th>Nombre</th>
+                                        <th>Concepto</th>
+                                        <th>Precio</th>
+                                        <th>Vencimiento</th>
+                                        <th>Tipo</th>
                                         <th>Modalidad</th>
+                                        <th>Editar</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    @foreach (var item in ListSubject)
+                                    @foreach (var item in SchoolYearEntity.Tariffs)
                                     {
-                                    <tr>
-                                        <td>@item.SubjectID</td>
-                                        <td>@item.Description</td>
-                                        <td>@item.Name</td>
-                                        <td>@item.Modality</td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.SchoolYear</td>
+                                            <td>@item.Concept</td>
+                                            <td>@item.Amount</td>
+                                            <td>@(item.DueDate?.Year ?? 0)/@(item.DueDate?.Month ?? 0)/@(item.DueDate?.Day ?? 0)</td>
+                                            <td>@item.Type</td>
+                                            <td>@item.Modality</td>
+                                            <td>
+                                                <button class="btn btn-primary" @onclick="() => EditTariff(item)">Editar</button>
+                                            </td>
+                                        </tr>
                                     }
                                     </tbody>
                                 </table>
@@ -135,9 +128,128 @@ else
                     </div>
                 </div>
                 
+                <div class="card">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center" id="panel2">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#panelinfo2" aria-expanded="false" aria-controls="collapseTwo">
+                                Listado de asignaturas por grado
+                            </button>
+                        </h3>
+                        <a class="btn btn-success btn-sm" role="button">Nuevo</a>
+                    </div>
+                    <div id="panelinfo2" class="collapse" aria-labelledby="panel2" data-parent="#accordion">
+                        <div class="card-body">
+                            <h3>Detalles del Año Escolar</h3>
+                            @foreach (var grade in SchoolYearEntity.Grades)
+                            {
+                                <h4>@grade.Label - @grade.Modality</h4>
+                                <ul>
+                                    @foreach (var subject in grade.Subjects)
+                                    {
+                                        <li>
+                                            @subject.Name - Obligatorio: @subject.IsMandatory - Semestre: @subject.Semester
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div>
+                
             </div>
 
         </div>
+    </div> 
+    
+    @if (SelectedTariff != null)
+    {
+        <div class="modal fade show" tabindex="-1" style="display:block; background-color:rgba(0,0,0,0.5);" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Tarifa</h5>
+                        <button type="button" class="close" aria-label="Close" @onclick="Cancel">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <EditForm Model="SelectedTariff" OnValidSubmit="SaveEdit">
+                            <DataAnnotationsValidator/>
+                            <ValidationSummary/>
+
+                            <div class="form-group">
+                                <label>Concepto</label>
+                                <InputText class="form-control" @bind-Value="SelectedTariff.Concept"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Precio</label>
+                                <InputNumber class="form-control" @bind-Value="SelectedTariff.Amount"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Vencimiento</label>
+                                <InputNumber class="form-control" @bind-Value="SelectedTariff.DueDate.Year"/>
+                                <InputNumber class="form-control" @bind-Value="SelectedTariff.DueDate.Month"/>
+                                <InputNumber class="form-control" @bind-Value="SelectedTariff.DueDate.Day"/>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+    @if (NewTariffItem != null)
+{
+    <div class="modal fade show" tabindex="-1" style="display:block; background-color:rgba(0,0,0,0.5);" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nueva Tarifa</h5>
+                    <button type="button" class="close" aria-label="Close" @onclick="Cancel">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="NewTariffItem" OnValidSubmit="@(() => SaveNewTariff(NewTariffItem))">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
+
+                        <div class="form-group">
+                            <label>Concepto</label>
+                            <InputText class="form-control" @bind-Value="NewTariffItem.Concept"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.Amount"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo</label>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.Type"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Modalidad</label>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.Modality"/>
+                        </div>
+                        <div>
+                            <h7>Vence:</h7>
+                        </div>
+                        <div class="form-group">
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.DueDate.Year"/>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.DueDate.Month"/>
+                            <InputNumber class="form-control" @bind-Value="NewTariffItem.DueDate.Day"/>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancelar</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
     </div>
+}
+
 }
 

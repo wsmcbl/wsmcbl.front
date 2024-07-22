@@ -1,21 +1,28 @@
 using Newtonsoft.Json;
+using wsmcbl.front.dto.input;
 
 namespace wsmcbl.front.model.Secretary.Input;
 
 public class SchoolYearEntity
 {
-    [JsonProperty("schoolYearId")]
-    public string SchoolYearId { get; set; } = null!;
+    [JsonProperty("id")]
+    public string? SchoolYearId { get; set; }
 
     [JsonProperty("label")]
-    public string Label { get; set; } = null!;
+    public string? Label { get; set; }
 
     [JsonProperty("startDate")]
-    public DateOnly StartDate { get; set; }
+    public string? StartDate { get; set; }
     
     [JsonProperty("deadLine")]
-    public DateOnly DeadLine { get; set; }
+    public string? DeadLine { get; set; }
 
     [JsonProperty("isActive")]
     public bool IsActive { get; set; }
+
+    [JsonProperty("grades")]
+    public List<GradeDto>? Grades { get; set; }
+    
+    [JsonProperty("tariffs")]
+    public List<SchoolYearTariffs>? Tariffs { get; set; }
 }

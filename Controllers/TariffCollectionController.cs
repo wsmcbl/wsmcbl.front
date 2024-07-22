@@ -125,4 +125,7 @@ public class TariffCollectionController
     {
         cashier.setStudent(studentEntity);
     }
+    
+    
+    
 }

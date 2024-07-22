@@ -9,4 +9,12 @@ public static class URL
     
     public static string TRANSACTION = $"{accounting}transactions/invoices/";
     public static string APPLYARREARS = $"{api}/accounting/arrears/";
+
+    public static string ListSchoolYears = $"{secretary}configurations/schoolyears?q=all";
+    public static string NewSchoolYear = $"{secretary}configurations/schoolyears?q=new";
+    public static string PostSchoolYear = $"{secretary}configurations/schoolyears";
+    public static string NewSchoolYearTariff = $"{secretary}configurations/schoolyears/tariffs";
+
+
+
 }

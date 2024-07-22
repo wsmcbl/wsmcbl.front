@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using wsmcbl.front.model.Academy.Input;
+using wsmcbl.front.dto.input;
 
 namespace wsmcbl.front.model.Secretary.Input;
 
@@ -22,5 +22,8 @@ public class GradeEntity
 
     [JsonProperty("sections")]
     public List<Enrollments> Sections { get; set; } = null!;
+    
+    [JsonProperty("subjects")]
+    public List<SubjectDto>? Subjects { get; set; }
 
 }

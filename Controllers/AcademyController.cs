@@ -1,5 +1,6 @@
 using System.Text;
 using Newtonsoft.Json;
+using wsmcbl.front.model.Secretary.Input;
 using wsmcbl.front.model.Secretary.Output;
 
 
@@ -7,7 +8,7 @@ namespace wsmcbl.front.Controllers;
 
 public class AcademyController(HttpClient httpClient)
 {
-    public async Task<List<model.Secretary.Input.StudentEntity>?> GetStudents()
+    public async Task<List<StudentEntity>?> GetStudents()
     {
         var response = await httpClient.GetAsync(URL.secretary + "students");
 
@@ -36,6 +37,4 @@ public class AcademyController(HttpClient httpClient)
         
         return true;
     }
-    
-    
 }
