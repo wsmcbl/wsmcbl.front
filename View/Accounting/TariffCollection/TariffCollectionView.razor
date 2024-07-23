@@ -2,7 +2,7 @@
 
 @inherits TariffCollection;
 
-@if(isLoading())
+@if(IsLoading())
 {
     <div class="loader"></div>
 }
@@ -56,7 +56,7 @@ else
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var item in tariffList!)
+                                @foreach (var item in TariffList!)
                                 {
                                     if (item.Type == 1)
                                     {
@@ -65,13 +65,13 @@ else
                                             <td>@item.SchoolYear</td>
                                             <td>@item.Concept</td>
                                             @{
-                                                var hasDebt = student.hasPayments(item.TariffId);
-                                                var amount = hasDebt && student.getDebt(item.TariffId) != 0 ? student.getDebt(item.TariffId) : item.Amount;
+                                                var hasDebt = StudentEntity.HasPayments(item.TariffId);
+                                                var amount = hasDebt && StudentEntity.GetDebt(item.TariffId) != 0 ? StudentEntity.GetDebt(item.TariffId) : item.Amount;
                                             }
                                             <td>@amount</td>
                                             <td>@item.IsLate</td>
                                             <td>@item.DueDate</td>
-                                            @if (hasDebt && student.getDebt(item.TariffId) == 0)
+                                            @if (hasDebt && StudentEntity.GetDebt(item.TariffId) == 0)
                                             {
                                                 <td>
                                                     <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
@@ -106,7 +106,7 @@ else
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var item in tariffList!)
+                                @foreach (var item in TariffList!)
                                 {
                                     if (item.Type != 1)
                                     {
@@ -115,11 +115,11 @@ else
                                             <td>@item.SchoolYear</td>
                                             <td>@item.Concept</td>
                                             @{
-                                                var hasDebt = student.hasPayments(item.TariffId);
-                                                var amount = hasDebt && student.getDebt(item.TariffId) != 0 ? student.getDebt(item.TariffId) : item.Amount;
+                                                var hasDebt = StudentEntity.HasPayments(item.TariffId);
+                                                var amount = hasDebt && StudentEntity.GetDebt(item.TariffId) != 0 ? StudentEntity.GetDebt(item.TariffId) : item.Amount;
                                             }
                                             <td>@amount</td>
-                                            @if (hasDebt && student.getDebt(item.TariffId) == 0)
+                                            @if (hasDebt && StudentEntity.GetDebt(item.TariffId) == 0)
                                             {
                                                 <td>
                                                     <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
@@ -150,7 +150,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Nombre</span>
-                                        <span class="info-box-value">@student.fullName</span>
+                                        <span class="info-box-value">@StudentEntity.fullName</span>
                                     </div>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Código</span>
-                                        <span class="info-box-value">@student.studentId</span>
+                                        <span class="info-box-value">@StudentEntity.studentId</span>
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Grado</span>
-                                        <span class="info-box-value">@student.enrollmentLabel</span>
+                                        <span class="info-box-value">@StudentEntity.enrollmentLabel</span>
                                     </div>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Año Lectivo</span>
-                                        <span class="info-box-value">@student.schoolyear</span>
+                                        <span class="info-box-value">@StudentEntity.schoolyear</span>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Tutor</span>
-                                        <span class="info-box-value">@student.tutor</span>
+                                        <span class="info-box-value">@StudentEntity.tutor</span>
                                     </div>
                                 </div>
                             </div>
@@ -205,7 +205,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Descuento</span>
-                                        <span class="info-box-value">@student.discount</span>
+                                        <span class="info-box-value">@StudentEntity.discount</span>
                                     </div>
                                 </div>
                             </div>
@@ -239,7 +239,7 @@ else
                                 <div>Monto: </div>
                             </div>
                             <div class="col pay">
-                                <input id="amoun2" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amountToDivide">
+                                <input id="amoun2" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="AmountToDivide">
                             </div>
                         </div>
                         
@@ -255,7 +255,7 @@ else
                 </div>
 
                 @{
-                    if (tariffsToPay!.Count == 0)
+                    if (TariffsToPay!.Count == 0)
                     {
                         <div class="finishpaymodal">
                             <div class="card mb-4 py-3 border-left-danger" style="padding: 20px">
@@ -278,7 +278,7 @@ else
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in tariffsToPay)
+                                    @foreach (var item in TariffsToPay)
                                     {
                                         <tr>
                                             <td>@item.Concept</td>
@@ -293,9 +293,9 @@ else
                                     <tfoot>
                                     <tr>
                                         <th>Totales</th>
-                                        <th class="subtotal">@subtotal</th>
-                                        <th class="discount">@discount</th>
-                                        <th class="arrears">@arrears</th>
+                                        <th class="subtotal">@Subtotal</th>
+                                        <th class="discount">@Discount</th>
+                                        <th class="arrears">@Arrears</th>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -333,7 +333,7 @@ else
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var item in tariffsToPay!)
+                                @foreach (var item in TariffsToPay!)
                                 { 
                                     <tr>
                                         <td>@item.Concept</td>
@@ -347,9 +347,9 @@ else
                                 <tfoot>
                                 <tr>
                                     <th>Totales</th>
-                                    <th class="subtotal">@Math.Round(subtotal ,1)</th>
-                                    <th class="discount">@Math.Round(discount, 1)</th>
-                                    <th class="arrears">@Math.Round(arrears, 1)</th>
+                                    <th class="subtotal">@Math.Round(Subtotal ,1)</th>
+                                    <th class="discount">@Math.Round(Discount, 1)</th>
+                                    <th class="arrears">@Math.Round(Arrears, 1)</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -364,7 +364,7 @@ else
                                 <div>Recibí: </div>
                             </div>
                             <div class="col pay">
-                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="amountToDivide">
+                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="AmountToDivide">
                              </div>
                         </div>
 

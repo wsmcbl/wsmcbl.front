@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using wsmcbl.front.dto.input;
+using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.model.Secretary.Input;
+namespace wsmcbl.front.Model.Secretary.Input;
 
 public class GradeEntity
 {
@@ -21,7 +21,7 @@ public class GradeEntity
     public string Modality { get; set; } = null!;
 
     [JsonProperty("sections")]
-    public List<Enrollments> Sections { get; set; } = null!;
+    public List<EnrollmentEntity> Sections { get; set; } = null!;
     
     [JsonProperty("subjects")]
     public List<SubjectDto>? Subjects { get; set; }

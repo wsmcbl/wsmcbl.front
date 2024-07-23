@@ -1,9 +1,7 @@
 using Newtonsoft.Json;
-using wsmcbl.front.model.Secretary.Input;
 
-namespace wsmcbl.front.model.Academy.Input;
-
-public class Teacher
+namespace wsmcbl.front.Model.Secretary.Input;
+public class TeacherEntity
 {
     [JsonProperty ("teacherId")]
     public string? TeacherId { get; set; }
@@ -15,8 +13,8 @@ public class Teacher
     public string? Phone { get; set; }
     
     [JsonProperty("guideEnrollment")]
-    public Enrollments? GuideEnrollment { get; set; }
+    public EnrollmentEntity? GuideEnrollment { get; set; }
     
     [JsonProperty("subjects")]
-    public List<Subject>? Subjects { get; set; }
+    public List<SubjectEntity>? Subjects { get; set; }
 }

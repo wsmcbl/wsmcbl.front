@@ -1,6 +1,6 @@
-namespace wsmcbl.front.dto.input;
+namespace wsmcbl.front.View.Accounting.TariffCollection;
 
-public class TariffModal
+public class TariffModalDto
 {
     public int TariffId { get; set; }
     

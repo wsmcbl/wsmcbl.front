@@ -2,7 +2,7 @@
 
 @inherits TarrifArreas
 
-@if (tariffs == null)
+@if (Tariffs == null)
 {
     <div class="loader"></div>
 }
@@ -31,7 +31,7 @@ else
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in tariffs)
+                        @foreach (var item in Tariffs)
                         {
                             <tr>
                                 <td>@item.TariffId</td>

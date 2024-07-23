@@ -1,7 +1,7 @@
 using System.Text.Json;
-using wsmcbl.front.dto.input;
-using wsmcbl.front.model.accounting;
+using wsmcbl.front.Model.Accounting;
 using wsmcbl.front.Service;
+using wsmcbl.front.View.Accounting.TariffCollection;
 
 namespace wsmcbl.front.Controller;
 
@@ -113,10 +113,9 @@ public class CollectTariffController
         throw new Exception($"Error al obtener el estudiante con ID {studentId}");
     }
     
-    
     private CashierEntity cashier;
 
-    public void addDetail(List<TariffModal> tariffs, bool isApplyArrear)
+    public void addDetail(List<TariffModalDto> tariffs, bool isApplyArrear)
     {
         cashier.initTransaction();
         cashier.addDetail(tariffs, isApplyArrear);

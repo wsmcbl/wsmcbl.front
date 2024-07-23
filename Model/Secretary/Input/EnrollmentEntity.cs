@@ -1,10 +1,8 @@
 using Newtonsoft.Json;
-using wsmcbl.front.model.Academy.Input;
-using wsmcbl.front.model.Secretary.Input;
 
-namespace wsmcbl.front.model.Secretary.Input;
+namespace wsmcbl.front.Model.Secretary.Input;
 
-public class Enrollments
+public class EnrollmentEntity
 {
     [JsonProperty("enrollmentId")]
     public string? EnrollmentId { get; set; } = null!;
@@ -35,9 +33,9 @@ public class Enrollments
     public List<StudentEntity> Students { get; set; } = null!;
     
     [JsonProperty("teacherGuide")]
-    public Teacher TeacherGuide { get; set; } = null!;
+    public TeacherEntity TeacherGuide { get; set; } = null!;
     
     [JsonProperty("subjects")]
-    public List<Subject> Subjects { get; set; } = null!;
+    public List<SubjectEntity> Subjects { get; set; } = null!;
     
 }

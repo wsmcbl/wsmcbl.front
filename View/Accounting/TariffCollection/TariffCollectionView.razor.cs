@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.front.Controller;
-using wsmcbl.front.dto.input;
-using wsmcbl.front.model.accounting;
+using wsmcbl.front.Model.Accounting;
 using wsmcbl.front.View.Shared;
 
 namespace wsmcbl.front.View.Accounting.TariffCollection;
@@ -10,28 +9,27 @@ namespace wsmcbl.front.View.Accounting.TariffCollection;
 public class TariffCollection : ComponentBase
 {
     [Parameter] public string? StudentId { get; set; }
-    
-    [Inject] protected CollectTariffController controller { get; set; } = null!;
-    [Inject] protected AlertService alertService { get; set; } = null!;
-    [Inject] protected IJSRuntime JSRuntime { get; set; } = null!;
+    [Inject] protected CollectTariffController Controller { get; set; } = null!;
+    [Inject] protected AlertService AlertService { get; set; } = null!;
+    [Inject] protected IJSRuntime JsRuntime { get; set; } = null!;
 
 
-    protected double arrears { get; set;}
-    protected double subtotal { get; set;}
-    protected double discount { get; set;}
+    protected double Arrears { get; set;}
+    protected double Subtotal { get; set;}
+    protected double Discount { get; set;}
     protected double Total { get; set; }
     
-    protected double amountToDivide { get; set; }
-    private bool areArrearsApply { get; set; } = true;
+    protected double AmountToDivide { get; set; }
+    private bool AreArrearsApply { get; set; } = true;
 
-
-    protected List<TariffDto>? tariffList { get; set; }
-    private List<TariffModal>? tariffModalList { get; set; }
-    protected List<TariffModal>? tariffsToPay { get; set; }
+ 
+    protected List<TariffDto>? TariffList { get; set; }
+    private List<TariffModalDto>? TariffModalList { get; set; }
+    protected List<TariffModalDto>? TariffsToPay { get; set; }
     
-    protected StudentEntity? student { get; private set; }
+    protected StudentEntity? StudentEntity { get; private set; }
     
-    protected bool isLoading() => student == null || tariffList == null;
+    protected bool IsLoading() => StudentEntity == null || TariffList == null;
     
     protected override async Task OnParametersSetAsync()
     {
@@ -44,51 +42,51 @@ public class TariffCollection : ComponentBase
 
             await LoadStudent();
             
-            tariffList = await controller.GetTariffs("student", StudentId!);
+            TariffList = await Controller.GetTariffs("student", StudentId!);
 
-            tariffModalList = tariffList.Where(t => isNotPay(t.TariffId)).ToModalList(student!);
+            TariffModalList = TariffList.Where(t => isNotPay(t.TariffId)).ToModalList(StudentEntity!);
             
             ClearList();
         }
         catch (ArgumentException ae)
         {
-            await alertService.AlertWarning(ae.Message);
+            await AlertService.AlertWarning(ae.Message);
         }
         catch
         {
-            await alertService.AlertWarning("Obtuvimos problemas al cargar los datos del estudiante");
+            await AlertService.AlertWarning("Obtuvimos problemas al cargar los datos del estudiante");
         }
     }
     
-    private bool isNotPay(int tariffId) => !student!.hasPayments(tariffId) || student.getDebt(tariffId) != 0;
+    private bool isNotPay(int tariffId) => !StudentEntity!.HasPayments(tariffId) || StudentEntity.GetDebt(tariffId) != 0;
     
     protected void ClearList()
     {
-        tariffsToPay = [];
+        TariffsToPay = [];
         computeTotal();
-        amountToDivide = 0;
+        AmountToDivide = 0;
     }
 
     private void computeTotal()
     {
-        subtotal = 0;
-        discount = 0;
-        arrears = 0;
+        Subtotal = 0;
+        Discount = 0;
+        Arrears = 0;
         
-        foreach (var item in tariffsToPay!)
+        foreach (var item in TariffsToPay!)
         {
-            subtotal += item.Total;
-            discount += item.Discount;
-            arrears += item.Arrear;
+            Subtotal += item.Total;
+            Discount += item.Discount;
+            Arrears += item.Arrear;
         }
         
-        Total = subtotal;
+        Total = Subtotal;
     }
 
     private async Task LoadStudent()
     {
-        student = await controller.GetStudent(StudentId!);
-        controller.setStudent(student);
+        StudentEntity = await Controller.GetStudent(StudentId!);
+        Controller.setStudent(StudentEntity);
     }
     
     protected void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
@@ -97,39 +95,39 @@ public class TariffCollection : ComponentBase
             return;
         
         var isSelect = (bool)e.Value;
-        var tariffModal = tariffModalList!.First(t => t.TariffId == tariff.TariffId);
+        var tariffModal = TariffModalList!.First(t => t.TariffId == tariff.TariffId);
         
-        if (isSelect && !tariffsToPay!.Contains(tariffModal))
+        if (isSelect && !TariffsToPay!.Contains(tariffModal))
         {
-            tariffsToPay.Add(tariffModal);
+            TariffsToPay.Add(tariffModal);
         }
         else
         {
-            tariffsToPay!.Remove(tariffModal);
+            TariffsToPay!.Remove(tariffModal);
         }
     }
     
     protected void ExonerateArrears(ChangeEventArgs e)
     {
-        areArrearsApply = (bool) e.Value!;
+        AreArrearsApply = (bool) e.Value!;
         
-        Total += (areArrearsApply ? -1 : 1)*arrears;
+        Total += (AreArrearsApply ? -1 : 1)*Arrears;
     }
     
     protected async Task Pay()
     {
-        controller.addDetail(tariffsToPay!, areArrearsApply);
+        Controller.addDetail(TariffsToPay!, AreArrearsApply);
         
-        var result = await controller.SendPay();
+        var result = await Controller.SendPay();
 
         if (string.IsNullOrEmpty(result))
         {
-            await alertService.AlertError("¡Error en el Pago!", "La transacción no se completó correctamente.");
+            await AlertService.AlertError("¡Error en el Pago!", "La transacción no se completó correctamente.");
             return;
         }
         
-        await alertService.AlertSuccess("¡Pago Exitoso!", "La transacción se completó correctamente.");
-        await JSRuntime.InvokeVoidAsync("window.open", $"/transactions/invoices/{result}", "_blank");
+        await AlertService.AlertSuccess("¡Pago Exitoso!", "La transacción se completó correctamente.");
+        await JsRuntime.InvokeVoidAsync("window.open", $"/transactions/invoices/{result}", "_blank");
         
         await LoadStudent();
         ClearList();
@@ -138,29 +136,29 @@ public class TariffCollection : ComponentBase
     
     protected async Task ConfirmTransaction()
     {
-        var modal = tariffsToPay!.Count == 0 ? "middlePay" : "finistariff";
+        var modal = TariffsToPay!.Count == 0 ? "middlePay" : "finistariff";
 
         computeTotal();   
-        await JSRuntime.InvokeVoidAsync("showModal", modal);
+        await JsRuntime.InvokeVoidAsync("showModal", modal);
     }
     
     protected void DistributePay()
     {
-        if (amountToDivide <= 0)
+        if (AmountToDivide <= 0)
             return;
 
         foreach (var item in getDebtTariffList())
         {
-            if (item.Total > amountToDivide)
+            if (item.Total > AmountToDivide)
             {
-                item.Total = Math.Round(amountToDivide, 1);
+                item.Total = Math.Round(AmountToDivide, 1);
             }
             
-            tariffsToPay!.Add(item);
+            TariffsToPay!.Add(item);
 
-            amountToDivide -= item.Total;
+            AmountToDivide -= item.Total;
 
-            if (amountToDivide == 0)
+            if (AmountToDivide == 0)
             {
                 break;
             }
@@ -169,10 +167,10 @@ public class TariffCollection : ComponentBase
         computeTotal();
     }
 
-    private List<TariffModal> getDebtTariffList()
+    private List<TariffModalDto> getDebtTariffList()
     {
-        return tariffModalList!
-            .Where(item => tariffList!.First(t => t.TariffId == item.TariffId).Type == 1)
+        return TariffModalList!
+            .Where(item => TariffList!.First(t => t.TariffId == item.TariffId).Type == 1)
             .ToList();
     }
 }

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.front.dto.input;
+namespace wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
 public class GradeDto
 {

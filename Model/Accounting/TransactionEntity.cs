@@ -1,5 +1,8 @@
-namespace wsmcbl.front.Models.Accounting.Output;
-public class TransactionDto
+using wsmcbl.front.View.Accounting.TariffCollection;
+
+namespace wsmcbl.front.Model.Accounting;
+
+public class TransactionEntity
 {
     public string cashierId { get; set; } = null!;
     public string studentId { get; set; } = null!;

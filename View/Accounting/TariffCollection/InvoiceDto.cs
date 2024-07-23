@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.front.dto.input;
+namespace wsmcbl.front.View.Accounting.TariffCollection;
 
 public class InvoiceDto
 {

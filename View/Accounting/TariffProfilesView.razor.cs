@@ -1,7 +1,7 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controller;
-using wsmcbl.front.model.accounting;
+using wsmcbl.front.Model.Accounting;
 
 namespace wsmcbl.front.View.Accounting;
 

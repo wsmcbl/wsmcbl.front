@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.View.Shared;
 using wsmcbl.front.Controller;
-using wsmcbl.front.model.Secretary.Output;
 
 namespace wsmcbl.front.View.Academy.Profiles;
 
 public class NewAcademyProfiles : ComponentBase
 {
-    [Inject] protected AcademyController controller { get; set; } = null!;
+    [Inject] protected IEnrollSudentController controller { get; set; } = null!;
     [Inject] protected AlertService alertService { get; set; } = null!;
 
     protected string FirsName;
@@ -37,7 +36,7 @@ public class NewAcademyProfiles : ComponentBase
 
     protected async Task Save()
     {
-        StudentEntityDto NewStudent = new StudentEntityDto
+        StudentDto NewStudent = new StudentDto
         {
             Name = FirsName,
             SecondName = SecondName,

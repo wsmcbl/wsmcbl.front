@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace wsmcbl.front.Models.Accounting.Output;
+namespace wsmcbl.front.View.Accounting.TariffCollection;
 
 public class DetailDto
 {

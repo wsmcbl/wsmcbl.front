@@ -11,7 +11,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddTransient<SweetAlertService>();
 builder.Services.AddTransient<AlertService>();
 builder.Services.AddTransient<CollectTariffController>();
-builder.Services.AddTransient<AcademyController>();  
+builder.Services.AddTransient<IEnrollSudentController, EnrollStudentController>();  
 builder.Services.AddTransient<CreateOfficialEnrollmentController>();  
 
 

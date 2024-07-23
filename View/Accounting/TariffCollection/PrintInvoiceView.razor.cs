@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controller;
-using wsmcbl.front.dto.input;
 using wsmcbl.front.View.Shared;
 
 namespace wsmcbl.front.View.Accounting.TariffCollection;

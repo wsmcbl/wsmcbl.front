@@ -1,8 +1,7 @@
 using Newtonsoft.Json;
-using wsmcbl.front.dto.input;
+using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.model.Secretary.Input;
-
+namespace wsmcbl.front.Model.Secretary.Input;
 public class SchoolYearEntity
 {
     [JsonProperty("id")]

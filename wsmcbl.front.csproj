@@ -12,15 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="View\Academy\Profiles\AcademyProfiles.razor" />
-    <AdditionalFiles Include="View\Academy\Profiles\NewAcademyProfile.razor" />
     <AdditionalFiles Include="View\Accounting\TariffCollection\PrintInvoiceView.razor" />
     <AdditionalFiles Include="View\Accounting\TariffCollection\TariffCollectionView.razor" />
-    <AdditionalFiles Include="View\Secretary\Enrollments\ConfigureGrade.razor" />
-    <AdditionalFiles Include="View\Secretary\Enrollments\ListGrades.razor" />
     <AdditionalFiles Include="View\Secretary\Enrollments\Modal.razor" />
-    <AdditionalFiles Include="View\Secretary\SchoolYears\ListSchoolYears.razor" />
-    <AdditionalFiles Include="View\Secretary\SchoolYears\NewSchoolYear.razor" />
     <AdditionalFiles Include="View\Shared\EmptyLayout.razor" />
     <AdditionalFiles Include="View\Shared\Footer.razor" />
     <AdditionalFiles Include="View\Shared\MainLayout.razor" />
@@ -29,6 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Model\Academy\" />
+    <Folder Include="Model\Management\" />
     <Folder Include="View\" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using wsmcbl.front.model.Secretary.Input;
+using wsmcbl.front.Model.Secretary.Input;
 
 namespace wsmcbl.front.View.Secretary.Enrollments;
 

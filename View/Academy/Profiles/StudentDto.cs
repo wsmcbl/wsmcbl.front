@@ -1,8 +1,7 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.front.model.Secretary.Output;
-
-public class StudentEntityDto
+namespace wsmcbl.front.View.Academy.Profiles;
+public class StudentDto
 {
     [JsonProperty("name")]
     public string Name { get; set; } = null!;

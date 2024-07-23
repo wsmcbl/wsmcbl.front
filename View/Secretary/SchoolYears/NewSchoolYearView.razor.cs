@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controller;
-using wsmcbl.front.dto.input;
 using wsmcbl.front.dto.Output;
-using wsmcbl.front.model.Secretary.Input;
+using wsmcbl.front.Model.Secretary.Input;
+using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 using wsmcbl.front.View.Shared;
 
 namespace wsmcbl.front.View.Secretary.SchoolYears;
@@ -16,32 +16,6 @@ public  class NewSchoolYear : ComponentBase
     protected SchoolYearTariffs? SelectedTariff;
     protected TariffDataDto? NewTariffItem;    
     
-    protected override async Task OnParametersSetAsync()
-    {
-        try
-        {
-            SchoolYearEntity = await SController.NewSchoolYears();
-            if (SchoolYearEntity != null)
-            {
-                if (SchoolYearEntity.Tariffs != null)
-                {
-                    foreach (var tariff in SchoolYearEntity.Tariffs.Where(tariff => tariff.DueDate == null))
-                    {
-                        tariff.DueDate = new Date()
-                        {
-                            Year = 0,
-                            Month = 0,
-                            Day = 0
-                        };
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            AlertService.AlertError("Error", $"Error al obtener los datos: {ex.Message}");
-        }
-    }
     protected async Task SaveSchoolYear(SchoolYearEntity schoolYearEntity)
     {
         if (schoolYearEntity != null && schoolYearEntity.Tariffs != null)
@@ -95,7 +69,7 @@ public  class NewSchoolYear : ComponentBase
             tariffsData.dueDate = null;
         }
 
-        var response = await SController.createNewTariff(tariffsData);
+        var response = await SController.CreateNewTariff(tariffsData);
 
         if (response?.Success == true)
         {

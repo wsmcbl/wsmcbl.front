@@ -1,20 +1,20 @@
-using wsmcbl.front.model.accounting;
+using wsmcbl.front.Model.Accounting;
 
-namespace wsmcbl.front.dto.input;
+namespace wsmcbl.front.View.Accounting.TariffCollection;
 
 public static class EntityMaker
 {
-    private static TariffModal ToModalItem(this TariffDto tariff, StudentEntity student)
+    private static TariffModalDto ToModalItem(this TariffDto tariff, StudentEntity student)
     {
-        var tariffModal = new TariffModal
+        var tariffModal = new TariffModalDto
         {
             TariffId = tariff.TariffId,
             Concept = tariff.Concept
         };
         
-        if (student.hasPayments(tariff.TariffId))
+        if (student.HasPayments(tariff.TariffId))
         {
-            tariffModal.Amount = student.getDebt(tariff.TariffId);
+            tariffModal.Amount = student.GetDebt(tariff.TariffId);
             tariffModal.computeTotal();
             return tariffModal;
         }
@@ -27,9 +27,9 @@ public static class EntityMaker
         return tariffModal;
     }
 
-    public static List<TariffModal> ToModalList(this IEnumerable<TariffDto> list, StudentEntity student)
+    public static List<TariffModalDto> ToModalList(this IEnumerable<TariffDto> list, StudentEntity student)
     {
-        var listResult = new List<TariffModal>();
+        var listResult = new List<TariffModalDto>();
         listResult.AddRange(list.Select(item => item.ToModalItem(student)));
         return listResult;
     }

@@ -1,40 +1,49 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controller;
-using wsmcbl.front.dto.input;
-    
-    
+using wsmcbl.front.View.Accounting.TariffCollection;
+using wsmcbl.front.View.Shared;
+
 namespace wsmcbl.front.View.Accounting;
 
 public partial class TarrifArreas : ComponentBase
 {
-    [Inject] protected CollectTariffController tariffcontroller { get; set; } = null!;
-    [Inject] protected SweetAlertService Swal { get; set; } = null!;
+    [Inject] protected CollectTariffController Controller { get; set; }
+    [Inject] protected SweetAlertService Swal { get; set; }
+    [Inject] protected AlertService AlertService { get; set; }
     
-    protected List<TariffDto> selectedTariffs = new List<TariffDto>();
-    protected List<TariffDto> tariffs = null!;
-    protected int applyArreas;
-    
-    protected override async Task OnInitializedAsync()
+    protected List<TariffDto> SelectedTariffs = new List<TariffDto>();
+    protected List<TariffDto> Tariffs = null!;
+    protected int ApplyArreas;
+
+    protected override async Task OnParametersSetAsync()
     {
-        tariffs = await tariffcontroller.GetTariffsOverdue("state:overdue");
+        try
+        {
+            Tariffs = await Controller.GetTariffsOverdue("state:overdue");
+        }
+        catch (Exception e)
+        {
+            AlertService.AlertError("Error al cargar los datos", $"{e}");
+            
+        }
     }
     
     protected void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
     {
         if ((bool)e.Value)
         {
-            if (!selectedTariffs.Contains(tariff))
+            if (!SelectedTariffs.Contains(tariff))
             {
-                selectedTariffs.Add(tariff);
-                applyArreas = tariff.TariffId;
+                SelectedTariffs.Add(tariff);
+                ApplyArreas = tariff.TariffId;
             }
         }
         else
         {
-            if (selectedTariffs.Contains(tariff))
+            if (SelectedTariffs.Contains(tariff))
             {
-                selectedTariffs.Remove(tariff);
+                SelectedTariffs.Remove(tariff);
             }
         }
     }
@@ -54,7 +63,7 @@ public partial class TarrifArreas : ComponentBase
 
             if (result.IsConfirmed)
             {
-                var response = await tariffcontroller.ActiveArrears(applyArreas);
+                var response = await Controller.ActiveArrears(ApplyArreas);
 
                 if (response)
                 {

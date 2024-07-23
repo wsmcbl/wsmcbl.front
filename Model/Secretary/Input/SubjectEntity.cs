@@ -1,6 +1,5 @@
-namespace wsmcbl.front.model.Secretary.Input;
-
-public class Subject
+namespace wsmcbl.front.Model.Secretary.Input;
+public class SubjectEntity
 {
     public string? SubjectID { get; set; }
     

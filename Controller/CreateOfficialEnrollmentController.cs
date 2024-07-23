@@ -1,9 +1,9 @@
 using System.Text;
 using Newtonsoft.Json;
-using wsmcbl.front.dto.input;
 using wsmcbl.front.dto.Output;
-using wsmcbl.front.model.Secretary.Input;
+using wsmcbl.front.Model.Secretary.Input;
 using wsmcbl.front.Service;
+using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.front.Controller;
 
@@ -27,17 +27,18 @@ public class CreateOfficialEnrollmentController
         throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
     }
     
-    public async Task <SchoolYearEntity> NewSchoolYears()
+    public SchoolYearEntity NewSchoolYears()
     {
-        var response = await _httpClient.GetAsync(URL.NewSchoolYear);
+        var response = _httpClient.GetAsync(URL.NewSchoolYear).Result;
 
         if (response.IsSuccessStatusCode)
         {
-            return await response.Content.ReadFromJsonAsync<SchoolYearEntity>();
+            return response.Content.ReadFromJsonAsync<SchoolYearEntity>().Result;
         }
-        
+    
         throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
     }
+
 
     public async Task<bool> SaveSchoolYear(NewSchoolYearDto schoolYearEntity)
     {
@@ -54,7 +55,7 @@ public class CreateOfficialEnrollmentController
         return respuesta.IsSuccessStatusCode;
     }
     
-    public async Task<ApiResponse> createNewTariff(TariffDataDto tariffDto)
+    public async Task<ApiResponse> CreateNewTariff(TariffDataDto tariffDto)
     {
         try
         {
@@ -62,7 +63,7 @@ public class CreateOfficialEnrollmentController
             var json = JsonConvert.SerializeObject(tariffDto);
             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var respuesta = await getResponse(url, contenido);
+            var respuesta = await GetResponse(url, contenido);
 
             if (respuesta.IsSuccessStatusCode)
             {
@@ -80,6 +81,6 @@ public class CreateOfficialEnrollmentController
         }
     }
 
-    private async Task<HttpResponseMessage> getResponse(string url, StringContent content)
+    private async Task<HttpResponseMessage> GetResponse(string url, StringContent content)
         => await _httpClient.PostAsync(url, content);
 }

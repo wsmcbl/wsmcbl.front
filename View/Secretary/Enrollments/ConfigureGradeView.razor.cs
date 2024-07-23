@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using wsmcbl.front.model.Academy.Input;
-using wsmcbl.front.model.Secretary.Input;
+using wsmcbl.front.Model.Secretary.Input;
 using wsmcbl.front.View.Shared;
 
 namespace wsmcbl.front.View.Secretary.Enrollments;
@@ -10,8 +9,8 @@ public class ConfigEnrollment : ComponentBase
     [Parameter] public string Number { get; set; }
     [Inject] protected AlertService alertService { get; set; } = null!;
     
-    protected List<model.Secretary.Input.Enrollments>? Enrollments { get; set; }
-    protected model.Secretary.Input.Enrollments? Enrollment;
+    protected List<EnrollmentEntity>? Enrollments { get; set; }
+    protected EnrollmentEntity? Enrollment;
     protected int tabNumber;
 
     protected override async void OnParametersSet()
@@ -20,7 +19,7 @@ public class ConfigEnrollment : ComponentBase
         tabNumber = Convert.ToInt32(Number);
     }
     
-    private async Task<model.Secretary.Input.Enrollments> LoadEnrollment()
+    private async Task<EnrollmentEntity> LoadEnrollment()
     {
         var students = new List<StudentEntity>
         {
@@ -54,16 +53,16 @@ public class ConfigEnrollment : ComponentBase
             }
         };
         
-        var subjects = new List<Subject>
+        var subjects = new List<SubjectEntity>
         {
-            new Subject
+            new SubjectEntity
             {
                 SubjectID = "SUB001",
                 Name = "Mathematics",
                 Description = "Basic Math",
                 Modality = "Online"
             },
-            new Subject
+            new SubjectEntity
             {
                 SubjectID = "SUB002",
                 Name = "Science",
@@ -72,7 +71,7 @@ public class ConfigEnrollment : ComponentBase
             }
         };
         
-        var teacher = new Teacher
+        var teacher = new TeacherEntity()
         {
             TeacherId = "T001",
             Name = "Mr. Smith",
@@ -80,7 +79,7 @@ public class ConfigEnrollment : ComponentBase
             Subjects = subjects
         };
         
-        var enrollment = new model.Secretary.Input.Enrollments
+        var enrollment = new EnrollmentEntity()
         {
             EnrollmentId = "1",
             Label = "Primer Grado",
