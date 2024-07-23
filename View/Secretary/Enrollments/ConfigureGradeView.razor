@@ -1,0 +1,164 @@
+@page "/academy/enrollments/configuration/{Number}"
+@inherits ConfigEnrollment;
+
+
+@if (tabNumber > 0)
+{
+    <div class="card show mb-4">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                @for (int i = 1; i <= tabNumber; i++)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @(i == 1 ? "active" : "")" id="panel-@i" href="#card-@i" data-toggle="tab" role="tab" aria-controls="card-@i" aria-selected="@(i == 1 ? "true" : "false")">
+                            PANEL- @i
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="card-body" id="tabContent">
+            <div class="tab-content">
+                @for (int i = 1; i <= tabNumber; i++)
+                {
+                    <div class="tab-pane fade @(i == 1 ? "show active" : "")" id="card-@i" role="tabpanel" aria-labelledby="panel-@i">
+                        HOLAA
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<link rel="stylesheet" href="/css/Academy/AcademyProfiles.css">
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">Detalles de la matricula</h6>
+        <a href="#" class="btn btn-success btn-sm" role="button">Editar</a>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-12 col-md-4" style="margin-bottom: 15px">
+                <div class="card">
+                    <div class="card-body">
+                        <label style="display: inline-block; width: 200px;">Nombre:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Enrollment.Label">
+
+                        <label style="display: inline-block; width: 200px;">Maestro Guia:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Enrollment.TeacherGuide.Name">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" style="margin-bottom: 15px">
+                <div class="card">
+                    <div class="card-body">
+
+                        <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Enrollment.SchoolYear">
+
+                        <label style="display: inline-block; width: 200px;">Capacidad:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Enrollment.Capacity">
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4" style="margin-bottom: 15px">
+                <div class="card">
+                    <div class="card-body">
+                        <label style="display: inline-block; width: 200px;">Codigo:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Enrollment.EnrollmentId">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-bottom: 15px">
+            <div class="card-body">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Sexo</th>
+                                <th>Estado</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Sexo</th>
+                                <th>Estado</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            @foreach (var item in Enrollment.Students)
+                            {
+                                <tr>
+                                    <td>@item.StudentId</td>
+                                    <td>@item.Name @item.SecondName @item.Surname @item.SecondSurname</td>
+                                    <td>@(item.Sex ? "Masculino" : "Femenino")</td>
+                                    <td>
+                                        <span class="status-label @(item.IsActive ? "active-status" : "inactive-status")">
+                                            @(item.IsActive ? "ACTIVO" : "INACTIVO")
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-bottom: 15px">
+            <div class="card-body">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Modalidad</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Modalidad</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            @foreach (var item in Enrollment.Subjects)
+                            {
+                                <tr>
+                                    <td>@item.SubjectID</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Description</td>
+                                    <td>@item.Modality</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+<!-- Inicializamos datatable -->
+<script src="/js/demo/datatables-demo.js" defer></script>
+

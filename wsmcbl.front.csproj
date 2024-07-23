@@ -12,29 +12,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Accounting\TariffCollection.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Accounting\TariffProfiles.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Accounting\TarrifArreas.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Accounting\TarriffInvoice.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Academy\AcademyProfiles.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Academy\EnrollStudent.razor" />
-    <_ContentIncludedByDefault Remove="Pages\Academy\NewAcademyProfile.razor" />
-    <_ContentIncludedByDefault Remove="publish\web.config" />
-    <_ContentIncludedByDefault Remove="publish\appsettings.Development.json" />
-    <_ContentIncludedByDefault Remove="publish\appsettings.json" />
-    <_ContentIncludedByDefault Remove="publish\wsmcbl.front.deps.json" />
-    <_ContentIncludedByDefault Remove="publish\wsmcbl.front.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="publish\wwwroot\Tema\vendor\fontawesome-free\package.json" />
+    <AdditionalFiles Include="View\Academy\Profiles\AcademyProfiles.razor" />
+    <AdditionalFiles Include="View\Academy\Profiles\NewAcademyProfile.razor" />
+    <AdditionalFiles Include="View\Accounting\TariffCollection\PrintInvoiceView.razor" />
+    <AdditionalFiles Include="View\Accounting\TariffCollection\TariffCollectionView.razor" />
+    <AdditionalFiles Include="View\Secretary\Enrollments\ConfigureGrade.razor" />
+    <AdditionalFiles Include="View\Secretary\Enrollments\ListGrades.razor" />
+    <AdditionalFiles Include="View\Secretary\Enrollments\Modal.razor" />
+    <AdditionalFiles Include="View\Secretary\SchoolYears\ListSchoolYears.razor" />
+    <AdditionalFiles Include="View\Secretary\SchoolYears\NewSchoolYear.razor" />
+    <AdditionalFiles Include="View\Shared\EmptyLayout.razor" />
+    <AdditionalFiles Include="View\Shared\Footer.razor" />
+    <AdditionalFiles Include="View\Shared\MainLayout.razor" />
+    <AdditionalFiles Include="View\Shared\SidebarNav.razor" />
+    <AdditionalFiles Include="View\Shared\TopNavBar.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="Academy\EnrollStudent.razor" />
-    <AdditionalFiles Include="Accounting\TariffProfiles.razor" />
-    <AdditionalFiles Include="Accounting\TarrifArreas.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="dto\" />
+    <Folder Include="View\" />
   </ItemGroup>
 
 </Project>
