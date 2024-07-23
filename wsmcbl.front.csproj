@@ -28,4 +28,8 @@
     <Folder Include="View\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\ConfigSchoolYearView.css" />
+  </ItemGroup>
+
 </Project>
