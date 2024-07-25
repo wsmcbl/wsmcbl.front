@@ -2,27 +2,26 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controller;
 using wsmcbl.front.Model.Accounting;
+using wsmcbl.front.View.Shared;
 
 namespace wsmcbl.front.View.Accounting;
 
 public class TariffProfiles : ComponentBase
 {
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
-    [Inject] protected SweetAlertService Swal { get; set; } = null!;
+    [Inject] protected AlertService AlertService { get; set; } 
     
     protected List<StudentEntity>? students;
     
     protected override async Task OnInitializedAsync()
     {
-        students = await Controller.getStudentList();
-        if (students is null)
+        try
         {
-            await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "Sin estudiantes",
-                Text = "La transacción no se completó correctamente.",
-                Icon = SweetAlertIcon.Error
-            });
+            students = await Controller.getStudentList();
+        }
+        catch (Exception e)
+        {
+            AlertService.AlertError("Error", "Obtuvimos un error al cargar los datos.");
         }
     }
 }

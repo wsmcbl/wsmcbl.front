@@ -137,7 +137,6 @@ public class TariffCollection : ComponentBase
     protected async Task ConfirmTransaction()
     {
         var modal = TariffsToPay!.Count == 0 ? "middlePay" : "finistariff";
-
         computeTotal();   
         await JsRuntime.InvokeVoidAsync("showModal", modal);
     }

@@ -1,5 +1,6 @@
 @page "/web"
 @using wsmcbl.front.Model.Secretary.Input
+@using wsmcbl.front.View.Secretary.SchoolYears.Dto
 @inherits ConfigSchoolYear;
 
 @if (SchoolYearEntity == null)
@@ -9,47 +10,125 @@
 else
 {
     <link rel="stylesheet" href="css/ConfigSchoolYearView.css">
-
+    
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@SchoolYearEntity.SchoolYearId</span> </h6>
             <a class="btn btn-success btn-sm" role="button" @onclick="() => SaveSchoolYear(SchoolYearEntity)">Guardar</a>
         </div>
-    
-        <div class="card-body">
 
-            <div class="row">
-                <div class="col-md-4">
-                    <h4>Grados</h4>
-                    <ul class="list-group">
-                        @foreach (var grade in SchoolYearEntity.Grades)
-                        {
-                        <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
-                                @grade.Label
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <div class="col-md-8">
-                    <h4>Asignatura</h4>
-                    @if (SelectedGrade != null)
-                    {
-                        <ul class="list-group">
-                            @foreach (var subject in SelectedGrade.Subjects)
-                            {
-                                <li class="list-group-item">
-                                    @subject.Name
-                                </li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p>Seleccione un grado.</p>
-                    }
+        <div class="card-body">
+            <div id="accordion">
+
+                <div class="card">
+                    <div class="card-header" id="panel1">
+                        <h3 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo1" aria-expanded="true" aria-controls="collapseOne">
+                                Grados y asignaturas para este Año Lectivo
+                            </button>
+                            <button class="btn btn-success btn-sm" @onclick="OpenModalSubject">Nueva Asginatura</button>
+                        </h3>
+                    </div>
+
+                    <div id="panelinfo1" class="collapse show" aria-labelledby="panel1" data-parent="#accordion">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h4>Grados</h4>
+                                    <ul class="list-group">
+                                        @foreach (var grade in SchoolYearEntity.Grades)
+                                        {
+                                            <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
+                                                @grade.Label
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <h4>Asignatura</h4>
+                                    @if (SelectedGrade != null)
+                                    {
+                                        <ul class="list-group">
+                                            @foreach (var subject in SelectedGrade.Subjects)
+                                            {
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <span>@subject.Name</span>
+                                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveSubject(subject)">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <p>Seleccione un grado.</p>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            
+        </div>
+
+    </div>
+    
+    <div class="modal fade" id="ModalNewSubject" tabindex="-1" aria-labelledby="ModalSubject" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="middlePay">Nueva Asignatura</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="gradeIntId">Grado</label>
+                            <input type="number" class="form-control" id="gradeIntId" @bind="SubjectNew.GradeId" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" class="form-control" id="name" @bind="SubjectNew.Name" />
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="isMandatory" @bind="SubjectNew.IsMandatory" />
+                            <label class="form-check-label" for="isMandatory">Es Obligatorio</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="semester">Semestre</label>
+                            <input type="number" class="form-control" id="semester" @bind="SubjectNew.Semester" />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button class="btn btn-danger btn-sm" @onclick="() => SaveNewSubject(SubjectNew)"></button>
+                        <button type="button" class="btn btn-secondary">Cerrar</button>                 
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
+

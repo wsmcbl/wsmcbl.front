@@ -4,6 +4,9 @@ namespace wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
 public class SubjectDto
 {
+    [JsonProperty("gradeIntId")] 
+    public int GradeId { get; set; }
+    
     [JsonProperty("name")] 
     public string Name { get; set; } = null!;
     
