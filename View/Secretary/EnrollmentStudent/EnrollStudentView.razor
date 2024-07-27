@@ -1,7 +1,9 @@
-@page "/academy/profiles/2019-0056U"
+@page "/secretary/enrollments/students/{StudentId}"
 @inherits EnrollStudent;
 
-<link rel="stylesheet" href="css/EnrollStudent.css">
+@if (Student != null)
+{
+    <link rel="stylesheet" href="css/EnrollStudent.css">
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -30,25 +32,25 @@
                         <div class="card">
                             <div class="card-body">
                                 <label style="display: inline-block; width: 200px;">Primer Nombre: <span style="color: red;">*</span> </label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsName">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.Name">
 
                                 <label style="display: inline-block; width: 200px;">Segundo Nombre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondName">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.SecondName">
 
                                 <label style="display: inline-block; width: 200px;">Primer Apellido: <span style="color: red;">*</span> </label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsSurName">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.Surname">
 
                                 <label style="display: inline-block; width: 200px;">Segundo Apellido:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondSurName">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.SecondSurname">
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-4" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <label style="display: inline-block; width: 200px;">¿Repite?:</label>
-                                <select id="repite" class="form-control" style="margin: 0px" @onchange="GetRepite">
-                                    @foreach (var option in repite)
+                                <label style="display: inline-block; width: 200px;">¿Activo?</label>
+                                <select id="repite" class="form-control" style="margin: 0px" @onchange="GetIsActive">
+                                    @foreach (var option in IsActive)
                                     {
                                     <option value="@option">@option</option>
                                     }
@@ -58,7 +60,7 @@
                                 <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001" @bind="Birthday">
 
                                 <label style="display: inline-block; width: 200px; margin-top: 10px">Edad:</label>
-                                <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Edad">
+                                <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
 
                                 <label style="display: inline-block; width: 200px;">Sexo: <span style="color: red;">*</span> </label>
                                 <select id="sex" class="form-control" style="margin: 0px" @onchange="GetSexo">
@@ -186,4 +188,12 @@
     </div>
     
 </div>
+}
+else
+{
+    <div class="loader"></div>
+}
+
+
+
 

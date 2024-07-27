@@ -14,7 +14,7 @@
   <ItemGroup>
     <AdditionalFiles Include="View\Accounting\TariffCollection\PrintInvoiceView.razor" />
     <AdditionalFiles Include="View\Accounting\TariffCollection\TariffCollectionView.razor" />
-    <AdditionalFiles Include="View\Secretary\Enrollments\Modal.razor" />
+    <AdditionalFiles Include="View\Secretary\Grades\Modal.razor" />
     <AdditionalFiles Include="View\Shared\EmptyLayout.razor" />
     <AdditionalFiles Include="View\Shared\Footer.razor" />
     <AdditionalFiles Include="View\Shared\MainLayout.razor" />
@@ -23,9 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\Academy\" />
-    <Folder Include="Model\Management\" />
     <Folder Include="View\" />
+    <Folder Include="View\Academy\EnrollStudent\" />
   </ItemGroup>
 
   <ItemGroup>

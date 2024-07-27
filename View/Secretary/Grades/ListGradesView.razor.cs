@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.front.Model.Secretary.Input;
 
-namespace wsmcbl.front.View.Secretary.Enrollments;
+namespace wsmcbl.front.View.Secretary.Grades;
 
 public class ListGrades : ComponentBase
 {

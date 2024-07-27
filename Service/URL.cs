@@ -17,4 +17,8 @@ public static class URL
     public static string NewSubject = $"{secretary}configurations/schoolyears/subjects";
     
     
+    
+    public static string EnrollStudentList = $"{secretary}enrollments/students";
+    public static string GetInfoStudent = $"{secretary}enrollments/students/";
+    
 }

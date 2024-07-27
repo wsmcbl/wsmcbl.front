@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Model.Secretary.Input;
 using wsmcbl.front.View.Shared;
 
-namespace wsmcbl.front.View.Secretary.Enrollments;
+namespace wsmcbl.front.View.Secretary.Grades;
 
-public class ConfigEnrollment : ComponentBase
+public class ConfigureGrade : ComponentBase
 {
     [Parameter] public string Number { get; set; }
     [Inject] protected AlertService alertService { get; set; } = null!;

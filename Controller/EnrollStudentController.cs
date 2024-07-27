@@ -1,15 +1,39 @@
 using System.Text;
 using Newtonsoft.Json;
 using wsmcbl.front.Service;
-using wsmcbl.front.View.Academy.Profiles;
+using wsmcbl.front.View.Secretary.EnrollmentStudent.Dto;
+using StudentDto = wsmcbl.front.View.Academy.Profiles.StudentDto;
 
 namespace wsmcbl.front.Controller;
 
 public class EnrollStudentController(HttpClient httpClient) : IEnrollSudentController
 {
-    public void GetStudents()
+    public async Task<List<View.Secretary.EnrollmentStudent.Dto.StudentDto>> GetStudents()
     {
-        throw new NotImplementedException();
+        var response = await httpClient.GetAsync(URL.EnrollStudentList);
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<List<View.Secretary.EnrollmentStudent.Dto.StudentDto>>();
+        }
+        throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+    }
+
+    public async Task<StudentFullDto> GetInfoStudent(string studentId)
+    {
+        try
+        {
+            var response = await httpClient.GetAsync($"{URL.GetInfoStudent}{studentId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<StudentFullDto>();
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new ArgumentException("Error del servidor.");
+        }
+        
+        throw new ArgumentException("Error al obtener los datos del estudiante.", nameof(studentId));
     }
 
     public async Task<bool> PostNewStudent(StudentDto student)

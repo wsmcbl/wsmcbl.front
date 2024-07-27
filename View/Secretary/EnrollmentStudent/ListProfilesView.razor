@@ -1,7 +1,5 @@
-@page "/academy/profiles"
-
-@inherits AcademyProfiles;
-
+@page "/secretary/enrollments/students"
+@inherits ListProfiles;
 
 @if (Students == null)
 {
@@ -9,8 +7,6 @@
 }
 else
 {
-    <link rel="stylesheet" href="css/Academy/Status.css">
-
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de Estudiantes</h6>
@@ -19,23 +15,21 @@ else
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                <table id="dataTable" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Estado</th>
                         <th>Año Lectivo</th>
-                        <th>Grado</th>
+                        <th>Matricular</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Estado</th>
                         <th>Año Lectivo</th>
-                        <th>Grado</th>
+                        <th>Matricular</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -43,14 +37,11 @@ else
                     {
                         <tr>
                             <td>@item.StudentId</td>
-                            <td>@item.Name @item.SecondName @item.Surname @item.SecondSurname</td>
+                            <td>@item.Fullname</td>
+                            <td>@item.Schoolyear</td>
                             <td>
-                                <span class="status-label @(item.IsActive ? "active-status" : "inactive-status")">
-                                    @(item.IsActive ? "ACTIVO" : "INACTIVO")
-                                </span>
+                                <a href="/secretary/enrollments/students/@item.StudentId" class="btn btn-success btn-sm">Matricular</a>
                             </td>
-                            <td>@item.SchoolYear</td>
-                            <td>@item.EnrollmentLabel</td>
                         </tr>
                     }
                     </tbody>
