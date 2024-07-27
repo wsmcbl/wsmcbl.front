@@ -1,7 +1,7 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.front.Controller;
+using wsmcbl.front.dto.Output;
 using wsmcbl.front.Model.Secretary.Input;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 using wsmcbl.front.View.Shared;
@@ -14,17 +14,22 @@ public partial class ConfigSchoolYear : ComponentBase
     [Inject] protected AlertService AlertService { get; set; }
     [Inject] protected IJSRuntime JsRuntime { get; set; }
     protected SchoolYearEntity SchoolYearEntity;
+    
     protected GradeDto SelectedGrade;
     protected SubjectDto SubjectNew;
-
-    protected bool FlagSubject;
-
+    protected SchoolYearTariffs SelectedTariff;
+    
     protected override void OnParametersSet()
     {
         try
         {
             SubjectNew = new SubjectDto();
+            
+            SelectedTariff = new SchoolYearTariffs();
+            SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
+            
             SchoolYearEntity = Controller.NewSchoolYears();
+            
             AlertService.AlertSuccess("Datos cargados", "Edite los datos correspondiente y de click en guardar");
         }
         catch (Exception e)
@@ -33,9 +38,25 @@ public partial class ConfigSchoolYear : ComponentBase
         }
     }
 
-    protected Task SaveSchoolYear(SchoolYearEntity schoolYearEntity)
+    protected async Task SaveSchoolYear(SchoolYearEntity schoolYearEntity)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var response = await Controller.SaveNewSchoolYear(schoolYearEntity);
+
+            if (response.Success)
+            {
+                await AlertService.AlertSuccess("Éxito", response.Message);
+            }
+            else
+            {
+                await AlertService.AlertError("Error", response.Message);
+            }
+        }
+        catch (Exception e)
+        {
+            await AlertService.AlertError("Error", e.Message);
+        }
     }
 
     protected void SelectGrade(GradeDto grade)
@@ -51,30 +72,63 @@ public partial class ConfigSchoolYear : ComponentBase
         }
     }
 
-    protected async void OpenModalSubject()
-    {
-        await JsRuntime.InvokeVoidAsync("showModal", "ModalNewSubject");
-    }
-
-    protected void SaveNewSubject(SubjectDto subject)
+    protected async Task SaveNewSubject(SubjectDto subject)
     {
         try
         {
+            var response = await Controller.CreateNewSubject(subject);
 
+            if (response.Success)
+            {
+                await AlertService.AlertSuccess("Éxito", response.Message);
+            }
+            else
+            {
+                await AlertService.AlertError("Error", response.Message);
+            }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            await AlertService.AlertError("Error", e.Message);
         }
     }
 
+    protected async Task EditTariff(SchoolYearTariffs tariff)
+    {
+        SelectedTariff = tariff;
+        SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
+        await JsRuntime.InvokeVoidAsync("eval", "$('#ModalEditTariff').modal('show');");
+    }
+    
+    protected void RemoveTariff(SchoolYearTariffs tariff)
+    {
+        SchoolYearEntity.Tariffs?.Remove(tariff);
+    }
 
+    protected async Task SaveNewTariff(SchoolYearTariffs tariff)
+    {
+        try
+        {
+            TariffDataDto tariffDataDto = MapperDate.MapToTariffDataDto(tariff);
+            
+            var response = await Controller.CreateNewTariff(tariffDataDto);
 
+            if (response.Success)
+            {
+                await AlertService.AlertSuccess("Éxito", response.Message);
+            }
+            else
+            {
+                await AlertService.AlertError("Error", response.Message);
+            }
+        }
+        catch (Exception e)
+        {
+            await AlertService.AlertError("Error", e.Message);
+        }
+    }
 
-
-
-
+    
     protected string GetSelectedClass(GradeDto grade)
     {
         return grade == SelectedGrade ? "selected-grade" : string.Empty;

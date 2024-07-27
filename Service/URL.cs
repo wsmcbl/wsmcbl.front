@@ -14,4 +14,7 @@ public static class URL
     public static string NewSchoolYear = $"{secretary}configurations/schoolyears?q=new";
     public static string PostSchoolYear = $"{secretary}configurations/schoolyears";
     public static string NewSchoolYearTariff = $"{secretary}configurations/schoolyears/tariffs";
+    public static string NewSubject = $"{secretary}configurations/schoolyears/subjects";
+    
+    
 }

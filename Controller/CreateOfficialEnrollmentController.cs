@@ -3,21 +3,16 @@ using Newtonsoft.Json;
 using wsmcbl.front.dto.Output;
 using wsmcbl.front.Model.Secretary.Input;
 using wsmcbl.front.Service;
+using wsmcbl.front.View.Secretary.SchoolYears;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.front.Controller;
 
-public class CreateOfficialEnrollmentController
+public class CreateOfficialEnrollmentController(HttpClient httpClient)
 {
-    private readonly HttpClient _httpClient;
-    public CreateOfficialEnrollmentController(HttpClient httpClient)
+    public async Task<List<SchoolYearDto>> GetSchoolYearsList()
     {
-        _httpClient = httpClient;
-    }
-    
-    public async Task<List<SchoolYearDto>> GetSchoolYears()
-    {
-        var response = await _httpClient.GetAsync(URL.ListSchoolYears);
+        var response = await httpClient.GetAsync(URL.ListSchoolYears);
 
         if (response.IsSuccessStatusCode)
         {
@@ -29,7 +24,7 @@ public class CreateOfficialEnrollmentController
     
     public SchoolYearEntity NewSchoolYears()
     {
-        var response = _httpClient.GetAsync(URL.NewSchoolYear).Result;
+        var response = httpClient.GetAsync(URL.NewSchoolYear).Result;
 
         if (response.IsSuccessStatusCode)
         {
@@ -38,21 +33,30 @@ public class CreateOfficialEnrollmentController
     
         throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
     }
-
-
-    public async Task<bool> SaveSchoolYear(NewSchoolYearDto schoolYearEntity)
+    
+    public async Task<ApiResponse> SaveNewSchoolYear(SchoolYearEntity schoolYearEntity)
     {
-        var url = URL.PostSchoolYear; // Asumiendo que URL.PostSchoolYear es la URL base correcta
-
-        // Serializar el objeto SchoolYearEntity usando Newtonsoft.Json
-        var json = JsonConvert.SerializeObject(schoolYearEntity); 
-
-        var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-
-        var respuesta = await _httpClient.PostAsync(url, contenido);
-
-        // Devolver true si la respuesta fue exitosa, false en caso contrario
-        return respuesta.IsSuccessStatusCode;
+        try
+        {
+            NewSchoolYearDto newSchoolYearDto = MapperSchoolYear.MapToNewSchoolYearDto(schoolYearEntity);
+            
+            var url = URL.PostSchoolYear;
+            var json = JsonConvert.SerializeObject(newSchoolYearDto); 
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(url, content);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                return new ApiResponse { Success = true, Message = "Año Lectivo guardado con exito" };
+            }
+            var errorContent = await response.Content.ReadAsStringAsync();
+            return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
+            
+        }
+        catch (Exception e)
+        {
+            return new ApiResponse { Success = false, Message = $"An error occurred: {e.Message}" };
+        }
     }
     
     public async Task<ApiResponse> CreateNewTariff(TariffDataDto tariffDto)
@@ -62,25 +66,42 @@ public class CreateOfficialEnrollmentController
             var url = URL.NewSchoolYearTariff;
             var json = JsonConvert.SerializeObject(tariffDto);
             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var respuesta = await GetResponse(url, contenido);
+            var respuesta = await httpClient.PostAsync(url, contenido);
 
             if (respuesta.IsSuccessStatusCode)
             {
                 return new ApiResponse { Success = true, Message = "La tarifa fue guardada correctamente" };
             }
-            else
-            {
-                var errorContent = await respuesta.Content.ReadAsStringAsync();
-                return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
-            }
+            var errorContent = await respuesta.Content.ReadAsStringAsync();
+            return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
         }
         catch (Exception ex)
         {
             return new ApiResponse { Success = false, Message = $"An error occurred: {ex.Message}" };
         }
     }
+    
+    public async Task<ApiResponse> CreateNewSubject(SubjectDto subject)
+    {
+        try
+        {
+            var url = URL.NewSubject;
+            var json = JsonConvert.SerializeObject(subject);
+            var contenido = new StringContent(json, Encoding.UTF8, "application/json");
 
-    private async Task<HttpResponseMessage> GetResponse(string url, StringContent content)
-        => await _httpClient.PostAsync(url, content);
+            var respuesta = await httpClient.PostAsync(url, contenido);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                return new ApiResponse { Success = true, Message = "Asignatura creada correctamente" };
+            }
+            var errorContent = await respuesta.Content.ReadAsStringAsync();
+            return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
+        }
+        catch (Exception ex)
+        {
+            return new ApiResponse { Success = false, Message = $"Ocurrió un error: {ex.Message}" };
+        }
+    }
+    
 }

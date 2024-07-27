@@ -12,6 +12,6 @@ public class ListSchoolYears : ComponentBase
     
     protected override async Task OnParametersSetAsync()
     {
-        SchoolYear = await Controller.GetSchoolYears();
+        SchoolYear = await Controller.GetSchoolYearsList();
     }
 }

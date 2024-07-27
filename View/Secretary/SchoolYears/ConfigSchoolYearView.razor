@@ -1,6 +1,4 @@
-@page "/web"
-@using wsmcbl.front.Model.Secretary.Input
-@using wsmcbl.front.View.Secretary.SchoolYears.Dto
+@page "/secretary/schoolyear/new"
 @inherits ConfigSchoolYear;
 
 @if (SchoolYearEntity == null)
@@ -13,7 +11,7 @@ else
     
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@SchoolYearEntity.SchoolYearId</span> </h6>
+            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@SchoolYearEntity.Label</span> </h6>
             <a class="btn btn-success btn-sm" role="button" @onclick="() => SaveSchoolYear(SchoolYearEntity)">Guardar</a>
         </div>
 
@@ -22,15 +20,17 @@ else
 
                 <div class="card">
                     <div class="card-header" id="panel1">
-                        <h3 class="mb-0">
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo1" aria-expanded="true" aria-controls="collapseOne">
+                        <h3 class="mb-0 d-flex w-100 justify-content-between">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo1" aria-expanded="true" aria-controls="panelinfo1">
                                 Grados y asignaturas para este Año Lectivo
                             </button>
-                            <button class="btn btn-success btn-sm" @onclick="OpenModalSubject">Nueva Asginatura</button>
+                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalNewSubject">
+                                Nueva Asignatura
+                            </button>
                         </h3>
                     </div>
 
-                    <div id="panelinfo1" class="collapse show" aria-labelledby="panel1" data-parent="#accordion">
+                    <div id="panelinfo1" class="collapse" aria-labelledby="panel1" data-parent="#accordion">
                         <div class="card-body">
 
                             <div class="row">
@@ -70,18 +70,89 @@ else
 
                         </div>
                     </div>
-
                 </div>
+
+                <div class="card">
+                    <div class="card-header" id="panel2">
+                        <h3 class="mb-0 d-flex w-100 justify-content-between">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo2" aria-expanded="true" aria-controls="panelinfo2">
+                                Tarifas y Servicios
+                            </button>
+                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalNewTariff">
+                                Nueva Tarifa
+                            </button>
+                        </h3>
+                    </div>
+
+                    <div id="panelinfo2" class="collapse" aria-labelledby="panel2" data-parent="#accordion">
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <table id="gradetable" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Año Lectivo</th>
+                                        <th>Concepto</th>
+                                        <th>Precio</th>
+                                        <th>Vencimiento</th>
+                                        <th>Tipo</th>
+                                        <th>Modalidad</th>
+                                        <th>Editar</th>
+                                        <th>Eliminar</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Año Lectivo</th>
+                                        <th>Concepto</th>
+                                        <th>Precio</th>
+                                        <th>Vencimiento</th>
+                                        <th>Tipo</th>
+                                        <th>Modalidad</th>
+                                        <th>Editar</th>
+                                        <th>Eliminar</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    @foreach (var item in SchoolYearEntity.Tariffs)
+                                    {
+                                        <tr>
+                                            <td>@item.SchoolYear</td>
+                                            <td>@item.Concept</td>
+                                            <td>@item.Amount</td>
+                                            <td>@(item.DueDate?.Year ?? 0)/@(item.DueDate?.Month ?? 0)/@(item.DueDate?.Day ?? 0)</td>
+                                            <td>@item.Type</td>
+                                            <td>@item.Modality</td>
+                                            <td>
+                                                <button class="btn btn-primary" @onclick="() => EditTariff(item)">Editar</button>
+                                            </td>
+                                            <td>
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveTariff(item)">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </li>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
 
     </div>
     
-    <div class="modal fade" id="ModalNewSubject" tabindex="-1" aria-labelledby="ModalSubject" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="ModalNewSubject" tabindex="-1" role="dialog" aria-labelledby="ModalSubject" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="middlePay">Nueva Asignatura</h5>
+                    <h5 class="modal-title" id="ModalSubject">Nueva Asignatura</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -110,8 +181,8 @@ else
 
                 <div class="modal-footer">
                     <div class="right-container">
-                        <button class="btn btn-danger btn-sm" @onclick="() => SaveNewSubject(SubjectNew)"></button>
-                        <button type="button" class="btn btn-secondary">Cerrar</button>                 
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => SaveNewSubject(SubjectNew)">Guardar</button>
                     </div>
                 </div>
                 
@@ -119,16 +190,95 @@ else
         </div>
     </div>
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-}
+    <div class="modal fade" id="ModalNewTariff" tabindex="-1" role="dialog" aria-labelledby="ModalTariff" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalTariff">Nueva Tarifa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="gradeIntId">Concepto</label>
+                            <input type="text" class="form-control" id="Concept" @bind="SelectedTariff.Concept" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Cantidad</label>
+                            <input type="number" class="form-control" id="amount" @bind="SelectedTariff.Amount" />
+                        </div>
+                        <div class="form-group">
+                            <label for="semester">Vencimiento</label>
+                            <input type="date" class="form-control" id="dueDate" @bind="SelectedTariff.OnlyDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tipo</label>
+                            <input type="number" class="form-control" id="typeId" @bind="SelectedTariff.Type" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Modalidad</label>
+                            <input type="number" class="form-control" id="modality" @bind="SelectedTariff.Modality" />
+                        </div>
+                    </form>
+                </div>
 
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => SaveNewTariff(SelectedTariff)">Guardar</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="ModalEditTariff" tabindex="-1" role="dialog" aria-labelledby="ModalEdit" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalEdit">Editar Tarifa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="gradeIntId">Concepto</label>
+                            <input type="text" class="form-control" id="Concept" @bind="SelectedTariff.Concept" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Cantidad</label>
+                            <input type="number" class="form-control" id="amount" @bind="SelectedTariff.Amount" />
+                        </div>
+                        <div class="form-group">
+                            <label for="semester">Vencimiento</label>
+                            <input type="date" class="form-control" id="dueDate" @bind="SelectedTariff.OnlyDate" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Tipo</label>
+                            <input type="number" class="form-control" id="typeId" @bind="SelectedTariff.Type" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Modalidad</label>
+                            <input type="number" class="form-control" id="modality" @bind="SelectedTariff.Modality" />
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>                    
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+}

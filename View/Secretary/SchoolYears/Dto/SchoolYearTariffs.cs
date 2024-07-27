@@ -16,6 +16,8 @@ public class SchoolYearTariffs
     [JsonProperty("dueDate")]
     public Date? DueDate { get; set; }
     
+    public DateOnly OnlyDate { get; set; }
+    
     [JsonProperty("type")]
     public int Type { get; set; }
     

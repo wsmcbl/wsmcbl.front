@@ -18,11 +18,5 @@ public class TariffDataDto
     
     [JsonProperty("modality")]
     public int Modality { get; set; }
-
-    public bool isUndefine()
-    {
-        return dueDate.Year == 0 &&
-               dueDate.Month == 0 &&
-               dueDate.Day == 0;
-    }
+    
 }
