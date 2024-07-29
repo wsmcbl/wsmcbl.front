@@ -49,9 +49,9 @@ public class EnrollStudent : ComponentBase
     }
 
     protected override void OnParametersSet()
-    {
+    { 
         if (Birthday != null)
-        { 
+        {
             Student.birthday = new Date
             {
                 Year = Birthday.Year,
