@@ -1,6 +1,7 @@
 using System.Text;
 using Newtonsoft.Json;
 using wsmcbl.front.Service;
+using wsmcbl.front.View.Academy.Profiles;
 using wsmcbl.front.View.Secretary.EnrollmentStudent.Dto;
 using StudentDto = wsmcbl.front.View.Academy.Profiles.StudentDto;
 
@@ -25,7 +26,16 @@ public class EnrollStudentController(HttpClient httpClient) : IEnrollSudentContr
             var response = await httpClient.GetAsync($"{URL.GetInfoStudent}{studentId}");
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<StudentFullDto>();
+                var studentResult =  await response.Content.ReadFromJsonAsync<StudentFullDto>();
+
+                if (studentResult.birthday == null)
+                {
+                    studentResult.birthday.Year = DateTime.Today.Year;
+                    studentResult.birthday.Month = DateTime.Today.Month;
+                    studentResult.birthday.Day = DateTime.Today.Day;
+                }
+                
+                return studentResult;
             }
         }
         catch (Exception ex)

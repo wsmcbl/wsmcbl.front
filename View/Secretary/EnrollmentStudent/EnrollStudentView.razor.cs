@@ -18,7 +18,7 @@ public class EnrollStudent : ComponentBase
     protected string Padecimientos;
     protected string Religion;
     protected int Age;
-    protected DateTime Birthday;
+    protected DateOnly Birthday;
     
     protected string Tutor;
     protected string FatherName;
@@ -41,28 +41,14 @@ public class EnrollStudent : ComponentBase
         try
         {
             Student = await Controller.GetInfoStudent(StudentId);
+            Birthday = Student.birthday.ToDateOnly();
+            Age = ConverDate(Student.birthday);
         }
         catch (Exception e)
         {
             AlertService.AlertError("Error", $"{e}");
         }
     }
-
-    protected override void OnParametersSet()
-    { 
-        if (Birthday != null)
-        {
-            Student.birthday = new Date
-            {
-                Year = Birthday.Year,
-                Month = Birthday.Month,
-                Day = Birthday.Day
-            };
-
-            Age = ConverDate(Student.birthday);
-        }
-    }
-
 
     private int ConverDate(Date birthDate)
     {

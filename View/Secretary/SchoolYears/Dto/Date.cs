@@ -12,4 +12,12 @@ public class Date
     
     [JsonProperty("day")]
     public int Day { get; set; }
+
+    public DateOnly ToDateOnly()
+    {
+        return new DateOnly(Year, Month, Day);
+    }
+    
+    
+    
 }
