@@ -57,13 +57,11 @@
                         <div class="card">
                             <div class="card-body">
                                 <label style="display: inline-block; width: 200px;">¿Activo?</label>
-                                <select id="repite" class="form-control" style="margin: 0px" @onchange="GetIsActive">
-                                    @foreach (var option in IsActive)
-                                    {
-                                    <option value="@option">@option</option>
-                                    }
+                                <select @bind="SelectActive" class="form-control" style="margin: 0px">
+                                    <option value="true">Si</option>
+                                    <option value="false">No</option>
+                                    
                                 </select>
-
                                 <label style="display: inline-block; width: 250px; margin-top: 10px">Fecha de Nacimiento <span style="color: red;">*</span> </label>
                                 <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001" @bind="Birthday">
 
@@ -71,11 +69,9 @@
                                 <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
 
                                 <label style="display: inline-block; width: 200px;">Sexo: <span style="color: red;">*</span> </label>
-                                <select id="sex" class="form-control" style="margin: 0px" @onchange="GetSexo">
-                                    @foreach (var option in sexo)
-                                    {
-                                    <option value="@option">@option</option>
-                                    }
+                                <select @bind="SelectSex"  style="margin: 0px" class="form-control">
+                                    <option value="true">Masculino</option>
+                                    <option value="false">Femenino</option>
                                 </select>
                             </div>
                         </div>
@@ -166,27 +162,27 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold">Expediente</h5>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado">
+                                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student.File.TransferSheet">
                                     <label for="hojaTraslado">Hoja de traslado</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="partidaNacimiento" id="partidaNacimiento">
+                                    <input type="checkbox" name="partidaNacimiento" id="partidaNacimiento" @bind="Student.File.BirthDocument">
                                     <label for="partidaNacimiento">Partida de Nacimiento</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="cedulaTutor" id="cedulaTutor">
+                                    <input type="checkbox" name="cedulaTutor" id="cedulaTutor" @bind="Student.File.ParentIdentifier">
                                     <label for="cedulaTutor">Cedula Tutor</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="boletinActual" id="boletinActual">
+                                    <input type="checkbox" name="boletinActual" id="boletinActual" @bind="Student.File.UpdatedGradeReport">
                                     <label for="boletinActual">Boletín Actual</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="consConducta" id="consConducta">
+                                    <input type="checkbox" name="consConducta" id="consConducta" @bind="Student.File.ConductDocument">
                                     <label for="consConducta">Cons. Conducta</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="solvenciaFinanciera" id="solvenciaFinanciera">
+                                    <input type="checkbox" name="solvenciaFinanciera" id="solvenciaFinanciera" @bind="Student.File.FinancialSolvency">
                                     <label for="solvenciaFinanciera">Solvencia Financiera</label>
                                 </div>
                             </div>

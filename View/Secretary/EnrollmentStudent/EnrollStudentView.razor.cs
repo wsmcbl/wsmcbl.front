@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controller;
 using wsmcbl.front.View.Secretary.EnrollmentStudent.Dto;
@@ -23,12 +24,14 @@ public class EnrollStudent : ComponentBase
     protected Parent FatherInfo;
     protected Tutor Tutor;
     
-    protected List<string> IsActive = new() { "Si", "No" };
-    protected List<string> sexo = new() { "Femenino", "Masculino"};
-    
+    protected string SelectSex;
+    protected string SelectActive;
     
     protected List<string> grade = new() { "Primero", "Segundo", "Tercero" };
     protected List<string> section = new() { "A", "B", "C" };
+
+
+    
     
     protected override async Task OnParametersSetAsync()
     {
@@ -38,21 +41,40 @@ public class EnrollStudent : ComponentBase
             MotherInfo = new Parent();
             FatherInfo = new Parent();
             Tutor = new Tutor();
-
-            if (Student.birthday != null)
-            {
-                Birthday = Student.birthday.ToDateOnly();
-                Age = ConverDate(Student.birthday);    
-            }
-
-            Birthday = Student.birthday.ToDateNow();
+            SetStudentData();
         }
         catch (Exception e)
         {
             AlertService.AlertError("Error", $"{e}");
         }
     }
-
+    
+    protected void SetStudentData()
+    {
+        SelectSex = Student.Sex ? "true" : "false";
+        SelectActive = Student.IsActive ? "true" : "false";
+        foreach (var parent in Student.Parents)
+        {
+            if (parent.Sex)
+            {
+                FatherInfo = parent;
+            }
+            else
+            {
+                MotherInfo = parent;
+            }
+        }
+            
+        if (Student.birthday != null)
+        {
+            Birthday = Student.birthday.ToDateOnly();
+            Age = ConverDate(Student.birthday);    
+        }
+        else
+        {
+            Birthday = Student.birthday.ToDateNow();
+        }
+    }
     private int ConverDate(Date birthDate)
     {
         var birthDateTime = new DateTime(birthDate.Year, birthDate.Month, birthDate.Day);
@@ -65,29 +87,6 @@ public class EnrollStudent : ComponentBase
         }
 
         return age;
-    }
-    
-    protected void GetSexo(ChangeEventArgs e)
-    {
-        var selectSexo = e.Value.ToString();
-
-        if(selectSexo == "Femenino")
-        {
-            Student.Sex = false;
-        }else{
-            Student.Sex = true;
-        }
-    }
-    protected void GetIsActive(ChangeEventArgs e)
-    {
-        var isActive = e.Value.ToString();
-
-        if(isActive == "No")
-        {
-            Student.IsActive = false;
-        }else{
-            Student.IsActive = true;
-        }
     }
     protected void GetGrade(ChangeEventArgs e)
     {
