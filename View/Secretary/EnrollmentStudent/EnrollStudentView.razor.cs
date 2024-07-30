@@ -15,23 +15,17 @@ public class EnrollStudent : ComponentBase
 
     public StudentFullDto Student;
     
-    protected string Padecimientos;
-    protected string Religion;
-    protected int Age;
     protected DateOnly Birthday;
+    protected int Age;
+    protected string Address;
+
+    protected Parent MotherInfo;
+    protected Parent FatherInfo;
+    protected Tutor Tutor;
     
-    protected string Tutor;
-    protected string FatherName;
-    protected string MotherName;
-    protected string PhoneNumbers;
-    protected int Peso;
-    protected double Altura;
-
-
     protected List<string> IsActive = new() { "Si", "No" };
-    
-    protected bool Sex;
     protected List<string> sexo = new() { "Femenino", "Masculino"};
+    
     
     protected List<string> grade = new() { "Primero", "Segundo", "Tercero" };
     protected List<string> section = new() { "A", "B", "C" };
@@ -41,8 +35,17 @@ public class EnrollStudent : ComponentBase
         try
         {
             Student = await Controller.GetInfoStudent(StudentId);
-            Birthday = Student.birthday.ToDateOnly();
-            Age = ConverDate(Student.birthday);
+            MotherInfo = new Parent();
+            FatherInfo = new Parent();
+            Tutor = new Tutor();
+
+            if (Student.birthday != null)
+            {
+                Birthday = Student.birthday.ToDateOnly();
+                Age = ConverDate(Student.birthday);    
+            }
+
+            Birthday = Student.birthday.ToDateNow();
         }
         catch (Exception e)
         {
@@ -70,9 +73,9 @@ public class EnrollStudent : ComponentBase
 
         if(selectSexo == "Femenino")
         {
-            Sex = false;
+            Student.Sex = false;
         }else{
-            Sex = true;
+            Student.Sex = true;
         }
     }
     protected void GetIsActive(ChangeEventArgs e)

@@ -18,6 +18,10 @@ public class Date
         return new DateOnly(Year, Month, Day);
     }
     
+    public DateOnly ToDateNow()
+    {
+        return new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+    }
     
     
 }
