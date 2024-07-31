@@ -1,8 +1,9 @@
 @page "/secretary/grades"
 @inherits ListGrades;
 
-
-<link rel="stylesheet" href="css/EnrollStudent.css">
+@if(GradeList != null)
+{
+    <link rel="stylesheet" href="css/EnrollStudent.css">
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -43,7 +44,7 @@
                         <td>
                             @if (item.Quantity <=0)
                             {
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confGrade">
+                                <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.GradeId)">
                                     Configurar
                                 </button>
                             }
@@ -62,10 +63,6 @@
     <script src="/js/demo/datatables-demo.js" defer="defer"></script>
 </div>
 
-
-<button type="button" class="btn btn-danger" @onclick="() => OpenModal(1)">
-    Configurar
-</button>
 <MyModal  />
 
 
@@ -82,15 +79,21 @@
             <div class="modal-body">
                 <div class="finishpaymodal">
                     <div class="card mb-4 py-3 border-left-danger align-items-center" style="padding: 20px">
-                        <h5>Ingrese la cantidad de secciones deseadas para:</h5>
+                        <h5>Ingrese la cantidad de secciones deseadas:</h5>
                         <input type="number" class="form-control" style="margin-bottom: 10px" @bind="SecctionsNumber">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" @onclick="(e) => CreateTabs(SecctionsNumber,GradeId)">Continuar</button>
+                <button type="button" class="btn btn-danger" @onclick="(e) => CreateTabs(SecctionsNumber)">Continuar</button>
             </div>
         </div>
     </div>
 </div>
+}else
+{
+    <div class="loader"></div>
+}
+
+

@@ -6,7 +6,7 @@ namespace wsmcbl.front.Model.Secretary.Input;
 public class GradeEntity
 {
     [JsonProperty("gradeId")]
-    public int GradeId { get; set; }
+    public string GradeId { get; set; }
     
     [JsonProperty("label")]
     public string Label { get; set; } = null!;

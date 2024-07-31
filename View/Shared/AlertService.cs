@@ -21,8 +21,8 @@ public class AlertService
         await service.FireAsync(new SweetAlertOptions{ Title = title, Text = text,  Icon = SweetAlertIcon.Error});
     }
     
-    public async Task AlertWarning(string title)
+    public async Task AlertWarning(string title, string text)
     {
-        await service.FireAsync(new SweetAlertOptions{Title = title, Icon = SweetAlertIcon.Warning, ShowCancelButton = true });
+        await service.FireAsync(new SweetAlertOptions{Title = title, Text = text, Icon= SweetAlertIcon.Warning, ShowCancelButton = true });
     }
 }

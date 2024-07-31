@@ -50,11 +50,11 @@ public class TariffCollection : ComponentBase
         }
         catch (ArgumentException ae)
         {
-            await AlertService.AlertWarning(ae.Message);
+            await AlertService.AlertWarning("Advertencia",ae.Message);
         }
         catch
         {
-            await AlertService.AlertWarning("Obtuvimos problemas al cargar los datos del estudiante");
+            await AlertService.AlertWarning("Advertencia","Obtuvimos problemas al cargar los datos del estudiante");
         }
     }
     
