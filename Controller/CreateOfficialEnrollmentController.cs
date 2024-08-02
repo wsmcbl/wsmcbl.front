@@ -144,5 +144,25 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
         
         
     }
+
+    public async Task<GradeEntity> ConfigureEnrollment(string GradeId)
+    {
+        try
+        {
+            var response = await httpClient.GetAsync(URL.ConfigurateEnrollment+$"{GradeId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<GradeEntity>();
+            }
+            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Error al obtener los datos de la API:");
+        }
+    }
+    
+    
     
 }

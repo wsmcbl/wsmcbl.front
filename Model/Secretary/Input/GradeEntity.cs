@@ -4,7 +4,7 @@ using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 namespace wsmcbl.front.Model.Secretary.Input;
 
 public class GradeEntity
-{
+{ //revisado y cotejado con Back
     [JsonProperty("gradeId")]
     public string GradeId { get; set; }
     
@@ -20,8 +20,8 @@ public class GradeEntity
     [JsonProperty("modality")]
     public string Modality { get; set; } = null!;
 
-    [JsonProperty("sections")]
-    public List<EnrollmentEntity> Sections { get; set; } = null!;
+    [JsonProperty("enrollments")]
+    public List<EnrollmentEntity> Enrollments { get; set; } = null!;
     
     [JsonProperty("subjects")]
     public List<SubjectDto>? Subjects { get; set; }

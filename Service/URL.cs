@@ -21,4 +21,5 @@ public static class URL
     
     public static string EnrollStudentList = $"{secretary}enrollments/students";
     public static string GetInfoStudent = $"{secretary}enrollments/students/";
+    public static string ConfigurateEnrollment = $"{secretary}grades/";
 }

@@ -5,16 +5,13 @@ namespace wsmcbl.front.Model.Secretary.Input;
 public class EnrollmentEntity
 {
     [JsonProperty("enrollmentId")]
-    public string? EnrollmentId { get; set; } = null!;
+    public string EnrollmentId { get; set; }
     
     [JsonProperty("label")]
     public string Label { get; set; } = null!;
-
+    
     [JsonProperty("schoolYear")] 
     public string SchoolYear { get; set; } = null!;
-    
-    [JsonProperty("section")]
-    public string? Section { get; set; }
     
     [JsonProperty("capacity")]
     public int Capacity { get; set; }
@@ -22,12 +19,8 @@ public class EnrollmentEntity
     [JsonProperty("quantity")]
     public int Quantity { get; set; }
     
-    [JsonProperty("gradeId")]
-    public int GradeId { get; set; }
-    
-    [JsonProperty("state")]
-    public bool State { get; set; }
-    
+    [JsonProperty("modality")]
+    public string Modality { get; set; }
     
     [JsonProperty("students")]
     public List<StudentEntity> Students { get; set; } = null!;

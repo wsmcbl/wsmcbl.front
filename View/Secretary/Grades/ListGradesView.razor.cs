@@ -39,7 +39,7 @@ public class ListGrades : ComponentBase
         await JsRuntime.InvokeVoidAsync("eval", "$('#confGrade').modal('show');");
     }
     
-    protected async Task CreateTabs(int numberOfTabs)
+    protected async Task CreateTabs(string GradeId, int numberOfTabs)
     {
         if (numberOfTabs > 0 && numberOfTabs <= 7)
         {
@@ -61,6 +61,6 @@ public class ListGrades : ComponentBase
     
     protected async Task OpenNewTab()
     {
-        await JsRuntime.InvokeVoidAsync("window.open", $"/secretary/grades/configuration/{SecctionsNumber}", "_blank");
+        await JsRuntime.InvokeVoidAsync("window.open", $"/secretary/grades/configuration/{GradeId}/{SecctionsNumber}", "_blank");
     }
 }
