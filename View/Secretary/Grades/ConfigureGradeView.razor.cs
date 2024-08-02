@@ -22,6 +22,8 @@ public class ConfigureGrade : ComponentBase
 
     protected override async Task OnParametersSetAsync()
     {
+        counter = 0;
+        counter2 = 0;
         Grade = await Controller.ConfigureEnrollment(GradeId);
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }

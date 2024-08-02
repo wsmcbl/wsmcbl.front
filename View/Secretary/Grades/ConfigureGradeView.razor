@@ -24,7 +24,7 @@
                 @foreach (var item in Grade.Enrollments)
                 {
                     counter2++;
-                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@counter2" role="tabpanel" aria-labelledby="panel-@counter2">
+                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@item.EnrollmentId" role="tabpanel" aria-labelledby="panel-@item.EnrollmentId">
                         <div class="row">
                             <div class="col-12 col-md-4" style="margin-bottom: 15px">
                                 <div class="card">
