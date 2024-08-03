@@ -19,8 +19,8 @@ public class EnrollmentEntity
     [JsonProperty("quantity")]
     public int Quantity { get; set; }
     
-    [JsonProperty("modality")]
-    public string Modality { get; set; }
+    [JsonProperty("section")]
+    public string Section { get; set; }
     
     [JsonProperty("students")]
     public List<StudentEntity> Students { get; set; } = null!;

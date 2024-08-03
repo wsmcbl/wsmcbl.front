@@ -15,9 +15,11 @@ public class ConfigureGrade : ComponentBase
 
     protected EnrollmentEntity? Enrollment;
     protected GradeEntity? Grade;
+    
     protected int NumberEnrollment;
     protected int counter;
     protected int counter2;
+    protected string SchoolYear;
 
 
     protected override async Task OnParametersSetAsync()
@@ -25,6 +27,7 @@ public class ConfigureGrade : ComponentBase
         counter = 0;
         counter2 = 0;
         Grade = await Controller.ConfigureEnrollment(GradeId);
+        SchoolYear = Grade.SchoolYear;
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 

@@ -9,11 +9,11 @@ public class SubjectEntity
     [JsonProperty("name")]
     public string? Name { get; set; } 
     
-    [JsonProperty("description")]
-    public string? Description { get; set; }
+    [JsonProperty("isMandatory")]
+    public bool IsMandatory { get; set; }
     
-    [JsonProperty("modality")]
-    public string? Modality { get; set; }
+    [JsonProperty("semester")]
+    public int Semester { get; set; }
     
     [JsonProperty("teacherId")] public string TeacherId { get; set; }
     

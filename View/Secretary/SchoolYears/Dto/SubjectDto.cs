@@ -7,6 +7,9 @@ public class SubjectDto
     [JsonProperty("gradeIntId")] 
     public int GradeId { get; set; }
     
+    [JsonProperty("subjectId")]
+    public string? SubjectId { get; set; }
+    
     [JsonProperty("name")] 
     public string Name { get; set; } = null!;
     
