@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.Model.Secretary.Input;
+namespace wsmcbl.front.Model.Secretary;
 public class SchoolYearEntity
 {
     [JsonProperty("id")]
@@ -19,8 +19,8 @@ public class SchoolYearEntity
     [JsonProperty("isActive")]
     public bool IsActive { get; set; }
 
-    [JsonProperty("grades")]
-    public List<GradeDto>? Grades { get; set; }
+    [JsonProperty("degrees")]
+    public List<GradeDto>? Degrees { get; set; }
     
     [JsonProperty("tariffs")]
     public List<SchoolYearTariffs>? Tariffs { get; set; }

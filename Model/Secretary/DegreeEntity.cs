@@ -1,11 +1,11 @@
 using Newtonsoft.Json;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.Model.Secretary.Input;
+namespace wsmcbl.front.Model.Secretary;
 
-public class GradeEntity
+public class DegreeEntity
 { //revisado y cotejado con Back
-    [JsonProperty("gradeId")]
+    [JsonProperty("degreeId")]  
     public string GradeId { get; set; }
     
     [JsonProperty("label")]
@@ -16,6 +16,8 @@ public class GradeEntity
     
     [JsonProperty("quantity")]
     public int Quantity { get; set; }
+
+    public int Sections { get; set; }
     
     [JsonProperty("modality")]
     public string Modality { get; set; } = null!;
@@ -25,5 +27,4 @@ public class GradeEntity
     
     [JsonProperty("subjects")]
     public List<SubjectDto>? Subjects { get; set; }
-
 }

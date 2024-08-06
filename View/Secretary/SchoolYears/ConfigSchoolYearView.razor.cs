@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.front.Controller;
 using wsmcbl.front.dto.Output;
-using wsmcbl.front.Model.Secretary.Input;
+using wsmcbl.front.Model.Secretary;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 using wsmcbl.front.View.Shared;
 

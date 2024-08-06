@@ -3,7 +3,7 @@ namespace wsmcbl.front.View.Secretary.SchoolYears.Dto;
     
 public class NewSchoolYearDto
 {
-    [JsonProperty("grades")]
+    [JsonProperty("degrees")]
     public List<GradeDto>? Grades { get; set; }
     
     [JsonProperty("tariffs")]

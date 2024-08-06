@@ -18,4 +18,9 @@ public class SubjectDto
     
     [JsonProperty("semester")] 
     public int Semester { get; set; }
+    
+    [JsonProperty("initials")] 
+    public string initials { get; set; }
+
+    
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.front.Controller;
-using wsmcbl.front.Model.Secretary.Input;
+using wsmcbl.front.Model.Secretary;
 using wsmcbl.front.View.Shared;
 
 namespace wsmcbl.front.View.Secretary.Grades;
@@ -14,14 +14,13 @@ public class ConfigureGrade : ComponentBase
     [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
 
     protected EnrollmentEntity? Enrollment;
-    protected GradeEntity? Grade;
+    protected DegreeEntity? Grade;
     
     protected int NumberEnrollment;
     protected int counter;
     protected int counter2;
     protected string SchoolYear;
-
-
+    
     protected override async Task OnParametersSetAsync()
     {
         counter = 0;
@@ -30,6 +29,4 @@ public class ConfigureGrade : ComponentBase
         SchoolYear = Grade.SchoolYear;
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
-
-    
 }

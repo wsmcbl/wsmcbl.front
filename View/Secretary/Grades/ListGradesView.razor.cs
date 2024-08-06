@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.front.Controller;
-using wsmcbl.front.Model.Secretary.Input;
+using wsmcbl.front.Model.Secretary;
+using wsmcbl.front.View.Secretary.Grades.Dto;
 using wsmcbl.front.View.Shared;
 
 namespace wsmcbl.front.View.Secretary.Grades;
@@ -18,17 +19,17 @@ public class ListGrades : ComponentBase
     [Inject] protected AlertService? AlertService { get; set; }
 
     protected bool tabsCreated;
-    protected List<GradeEntity>? GradeList { get; set; }
+    protected List<DegreeEntity>? Degrees { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
-            GradeList = await Controller.GetGradeList();
+            Degrees = await Controller.GetGradeList();
         }
         catch (Exception e)
         {
-            AlertService.AlertError("Error", $"Obtuvimos algunos errores {e}");
+            AlertService.AlertError("Error", $"Obtuvimos algunos errores.\n Mensaje: {e}");
         }
         
     }
@@ -41,21 +42,20 @@ public class ListGrades : ComponentBase
     
     protected async Task CreateTabs(string GradeId, int numberOfTabs)
     {
-        if (numberOfTabs > 0 && numberOfTabs <= 7)
+        if (numberOfTabs <= 0 && numberOfTabs >= 7)
         {
-            var response = await Controller.CreateEnrollments(GradeId, numberOfTabs);
-            if (response.Success)
-            {
-                OpenNewTab();
-            }
-            else
-            {
-                AlertService.AlertError("Error", "No pudimos crear las secciones");
-            }
+            AlertService.AlertWarning("Advertencia", "El numero maximo de secciones es 7");
+            return;
+        }
+        
+        var response = await Controller.CreateEnrollments(GradeId, numberOfTabs);
+        if (response.Success)
+        {
+            OpenNewTab();
         }
         else
         {
-            AlertService.AlertWarning("Advertencia", "El numero maximo de secciones es 7");
+            AlertService.AlertError("Error", $"No pudimos crear las secciones.\\Mensage: {response.Message}");
         }
     }
     

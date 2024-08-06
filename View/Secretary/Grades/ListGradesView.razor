@@ -1,7 +1,7 @@
 @page "/secretary/grades"
 @inherits ListGrades;
 
-@if(GradeList != null)
+@if(Degrees != null)
 {
     <link rel="stylesheet" href="css/EnrollStudent.css">
 
@@ -16,7 +16,6 @@
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Año Lectivo</th>
                     <th># Secciones</th>
                     <th>Modalidad</th>
                     <th>Acciones</th>
@@ -26,23 +25,21 @@
                 <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Año Lectivo</th>
                     <th># Secciones</th>
                     <th>Modalidad</th>
                     <th>Acciones</th>
                 </tr>
                 </tfoot>
                 <tbody>
-                @foreach (var item in GradeList)
+                @foreach (var item in Degrees)
                 {
                     <tr>
                         <td> @item.GradeId </td>
                         <td> @item.Label </td>
-                        <td> @item.SchoolYear</td>
-                        <td> @item.Quantity</td>
+                        <td> @item.Sections</td>
                         <td> @item.Modality</td>
                         <td>
-                            @if (item.Quantity <=0)
+                            @if (item.Sections <=0)
                             {
                                 <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.GradeId)">
                                     Configurar

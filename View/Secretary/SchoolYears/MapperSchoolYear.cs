@@ -1,4 +1,4 @@
-using wsmcbl.front.Model.Secretary.Input;
+using wsmcbl.front.Model.Secretary;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.front.View.Secretary.SchoolYears;
@@ -9,7 +9,7 @@ public static class MapperSchoolYear
     {
         return new NewSchoolYearDto()
         {
-            Grades = schoolYearEntity.Grades,
+            Grades = schoolYearEntity.Degrees,
             Tariffs = schoolYearEntity.Tariffs
         };
     }

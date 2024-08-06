@@ -1,8 +1,9 @@
 using System.Text;
 using Newtonsoft.Json;
 using wsmcbl.front.dto.Output;
-using wsmcbl.front.Model.Secretary.Input;
+using wsmcbl.front.Model.Secretary;
 using wsmcbl.front.Service;
+using wsmcbl.front.View.Secretary.Grades.Dto;
 using wsmcbl.front.View.Secretary.SchoolYears;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
 
@@ -104,33 +105,39 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
         }
     }
 
-    public async Task<List<GradeEntity>> GetGradeList()
+    public async Task<List<DegreeEntity>> GetGradeList()
     {
-        var response = await httpClient.GetAsync(URL.GetGradeList);
+        var response = await httpClient.GetAsync(URL.ConfigurateEnrollment);
 
-        if (response.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
         {
-            return await response.Content.ReadFromJsonAsync<List<GradeEntity>>();
+            throw new ArgumentException($"Error al obtener los datos de la API.\n Mensaje: {response.ReasonPhrase}");
         }
-        throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+        
+        var result = await response.Content.ReadFromJsonAsync<List<DegreeToListDto>>();
+        
+        var degreeList = new List<DegreeEntity>();
+        foreach (var item in result)
+        {
+            degreeList.Add(item.ToEntity());
+        }
+
+        return degreeList;
     }
 
-    public async Task<ApiResponse> CreateEnrollments(string GradeId, int QuantityEnrollments)
+    public async Task<ApiResponse> CreateEnrollments(string DegreeId, int Quantity)
     {
         try
         {
-            EnrollmentQuantity obj = new()
-            {
-                gradeId = GradeId,
-                quantity = QuantityEnrollments
-            };
-            var url = URL.CreateEnrollments;
+            EnrollmentToCreateDto obj = new(DegreeId, Quantity);
+            
+            var url = URL.DegreesEnrollments;
             var json = JsonConvert.SerializeObject(obj);
             var contenido = new StringContent(json, Encoding.UTF8, "application/json");
             var respuesta = await httpClient.PostAsync(url, contenido);
             if (respuesta.IsSuccessStatusCode)
             {
-                return new ApiResponse { Success = true, Message = "Asignatura creada correctamente" };
+                return new ApiResponse { Success = true, Message = "Secciòn creada correctamente" };
             }
             var errorContent = await respuesta.Content.ReadAsStringAsync();
             return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
@@ -139,13 +146,9 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
         {
             return new ApiResponse { Success = false, Message = $"Ocurrió un error: {e.Message}" };
         }
-        
-        
-        
-        
     }
 
-    public async Task<GradeEntity> ConfigureEnrollment(string GradeId)
+    public async Task<DegreeEntity> ConfigureEnrollment(string GradeId)
     {
         try
         {
@@ -153,7 +156,7 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<GradeEntity>();
+                return await response.Content.ReadFromJsonAsync<DegreeEntity>();
             }
             throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
         }
