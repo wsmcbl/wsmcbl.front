@@ -26,7 +26,7 @@ public class EnrollmentEntity
     public List<StudentEntity> Students { get; set; } = null!;
     
     [JsonProperty("teacherGuide")]
-    public TeacherEntity TeacherGuide { get; set; } = null!;
+    public bool TeacherGuide { get; set; }
     
     [JsonProperty("subjects")]
     public List<SubjectEntity> Subjects { get; set; } = null!;

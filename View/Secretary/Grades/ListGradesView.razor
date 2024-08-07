@@ -36,10 +36,10 @@
                     <tr>
                         <td> @item.GradeId </td>
                         <td> @item.Label </td>
-                        <td> @item.Sections</td>
+                        <td> @item.Quantity</td>
                         <td> @item.Modality</td>
                         <td>
-                            @if (item.Sections <=0)
+                            @if (item.Quantity <=0)
                             {
                                 <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.GradeId)">
                                     Configurar

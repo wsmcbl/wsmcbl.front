@@ -1,18 +1,20 @@
 @page "/secretary/grades/configuration/{GradeId}/{EnrollmentNumber}"
+@using Microsoft.AspNetCore.Http.Features
+@using wsmcbl.front.Model.Secretary
 @inherits ConfigureGrade;
 
 
-@if (NumberEnrollment > 0 && Grade.Enrollments != null)
+@if (NumberEnrollment > 0 && DegreeDto.enrollments != null && TeacherList != null)
 {
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in Grade.Enrollments)
+                @foreach (var item in DegreeDto.enrollments)
                 {
                     counter++;
                     <li class="nav-item">
-                        <a class="nav-link @(counter == 1 ? "active" : "")" id="panel-@item.EnrollmentId" href="#card-@item.EnrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.EnrollmentId" aria-selected="@(counter == 1 ? "true" : "false")">
-                            @item.Label
+                        <a class="nav-link @(counter == 1 ? "active" : "")" id="panel-@item.enrollmentId" href="#card-@item.enrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.enrollmentId" aria-selected="@(counter == 1 ? "true" : "false")">
+                            @item.label
                         </a>
                     </li>
                 }
@@ -21,21 +23,34 @@
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
-                @foreach (var item in Grade.Enrollments)
+                @foreach (var item in DegreeDto.enrollments)
                 {
                     counter2++;
                     <!-- Inicio datos de matricula -->
-                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@item.EnrollmentId" role="tabpanel" aria-labelledby="panel-@item.EnrollmentId">
+                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@item.enrollmentId" role="tabpanel" aria-labelledby="panel-@item.enrollmentId">
                         <div class="row">
                             <div class="col-12 col-md-4" style="margin-bottom: 15px">
                                 <div class="card">
                                     <div class="card-body">
                                         <label style="display: inline-block; width: 200px;">Nombre:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="item.Label">
+                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="item.label">
 
                                         <label style="display: inline-block; width: 200px;">Maestro Guia:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px">
 
+                                        @if (item.teacherId == null)
+                                        {
+                                        <select class="form-control" style="margin: 0px" @onchange="(e) => ChangeTeacherStatus(e, item)">
+                                            <option value="">Selecciona un profesor</option>
+                                            @foreach (var option in TeacherAvailable)
+                                            {
+                                            <option value="@option.TeacherId">@option.Name</option>
+                                            }
+                                        </select>
+                                        }
+                                        else
+                                        {
+                                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="item.teacherName">
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -45,10 +60,10 @@
                                     <div class="card-body">
 
                                         <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SchoolYear">
+                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeDto.schoolYear">
 
                                         <label style="display: inline-block; width: 200px;">Capacidad:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="item.Capacity">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="item.capacity">
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +71,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <label style="display: inline-block; width: 200px;">Codigo del aula:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="item.Section">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="item.section">
                                     </div>
                                 </div>
                             </div>
@@ -118,21 +133,21 @@
                                             </tr>
                                             </tfoot>
                                             <tbody>
-                                            @foreach (var subject in Grade.Subjects)
+                                            @foreach (var subject in DegreeDto.subjects)
                                             {
-                                                var matchedSubject = item.Subjects.FirstOrDefault(s => s.SubjectId == subject.SubjectId);
+                                                var matchedSubject = item.subjects.FirstOrDefault(s => s.subjectId == subject.subjectId);
                                                 <tr>
-                                                    <td> @subject.SubjectId</td>
+                                                    <td> @subject.subjectId</td>
                                                     @if (matchedSubject != null)
                                                     {
-                                                        <td>@matchedSubject.Name</td>
+                                                        <td>@matchedSubject.subjectId</td>
                                                     }
                                                     else 
                                                     {
                                                         <td>No encontrado</td>
                                                     }
-                                                    <td> @subject.IsMandatory</td>
-                                                    <td> @subject.Semester</td>
+                                                    <td> @subject.isMandatory</td>
+                                                    <td> @subject.semester</td>
                                                 </tr>
                                             }
                                             </tbody>

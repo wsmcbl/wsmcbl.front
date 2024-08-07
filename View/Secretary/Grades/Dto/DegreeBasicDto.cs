@@ -1,27 +1,33 @@
 using wsmcbl.front.Model.Secretary;
+
 namespace wsmcbl.front.View.Secretary.Grades.Dto;
 
-public class DegreeToListDto
+public class DegreeBasicDto
 {
     public string degreeId { get; set; }
     public string label { get; set; }
     public string schoolYear { get; set; }
     public int quantity { get; set; }
     public string modality { get; set; }
+    public List<EnrollmentBasicDto> enrollments {get; set;}
+    public List<SubjectDto> subjects { get; set; }
     
-    public DegreeEntity ToEntity()
+    public DegreeEntity toEntity()
     {
-        var result =  new DegreeEntity
+        var result = new DegreeEntity()
         {
             GradeId = degreeId,
             Label = label,
-            Modality = modality,
-            Enrollments = [],
             SchoolYear = schoolYear,
-            Quantity = quantity
+            Quantity = quantity,
+            Sections = 0,
+            Modality = modality,
+            Enrollments = enrollments,
+            Subjects = subjects?.Select(s => s.ToEntity()).ToList()
         };
-        
         return result;
     }
+    
+    
     
 }

@@ -25,7 +25,7 @@ public class ListGrades : ComponentBase
     {
         try
         {
-            Degrees = await Controller.GetGradeList();
+            Degrees = await Controller.GetDegreeList();
         }
         catch (Exception e)
         {

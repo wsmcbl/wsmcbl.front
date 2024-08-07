@@ -9,6 +9,8 @@ public class TeacherEntity
     [JsonProperty("name")]
     public string? Name { get; set; }
     
+    public bool isGuide { get; set; }
+    
     [JsonProperty("phone")]
     public string? Phone { get; set; }
     

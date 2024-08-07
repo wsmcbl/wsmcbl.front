@@ -6,6 +6,7 @@ using wsmcbl.front.Service;
 using wsmcbl.front.View.Secretary.Grades.Dto;
 using wsmcbl.front.View.Secretary.SchoolYears;
 using wsmcbl.front.View.Secretary.SchoolYears.Dto;
+using SubjectDto = wsmcbl.front.View.Secretary.SchoolYears.Dto.SubjectDto;
 
 namespace wsmcbl.front.Controller;
 
@@ -104,25 +105,24 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
             return new ApiResponse { Success = false, Message = $"Ocurrió un error: {ex.Message}" };
         }
     }
-
-    public async Task<List<DegreeEntity>> GetGradeList()
+    
+    public async Task<List<TeacherEntity>> GetTeacherBasic()
     {
-        var response = await httpClient.GetAsync(URL.ConfigurateEnrollment);
+        var response = await httpClient.GetAsync(URL.GetTeacherBasic);
 
         if (!response.IsSuccessStatusCode)
         {
             throw new ArgumentException($"Error al obtener los datos de la API.\n Mensaje: {response.ReasonPhrase}");
         }
         
-        var result = await response.Content.ReadFromJsonAsync<List<DegreeToListDto>>();
-        
-        var degreeList = new List<DegreeEntity>();
+        var result = await response.Content.ReadFromJsonAsync<List<TeacherBasicDto>>();
+        var teacherList = new List<TeacherEntity>();
         foreach (var item in result)
         {
-            degreeList.Add(item.ToEntity());
+            teacherList.Add(item.ToEntity());
         }
 
-        return degreeList;
+        return teacherList;
     }
 
     public async Task<ApiResponse> CreateEnrollments(string DegreeId, int Quantity)
@@ -148,22 +148,36 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
         }
     }
 
-    public async Task<DegreeEntity> ConfigureEnrollment(string GradeId)
+    public async Task<DegreeBasicDto?> ConfigureEnrollment(string GradeId)
     {
-        try
-        {
-            var response = await httpClient.GetAsync(URL.ConfigurateEnrollment+$"{GradeId}");
+        var response = await httpClient.GetAsync(URL.ConfigurateEnrollment + $"{GradeId}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<DegreeEntity>();
-            }
+        if (!response.IsSuccessStatusCode)
+        {
             throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
         }
-        catch (Exception e)
+
+        var degreeDto = await response.Content.ReadFromJsonAsync<DegreeBasicDto>();
+        return degreeDto;
+    }
+
+    public async Task<List<DegreeEntity>> GetDegreeList()
+    {
+        var response = await httpClient.GetAsync(URL.ConfigurateEnrollment);
+
+        if (!response.IsSuccessStatusCode)
         {
-            throw new Exception($"Error al obtener los datos de la API:");
+            throw new ArgumentException($"Error al obtener los datos de la API.\n Mensaje: {response.ReasonPhrase}");
         }
+        
+        var result = await response.Content.ReadFromJsonAsync<List<DegreeToListDto>>();
+        var degreeList = new List<DegreeEntity>();
+        foreach (var item in result)
+        {
+            degreeList.Add(item.ToEntity());
+        }
+
+        return degreeList;
     }
     
     

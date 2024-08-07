@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
+using wsmcbl.front.View.Secretary.Grades.Dto;
 
 namespace wsmcbl.front.Model.Secretary;
 
@@ -23,8 +23,9 @@ public class DegreeEntity
     public string Modality { get; set; } = null!;
 
     [JsonProperty("enrollments")]
-    public List<EnrollmentEntity> Enrollments { get; set; } = null!;
+    public List<EnrollmentBasicDto> Enrollments { get; set; } = null!;
     
     [JsonProperty("subjects")]
-    public List<SubjectDto>? Subjects { get; set; }
+    public List<SubjectEntity> Subjects { get; set; }
+    
 }

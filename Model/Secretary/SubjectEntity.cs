@@ -6,6 +6,8 @@ public class SubjectEntity
     [JsonProperty("subjectId")]
     public string? SubjectId { get; set; }
     
+    public string Initials { get; set; }
+    
     [JsonProperty("name")]
     public string? Name { get; set; } 
     
