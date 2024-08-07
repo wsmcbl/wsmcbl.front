@@ -28,8 +28,12 @@ public class ConfigureGrade : ComponentBase
         counter = 0;
         counter2 = 0;
         DegreeDto = await Controller.ConfigureEnrollment(GradeId);
-        
         DegreeEntity = DegreeDto.toEntity();
+        
+        
+        
+        
+        
         TeacherList = await Controller.GetTeacherBasic();
         TeacherAvailable = TeacherList.Where(t => t.isGuide == false).ToList();
         
@@ -37,7 +41,7 @@ public class ConfigureGrade : ComponentBase
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 
-    protected void ChangeTeacherStatus(ChangeEventArgs e, EnrollmentBasicDto enrollment)
+    protected void ChangeTeacherGuideStatus(ChangeEventArgs e, EnrollmentBasicDto enrollment)
     {
         var selectedTeacherId = e.Value.ToString();
 
@@ -50,6 +54,19 @@ public class ConfigureGrade : ComponentBase
             }
         }
         Console.WriteLine($"Item TeacherId: {enrollment.teacherId}, Selected TeacherId: {selectedTeacherId}");
+    }
+    
+    protected void ChangeTeacherStatus(ChangeEventArgs e, SubjectBasicDto subject)
+    {
+        var selectedTeacherId = e.Value.ToString();
+
+        foreach (var item in TeacherList)
+        {
+            if (selectedTeacherId == item.TeacherId)
+            {
+                subject.teacherId = selectedTeacherId;
+            }
+        }
     }
     
 }
