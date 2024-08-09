@@ -20,7 +20,7 @@ public class ConfigureGrade : ComponentBase
     protected List<TeacherEntity> TeacherList;
     protected List<TeacherEntity> TeacherAvailable;
     protected DegreeBasicDto? DegreeDto;
-    protected DegreeEntity DegreeEntity;
+    protected DegreeEntity DegreeEntity; 
 
     
     protected override async Task OnParametersSetAsync()
