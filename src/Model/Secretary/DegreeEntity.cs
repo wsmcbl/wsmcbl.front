@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using wsmcbl.src.View.Secretary.Grades.Dto;
+using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.Model.Secretary;
 

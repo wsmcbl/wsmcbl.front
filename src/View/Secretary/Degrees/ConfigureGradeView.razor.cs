@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Secretary;
-using wsmcbl.src.View.Secretary.Grades.Dto;
+using wsmcbl.src.View.Secretary.Degrees.Dto;
 using wsmcbl.src.View.Shared;
 
-namespace wsmcbl.src.View.Secretary.Grades;
+namespace wsmcbl.src.View.Secretary.Degrees;
 
 public class ConfigureGrade : ComponentBase
 {

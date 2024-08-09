@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using wsmcbl.src.dto.Output;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Service;
-using wsmcbl.src.View.Secretary.Grades.Dto;
+using wsmcbl.src.View.Secretary.Degrees.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 using SubjectDto = wsmcbl.src.View.Secretary.SchoolYears.Dto.SubjectDto;

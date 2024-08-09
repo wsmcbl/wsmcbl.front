@@ -1,6 +1,6 @@
 using wsmcbl.src.Model.Secretary;
 
-namespace wsmcbl.src.View.Secretary.Grades.Dto;
+namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
 public class SubjectDto
 {
