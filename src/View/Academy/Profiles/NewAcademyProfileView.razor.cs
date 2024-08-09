@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
-using wsmcbl.front.View.Shared;
-using wsmcbl.front.Controller;
+using wsmcbl.src.View.Shared;
+using wsmcbl.src.Controller;
 
-namespace wsmcbl.front.View.Academy.Profiles;
+namespace wsmcbl.src.View.Academy.Profiles;
 
 public class NewAcademyProfiles : ComponentBase
 {

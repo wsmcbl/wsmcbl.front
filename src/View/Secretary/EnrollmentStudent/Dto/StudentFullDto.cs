@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.View.Secretary.EnrollmentStudent.Dto;
+namespace wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 
 public class StudentFullDto
 {

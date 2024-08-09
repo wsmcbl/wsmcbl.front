@@ -1,11 +1,11 @@
 using System.Runtime.InteropServices.JavaScript;
 using Microsoft.AspNetCore.Components;
-using wsmcbl.front.Controller;
-using wsmcbl.front.View.Secretary.EnrollmentStudent.Dto;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
-using wsmcbl.front.View.Shared;
+using wsmcbl.src.Controller;
+using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Shared;
 
-namespace wsmcbl.front.View.Secretary.EnrollmentStudent;
+namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
 
 public class EnrollStudent : ComponentBase
 {

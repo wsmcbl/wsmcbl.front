@@ -1,5 +1,6 @@
-using wsmcbl.front.View.Accounting.TariffCollection;
-namespace wsmcbl.front.Model.Accounting;
+using wsmcbl.src.View.Accounting.TariffCollection;
+
+namespace wsmcbl.src.Model.Accounting;
 
 public class CashierEntity
 {

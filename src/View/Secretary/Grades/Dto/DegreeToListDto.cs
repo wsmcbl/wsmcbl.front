@@ -1,5 +1,6 @@
-using wsmcbl.front.Model.Secretary;
-namespace wsmcbl.front.View.Secretary.Grades.Dto;
+using wsmcbl.src.Model.Secretary;
+
+namespace wsmcbl.src.View.Secretary.Grades.Dto;
 
 public class DegreeToListDto
 {

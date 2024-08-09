@@ -1,6 +1,6 @@
-using wsmcbl.front.Model.Secretary;
+using wsmcbl.src.Model.Secretary;
 
-namespace wsmcbl.front.View.Secretary.Grades.Dto;
+namespace wsmcbl.src.View.Secretary.Grades.Dto;
 
 public class EnrollmentBasicDto
 {

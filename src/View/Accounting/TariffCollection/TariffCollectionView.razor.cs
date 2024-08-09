@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using wsmcbl.front.Controller;
-using wsmcbl.front.Model.Accounting;
-using wsmcbl.front.View.Shared;
+using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.View.Shared;
 
-namespace wsmcbl.front.View.Accounting.TariffCollection;
+namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public class TariffCollection : ComponentBase
 {

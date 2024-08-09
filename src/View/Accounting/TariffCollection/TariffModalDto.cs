@@ -1,4 +1,4 @@
-namespace wsmcbl.front.View.Accounting.TariffCollection;
+namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public class TariffModalDto
 {

@@ -1,7 +1,7 @@
-using wsmcbl.front.Model.Secretary;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.View.Secretary.SchoolYears;
+namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public static class MapperSchoolYear
 {

@@ -1,6 +1,6 @@
-using wsmcbl.front.View.Accounting.TariffCollection;
+using wsmcbl.src.View.Accounting.TariffCollection;
 
-namespace wsmcbl.front.Model.Accounting;
+namespace wsmcbl.src.Model.Accounting;
 
 public class TransactionEntity
 {

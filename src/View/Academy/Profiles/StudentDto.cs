@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.front.View.Academy.Profiles;
+namespace wsmcbl.src.View.Academy.Profiles;
 public class StudentDto
 {
     [JsonProperty("name")]

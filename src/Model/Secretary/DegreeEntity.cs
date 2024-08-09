@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using wsmcbl.front.View.Secretary.Grades.Dto;
+using wsmcbl.src.View.Secretary.Grades.Dto;
 
-namespace wsmcbl.front.Model.Secretary;
+namespace wsmcbl.src.Model.Secretary;
 
 public class DegreeEntity
 { //revisado y cotejado con Back

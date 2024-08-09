@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using wsmcbl.front.Controller;
-using wsmcbl.front.dto.Output;
-using wsmcbl.front.Model.Secretary;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
-using wsmcbl.front.View.Shared;
+using wsmcbl.src.Controller;
+using wsmcbl.src.dto.Output;
+using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Shared;
 
-namespace wsmcbl.front.View.Secretary.SchoolYears;
+namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public partial class ConfigSchoolYear : ComponentBase
 {

@@ -1,6 +1,8 @@
-using wsmcbl.front.Models.Accounting;
 
-namespace wsmcbl.front.Model.Accounting;
+
+using wsmcbl.src.View.Accounting.TariffCollection;
+
+namespace wsmcbl.src.Model.Accounting;
 
 public class StudentEntity
 {

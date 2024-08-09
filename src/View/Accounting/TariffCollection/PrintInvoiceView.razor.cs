@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
-using wsmcbl.front.Controller;
-using wsmcbl.front.View.Shared;
+using wsmcbl.src.Controller;
+using wsmcbl.src.View.Shared;
 
-namespace wsmcbl.front.View.Accounting.TariffCollection;
+namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public class PrintInvoice : ComponentBase
 {

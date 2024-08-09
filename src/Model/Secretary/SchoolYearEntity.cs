@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.Model.Secretary;
+namespace wsmcbl.src.Model.Secretary;
 public class SchoolYearEntity
 {
     [JsonProperty("id")]

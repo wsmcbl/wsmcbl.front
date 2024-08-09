@@ -1,6 +1,6 @@
-using wsmcbl.front.Model.Accounting;
+using wsmcbl.src.Model.Accounting;
 
-namespace wsmcbl.front.View.Accounting.TariffCollection;
+namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public static class EntityMaker
 {

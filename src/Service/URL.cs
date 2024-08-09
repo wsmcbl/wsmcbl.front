@@ -1,4 +1,4 @@
-﻿namespace wsmcbl.front.Service;
+﻿namespace wsmcbl.src.Service;
 
 public static class URL
 {

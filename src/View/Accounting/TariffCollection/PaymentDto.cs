@@ -1,5 +1,6 @@
-namespace wsmcbl.front.Models.Accounting;
 using Newtonsoft.Json;
+
+namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public class PaymentDto
 {

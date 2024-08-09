@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using wsmcbl.front.View.Accounting.TariffCollection;
+using wsmcbl.src.View.Accounting.TariffCollection;
 
-namespace wsmcbl.front.View.Secretary.SchoolYears.Dto;
+namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 public class TransactionsStudents
 {

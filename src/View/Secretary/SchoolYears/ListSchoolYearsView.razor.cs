@@ -1,9 +1,8 @@
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Components;
-using wsmcbl.front.Controller;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.Controller;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.front.View.Secretary.SchoolYears;
+namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public class ListSchoolYears : ComponentBase
 {

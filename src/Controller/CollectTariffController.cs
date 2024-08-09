@@ -3,7 +3,7 @@ using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Service;
 using wsmcbl.src.View.Accounting.TariffCollection;
 
-namespace wsmcbl.front.Controller;
+namespace wsmcbl.src.Controller;
 
 public class CollectTariffController
 {

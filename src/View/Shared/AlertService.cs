@@ -1,6 +1,6 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 
-namespace wsmcbl.front.View.Shared;
+namespace wsmcbl.src.View.Shared;
 
 public class AlertService
 {

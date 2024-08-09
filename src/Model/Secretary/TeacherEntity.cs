@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.front.Model.Secretary;
+namespace wsmcbl.src.Model.Secretary;
 public class TeacherEntity
 {
     [JsonProperty ("teacherId")]

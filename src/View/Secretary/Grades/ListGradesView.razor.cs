@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using wsmcbl.front.Controller;
-using wsmcbl.front.Model.Secretary;
-using wsmcbl.front.View.Secretary.Grades.Dto;
-using wsmcbl.front.View.Shared;
+using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.View.Secretary.Grades.Dto;
+using wsmcbl.src.View.Shared;
 
-namespace wsmcbl.front.View.Secretary.Grades;
+namespace wsmcbl.src.View.Secretary.Grades;
 
 public class ListGrades : ComponentBase
 {

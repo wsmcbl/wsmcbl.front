@@ -1,10 +1,10 @@
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
-using wsmcbl.front.Controller;
-using wsmcbl.front.View.Accounting.TariffCollection;
-using wsmcbl.front.View.Shared;
+using wsmcbl.src.Controller;
+using wsmcbl.src.View.Accounting.TariffCollection;
+using wsmcbl.src.View.Shared;
 
-namespace wsmcbl.front.View.Accounting;
+namespace wsmcbl.src.View.Accounting;
 
 public partial class TarrifArreas : ComponentBase
 {

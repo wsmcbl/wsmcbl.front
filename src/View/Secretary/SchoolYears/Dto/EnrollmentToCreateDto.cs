@@ -1,4 +1,4 @@
-namespace wsmcbl.front.View.Secretary.SchoolYears.Dto;
+namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 public class EnrollmentToCreateDto
 {
