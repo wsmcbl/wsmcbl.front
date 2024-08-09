@@ -1,6 +1,0 @@
-.finishpaymodal {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente la tabla */
-    align-items: center;    /* Centra verticalmente la tabla */
-    width: 100%;            /* Asegura que el contenedor ocupe todo el ancho disponible */
-}

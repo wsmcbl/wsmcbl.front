@@ -1,6 +1,6 @@
-using wsmcbl.front.Controller;
+using wsmcbl.src.Controller;
 using CurrieTechnologies.Razor.SweetAlert2;
-using wsmcbl.front.View.Shared;
+using wsmcbl.src.View.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 

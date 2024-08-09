@@ -1,14 +1,14 @@
 using System.Text;
 using Newtonsoft.Json;
-using wsmcbl.front.dto.Output;
-using wsmcbl.front.Model.Secretary;
-using wsmcbl.front.Service;
-using wsmcbl.front.View.Secretary.Grades.Dto;
-using wsmcbl.front.View.Secretary.SchoolYears;
-using wsmcbl.front.View.Secretary.SchoolYears.Dto;
-using SubjectDto = wsmcbl.front.View.Secretary.SchoolYears.Dto.SubjectDto;
+using wsmcbl.src.dto.Output;
+using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Service;
+using wsmcbl.src.View.Secretary.Grades.Dto;
+using wsmcbl.src.View.Secretary.SchoolYears;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using SubjectDto = wsmcbl.src.View.Secretary.SchoolYears.Dto.SubjectDto;
 
-namespace wsmcbl.front.Controller;
+namespace wsmcbl.src.Controller;
 
 public class CreateOfficialEnrollmentController(HttpClient httpClient)
 {

@@ -1,11 +1,11 @@
 using System.Text;
 using Newtonsoft.Json;
-using wsmcbl.front.Service;
-using wsmcbl.front.View.Academy.Profiles;
-using wsmcbl.front.View.Secretary.EnrollmentStudent.Dto;
-using StudentDto = wsmcbl.front.View.Academy.Profiles.StudentDto;
+using wsmcbl.src.Service;
+using wsmcbl.src.View.Academy.Profiles;
+using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using StudentDto = wsmcbl.src.View.Academy.Profiles.StudentDto;
 
-namespace wsmcbl.front.Controller;
+namespace wsmcbl.src.Controller;
 
 public class EnrollStudentController(HttpClient httpClient) : IEnrollSudentController
 {

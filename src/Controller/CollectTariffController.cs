@@ -1,7 +1,7 @@
 using System.Text.Json;
-using wsmcbl.front.Model.Accounting;
-using wsmcbl.front.Service;
-using wsmcbl.front.View.Accounting.TariffCollection;
+using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.Service;
+using wsmcbl.src.View.Accounting.TariffCollection;
 
 namespace wsmcbl.front.Controller;
 
