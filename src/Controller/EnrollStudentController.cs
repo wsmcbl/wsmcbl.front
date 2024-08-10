@@ -1,17 +1,25 @@
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using wsmcbl.src.Service;
-using wsmcbl.src.View.Academy.Profiles;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using StudentDto = wsmcbl.src.View.Academy.Profiles.StudentDto;
 
 namespace wsmcbl.src.Controller;
 
-public class EnrollStudentController(HttpClient httpClient) : IEnrollSudentController
+public class EnrollStudentController: IEnrollSudentController
 {
+    private readonly HttpClient _httpClient;
+    private readonly ApiConsumer _apiConsumer;
+    public EnrollStudentController(HttpClient httpClient, ApiConsumer apiConsumer)
+    {
+        _httpClient = httpClient;
+        _apiConsumer = apiConsumer;
+    }
+    
     public async Task<List<View.Secretary.EnrollmentStudent.Dto.StudentDto>> GetStudents()
     {
-        var response = await httpClient.GetAsync(URL.EnrollStudentList);
+        var response = await _httpClient.GetAsync(URL.EnrollStudentList);
         if (response.IsSuccessStatusCode)
         {
             return await response.Content.ReadFromJsonAsync<List<View.Secretary.EnrollmentStudent.Dto.StudentDto>>();
@@ -21,31 +29,16 @@ public class EnrollStudentController(HttpClient httpClient) : IEnrollSudentContr
 
     public async Task<StudentFullDto> GetInfoStudent(string studentId)
     {
-        try
-        {
-            var response = await httpClient.GetAsync($"{URL.GetInfoStudent}{studentId}");
-            if (response.IsSuccessStatusCode)
-            {
-                var studentResult =  await response.Content.ReadFromJsonAsync<StudentFullDto>();
-
-                if (studentResult.birthday == null)
-                {
-                    studentResult.birthday.Year = DateTime.Today.Year;
-                    studentResult.birthday.Month = DateTime.Today.Month;
-                    studentResult.birthday.Day = DateTime.Today.Day;
-                }
-                
-                return studentResult;
-            }
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException("Error del servidor.");
-        }
-        
-        throw new ArgumentException("Error al obtener los datos del estudiante.", nameof(studentId));
+        var student = await _apiConsumer.GetAsync<StudentFullDto>(Resources.Secretary, $"enrollments/students/{studentId}");
+        return student;
     }
-
+    
+    public async Task<byte[]?> GetPdfContent(string studentId)
+    {
+        var content = await _apiConsumer.GetPdfAsync(Resources.Secretary, $"enrollments/documents/{studentId}");
+        return content;
+    }
+    
     public async Task<bool> PostNewStudent(StudentDto student)
     {
         var url = URL.secretary+"students";
@@ -54,7 +47,7 @@ public class EnrollStudentController(HttpClient httpClient) : IEnrollSudentContr
         
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync(url, content);
+        var response = await _httpClient.PostAsync(url, content);
 
         if (!response.IsSuccessStatusCode)
         {

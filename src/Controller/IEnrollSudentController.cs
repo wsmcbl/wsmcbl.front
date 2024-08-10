@@ -9,5 +9,6 @@ public interface IEnrollSudentController
     Task<List<View.Secretary.EnrollmentStudent.Dto.StudentDto>> GetStudents();
     Task<StudentFullDto> GetInfoStudent(string StudentID);
     Task<bool> PostNewStudent(StudentDto student);
-    
+    Task<byte[]?> GetPdfContent(string studentId);
+
 }

@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices.JavaScript;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
@@ -13,6 +14,7 @@ public class EnrollStudent : ComponentBase
     public string StudentId { get; set; }
     [Inject] protected IEnrollSudentController Controller { get; set; }
     [Inject] protected AlertService AlertService { get; set; }
+    [Inject] protected IJSRuntime JsRuntime { get; set; }
 
     public StudentFullDto Student;
     
@@ -29,6 +31,8 @@ public class EnrollStudent : ComponentBase
     
     protected List<string> grade = new() { "Primero", "Segundo", "Tercero" };
     protected List<string> section = new() { "A", "B", "C" };
+
+    protected byte[] pdfContent;
 
 
     
@@ -51,11 +55,11 @@ public class EnrollStudent : ComponentBase
     
     protected void SetStudentData()
     {
-        SelectSex = Student.Sex ? "true" : "false";
-        SelectActive = Student.IsActive ? "true" : "false";
-        foreach (var parent in Student.Parents)
+        SelectSex = Student.sex ? "true" : "false";
+        SelectActive = Student.isActive ? "true" : "false";
+        foreach (var parent in Student.parents)
         {
-            if (parent.Sex)
+            if (parent.sex)
             {
                 FatherInfo = parent;
             }
@@ -101,5 +105,11 @@ public class EnrollStudent : ComponentBase
     protected Task Save()
     {
         throw new NotImplementedException();
+    }
+
+    protected async Task PrintSheetEnrollment(string studenId)
+    {
+        pdfContent = await Controller.GetPdfContent(studenId);
+        await JsRuntime.InvokeVoidAsync("eval", "$('#ModalPdf').modal('show');");
     }
 }

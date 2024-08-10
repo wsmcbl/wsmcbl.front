@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace wsmcbl.src.Service;
@@ -69,7 +70,23 @@ public class ApiConsumer
     {
         return getContent(JsonConvert.SerializeObject(entity));
     }
-
+    
+    public async Task<byte[]?> GetPdfAsync(Resources module, string resource)
+    {
+        try
+        {
+            var url = BuildUri(module, resource);
+            var response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync();
+        }
+        catch (Exception e)
+        {
+            error.ShowError(e.Message);
+            return null;
+        }
+    }
+    
     protected static T? deserialize<T>(string content) => JsonConvert.DeserializeObject<T>(content);
 
 }
