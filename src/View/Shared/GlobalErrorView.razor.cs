@@ -4,8 +4,8 @@ using wsmcbl.src.Service;
 
 namespace wsmcbl.src.View.Shared;
 
-public partial class GlobalErrorBoundary : ComponentBase
+public partial class GlobalErrorView : ComponentBase
 {
-    private ErrorBoundary? errorBoundary;
+    private ErrorBoundary Error;
     [Parameter] public RenderFragment ChildContent { get; set; }
 }
