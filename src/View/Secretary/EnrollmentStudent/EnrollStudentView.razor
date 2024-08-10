@@ -29,27 +29,30 @@
                 @onclick="(e) => Save()">
             Guardar
         </button>
+        <button type="button" class="btn btn-success"
+                @onclick="(e) => PrintSheetEnrollment(Student.studentId)">
+            Imprimir Hoja de Matricula
+        </button>
     </div>
 
     <div class="card-body" id="tabContent">
         <div class="tab-content">
-
             <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
                 <div class="row">
                     <div class="col-12 col-md-4" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
                                 <label style="display: inline-block; width: 200px;">Primer Nombre: <span style="color: red;">*</span> </label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.Name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.name">
 
                                 <label style="display: inline-block; width: 200px;">Segundo Nombre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.SecondName">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.secondName">
 
                                 <label style="display: inline-block; width: 200px;">Primer Apellido: <span style="color: red;">*</span> </label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.Surname">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.surname">
 
                                 <label style="display: inline-block; width: 200px;">Segundo Apellido:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.SecondSurname">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.secondSurname">
                             </div>
                         </div>
                     </div>
@@ -60,7 +63,7 @@
                                 <select @bind="SelectActive" class="form-control" style="margin: 0px">
                                     <option value="true">Si</option>
                                     <option value="false">No</option>
-                                    
+
                                 </select>
                                 <label style="display: inline-block; width: 250px; margin-top: 10px">Fecha de Nacimiento <span style="color: red;">*</span> </label>
                                 <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001" @bind="Birthday">
@@ -69,7 +72,7 @@
                                 <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
 
                                 <label style="display: inline-block; width: 200px;">Sexo: <span style="color: red;">*</span> </label>
-                                <select @bind="SelectSex"  style="margin: 0px" class="form-control">
+                                <select @bind="SelectSex" style="margin: 0px" class="form-control">
                                     <option value="true">Masculino</option>
                                     <option value="false">Femenino</option>
                                 </select>
@@ -80,10 +83,10 @@
                         <div class="card">
                             <div class="card-body">
                                 <label style="display: inline-block; width: 200px;">Padecimientos:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.Diseases">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.diseases">
 
                                 <label style="display: inline-block; width: 200px;">Religión:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.Religion">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.religion">
 
                                 <label style="display: inline-block; width: 200px;">Dirección:</label>
                                 <textarea id="direccion" class="input-redimensionable" style="margin: 0px" @bind="Address"></textarea>
@@ -101,16 +104,13 @@
                                 <h5 class="card-title font-weight-bold">Información de la Madre</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre de la madre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.Name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.name">
 
                                 <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.IdCard">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.idCard">
 
                                 <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.Occupation">
-
-                                <label style="display: inline-block; width: 200px;">Telefono:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.Phone">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.occupation">
 
                             </div>
                         </div>
@@ -122,16 +122,13 @@
                                 <h5 class="card-title font-weight-bold">Información del Padre</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre del Padre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.Name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.name">
 
                                 <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.IdCard">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.idCard">
 
                                 <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.Occupation">
-
-                                <label style="display: inline-block; width: 200px;">Telefono:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.Phone">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.occupation">
 
                             </div>
                         </div>
@@ -143,10 +140,10 @@
                                 <h5 class="card-title font-weight-bold">Responsable o Tutor</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor.Name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor.name">
 
                                 <label style="display: inline-block; width: 200px;">Telefono:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor.Phone">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor.phone">
 
                             </div>
                         </div>
@@ -162,27 +159,27 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold">Expediente</h5>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student.File.TransferSheet">
+                                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student.file.transferSheet">
                                     <label for="hojaTraslado">Hoja de traslado</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="partidaNacimiento" id="partidaNacimiento" @bind="Student.File.BirthDocument">
+                                    <input type="checkbox" name="partidaNacimiento" id="partidaNacimiento" @bind="Student.file.birthDocument">
                                     <label for="partidaNacimiento">Partida de Nacimiento</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="cedulaTutor" id="cedulaTutor" @bind="Student.File.ParentIdentifier">
+                                    <input type="checkbox" name="cedulaTutor" id="cedulaTutor" @bind="Student.file.parentIdentifier">
                                     <label for="cedulaTutor">Cedula Tutor</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="boletinActual" id="boletinActual" @bind="Student.File.UpdatedGradeReport">
+                                    <input type="checkbox" name="boletinActual" id="boletinActual" @bind="Student.file.updatedGradeReport">
                                     <label for="boletinActual">Boletín Actual</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="consConducta" id="consConducta" @bind="Student.File.ConductDocument">
+                                    <input type="checkbox" name="consConducta" id="consConducta" @bind="Student.file.conductDocument">
                                     <label for="consConducta">Cons. Conducta</label>
                                 </div>
                                 <div class="checkbox-group">
-                                    <input type="checkbox" name="solvenciaFinanciera" id="solvenciaFinanciera" @bind="Student.File.FinancialSolvency">
+                                    <input type="checkbox" name="solvenciaFinanciera" id="solvenciaFinanciera" @bind="Student.file.financialSolvency">
                                     <label for="solvenciaFinanciera">Solvencia Financiera</label>
                                 </div>
                             </div>
@@ -194,10 +191,10 @@
                                 <h5 class="card-title font-weight-bold">Medidas</h5>
 
                                 <label style="display: inline-block; width: 200px;">Peso Kg:</label>
-                                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Student.Measurements.Weight">
+                                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Student.measurements.weight">
 
                                 <label style="display: inline-block; width: 200px;">Altura Cm:</label>
-                                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Student.Measurements.Height">
+                                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Student.measurements.height">
 
                             </div>
                         </div>
@@ -211,7 +208,7 @@
                                 <select id="grade" class="form-control" style="margin: 0px" @onchange="GetGrade">
                                     @foreach (var option in grade)
                                     {
-                                    <option value="@option">@option</option>
+                                        <option value="@option">@option</option>
                                     }
                                 </select>
 
@@ -219,7 +216,7 @@
                                 <select id="seccion" class="form-control" style="margin: 0px" @onchange="GetSection">
                                     @foreach (var option in section)
                                     {
-                                    <option value="@option">@option</option>
+                                        <option value="@option">@option</option>
                                     }
                                 </select>
 
@@ -228,12 +225,42 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
-            
+
         </div>
     </div>
+    
+<!-- Visor de PDf-->
+<div class="modal fade" id="ModalPdf" tabindex="-1" role="dialog" aria-labelledby="PdfModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalPdfTitle">Hoja de matricula</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                @if (pdfContent != null)
+                {
+                    <iframe src="data:application/pdf;base64,@Convert.ToBase64String(pdfContent)" width="100%" height="600px"></iframe>
+                }
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Visor de PDf-->
+
     
 </div>
 }
