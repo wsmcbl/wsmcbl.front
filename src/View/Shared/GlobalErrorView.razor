@@ -1,11 +1,13 @@
-<CustomErrorBoundary @ref="@Error" Context="Exception">
+@inherits GlobalError;
+
+<CustomErrorBoundary @ref="@ErrorBoundary" Context="Exception">
     <ChildContent>
         @ChildContent
     </ChildContent>
     <ErrorContent>
         <div class="alert bg-danger text-white alert-dismissible">
             @Exception.GetType(): @Exception.Message
-            <button class="btn-warning" @onclick="@Error.Recover"></button>
+            <button class="close" @onclick="@ErrorBoundary.Recover"></button>
         </div>
     </ErrorContent>
 </CustomErrorBoundary>

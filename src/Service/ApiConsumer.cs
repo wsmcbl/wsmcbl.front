@@ -13,20 +13,20 @@ public class ApiConsumer
         _connectionString = "http://185.190.140.208:4000/v1";
     }
     
-    private string? BuildUri(Resources module, string resource)
+    private string? BuildUri(ModuleEnum module, string resource)
     {
         var moduleDir = module switch
         {
-            Resources.Academy => "academy",
-            Resources.Secretary => "secretary",
-            Resources.Accounting => "accounting",
+            ModuleEnum.Academy => "academy",
+            ModuleEnum.Secretary => "secretary",
+            ModuleEnum.Accounting => "accounting",
             _ => ""
         };
 
         return $"{_connectionString}/{moduleDir}/{resource.TrimStart('/')}";
     }
 
-    public async Task<T?> GetAsync<T>(Resources module, string resource)
+    public async Task<T?> GetAsync<T>(ModuleEnum module, string resource)
     {
         try
         {
@@ -41,7 +41,7 @@ public class ApiConsumer
         }
     }
     
-    public async Task<TResponse?> PostAsync<TRequest, TResponse>(Resources module, string resource, TRequest data)
+    public async Task<TResponse?> PostAsync<TRequest, TResponse>(ModuleEnum module, string resource, TRequest data)
     {
         var url = BuildUri(module, resource);
         var response = await httpClient.PostAsJsonAsync(url, data);
@@ -49,7 +49,7 @@ public class ApiConsumer
         return await response.Content.ReadFromJsonAsync<TResponse>();
     }
 
-    public async Task PutAsync<T>(Resources module, string resource, T data)
+    public async Task PutAsync<T>(ModuleEnum module, string resource, T data)
     {
         var url = BuildUri(module, resource);
         var response = await httpClient.PutAsJsonAsync(url, data);

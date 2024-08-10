@@ -134,6 +134,6 @@ public class CollectTariffController
     
     public async Task<List<StudentEntity>?> GetStudentList_Test()
     {
-        return await _apiConsumer.GetAsync<List<StudentEntity>>(Resources.Accounting, "students1");
+        return await _apiConsumer.GetAsync<List<StudentEntity>>(ModuleEnum.Accounting, "students1");
     }  
 }

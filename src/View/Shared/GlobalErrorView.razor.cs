@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using wsmcbl.src.Service;
 
 namespace wsmcbl.src.View.Shared;
 
-public partial class GlobalErrorView : ComponentBase
+public class GlobalError : ComponentBase
 {
-    private ErrorBoundary Error;
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    protected ErrorBoundary? ErrorBoundary { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
 }

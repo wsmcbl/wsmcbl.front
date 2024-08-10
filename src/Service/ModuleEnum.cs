@@ -1,5 +1,5 @@
 namespace wsmcbl.src.Service;
-public enum Resources
+public enum ModuleEnum
 {
     Secretary,
     Academy,
