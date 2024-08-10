@@ -4,18 +4,18 @@ namespace wsmcbl.src.Service;
 
 public class ApiConsumer
 {
-    private readonly HttpClient client;
+    private readonly HttpClient httpClient;
     private readonly ErrorService error;
     private readonly string _connectionString;
 
-    public ApiConsumer(HttpClient client, ErrorService error)
+    public ApiConsumer(HttpClient httpClient, ErrorService error)
     {
-        this.client = client;
+        this.httpClient = httpClient;
         this.error = error;
         _connectionString = "http://185.190.140.208:4000/v1";
     }
     
-    private string BuildUri(Resources module, string resource)
+    private string? BuildUri(Resources module, string resource)
     {
         var moduleDir = module switch
         {
@@ -28,12 +28,11 @@ public class ApiConsumer
         return $"{_connectionString}/{moduleDir}/{resource.TrimStart('/')}";
     }
 
-    public async Task<T> GetAsync<T>(Resources module, string resource)
+    public async Task<T?> GetAsync<T>(Resources module, string resource)
     {
         try
         {
-            var url = BuildUri(module, resource);
-            var response = await client.GetAsync(url);
+            var response = await httpClient.GetAsync(BuildUri(module, resource));
             response.EnsureSuccessStatusCode();
             var result = await response.Content.ReadFromJsonAsync<T>();
             return result!;
@@ -48,7 +47,7 @@ public class ApiConsumer
     public async Task<TResponse?> PostAsync<TRequest, TResponse>(Resources module, string resource, TRequest data)
     {
         var url = BuildUri(module, resource);
-        var response = await client.PostAsJsonAsync(url, data);
+        var response = await httpClient.PostAsJsonAsync(url, data);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<TResponse>();
     }
@@ -56,7 +55,7 @@ public class ApiConsumer
     public async Task PutAsync<T>(Resources module, string resource, T data)
     {
         var url = BuildUri(module, resource);
-        var response = await client.PutAsJsonAsync(url, data);
+        var response = await httpClient.PutAsJsonAsync(url, data);
         response.EnsureSuccessStatusCode();
     }
     

@@ -11,13 +11,12 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<SweetAlertService>();
 builder.Services.AddTransient<AlertService>();
-builder.Services.AddTransient<ErrorService>();
+builder.Services.AddScoped<ErrorService>();
 builder.Services.AddScoped<ApiConsumer>();
 
 builder.Services.AddTransient<CollectTariffController>();
 builder.Services.AddTransient<IEnrollSudentController, EnrollStudentController>();  
-builder.Services.AddTransient<CreateOfficialEnrollmentController>(); 
-
+builder.Services.AddTransient<CreateOfficialEnrollmentController>();
 
 builder.Services.AddSweetAlert2();
 

@@ -104,12 +104,6 @@ public class CollectTariffController
         return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
     }
     
-    public async Task<List<StudentEntity>?> getStudentList_a()
-    {
-        var s = await _apiConsumer.GetAsync<List<StudentEntity>>(Resources.Accounting, "students1");
-        return s;
-    }
-    
     public async Task<StudentEntity> GetStudent(string studentId)
     {
         var response = await _httpClient.GetAsync(URL.accounting + $"students/{studentId}");
@@ -135,6 +129,11 @@ public class CollectTariffController
         cashier.setStudent(studentEntity);
     }
     
+ 
     
     
+    public async Task<List<StudentEntity>?> GetStudentList_Test()
+    {
+        return await _apiConsumer.GetAsync<List<StudentEntity>>(Resources.Accounting, "students1");
+    }  
 }
