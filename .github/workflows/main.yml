@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - master
-      - develop
+      
 name: Despliegue del Front in Somee.com
 jobs:
   web-deploy:
@@ -24,4 +24,3 @@ jobs:
         protocol: ftp
         local-dir: publish/
         server-dir: /www.cbl.somee.com/
-  

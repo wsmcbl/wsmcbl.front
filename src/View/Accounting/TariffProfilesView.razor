@@ -2,9 +2,13 @@
 
 @inherits TariffProfiles
 
-@if (students == null)
+@if (students == null )
 {
     <div class="loader"></div>
+    if (!string.IsNullOrEmpty(errorMesage))
+    {
+        <ErrorView></ErrorView>
+    }
 }
 else
 {

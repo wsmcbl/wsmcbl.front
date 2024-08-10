@@ -8,9 +8,12 @@ namespace wsmcbl.src.Controller;
 public class CollectTariffController
 {
     private readonly HttpClient _httpClient;
-    public CollectTariffController(HttpClient httpClient)
+    private readonly ApiConsumer _apiConsumer;
+    public CollectTariffController(HttpClient httpClient, ApiConsumer apiConsumer)
     {
         _httpClient = httpClient;
+        _apiConsumer = apiConsumer;
+        
         cashier = new CashierEntity("caj-ktinoco");
     }
     
@@ -99,6 +102,12 @@ public class CollectTariffController
         }
         
         return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
+    }
+    
+    public async Task<List<StudentEntity>?> getStudentList_a()
+    {
+        var s = await _apiConsumer.GetAsync<List<StudentEntity>>(Resources.Accounting, "students1");
+        return s;
     }
     
     public async Task<StudentEntity> GetStudent(string studentId)
