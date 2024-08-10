@@ -2,7 +2,7 @@ using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace wsmcbl.src.View.Shared;
+namespace wsmcbl.src.Service;
 
 public class CustomErrorBoundary : ErrorBoundary
 {
