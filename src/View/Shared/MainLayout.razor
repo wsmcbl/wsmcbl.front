@@ -3,13 +3,14 @@
 <div id="wrapper">
 
     <SidebarNav/>
-
     <div id="content-wrapper" class="d-flex flex-column">
         <div id="content">
             <TopNavBar/>
-            <div class="container-fluid">
-                @Body
-            </div>
+            <GlobalErrorBoundary>
+                <div class="container-fluid">
+                    @Body
+                </div>
+            </GlobalErrorBoundary>
         </div>
 
         <footer class="sticky-footer bg-white">
@@ -19,8 +20,6 @@
                 </div>
             </div>
         </footer>
-
-        <ErrorHandler/>
     </div>
 
 </div>

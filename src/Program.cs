@@ -11,7 +11,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<SweetAlertService>();
 builder.Services.AddTransient<AlertService>();
-builder.Services.AddScoped<ErrorService>();
 builder.Services.AddScoped<ApiConsumer>();
 
 builder.Services.AddTransient<CollectTariffController>();

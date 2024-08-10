@@ -1,10 +1,11 @@
-<ErrorBoundary>
+<ErrorBoundary @ref="@errorBoundary" Context="Exception">
     <ChildContent>
         @ChildContent
     </ChildContent>
     <ErrorContent>
-        <div class="alert alert-danger">
-            Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde.
+        <div class="alert bg-danger text-white alert-dismissible">
+            @Exception.GetType(): @Exception.Message
+            <button class="btn-warning" @onclick="@errorBoundary.Recover"></button>
         </div>
     </ErrorContent>
 </ErrorBoundary>

@@ -5,13 +5,11 @@ namespace wsmcbl.src.Service;
 public class ApiConsumer
 {
     private readonly HttpClient httpClient;
-    private readonly ErrorService error;
     private readonly string _connectionString;
 
-    public ApiConsumer(HttpClient httpClient, ErrorService error)
+    public ApiConsumer(HttpClient httpClient)
     {
         this.httpClient = httpClient;
-        this.error = error;
         _connectionString = "http://185.190.140.208:4000/v1";
     }
     
@@ -39,8 +37,7 @@ public class ApiConsumer
         }
         catch (Exception e)
         {
-            error.ShowError(e.Message);
-            return default;
+            throw new ArgumentException("Mala petición");
         }
     }
     
