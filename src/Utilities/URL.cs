@@ -12,8 +12,6 @@ public static class URL
     public static string NewSchoolYearTariff = $"{secretary}configurations/schoolyears/tariffs";
     public static string NewSubject = $"{secretary}configurations/schoolyears/subjects";
     
-    public static string EnrollStudentList = $"{secretary}enrollments/students";
-    public static string GetInfoStudent = $"{secretary}enrollments/students/";
     public static string GetTeacherBasic = $"{secretary}teachers/";
     public static string ConfigurateEnrollment = $"{secretary}degrees/";
     public static string DegreesEnrollments = $"{ConfigurateEnrollment}enrollments";

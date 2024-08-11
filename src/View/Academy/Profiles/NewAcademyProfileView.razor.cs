@@ -52,7 +52,7 @@ public class NewAcademyProfiles : ComponentBase
             Tutor = Tutor
         };
 
-        var result = await controller.PostNewStudent(NewStudent);
+        var result = false;//await controller.PostNewStudent(NewStudent);
 
         if (result == true)
         {

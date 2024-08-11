@@ -1,66 +1,40 @@
-using System.Text;
-using Newtonsoft.Json;
-using wsmcbl.src.Service;
-using wsmcbl.src.View.Academy.Profiles;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
-using StudentDto = wsmcbl.src.View.Academy.Profiles.StudentDto;
 
 namespace wsmcbl.src.Controller;
 
-public class EnrollStudentController(HttpClient httpClient) : IEnrollSudentController
+public class EnrollStudentController : IEnrollSudentController
 {
-    public async Task<List<View.Secretary.EnrollmentStudent.Dto.StudentDto>> GetStudents()
+    private HttpClient httpClient; //Esto desaparece
+    private ApiConsumer Consumer;
+
+    public EnrollStudentController(HttpClient httpClient, ApiConsumer consumer)
     {
-        var response = await httpClient.GetAsync(URL.EnrollStudentList);
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadFromJsonAsync<List<View.Secretary.EnrollmentStudent.Dto.StudentDto>>();
-        }
-        throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+        Consumer = consumer;
+        this.httpClient = httpClient;
+    }
+
+    public async Task<List<StudentDto>> GetStudents()
+    {
+        var resource = "enrollments/students";
+        List<StudentDto> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
     }
 
     public async Task<StudentFullDto> GetInfoStudent(string studentId)
     {
-        try
-        {
-            var response = await httpClient.GetAsync($"{URL.GetInfoStudent}{studentId}");
-            if (response.IsSuccessStatusCode)
-            {
-                var studentResult =  await response.Content.ReadFromJsonAsync<StudentFullDto>();
-
-                if (studentResult.birthday == null)
-                {
-                    studentResult.birthday.Year = DateTime.Today.Year;
-                    studentResult.birthday.Month = DateTime.Today.Month;
-                    studentResult.birthday.Day = DateTime.Today.Day;
-                }
-                
-                return studentResult;
-            }
-        }
-        catch (Exception ex)
-        {
-            throw new ArgumentException("Error del servidor.");
-        }
+        var resource = "enrollments/students/";
+        StudentFullDto defaultResult = new();
         
-        throw new ArgumentException("Error al obtener los datos del estudiante.", nameof(studentId));
-    }
+        var studentResult = await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
 
-    public async Task<bool> PostNewStudent(StudentDto student)
-    {
-        var url = URL.secretary+"students";
-
-        var json = JsonConvert.SerializeObject(student);
-        
-        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        var response = await httpClient.PostAsync(url, content);
-
-        if (!response.IsSuccessStatusCode)
+        if (studentResult.birthday == null)
         {
-            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
+            studentResult.birthday.Year = DateTime.Today.Year;
+            studentResult.birthday.Month = DateTime.Today.Month;
+            studentResult.birthday.Day = DateTime.Today.Day;
         }
-        
-        return false;
+
+        return studentResult;
     }
 }
