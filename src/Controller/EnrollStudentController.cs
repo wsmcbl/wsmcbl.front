@@ -3,7 +3,7 @@ using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 
 namespace wsmcbl.src.Controller;
 
-public class EnrollStudentController : IEnrollSudentController
+public class EnrollStudentController : IEnrollStudentController
 {
     private HttpClient httpClient; //Esto desaparece
     private ApiConsumer Consumer;
@@ -36,5 +36,13 @@ public class EnrollStudentController : IEnrollSudentController
         }
 
         return studentResult;
+    }
+    
+    public async Task<byte[]?> GetPdfContent(string studentId)
+    {
+        var resource = $"enrollments/documents/{studentId}";
+        byte[] defaultResult = [];
+        var content = await Consumer.GetPdfAsync(Modules.Secretary, resource, defaultResult);
+        return content;
     }
 }

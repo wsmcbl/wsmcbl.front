@@ -15,7 +15,7 @@ builder.Services.AddTransient<ApiConsumer>();
 builder.Services.AddTransient<Navigator>();
 
 builder.Services.AddTransient<CollectTariffController>();
-builder.Services.AddTransient<IEnrollSudentController, EnrollStudentController>();
+builder.Services.AddTransient<IEnrollStudentController, EnrollStudentController>();
 builder.Services.AddTransient<CreateOfficialEnrollmentController>();
 
 builder.Services.AddSweetAlert2();

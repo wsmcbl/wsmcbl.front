@@ -87,5 +87,23 @@ public class ApiConsumer
             await service.AlertError("Error interno.", ex.Message);
         }
     }
+    
+    public async Task<byte[]?> GetPdfAsync(Modules module, string resource, byte[] defaultResult)
+    {
+        byte[] result = defaultResult;
+        try
+        {
+            var response = await httpClient.GetAsync(BuildUri(module, resource));
+            response.EnsureSuccessStatusCode();
+            
+            result = await response.Content.ReadAsByteArrayAsync();
+        }
+        catch (Exception ex)
+        {
+            await service.AlertError("Error interno.", ex.Message);
+        }
+
+        return result;
+    }
 
 }

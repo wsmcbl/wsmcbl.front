@@ -6,7 +6,7 @@ namespace wsmcbl.src.View.Academy.Profiles;
 
 public class NewAcademyProfiles : ComponentBase
 {
-    [Inject] protected IEnrollSudentController controller { get; set; } = null!;
+    [Inject] protected IEnrollStudentController controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
 
     protected string FirsName;
