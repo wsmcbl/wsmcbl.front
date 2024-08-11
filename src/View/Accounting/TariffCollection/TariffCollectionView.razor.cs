@@ -42,7 +42,7 @@ public class TariffCollection : ComponentBase
 
             await LoadStudent();
             
-            TariffList = await Controller.GetTariffs("student", StudentId!);
+            TariffList = await Controller.GetTariffList("student", StudentId!);
 
             TariffModalList = TariffList.Where(t => isNotPay(t.TariffId)).ToModalList(StudentEntity!);
             

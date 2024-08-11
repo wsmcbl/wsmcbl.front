@@ -1,19 +1,22 @@
-using Newtonsoft.Json;
+using wsmcbl.src.View.Shared;
 
 namespace wsmcbl.src.Utilities;
 
 public class ApiConsumer
 {
     private readonly HttpClient httpClient;
+    private readonly AlertService service;
+    
     private readonly string _connectionString;
-
-    public ApiConsumer(HttpClient httpClient)
+    
+    public ApiConsumer(HttpClient httpClient, AlertService alertService)
     {
         this.httpClient = httpClient;
+        service = alertService;
         _connectionString = "http://185.190.140.208:4000/v1";
     }
     
-    private string? BuildUri(Modules modules, string resource)
+    private Uri BuildUri(Modules modules, string resource)
     {
         var moduleDir = modules switch
         {
@@ -23,10 +26,10 @@ public class ApiConsumer
             _ => ""
         };
 
-        return $"{_connectionString}/{moduleDir}/{resource.TrimStart('/')}";
+        return new Uri($"{_connectionString}/{moduleDir}/{resource.TrimStart('/')}");
     }
 
-    public async Task<T?> GetAsync<T>(Modules modules, string resource, T defaultResult)
+    public async Task<T> GetAsync<T>(Modules modules, string resource, T defaultResult)
     {
         var result = defaultResult; 
         try
@@ -38,41 +41,53 @@ public class ApiConsumer
         }
         catch (HttpRequestException ex)
         {
-            throw new InternalException("Hubo un problema con la solicitud.", ex.Message);
+            await service.AlertError("Hubo un problema con la solicitud.", ex.Message);
         }
         catch (Exception ex)
         {
-            throw new InternalException(ex.Message);
+            await service.AlertError("Error interno.", ex.Message);
         }
         
         return result;
     }
     
-    public async Task<TResponse?> PostAsync<TRequest, TResponse>(Modules modules, string resource, TRequest data)
+    public async Task<TResponse?> PostAsync<TRequest, TResponse>(Modules modules, string resource, TRequest data, TResponse defaultResult)
     {
-        var url = BuildUri(modules, resource);
-        var response = await httpClient.PostAsJsonAsync(url, data);
-        response.EnsureSuccessStatusCode();
-        return await response.Content.ReadFromJsonAsync<TResponse>();
+        var result = defaultResult;
+        try
+        {
+            var response = await httpClient.PostAsJsonAsync(BuildUri(modules, resource), data);
+            response.EnsureSuccessStatusCode();
+        
+            result = await response.Content.ReadFromJsonAsync<TResponse>();
+        }
+        catch (HttpRequestException ex)
+        {
+            await service.AlertError("Hubo un problema con la solicitud.", ex.Message);
+        }
+        catch (Exception ex)
+        {
+            await service.AlertError("Error interno.", ex.Message);
+        }
+
+        return result;
     }
 
     public async Task PutAsync<T>(Modules modules, string resource, T data)
     {
-        var url = BuildUri(modules, resource);
-        var response = await httpClient.PutAsJsonAsync(url, data);
-        response.EnsureSuccessStatusCode();
+        try
+        {
+            var response = await httpClient.PutAsJsonAsync(BuildUri(modules, resource), data);
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            await service.AlertError("Hubo un problema con la solicitud.", ex.Message);
+        }
+        catch (Exception ex)
+        {
+            await service.AlertError("Error interno.", ex.Message);
+        }
     }
-    
-    private static StringContent getContent(string resource)
-    {
-        return new StringContent(resource, System.Text.Encoding.UTF8, "application/json");
-    }
-
-    protected static StringContent getContentByDto(object? entity)
-    {
-        return getContent(JsonConvert.SerializeObject(entity));
-    }
-
-    protected static T? deserialize<T>(string content) => JsonConvert.DeserializeObject<T>(content);
 
 }
