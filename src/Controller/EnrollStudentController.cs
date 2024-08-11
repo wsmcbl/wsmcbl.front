@@ -21,9 +21,9 @@ public class EnrollStudentController : IEnrollStudentController
         return await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
     }
 
-    public async Task<StudentFullDto> GetInfoStudent(string studentId)
+    public async Task<StudentFullDto> GetInfoStudent(string StudentID)
     {
-        var resource = "enrollments/students/";
+        var resource = $"enrollments/students/{StudentID}";
         StudentFullDto defaultResult = new();
         
         var studentResult = await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
