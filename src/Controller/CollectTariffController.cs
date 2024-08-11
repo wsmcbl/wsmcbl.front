@@ -1,6 +1,7 @@
 using System.Text.Json;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Service;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.TariffCollection;
 
 namespace wsmcbl.src.Controller;
@@ -134,6 +135,6 @@ public class CollectTariffController
     
     public async Task<List<StudentEntity>?> GetStudentList_Test()
     {
-        return await _apiConsumer.GetAsync<List<StudentEntity>>(ModuleEnum.Accounting, "students1");
+        return await _apiConsumer.GetAsync<List<StudentEntity>>(Modules.Accounting, "students1", []);
     }  
 }

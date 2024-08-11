@@ -36,7 +36,7 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
         throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
     }
     
-    public async Task<ApiResponse> SaveNewSchoolYear(SchoolYearEntity schoolYearEntity)
+    public async Task<Response> SaveNewSchoolYear(SchoolYearEntity schoolYearEntity)
     {
         try
         {
@@ -49,19 +49,19 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
             
             if (response.IsSuccessStatusCode)
             {
-                return new ApiResponse { Success = true, Message = "Año Lectivo guardado con exito" };
+                return new Response { Success = true, Message = "Año Lectivo guardado con exito" };
             }
             var errorContent = await response.Content.ReadAsStringAsync();
-            return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
+            return new Response { Success = false, Message = $"Error del servidor: {errorContent}" };
             
         }
         catch (Exception e)
         {
-            return new ApiResponse { Success = false, Message = $"An error occurred: {e.Message}" };
+            return new Response { Success = false, Message = $"An error occurred: {e.Message}" };
         }
     }
     
-    public async Task<ApiResponse> CreateNewTariff(TariffDataDto tariffDto)
+    public async Task<Response> CreateNewTariff(TariffDataDto tariffDto)
     {
         try
         {
@@ -72,18 +72,18 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
 
             if (respuesta.IsSuccessStatusCode)
             {
-                return new ApiResponse { Success = true, Message = "La tarifa fue guardada correctamente" };
+                return new Response { Success = true, Message = "La tarifa fue guardada correctamente" };
             }
             var errorContent = await respuesta.Content.ReadAsStringAsync();
-            return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
+            return new Response { Success = false, Message = $"Error del servidor: {errorContent}" };
         }
         catch (Exception ex)
         {
-            return new ApiResponse { Success = false, Message = $"An error occurred: {ex.Message}" };
+            return new Response { Success = false, Message = $"An error occurred: {ex.Message}" };
         }
     }
     
-    public async Task<ApiResponse> CreateNewSubject(SubjectDto subject)
+    public async Task<Response> CreateNewSubject(SubjectDto subject)
     {
         try
         {
@@ -95,14 +95,14 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
 
             if (respuesta.IsSuccessStatusCode)
             {
-                return new ApiResponse { Success = true, Message = "Asignatura creada correctamente" };
+                return new Response { Success = true, Message = "Asignatura creada correctamente" };
             }
             var errorContent = await respuesta.Content.ReadAsStringAsync();
-            return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
+            return new Response { Success = false, Message = $"Error del servidor: {errorContent}" };
         }
         catch (Exception ex)
         {
-            return new ApiResponse { Success = false, Message = $"Ocurrió un error: {ex.Message}" };
+            return new Response { Success = false, Message = $"Ocurrió un error: {ex.Message}" };
         }
     }
     
@@ -125,7 +125,7 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
         return teacherList;
     }
 
-    public async Task<ApiResponse> CreateEnrollments(string DegreeId, int Quantity)
+    public async Task<Response> CreateEnrollments(string DegreeId, int Quantity)
     {
         try
         {
@@ -137,14 +137,14 @@ public class CreateOfficialEnrollmentController(HttpClient httpClient)
             var respuesta = await httpClient.PostAsync(url, contenido);
             if (respuesta.IsSuccessStatusCode)
             {
-                return new ApiResponse { Success = true, Message = "Secciòn creada correctamente" };
+                return new Response { Success = true, Message = "Secciòn creada correctamente" };
             }
             var errorContent = await respuesta.Content.ReadAsStringAsync();
-            return new ApiResponse { Success = false, Message = $"Error del servidor: {errorContent}" };
+            return new Response { Success = false, Message = $"Error del servidor: {errorContent}" };
         }
         catch (Exception e)
         {
-            return new ApiResponse { Success = false, Message = $"Ocurrió un error: {e.Message}" };
+            return new Response { Success = false, Message = $"Ocurrió un error: {e.Message}" };
         }
     }
 

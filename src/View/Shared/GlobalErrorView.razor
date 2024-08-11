@@ -1,15 +1,31 @@
-@using wsmcbl.src.Service;
+@using wsmcbl.src.Utilities;
 
 @inherits GlobalError;
 
-<CustomErrorBoundary @ref="@ErrorBoundary" Context="Exception">
+<CustomErrorBoundary @ref="@ErrorBoundary" Context="Exception" >
     <ChildContent>
         @ChildContent
     </ChildContent>
     <ErrorContent>
-        <div class="alert bg-danger text-white alert-dismissible">
-            @Exception.GetType(): @Exception.Message
-            <button class="close" @onclick="@ErrorBoundary.Recover"></button>
-        </div>
+        @if (Exception is InternalException appEx)
+        {
+            <div class="alert alert-danger" style="display: flex; justify-content: space-between;">
+                <div>
+                    <div>@appEx.Title</div>
+                    <div>Detalle: @appEx.Content</div>
+                </div>
+                <button type="button" class="btn btn-warning" @onclick="@ErrorBoundary.Recover">Reintentar/Salir</button>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" style="display: flex; justify-content: space-between;">
+                <div>
+                    <div>Error inesperado</div>
+                    <div>Detalle: @Exception.Message</div>
+                </div>
+                <button type="button" class="btn btn-warning" @onclick="@ErrorBoundary.Recover">Reintentar/Salir</button>
+            </div>
+        }
     </ErrorContent>
 </CustomErrorBoundary>

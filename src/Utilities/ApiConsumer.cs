@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.src.Service;
+namespace wsmcbl.src.Utilities;
 
 public class ApiConsumer
 {
@@ -13,45 +13,52 @@ public class ApiConsumer
         _connectionString = "http://185.190.140.208:4000/v1";
     }
     
-    private string? BuildUri(ModuleEnum module, string resource)
+    private string? BuildUri(Modules modules, string resource)
     {
-        var moduleDir = module switch
+        var moduleDir = modules switch
         {
-            ModuleEnum.Academy => "academy",
-            ModuleEnum.Secretary => "secretary",
-            ModuleEnum.Accounting => "accounting",
+            Modules.Academy => "academy",
+            Modules.Secretary => "secretary",
+            Modules.Accounting => "accounting",
             _ => ""
         };
 
         return $"{_connectionString}/{moduleDir}/{resource.TrimStart('/')}";
     }
 
-    public async Task<T?> GetAsync<T>(ModuleEnum module, string resource)
+    public async Task<T?> GetAsync<T>(Modules modules, string resource, T defaultResult)
     {
+        var result = defaultResult; 
         try
         {
-            var response = await httpClient.GetAsync(BuildUri(module, resource));
+            var response = await httpClient.GetAsync(BuildUri(modules, resource));
             response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadFromJsonAsync<T>();
-            return result!;
+
+            result = await response.Content.ReadFromJsonAsync<T>();
         }
-        catch (Exception e)
+        catch (HttpRequestException ex)
         {
-            throw new ArgumentException("Mala petición");
+            throw new InternalException("Hubo un problema con la solicitud.", ex.Message);
         }
+        catch (Exception ex)
+        {
+            throw new InternalException(ex.Message);
+        }
+        
+        return result;
     }
     
-    public async Task<TResponse?> PostAsync<TRequest, TResponse>(ModuleEnum module, string resource, TRequest data)
+    public async Task<TResponse?> PostAsync<TRequest, TResponse>(Modules modules, string resource, TRequest data)
     {
-        var url = BuildUri(module, resource);
+        var url = BuildUri(modules, resource);
         var response = await httpClient.PostAsJsonAsync(url, data);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadFromJsonAsync<TResponse>();
     }
 
-    public async Task PutAsync<T>(ModuleEnum module, string resource, T data)
+    public async Task PutAsync<T>(Modules modules, string resource, T data)
     {
-        var url = BuildUri(module, resource);
+        var url = BuildUri(modules, resource);
         var response = await httpClient.PutAsJsonAsync(url, data);
         response.EnsureSuccessStatusCode();
     }
