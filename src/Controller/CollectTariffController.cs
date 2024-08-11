@@ -1,127 +1,75 @@
-using System.Text.Json;
 using wsmcbl.src.Model.Accounting;
-using wsmcbl.src.Service;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.TariffCollection;
 
 namespace wsmcbl.src.Controller;
 
 public class CollectTariffController
 {
-    private readonly HttpClient _httpClient;
-    private readonly ApiConsumer _apiConsumer;
-    public CollectTariffController(HttpClient httpClient, ApiConsumer apiConsumer)
+    private readonly ApiConsumer Consumer;
+
+    public CollectTariffController(ApiConsumer consumer)
     {
-        _httpClient = httpClient;
-        _apiConsumer = apiConsumer;
-        
+        Consumer = consumer;
+
         cashier = new CashierEntity("caj-ktinoco");
     }
-    
-    public async Task<List<TariffDto>> GetTariffs(string key, string value)
-    {
-        var response = await _httpClient.GetAsync($"{URL.accounting}tariffs/search?q={key}:{value}");
 
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadFromJsonAsync<List<TariffDto>>();
-        }
-        
-        throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
-        
+    public async Task<List<TariffDto>> GetTariffList(string key, string value)
+    {
+        var resource = $"tariffs/search?q={key}:{value}";
+
+        List<TariffDto> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
-    
+
     public async Task<List<TariffDto>> GetTariffsOverdue(string value)
     {
-        var response = await _httpClient.GetAsync($"{URL.accounting}tariffs/search?q={value}");
+        // response.ReasonPhrase
 
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadFromJsonAsync<List<TariffDto>>();
-        }
-        
-        throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
-        
+        var resource = $"tariffs/search?q={value}";
+        List<TariffDto> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
-    
+
     public async Task<string> SendPay()
     {
-        var url = URL.accounting + "transactions";
+        var defaultResult = new AuxResult();
+        var content = cashier.getTransaction();
+        
+        var result = await Consumer.PostAsync(Modules.Accounting, "transactions", content, defaultResult);
 
-        var json = JsonSerializer.Serialize(cashier.getTransaction);
-
-        var contenido = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-        var respuesta = await _httpClient.PostAsync(url, contenido);
-
-        if(!respuesta.IsSuccessStatusCode)
-        {
-            return string.Empty;
-        }
-
-        var respuestaContenido = await respuesta.Content.ReadAsStringAsync();
-
-        using JsonDocument doc = JsonDocument.Parse(respuestaContenido);
-        JsonElement root = doc.RootElement;
-        return root.GetProperty("transactionId").GetString()!;
+        return result.transactionId;
     }
-    
+
     public async Task<InvoiceDto?> GetInvoice(string transactionId)
     {
-        var invoices = await _httpClient.GetAsync(URL.TRANSACTION+transactionId);
-
-        if (!invoices.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error al obtener los datos de la API: {invoices.ReasonPhrase}");
-        }
-        
-        return await invoices.Content.ReadFromJsonAsync<InvoiceDto>();
+        var resource = $"transactions/invoices/{transactionId}";
+        InvoiceDto defaultResult = new();
+        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
-    
-    public async Task<bool> ActiveArrears(int idtarrif)
+
+    public async Task<bool> ActiveArrears(int tariffId)
     {
-        var url = URL.APPLYARREARS+idtarrif;
-        var content = new StringContent(string.Empty);
+        var resource = $"arrears/{tariffId}";
+        await Consumer.PutAsync(Modules.Accounting, resource, string.Empty);
 
-        var response = await _httpClient.PutAsync(url, content);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
-        }
-        
         return true;
     }
-    
-    public async Task<List<StudentEntity>?> getStudentList()
-    {
-        var response = await _httpClient.GetAsync(URL.accounting+"students");
 
-        if (response.IsSuccessStatusCode is false)
-        {
-            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
-        }
-        
-        return await response.Content.ReadFromJsonAsync<List<StudentEntity>>();
-    }
-    
-    public async Task<List<StudentEntity>?> getStudentList_a()
+    public async Task<List<StudentEntity>?> GetStudentList()
     {
-        var s = await _apiConsumer.GetAsync<List<StudentEntity>>(Resources.Accounting, "students1");
-        return s;
+        List<StudentEntity> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Accounting, "students", defaultResult);
     }
-    
+
     public async Task<StudentEntity> GetStudent(string studentId)
     {
-        var response = await _httpClient.GetAsync(URL.accounting + $"students/{studentId}");
-
-        if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadFromJsonAsync<StudentEntity>();
-        }
-
-        throw new Exception($"Error al obtener el estudiante con ID {studentId}");
+        var resource = $"students/{studentId}";
+        StudentEntity defaultResult = new();
+        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
-    
+
     private CashierEntity cashier;
 
     public void addDetail(List<TariffModalDto> tariffs, bool isApplyArrear)
@@ -134,7 +82,9 @@ public class CollectTariffController
     {
         cashier.setStudent(studentEntity);
     }
-    
-    
-    
+}
+
+public class AuxResult
+{
+    public string transactionId { get; set; } 
 }

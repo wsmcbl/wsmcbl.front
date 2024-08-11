@@ -3,15 +3,15 @@ using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 using wsmcbl.src.dto.Output;
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-using wsmcbl.src.View.Shared;
 
 namespace wsmcbl.src.View.Secretary.SchoolYears;
 
-public partial class ConfigSchoolYear : ComponentBase
+public class ConfigSchoolYear : ComponentBase
 {
     [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
-    [Inject] protected AlertService AlertService { get; set; }
+    [Inject] protected Notificator Notificator { get; set; }
     [Inject] protected IJSRuntime JsRuntime { get; set; }
     protected SchoolYearEntity SchoolYearEntity;
     
@@ -30,11 +30,11 @@ public partial class ConfigSchoolYear : ComponentBase
             
             SchoolYearEntity = Controller.NewSchoolYears();
             
-            AlertService.AlertSuccess("Datos cargados", "Edite los datos correspondiente y de click en guardar");
+            Notificator.AlertSuccess("Datos cargados", "Edite los datos correspondiente y de click en guardar");
         }
         catch (Exception e)
         {
-            AlertService.AlertError("Error al cargar", "Puede ser que ya existan mas de 2 años lectivos activos");
+            Notificator.AlertError("Error al cargar", "Puede ser que ya existan mas de 2 años lectivos activos");
         }
     }
 
@@ -46,16 +46,16 @@ public partial class ConfigSchoolYear : ComponentBase
 
             if (response.Success)
             {
-                await AlertService.AlertSuccess("Éxito", response.Message);
+                await Notificator.AlertSuccess("Éxito", response.Message);
             }
             else
             {
-                await AlertService.AlertError("Error", response.Message);
+                await Notificator.AlertError(response.Message);
             }
         }
         catch (Exception e)
         {
-            await AlertService.AlertError("Error", e.Message);
+            await Notificator.AlertError("Error", e.Message);
         }
     }
 
@@ -80,16 +80,16 @@ public partial class ConfigSchoolYear : ComponentBase
 
             if (response.Success)
             {
-                await AlertService.AlertSuccess("Éxito", response.Message);
+                await Notificator.AlertSuccess("Éxito", response.Message);
             }
             else
             {
-                await AlertService.AlertError("Error", response.Message);
+                await Notificator.AlertError("Error", response.Message);
             }
         }
         catch (Exception e)
         {
-            await AlertService.AlertError("Error", e.Message);
+            await Notificator.AlertError("Error", e.Message);
         }
     }
 
@@ -115,16 +115,16 @@ public partial class ConfigSchoolYear : ComponentBase
 
             if (response.Success)
             {
-                await AlertService.AlertSuccess("Éxito", response.Message);
+                await Notificator.AlertSuccess("Éxito", response.Message);
             }
             else
             {
-                await AlertService.AlertError("Error", response.Message);
+                await Notificator.AlertError("Error", response.Message);
             }
         }
         catch (Exception e)
         {
-            await AlertService.AlertError("Error", e.Message);
+            await Notificator.AlertError("Error", e.Message);
         }
     }
 

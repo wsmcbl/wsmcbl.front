@@ -1,20 +1,17 @@
-using System.Runtime.InteropServices.JavaScript;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-using wsmcbl.src.View.Shared;
 
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
 
 public class EnrollStudent : ComponentBase
 {
-    [Parameter] 
-    public string StudentId { get; set; }
-    [Inject] protected IEnrollSudentController Controller { get; set; }
-    [Inject] protected AlertService AlertService { get; set; }
-    [Inject] protected IJSRuntime JsRuntime { get; set; }
+    [Parameter] public string StudentId { get; set; }
+    [Inject] protected IEnrollStudentController Controller { get; set; }
+    [Inject] protected Notificator Notificator { get; set; }
+    [Inject] protected Navigator Navigator { get; set; }
 
     public StudentFullDto Student;
     
@@ -31,11 +28,6 @@ public class EnrollStudent : ComponentBase
     
     protected List<string> grade = new() { "Primero", "Segundo", "Tercero" };
     protected List<string> section = new() { "A", "B", "C" };
-
-    protected byte[] pdfContent;
-
-
-    
     
     protected override async Task OnParametersSetAsync()
     {
@@ -49,7 +41,7 @@ public class EnrollStudent : ComponentBase
         }
         catch (Exception e)
         {
-            AlertService.AlertError("Error", $"{e}");
+            Notificator.AlertError($"{e}");
         }
     }
     
@@ -106,10 +98,12 @@ public class EnrollStudent : ComponentBase
     {
         throw new NotImplementedException();
     }
-
+    
+    
+    protected byte[] pdfContent;
     protected async Task PrintSheetEnrollment(string studenId)
     {
         pdfContent = await Controller.GetPdfContent(studenId);
-        await JsRuntime.InvokeVoidAsync("eval", "$('#ModalPdf').modal('show');");
+        await Navigator.InvokeModal("eval", "$('#ModalPdf').modal('show');");
     }
 }

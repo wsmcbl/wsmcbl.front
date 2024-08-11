@@ -19,7 +19,7 @@ public class CashierEntity
     } 
 
     private TransactionEntity transaction;
-    public TransactionEntity getTransaction => transaction;
+    public TransactionEntity getTransaction() => transaction;
 
     public void initTransaction()
     {

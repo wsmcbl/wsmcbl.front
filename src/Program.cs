@@ -1,7 +1,6 @@
 using wsmcbl.src.Controller;
 using CurrieTechnologies.Razor.SweetAlert2;
-using wsmcbl.src.Service;
-using wsmcbl.src.View.Shared;
+using wsmcbl.src.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,14 +9,14 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<SweetAlertService>();
-builder.Services.AddTransient<AlertService>();
-builder.Services.AddTransient<ErrorService>();
-builder.Services.AddScoped<ApiConsumer>();
+builder.Services.AddTransient<Notificator>();
+builder.Services.AddTransient<ApiConsumer>();
+
+builder.Services.AddTransient<Navigator>();
 
 builder.Services.AddTransient<CollectTariffController>();
-builder.Services.AddTransient<IEnrollSudentController, EnrollStudentController>();  
-builder.Services.AddTransient<CreateOfficialEnrollmentController>(); 
-
+builder.Services.AddTransient<IEnrollStudentController, EnrollStudentController>();
+builder.Services.AddTransient<CreateOfficialEnrollmentController>();
 
 builder.Services.AddSweetAlert2();
 

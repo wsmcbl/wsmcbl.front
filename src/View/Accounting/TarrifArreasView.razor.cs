@@ -1,34 +1,24 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.TariffCollection;
-using wsmcbl.src.View.Shared;
 
 namespace wsmcbl.src.View.Accounting;
 
-public partial class TarrifArreas : ComponentBase
+public class TariffArrears : ComponentBase
 {
-    [Inject] protected CollectTariffController Controller { get; set; }
-    [Inject] protected SweetAlertService Swal { get; set; }
-    [Inject] protected AlertService AlertService { get; set; }
+    [Inject] protected CollectTariffController Controller { get; set; } = null!;
+    [Inject] protected Notificator? AlertService { get; set; }
     
-    protected List<TariffDto> SelectedTariffs = new List<TariffDto>();
-    protected List<TariffDto> Tariffs = null!;
-    protected int ApplyArreas;
+    private int ApplyArreas { get; set; }
+    private List<TariffDto> SelectedTariffs { get; set; } = [];
+    protected ICollection<TariffDto> Tariffs { get; set; } = null!;
 
     protected override async Task OnParametersSetAsync()
     {
-        try
-        {
-            Tariffs = await Controller.GetTariffsOverdue("state:overdue");
-        }
-        catch (Exception e)
-        {
-            AlertService.AlertError("Error al cargar los datos", $"{e}");
-            
-        }
+        Tariffs = await Controller.GetTariffsOverdue("state:overdue");
     }
-    
+
     protected void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
     {
         if ((bool)e.Value)
@@ -47,41 +37,28 @@ public partial class TarrifArreas : ComponentBase
             }
         }
     }
-    
+
     protected async Task Confirm()
     {
-        try
+        var title = "¿Seguro que desea generar mora?";
+        var content = "La mora se aplicará a todo estudiante con mensualidad atrasada.";
+        var options = ("Aplicar.", "No guardar.");
+
+        if (!await AlertService.AlertQuestionTwoOptions(title, content, options))
         {
-            SweetAlertResult result = await Swal.FireAsync(new SweetAlertOptions
-            {
-                Title = "¿Seguro que desea generar mora?",
-                Text = "La mora se aplicara a todos los estudiantes que no hayan pagado a tiempo",
-                ShowDenyButton = true,
-                ConfirmButtonText = "Aplicar",
-                DenyButtonText = "No guardar"
-            });
-
-            if (result.IsConfirmed)
-            {
-                var response = await Controller.ActiveArrears(ApplyArreas);
-
-                if (response)
-                {
-                    await Swal.FireAsync("Mora generada correctamente!", "", "success");
-                }
-                else
-                {
-                    await Swal.FireAsync("Obtuvimos problemas al generar la mora", "", "info");
-                }
-            }
-            else if (result.IsDenied)
-            {
-                await Swal.FireAsync("No se ha generado mora", "", "info");
-            }
+            await AlertService.AlertInformation("Mora no aplicada.", string.Empty);
+            return;
         }
-        catch(Exception ex)
+        
+        var response = await Controller.ActiveArrears(ApplyArreas);
+
+        if (response)
         {
-            await Swal.FireAsync("Error", $"Ha ocurrido un error: {ex.Message}", "error");
-        }    
+            await AlertService.AlertSuccess("¡Mora generada correctamente!", string.Empty);
+        }
+        else
+        {
+            await AlertService.AlertInformation("Obtuvimos problemas al generar la mora.", string.Empty);
+        }
     }
 }

@@ -2,13 +2,9 @@
 
 @inherits TariffProfiles
 
-@if (students == null )
+@if (StudentList == null)
 {
     <div class="loader"></div>
-    if (!string.IsNullOrEmpty(errorMesage))
-    {
-        <ErrorView></ErrorView>
-    }
 }
 else
 {
@@ -39,7 +35,7 @@ else
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in students)
+                    @foreach (var item in StudentList)
                     {
                         <tr>
                             <td> @item.studentId </td>

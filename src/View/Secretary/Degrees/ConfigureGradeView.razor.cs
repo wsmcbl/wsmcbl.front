@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Degrees.Dto;
-using wsmcbl.src.View.Shared;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -11,7 +11,7 @@ public class ConfigureGrade : ComponentBase
     [Parameter] public string EnrollmentNumber { get; set; }
     [Parameter] public string GradeId { get; set; }
     
-    [Inject] protected AlertService alertService { get; set; } = null!;
+    [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
 
     protected int NumberEnrollment;
