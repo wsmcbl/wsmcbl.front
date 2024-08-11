@@ -75,7 +75,7 @@ public class TariffCollection : ComponentBase
     private async Task LoadStudent()
     {
         StudentEntity = await Controller.GetStudent(StudentId!);
-        Controller.setStudent(StudentEntity);
+        Controller.SetStudent(StudentEntity);
     }
 
     protected void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
@@ -105,7 +105,7 @@ public class TariffCollection : ComponentBase
 
     protected async Task MakePay()
     {
-        Controller.addDetail(TariffsToPay!, AreArrearsApply);
+        Controller.AddDetail(TariffsToPay!, AreArrearsApply);
 
         var result = await Controller.SendPay();
 

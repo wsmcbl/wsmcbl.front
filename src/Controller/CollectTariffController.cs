@@ -18,7 +18,7 @@ public class CollectTariffController
     public async Task<List<TariffDto>> GetTariffList(string key, string value)
     {
         var resource = $"tariffs/search?q={key}:{value}";
-
+        
         List<TariffDto> defaultResult = [];
         return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
@@ -45,8 +45,9 @@ public class CollectTariffController
     public async Task<InvoiceDto?> GetInvoice(string transactionId)
     {
         var resource = $"transactions/invoices/{transactionId}";
-        InvoiceDto defaultResult = new();
-        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
+        var result = await Consumer.GetAsync<InvoiceDto?>(Modules.Accounting, resource, null);
+
+        return result;
     }
 
     public async Task<bool> ActiveArrears(int tariffId)
@@ -70,15 +71,15 @@ public class CollectTariffController
         return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
 
-    private CashierEntity cashier;
+    private readonly CashierEntity cashier;
 
-    public void addDetail(List<TariffModalDto> tariffs, bool isApplyArrear)
+    public void AddDetail(List<TariffModalDto> tariffs, bool isApplyArrears)
     {
         cashier.initTransaction();
-        cashier.addDetail(tariffs, isApplyArrear);
+        cashier.addDetail(tariffs, isApplyArrears);
     }
 
-    public void setStudent(StudentEntity studentEntity)
+    public void SetStudent(StudentEntity studentEntity)
     {
         cashier.setStudent(studentEntity);
     }
