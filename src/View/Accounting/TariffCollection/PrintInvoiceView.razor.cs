@@ -1,41 +1,36 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.View.Shared;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public class PrintInvoice : ComponentBase
 {
-    [Inject] protected CollectTariffController controller { get; set; } = null!;
-    [Inject] protected AlertService alertService { get; set; } = null!;
+    [Inject]
+    protected CollectTariffController Controller { get; set; } = null!;
     
-    protected InvoiceDto? invoice { get; set; }
-    protected string? errorMessage { get; set; }
+    [Parameter] 
+    public string? TransactionId { get; set; }
     
-    [Parameter] public string? transactionId { get; set; }
-    
+    protected InvoiceDto? Invoice { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
-        try
+        if (string.IsNullOrEmpty(TransactionId))
         {
-            if (string.IsNullOrEmpty(transactionId))
-            {
-                throw new Exception("Transaction ID is not valid");
-            }
-            
-            invoice =  await controller.GetInvoice(transactionId);
+            throw new InternalException("Transaction ID is not valid");
         }
-        catch(Exception e)
-        {
-            errorMessage = e.Message;
-        }     
+
+        Invoice = await Controller.GetInvoice(TransactionId);
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && errorMessage != null)
+        if (firstRender)
         {
-            await alertService.AlertError("Obtuvimos unos problemas",errorMessage);
+            throw new InternalException("Obtuvimos unos problemas");
         }
+
+        return Task.CompletedTask;
     }
 }

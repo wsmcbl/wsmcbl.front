@@ -1,18 +1,16 @@
-using wsmcbl.src.View.Shared;
-
 namespace wsmcbl.src.Utilities;
 
 public class ApiConsumer
 {
     private readonly HttpClient httpClient;
-    private readonly AlertService service;
+    private readonly Notificator service;
     
     private readonly string _connectionString;
     
-    public ApiConsumer(HttpClient httpClient, AlertService alertService)
+    public ApiConsumer(HttpClient httpClient, Notificator notificator)
     {
         this.httpClient = httpClient;
-        service = alertService;
+        service = notificator;
         _connectionString = "http://185.190.140.208:4000/v1";
     }
     

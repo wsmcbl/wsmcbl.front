@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Secretary;
-using wsmcbl.src.View.Secretary.Degrees.Dto;
-using wsmcbl.src.View.Shared;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -16,7 +15,7 @@ public class ListGrades : ComponentBase
     
     [Inject] protected IJSRuntime? JsRuntime { get; set; } 
     [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
-    [Inject] protected AlertService? AlertService { get; set; }
+    [Inject] protected Notificator? AlertService { get; set; }
 
     protected bool tabsCreated;
     protected List<DegreeEntity>? Degrees { get; set; }

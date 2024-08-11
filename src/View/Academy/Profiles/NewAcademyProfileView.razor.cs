@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Components;
-using wsmcbl.src.View.Shared;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Academy.Profiles;
 
 public class NewAcademyProfiles : ComponentBase
 {
     [Inject] protected IEnrollSudentController controller { get; set; } = null!;
-    [Inject] protected AlertService alertService { get; set; } = null!;
+    [Inject] protected Notificator Notificator { get; set; } = null!;
 
     protected string FirsName;
     protected string SecondName;
@@ -56,11 +56,11 @@ public class NewAcademyProfiles : ComponentBase
 
         if (result == true)
         {
-            await alertService.AlertSuccess("Agregado Exitosamente", "El estudiante fue registrado correctamente");
+            await Notificator.AlertSuccess("Agregado Exitosamente", "El estudiante fue registrado correctamente");
         }
         else
         {
-            await alertService.AlertError("Error", "El estudiante no puedo ser registrado.");
+            await Notificator.AlertError("Error", "El estudiante no puedo ser registrado.");
         }
     }
 }

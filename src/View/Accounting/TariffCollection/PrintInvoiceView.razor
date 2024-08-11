@@ -6,12 +6,7 @@
 
 <link rel="stylesheet" href="/css/Factura.css" />
 
-@if (errorMessage != null)
-{
-    <div class="alert alert-danger">@errorMessage</div>
-    <a href="/" class="btn btn-primary">Ir a la página principal</a>
-}
-else if (invoice == null)
+if (Invoice == null)
 {
     <p>Cargando...</p>
 }
@@ -30,7 +25,7 @@ else
                 <p class="izqN">N°</p>
             </div>
             <div class="col">
-                <p class="izq">@invoice.TransactionId</p>
+                <p class="izq">@Invoice.TransactionId</p>
             </div>
         </div>
 
@@ -39,7 +34,7 @@ else
                 <p class="izqN">Cod. Estu</p>
             </div>
             <div class="col">
-                <p class="izq">@invoice.StudentId</p>
+                <p class="izq">@Invoice.StudentId</p>
             </div>
         </div>
 
@@ -48,7 +43,7 @@ else
                 <p class="izqN">Fecha</p>
             </div>
             <div class="col">
-                <p class="izq">@invoice.DateTime.ToString("dd-MM-yyyy")</p>
+                <p class="izq">@Invoice.DateTime.ToString("dd-MM-yyyy")</p>
             </div>
         </div>
 
@@ -57,7 +52,7 @@ else
                 <p class="izqN">Hora</p>
             </div>
             <div class="col">
-                <p class="izq">@invoice.DateTime.ToString("HH:mm:ss")</p>
+                <p class="izq">@Invoice.DateTime.ToString("HH:mm:ss")</p>
             </div>
         </div>
 
@@ -66,14 +61,14 @@ else
                 <p class="izqN">Cajero</p>
             </div>
             <div class="col">
-                <p class="izq">@invoice.CashierName</p>
+                <p class="izq">@Invoice.CashierName</p>
             </div>
         </div>
         <hr>
         
 
         <p class="der">A nombre de: </p>
-        <p class="izqC">@invoice.StudentName</p>
+        <p class="izqC">@Invoice.StudentName</p>
 
         <blockquote class="izqC">DETALLE</blockquote>
 
@@ -86,7 +81,7 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in invoice.detail)
+                @foreach (var item in Invoice.detail)
                 {
                     <tr>
                         <td> @item.Concept </td>
@@ -103,7 +98,7 @@ else
                 <p class="izqN">T Neto:</p>
             </div>
             <div class="col">
-                <p class="izq">C$ @invoice.Total</p>
+                <p class="izq">C$ @Invoice.Total</p>
             </div>
         </div>
         <hr>
@@ -128,7 +123,7 @@ else
                 <p class="izqN">Balance General</p>
             </div>
             <div class="col">
-                <p class="izq">C$ @invoice.getGeneralBalance()</p>
+                <p class="izq">C$ @Invoice.getGeneralBalance()</p>
             </div>
         </div>
         <p class="end">NO ES VALIDO SIN FIRMA NI SELLO DEL CAJERO</p>

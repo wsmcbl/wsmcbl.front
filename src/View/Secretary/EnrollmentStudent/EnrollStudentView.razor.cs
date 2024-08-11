@@ -1,9 +1,8 @@
-using System.Runtime.InteropServices.JavaScript;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-using wsmcbl.src.View.Shared;
 
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
 
@@ -12,7 +11,7 @@ public class EnrollStudent : ComponentBase
     [Parameter] 
     public string StudentId { get; set; }
     [Inject] protected IEnrollSudentController Controller { get; set; }
-    [Inject] protected AlertService AlertService { get; set; }
+    [Inject] protected Notificator Notificator { get; set; }
 
     public StudentFullDto Student;
     
@@ -45,7 +44,7 @@ public class EnrollStudent : ComponentBase
         }
         catch (Exception e)
         {
-            AlertService.AlertError("Error", $"{e}");
+            Notificator.AlertError($"{e}");
         }
     }
     
