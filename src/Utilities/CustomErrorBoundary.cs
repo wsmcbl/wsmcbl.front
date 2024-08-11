@@ -1,4 +1,3 @@
-using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -6,25 +5,19 @@ namespace wsmcbl.src.Utilities;
 
 public class CustomErrorBoundary : ErrorBoundary
 {
-    [Inject] protected SweetAlertService? Service { get; set; }
+    [Inject] protected Notificator? Notificator { get; set; }
 
     protected override async Task OnErrorAsync(Exception exception)
     {
         var title = "Surgió un error.";
-        var text = exception.Message;
+        var error = exception.Message;
         
-        if (exception is InternalException appException)
+        if (exception is InternalException internalException)
         {
-            title = appException.Title;
-            text = appException.Content;
+            title = internalException.Title;
+            error = internalException.Content;
         }
-        
-        await Service!.FireAsync(
-            new SweetAlertOptions
-            {
-                Title = title,
-                Text = text,
-                Icon = SweetAlertIcon.Error
-            });
+
+        await Notificator!.AlertError(title, error);
     }
 }

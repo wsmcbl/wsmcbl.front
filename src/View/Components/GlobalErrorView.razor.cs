@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace wsmcbl.src.View.Shared;
+namespace wsmcbl.src.View.Components;
 
 public class GlobalError : ComponentBase
 {

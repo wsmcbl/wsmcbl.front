@@ -2,7 +2,6 @@
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Shared;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
