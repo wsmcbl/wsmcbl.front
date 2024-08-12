@@ -56,11 +56,11 @@ public class NewAcademyProfiles : ComponentBase
 
         if (result == true)
         {
-            await Notificator.AlertSuccess("Agregado Exitosamente", "El estudiante fue registrado correctamente");
+            await Notificator.ShowSuccess("Agregado Exitosamente", "El estudiante fue registrado correctamente");
         }
         else
         {
-            await Notificator.AlertError("Error", "El estudiante no puedo ser registrado.");
+            await Notificator.ShowError("Error", "El estudiante no puedo ser registrado.");
         }
     }
 }

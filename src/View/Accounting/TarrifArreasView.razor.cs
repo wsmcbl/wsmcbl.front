@@ -44,9 +44,9 @@ public class TariffArrears : ComponentBase
         var content = "La mora se aplicará a todo estudiante con mensualidad atrasada.";
         var options = ("Aplicar.", "No guardar.");
 
-        if (!await AlertService.AlertQuestionTwoOptions(title, content, options))
+        if (!await AlertService.ShowConfirmationQuestion(title, content, options))
         {
-            await AlertService.AlertInformation("Mora no aplicada.", string.Empty);
+            await AlertService.ShowInformation("Mora no aplicada.", string.Empty);
             return;
         }
         
@@ -54,11 +54,11 @@ public class TariffArrears : ComponentBase
 
         if (response)
         {
-            await AlertService.AlertSuccess("¡Mora generada correctamente!", string.Empty);
+            await AlertService.ShowSuccess("¡Mora generada correctamente!", string.Empty);
         }
         else
         {
-            await AlertService.AlertInformation("Obtuvimos problemas al generar la mora.", string.Empty);
+            await AlertService.ShowInformation("Obtuvimos problemas al generar la mora.", string.Empty);
         }
     }
 }

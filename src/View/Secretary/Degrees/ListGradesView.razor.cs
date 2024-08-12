@@ -28,7 +28,7 @@ public class ListGrades : ComponentBase
         }
         catch (Exception e)
         {
-            AlertService.AlertError("Error", $"Obtuvimos algunos errores.\n Mensaje: {e}");
+            AlertService.ShowError("Error", $"Obtuvimos algunos errores.\n Mensaje: {e}");
         }
         
     }
@@ -43,7 +43,7 @@ public class ListGrades : ComponentBase
     {
         if (numberOfTabs <= 0 && numberOfTabs >= 7)
         {
-            AlertService.AlertWarning("Advertencia", "El numero maximo de secciones es 7");
+            AlertService.ShowWarning("Advertencia", "El numero maximo de secciones es 7");
             return;
         }
         
@@ -54,7 +54,7 @@ public class ListGrades : ComponentBase
         }
         else
         {
-            AlertService.AlertError("Error", $"No pudimos crear las secciones.\\Mensage: {response.Message}");
+            AlertService.ShowError("Error", $"No pudimos crear las secciones.\\Mensage: {response.Message}");
         }
     }
     

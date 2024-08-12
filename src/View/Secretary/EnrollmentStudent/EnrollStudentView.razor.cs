@@ -41,7 +41,7 @@ public class EnrollStudent : ComponentBase
         }
         catch (Exception e)
         {
-            Notificator.AlertError($"{e}");
+            Notificator.ShowError($"{e}");
         }
     }
     

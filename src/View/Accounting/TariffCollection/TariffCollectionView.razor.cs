@@ -111,11 +111,11 @@ public class TariffCollection : ComponentBase
 
         if (string.IsNullOrEmpty(result))
         {
-            await Notificator.AlertError("¡Error en el Pago!", "La transacción no se completó correctamente.");
+            await Notificator.ShowError("¡Error en el Pago!", "La transacción no se completó correctamente.");
             return;
         }
 
-        await Notificator.AlertSuccess("¡Pago Exitoso!", "La transacción se completó correctamente.");
+        await Notificator.ShowSuccess("¡Pago Exitoso!", "La transacción se completó correctamente.");
         await Navigator.ToPage($"/transactions/invoices/{result}");
 
         await LoadStudent();

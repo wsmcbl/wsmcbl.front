@@ -39,11 +39,11 @@ public class ApiConsumer
         }
         catch (HttpRequestException ex)
         {
-            await service.AlertError("Hubo un problema con la solicitud.", ex.Message);
+            await service.ShowError("Hubo un problema con la solicitud.", ex.Message);
         }
         catch (Exception ex)
         {
-            await service.AlertError("Error interno.", ex.Message);
+            await service.ShowError("Error interno.", ex.Message);
         }
         
         return result;
@@ -61,11 +61,11 @@ public class ApiConsumer
         }
         catch (HttpRequestException ex)
         {
-            await service.AlertError("Hubo un problema con la solicitud.", ex.Message);
+            await service.ShowError("Hubo un problema con la solicitud.", ex.Message);
         }
         catch (Exception ex)
         {
-            await service.AlertError("Error interno.", ex.Message);
+            await service.ShowError("Error interno.", ex.Message);
         }
 
         return result;
@@ -80,11 +80,11 @@ public class ApiConsumer
         }
         catch (HttpRequestException ex)
         {
-            await service.AlertError("Hubo un problema con la solicitud.", ex.Message);
+            await service.ShowError("Hubo un problema con la solicitud.", ex.Message);
         }
         catch (Exception ex)
         {
-            await service.AlertError("Error interno.", ex.Message);
+            await service.ShowError("Error interno.", ex.Message);
         }
     }
     
@@ -100,10 +100,9 @@ public class ApiConsumer
         }
         catch (Exception ex)
         {
-            await service.AlertError("Error interno.", ex.Message);
+            await service.ShowError("Error interno.", ex.Message);
         }
 
         return result;
     }
-
 }

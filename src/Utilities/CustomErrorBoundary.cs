@@ -18,6 +18,6 @@ public class CustomErrorBoundary : ErrorBoundary
             error = internalException.Content;
         }
 
-        await Notificator!.AlertError(title, error);
+        await Notificator!.ShowError(title, error);
     }
 }

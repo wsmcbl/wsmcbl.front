@@ -11,32 +11,32 @@ public class Notificator
         Service = service;
     }
 
-    public async Task AlertSuccess(string title, string text)
+    public async Task ShowSuccess(string title, string text)
     {
         await Service.FireAsync(new SweetAlertOptions{ Title = title, Text = text, Icon = SweetAlertIcon.Success});
     }
     
-    public async Task AlertInformation(string title, string text)
+    public async Task ShowInformation(string title, string text)
     {
         await Service.FireAsync(new SweetAlertOptions{ Title = title, Text = text, Icon = SweetAlertIcon.Info});
     }
     
-    public async Task AlertError(string title, string text)
+    public async Task ShowError(string title, string text)
     {
         await Service.FireAsync(new SweetAlertOptions{ Title = title, Text = text,  Icon = SweetAlertIcon.Error});
     }
 
-    public async Task AlertError(string content)
+    public async Task ShowError(string content)
     {
-        await AlertError("Ocurrió un error.", content);
+        await ShowError("Ocurrió un error.", content);
     }
     
-    public async Task AlertWarning(string title, string text)
+    public async Task ShowWarning(string title, string text)
     {
         await Service.FireAsync(new SweetAlertOptions{Title = title, Text = text, Icon= SweetAlertIcon.Warning, ShowCancelButton = true });
     }
 
-    public async Task<bool> AlertQuestionTwoOptions(string title, string content, (string confirmText, string denyText) options)
+    public async Task<bool> ShowConfirmationQuestion(string title, string content, (string confirmText, string denyText) options)
     {
         var result = await Service.FireAsync(new SweetAlertOptions
         {

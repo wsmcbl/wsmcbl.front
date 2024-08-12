@@ -30,11 +30,11 @@ public class ConfigSchoolYear : ComponentBase
             
             SchoolYearEntity = Controller.NewSchoolYears();
             
-            Notificator.AlertSuccess("Datos cargados", "Edite los datos correspondiente y de click en guardar");
+            Notificator.ShowSuccess("Datos cargados", "Edite los datos correspondiente y de click en guardar");
         }
         catch (Exception e)
         {
-            Notificator.AlertError("Error al cargar", "Puede ser que ya existan mas de 2 años lectivos activos");
+            Notificator.ShowError("Error al cargar", "Puede ser que ya existan mas de 2 años lectivos activos");
         }
     }
 
@@ -46,16 +46,16 @@ public class ConfigSchoolYear : ComponentBase
 
             if (response.Success)
             {
-                await Notificator.AlertSuccess("Éxito", response.Message);
+                await Notificator.ShowSuccess("Éxito", response.Message);
             }
             else
             {
-                await Notificator.AlertError(response.Message);
+                await Notificator.ShowError(response.Message);
             }
         }
         catch (Exception e)
         {
-            await Notificator.AlertError("Error", e.Message);
+            await Notificator.ShowError("Error", e.Message);
         }
     }
 
@@ -80,16 +80,16 @@ public class ConfigSchoolYear : ComponentBase
 
             if (response.Success)
             {
-                await Notificator.AlertSuccess("Éxito", response.Message);
+                await Notificator.ShowSuccess("Éxito", response.Message);
             }
             else
             {
-                await Notificator.AlertError("Error", response.Message);
+                await Notificator.ShowError("Error", response.Message);
             }
         }
         catch (Exception e)
         {
-            await Notificator.AlertError("Error", e.Message);
+            await Notificator.ShowError("Error", e.Message);
         }
     }
 
@@ -115,16 +115,16 @@ public class ConfigSchoolYear : ComponentBase
 
             if (response.Success)
             {
-                await Notificator.AlertSuccess("Éxito", response.Message);
+                await Notificator.ShowSuccess("Éxito", response.Message);
             }
             else
             {
-                await Notificator.AlertError("Error", response.Message);
+                await Notificator.ShowError("Error", response.Message);
             }
         }
         catch (Exception e)
         {
-            await Notificator.AlertError("Error", e.Message);
+            await Notificator.ShowError("Error", e.Message);
         }
     }
 
