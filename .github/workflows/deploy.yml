@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - master
+      
+name: Despliegue del Front in Somee.com
+jobs:
+  web-deploy:
+    name: Desplegar a Somee.com
+    runs-on: ubuntu-latest
+    steps:
+    - name: 1. Obtener la ultima compilación del repositorio
+      uses: actions/checkout@v3
+
+    - name : 2. Ejecutar script de compilado
+      run: ./Config/deploy.sh
+  
+    - name: 3. Subir Archivos
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: cbl.somee.com
+        username: cbl
+        password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ftp
+        local-dir: publish/
+        server-dir: /www.cbl.somee.com/
