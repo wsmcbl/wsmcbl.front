@@ -18,45 +18,34 @@ public class ConfigSchoolYear : ComponentBase
     protected GradeDto SelectedGrade;
     protected SubjectDto SubjectNew;
     protected SchoolYearTariffs SelectedTariff;
-    
-    protected override void OnParametersSet()
+
+    protected override async Task OnParametersSetAsync()
     {
-        try
+        SubjectNew = new SubjectDto();
+        SelectedTariff = new SchoolYearTariffs();
+        SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
+        
+        SchoolYearEntity Default = new SchoolYearEntity();
+        SchoolYearEntity = await Controller.GetNewSchoolYears(Default);
+        if (SchoolYearEntity == Default)
         {
-            SubjectNew = new SubjectDto();
-            
-            SelectedTariff = new SchoolYearTariffs();
-            SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
-            
-            SchoolYearEntity = Controller.NewSchoolYears();
-            
-            Notificator.ShowSuccess("Datos cargados", "Edite los datos correspondiente y de click en guardar");
-        }
-        catch (Exception e)
-        {
-            Notificator.ShowError("Error al cargar", "Puede ser que ya existan mas de 2 años lectivos activos");
+            throw new InternalException("Es posible que exista mas de 2 años lectivos activos al mismo tiempo.");
         }
     }
 
     protected async Task SaveSchoolYear(SchoolYearEntity schoolYearEntity)
     {
-        try
-        {
+
             var response = await Controller.SaveNewSchoolYear(schoolYearEntity);
 
-            if (response.Success)
+            if (response)
             {
-                await Notificator.ShowSuccess("Éxito", response.Message);
+                await Notificator.ShowSuccess("Éxito", "");
             }
             else
             {
-                await Notificator.ShowError(response.Message);
+                await Notificator.ShowError("");
             }
-        }
-        catch (Exception e)
-        {
-            await Notificator.ShowError("Error", e.Message);
-        }
     }
 
     protected void SelectGrade(GradeDto grade)
@@ -107,25 +96,16 @@ public class ConfigSchoolYear : ComponentBase
 
     protected async Task SaveNewTariff(SchoolYearTariffs tariff)
     {
-        try
-        {
-            TariffDataDto tariffDataDto = MapperDate.MapToTariffDataDto(tariff);
-            
-            var response = await Controller.CreateNewTariff(tariffDataDto);
+            var response = await Controller.CreateNewTariff(tariff);
 
-            if (response.Success)
+            if (response)
             {
-                await Notificator.ShowSuccess("Éxito", response.Message);
+                await Notificator.ShowSuccess("Éxito", "Tarifa guardada correctamente");
             }
             else
             {
-                await Notificator.ShowError("Error", response.Message);
+                await Notificator.ShowError("Error", "No pudimos guardar la tarifa");
             }
-        }
-        catch (Exception e)
-        {
-            await Notificator.ShowError("Error", e.Message);
-        }
     }
 
     

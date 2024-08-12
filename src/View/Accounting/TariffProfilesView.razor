@@ -2,12 +2,21 @@
 
 @inherits TariffProfiles
 
-@if (StudentList == null)
+@if (IsLoad())
 {
     <div class="loader"></div>
 }
 else
 {
+    <link rel="stylesheet" href="src/View/Accounting/TariffProfilesView.razor.css">
+
+    
+    <div class="col">
+        <div class="testing">
+            hola esto es un test
+        </div>
+    </div>
+    
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de cobro</h6>
