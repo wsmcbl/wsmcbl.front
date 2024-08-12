@@ -1,19 +1,21 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace wsmcbl.src.Utilities;
 
 public class ApiConsumer
 {
     private readonly HttpClient httpClient;
     private readonly Notificator service;
-    
+
     private readonly string _connectionString;
-    
+
     public ApiConsumer(HttpClient httpClient, Notificator notificator)
     {
         this.httpClient = httpClient;
         service = notificator;
         _connectionString = "http://185.190.140.208:4000/v1";
     }
-    
+
     private Uri BuildUri(Modules modules, string resource)
     {
         var moduleDir = modules switch
@@ -27,48 +29,17 @@ public class ApiConsumer
         return new Uri($"{_connectionString}/{moduleDir}/{resource.TrimStart('/')}");
     }
 
-    public async Task<T> GetAsync<T>(Modules modules, string resource, T defaultResult)
+    public async Task<T> GetAsync<T>(Modules module, string resource, T defaultResult)
     {
-        var result = defaultResult; 
-        try
-        {
-            var response = await httpClient.GetAsync(BuildUri(modules, resource));
-            response.EnsureSuccessStatusCode();
-
-            result = await response.Content.ReadFromJsonAsync<T>();
-        }
-        catch (HttpRequestException ex)
-        {
-            await service.ShowError("Hubo un problema con la solicitud.", ex.Message);
-        }
-        catch (Exception ex)
-        {
-            await service.ShowError("Error interno.", ex.Message);
-        }
-        
-        return result;
+        var response = await httpClient.GetAsync(BuildUri(module, resource));
+        return await Template(defaultResult, response);
     }
-    
-    public async Task<TResponse?> PostAsync<TRequest, TResponse>(Modules modules, string resource, TRequest data, TResponse defaultResult)
-    {
-        var result = defaultResult;
-        try
-        {
-            var response = await httpClient.PostAsJsonAsync(BuildUri(modules, resource), data);
-            response.EnsureSuccessStatusCode();
-        
-            result = await response.Content.ReadFromJsonAsync<TResponse>();
-        }
-        catch (HttpRequestException ex)
-        {
-            await service.ShowError("Hubo un problema con la solicitud.", ex.Message);
-        }
-        catch (Exception ex)
-        {
-            await service.ShowError("Error interno.", ex.Message);
-        }
 
-        return result;
+    public async Task<TResponse?> PostAsync<TRequest, TResponse>(Modules modules, string resource, TRequest data,
+        TResponse defaultResult)
+    {
+        var response = await httpClient.PostAsJsonAsync(BuildUri(modules, resource), data);
+        return await Template(defaultResult, response);
     }
 
     public async Task PutAsync<T>(Modules modules, string resource, T data)
@@ -76,27 +47,68 @@ public class ApiConsumer
         try
         {
             var response = await httpClient.PutAsJsonAsync(BuildUri(modules, resource), data);
-            response.EnsureSuccessStatusCode();
+            if (!response.IsSuccessStatusCode)
+            {
+                var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+                throw new InternalException("Hubo un problema con la solicitud.",
+                    $"({problem.Status}) {problem.Detail}");
+            }
         }
-        catch (HttpRequestException ex)
+        catch (InternalException ex)
         {
-            await service.ShowError("Hubo un problema con la solicitud.", ex.Message);
+            await service.ShowError(ex.Title, ex.Content);
         }
         catch (Exception ex)
         {
             await service.ShowError("Error interno.", ex.Message);
         }
     }
-    
+
     public async Task<byte[]?> GetPdfAsync(Modules module, string resource, byte[] defaultResult)
     {
         byte[] result = defaultResult;
         try
         {
             var response = await httpClient.GetAsync(BuildUri(module, resource));
-            response.EnsureSuccessStatusCode();
-            
+            if (!response.IsSuccessStatusCode)
+            {
+                var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+                throw new InternalException("Hubo un problema con la solicitud.",
+                    $"({problem.Status}) {problem.Detail}");
+            }
+
             result = await response.Content.ReadAsByteArrayAsync();
+        }
+        catch (InternalException ex)
+        {
+            await service.ShowError(ex.Title, ex.Content);
+        }
+        catch (Exception ex)
+        {
+            await service.ShowError("Error interno.", ex.Message);
+        }
+
+        return result;
+    }
+
+
+    private async Task<T> Template<T>(T defaultResult, HttpResponseMessage response)
+    {
+        var result = defaultResult;
+        try
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+                throw new InternalException("Hubo un problema con la solicitud.",
+                    $"({problem.Status}) {problem.Detail}");
+            }
+
+            result = await response.Content.ReadFromJsonAsync<T>();
+        }
+        catch (InternalException ex)
+        {
+            await service.ShowError(ex.Title, ex.Content);
         }
         catch (Exception ex)
         {
