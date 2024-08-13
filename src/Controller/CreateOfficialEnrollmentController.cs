@@ -20,7 +20,6 @@ public class CreateOfficialEnrollmentController
     {
         Consumer = consumer;
     }
-
     
     public async Task<List<SchoolYearDto>> GetSchoolYearsList()
     {
@@ -68,47 +67,25 @@ public class CreateOfficialEnrollmentController
         return await Consumer.GetAsync(Modules.Secretary, resource, Default);
     }
 
-    public async Task<EnrollmentEntity?> CreateEnrollments(string DegreeId, int Quantity)
+    public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity, EnrollmentEntity Default)
     {
-        (string, int) Data = (DegreeId, Quantity);
+        (string, int) data = (degreeId, quantity);
         var resource = "enrollments";
-        EnrollmentEntity Default = new();
-        return await Consumer.PostAsync(Modules.Secretary, resource, Data, Default);
+        return await Consumer.PostAsync(Modules.Secretary, resource, data, Default);
     }
 
     public async Task<DegreeBasicDto?> ConfigureEnrollment(string GradeId)
     {
-        var resource = "";
-        
-        
-        var response = await httpClient.GetAsync(URL.ConfigurateEnrollment + $"{GradeId}");
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Error al obtener los datos de la API: {response.ReasonPhrase}");
-        }
-
-        var degreeDto = await response.Content.ReadFromJsonAsync<DegreeBasicDto>();
-        return degreeDto;
+        var resource = $"degrees/{GradeId}";
+        DegreeBasicDto Default = new();
+        return await Consumer.GetAsync(Modules.Secretary, resource, Default);
     }
 
     public async Task<List<DegreeEntity>> GetDegreeList()
     {
-        var response = await httpClient.GetAsync(URL.ConfigurateEnrollment);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new ArgumentException($"Error al obtener los datos de la API.\n Mensaje: {response.ReasonPhrase}");
-        }
-        
-        var result = await response.Content.ReadFromJsonAsync<List<DegreeToListDto>>();
-        var degreeList = new List<DegreeEntity>();
-        foreach (var item in result)
-        {
-            degreeList.Add(item.ToEntity());
-        }
-
-        return degreeList;
+        var resource = "degrees/";
+        List<DegreeEntity> Default = [];
+        return await Consumer.GetAsync(Modules.Secretary, resource, Default);
     }
     
     

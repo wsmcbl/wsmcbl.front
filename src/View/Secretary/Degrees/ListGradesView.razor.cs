@@ -15,7 +15,7 @@ public class ListGrades : ComponentBase
     
     [Inject] protected IJSRuntime? JsRuntime { get; set; } 
     [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
-    [Inject] protected Notificator? AlertService { get; set; }
+    [Inject] protected Notificator? Notificator { get; set; }
 
     protected bool tabsCreated;
     protected List<DegreeEntity>? Degrees { get; set; }
@@ -28,7 +28,7 @@ public class ListGrades : ComponentBase
         }
         catch (Exception e)
         {
-            AlertService.ShowError("Error", $"Obtuvimos algunos errores.\n Mensaje: {e}");
+            Notificator.ShowError("Error", $"Obtuvimos algunos errores.\n Mensaje: {e}");
         }
         
     }
@@ -43,19 +43,17 @@ public class ListGrades : ComponentBase
     {
         if (numberOfTabs <= 0 && numberOfTabs >= 7)
         {
-            AlertService.ShowWarning("Advertencia", "El numero maximo de secciones es 7");
+            Notificator.ShowWarning("Advertencia", "El numero maximo de secciones es 7");
             return;
         }
         
-        var response = await Controller.CreateEnrollments(GradeId, numberOfTabs);
-        if (response.Success)
+        EnrollmentEntity Default = new();
+        var response = await Controller.CreateEnrollments(GradeId, numberOfTabs, Default);
+        if (response == Default)
         {
-            OpenNewTab();
+            Notificator.ShowError("Obtubimos problemas al crear las secciones");
         }
-        else
-        {
-            AlertService.ShowError("Error", $"No pudimos crear las secciones.\\Mensage: {response.Message}");
-        }
+        OpenNewTab();
     }
     
     protected async Task OpenNewTab()

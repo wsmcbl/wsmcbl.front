@@ -63,22 +63,11 @@ public class ConfigSchoolYear : ComponentBase
 
     protected async Task SaveNewSubject(SubjectDto subject)
     {
-        try
-        {
-            var response = await Controller.CreateNewSubject(subject);
+        var response = await Controller.CreateNewSubject(subject);
 
-            if (response.Success)
-            {
-                await Notificator.ShowSuccess("Éxito", response.Message);
-            }
-            else
-            {
-                await Notificator.ShowError("Error", response.Message);
-            }
-        }
-        catch (Exception e)
+        if (response)
         {
-            await Notificator.ShowError("Error", e.Message);
+            await Notificator.ShowSuccess("Éxito", "Asignatura creada correctamente");
         }
     }
 
