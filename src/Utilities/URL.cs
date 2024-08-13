@@ -6,10 +6,7 @@ public static class URL
     
     public static readonly string secretary = $"{api}/secretary/";
 
-    public static string NewSchoolYearTariff = $"{secretary}configurations/schoolyears/tariffs";
-    public static string NewSubject = $"{secretary}configurations/schoolyears/subjects";
     
-    public static string GetTeacherBasic = $"{secretary}teachers/";
     public static string ConfigurateEnrollment = $"{secretary}degrees/";
     public static string DegreesEnrollments = $"{ConfigurateEnrollment}enrollments";
 }

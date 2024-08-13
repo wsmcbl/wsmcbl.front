@@ -53,73 +53,34 @@ public class CreateOfficialEnrollmentController
         return response != Default;
     }
 
-    public async Task<Response> CreateNewSubject(SubjectDto subject)
+    public async Task<bool> CreateNewSubject(SubjectDto subject)
     {
-        try
-        {
-            var url = URL.NewSubject;
-            var json = JsonConvert.SerializeObject(subject);
-            var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var respuesta = await httpClient.PostAsync(url, contenido);
-
-            if (respuesta.IsSuccessStatusCode)
-            {
-                return new Response { Success = true, Message = "Asignatura creada correctamente" };
-            }
-            var errorContent = await respuesta.Content.ReadAsStringAsync();
-            return new Response { Success = false, Message = $"Error del servidor: {errorContent}" };
-        }
-        catch (Exception ex)
-        {
-            return new Response { Success = false, Message = $"Ocurrió un error: {ex.Message}" };
-        }
+        var resource = "configurations/schoolyears/subjects";
+        SubjectDto Default = new();
+        var response = await Consumer.PostAsync(Modules.Secretary, resource, subject, Default);
+        return response != Default;
     }
 
     public async Task<List<TeacherEntity>> GetTeacherBasic()
     {
-        var response = await httpClient.GetAsync(URL.GetTeacherBasic);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new ArgumentException($"Error al obtener los datos de la API.\n Mensaje: {response.ReasonPhrase}");
-        }
-        
-        var result = await response.Content.ReadFromJsonAsync<List<TeacherBasicDto>>();
-        var teacherList = new List<TeacherEntity>();
-        foreach (var item in result)
-        {
-            teacherList.Add(item.ToEntity());
-        }
-
-        return teacherList;
+        var resource = "teachers/";
+        List<TeacherEntity> Default = new();
+        return await Consumer.GetAsync(Modules.Secretary, resource, Default);
     }
 
-    public async Task<Response> CreateEnrollments(string DegreeId, int Quantity)
+    public async Task<EnrollmentEntity?> CreateEnrollments(string DegreeId, int Quantity)
     {
-        try
-        {
-            EnrollmentToCreateDto obj = new(DegreeId, Quantity);
-            
-            var url = URL.DegreesEnrollments;
-            var json = JsonConvert.SerializeObject(obj);
-            var contenido = new StringContent(json, Encoding.UTF8, "application/json");
-            var respuesta = await httpClient.PostAsync(url, contenido);
-            if (respuesta.IsSuccessStatusCode)
-            {
-                return new Response { Success = true, Message = "Secciòn creada correctamente" };
-            }
-            var errorContent = await respuesta.Content.ReadAsStringAsync();
-            return new Response { Success = false, Message = $"Error del servidor: {errorContent}" };
-        }
-        catch (Exception e)
-        {
-            return new Response { Success = false, Message = $"Ocurrió un error: {e.Message}" };
-        }
+        (string, int) Data = (DegreeId, Quantity);
+        var resource = "enrollments";
+        EnrollmentEntity Default = new();
+        return await Consumer.PostAsync(Modules.Secretary, resource, Data, Default);
     }
 
     public async Task<DegreeBasicDto?> ConfigureEnrollment(string GradeId)
     {
+        var resource = "";
+        
+        
         var response = await httpClient.GetAsync(URL.ConfigurateEnrollment + $"{GradeId}");
 
         if (!response.IsSuccessStatusCode)
