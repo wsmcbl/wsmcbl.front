@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.Model.Secretary;
@@ -6,7 +7,7 @@ namespace wsmcbl.src.Model.Secretary;
 public class DegreeEntity
 { //revisado y cotejado con Back
     [JsonProperty("degreeId")]  
-    public string GradeId { get; set; }
+    public string DegreeId { get; set; }
     
     [JsonProperty("label")]
     public string Label { get; set; } = null!;

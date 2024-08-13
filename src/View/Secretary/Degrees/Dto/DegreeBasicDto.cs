@@ -1,4 +1,5 @@
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
@@ -16,7 +17,7 @@ public class DegreeBasicDto
     {
         var result = new DegreeEntity()
         {
-            GradeId = degreeId,
+            DegreeId = degreeId,
             Label = label,
             SchoolYear = schoolYear,
             Quantity = quantity,
@@ -27,7 +28,5 @@ public class DegreeBasicDto
         };
         return result;
     }
-    
-    
     
 }

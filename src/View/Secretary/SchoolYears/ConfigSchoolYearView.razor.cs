@@ -16,13 +16,19 @@ public class ConfigSchoolYear : ComponentBase
     protected SchoolYearEntity SchoolYearEntity;
     
     protected GradeDto SelectedGrade;
-    protected SubjectDto SubjectNew;
-    protected SchoolYearTariffs SelectedTariff;
-
+    protected SubjectDto SubjectNew = new();
+    protected SchoolYearTariffs SelectedTariff = new();
+    protected List<DropdownList> DropdownDegreeLists = new();
+    protected List<DropdownList> DropdownSemesterLists =
+    [
+        new DropdownList { Id = 1, Nombre = "Primer Semestre" },
+        new DropdownList { Id = 2, Nombre = "Segundo Semestre" },
+        new DropdownList { Id = 3, Nombre = "Ambos" }
+    ];
+    
     protected override async Task OnParametersSetAsync()
     {
-        SubjectNew = new SubjectDto();
-        SelectedTariff = new SchoolYearTariffs();
+        int DegreeId = 1;
         SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
         
         SchoolYearEntity Default = new SchoolYearEntity();
@@ -30,6 +36,16 @@ public class ConfigSchoolYear : ComponentBase
         if (SchoolYearEntity == Default)
         {
             throw new InternalException("Es posible que exista mas de 2 años lectivos activos al mismo tiempo.");
+        }
+        
+        foreach (var item in SchoolYearEntity.Degrees)
+        {
+            DropdownDegreeLists.Add(new DropdownList
+            {
+                Id = DegreeId,
+                Nombre = item.Label
+            });
+            DegreeId++;
         }
     }
 
@@ -102,5 +118,7 @@ public class ConfigSchoolYear : ComponentBase
     {
         return grade == SelectedGrade ? "selected-grade" : string.Empty;
     }
+
+  
 
 }

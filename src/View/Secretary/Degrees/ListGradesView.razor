@@ -34,14 +34,14 @@
                 @foreach (var item in Degrees)
                 {
                     <tr>
-                        <td> @item.GradeId </td>
+                        <td> @item.DegreeId </td>
                         <td> @item.Label </td>
                         <td> @item.Quantity</td>
                         <td> @item.Modality</td>
                         <td>
                             @if (item.Quantity <=0)
                             {
-                                <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.GradeId)">
+                                <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.DegreeId)">
                                     Configurar
                                 </button>
                             }

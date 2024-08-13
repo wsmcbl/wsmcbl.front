@@ -14,7 +14,7 @@ public class DegreeToListDto
     {
         var result =  new DegreeEntity
         {
-            GradeId = degreeId,
+            DegreeId = degreeId,
             Label = label,
             Modality = modality,
             Enrollments = [],
