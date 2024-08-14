@@ -5,18 +5,10 @@ namespace wsmcbl.src.dto.Output;
 
 public class TariffDataDto
 {
-    [JsonProperty("concept")]
-    public string? Concept { get; set; }
-    
-    [JsonProperty("amount")]
-    public double Amount { get; set; }
-    
-    public Date? dueDate { get; set; }
-    
-    [JsonProperty("typeId")]
-    public int Type { get; set; }
-    
-    [JsonProperty("modality")]
-    public int Modality { get; set; }
+    public string? concept { get; set; }
+    public double amount { get; set; }
+    public Date dueDate { get; set; }
+    public int typeId { get; set; }
+    public int modality { get; set; }
     
 }

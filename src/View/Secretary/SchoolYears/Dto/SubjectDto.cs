@@ -5,7 +5,7 @@ namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
 public class SubjectDto
 {
     [JsonProperty("gradeIntId")] 
-    public int GradeId { get; set; }
+    public int GradeIntId { get; set; }
     
     [JsonProperty("name")] 
     public string Name { get; set; } = null!;

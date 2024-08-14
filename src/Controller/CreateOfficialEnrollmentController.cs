@@ -87,7 +87,14 @@ public class CreateOfficialEnrollmentController
         List<DegreeEntity> Default = [];
         return await Consumer.GetAsync(Modules.Secretary, resource, Default);
     }
-    
+
+    public async Task<List<DropdownList>> GetTypeTariffList()
+    {
+        var resource = "tariffs/types";
+        List<TypeTariffDto> Default = [];
+        var response = await Consumer.GetAsync(Modules.Accounting, resource, Default);
+        return response.Select(dto => dto.ToDropdownList()).ToList();
+    }
     
     
 }

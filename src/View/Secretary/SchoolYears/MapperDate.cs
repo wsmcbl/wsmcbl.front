@@ -9,11 +9,11 @@ public static class MapperDate
     {
         return new TariffDataDto
         {
-            Concept = schoolYearTariffs.Concept,
-            Amount = schoolYearTariffs.Amount,
+            concept = schoolYearTariffs.Concept,
+            amount = schoolYearTariffs.Amount,
             dueDate = ConvertDateOnlyToDate(schoolYearTariffs.OnlyDate),
-            Type = schoolYearTariffs.Type,
-            Modality = schoolYearTariffs.Modality
+            typeId = schoolYearTariffs.Type,
+            modality = schoolYearTariffs.Modality
         };
     }
     
@@ -21,6 +21,10 @@ public static class MapperDate
     {
         if (dateOnly.HasValue)
         {
+            if (dateOnly.Value.Day == 1 && dateOnly.Value.Month == 1 && dateOnly.Value.Year == 1)
+            {
+                return null;
+            }
             return new Date
             {
                 Year = dateOnly.Value.Year,

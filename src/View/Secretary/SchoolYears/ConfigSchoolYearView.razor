@@ -117,13 +117,33 @@ else
                                     <tbody>
                                     @foreach (var item in SchoolYearEntity.Tariffs)
                                     {
+                                        var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.Type);
+                                        var modality = DropdownModalityLists.FirstOrDefault(t => t.Id == item.Modality);
                                         <tr>
                                             <td>@item.SchoolYear</td>
                                             <td>@item.Concept</td>
                                             <td>@item.Amount</td>
                                             <td>@(item.DueDate?.Year ?? 0)/@(item.DueDate?.Month ?? 0)/@(item.DueDate?.Day ?? 0)</td>
-                                            <td>@item.Type</td>
-                                            <td>@item.Modality</td>
+                                            <td>
+                                                @if (typeTariff != null)
+                                                {
+                                                    @typeTariff.Nombre
+                                                }
+                                                else
+                                                {
+                                                    <a>Sin Tipo</a>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (modality != null)
+                                                {
+                                                @modality.Nombre
+                                                }
+                                                else
+                                                {
+                                                <a>Sin Modalidad</a>
+                                                }
+                                            </td>
                                             <td>
                                                 <button class="btn btn-primary" @onclick="() => EditTariff(item)">Editar</button>
                                             </td>
@@ -163,7 +183,7 @@ else
                     <form>
                         <div class="form-group">
                             <label for="gradeIntId">Grado</label>
-                            <select id="gradeIntId" class="form-control" style="margin: 0px" @bind="SubjectNew.GradeId">
+                            <select id="gradeIntId" class="form-control" style="margin: 0px" @bind="SubjectNew.GradeIntId">
                                 @foreach (var option in DropdownDegreeLists)
                                 {
                                 <option value="@option.Id">@option.Nombre</option>
@@ -222,7 +242,7 @@ else
                             <input type="text" class="form-control" id="Concept" @bind="SelectedTariff.Concept" />
                         </div>
                         <div class="form-group">
-                            <label for="name">Cantidad</label>
+                            <label for="name">Monto</label>
                             <input type="number" class="form-control" id="amount" @bind="SelectedTariff.Amount" />
                         </div>
                         <div class="form-group">
@@ -231,11 +251,21 @@ else
                         </div>
                         <div class="form-group">
                             <label for="name">Tipo</label>
-                            <input type="number" class="form-control" id="typeId" @bind="SelectedTariff.Type" />
+                            <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Type">
+                                @foreach (var option in DropdownTypeTariffsLists)
+                                {
+                                <option value="@option.Id">@option.Nombre</option>
+                                }
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="name">Modalidad</label>
-                            <input type="number" class="form-control" id="modality" @bind="SelectedTariff.Modality" />
+                            <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Modality">
+                                @foreach (var option in DropdownModalityLists)
+                                {
+                                <option value="@option.Id">@option.Nombre</option>
+                                }
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -243,7 +273,7 @@ else
                 <div class="modal-footer">
                     <div class="right-container">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button class="btn btn-danger btn-sm" @onclick="() => SaveNewTariff(SelectedTariff)">Guardar</button>
+                        <button class="btn btn-danger" @onclick="() => SaveNewTariff(SelectedTariff)">Guardar</button>
                     </div>
                 </div>
                 
@@ -277,11 +307,21 @@ else
                         </div>
                         <div class="form-group">
                             <label for="name">Tipo</label>
-                            <input type="number" class="form-control" id="typeId" @bind="SelectedTariff.Type" />
+                            <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Type">
+                                @foreach (var option in DropdownTypeTariffsLists)
+                                {
+                                <option value="@option.Id">@option.Nombre</option>
+                                }
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="name">Modalidad</label>
-                            <input type="number" class="form-control" id="modality" @bind="SelectedTariff.Modality" />
+                            <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Modality">
+                                @foreach (var option in DropdownModalityLists)
+                                {
+                                <option value="@option.Id">@option.Nombre</option>
+                                }
+                            </select>
                         </div>
                     </form>
                 </div>
