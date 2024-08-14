@@ -25,8 +25,6 @@ public class CollectTariffController
 
     public async Task<List<TariffDto>> GetTariffsOverdue(string value)
     {
-        // response.ReasonPhrase
-
         var resource = $"tariffs/search?q={value}";
         List<TariffDto> defaultResult = [];
         return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);

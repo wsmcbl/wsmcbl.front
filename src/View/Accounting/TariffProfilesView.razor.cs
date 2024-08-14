@@ -4,7 +4,7 @@ using wsmcbl.src.Model.Accounting;
 
 namespace wsmcbl.src.View.Accounting;
 
-public class TariffProfiles : ComponentBase
+public class TariffProfiles : BaseView
 {
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
     
@@ -13,5 +13,10 @@ public class TariffProfiles : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         StudentList = await Controller.GetStudentList();
+    }
+
+    protected override bool IsLoad()
+    {
+        return StudentList == null;
     }
 }

@@ -66,7 +66,7 @@ public class ApiConsumer
 
     public async Task<byte[]?> GetPdfAsync(Modules module, string resource, byte[] defaultResult)
     {
-        byte[] result = defaultResult;
+        var result = defaultResult;
         try
         {
             var response = await httpClient.GetAsync(BuildUri(module, resource));
