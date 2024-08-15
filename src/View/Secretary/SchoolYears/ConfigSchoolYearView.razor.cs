@@ -51,7 +51,7 @@ public class ConfigSchoolYear : ComponentBase
             DropdownDegreeLists.Add(new DropdownList
             {
                 Id = degreeId,
-                Nombre = item.Label
+                Nombre = item.label
             });
             degreeId++;
         }
@@ -79,7 +79,7 @@ public class ConfigSchoolYear : ComponentBase
     {
         if (SelectedGrade != null)
         {
-            SelectedGrade.Subjects.Remove(subject);
+            SelectedGrade.subjects.Remove(subject);
         }
     }
     protected async Task SaveNewSubject(SubjectDto subject)

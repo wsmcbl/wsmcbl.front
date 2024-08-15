@@ -5,12 +5,12 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public static class MapperSchoolYear
 {
-    public static NewSchoolYearDto MapToNewSchoolYearDto (SchoolYearEntity schoolYearEntity)
+    public static CreateSchoolYearDto MapToNewSchoolYearDto (SchoolYearEntity schoolYearEntity)
     {
-        return new NewSchoolYearDto()
+        return new CreateSchoolYearDto()
         {
-            Grades = schoolYearEntity.Degrees,
-            Tariffs = schoolYearEntity.Tariffs
+            degrees = schoolYearEntity.Degrees,
+            tariffs = schoolYearEntity.Tariffs
         };
     }
 }

@@ -4,9 +4,6 @@ namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
     
 public class NewSchoolYearDto
 {
-    [JsonProperty("degrees")]
-    public List<GradeDto>? Grades { get; set; }
-    
-    [JsonProperty("tariffs")]
-    public List<SchoolYearTariffs>? Tariffs { get; set; }
+    public List<GradeCreateNewSchoolYearDto>? degrees { get; set; }
+    public List<SchoolYearTariffs>? tariffs { get; set; }
 }

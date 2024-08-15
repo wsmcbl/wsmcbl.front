@@ -41,7 +41,7 @@ else
                                         @foreach (var grade in SchoolYearEntity.Degrees)
                                         {
                                             <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
-                                                @grade.Label
+                                                @grade.label
                                             </li>
                                         }
                                     </ul>
@@ -51,7 +51,7 @@ else
                                     @if (SelectedGrade != null)
                                     {
                                         <ul class="list-group">
-                                            @foreach (var subject in SelectedGrade.Subjects)
+                                            @foreach (var subject in SelectedGrade.subjects)
                                             {
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                                     <span>@subject.Name</span>
