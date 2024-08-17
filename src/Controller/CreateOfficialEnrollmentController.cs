@@ -39,6 +39,8 @@ public class CreateOfficialEnrollmentController
         var resource = "configurations/schoolyears";
         SchoolYearEntity Default = new(); 
         var content = MapperSchoolYear.MapToNewSchoolYearDto(schoolYearEntity);
+        
+        
         var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }

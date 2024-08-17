@@ -79,6 +79,9 @@ else
                             <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo2" aria-expanded="true" aria-controls="panelinfo2">
                                 Tarifas y Servicios
                             </button>
+                            <span class="ml-2" data-toggle="tooltip" title="Para crear una tarifa sin vencimiento introduce 1 1 1 en día, mes y año" style="cursor: pointer;">
+                                ?
+                            </span>
                             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalNewTariff">
                                 Nueva Tarifa
                             </button>
@@ -123,7 +126,7 @@ else
                                             <td>@item.SchoolYear</td>
                                             <td>@item.Concept</td>
                                             <td>@item.Amount</td>
-                                            <td>@(item.DueDate?.Year ?? 0)/@(item.DueDate?.Month ?? 0)/@(item.DueDate?.Day ?? 0)</td>
+                                            <td>@(item.OnlyDate.Year)/@(item.OnlyDate.Month)/@(item.OnlyDate.Day)</td>
                                             <td>
                                                 @if (typeTariff != null)
                                                 {

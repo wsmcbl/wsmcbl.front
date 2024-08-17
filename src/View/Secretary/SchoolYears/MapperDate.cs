@@ -17,7 +17,7 @@ public static class MapperDate
         };
     }
     
-    private static Date? ConvertDateOnlyToDate(DateOnly? dateOnly)
+    public static Date? ConvertDateOnlyToDate(DateOnly? dateOnly)
     {
         if (dateOnly.HasValue)
         {
@@ -25,15 +25,14 @@ public static class MapperDate
             {
                 return null;
             }
+            
             return new Date
             {
-                Year = dateOnly.Value.Year,
-                Month = dateOnly.Value.Month,
-                Day = dateOnly.Value.Day
+                year = dateOnly.Value.Year,
+                month = dateOnly.Value.Month,
+                day = dateOnly.Value.Day
             };
         }
         return null;
     }
-    
-    
 }

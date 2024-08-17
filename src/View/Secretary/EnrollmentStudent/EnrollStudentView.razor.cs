@@ -73,7 +73,7 @@ public class EnrollStudent : ComponentBase
     }
     private int ConverDate(Date birthDate)
     {
-        var birthDateTime = new DateTime(birthDate.Year, birthDate.Month, birthDate.Day);
+        var birthDateTime = new DateTime(birthDate.year, birthDate.month, birthDate.day);
         var today = DateTime.Today;
         var age = today.Year - birthDateTime.Year;
 

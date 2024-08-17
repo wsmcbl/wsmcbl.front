@@ -36,15 +36,21 @@ public class ConfigSchoolYear : ComponentBase
     
     protected override async Task OnParametersSetAsync()
     {
-        int degreeId = 1;
-        SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
-        
         SchoolYearEntity Default = new SchoolYearEntity();
         SchoolYearEntity = await Controller.GetNewSchoolYears(Default);
-        if (SchoolYearEntity == Default)
+        DropdownTypeTariffsLists = await Controller.GetTypeTariffList();
+        
+        if (SchoolYearEntity == Default || DropdownTypeTariffsLists == null)
         {
             throw new InternalException("Es posible que exista mas de 2 años lectivos activos al mismo tiempo.");
         }
+        await ConfigInformation();
+    }
+
+    private Task ConfigInformation()
+    {
+        int degreeId = 1;
+        SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
         
         foreach (var item in SchoolYearEntity.Degrees)
         {
@@ -56,7 +62,19 @@ public class ConfigSchoolYear : ComponentBase
             degreeId++;
         }
 
-        DropdownTypeTariffsLists = await Controller.GetTypeTariffList();
+        foreach (var item in SchoolYearEntity.Tariffs)
+        {
+            if (item.DueDate != null)
+            {
+                item.OnlyDate = new DateOnly(item.DueDate.year, item.DueDate.month, item.DueDate.day);
+            }
+            else
+            {
+                item.OnlyDate = DateOnly.MinValue;
+            }
+        }
+
+        return Task.CompletedTask;
     }
 
     protected async Task SaveSchoolYear(SchoolYearEntity schoolYearEntity)
@@ -64,7 +82,7 @@ public class ConfigSchoolYear : ComponentBase
             var response = await Controller.SaveNewSchoolYear(schoolYearEntity);
             if (response)
             {
-                await Notificator.ShowSuccess("Éxito", "");
+                await Notificator.ShowSuccess("Éxito", "El año lectivo fue creado.");
             }
             else
             {

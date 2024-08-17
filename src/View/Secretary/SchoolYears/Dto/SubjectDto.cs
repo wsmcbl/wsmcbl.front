@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
@@ -17,4 +18,16 @@ public class SubjectDto
     public int Semester { get; set; }
     
     public string initials { get; set; }
+
+    public static SubjectsCreateNewSchoolYearDto MapToSubjectsCreateNewSchoolYearDto(SubjectDto subjectDto)
+    {
+        return new SubjectsCreateNewSchoolYearDto()
+        {
+            name = subjectDto.Name,
+            isMandatory = subjectDto.IsMandatory,
+            semester = subjectDto.Semester,
+            initials = subjectDto.initials
+        };
+    }
+    
 }

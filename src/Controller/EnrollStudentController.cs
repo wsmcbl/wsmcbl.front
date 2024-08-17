@@ -30,9 +30,9 @@ public class EnrollStudentController : IEnrollStudentController
 
         if (studentResult.birthday == null)
         {
-            studentResult.birthday.Year = DateTime.Today.Year;
-            studentResult.birthday.Month = DateTime.Today.Month;
-            studentResult.birthday.Day = DateTime.Today.Day;
+            studentResult.birthday.year = DateTime.Today.Year;
+            studentResult.birthday.month = DateTime.Today.Month;
+            studentResult.birthday.day = DateTime.Today.Day;
         }
 
         return studentResult;
