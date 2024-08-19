@@ -71,8 +71,8 @@ public class CreateOfficialEnrollmentController
 
     public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity, EnrollmentEntity Default)
     {
-        (string, int) data = (degreeId, quantity);
-        var resource = "enrollments";
+        PostDegreeDto data = new PostDegreeDto { degreeId = degreeId, quantity = quantity };
+        var resource = "degrees/enrollments";
         return await Consumer.PostAsync(Modules.Secretary, resource, data, Default);
     }
 

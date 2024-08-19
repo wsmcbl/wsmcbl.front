@@ -47,7 +47,9 @@
                             }
                             else
                             {
-                                <a href="#" class="btn btn-success btn-sm">Ver</a>
+                                <button type="button" class="btn btn-success btn-sm" @onclick="() => ViewGrade(item.DegreeId)">
+                                    Ver
+                                </button>
                             }
                         </td>
                     </tr>
