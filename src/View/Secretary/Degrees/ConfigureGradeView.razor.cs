@@ -30,10 +30,6 @@ public class ConfigureGrade : ComponentBase
         DegreeDto = await Controller.ConfigureEnrollment(GradeId);
         DegreeEntity = DegreeDto.toEntity();
         
-        
-        
-        
-        
         TeacherList = await Controller.GetTeacherBasic();
         TeacherAvailable = TeacherList.Where(t => t.isGuide == false).ToList();
         
