@@ -1,5 +1,4 @@
-using wsmcbl.src.Model.Secretary;
-using wsmcbl.src.Utilities;
+using wsmcbl.src.Model.Academy;
 
 namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
@@ -15,7 +14,7 @@ public class DegreeBasicDto
     
     public DegreeEntity toEntity()
     {
-        var result = new DegreeEntity()
+        var degree = new DegreeEntity
         {
             DegreeId = degreeId,
             Label = label,
@@ -23,10 +22,21 @@ public class DegreeBasicDto
             Quantity = quantity,
             Sections = 0,
             Modality = modality,
-            Enrollments = enrollments,
-            Subjects = subjects?.Select(s => s.ToEntity()).ToList()
+            EnrollmentList = [],
+            SubjectList = []
         };
-        return result;
+        
+        foreach (var item in subjects)
+        {
+            degree.SubjectList.Add(item.ToEntity());
+        }
+
+        foreach (var item in enrollments)
+        {
+            degree.EnrollmentList.Add(item.ToEntity(degree.SubjectList));
+        }
+        
+        return degree;
     }
     
 }

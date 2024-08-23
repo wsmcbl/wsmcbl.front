@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
-using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -20,13 +19,13 @@ public class ListGrades : ComponentBase
     [Inject] protected Navigator Navigator { get; set; }
 
     protected bool tabsCreated;
-    protected List<DegreeEntity>? Degrees { get; set; }
+    protected List<DegreeEntity>? DegreesList { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
-            Degrees = await Controller.GetDegreeList();
+            DegreesList = await Controller.GetDegreeList();
         }
         catch (Exception e)
         {

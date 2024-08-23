@@ -1,4 +1,4 @@
-using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Model.Academy;
 
 namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
@@ -18,17 +18,7 @@ public class SubjectDto
             Initials = initials,
             Name = name,
             IsMandatory = isMandatory,
-            Semester = semester,
-            TeacherId = null
-        };
-    }
-    
-    public SubjectBasicDto ToBasicDto()
-    {
-        return new SubjectBasicDto
-        {
-            subjectId = subjectId,
-            teacherId = null 
+            Semester = semester
         };
     }
 }

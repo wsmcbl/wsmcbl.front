@@ -1,4 +1,4 @@
-using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Model.Academy;
 
 namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
@@ -13,21 +13,19 @@ public class EnrollmentBasicDto
     public int quantity { get; set; }
     public  List<SubjectBasicDto> subjects { get; set; }
 
-    public EnrollmentEntity ToEntity()
+    public EnrollmentEntity ToEntity(List<SubjectEntity> subjectList)
     {
-        var result =  new EnrollmentEntity()
+        var result = new EnrollmentEntity()
         {
             EnrollmentId = enrollmentId,
-            TeacherGuide = teacherId == null? true : false,
             Label = label,
             Section = section,
             Capacity = capacity,
-            Quantity = quantity,
-            Subjects = []
+            Quantity = quantity
         };
         
+        result.SetSubjectTeacherList(subjectList);
+
         return result;
     }
-    
-    
 }

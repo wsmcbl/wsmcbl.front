@@ -2,17 +2,17 @@
 @inherits ConfigureGrade;
 
 
-@if (NumberEnrollment > 0 && DegreeDto.enrollments != null && TeacherList != null)
+@if(IsLoad())
 {
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in DegreeDto.enrollments)
+                @foreach (var item in DegreeEntity.EnrollmentList)
                 {
                     counter++;
                     <li class="nav-item">
-                        <a class="nav-link @(counter == 1 ? "active" : "")" id="panel-@item.enrollmentId" href="#card-@item.enrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.enrollmentId" aria-selected="@(counter == 1 ? "true" : "false")">
-                            @item.label
+                        <a class="nav-link @(counter == 1 ? "active" : "")" id="panel-@item.EnrollmentId" href="#card-@item.EnrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.EnrollmentId" aria-selected="@(counter == 1 ? "true" : "false")">
+                            @item.Label
                         </a>
                     </li>
                 }
@@ -21,21 +21,21 @@
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
-                @foreach (var enrollment in DegreeDto.enrollments)
+                @foreach (var enrollment in DegreeEntity.EnrollmentList)
                 {
                     counter2++;
                     <!-- Inicio datos de matricula -->
-                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId" role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
+                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@enrollment.EnrollmentId" role="tabpanel" aria-labelledby="panel-@enrollment.EnrollmentId">
                         <div class="row">
                             <div class="col-12 col-md-4" style="margin-bottom: 15px">
                                 <div class="card">
                                     <div class="card-body">
                                         <label style="display: inline-block; width: 200px;">Nombre:</label>
-                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="enrollment.label">
+                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="enrollment.Label">
 
                                         <label style="display: inline-block; width: 200px;">Maestro Guia:</label>
 
-                                        @if (enrollment.teacherId == null)
+                                        @if (enrollment.TeacherId == null)
                                         {
                                         <select class="form-control" style="margin: 0px" @onchange="(e) => ChangeTeacherGuideStatus(e, enrollment)">
                                             <option value="">Selecciona un profesor</option>
@@ -45,10 +45,7 @@
                                             }
                                         </select>
                                         }
-                                        else
-                                        {
-                                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.teacherName">
-                                        }
+                                        <!-- Aqui se implementara la lista dinamica para drowdownlist -->
                                     </div>
                                 </div>
                             </div>
@@ -58,10 +55,10 @@
                                     <div class="card-body">
 
                                         <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
-                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeDto.schoolYear">
+                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeEntity.SchoolYear">
 
                                         <label style="display: inline-block; width: 200px;">Capacidad:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.capacity">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Capacity">
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +66,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <label style="display: inline-block; width: 200px;">Codigo del aula:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.section">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Section">
                                     </div>
                                 </div>
                             </div>
@@ -109,98 +106,7 @@
                         <!-- Fin Lista de estudiantes -->
 
                         <!-- Inicio de las asignaturas -->
-                        <div class="card" style="margin-bottom: 15px">
-                            <div class="card-body">
-                                <div class="row">
-                                    
-                                    <div class="col-sm-6">
-                                        <table id="subjectTable" class="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Obligatorio</th>
-                                                <th>Semestre</th>
-                                            </tr>
-                                            </thead>
-                                            <tfoot>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Nombre</th>
-                                                <th>Obligatorio</th>
-                                                <th>Semestre</th>
-                                            </tr>
-                                            </tfoot>
-                                            <tbody>
-                                            @foreach (var subjectEnrollment in DegreeEntity.Subjects)
-                                            {
-                                                <tr>
-                                                    <td> @subjectEnrollment.SubjectId</td>
-                                                    <td> @subjectEnrollment.Name</td>
-                                                    <td> @(subjectEnrollment.IsMandatory ? "Obligatoria" : "Basica")</td>
-                                                    <td>
-                                                        @{
-                                                            switch (subjectEnrollment.Semester)
-                                                            {
-                                                                case 1:
-                                                                    <p>Primer semestre</p>
-                                                                    break;
-                                                                case 2:
-                                                                    <p>Segundo semestre</p>
-                                                                    break;
-                                                                case 3:
-                                                                    <p>Ambos semestres</p>
-                                                                    break;
-                                                                default:
-                                                                    <p>Sin definir</p>
-                                                                    break;
-                                                            }
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <table id="selectTeacher" class="table table-bordered">
-                                            <thead>
-                                            <tr>
-                                                <th>Docente</th>
-                                            </tr>
-                                            </thead>
-                                            <tfoot>
-                                            <tr>
-                                                <th>Docente</th>
-                                            </tr>
-                                            </tfoot>
-                                            <tbody>
-                                            <td>
-                                                @foreach (var subject in enrollment.subjects)
-                                                {
-                                                    @if (subject.teacherId == null)
-                                                    {
-                                                        <select class="form-control" style="margin: 0px" @onchange="(e) => ChangeTeacherStatus(e, subject)">
-                                                            <option value="">Selecciona un Docente</option>
-                                                            @foreach (var option in TeacherList)
-                                                            {
-                                                                <option value="@option.TeacherId">@option.Name</option>
-                                                            }
-                                                        </select>
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="subject.teacherId">
-                                                    }
-                                                }
-                                            </td>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        
                         <!-- Fin de las asignaturas -->
                         
                     </div>
