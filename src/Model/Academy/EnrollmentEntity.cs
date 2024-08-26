@@ -17,9 +17,10 @@ public class EnrollmentEntity
     public void SetSubjectTeacherList(List<SubjectEntity> list)
     {
         SubjectTeacherList = [];
+        var nullTeacher = new NullTeacherEntity();
         foreach (var item in list)
         {
-            SubjectTeacherList.Add((item, null));
+            SubjectTeacherList.Add((item, nullTeacher));
         }
     }
 }

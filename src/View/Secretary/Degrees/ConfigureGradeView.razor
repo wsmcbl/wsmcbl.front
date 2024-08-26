@@ -34,17 +34,6 @@
                                         <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="enrollment.Label">
 
                                         <label style="display: inline-block; width: 200px;">Maestro Guia:</label>
-
-                                        @if (enrollment.TeacherId == null)
-                                        {
-                                        <select class="form-control" style="margin: 0px" @onchange="(e) => ChangeTeacherGuideStatus(e, enrollment)">
-                                            <option value="">Selecciona un profesor</option>
-                                            @foreach (var option in TeacherAvailable)
-                                            {
-                                            <option value="@option.TeacherId">@option.Name</option>
-                                            }
-                                        </select>
-                                        }
                                         <!-- Aqui se implementara la lista dinamica para drowdownlist -->
                                     </div>
                                 </div>
@@ -65,8 +54,8 @@
                             <div class="col-12 col-md-4" style="margin-bottom: 15px">
                                 <div class="card">
                                     <div class="card-body">
-                                        <label style="display: inline-block; width: 200px;">Codigo del aula:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Section">
+                                        <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Quantity">
                                     </div>
                                 </div>
                             </div>
@@ -96,7 +85,7 @@
                                             </tr>
                                             </tfoot>
                                             <tbody>
-                                            <h1>HI</h1>
+                                            <p>Listado de estudiantes</p>
                                             </tbody>
                                         </table>
                                     </div>
@@ -104,9 +93,59 @@
                             </div>
                         </div>
                         <!-- Fin Lista de estudiantes -->
+                        
+                        <button @onclick="ViewSubjectTeacherAssigment">Ver Lista </button>
 
                         <!-- Inicio de las asignaturas -->
-                        
+                        <div class="card" style="margin-bottom: 15px">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table id="datatable" class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Nombre</th>
+                                                <th>Tipo</th>
+                                                <th>Semestre</th>
+                                                <th>Maestro</th>
+                                            </tr>
+                                            </thead>
+                                            <tfoot>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Nombre</th>
+                                                <th>Tipo</th>
+                                                <th>Semestre</th>
+                                                <th>Maestro</th>
+                                            </tr>
+                                            </tfoot>
+                                            <tbody>
+                                            @foreach (var item in enrollment.SubjectTeacherList)
+                                            {
+                                                <tr>
+                                                    <td>@item.subject.SubjectId</td>
+                                                    <td>@item.subject.Name</td>
+                                                    <td>@item.subject.IsMandatory</td>
+                                                    <td>@item.subject.Semester</td>
+                                                    <td>
+                                                        <select id="teacherForSubject" class="form-control" style="margin: 0px" value="@item.teacher?.teacherId"
+                                                                @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value.ToString())">>
+                                                            
+                                                            @foreach (var option in TeacherList)
+                                                            {
+                                                                <option value="@option.teacherId">@option.fullName</option>
+                                                            }
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Fin de las asignaturas -->
                         
                     </div>

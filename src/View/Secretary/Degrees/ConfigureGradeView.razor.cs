@@ -34,22 +34,52 @@ public class ConfigureGrade : BaseView
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 
+    protected void ViewSubjectTeacherAssigment()
+    {
+        foreach (var enrollment in DegreeEntity.EnrollmentList)
+        {
+            foreach (var item in enrollment.SubjectTeacherList)
+            {
+                Console.WriteLine(enrollment.EnrollmentId);
+                Console.WriteLine(item.subject.Name);
+                Console.WriteLine(item.teacher.teacherId);
+                Console.WriteLine(item.teacher.fullName);
+            }
+        }
+    }
+    
+    protected void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
+    {
+        // Encuentra el índice del SubjectEntity dentro de SubjectTeacherList
+        for (int i = 0; i < enrollment.SubjectTeacherList.Count; i++)
+        {
+            var tuple = enrollment.SubjectTeacherList[i];
+
+            // Verifica si el SubjectEntity coincide
+            if (tuple.subject.SubjectId == subject.SubjectId)
+            {
+                // Busca el TeacherEntity en la lista de maestros
+                var selectedTeacher = TeacherList.FirstOrDefault(t => t.teacherId == selectedTeacherId);
+            
+                if (selectedTeacher != null)
+                {
+                    // Actualiza el elemento en la lista
+                    enrollment.SubjectTeacherList[i] = (tuple.subject, selectedTeacher);
+
+                    // Imprime los valores para verificar
+                    Console.WriteLine(enrollment.EnrollmentId);
+                    Console.WriteLine(tuple.subject.Name);
+                    Console.WriteLine(selectedTeacher.teacherId);
+                    Console.WriteLine(selectedTeacher.fullName);
+                }
+                break; // Sale del bucle una vez que encuentres la tupla correcta
+            }
+        }
+    }
+    
     protected override bool IsLoad()
     {
         return NumberEnrollment > 0 && DegreeEntity.EnrollmentList != null && TeacherList.Count != 0;
-    }
-
-    protected void ChangeTeacherGuideStatus(ChangeEventArgs e, EnrollmentEntity enrollment)
-    {
-        var selectedTeacherId = e.Value.ToString();
-        //#####
-    }
-    
-    protected void ChangeTeacherStatus(ChangeEventArgs e, SubjectBasicDto subject)
-    {
-        var selectedTeacherId = e.Value.ToString();
-
-        //####
     }
     
 }
