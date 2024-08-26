@@ -36,7 +36,7 @@ public class ConfigureGrade : BaseView
 
     protected override bool IsLoad()
     {
-        return NumberEnrollment > 0 && DegreeEntity.EnrollmentList != null && TeacherList.Count == 0;
+        return NumberEnrollment > 0 && DegreeEntity.EnrollmentList != null && TeacherList.Count != 0;
     }
 
     protected void ChangeTeacherGuideStatus(ChangeEventArgs e, EnrollmentEntity enrollment)
