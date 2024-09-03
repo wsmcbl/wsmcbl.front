@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -34,6 +33,16 @@ public class ConfigureGrade : BaseView
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 
+    public async Task ConfigureDegree()
+    {
+        DegreeEntity Default = new DegreeEntity();
+        var response = await Controller.PutSaveEnrollment(DegreeEntity, Default);
+        if (response)
+        {
+            Notificator.ShowSuccess("Exito", "Las matriculas fueron actualizadas correctamente");
+        }
+    }
+
     protected void ViewSubjectTeacherAssigment()
     {
         foreach (var enrollment in DegreeEntity.EnrollmentList)
@@ -49,30 +58,18 @@ public class ConfigureGrade : BaseView
     }
     
     protected void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
-    {
-        // Encuentra el índice del SubjectEntity dentro de SubjectTeacherList
+    { 
         for (int i = 0; i < enrollment.SubjectTeacherList.Count; i++)
         {
             var tuple = enrollment.SubjectTeacherList[i];
-
-            // Verifica si el SubjectEntity coincide
             if (tuple.subject.SubjectId == subject.SubjectId)
             {
-                // Busca el TeacherEntity en la lista de maestros
                 var selectedTeacher = TeacherList.FirstOrDefault(t => t.teacherId == selectedTeacherId);
-            
                 if (selectedTeacher != null)
                 {
-                    // Actualiza el elemento en la lista
                     enrollment.SubjectTeacherList[i] = (tuple.subject, selectedTeacher);
-
-                    // Imprime los valores para verificar
-                    Console.WriteLine(enrollment.EnrollmentId);
-                    Console.WriteLine(tuple.subject.Name);
-                    Console.WriteLine(selectedTeacher.teacherId);
-                    Console.WriteLine(selectedTeacher.fullName);
                 }
-                break; // Sale del bucle una vez que encuentres la tupla correcta
+                break;
             }
         }
     }

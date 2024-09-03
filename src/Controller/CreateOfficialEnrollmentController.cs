@@ -34,8 +34,6 @@ public class CreateOfficialEnrollmentController
         var resource = "configurations/schoolyears";
         Model.Secretary.SchoolYearEntity Default = new(); 
         var content = MapperSchoolYear.MapToNewSchoolYearDto(schoolYearEntity);
-        
-        
         var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }
@@ -93,5 +91,13 @@ public class CreateOfficialEnrollmentController
         List<TypeTariffDto> Default = [];
         var response = await Consumer.GetAsync(Modules.Accounting, resource, Default);
         return response.Select(dto => dto.ToDropdownList()).ToList();
+    }
+
+    public async Task<bool> PutSaveEnrollment(DegreeEntity Degree, DegreeEntity Default)
+    {
+        var resource = "degrees/enrollments";
+        var content = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(Degree);
+        await Consumer.PutAsync(Modules.Secretary, resource, content);
+        return Degree.Equals(Default); 
     }
 }
