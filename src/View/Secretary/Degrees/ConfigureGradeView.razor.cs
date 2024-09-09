@@ -32,6 +32,16 @@ public class ConfigureGrade : BaseView
         
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
+    
+    protected string   GetSemesterLabel(int semester)
+    {
+        return semester switch
+        {
+            1 => "Primer Semestre",
+            2 => "Segundo Semestre",
+            _ => "Ambos Semestres",
+        };
+    }
 
     public async Task ConfigureDegree()
     {

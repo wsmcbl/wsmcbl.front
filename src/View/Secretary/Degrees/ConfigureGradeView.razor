@@ -4,6 +4,8 @@
 
 @if(IsLoad())
 {
+    <link rel="stylesheet" href="css/Academy/Status.css">
+
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -40,6 +42,14 @@
 
                                         <label style="display: inline-block; width: 200px;">Maestro Guia:</label>
                                         <!-- Aqui se implementara la lista dinamica para drowdownlist -->
+                                        <select id="teacherGuideId" class="form-control" style="margin: 0px" bind="@enrollment.TeacherId">
+
+                                            @foreach (var option in TeacherAvailable)
+                                            {
+                                                <option value="@option.teacherId">@option.fullName</option>
+                                            }
+                                        </select>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +121,7 @@
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Nombre</th>
-                                                <th>Tipo</th>
+                                                <th>¿Es reprobable?</th>
                                                 <th>Semestre</th>
                                                 <th>Maestro</th>
                                             </tr>
@@ -120,7 +130,7 @@
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Nombre</th>
-                                                <th>Tipo</th>
+                                                <th>¿Es reprobable?</th>
                                                 <th>Semestre</th>
                                                 <th>Maestro</th>
                                             </tr>
@@ -131,8 +141,12 @@
                                                 <tr>
                                                     <td>@item.subject.SubjectId</td>
                                                     <td>@item.subject.Name</td>
-                                                    <td>@item.subject.IsMandatory</td>
-                                                    <td>@item.subject.Semester</td>
+                                                    <td>
+                                                        <span class="status-label @(item.subject.IsMandatory ? "active-status" : "inactive-status")">
+                                                            @(item.subject.IsMandatory ? "Si" : "No")
+                                                        </span>
+                                                    </td>
+                                                    <td>@GetSemesterLabel(item.subject.Semester)</td>
                                                     <td>
                                                         <select id="teacherForSubject" class="form-control" style="margin: 0px" value="@item.teacher?.teacherId"
                                                                 @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value.ToString())">>

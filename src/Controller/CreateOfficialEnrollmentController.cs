@@ -97,7 +97,7 @@ public class CreateOfficialEnrollmentController
     {
         var resource = "degrees/enrollments";
         var content = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(Degree);
-        await Consumer.PutAsync(Modules.Secretary, resource, content);
+        await Consumer.PutAsync(Modules.Secretary, resource, content[0]);
         return Degree.Equals(Default); 
     }
 }
