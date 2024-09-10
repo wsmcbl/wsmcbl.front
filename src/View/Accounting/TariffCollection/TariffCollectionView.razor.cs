@@ -116,7 +116,7 @@ public class TariffCollection : ComponentBase
         }
 
         await Notificator.ShowSuccess("¡Pago Exitoso!", "La transacción se completó correctamente.");
-        await Navigator.ToPage($"/transactions/invoices/{result}");
+        await Notificator.ShowInformation("¡En mantenimiento!", "En estos momentos no es posible construir el pdf. Intente más tarde.");
 
         await LoadStudent();
         ClearList();
