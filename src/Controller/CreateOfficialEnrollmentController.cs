@@ -1,3 +1,4 @@
+using System.Text.Json;
 using wsmcbl.src.dto.Output;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
@@ -96,8 +97,17 @@ public class CreateOfficialEnrollmentController
     public async Task<bool> PutSaveEnrollment(DegreeEntity Degree, DegreeEntity Default)
     {
         var resource = "degrees/enrollments";
-        var content = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(Degree);
-        await Consumer.PutAsync(Modules.Secretary, resource, content[0]);
+        var contentList = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(Degree);
+        if (contentList != null && contentList.Count > 0)
+        {
+            // Iteramos sobre cada objeto en la lista y enviamos uno por uno
+            foreach (var content in contentList)
+            {
+                var json = JsonSerializer.Serialize(content);
+                await Consumer.PutAsync(Modules.Secretary, resource, content);
+            }
+        }
         return Degree.Equals(Default); 
     }
+
 }

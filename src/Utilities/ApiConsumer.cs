@@ -13,7 +13,7 @@ public class ApiConsumer
     {
         this.httpClient = httpClient;
         service = notificator;
-        _connectionString = "http://185.190.140.208:4000/v1";
+        _connectionString = "http://localhost:4000/v1";
     }
 
     private Uri BuildUri(Modules modules, string resource)

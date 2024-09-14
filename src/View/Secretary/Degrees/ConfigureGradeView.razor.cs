@@ -84,6 +84,19 @@ public class ConfigureGrade : BaseView
         }
     }
     
+    
+    protected void OnTeacherGuideChanged(EnrollmentEntity enrollment, string selectedTeacherId)
+    { 
+        var selectedTeacher = TeacherList.FirstOrDefault(t => t.teacherId == selectedTeacherId);
+        if (selectedTeacher != null)
+        {
+            enrollment.TeacherId = selectedTeacher.teacherId;
+        }
+
+    }
+    
+    
+    
     protected override bool IsLoad()
     {
         return NumberEnrollment > 0 && DegreeEntity.EnrollmentList != null && TeacherList.Count != 0;

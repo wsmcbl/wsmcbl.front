@@ -1,11 +1,11 @@
 /* print-styles.css */
-@page 
+@page
 {
-    #accordionSidebar, #printing 
+    #accordionSidebar, #printing
     {
         display: none;
     }
-    
+
     size: 7.5cm;
 }
 
@@ -26,22 +26,22 @@
 
 /* Alineamos ala izquierda mas negrita */
 .izqN {
-    text-align: left; 
+    text-align: left;
 }
 
 /* Alineamos al centro mas negrita*/
 .izqC{
-    text-align: center; 
+    text-align: center;
     margin-bottom: 5px;
 }
 
 
 /* Alineamos ala izquierda nada mas*/
-.izq { 
+.izq {
     text-align: right;
 }
 
-.der { 
+.der {
     text-align: left;
 }
 

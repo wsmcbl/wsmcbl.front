@@ -41,9 +41,8 @@
                                         <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="enrollment.Label">
 
                                         <label style="display: inline-block; width: 200px;">Maestro Guia:</label>
-                                        <!-- Aqui se implementara la lista dinamica para drowdownlist -->
-                                        <select id="teacherGuideId" class="form-control" style="margin: 0px" bind="@enrollment.TeacherId">
-
+                                        <select id="teacherGuideId" class="form-control" style="margin: 0px" value="@enrollment.TeacherId?"
+                                                @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value.ToString())">>
                                             @foreach (var option in TeacherAvailable)
                                             {
                                                 <option value="@option.teacherId">@option.fullName</option>
