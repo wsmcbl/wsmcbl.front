@@ -23,8 +23,8 @@ public class CreateEnrollmentsDto
     {
         return degree.EnrollmentList?.Select(enrollment => new CreateEnrollmentsDto
         {
-            enrollmentId = enrollment.EnrollmentId,
-            teacherId = enrollment.TeacherId ?? string.Empty,
+            enrollmentId = enrollment.enrollmentId,
+            teacherId = enrollment.teacherId ?? string.Empty,
             section = enrollment.Section,
             label = enrollment.Label,
             capacity = enrollment.Capacity,

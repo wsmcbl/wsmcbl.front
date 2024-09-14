@@ -4,8 +4,6 @@
 
 @if(IsLoad())
 {
-    <link rel="stylesheet" href="css/Academy/Status.css">
-
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -13,7 +11,7 @@
                 {
                     counter++;
                     <li class="nav-item">
-                        <a class="nav-link @(counter == 1 ? "active" : "")" id="panel-@item.EnrollmentId" href="#card-@item.EnrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.EnrollmentId" aria-selected="@(counter == 1 ? "true" : "false")">
+                        <a class="nav-link @(counter == 1 ? "active" : "")" id="panel-@item.enrollmentId" href="#card-@item.enrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.enrollmentId" aria-selected="@(counter == 1 ? "true" : "false")">
                             @item.Label
                         </a>
                     </li>
@@ -32,7 +30,7 @@
                 {
                     counter2++;
                     <!-- Inicio datos de matricula -->
-                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@enrollment.EnrollmentId" role="tabpanel" aria-labelledby="panel-@enrollment.EnrollmentId">
+                    <div class="tab-pane fade @(counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId" role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
                         <div class="row">
                             <div class="col-12 col-md-4" style="margin-bottom: 15px">
                                 <div class="card">
@@ -40,15 +38,18 @@
                                         <label style="display: inline-block; width: 200px;">Nombre:</label>
                                         <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="enrollment.Label">
 
-                                        <label style="display: inline-block; width: 200px;">Maestro Guia:</label>
-                                        <select id="teacherGuideId" class="form-control" style="margin: 0px" value="@enrollment.TeacherId?"
-                                                @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value.ToString())">>
-                                            @foreach (var option in TeacherAvailable)
+                                        <label style="display: inline-block; width: 200px;">Maestro Guía:</label>
+                                        <select id="teacherGuideId" class="form-control" style="margin: 0px"
+                                                value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value.ToString())">
+                                            @foreach (var option in TeacherList)
                                             {
-                                                <option value="@option.teacherId">@option.fullName</option>
+                                            <option value="@option.teacherId" selected="@(option.teacherId == enrollment.teacherId)">
+                                                @option.fullName
+                                            </option>
                                             }
                                         </select>
-                                        
+
+
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +59,7 @@
                                     <div class="card-body">
 
                                         <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
-                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeEntity.SchoolYear">
+                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeEntity.schoolYear">
 
                                         <label style="display: inline-block; width: 200px;">Capacidad:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Capacity">
@@ -70,6 +71,9 @@
                                     <div class="card-body">
                                         <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Quantity">
+
+                                        <label style="display: inline-block; width: 200px;"># De Aula:</label>
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Section">
                                     </div>
                                 </div>
                             </div>

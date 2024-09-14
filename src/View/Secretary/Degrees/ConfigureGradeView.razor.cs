@@ -17,7 +17,6 @@ public class ConfigureGrade : BaseView
     protected int counter;
     protected int counter2;
     protected List<TeacherEntity> TeacherList;
-    protected List<TeacherEntity> TeacherAvailable;
     protected DegreeEntity DegreeEntity; 
 
     
@@ -26,14 +25,11 @@ public class ConfigureGrade : BaseView
         counter = 0;
         counter2 = 0;
         DegreeEntity = await Controller.GetConfigureEnrollment(GradeId);
-        
         TeacherList = await Controller.GetTeacherList();
-        TeacherAvailable = TeacherList.Where(t => t.isGuide == false).ToList();
-        
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
     
-    protected string   GetSemesterLabel(int semester)
+    protected string GetSemesterLabel(int semester)
     {
         return semester switch
         {
@@ -59,7 +55,7 @@ public class ConfigureGrade : BaseView
         {
             foreach (var item in enrollment.SubjectTeacherList)
             {
-                Console.WriteLine(enrollment.EnrollmentId);
+                Console.WriteLine(enrollment.enrollmentId);
                 Console.WriteLine(item.subject.Name);
                 Console.WriteLine(item.teacher.teacherId);
                 Console.WriteLine(item.teacher.fullName);
@@ -86,13 +82,11 @@ public class ConfigureGrade : BaseView
     
     
     protected void OnTeacherGuideChanged(EnrollmentEntity enrollment, string selectedTeacherId)
-    { 
-        var selectedTeacher = TeacherList.FirstOrDefault(t => t.teacherId == selectedTeacherId);
-        if (selectedTeacher != null)
-        {
-            enrollment.TeacherId = selectedTeacher.teacherId;
-        }
+    {
+        // Actualizar el TeacherId del enrollment cuando el usuario selecciona un nuevo maestro
+        enrollment.teacherId = selectedTeacherId;
 
+        // Aquí puedes agregar más lógica si es necesario
     }
     
     

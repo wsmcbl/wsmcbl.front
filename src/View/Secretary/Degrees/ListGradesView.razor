@@ -34,20 +34,20 @@
                 @foreach (var item in DegreesList)
                 {
                     <tr>
-                        <td> @item.DegreeId </td>
-                        <td> @item.Label </td>
-                        <td> @item.Quantity</td>
-                        <td> @item.Modality</td>
+                        <td> @item.degreeId </td>
+                        <td> @item.label </td>
+                        <td> @item.quantity</td>
+                        <td> @item.modality</td>
                         <td>
-                            @if (item.Quantity <=0)
+                            @if (item.quantity <=0)
                             {
-                                <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.DegreeId)">
+                                <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.degreeId)">
                                     Configurar
                                 </button>
                             }
                             else
                             {
-                                <button type="button" class="btn btn-success btn-sm" @onclick="() => ViewGrade(item.DegreeId)">
+                                <button type="button" class="btn btn-success btn-sm" @onclick="() => ViewGrade(item.degreeId)">
                                     Ver
                                 </button>
                             }

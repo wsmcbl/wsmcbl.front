@@ -2,10 +2,9 @@ namespace wsmcbl.src.Model.Academy;
 
 public class EnrollmentEntity
 {
-    public string EnrollmentId { get; set; }
-    public string? TeacherId { get; set; }
+    public string enrollmentId { get; set; }
+    public string? teacherId { get; set; }
     public string Label { get; set; } = null!;
-    public string SchoolYear { get; set; } = null!;
     public int Capacity { get; set; }
     public int Quantity { get; set; }
     public string Section { get; set; }

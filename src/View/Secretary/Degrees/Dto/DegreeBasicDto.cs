@@ -8,6 +8,7 @@ public class DegreeBasicDto
     public string label { get; set; }
     public string schoolYear { get; set; }
     public int quantity { get; set; }
+    public int Sections { get; set; }
     public string modality { get; set; }
     public List<EnrollmentBasicDto> enrollments {get; set;}
     public List<SubjectDto> subjects { get; set; }
@@ -16,12 +17,12 @@ public class DegreeBasicDto
     {
         var degree = new DegreeEntity
         {
-            DegreeId = degreeId,
-            Label = label,
-            SchoolYear = schoolYear,
-            Quantity = quantity,
-            Sections = 0,
-            Modality = modality,
+            degreeId = degreeId,
+            label = label,
+            schoolYear = schoolYear,
+            quantity = quantity,
+            sections = Sections,
+            modality = modality,
             EnrollmentList = [],
             SubjectList = []
         };

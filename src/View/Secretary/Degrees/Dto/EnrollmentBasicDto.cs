@@ -6,7 +6,6 @@ public class EnrollmentBasicDto
 {
     public string enrollmentId { get; set; }
     public string teacherId { get; set; }
-    public string teacherName { get; set; }
     public string label { get; set; }
     public string section { get; set; }
     public int capacity { get; set; }
@@ -17,7 +16,8 @@ public class EnrollmentBasicDto
     {
         var result = new EnrollmentEntity()
         {
-            EnrollmentId = enrollmentId,
+            enrollmentId = enrollmentId,
+            teacherId = teacherId,
             Label = label,
             Section = section,
             Capacity = capacity,
