@@ -1,3 +1,4 @@
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 
@@ -18,6 +19,13 @@ public class EnrollStudentController : IEnrollStudentController
     {
         var resource = "enrollments/students";
         List<StudentDto> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
+    }
+    
+    public async Task<List<DegreeBasicDto>> GetDegreeBasicList()
+    {
+        var resource = "enrollments/degrees";
+        List<DegreeBasicDto> defaultResult = [];
         return await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
     }
 

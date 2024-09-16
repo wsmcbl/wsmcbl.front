@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
@@ -28,12 +29,13 @@ public class EnrollStudent : ComponentBase
     
     protected List<string> grade = new() { "Primero", "Segundo", "Tercero" };
     protected List<string> section = new() { "A", "B", "C" };
-    
+    protected List<DegreeBasicDto> Degrees = new();
     protected override async Task OnParametersSetAsync()
     {
         try
         {
             Student = await Controller.GetInfoStudent(StudentId);
+            Degrees = await Controller.GetDegreeBasicList();
             MotherInfo = new Parent();
             FatherInfo = new Parent();
             Tutor = new Tutor();
