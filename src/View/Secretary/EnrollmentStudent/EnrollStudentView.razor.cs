@@ -3,6 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using wsmcbl.src.View.Secretary.SchoolYears;
 
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
 
@@ -15,6 +16,7 @@ public class EnrollStudent : ComponentBase
 
     protected StudentEntity Student;
     protected int Age;
+    protected string Sex;
     protected string SelectActive;
     
     protected List<DegreeBasicDto> Degrees = new();
@@ -29,8 +31,10 @@ public class EnrollStudent : ComponentBase
     }
     
     protected void SetStudentData()
-    {
+    { 
+        Age = MapperDate.CalcularEdad(Student.birthday) ?? 0;
         SelectActive = Student.isActive ? "true" : "false";
+        Sex = Student.sex ? "true" : "false";
     }
     
     protected void GetSelectDegreeId(ChangeEventArgs e)
@@ -55,7 +59,10 @@ public class EnrollStudent : ComponentBase
     }
     protected void Save()
     {
-        Console.WriteLine(Student);
+        Student.isActive = SelectActive.ToLower() == "true";
+        Student.sex = Sex.ToLower() == "true";
+        Console.WriteLine(Student.isActive);
+        Console.WriteLine(Student.sex);
     }
     
     protected byte[] pdfContent;

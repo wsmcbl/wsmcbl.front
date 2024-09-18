@@ -58,7 +58,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <label style="display: inline-block; width: 200px;">¿Activo?</label>
-                                <select @bind="Student.isActive" class="form-control" style="margin: 0px">
+                                <select @bind="SelectActive" class="form-control" style="margin: 0px">
                                     <option value="true">Si</option>
                                     <option value="false">No</option>
                                 </select>
@@ -69,7 +69,7 @@
                                 <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
 
                                 <label style="display: inline-block; width: 200px;">Sexo: <span style="color: red;">*</span> </label>
-                                <select @bind="Student.sex" style="margin: 0px" class="form-control">
+                                <select @bind="Sex" class="form-control" style="margin: 0px;">
                                     <option value="true">Masculino</option>
                                     <option value="false">Femenino</option>
                                 </select>

@@ -45,4 +45,25 @@ public static class MapperDate
     {
         return new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
     }
+    
+    public static int? CalcularEdad(DateOnly? fechaNacimiento)
+    {
+        if (fechaNacimiento == null)
+        {
+            return null; 
+        }
+
+        DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Now);
+        int edad = fechaActual.Year - fechaNacimiento.Value.Year;
+
+        if (fechaActual < fechaNacimiento.Value.AddYears(edad))
+        {
+            edad--;
+        }
+
+        return edad;
+    }
+
+
+    
 }
