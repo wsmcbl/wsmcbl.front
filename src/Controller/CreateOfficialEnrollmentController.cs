@@ -76,6 +76,9 @@ public class CreateOfficialEnrollmentController
         DegreeBasicDto Default = new();
         var result = await Consumer.GetAsync(Modules.Secretary, resource, Default);
 
+        var teacherList = await Consumer.GetAsync<List<TeacherEntity>>(Modules.Secretary, "teachers", []);
+        result.SetTeacherList(teacherList);
+
         return result.toEntity();
     }
 
@@ -94,20 +97,21 @@ public class CreateOfficialEnrollmentController
         return response.Select(dto => dto.ToDropdownList()).ToList();
     }
 
-    public async Task<bool> PutSaveEnrollment(DegreeEntity Degree, DegreeEntity Default)
+    public async Task<bool> PutSaveEnrollment(DegreeEntity degree)
     {
+        var result = true;
         var resource = "degrees/enrollments";
-        var contentList = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(Degree);
-        if (contentList != null && contentList.Count > 0)
+        var contentList = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(degree);
+        
+        if (contentList.Count > 0)
         {
-            // Iteramos sobre cada objeto en la lista y enviamos uno por uno
             foreach (var content in contentList)
             {
-                var json = JsonSerializer.Serialize(content);
-                await Consumer.PutAsync(Modules.Secretary, resource, content);
+                result = await Consumer.PutAsync(Modules.Secretary, resource, content);
             }
         }
-        return Degree.Equals(Default); 
+
+        return result;
     }
 
 }

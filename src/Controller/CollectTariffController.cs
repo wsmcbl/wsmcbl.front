@@ -51,9 +51,7 @@ public class CollectTariffController
     public async Task<bool> ActiveArrears(int tariffId)
     {
         var resource = $"arrears/{tariffId}";
-        await Consumer.PutAsync(Modules.Accounting, resource, string.Empty);
-
-        return true;
+        return await Consumer.PutAsync(Modules.Accounting, resource, string.Empty);
     }
 
     public async Task<List<StudentEntity>?> GetStudentList()

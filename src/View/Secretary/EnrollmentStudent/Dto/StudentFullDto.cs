@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 
 public class StudentFullDto
@@ -11,7 +8,7 @@ public class StudentFullDto
     public string surname { get; set; }
     public string secondSurname { get; set; }
     public bool sex { get; set; }
-    public Date birthday { get; set; }
+    public DateTime? birthday { get; set; }
     public string religion { get; set; }
     public string diseases { get; set; }
     
@@ -21,6 +18,18 @@ public class StudentFullDto
     public Tutor tutor { get; set; }
     public List<Parent> parents { get; set; }
     public Measurements measurements { get; set; }
+
+    public StudentFullDto()
+    {
+        parents =
+        [
+            new Parent(),
+            new Parent()
+        ];
+        tutor = new Tutor();
+        measurements = new Measurements();
+        file = new File();
+    }
 }
 public class Parent
 {

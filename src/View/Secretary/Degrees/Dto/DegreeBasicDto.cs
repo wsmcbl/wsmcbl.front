@@ -34,10 +34,16 @@ public class DegreeBasicDto
 
         foreach (var item in enrollments)
         {
-            degree.EnrollmentList.Add(item.ToEntity(degree.SubjectList));
+            var entity = item.ToEntity(degree.SubjectList, teacherList!);
+            degree.EnrollmentList.Add(entity);
         }
         
         return degree;
     }
     
+    private List<TeacherEntity>? teacherList;
+    public void SetTeacherList(List<TeacherEntity> teacherList)
+    {
+        this.teacherList = teacherList;
+    }
 }

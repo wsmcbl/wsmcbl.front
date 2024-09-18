@@ -42,7 +42,7 @@ public class ApiConsumer
         return await Template(defaultResult, response);
     }
 
-    public async Task PutAsync<T>(Modules modules, string resource, T data)
+    public async Task<bool> PutAsync<T>(Modules modules, string resource, T data)
     {
         try
         {
@@ -53,6 +53,8 @@ public class ApiConsumer
                 throw new InternalException("Hubo un problema con la solicitud.",
                     $"({problem.Status}) {problem.Detail}");
             }
+
+            return true;
         }
         catch (InternalException ex)
         {
@@ -62,6 +64,7 @@ public class ApiConsumer
         {
             await service.ShowError("Error interno.", ex.Message);
         }
+        return false;
     }
 
     public async Task<byte[]?> GetPdfAsync(Modules module, string resource, byte[] defaultResult)

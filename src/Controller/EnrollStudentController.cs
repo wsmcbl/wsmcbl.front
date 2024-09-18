@@ -36,12 +36,7 @@ public class EnrollStudentController : IEnrollStudentController
         
         var studentResult = await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
 
-        if (studentResult.birthday == null)
-        {
-            studentResult.birthday.year = DateTime.Today.Year;
-            studentResult.birthday.month = DateTime.Today.Month;
-            studentResult.birthday.day = DateTime.Today.Day;
-        }
+        studentResult.birthday ??= DateTime.Today;
 
         return studentResult;
     }

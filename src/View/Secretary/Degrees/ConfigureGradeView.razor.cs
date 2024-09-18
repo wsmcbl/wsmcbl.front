@@ -24,11 +24,16 @@ public class ConfigureGrade : BaseView
     {
         counter = 0;
         counter2 = 0;
-        DegreeEntity = await Controller.GetConfigureEnrollment(GradeId);
+        await loadDegree();
         TeacherList = await Controller.GetTeacherList();
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
-    
+
+    private async Task loadDegree()
+    {
+        DegreeEntity = await Controller.GetConfigureEnrollment(GradeId);
+    }
+
     protected string GetSemesterLabel(int semester)
     {
         return semester switch
@@ -41,11 +46,13 @@ public class ConfigureGrade : BaseView
 
     public async Task ConfigureDegree()
     {
-        DegreeEntity Default = new DegreeEntity();
-        var response = await Controller.PutSaveEnrollment(DegreeEntity, Default);
+        var response = await Controller.PutSaveEnrollment(DegreeEntity);
+        
         if (response)
         {
             Notificator.ShowSuccess("Exito", "Las matriculas fueron actualizadas correctamente");
+            await loadDegree();
+            StateHasChanged();
         }
     }
 
@@ -83,16 +90,13 @@ public class ConfigureGrade : BaseView
     
     protected void OnTeacherGuideChanged(EnrollmentEntity enrollment, string selectedTeacherId)
     {
-        // Actualizar el TeacherId del enrollment cuando el usuario selecciona un nuevo maestro
         enrollment.teacherId = selectedTeacherId;
-
-        // Aquí puedes agregar más lógica si es necesario
     }
     
     
     
     protected override bool IsLoad()
-    {
+    {   
         return NumberEnrollment > 0 && DegreeEntity.EnrollmentList != null && TeacherList.Count != 0;
     }
     

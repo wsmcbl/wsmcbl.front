@@ -10,8 +10,13 @@ public class EnrollmentEntity
     public string Section { get; set; }
     
     public List<StudentEntity> Students { get; set; } = null!;
-    
-    public List<(SubjectEntity subject, TeacherEntity? teacher)> SubjectTeacherList { get; set; }
+
+    public List<(SubjectEntity subject, TeacherEntity teacher)> SubjectTeacherList { get; private set; } = null!;
+
+    public void SetSubjectTeacherList(List<(SubjectEntity subject, TeacherEntity teacher)> list)
+    {
+        SubjectTeacherList = list; 
+    }
 
     public void SetSubjectTeacherList(List<SubjectEntity> list)
     {

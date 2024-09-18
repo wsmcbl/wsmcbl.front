@@ -3,9 +3,9 @@
 
 @if (Student != null)
 {
-<div class="card shadow mb-4">
+    <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
                    aria-controls="PanelStudent" aria-selected="true">Información del Estudiante</a>
@@ -22,7 +22,7 @@
                     Academica
                 </a>
             </li>
-    </ul>
+        </ul>
         <button type="button" class="btn btn-success"
                 @onclick="(e) => Save()">
             Guardar
@@ -63,13 +63,13 @@
                                     <option value="false">No</option>
                                 </select>
                                 <label style="display: inline-block; width: 250px; margin-top: 10px">Fecha de Nacimiento <span style="color: red;">*</span> </label>
-                                <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001" @bind="Birthday">
+                                <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001" @bind="Student.birthday">
 
                                 <label style="display: inline-block; width: 200px; margin-top: 10px">Edad:</label>
                                 <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
 
                                 <label style="display: inline-block; width: 200px;">Sexo: <span style="color: red;">*</span> </label>
-                                <select @bind="SelectSex" style="margin: 0px" class="form-control">
+                                <select @bind="Student.sex" style="margin: 0px" class="form-control">
                                     <option value="true">Masculino</option>
                                     <option value="false">Femenino</option>
                                 </select>
@@ -86,7 +86,7 @@
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.religion">
 
                                 <label style="display: inline-block; width: 200px;">Dirección:</label>
-                                <textarea id="direccion" class="input-redimensionable" style="margin: 0px" @bind="Address"></textarea>
+                                <textarea id="direccion" class="input-redimensionable" style="margin: 0px" @bind="Student.address"></textarea>
                             </div>
                         </div>
                     </div>
@@ -101,13 +101,13 @@
                                 <h5 class="card-title font-weight-bold">Información de la Madre</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre de la madre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].name">
 
                                 <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.idCard">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].idCard">
 
                                 <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="MotherInfo.occupation">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].occupation">
 
                             </div>
                         </div>
@@ -119,13 +119,13 @@
                                 <h5 class="card-title font-weight-bold">Información del Padre</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre del Padre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[2].name">
 
                                 <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.idCard">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[2].idCard">
 
                                 <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FatherInfo.occupation">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[2].occupation">
 
                             </div>
                         </div>
@@ -137,10 +137,10 @@
                                 <h5 class="card-title font-weight-bold">Responsable o Tutor</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor.name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.name">
 
                                 <label style="display: inline-block; width: 200px;">Telefono:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor.phone">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.phone">
 
                             </div>
                         </div>
@@ -202,22 +202,22 @@
                                 <h5 class="card-title font-weight-bold">Grado/Sección</h5>
 
                                 <label style="display: inline-block; width: 200px;">Grado:</label>
-                                <select id="grade" class="form-control" style="margin: 0px" @onchange="GetGrade">
-                                    @foreach (var option in grade)
+                                <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">
+                                    @foreach (var option in Degrees)
                                     {
-                                        <option value="@option">@option</option>
+                                        <option value="@option.degreeId">@option.label</option>
                                     }
                                 </select>
 
                                 <label style="display: inline-block; width: 200px;">Sección:</label>
                                 <select id="seccion" class="form-control" style="margin: 0px" @onchange="GetSection">
-                                    @foreach (var option in section)
+                                    @foreach (var option in CurrentEnrollments)
                                     {
-                                        <option value="@option">@option</option>
+                                        <option value="@option.enrollmentId">@option.label</option>
                                     }
                                 </select>
 
-                                <p style="margin-top: 15px">Cupos Restante 21/30</p>
+                                <p style="margin-top: 15px">Cupos Restante @CurrentEnrollmentQuantity / @CurrentEnrollmentCapacity</p>
 
                             </div>
                         </div>
