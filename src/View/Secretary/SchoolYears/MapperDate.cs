@@ -11,13 +11,13 @@ public static class MapperDate
         {
             concept = schoolYearTariffs.Concept,
             amount = schoolYearTariffs.Amount,
-            dueDate = ConvertDateOnlyToDate(schoolYearTariffs.OnlyDate),
+            DueDateClass = ConvertDateOnlyToDate(schoolYearTariffs.OnlyDate),
             typeId = schoolYearTariffs.Type,
             modality = schoolYearTariffs.Modality
         };
     }
     
-    public static Date? ConvertDateOnlyToDate(DateOnly? dateOnly)
+    public static DateClass? ConvertDateOnlyToDate(DateOnly? dateOnly)
     {
         if (dateOnly.HasValue)
         {
@@ -26,7 +26,7 @@ public static class MapperDate
                 return null;
             }
             
-            return new Date
+            return new DateClass
             {
                 year = dateOnly.Value.Year,
                 month = dateOnly.Value.Month,
@@ -34,5 +34,15 @@ public static class MapperDate
             };
         }
         return null;
+    }
+    
+    public static DateOnly DateClassToDateOnly(DateClass date)
+    {
+        return new DateOnly(date.year, date.month, date.day);
+    }
+    
+    public static DateOnly DateClassToDateNow(DateClass date)
+    {
+        return new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
     }
 }

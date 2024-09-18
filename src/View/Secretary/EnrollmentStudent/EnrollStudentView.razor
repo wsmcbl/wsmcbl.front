@@ -58,7 +58,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <label style="display: inline-block; width: 200px;">¿Activo?</label>
-                                <select @bind="SelectActive" class="form-control" style="margin: 0px">
+                                <select @bind="Student.isActive" class="form-control" style="margin: 0px">
                                     <option value="true">Si</option>
                                     <option value="false">No</option>
                                 </select>
@@ -101,13 +101,13 @@
                                 <h5 class="card-title font-weight-bold">Información de la Madre</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre de la madre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].name">
 
                                 <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].idCard">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].idCard">
 
                                 <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].occupation">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].occupation">
 
                             </div>
                         </div>
@@ -119,13 +119,13 @@
                                 <h5 class="card-title font-weight-bold">Información del Padre</h5>
 
                                 <label style="display: inline-block; width: 200px;">Nombre del Padre:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[2].name">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].name">
 
                                 <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[2].idCard">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].idCard">
 
                                 <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
-                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[2].occupation">
+                                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].occupation">
 
                             </div>
                         </div>

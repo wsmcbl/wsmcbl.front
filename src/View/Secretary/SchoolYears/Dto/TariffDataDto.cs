@@ -7,7 +7,7 @@ public class TariffDataDto
 {
     public string? concept { get; set; }
     public double amount { get; set; }
-    public Date dueDate { get; set; }
+    public DateClass DueDateClass { get; set; }
     public int typeId { get; set; }
     public int modality { get; set; }
     

@@ -1,3 +1,5 @@
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 
 public class StudentFullDto
@@ -8,10 +10,9 @@ public class StudentFullDto
     public string surname { get; set; }
     public string secondSurname { get; set; }
     public bool sex { get; set; }
-    public DateTime? birthday { get; set; }
+    public DateClass birthday { get; set; }
     public string religion { get; set; }
     public string diseases { get; set; }
-    
     public string address { get; set; }
     public bool isActive { get; set; }
     public File file { get; set; }

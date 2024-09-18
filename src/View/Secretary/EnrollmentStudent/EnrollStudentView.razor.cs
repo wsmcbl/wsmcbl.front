@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 
@@ -12,7 +13,7 @@ public class EnrollStudent : ComponentBase
     [Inject] protected Notificator Notificator { get; set; }
     [Inject] protected Navigator Navigator { get; set; }
 
-    protected StudentFullDto Student;
+    protected StudentEntity Student;
     protected int Age;
     protected string SelectActive;
     

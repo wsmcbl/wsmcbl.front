@@ -43,11 +43,12 @@
                                                 value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value.ToString())">
                                             @foreach (var option in TeacherList)
                                             {
-                                            <option value="@option.teacherId" selected="@(option.teacherId == enrollment.teacherId)">
+                                            <option value="@option.teacherId">
                                                 @option.fullName
                                             </option>
                                             }
                                         </select>
+
 
 
                                     </div>

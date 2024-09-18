@@ -1,6 +1,8 @@
 using wsmcbl.src.Model.Academy;
+using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
 namespace wsmcbl.src.Controller;
 
@@ -29,16 +31,14 @@ public class EnrollStudentController : IEnrollStudentController
         return await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
     }
 
-    public async Task<StudentFullDto> GetInfoStudent(string StudentID)
+    public async Task<StudentEntity> GetInfoStudent(string StudentID)
     {
         var resource = $"enrollments/students/{StudentID}";
         StudentFullDto defaultResult = new();
-        
+        StudentEntity Student;
         var studentResult = await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
-
-        studentResult.birthday ??= DateTime.Today;
-
-        return studentResult;
+        Student = MapperStudent.MapToEntity(studentResult);
+        return Student;
     }
     
     public async Task<byte[]?> GetPdfContent(string studentId)
