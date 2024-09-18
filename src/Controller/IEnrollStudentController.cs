@@ -10,4 +10,5 @@ public interface IEnrollStudentController
     public Task<StudentEntity> GetInfoStudent(string StudentID);
     public Task<byte[]?> GetPdfContent(string StudentID);
     public Task<List<DegreeBasicDto>> GetDegreeBasicList();
+    public Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId);
 }

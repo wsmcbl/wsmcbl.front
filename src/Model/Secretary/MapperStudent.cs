@@ -1,5 +1,6 @@
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears;
+using File = wsmcbl.src.View.Secretary.EnrollmentStudent.Dto.File;
 
 namespace wsmcbl.src.Model.Secretary;
 
@@ -26,7 +27,6 @@ public static class MapperStudent
             measurements = ToMeasurements(dto)
         };
     }
-
     private static StudentMeasurements ToMeasurements(StudentFullDto dto)
     {
         return new StudentMeasurements
@@ -36,12 +36,11 @@ public static class MapperStudent
             weight = dto.measurements.weight,
         };
     }
-
     private static List<StudentParent> ToParent(StudentFullDto dto)
     {
         var parentsList = dto.parents.Select(p => new StudentParent
         {
-            parentId = p.parentId,
+            parentId = "",
             sex = p.sex,
             name = p.name,
             idCard = p.idCard,
@@ -52,7 +51,7 @@ public static class MapperStudent
         {
             parentsList.Add(new StudentParent
             {
-                parentId = "defaultId",    
+                parentId = "",    
                 sex = false,               
                 name = "Sin asignar",          
                 idCard = "Sin agignar",    
@@ -81,6 +80,87 @@ public static class MapperStudent
             updatedGradeReport = dto.file.updatedGradeReport,
             conductDocument = dto.file.conductDocument,
             financialSolvency = dto.file.financialSolvency
+        };
+    }
+
+    public static StudentEnrollmentDto MapToEnrollmentDto(StudentEntity student, string enrollmentId)
+    {
+        return new StudentEnrollmentDto
+        {
+            enrollmentId = enrollmentId,
+            student = new StudentFullDto
+            {
+                studentId   = student.studentId,
+                name = student.name,
+                secondName = student.secondName,
+                surname = student.surname,
+                secondSurname = student.secondSurname,
+                sex = student.sex,
+                birthday = MapperDate.ConvertDateOnlyToDate(student.birthday),
+                religion = student.religion,
+                diseases = student.diseases,
+                address = student.address,
+                isActive = student.isActive,
+                file = ToDtoFile(student),
+                tutor = ToDtoTutor(student),
+                parents = ToDtoParent(student),
+                measurements = ToDtoMeasurements(student)
+            }
+        };
+    }
+    private static File ToDtoFile(StudentEntity entity)
+    {
+        return new File
+        {
+            fileId = entity.file.fileId,
+            transferSheet = entity.file.transferSheet,
+            birthDocument = entity.file.birthDocument,
+            parentIdentifier = entity.file.parentIdentifier,
+            updatedGradeReport = entity.file.updatedGradeReport,
+            conductDocument = entity.file.conductDocument,
+            financialSolvency = entity.file.financialSolvency
+        };
+    }
+    private static Tutor ToDtoTutor(StudentEntity entity)
+    {
+        return new Tutor
+        {
+            tutorId = entity.tutor.tutorId,
+            name = entity.tutor.name,
+            phone = entity.tutor.phone,
+        };
+    }
+    private static List<Parent> ToDtoParent(StudentEntity entity)
+    {
+        var parentsList = entity.parents.Select(p => new Parent
+        {
+            parentId = p.parentId,
+            sex = p.sex,
+            name = p.name,
+            idCard = p.idCard,
+            occupation = p.occupation
+        }).ToList();
+        
+        while (parentsList.Count < 2)
+        {
+            parentsList.Add(new Parent
+            {
+                parentId = "defaultId",    
+                sex = false,               
+                name = "Sin asignar",          
+                idCard = "Sin agignar",    
+                occupation = "Sin asignar" 
+            });
+        }
+        return parentsList.Take(2).ToList();
+    }
+    private static Measurements ToDtoMeasurements(StudentEntity entity)
+    {
+        return new Measurements
+        {
+            measurementId = entity.measurements.measurementId,
+            height = entity.measurements.height,
+            weight = entity.measurements.weight,
         };
     }
     

@@ -22,6 +22,7 @@ public class EnrollStudent : ComponentBase
     protected List<DegreeBasicDto> Degrees = new();
     protected List<EnrollmentsBasicDto> CurrentEnrollments = [];
     protected int CurrentEnrollmentCapacity, CurrentEnrollmentQuantity;
+    protected string EnrollmentIdSelectec;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -35,6 +36,8 @@ public class EnrollStudent : ComponentBase
         Age = MapperDate.CalcularEdad(Student.birthday) ?? 0;
         SelectActive = Student.isActive ? "true" : "false";
         Sex = Student.sex ? "true" : "false";
+        Student.parents[0].sex = false;
+        Student.parents[1].sex = true;
     }
     
     protected void GetSelectDegreeId(ChangeEventArgs e)
@@ -54,15 +57,19 @@ public class EnrollStudent : ComponentBase
         var selectEnrollmentId = e.Value.ToString();
         var enrollment = CurrentEnrollments.FirstOrDefault(e => e.enrollmentId == selectEnrollmentId);
         
+        EnrollmentIdSelectec = enrollment.enrollmentId;
         CurrentEnrollmentCapacity = enrollment.capacity;
         CurrentEnrollmentQuantity = enrollment.quantity;
     }
-    protected void Save()
+    protected async Task SaveEnrollment()
     {
         Student.isActive = SelectActive.ToLower() == "true";
         Student.sex = Sex.ToLower() == "true";
-        Console.WriteLine(Student.isActive);
-        Console.WriteLine(Student.sex);
+        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelectec);
+        if (response)
+        {
+            await Notificator.ShowSuccess("Exito", "Matricula guardada exitosamente");
+        }
     }
     
     protected byte[] pdfContent;

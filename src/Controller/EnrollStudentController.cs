@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
@@ -29,6 +30,19 @@ public class EnrollStudentController : IEnrollStudentController
         var resource = "enrollments/degrees";
         List<DegreeBasicDto> defaultResult = [];
         return await Consumer.GetAsync(Modules.Secretary, resource, defaultResult);
+    }
+
+    public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId)
+    {
+        var resource = "secretary/enrollments";
+        var content = MapperStudent.MapToEnrollmentDto(student, enrollmentId);
+        
+        var json = JsonConvert.SerializeObject(content, Formatting.Indented);
+        Console.WriteLine(json);
+        
+        
+        var result = await Consumer.PutAsync(Modules.Secretary, resource, content);
+        return result;
     }
 
     public async Task<StudentEntity> GetInfoStudent(string StudentID)
