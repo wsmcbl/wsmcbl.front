@@ -40,13 +40,13 @@
                     <div class="col-12 col-md-4" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <label style="display: inline-block; width: 200px;">Primer Nombre: <span style="color: red;">*</span> </label>
+                                <label class="label-required" style="display: inline-block; width: 200px;" >Primer Nombre:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.name">
 
                                 <label style="display: inline-block; width: 200px;">Segundo Nombre:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.secondName">
 
-                                <label style="display: inline-block; width: 200px;">Primer Apellido: <span style="color: red;">*</span> </label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Primer Apellido:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.surname">
 
                                 <label style="display: inline-block; width: 200px;">Segundo Apellido:</label>
@@ -57,18 +57,18 @@
                     <div class="col-12 col-md-4" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <label style="display: inline-block; width: 200px;">¿Activo?</label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">¿Activo?</label>
                                 <select @bind="SelectActive" class="form-control" style="margin: 0px">
                                     <option value="true">Si</option>
                                     <option value="false">No</option>
                                 </select>
-                                <label style="display: inline-block; width: 250px; margin-top: 10px">Fecha de Nacimiento <span style="color: red;">*</span> </label>
+                                <label class="label-required" style="display: inline-block; width: 250px; margin-top: 10px">Fecha de Nacimiento </label>
                                 <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001" @bind="Student.birthday">
 
                                 <label style="display: inline-block; width: 200px; margin-top: 10px">Edad:</label>
                                 <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
 
-                                <label style="display: inline-block; width: 200px;">Sexo: <span style="color: red;">*</span> </label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Sexo:</label>
                                 <select @bind="Sex" class="form-control" style="margin: 0px;">
                                     <option value="true">Masculino</option>
                                     <option value="false">Femenino</option>
@@ -79,13 +79,13 @@
                     <div class="col-12 col-md-4" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <label style="display: inline-block; width: 200px;">Padecimientos:</label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Padecimientos:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.diseases">
 
-                                <label style="display: inline-block; width: 200px;">Religión:</label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Religión:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.religion">
 
-                                <label style="display: inline-block; width: 200px;">Dirección:</label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Dirección:</label>
                                 <textarea id="direccion" class="input-redimensionable" style="margin: 0px" @bind="Student.address"></textarea>
                             </div>
                         </div>
@@ -136,10 +136,10 @@
                             <div class="card-body">
                                 <h5 class="card-title font-weight-bold">Responsable o Tutor</h5>
 
-                                <label style="display: inline-block; width: 200px;">Nombre:</label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Nombre:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.name">
 
-                                <label style="display: inline-block; width: 200px;">Telefono:</label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Telefono:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.phone">
 
                             </div>
@@ -154,7 +154,7 @@
                     <div class="col-12 col-md-3" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title font-weight-bold">Expediente</h5>
+                                <h5 class="card-title font-weight-bold label-required">Expediente</h5>
                                 <div class="checkbox-group">
                                     <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student.file.transferSheet">
                                     <label for="hojaTraslado">Hoja de traslado</label>
@@ -185,7 +185,7 @@
                     <div class="col-12 col-md-2" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title font-weight-bold">Medidas</h5>
+                                <h5 class="card-title font-weight-bold label-required">Medidas</h5>
 
                                 <label style="display: inline-block; width: 200px;">Peso Kg:</label>
                                 <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Student.measurements.weight">
@@ -199,7 +199,7 @@
                     <div class="col-12 col-md-3" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title font-weight-bold">Grado/Sección</h5>
+                                <h5 class="card-title font-weight-bold label-required">Grado/Sección</h5>
 
                                 <label style="display: inline-block; width: 200px;">Grado:</label>
                                 <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">

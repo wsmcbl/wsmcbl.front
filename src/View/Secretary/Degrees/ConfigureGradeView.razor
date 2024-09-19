@@ -38,7 +38,7 @@
                                         <label style="display: inline-block; width: 200px;">Nombre:</label>
                                         <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="enrollment.Label">
 
-                                        <label style="display: inline-block; width: 200px;">Maestro Guía:</label>
+                                        <label class="label-required" style="display: inline-block; width: 200px;">Maestro Guía:</label>
                                         <select id="teacherGuideId" class="form-control" style="margin: 0px"
                                                 value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value.ToString())">
                                             @foreach (var option in TeacherList)
@@ -62,7 +62,7 @@
                                         <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
                                         <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeEntity.schoolYear">
 
-                                        <label style="display: inline-block; width: 200px;">Capacidad:</label>
+                                        <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Capacity">
                                     </div>
                                 </div>
@@ -83,9 +83,12 @@
 
                         <!-- Lista de estudiantes -->
                         <div class="card" style="margin-bottom: 15px">
+                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 font-weight-bold text-primary">Estudiantes</h6>
+                            </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive"style="max-height: 400px; overflow-y: auto;">
                                         <table id="studenTable" class="table table-bordered">
                                             <thead>
                                             <tr>
@@ -104,7 +107,6 @@
                                             </tr>
                                             </tfoot>
                                             <tbody>
-                                            <p>Listado de estudiantes</p>
                                             </tbody>
                                         </table>
                                     </div>
@@ -113,13 +115,14 @@
                         </div>
                         <!-- Fin Lista de estudiantes -->
                         
-                        <button @onclick="ViewSubjectTeacherAssigment">Ver Lista </button>
-
                         <!-- Inicio de las asignaturas -->
                         <div class="card" style="margin-bottom: 15px">
+                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 font-weight-bold text-primary">Asignaturas</h6>
+                            </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                                         <table id="datatable" class="table table-bordered">
                                             <thead>
                                             <tr>
@@ -176,9 +179,6 @@
             </div>
         </div>
     </div>
-    
-<!-- Inicializamos datatable -->
-<script src="/js/demo/datatables-demo.js" defer></script>    
 }
 else
 {

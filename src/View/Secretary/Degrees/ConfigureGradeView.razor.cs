@@ -55,20 +55,6 @@ public class ConfigureGrade : BaseView
             StateHasChanged();
         }
     }
-
-    protected void ViewSubjectTeacherAssigment()
-    {
-        foreach (var enrollment in DegreeEntity.EnrollmentList)
-        {
-            foreach (var item in enrollment.SubjectTeacherList)
-            {
-                Console.WriteLine(enrollment.enrollmentId);
-                Console.WriteLine(item.subject.Name);
-                Console.WriteLine(item.teacher.teacherId);
-                Console.WriteLine(item.teacher.fullName);
-            }
-        }
-    }
     
     protected void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
     { 
