@@ -1,4 +1,3 @@
-using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 

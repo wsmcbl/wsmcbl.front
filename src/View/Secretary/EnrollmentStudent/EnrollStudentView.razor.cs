@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears;
+using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
 
@@ -26,11 +26,16 @@ public class EnrollStudent : ComponentBase
 
     protected override async Task OnParametersSetAsync()
     {
-        Student = await Controller.GetInfoStudent(StudentId);
-        Degrees = await Controller.GetDegreeBasicList();
+        await loadStudentInformation();
         SetStudentData();
     }
-    
+
+    private async Task loadStudentInformation()
+    {  
+        Student = await Controller.GetInfoStudent(StudentId);
+        Degrees = await Controller.GetDegreeBasicList();
+    }
+
     protected void SetStudentData()
     { 
         Age = MapperDate.CalcularEdad(Student.birthday) ?? 0;
@@ -61,14 +66,26 @@ public class EnrollStudent : ComponentBase
         CurrentEnrollmentCapacity = enrollment.capacity;
         CurrentEnrollmentQuantity = enrollment.quantity;
     }
+    
     protected async Task SaveEnrollment()
     {
         Student.isActive = SelectActive.ToLower() == "true";
         Student.sex = Sex.ToLower() == "true";
+
+        for (var index = 0; index < 2; index++)
+        {
+            if (!Student.parents[index].isValid())
+            {
+                Student.parents.RemoveAt(index);
+            }
+        }
+        
         var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelectec);
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Matricula guardada exitosamente");
+            await loadStudentInformation();
+            StateHasChanged();
         }
     }
     

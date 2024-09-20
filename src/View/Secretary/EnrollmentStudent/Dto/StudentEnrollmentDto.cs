@@ -1,5 +1,3 @@
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
 
 public class StudentEnrollmentDto
