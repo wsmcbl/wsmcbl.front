@@ -16,5 +16,9 @@
     <PackageReference Include="CurrieTechnologies.Razor.SweetAlert2" Version="5.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="View\Academy\StudentList\StudentList.razor" />
+  </ItemGroup>
   
 </Project>
