@@ -30,10 +30,6 @@ public static class MapperStudent
     private static List<StudentParent> getParents(List<StudentParent> list)
     
     {
-        if (list[0].parentId == null)
-        {
-            list.RemoveAt(0);
-        }
         while (list.Count < 2)
         {
             var element = new StudentParent();
