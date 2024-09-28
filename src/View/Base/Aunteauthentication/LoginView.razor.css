@@ -1,0 +1,24 @@
+.bg-login-image {
+    background: url(img/cbl1.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-register-image {
+    background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
+    background-position: center;
+    background-size: cover;
+}
+
+.bg-password-image {
+    background: url("https://source.unsplash.com/oWTW-jNGl9I/600x800");
+    background-position: center;
+    background-size: cover;
+}
+
+.blue-background {
+    background-color: #4e73df;
+    background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+    min-height: 100vh;
+    
+}
