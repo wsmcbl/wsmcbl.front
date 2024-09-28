@@ -1,4 +1,4 @@
-@page "/academy/tariff-profiles/new"
+@page "/secretary/tariff-profiles/new"
 @inherits NewAcademyProfiles;
 
 <div class="card shadow mb-4">
@@ -9,24 +9,27 @@
         </button>
     </div>
     <div class="card-body">
+        
         <div class="row">
             <div class="col-6">
                 <div class="card-body">
+
                     <div class="row">
                         <div class="col">
                             <label style="display: inline-block; width: 200px;">Primer Nombre:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsName">
-                            
+
                             <label style="display: inline-block; width: 200px;">Segundo Nombre:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondName">
-                            
+
                             <label style="display: inline-block; width: 200px;">Primer Apellido:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="FirsSurName">
-                            
+
                             <label style="display: inline-block; width: 200px;">Segundo Apellido:</label>
                             <input type="text" class="form-control" style="margin-bottom: 10px" @bind="SecondSurName">
                         </div>
                     </div>
+
                 </div>
             </div>
             <div class="col-6">
@@ -36,15 +39,15 @@
                         <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Tutor">
 
                         <label style="display: inline-block; width: 200px;">Sexo:</label>
-                        <select id="sexo"  class="form-control" style="margin: 0px" @onchange="GetSexo">
+                        <select id="sexo" class="form-control" style="margin: 0px" @onchange="GetSexo">
                             @foreach (var option in sexo)
                             {
-                            <option value="@option">@option</option>
+                                <option value="@option">@option</option>
                             }
                         </select>
 
                         <label style="display: inline-block; width: 200px; margin-top: 15px">Fecha de Nacimiento</label>
-                        <input id="fechaNacimiento" type="date" class="form-control p1" placeholder="11/02/2001" @bind="Birthday">
+                        <input id="fechaNacimiento" type="date" class="form-control p1" placeholder="11/02/2001">
                     </div>
                 </div>
             </div>

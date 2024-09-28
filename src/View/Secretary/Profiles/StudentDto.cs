@@ -1,34 +1,33 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.src.View.Academy.Profiles;
+namespace wsmcbl.src.View.Secretary.Profiles;
 public class StudentDto
 {
+    [JsonProperty("studentId")]
+    public string StudentId { get; set; } = null!;
+    
     [JsonProperty("name")]
     public string Name { get; set; } = null!;
     
     [JsonProperty("secondName")]
-    public string SecondName { get; set; } = null!;
+    public string? SecondName { get; set; }
     
     [JsonProperty("surname")]
     public string Surname { get; set; } = null!;
     
     [JsonProperty("secondSurname")]
-    public string SecondSurname { get; set; } = null!;
+    public string? SecondSurname { get; set; }
     
     [JsonProperty("sex")]
-    public bool Sex { get; set; }
+    public bool Sex { get; set; } 
     
     [JsonProperty("birthday")]
-    public Birthday Birthday { get; set; }
+    public DateOnly Birthday { get; set; }
     
     [JsonProperty("tutor")]
     public string Tutor { get; set; } = null!;
+    
+    [JsonProperty("modality")]
+    public int Modality { get; set; }
         
-}
-
-public class Birthday
-{
-    public int Year { get; set; }
-    public int Month { get; set; }
-    public int Day { get; set; }
 }

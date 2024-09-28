@@ -3,6 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
 
+
 namespace wsmcbl.src.View.Secretary.StudentList;
 
 public class StudentList_view : BaseView

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 
-namespace wsmcbl.src.View.Academy.Profiles;
+namespace wsmcbl.src.View.Secretary.Profiles;
 
 public class NewAcademyProfiles : ComponentBase
 {
@@ -36,21 +36,6 @@ public class NewAcademyProfiles : ComponentBase
 
     protected async Task Save()
     {
-        StudentDto NewStudent = new StudentDto
-        {
-            Name = FirsName,
-            SecondName = SecondName,
-            Surname = FirsSurName,
-            SecondSurname = SecondSurName,
-            Sex = Sex,
-            Birthday = new Birthday
-            {
-                Year = Birthday.Year,
-                Month = Birthday.Month,
-                Day = Birthday.Day
-            },
-            Tutor = Tutor
-        };
 
         var result = false;//await controller.PostNewStudent(NewStudent);
 

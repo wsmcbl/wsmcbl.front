@@ -20,5 +20,13 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="View\Academy\StudentList\StudentList.razor" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="View\Academy\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="View\Secretary\Profiles\NewAcademyProfileView.razor" />
+  </ItemGroup>
   
 </Project>
