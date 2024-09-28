@@ -10,7 +10,7 @@
     --default-color: #ffffff;
     --heading-color: #ffffff;
     --surface-color: #0030b8;
-    --contrast-color: #ffffff;
+    --contrast-color: rgba(128, 158, 255, 0.81);
 }
 
 /*--------------------------------------------------------------
