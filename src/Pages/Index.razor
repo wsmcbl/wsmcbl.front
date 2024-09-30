@@ -157,3 +157,43 @@
 <script src="js/demo/chart-bar-demo.js"></script>
 <script src="js/Chart/CountStudenInfo.js"></script>
 
+
+<script>
+    window.loadChartScripts = function() {
+        // Cargar Chart.min.js si no está cargado
+        if (typeof Chart === 'undefined') {
+            var script = document.createElement('script');
+            script.src = '/vendor/chart.js/Chart.min.js';
+            document.head.appendChild(script);
+        }
+
+        // Cargar chart-area-demo.js si no está cargado
+        if (!document.querySelector('script[src="/js/demo/chart-area-demo.js"]')) {
+            var areaChartScript = document.createElement('script');
+            areaChartScript.src = '/js/demo/chart-area-demo.js';
+            document.head.appendChild(areaChartScript);
+        }
+
+        // Cargar chart-pie-demo.js si no está cargado
+        if (!document.querySelector('script[src="/js/demo/chart-pie-demo.js"]')) {
+            var pieChartScript = document.createElement('script');
+            pieChartScript.src = '/js/demo/chart-pie-demo.js';
+            document.head.appendChild(pieChartScript);
+        }
+
+        // Cargar chart-bar-demo.js si no está cargado
+        if (!document.querySelector('script[src="/js/demo/chart-bar-demo.js"]')) {
+            var barChartScript = document.createElement('script');
+            barChartScript.src = '/js/demo/chart-bar-demo.js';
+            document.head.appendChild(barChartScript);
+        }
+
+        // Cargar CountStudenInfo.js si no está cargado
+        if (!document.querySelector('script[src="/js/Chart/CountStudenInfo.js"]')) {
+            var customScript = document.createElement('script');
+            customScript.src = '/js/Chart/CountStudenInfo.js';
+            document.head.appendChild(customScript);
+        }
+    };
+</script>
+

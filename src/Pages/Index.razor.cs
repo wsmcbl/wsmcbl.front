@@ -13,8 +13,16 @@ public class Index_razor : ComponentBase
     {
         if (firstRender)
         {
+            // Cargar los scripts necesarios para la página
+            await JSRuntime.InvokeVoidAsync("loadChartScripts");
+
+            // Dar un pequeño retraso para asegurar que los scripts se carguen correctamente
+            await Task.Delay(500);  // Ajusta este valor si es necesario.
+
+            // Llama a la función createDynamicChart solo después de que los scripts se hayan cargado
             await JSRuntime.InvokeVoidAsync("createDynamicChart", months, sales);
         }
     }
+
     
 }
