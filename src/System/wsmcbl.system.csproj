@@ -4,6 +4,7 @@
     <AssemblyTitle>CLIENT APP WSMCBL SNAPSHOT</AssemblyTitle>
     <AssemblyVersion>1.2.0</AssemblyVersion>
     <AssemblyDescription>Aplicación cliente del proyecto WSMCBL desarrollado en Blazor.</AssemblyDescription>
+    <RootNamespace>wsmcbl.src</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,18 +16,5 @@
   <ItemGroup>
     <PackageReference Include="CurrieTechnologies.Razor.SweetAlert2" Version="5.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="View\Academy\StudentList\StudentList.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="View\Academy\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="View\Secretary\Profiles\NewAcademyProfileView.razor" />
-  </ItemGroup>
-  
+  </ItemGroup>  
 </Project>
