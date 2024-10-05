@@ -1,7 +1,802 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>Hello, world!</h1>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Colegio Bautista Libertad</title>
+    <meta name="description" content="Somos un colegio en Managua Nicaragua pertenecemos al ministerio de la Iglesia Bautista Libertad">
+    <meta name="keywords" content="Colegio Escuela Bautista Educacion Aprendizaje Calificaciones">
 
-Welcome to your new app.
+    <!-- Favicons -->
+    <link href="assets/img/cbl_logo.png" rel="icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: Bootslander
+    * Template URL: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/
+    * Updated: Aug 07 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body class="index-page">
+
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+        <a href="/" class="logo d-flex align-items-center">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <!-- <img src="assets/img/logo.png" alt=""> -->
+            <h1 class="sitename">Colegio Bautista Libertad</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a href="#hero" class="active">Inicio</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="#">Dropdown 1</a></li>
+                        <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                            <ul>
+                                <li><a href="#">Deep Dropdown 1</a></li>
+                                <li><a href="#">Deep Dropdown 2</a></li>
+                                <li><a href="#">Deep Dropdown 3</a></li>
+                                <li><a href="#">Deep Dropdown 4</a></li>
+                                <li><a href="#">Deep Dropdown 5</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Dropdown 2</a></li>
+                        <li><a href="#">Dropdown 3</a></li>
+                        <li><a href="#">Dropdown 4</a></li>
+                    </ul>
+                </li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+    </div>
+</header>
+
+<main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+        <img src="assets/img/hero-bg-2.jpg" alt="" class="hero-bg">
+
+        <div class="container">
+            <div class="row gy-4 justify-content-between">
+                <div class="col-lg-4 order-lg-last hero-img" data-aos="zoom-out" data-aos-delay="100">
+                    <img src="assets/img/cbl_logo.png" class="img-fluid animated" alt="logo colegio">
+                </div>
+
+                <div class="col-lg-6  d-flex flex-column justify-content-center" data-aos="fade-in">
+                    <h1>Educando a las generaciones futuras con <span>Amor</span></h1>
+                    <p>Porque Jehová da la sabiduría, Y de su boca viene el conocimiento y la inteligencia. RVR1960</p>
+                    <!-- 
+                    <div class="d-flex">
+                        <a href="#about" class="btn-get-started">Get Started</a>
+                        <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox btn-watch-video d-flex align-items-center"><i class="bi bi-play-circle"></i><span>Watch Video</span></a>
+                    </div>
+                    -->
+                </div>
+
+            </div>
+        </div>
+
+        <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28 " preserveAspectRatio="none">
+            <defs>
+                <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path>
+            </defs>
+            <g class="wave1">
+                <use xlink:href="#wave-path" x="50" y="3"></use>
+            </g>
+            <g class="wave2">
+                <use xlink:href="#wave-path" x="50" y="0"></use>
+            </g>
+            <g class="wave3">
+                <use xlink:href="#wave-path" x="50" y="9"></use>
+            </g>
+        </svg>
+
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row align-items-xl-center gy-5">
+
+                <div class="col-xl-5 content">
+                    <h3>About Us</h3>
+                    <h2>Ducimus rerum libero reprehenderit cumque</h2>
+                    <p>Ipsa sint sit. Quis ducimus tempore dolores impedit et dolor cumque alias maxime. Enim reiciendis minus et rerum hic non. Dicta quas cum quia maiores iure. Quidem nulla qui assumenda incidunt voluptatem tempora deleniti soluta.</p>
+                    <a href="#" class="read-more"><span>Read More</span><i class="bi bi-arrow-right"></i></a>
+                </div>
+
+                <div class="col-xl-7">
+                    <div class="row gy-4 icon-boxes">
+
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                            <div class="icon-box">
+                                <i class="bi bi-buildings"></i>
+                                <h3>Eius provident</h3>
+                                <p>Magni repellendus vel ullam hic officia accusantium ipsa dolor omnis dolor voluptatem</p>
+                            </div>
+                        </div> <!-- End Icon Box -->
+
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
+                            <div class="icon-box">
+                                <i class="bi bi-clipboard-pulse"></i>
+                                <h3>Rerum aperiam</h3>
+                                <p>Autem saepe animi et aut aspernatur culpa facere. Rerum saepe rerum voluptates quia</p>
+                            </div>
+                        </div> <!-- End Icon Box -->
+
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
+                            <div class="icon-box">
+                                <i class="bi bi-command"></i>
+                                <h3>Veniam omnis</h3>
+                                <p>Omnis perferendis molestias culpa sed. Recusandae quas possimus. Quod consequatur corrupti</p>
+                            </div>
+                        </div> <!-- End Icon Box -->
+
+                        <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
+                            <div class="icon-box">
+                                <i class="bi bi-graph-up-arrow"></i>
+                                <h3>Delares sapiente</h3>
+                                <p>Sint et dolor voluptas minus possimus nostrum. Reiciendis commodi eligendi omnis quideme lorenda</p>
+                            </div>
+                        </div> <!-- End Icon Box -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section><!-- /About Section -->
+
+    <!-- Features Section -->
+    <section id="features" class="features section">
+
+        <div class="container">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="features-item">
+                        <i class="bi bi-eye" style="color: #ffbb2c;"></i>
+                        <h3><a href="" class="stretched-link">Lorem Ipsum</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="features-item">
+                        <i class="bi bi-infinity" style="color: #5578ff;"></i>
+                        <h3><a href="" class="stretched-link">Dolor Sitema</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="features-item">
+                        <i class="bi bi-mortarboard" style="color: #e80368;"></i>
+                        <h3><a href="" class="stretched-link">Sed perspiciatis</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="features-item">
+                        <i class="bi bi-nut" style="color: #e361ff;"></i>
+                        <h3><a href="" class="stretched-link">Magni Dolores</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="features-item">
+                        <i class="bi bi-shuffle" style="color: #47aeff;"></i>
+                        <h3><a href="" class="stretched-link">Nemo Enim</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="features-item">
+                        <i class="bi bi-star" style="color: #ffa76e;"></i>
+                        <h3><a href="" class="stretched-link">Eiusmod Tempor</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="700">
+                    <div class="features-item">
+                        <i class="bi bi-x-diamond" style="color: #11dbcf;"></i>
+                        <h3><a href="" class="stretched-link">Midela Teren</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="800">
+                    <div class="features-item">
+                        <i class="bi bi-camera-video" style="color: #4233ff;"></i>
+                        <h3><a href="" class="stretched-link">Pira Neve</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="900">
+                    <div class="features-item">
+                        <i class="bi bi-command" style="color: #b2904f;"></i>
+                        <h3><a href="" class="stretched-link">Dirada Pack</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="1000">
+                    <div class="features-item">
+                        <i class="bi bi-dribbble" style="color: #b20969;"></i>
+                        <h3><a href="" class="stretched-link">Moton Ideal</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="1100">
+                    <div class="features-item">
+                        <i class="bi bi-activity" style="color: #ff5828;"></i>
+                        <h3><a href="" class="stretched-link">Verdo Park</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+                <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="1200">
+                    <div class="features-item">
+                        <i class="bi bi-brightness-high" style="color: #29cc61;"></i>
+                        <h3><a href="" class="stretched-link">Flavor Nivelanda</a></h3>
+                    </div>
+                </div><!-- End Feature Item -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Features Section -->
+
+    <!-- Stats Section -->
+    <section id="stats" class="stats section light-background">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="bi bi-person-check"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Docentes</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="bi bi-backpack"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="700" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Estudiantes</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="bi bi-headset"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Hours Of Support</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+                <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+                    <i class="bi bi-people"></i>
+                    <div class="stats-item">
+                        <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+                        <p>Hard Workers</p>
+                    </div>
+                </div><!-- End Stats Item -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Stats Section -->
+
+    <!-- Details Section -->
+    <section id="details" class="details section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Acerca de Nostros</h2>
+            <div><span>Conocenos a</span> <span class="description-title">Detalle</span></div>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="row gy-4 align-items-center features-item">
+                <div class="col-md-5 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="100">
+                    <img src="assets/img/details-1.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-md-7" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Visiòn.</h3>
+                    <p class="fst-italic">
+                        Contribuir con la educación brindando a los estudiantes y jóvenes de la comunidad una preparación científica de calidad, ética y espiritual 
+                        como agentes de cambios para el desarrollo sostenible en armonía con el medio ambiente que impulse el aprendizaje permanente para convivir 
+                        con una cultura de paz y justicia social.
+                    </p>
+                </div>
+            </div><!-- Features Item -->
+
+            <div class="row gy-4 align-items-center features-item">
+                <div class="col-md-5 order-1 order-md-2 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+                    <img src="assets/img/details-2.png" class="img-fluid" alt="">
+                </div>
+                <div class="col-md-7 order-2 order-md-1" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Misiòn</h3>
+                    <p class="fst-italic">
+                        Formar niños (as) y jóvenes mediante un proceso educativo de calidad con principios cristianos valores morales y éticos 
+                        que contribuyan al desarrollo de la comunidad.
+                    </p>
+                </div>
+            </div><!-- Features Item -->
+        </div>
+
+    </section><!-- /Details Section -->
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Galeria</h2>
+            <div><span>Mira alguna de nuestras </span> <span class="description-title">Fotografias</span></div>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row g-0">
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-1.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-1.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-2.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-2.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-3.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-3.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-4.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-4.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-5.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-5.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-6.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-6.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-7.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-7.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="gallery-item">
+                        <a href="assets/img/gallery/gallery-8.jpg" class="glightbox" data-gallery="images-gallery">
+                            <img src="assets/img/gallery/gallery-8.jpg" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                </div><!-- End Gallery Item -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Gallery Section -->
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials section dark-background">
+
+        <img src="assets/img/testimonials-bg.jpg" class="testimonials-bg" alt="">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="swiper init-swiper">
+                <script type="application/json" class="swiper-config">
+                    {
+                        "loop": true,
+                        "speed": 600,
+                        "autoplay": {
+                            "delay": 5000
+                        },
+                        "slidesPerView": "auto",
+                        "pagination": {
+                            "el": ".swiper-pagination",
+                            "type": "bullets",
+                            "clickable": true
+                        }
+                    }
+                </script>
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                            <h3>Saul Goodman</h3>
+                            <h4>Ceo &amp; Founder</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                            <h3>Sara Wilsson</h3>
+                            <h4>Designer</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                            <h3>Jena Karlis</h3>
+                            <h4>Store Owner</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                            <h3>Matt Brandon</h3>
+                            <h4>Freelancer</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+                            <h3>John Larson</h3>
+                            <h4>Entrepreneur</h4>
+                            <div class="stars">
+                                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                            </div>
+                            <p>
+                                <i class="bi bi-quote quote-icon-left"></i>
+                                <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
+                                <i class="bi bi-quote quote-icon-right"></i>
+                            </p>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+
+    </section><!-- /Testimonials Section -->
+
+    <!-- Team Section -->
+    <section id="team" class="team section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Team</h2>
+            <div><span>Check Our</span> <span class="description-title">Team</span></div>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="row gy-5">
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member">
+                        <div class="pic"><img src="assets/img/team/team-1.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Walter White</h4>
+                            <span>Chief Executive Officer</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter-x"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="member">
+                        <div class="pic"><img src="assets/img/team/team-2.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>Sarah Jhonson</h4>
+                            <span>Product Manager</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter-x"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="member">
+                        <div class="pic"><img src="assets/img/team/team-3.jpg" class="img-fluid" alt=""></div>
+                        <div class="member-info">
+                            <h4>William Anderson</h4>
+                            <span>CTO</span>
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter-x"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Team Section -->
+    
+    <!-- Faq Section -->
+    <section id="faq" class="faq section light-background">
+
+        <div class="container-fluid">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-7 d-flex flex-column justify-content-center order-2 order-lg-1">
+
+                    <div class="content px-xl-5" data-aos="fade-up" data-aos-delay="100">
+                        <h3><span>Preguntas </span><strong>Frecuentes</strong></h3>
+                        <p>
+                            Estas son algunas de las preguntas mas frecuentes, no dudes en contactarnos si aun te quedan dudas. info@cbl-edu.com
+                        </p>
+                    </div>
+
+                    <div class="faq-container px-xl-5" data-aos="fade-up" data-aos-delay="200">
+
+                        <div class="faq-item faq-active">
+                            <i class="faq-icon bi bi-question-circle"></i>
+                            <h3>¿Cuales son los requisitos para matricular?</h3>
+                            <div class="faq-content">
+                                <p>
+                                    Hoja de traslado (Original)<br>
+                                    Constancia de conducta (Copia)<br>
+                                    Partida de nacimiento (Copia)<br>
+                                    Cédula de los padres (Copia)<br>
+                                    Boletín anterior (Copia)
+                                </p>
+                            </div>
+                            <i class="faq-toggle bi bi-chevron-right"></i>
+                        </div><!-- End Faq item-->
+
+                        <div class="faq-item">
+                            <i class="faq-icon bi bi-question-circle"></i>
+                            <h3>¿Como veo mis calificaciones?</h3>
+                            <div class="faq-content">
+                                <p>Las calificaciones están disponibles haciendo click <a href="/online-degree/login">aquí</a>. Debes tener las credenciales a mano para poder acceder.</p>
+                            </div>
+                            <i class="faq-toggle bi bi-chevron-right"></i>
+                        </div><!-- End Faq item-->
+
+                        <div class="faq-item">
+                            <i class="faq-icon bi bi-question-circle"></i>
+                            <h3>¿Como obtengo mis credenciales?</h3>
+                            <div class="faq-content">
+                                <p>Las credenciales son entregadas en el momemento de la matricula, si por alguna razon no tines acceso
+                                    a esta información envianos un correo a <a href="mailto:soporte@cbl-edu.com">soporte@cbl-edu.com</a> 
+                                    o visitanos en nuestras instalaciones.</p>                            </div>
+                            <i class="faq-toggle bi bi-chevron-right"></i>
+                        </div><!-- End Faq item-->
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5 order-1 order-lg-2">
+                    <img src="assets/img/faq.jpg" class="img-fluid" alt="" data-aos="zoom-in" data-aos-delay="100">
+                </div>
+            </div>
+
+        </div>
+
+    </section><!-- /Faq Section -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Contactanos!</h2>
+            <div><span>Informaciòn de </span> <span class="description-title">contacto.</span></div>
+        </div><!-- End Section Title -->
+
+        <div class="container" data-aos="fade" data-aos-delay="100">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-4">
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="200">
+                        <i class="bi bi-geo-alt flex-shrink-0"></i>
+                        <div>
+                            <h3>Direcciòn</h3>
+                            <p>Entrada norte C.C. Managua, 1 cuadra arriba y 1/2 cuadra al sur.</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                        <i class="bi bi-telephone flex-shrink-0"></i>
+                        <div>
+                            <h3>Teléfono</h3>
+                            <p>2270-5587</p>
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                        <i class="bi bi-whatsapp"></i>
+                        <div>
+                            <h3>WhatsApp</h3>
+                            <p><a href="https://wa.me/50557458368" target="_blank" class="contact-link">+505 5745 8368</a></p>                        
+                        </div>
+                    </div><!-- End Info Item -->
+
+                    <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                        <i class="bi bi-mailbox"></i>
+                        <div>
+                            <h3>Correo</h3>
+                            <p> <a href="mailto:soporte@cbl-edu.com">soporte@cbl-edu.com</a> </p>                     
+                        </div>
+                    </div><!-- End Info Item -->
+
+                </div>
+
+                <div class="col-lg-8">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d975.2218103648834!2d-86.24670157880223!3d12.119866933385515!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f73fe19e206a1a9%3A0xee504fc0b55cde55!2sColegio%20Bautista%20Libertad!5e0!3m2!1ses!2sni!4v1728104889966!5m2!1ses!2sni" width="800" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div><!-- End Contact Form -->
+
+            </div>
+
+        </div>
+
+    </section><!-- /Contact Section -->
+
+</main>
+
+<footer id="footer" class="footer dark-background">
+
+    <div class="container footer-top">
+        <div class="row gy-4">
+            <div class="col-lg-4 col-md-6 footer-about">
+                <a href="/" class="logo d-flex align-items-center">
+                    <span class="sitename">Colegio Bautista Libertad</span>
+                </a>
+                <div class="footer-contact pt-3">
+                    <p>Entrada norte C.C. Managua, 1 cuadra arriba y 1/2 cuadra al sur.</p>
+                    <p>Managua Nicaragua</p>
+                    <p class="mt-3"><strong>Telefono:</strong> <span>2270-5587</span></p>
+                    <p><strong>Correo:</strong> <span>info@cbl-edu.com</span></p>
+                </div>
+                <div class="social-links d-flex mt-4">
+                    <a href="https://www.facebook.com/p/Colegio-Bautista-Libertad-100063819162602/"><i class="bi bi-facebook"></i></a>
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">Colegio Bautista Libertad</strong> <span>Todos los derechos reservados.</span></p>
+    </div>
+
+</footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
