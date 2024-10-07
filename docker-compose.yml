@@ -1,41 +1,58 @@
-version: '3.8'
-
 services:
   nextcloud:
     image: nextcloud
     restart: unless-stopped
-    ports:
-      - "8080"
     depends_on:
-      - nextcloud_db
+      - db_nextcloud
     networks:
-      - app-network
+      - app_network
     volumes:
-      - nextcloud_vol:/var/www/html
+      - nextcloud_data:/var/www/html  # Volumen para los datos de Nextcloud
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
 
-  nextcloud_db:
+  db_nextcloud:
     image: mariadb
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_ROOT_PASSWORD: tu_contraseña
       MYSQL_DATABASE: nextcloud
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     volumes:
-      - nextcloud_db_vol:/var/lib/mysql
+      - db_data:/var/lib/mysql  # Volumen para la base de datos
     networks:
-      - app-network
- 
+      - app_network
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - app_network
+
   system:
     build:
       context: .
       dockerfile: ./Config/System/Dockerfile
     restart: unless-stopped
     container_name: system
-    ports:
-      - "5050"
     networks:
-      - app-network
+      - app_network
   
   homepage:
     build:
@@ -43,16 +60,13 @@ services:
       dockerfile: ./Config/System/Dockerfile
     restart: unless-stopped
     container_name: homepage
-    ports:
-      - "8000"
     networks:
-      - app-network      
-
-
+      - app_network
+        
+        
 volumes:
-  nextcloud_db_vol:
-  nextcloud_vol: 
+  db_data: { }          # Volumen para la base de datos
+  nextcloud_data: { }   # Volumen para los datos de Nextcloud
 
 networks:
-  app-network:
-    driver: bridge
+  app_network:
