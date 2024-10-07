@@ -57,7 +57,7 @@ services:
   homepage:
     build:
       context: .
-      dockerfile: ./Config/System/Dockerfile
+      dockerfile: ./Config/Homepage/Dockerfile
     restart: unless-stopped
     container_name: homepage
     networks:
