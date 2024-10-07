@@ -115,5 +115,13 @@
     <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\swiper\swiper-bundle.min.css" />
     <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\swiper\swiper-bundle.min.js" />
     <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\swiper\swiper-bundle.min.js.map" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\ContacView.razor" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\DatailView.razor" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\FaqView.razor" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\FooterHomeView.razor" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\GaleryView.razor" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\HeaderView.razor" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\HomePage.razor" />
+    <_ContentIncludedByDefault Remove="View\Base\HomePage\TittleSectionView.razor" />
   </ItemGroup>  
 </Project>

@@ -12,10 +12,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <AdditionalFiles Include="Components\Pages\OnlineDegree\OnlineDegreeView.razor" />
   </ItemGroup>
 
