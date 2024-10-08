@@ -27,16 +27,16 @@ public partial class CreateStudentProfile : ComponentBase
 
     protected async Task HandleValidSubmit()
     {
-        Student.Modality = selectModality;
-        Student.Sex = selectSex;
+        Student.educationalLevel = selectModality;
+        Student.sex = selectSex;
         
-        Console.WriteLine(Student.Name);
-        Console.WriteLine(Student.SecondName);
-        Console.WriteLine(Student.Surname);
-        Console.WriteLine(Student.SecondSurname);
-        Console.WriteLine(Student.Tutor);
-        Console.WriteLine(Student.Birthday);
-        Console.WriteLine(Student.Modality);
-        Console.WriteLine(Student.Sex);
+        Console.WriteLine(Student.name);
+        Console.WriteLine(Student.secondName);
+        Console.WriteLine(Student.surname);
+        Console.WriteLine(Student.secondSurname);
+        Console.WriteLine(Student.tutor);
+        Console.WriteLine(Student.birthday);
+        Console.WriteLine(Student.educationalLevel);
+        Console.WriteLine(Student.sex);
     }
 }
