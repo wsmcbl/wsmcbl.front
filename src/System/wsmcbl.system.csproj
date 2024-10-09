@@ -123,5 +123,9 @@
     <_ContentIncludedByDefault Remove="View\Base\HomePage\HeaderView.razor" />
     <_ContentIncludedByDefault Remove="View\Base\HomePage\HomePage.razor" />
     <_ContentIncludedByDefault Remove="View\Base\HomePage\TittleSectionView.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="View\Accounting\CollectTariffs\" />
   </ItemGroup>  
 </Project>

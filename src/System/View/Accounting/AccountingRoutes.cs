@@ -5,8 +5,8 @@ public static class AccountingRoutes
     
     /*Mejorar los nombre los recursos*/
     
-    public const string TariffProfileList = "/accouting/tariff-profiles";
-    public const string ArrearsList = "/accouting/arreas";
+    public const string ProfileList = "/accounting/profiles";
+        public const string ArrearsList = "/accouting/arreas";
     public const string TariffCollection = "/accouting/transactions/invoices/{transactionId}";
     public const string PrintInvoice = "/accouting/tariffcollection/{StudentID}";
     
