@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.SchoolYears;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Secretary.Profiles;
 
@@ -9,13 +9,13 @@ public partial class CreateStudentProfile : ComponentBase
 {
     [Inject] protected CreateStudentProfileController Controller { get; set; }
     [Inject] protected Navigator Navigator { get; set; }
-    protected NewStudentDto NewStudent = new();
-    protected bool selectSex;
-    protected int selectModality;
-    protected DateOnly dateonCreate;
+    protected NewStudentDto NewStudent { get; set; } = null!;
+    protected bool selectSex { get; set; }
+    protected int selectModality { get; set; }
+    protected DateOnly dateonCreate { get; set; }
     
-    protected List<(bool Id, string Gender)> sexo;
-    protected List<(int Id, string Modality)> modalitySelect;
+    protected List<(bool Id, string Gender)> sexo { get; set; }
+    protected List<(int Id, string Modality)> modalitySelect { get; set; }
     
     protected override void OnInitialized()
     {
@@ -31,11 +31,12 @@ public partial class CreateStudentProfile : ComponentBase
             (2, "Primaria"),
             (3, "Secundaria")
         };
-
-        NewStudent.tutor = new TutorToCreateDto
+        
+        NewStudent = new NewStudentDto
         {
-            name = "Sin Asignar",
-            phone = "Sin Asignar"
+            student = new StudentBasicDto(),
+            tutor = new TutorToCreateDto(),
+            educationalLevel = 1
         };
         
         dateonCreate = DateOnly.FromDateTime(DateTime.Today);
@@ -45,10 +46,9 @@ public partial class CreateStudentProfile : ComponentBase
     
     protected async Task SaveStudent()
     {
-        NewStudent.student.birthday = MapperDate.ConvertDateOnlyToDate(dateonCreate);
+        NewStudent.student.birthday = new DateEntity(dateonCreate);
         NewStudent.student.sex = selectSex;
         NewStudent.educationalLevel = selectModality;
-        NewStudent.student.studentId = "";
         
         var resonse = await Controller.CreateNewStudent(NewStudent);
 
@@ -56,6 +56,5 @@ public partial class CreateStudentProfile : ComponentBase
         {
             Navigator.ToPage($"/accouting/tariffcollection/{resonse}");
         }
-        
     }
 }

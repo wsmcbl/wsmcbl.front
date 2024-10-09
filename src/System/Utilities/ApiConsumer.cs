@@ -14,8 +14,7 @@ public class ApiConsumer
     {
         this.httpClient = httpClient;
         service = notificator;
-    //  _connectionString = "http://localhost:4000/v1";
-        _connectionString = Environment.GetEnvironmentVariable("API") ?? "http://localhost:4000/v1";
+        _connectionString = Environment.GetEnvironmentVariable("API") ?? "http://localhost:4000/v2";
     }
 
     private Uri BuildUri(Modules modules, string resource)

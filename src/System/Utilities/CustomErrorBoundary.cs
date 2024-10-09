@@ -10,12 +10,12 @@ public class CustomErrorBoundary : ErrorBoundary
     protected override async Task OnErrorAsync(Exception exception)
     {
         var title = "Surgió un error.";
-        var error = exception.Message;
+        var error = $"{exception.Message}\n Trace: {exception.StackTrace}";
         
         if (exception is InternalException internalException)
         {
             title = internalException.Title;
-            error = internalException.Content;
+            error = internalException.Content + internalException;
         }
 
         await Notificator!.ShowError(title, error);

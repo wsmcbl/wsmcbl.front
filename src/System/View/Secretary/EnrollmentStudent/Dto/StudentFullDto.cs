@@ -11,7 +11,7 @@ public class StudentFullDto
     public string surname { get; set; }
     public string secondSurname { get; set; }
     public bool sex { get; set; }
-    public DateClass birthday { get; set; }
+    public DateEntity birthday { get; set; }
     public string religion { get; set; } = null!;
     public string diseases { get; set; } = null!;
     public string address { get; set; } = null!;

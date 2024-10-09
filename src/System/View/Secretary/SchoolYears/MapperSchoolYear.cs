@@ -39,7 +39,7 @@ public static class MapperSchoolYear
             schoolYear = tariffs.SchoolYear,
             concept = tariffs.Concept,
             amount = tariffs.Amount,
-            DueDateClass = MapperDate.ConvertDateOnlyToDate(tariffs.OnlyDate),
+            DueDateEntity = MapperDate.ConvertDateOnlyToDate(tariffs.OnlyDate),
             type = tariffs.Type,
             modality = tariffs.Modality
         };
