@@ -19,11 +19,11 @@ public class StudentEntity
     
     public double GetDebt(int tariffId)
     {
-        return paymentHistory.First(t => t.TariffId == tariffId).DebtBalance;
+        return paymentHistory.First(t => t.tariffId == tariffId).debtBalance;
     }
 
     public bool HasPayments(int tariffId)
     {
-        return paymentHistory.FirstOrDefault(p => p.TariffId == tariffId) != null;
+        return paymentHistory.FirstOrDefault(p => p.tariffId == tariffId) != null;
     }
 }

@@ -38,9 +38,7 @@ public class TariffCollection : ComponentBase
         }
 
         await LoadStudent();
-
-        TariffList = await Controller.GetTariffList("student", StudentId!);
-
+        
         TariffModalList = TariffList.Where(t => isNotPay(t.TariffId)).ToModalList(StudentEntity!);
 
         ClearList();
@@ -105,8 +103,6 @@ public class TariffCollection : ComponentBase
 
     protected async Task MakePay()
     {
-        Controller.AddDetail(TariffsToPay!, AreArrearsApply);
-
         var result = await Controller.SendPay();
 
         if (string.IsNullOrEmpty(result))

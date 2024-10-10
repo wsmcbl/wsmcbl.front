@@ -1,5 +1,6 @@
-@page "@AccountingRoutes.ProfileList"
+@page "/accounting/profiles"
 
+@using wsmcbl.src.View.Secretary.Profiles
 @inherits TariffProfiles
 
 @if (IsLoad())
@@ -11,11 +12,13 @@ else
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de cobro</h6>
-            <a href="/academy/tariff-profiles/new" class="btn btn-success btn-sm" role="button">Nuevo Estudiante</a>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#NewStudentModal">
+                Nuevo estudiante
+            </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table id="dataTable" class="table table-bordered" width="100%" cellspacing="0">
+                <table id="dataTable" class="table table-bordered">
                     <thead>
                     <tr>
                         <th>Id</th>
@@ -52,6 +55,9 @@ else
             </div>
         </div>
     </div>
+    
+    <CreateStudentProfile></CreateStudentProfile>
+    
     <!-- Inicializamos datatable -->
     <script defer src="/js/demo/datatables-demo.js"></script>
 }

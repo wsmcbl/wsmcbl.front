@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Accounting.TariffCollection;
+using wsmcbl.src.View.Accounting.CollectTariffs.Dto;
 
 namespace wsmcbl.src.Controller;
 
@@ -42,14 +42,7 @@ public class CollectTariffController
 
         return result.transactionId;
     }
-
-    public async Task<InvoiceDto?> GetInvoice(string transactionId)
-    {
-        var resource = $"transactions/invoices/{transactionId}";
-        var result = await Consumer.GetAsync<InvoiceDto?>(Modules.Accounting, resource, null);
-
-        return result;
-    }
+    
 
     public async Task<bool> ActiveArrears(int tariffId)
     {
@@ -71,13 +64,7 @@ public class CollectTariffController
     }
 
     private readonly CashierEntity cashier;
-
-    public void AddDetail(List<TariffModalDto> tariffs, bool isApplyArrears)
-    {
-        cashier.initTransaction();
-        cashier.addDetail(tariffs, isApplyArrears);
-    }
-
+    
     public void SetStudent(StudentEntity studentEntity)
     {
         cashier.setStudent(studentEntity);
