@@ -34,17 +34,19 @@ public class TariffCollection : ComponentBase
     {
         if (string.IsNullOrEmpty(StudentId))
         {
-            throw new InternalBufferOverflowException("Student ID is not valid");
+            throw new InternalException("Student ID is not valid.");
         }
 
         await LoadStudent();
-        
+
+        TariffList = await Controller.GetTariffListByStudentId(StudentId);
+
         TariffModalList = TariffList.Where(t => isNotPay(t.TariffId)).ToModalList(StudentEntity!);
 
         ClearList();
     }
 
-    private bool isNotPay(int tariffId) =>
+    private bool isNotPay(int tariffId) => 
         !StudentEntity!.HasPayments(tariffId) || StudentEntity.GetDebt(tariffId) != 0;
 
     protected void ClearList()
@@ -103,6 +105,8 @@ public class TariffCollection : ComponentBase
 
     protected async Task MakePay()
     {
+        Controller.AddDetail(TariffsToPay!, AreArrearsApply);
+
         var result = await Controller.SendPay();
 
         if (string.IsNullOrEmpty(result))

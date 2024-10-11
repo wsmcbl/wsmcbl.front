@@ -12,25 +12,16 @@ public class CollectTariffController
     public CollectTariffController(ApiConsumer consumer)
     {
         Consumer = consumer;
-
-        cashier = new CashierEntity("caj-ktinoco");
+        cashier = new CashierEntity("caj-mmercado");
     }
 
-    public async Task<List<TariffDto>> GetTariffList(string key, string value)
+    public async Task<List<TariffDto>> GetTariffListByStudentId(string studentId)
     {
-        var resource = $"tariffs/search?q={key}:{value}";
-        
+        var resource = $"tariffs/search?q=student:{studentId}";
         List<TariffDto> defaultResult = [];
         return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
-
-    public async Task<List<TariffDto>> GetTariffsOverdue(string value)
-    {
-        var resource = $"tariffs/search?q={value}";
-        List<TariffDto> defaultResult = [];
-        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
-    }
-
+    
     public async Task<string> SendPay()
     {
         var defaultResult = new AuxResult();
