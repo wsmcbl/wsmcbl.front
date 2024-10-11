@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.CollectTariffs.Dto;
@@ -35,7 +35,7 @@ public class CollectTariffController
     {
         var defaultResult = new AuxResult();
         var content = cashier.getTransaction();
-        var json = JsonConvert.SerializeObject(content);
+        var json = JsonSerializer.Serialize(content);
 
         
         var result = await Consumer.PostAsync(Modules.Accounting, "transactions", content, defaultResult);

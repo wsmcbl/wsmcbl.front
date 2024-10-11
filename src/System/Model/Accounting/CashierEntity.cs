@@ -25,12 +25,13 @@ public class CashierEntity
     {
         transaction = new TransactionEntity
         {
-            studentId = student.studentId,
             cashierId = cashierId,
+            studentId = student.studentId,
             dateTime = DateTime.UtcNow,
             details = []
         };
     }
+
     
     public void addDetail(List<TariffModalDto> tariffs, bool isApplyArrear)
     {
@@ -45,8 +46,8 @@ public class CashierEntity
             transaction.details.Add(new DetailDto
             {
                 tariffId = item.TariffId,
-                Amount = item.Total,
-                applyArrear = isApplyArrear
+                amount = item.Total,
+                applyArrears = isApplyArrear
             });
         }
     }
