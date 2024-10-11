@@ -29,7 +29,7 @@ public class CashierEntity
             studentId = student.studentId,
             dateTime = DateTime.UtcNow,
             details = []
-        };
+        }; 
     }
 
     
