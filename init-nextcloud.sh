@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Instalar netcat
-apt-get update && apt-get install -y netcat
+# Instalar netcat-openbsd
+apt-get update && apt-get install -y netcat-openbsd
 
 # Esperar a que la base de datos esté disponible
 until nc -z db_nextcloud 3306; do
