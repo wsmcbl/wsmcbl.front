@@ -12,7 +12,7 @@ php occ config:system:set default_language --value=es
 php occ config:system:set theme --value=light
 # Establecer la ventana de mantenimiento
 php occ config:system:set maintenance_window_start --value=1
-# Configurar el protocolo de sobreescritura
+# Configurar el protocolo de sobreescritura.
 php occ config:system:set overwriteprotocol --value=https
 # Configurar la URL de sobreescritura
 php occ config:system:set overwrite.cli.url --value=https://nextcloud.cbl-edu.com
