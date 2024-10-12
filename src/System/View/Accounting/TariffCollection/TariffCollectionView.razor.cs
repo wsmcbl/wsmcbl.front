@@ -75,7 +75,6 @@ public class TariffCollection : ComponentBase
     private async Task LoadStudent()
     {
         StudentEntity = await Controller.GetStudent(StudentId!);
-        Controller.SetStudent(StudentEntity);
     }
 
     protected void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
@@ -103,9 +102,10 @@ public class TariffCollection : ComponentBase
         Total += (AreArrearsApply ? -1 : 1) * Arrears;
     }
 
+    protected byte[]? InvoicePdf { get; set; }
     protected async Task MakePay()
     {
-        Controller.AddDetail(TariffsToPay!, AreArrearsApply);
+        Controller.BuildTransaction(TariffsToPay!, AreArrearsApply);
 
         var result = await Controller.SendPay();
 
@@ -116,7 +116,7 @@ public class TariffCollection : ComponentBase
         }
 
         await Notificator.ShowSuccess("¡Pago Exitoso!", "La transacción se completó correctamente.");
-        await Navigator.ToPage($"/transactions/invoices/{result}");
+        InvoicePdf = await Controller.GetInvoice(result);
 
         await LoadStudent();
         ClearList();

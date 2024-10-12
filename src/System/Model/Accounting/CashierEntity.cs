@@ -40,7 +40,7 @@ public class CashierEntity
             if (!isApplyArrear)
             {
                 item.Arrear = 0;
-                item.computeTotal();
+                item.ComputeTotal();
             }
             
             transaction.details.Add(new DetailDto

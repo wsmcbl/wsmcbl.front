@@ -1,7 +1,7 @@
-@page "/accouting/tion/{StudentID}"
-
+@page "/accouting/tariffcollection/{StudentID}"
 @inherits TariffCollection;
 
+@using wsmcbl.src.View.Components
 @if(IsLoading())
 {
     <div class="loader"></div>
@@ -221,95 +221,7 @@ else
         </div>
     </div>
     
-    <!-- Modal Middle-Pay -->
-    <div class="modal fade" id="middlePay" tabindex="-1" aria-labelledby="middlePay" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="middlePay">Abonar pago</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="ClearList">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @* cambio y monto total *@
-                    <div class="anchototal">
-
-                        <div class="row">
-                            <div class="col pay">
-                                <div>Monto: </div>
-                            </div>
-                            <div class="col pay">
-                                <input id="amoun2" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="AmountToDivide">
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="right-container">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" @onclick="(e) => ClearList()">Atras</button>
-                        <button type="button" class="btn btn-success" @onclick="(e) => MakePay()">Cobrar</button>
-                        <button type="button" class="btn btn-success" @onclick="(e) => DistributePay()">Distribuir</button>
-                    </div>
-                </div>
-
-                @{
-                    if (TariffsToPay!.Count == 0)
-                    {
-                        <div class="finishpaymodal">
-                            <div class="card mb-4 py-3 border-left-danger" style="padding: 20px">
-                                <h7> Ingrese un monto y de click en distribuir.</h7>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row centrar">
-                            <div class="finishpaymodal">
-                                <table class="detailpaytable">
-                                    <thead>
-                                    <tr>
-                                        <th>Concepto</th>
-                                        <th>Monto</th>
-                                        <th>Desc</th>
-                                        <th>Mora</th>
-                                        <th>Total</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach (var item in TariffsToPay)
-                                    {
-                                        <tr>
-                                            <td>@item.Concept</td>
-                                            <td>@item.Amount</td>
-                                            <td>@item.Discount</td>
-                                            <td>@item.Arrear</td>
-                                            <td>@item.Total</td>
-                                        </tr>
-                                    }
-                                    </tbody>
-
-                                    <tfoot>
-                                    <tr>
-                                        <th>Totales</th>
-                                        <th class="subtotal">@Subtotal</th>
-                                        <th class="discount">@Discount</th>
-                                        <th class="arrears">@Arrears</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                    }
-                }
-
-            </div>
-        </div>
-    </div>
-    
-    <!-- Finiish Modal Pay -->
+   <!-- Finiish Modal Pay -->
     <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -366,7 +278,7 @@ else
                             </div>
                             <div class="col pay">
                                 <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="AmountToDivide">
-                             </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -403,8 +315,15 @@ else
 
             </div>
         </div>
-        <script defer src="/js/TarriffCollection.js"></script>
-        
 
+
+        @if (InvoicePdf != null)
+        {
+            <PdfViewer Title="Recibo" PdfContent="InvoicePdf"></PdfViewer>
+        }
+        
+        
+        
+        <script defer src="/js/TarriffCollection.js"></script>
     </div>
 }

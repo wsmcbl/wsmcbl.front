@@ -15,14 +15,14 @@ public static class EntityMaker
         if (student.HasPayments(tariff.TariffId))
         {
             tariffModal.Amount = student.GetDebt(tariff.TariffId);
-            tariffModal.computeTotal();
+            tariffModal.ComputeTotal();
             return tariffModal;
         }
 
         tariffModal.Amount = tariff.Amount;
         tariffModal.Discount = tariff.Type == 1 ? tariff.Amount * student.discount : 0;
         tariffModal.Arrear = tariff.IsLate ? tariff.Amount * (1 - student.discount) * 0.1 : 0;
-        tariffModal.computeTotal();
+        tariffModal.ComputeTotal();
         
         return tariffModal;
     }

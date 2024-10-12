@@ -1,20 +1,35 @@
-using System.Text.Json;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Accounting.CollectTariffs.Dto;
+using wsmcbl.src.View.Accounting.TariffCollection;
 
 namespace wsmcbl.src.Controller;
 
 public class CollectTariffController
 {
     private readonly ApiConsumer Consumer;
+    private string CashierId { get; set; }
 
     public CollectTariffController(ApiConsumer consumer)
     {
         Consumer = consumer;
-        cashier = new CashierEntity("caj-mmercado");
+        CashierId = "caj-mmercado";
     }
-
+    
+    public async Task<List<StudentEntity>?> GetStudentList()
+    {
+        List<StudentEntity> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Accounting, "students", defaultResult);
+    }
+    
+    private string StudentId { get; set; }
+    public async Task<StudentEntity> GetStudent(string studentId)
+    {
+        StudentId = studentId;
+        var resource = $"students/{studentId}";
+        StudentEntity defaultResult = new();
+        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
+    }
+    
     public async Task<List<TariffDto>> GetTariffListByStudentId(string studentId)
     {
         var resource = $"tariffs/search?q=student:{studentId}";
@@ -24,45 +39,52 @@ public class CollectTariffController
     
     public async Task<string> SendPay()
     {
-        var defaultResult = new AuxResult();
-        var content = cashier.getTransaction();
-        var json = JsonSerializer.Serialize(content);
+        var defaultResult = new TransactionEntity();
+        var result = await Consumer.PostAsync(Modules.Accounting, "transactions", Transaction, defaultResult);
 
-        
-        var result = await Consumer.PostAsync(Modules.Accounting, "transactions", content, defaultResult);
+        return result!.studentId;
+    }
 
-        return result.transactionId;
+    public async Task<byte[]> GetInvoice(string transactionId)
+    {
+        var resource = $"documents/invoices/{transactionId}";
+        return (await Consumer.GetPdfAsync(Modules.Accounting, resource))!;
     }
     
-
-    public async Task<bool> ActiveArrears(int tariffId)
+    public void BuildTransaction(List<TariffModalDto> tariffs, bool isApplyArrears)
     {
-        var resource = $"arrears/{tariffId}";
-        return await Consumer.PutAsync(Modules.Accounting, resource, string.Empty);
+        MakeTransaction();
+        AddDetail(tariffs, isApplyArrears);
     }
-
-    public async Task<List<StudentEntity>?> GetStudentList()
-    {
-        List<StudentEntity> defaultResult = [];
-        return await Consumer.GetAsync(Modules.Accounting, "students", defaultResult);
-    }
-
-    public async Task<StudentEntity> GetStudent(string studentId)
-    {
-        var resource = $"students/{studentId}";
-        StudentEntity defaultResult = new();
-        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
-    }
-
-    private readonly CashierEntity cashier;
     
-    public void SetStudent(StudentEntity studentEntity)
+    private TransactionEntity Transaction { get; set; }
+    private void MakeTransaction()
     {
-        cashier.setStudent(studentEntity);
+        Transaction = new TransactionEntity
+        {
+            studentId = StudentId,
+            cashierId = CashierId,
+            dateTime = DateTime.UtcNow,
+            details = []
+        };
     }
-}
-
-public class AuxResult
-{
-    public string transactionId { get; set; } 
+    
+    private void AddDetail(List<TariffModalDto> tariffs, bool isApplyArrear)
+    {
+        foreach (var item in tariffs)
+        {
+            if (!isApplyArrear)
+            {
+                item.Arrear = 0;
+                item.ComputeTotal();
+            }
+            
+            Transaction.details.Add(new DetailDto
+            {
+                tariffId = item.TariffId,
+                Amount = item.Total,
+                applyArrear = isApplyArrear
+            });
+        }
+    }
 }
