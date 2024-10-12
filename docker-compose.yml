@@ -7,7 +7,9 @@ services:
     networks:
       - app_network
     volumes:
-      - nextcloud_data:/var/www/html  # Volumen para los datos de Nextcloud
+      - nextcloud_data:/var/www/html
+      - ./init-nextcloud.sh:/init-nextcloud.sh
+    entrypoint: [ "/bin/bash", "/init-nextcloud.sh" ]
     deploy:
       resources:
         limits:
@@ -15,15 +17,15 @@ services:
           memory: 1G
 
   db_nextcloud:
-    image: mariadb
+    image: mariadb:11.4
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: tu_contraseña
-      MYSQL_DATABASE: nextcloud
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      - db_data:/var/lib/mysql  # Volumen para la base de datos
+      - db_data:/var/lib/mysql
     networks:
       - app_network
     deploy:
@@ -54,8 +56,8 @@ services:
     networks:
       - app_network
     environment:
-      - API=${API}
-  
+      API: ${API}
+      
   homepage:
     build:
       context: .
@@ -67,8 +69,8 @@ services:
         
         
 volumes:
-  db_data: { }          # Volumen para la base de datos
-  nextcloud_data: { }   # Volumen para los datos de Nextcloud
+  db_data: { }
+  nextcloud_data: { }
 
 networks:
   app_network:
