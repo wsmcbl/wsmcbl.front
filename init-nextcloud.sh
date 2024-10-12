@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Instalar netcat
+apt-get update && apt-get install -y netcat
+
 # Esperar a que la base de datos esté disponible
 until nc -z db_nextcloud 3306; do
   echo "Esperando a que la base de datos esté lista..."
