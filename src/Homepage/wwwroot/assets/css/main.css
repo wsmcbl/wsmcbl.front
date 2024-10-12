@@ -732,6 +732,13 @@ section,
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
+@media (max-width: 640px) {
+  .hero-img img {
+    max-width: 150px; /* Ajusta este valor según el tamaño que prefieras */
+    align-items: center;
+  }
+}
+
 .hero {
   width: 100%;
   min-height: 70vh;
@@ -833,6 +840,10 @@ section,
 }
 
 @media (max-width: 640px) {
+  .hero {
+    min-height: 50vh; /* Reduce la altura para ocupar menos espacio */
+  }
+  
   .hero h1 {
     font-size: 28px;
     line-height: 36px;
