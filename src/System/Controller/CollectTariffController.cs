@@ -82,8 +82,8 @@ public class CollectTariffController
             Transaction.details.Add(new DetailDto
             {
                 tariffId = item.TariffId,
-                Amount = item.Total,
-                applyArrear = isApplyArrear
+                amount = item.Total,
+                applyArrears = isApplyArrear
             });
         }
     }
