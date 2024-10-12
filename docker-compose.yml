@@ -8,8 +8,6 @@ services:
       - app_network
     volumes:
       - nextcloud_data:/var/www/html
-      - ./init-nextcloud.sh:/init-nextcloud.sh
-    entrypoint: [ "/bin/bash", "/init-nextcloud.sh" ]
     deploy:
       resources:
         limits:
