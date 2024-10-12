@@ -10,6 +10,7 @@ services:
       - nextcloud_data:/var/www/html
       - ./init-nextcloud.sh:/init-nextcloud.sh
     entrypoint: [ "/bin/bash", "/init-nextcloud.sh" ]
+    user: "33"
     deploy:
       resources:
         limits:
