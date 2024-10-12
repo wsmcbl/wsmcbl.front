@@ -8,11 +8,12 @@ help: ## Show this help message
 
 build: ## Rebuilds all the containers
 	docker-compose build
-	bash ./init-nextcloud.sh
 
 run: ## Start the containers
 	docker network create app_network || true
 	docker-compose up -d
+	sleep 5;
+	bash ./init-nextcloud.sh
 
 stop: ## Stop the containers
 	docker-compose stop
