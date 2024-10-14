@@ -16,7 +16,7 @@ public class ListGrades : ComponentBase
     [Inject] protected IJSRuntime? JsRuntime { get; set; } 
     [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
     [Inject] protected Notificator? Notificator { get; set; }
-    [Inject] protected Navigator Navigator { get; set; }
+    [Inject] protected Navigator Navigator { get; set; } = null!;
 
     protected bool tabsCreated;
     protected List<DegreeEntity>? DegreesList { get; set; }
@@ -37,7 +37,7 @@ public class ListGrades : ComponentBase
     protected async Task OpenModal(string gradeId)
     {
         GradeId = gradeId;
-        await JsRuntime.InvokeVoidAsync("eval", "$('#confGrade').modal('show');");
+        await Navigator.ShowModal("confGrade");
     }
     
     protected void ViewGrade(string gradeId)
@@ -48,21 +48,21 @@ public class ListGrades : ComponentBase
     
     protected async Task CreateTabs(string GradeId, int numberOfTabs)
     {
-        if (numberOfTabs > 0 && numberOfTabs <= 7)
+        if (numberOfTabs is < 1 or >= 7)
         {
-            EnrollmentEntity Default = new();
-            var response = await Controller.CreateEnrollments(GradeId, numberOfTabs, Default);
-            if (response != Default)
-            {
-                OpenNewTab();
-            }
+            await Notificator.ShowWarning("Advertencia", "El número máximo de secciones es 7");
             return;
         }
-        Notificator.ShowWarning("Advertencia", "El numero maximo de secciones es 7");
-    }
-    
-    protected async Task OpenNewTab()
-    {
-        await JsRuntime.InvokeVoidAsync("window.open", $"/secretary/grades/configuration/{GradeId}/{SecctionsNumber}", "_blank");
+        
+        EnrollmentEntity Default = new();
+        var response = await Controller.CreateEnrollments(GradeId, numberOfTabs, Default);
+            
+        if (response == Default)
+        {
+            return;
+        }
+
+        await Navigator.HideModal("confGrade");
+        Navigator.ToPage($"/secretary/grades/configuration/{GradeId}/{SecctionsNumber}");
     }
 }

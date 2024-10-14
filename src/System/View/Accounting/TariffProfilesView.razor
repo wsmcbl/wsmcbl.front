@@ -1,6 +1,7 @@
 @page "/accounting/profiles"
 
-@inherits TariffProfiles
+@using wsmcbl.src.View.Secretary.Profiles;
+
 
 @if (IsLoad())
 {
@@ -11,7 +12,9 @@ else
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de cobro</h6>
-            <a href="/academy/tariff-profiles/new" class="btn btn-success btn-sm" role="button">Nuevo Estudiante</a>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#NewStudentModal">
+                Nuevo estudiante
+            </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -20,8 +23,8 @@ else
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Año Lectivo</th>
                         <th>Tutor</th>
+                        <th>Matrícula</th>
                         <th>Acción</th>
                     </tr>
                     </thead>
@@ -29,8 +32,8 @@ else
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Año Lectivo</th>
                         <th>Tutor</th>
+                        <th>Matrícula</th>
                         <th>Acción</th>
                     </tr>
                     </tfoot>
@@ -40,10 +43,10 @@ else
                         <tr>
                             <td> @item.studentId </td>
                             <td> @item.fullName </td>
-                            <td> @item.schoolyear </td>
                             <td> @item.tutor </td>
+                            <td> @item.enrollmentLabel </td>
                             <td>
-                                <a href="/accouting/tariffcollection/@item.studentId" class="btn btn-success btn-sm">Cobro</a>
+                                <a href="/accounting/tariffcollection/@item.studentId" class="btn btn-success btn-sm">Cobro</a>
                             </td>
                         </tr>
                     }
@@ -52,6 +55,8 @@ else
             </div>
         </div>
     </div>
-    <!-- Inicializamos datatable -->
+    
     <script defer src="/js/demo/datatables-demo.js"></script>
+    
+    <CreateStudentProfile/>
 }

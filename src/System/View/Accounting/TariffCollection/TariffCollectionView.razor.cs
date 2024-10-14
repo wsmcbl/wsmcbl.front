@@ -42,17 +42,19 @@ public partial class TariffCollectionView : ComponentBase
     
     private void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)
     {
-        if (e.Value != null)
+        if (e.Value == null)
+            return;
+
+        var isSelect = (bool)e.Value;
+        var tariffModal = TariffList!.First(t => t.TariffId == tariff.TariffId);
+        
+        if (isSelect && !TariffsToPay.Contains(tariffModal))
         {
-            var isSelect = (bool)e.Value;
-            if (isSelect && TariffsToPay.Contains(tariff))
-            {
-                TariffsToPay.Add(tariff);
-            }
-            else
-            {
-                TariffsToPay!.Remove(tariff);
-            }
+            TariffsToPay.Add(tariffModal);
+        }
+        else
+        {
+            TariffsToPay.Remove(tariffModal);
         }
     }
 

@@ -58,7 +58,7 @@ public partial class CreateStudentProfile : ComponentBase
         {
             await Notificator.ShowSuccess("Se creo un nuevo perfil", "El perfil del estudiante fue creado exitosamente.");
             await Navigator.HideModal("NewStudentModal");
-            Navigator.ToPage($"/accouting/tariffcollection/{response}");
+            Navigator.ToPage($"/accounting/tariffcollection/{response}");
         }
     }
 }

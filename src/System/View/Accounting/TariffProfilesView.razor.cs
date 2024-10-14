@@ -1,22 +1,21 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
-using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Accounting;
 
-public class TariffProfiles : BaseView
+public partial class TariffProfilesView : ComponentBase
 {
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
     
-    protected ICollection<StudentEntity>? StudentList;
+    private ICollection<StudentEntity>? StudentList;
     
     protected override async Task OnInitializedAsync()
     {
         StudentList = await Controller.GetStudentList();
     }
 
-    protected override bool IsLoad()
+    private bool IsLoad()
     {
         return StudentList == null;
     }

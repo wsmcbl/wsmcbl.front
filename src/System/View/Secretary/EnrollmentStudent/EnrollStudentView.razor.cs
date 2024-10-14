@@ -26,10 +26,11 @@ public partial class EnrollStudentView : ComponentBase
 
     protected override async Task OnParametersSetAsync()
     {
-        await LoadStudentInformation();
-        SetStudentData();
         EnrollSheetPdf = [];
         Degrees = [];
+        
+        await LoadStudentInformation();
+        SetStudentData();
     }
 
     private async Task LoadStudentInformation()

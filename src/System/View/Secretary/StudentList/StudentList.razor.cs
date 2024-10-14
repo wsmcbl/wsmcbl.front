@@ -26,8 +26,7 @@ public partial class StudentList : ComponentBase
     {
         return List == null;
     }
-
-
+    
     private byte[] ReportCardPdf { get; set; }
 
     private async Task PrintReportCard(string studentId)

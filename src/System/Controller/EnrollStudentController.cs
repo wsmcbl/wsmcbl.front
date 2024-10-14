@@ -10,7 +10,7 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
     public async Task<List<StudentDto>> GetStudents()
     {
         List<StudentDto> defaultResult = [];
-        return await consumer.GetAsync(Modules.Secretary, "enrollments/degrees", defaultResult);
+        return await consumer.GetAsync(Modules.Secretary, "enrollments/students", defaultResult);
     }
     
     public async Task<List<DegreeBasicDto>> GetDegreeBasicList()
