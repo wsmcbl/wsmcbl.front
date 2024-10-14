@@ -1,4 +1,4 @@
-using wsmcbl.homepage.Components;
+using wsmcbl.src.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 

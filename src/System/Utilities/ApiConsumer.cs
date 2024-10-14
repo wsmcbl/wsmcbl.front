@@ -57,6 +57,7 @@ public class ApiConsumer
     public async Task<bool> PutAsync<T>(Modules modules, string resource, T data)
     {
         try
+        
         {
             var response = await httpClient.PutAsJsonAsync(BuildUri(modules, resource), data);
             if (!response.IsSuccessStatusCode)
@@ -125,7 +126,7 @@ public class ApiConsumer
         }
         catch (Exception ex)
         {
-            await service.ShowError("Error interno.", $"{ex.Message} Trace: {ex.StackTrace}");
+            await service.ShowError("Error interno.", ex.Message);
         }
 
         return defaultResult;
