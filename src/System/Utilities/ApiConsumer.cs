@@ -106,7 +106,7 @@ public class ApiConsumer
     }
 
 
-    private async Task<T> Template<T>([DisallowNull] T defaultResult, HttpResponseMessage response)
+    private async Task<T> Template<T>(T defaultResult, HttpResponseMessage response)
     {
         try
         {

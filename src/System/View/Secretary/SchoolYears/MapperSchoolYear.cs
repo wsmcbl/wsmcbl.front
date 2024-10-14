@@ -30,16 +30,15 @@ public static class MapperSchoolYear
         };
     }
     
-    private static TariffCreateNewSchoolYearDto MapToTariffCreateNewSchoolYearDto(SchoolYearTariffs tariffs)
+    private static TariffCreateNewSchoolYearDto? MapToTariffCreateNewSchoolYearDto(SchoolYearTariffs? tariffs)
     {
-        if (tariffs == null) return null;
-
-        return new TariffCreateNewSchoolYearDto
+        return tariffs == null ? null:
+            new TariffCreateNewSchoolYearDto
         {
-            schoolYear = tariffs.SchoolYear,
+            schoolYear = tariffs.SchoolYear!,
             concept = tariffs.Concept,
             amount = tariffs.Amount,
-            DueDateEntity = MapperDate.ConvertDateOnlyToDate(tariffs.OnlyDate),
+            DueDateEntity = tariffs.OnlyDate.ToEntity()!,
             type = tariffs.Type,
             modality = tariffs.Modality
         };

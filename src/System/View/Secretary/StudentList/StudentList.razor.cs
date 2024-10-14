@@ -11,8 +11,12 @@ public partial class StudentList : ComponentBase
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; }
     protected ICollection<StudentEntity>? List { get; set; }
-    protected byte[]? pdfContent;
-    
+
+    protected override void OnParametersSet()
+    {
+        ReportCardPdf = [];
+    }
+
     protected override async Task OnInitializedAsync()
     {
         List = await Controller.GetStudentList();
@@ -22,15 +26,19 @@ public partial class StudentList : ComponentBase
     {
         return List == null;
     }
-    
-    protected async Task PrintSheetCalification(string studentId)
+
+
+    private byte[] ReportCardPdf { get; set; }
+
+    private async Task PrintReportCard(string studentId)
     {
-        pdfContent = await PrintController.GetPdfContent(studentId);
+        ReportCardPdf = await PrintController.GetPdfContent(studentId);
         
-        if (pdfContent == null || pdfContent.Length == 0)
+        if(ReportCardPdf.Length == 0)
         {
             return;
         }
-        await Navigator.ShowModal("ModalCalificationPdf");
+
+        await Navigator.ShowPdfModal();
     }
 }

@@ -11,59 +11,34 @@ public static class MapperDate
         {
             concept = schoolYearTariffs.Concept,
             amount = schoolYearTariffs.Amount,
-            DueDateEntity = ConvertDateOnlyToDate(schoolYearTariffs.OnlyDate),
+            DueDateEntity = schoolYearTariffs.OnlyDate.ToEntity(),
             typeId = schoolYearTariffs.Type,
             modality = schoolYearTariffs.Modality
         };
     }
     
-    public static DateEntity? ConvertDateOnlyToDate(DateOnly? dateOnly)
+    public static DateEntity? ToEntityOrNull(this DateOnly? dateOnly)
     {
-        if (dateOnly.HasValue)
+        return dateOnly == null ? null : ToEntity((DateOnly)dateOnly);
+    }
+
+    public static DateEntity ToEntity(this DateOnly dateOnly) => new(dateOnly);
+
+    public static int AgeCompute(this DateOnly? birthday)
+    {
+        if (birthday == null)
         {
-            if (dateOnly.Value.Day == 1 && dateOnly.Value.Month == 1 && dateOnly.Value.Year == 1)
-            {
-                return null;
-            }
-            
-            return new DateEntity
-            {
-                year = dateOnly.Value.Year,
-                month = dateOnly.Value.Month,
-                day = dateOnly.Value.Day
-            };
-        }
-        return null;
-    }
-    
-    public static DateOnly DateClassToDateOnly(DateEntity date)
-    {
-        return new DateOnly(date.year, date.month, date.day);
-    }
-    
-    public static DateOnly DateClassToDateNow(DateEntity date)
-    {
-        return new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-    }
-    
-    public static int? CalcularEdad(DateOnly? fechaNacimiento)
-    {
-        if (fechaNacimiento == null)
-        {
-            return null; 
+            return 0;
         }
 
-        DateOnly fechaActual = DateOnly.FromDateTime(DateTime.Now);
-        int edad = fechaActual.Year - fechaNacimiento.Value.Year;
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        var age = today.Year - birthday.Value.Year;
 
-        if (fechaActual < fechaNacimiento.Value.AddYears(edad))
+        if (today < birthday.Value.AddYears(age))
         {
-            edad--;
+            age--;
         }
 
-        return edad;
+        return age;
     }
-
-
-    
 }

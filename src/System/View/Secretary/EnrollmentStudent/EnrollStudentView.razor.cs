@@ -7,45 +7,47 @@ using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
 namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
 
-public class EnrollStudent : ComponentBase
+public partial class EnrollStudentView : ComponentBase
 {
-    [Parameter] public string StudentId { get; set; }
-    [Inject] protected IEnrollStudentController Controller { get; set; }
-    [Inject] protected Notificator Notificator { get; set; }
-    [Inject] protected Navigator Navigator { get; set; }
+    [Parameter] public string StudentId { get; set; } = null!;
+    [Inject] protected IEnrollStudentController Controller { get; set; } = null!;
+    [Inject] protected Notificator Notificator { get; set; } = null!;
+    [Inject] protected Navigator Navigator { get; set; } = null!;
 
-    protected StudentEntity Student;
-    protected int Age;
-    protected string Sex;
-    protected string SelectActive;
-    
-    protected List<DegreeBasicDto> Degrees = new();
-    protected List<EnrollmentsBasicDto> CurrentEnrollments = [];
-    protected int CurrentEnrollmentCapacity, CurrentEnrollmentQuantity;
-    protected string EnrollmentIdSelectec;
+    private StudentEntity? Student { get; set; }
+    private int Age { get; set; }
+    private string Sex;
+    private string SelectActive;
+
+    private List<DegreeBasicDto> Degrees = null!;
+    private List<EnrollmentsBasicDto> CurrentEnrollments = [];
+    private int CurrentEnrollmentCapacity, CurrentEnrollmentQuantity;
+    private string EnrollmentIdSelected;
 
     protected override async Task OnParametersSetAsync()
     {
-        await loadStudentInformation();
+        await LoadStudentInformation();
         SetStudentData();
+        EnrollSheetPdf = [];
+        Degrees = [];
     }
 
-    private async Task loadStudentInformation()
+    private async Task LoadStudentInformation()
     {  
         Student = await Controller.GetInfoStudent(StudentId);
         Degrees = await Controller.GetDegreeBasicList();
     }
 
-    protected void SetStudentData()
+    private void SetStudentData()
     { 
-        Age = MapperDate.CalcularEdad(Student.birthday) ?? 0;
+        Age = Student!.birthday.AgeCompute();
         SelectActive = Student.isActive ? "true" : "false";
         Sex = Student.sex ? "true" : "false";
         Student.parents[0].sex = false;
         Student.parents[1].sex = true;
     }
     
-    protected void GetSelectDegreeId(ChangeEventArgs e)
+    private void GetSelectDegreeId(ChangeEventArgs e)
     {
         var selectDegreeId = e.Value.ToString();
         setCurrentEnrollmentsByDegreeId(selectDegreeId);
@@ -57,19 +59,19 @@ public class EnrollStudent : ComponentBase
         CurrentEnrollments = selectedDegree.enrollments;
     }
 
-    protected void GetSection(ChangeEventArgs e)
+    private void GetSection(ChangeEventArgs e)
     {
         var selectEnrollmentId = e.Value.ToString();
         var enrollment = CurrentEnrollments.FirstOrDefault(e => e.enrollmentId == selectEnrollmentId);
         
-        EnrollmentIdSelectec = enrollment.enrollmentId;
+        EnrollmentIdSelected = enrollment.enrollmentId;
         CurrentEnrollmentCapacity = enrollment.capacity;
         CurrentEnrollmentQuantity = enrollment.quantity;
     }
     
-    protected async Task SaveEnrollment()
+    private async Task SaveEnrollment()
     {
-        Student.isActive = SelectActive.ToLower() == "true";
+        Student!.isActive = SelectActive.ToLower() == "true";
         Student.sex = Sex.ToLower() == "true";
 
         for (var index = 0; index < 2; index++)
@@ -80,19 +82,25 @@ public class EnrollStudent : ComponentBase
             }
         }
         
-        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelectec);
+        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected);
         if (response)
         {
-            await Notificator.ShowSuccess("Exito", "Matricula guardada exitosamente");
-            await loadStudentInformation();
+            await Notificator.ShowSuccess("Exito", "Matrícula guardada exitosamente");
+            await LoadStudentInformation();
             StateHasChanged();
         }
     }
-    
-    protected byte[] pdfContent;
-    protected async Task PrintSheetEnrollment(string studenId)
+
+    private byte[] EnrollSheetPdf { get; set; }
+    private async Task PrintEnrollSheet(string studentId)
     {
-        pdfContent = await Controller.GetPdfContent(studenId);
-        await Navigator.ShowModal("ModalPdf");
+        EnrollSheetPdf = await Controller.GetEnrollSheetPdf(studentId);
+
+        if (EnrollSheetPdf.Length == 0)
+        {
+            return;
+        }
+
+        await Navigator.ShowPdfModal();
     }
 }

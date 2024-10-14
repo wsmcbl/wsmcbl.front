@@ -6,8 +6,8 @@ namespace wsmcbl.src.Controller;
 public interface IEnrollStudentController
 {
     public Task<List<StudentDto>> GetStudents();
-    public Task<StudentEntity> GetInfoStudent(string StudentID);
-    public Task<byte[]?> GetPdfContent(string StudentID);
+    public Task<StudentEntity> GetInfoStudent(string studentId);
+    public Task<byte[]> GetEnrollSheetPdf(string studentId);
     public Task<List<DegreeBasicDto>> GetDegreeBasicList();
     public Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId);
 }

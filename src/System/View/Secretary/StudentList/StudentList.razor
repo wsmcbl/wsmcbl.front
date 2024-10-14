@@ -1,4 +1,6 @@
 @page "/secretary/students"
+
+@using wsmcbl.src.View.Components;
 @using wsmcbl.src.View.Secretary.Profiles;
 
 @if (IsLoad())
@@ -52,7 +54,7 @@ else
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header">Seleccione una opción:</div>
-                                        <a class="dropdown-item" @onclick="() => PrintSheetCalification(item.studentId)">Ver boleta</a>
+                                        <a class="dropdown-item" @onclick="() => PrintReportCard(item.studentId)">Ver boleta</a>
                                         <a class="dropdown-item" href="#">Ver Perfil</a>
                                         <a class="dropdown-item" href="#">Ver historial de calificaciones</a>
                                         <div class="dropdown-divider"></div>
@@ -68,36 +70,8 @@ else
         </div>
     </div>
     
-    <!-- Visor de PDf-->
-    <div class="modal fade" id="ModalCalificationPdf" tabindex="-1" role="dialog" aria-labelledby="PdfModal" aria-hidden="true">
-        <div class="modal-dialog" role="document"
-             style="width: 60%; height: 30%; max-width: 60%; max-height: 30%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalPdfTitle">Boleta de calificaciones</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    @if (pdfContent != null)
-                    {
-                        <iframe src="data:application/pdf;base64,@Convert.ToBase64String(pdfContent)" width="100%" height="600px"></iframe>
-                    }
-                </div>
-
-                <div class="modal-footer">
-                    <div class="right-container">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- Visor de PDf-->    
-
+    <PdfViewer Title="Boleta de calificaciones" PdfContent="@ReportCardPdf"/>
+    
     <CreateStudentProfile></CreateStudentProfile>
     
     <!-- Inicializamos datatable -->

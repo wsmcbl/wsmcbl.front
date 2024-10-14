@@ -6,6 +6,10 @@ public class DateEntity
     public int month { get; set; }
     public int day { get; set; }
 
+    public DateEntity()
+    {
+    }
+
     public DateEntity(int year, int month, int day)
     {
         this.year = year;
@@ -19,10 +23,10 @@ public class DateEntity
 
     public DateEntity(DateTime dateTime) : this(DateOnly.FromDateTime(dateTime))
     {
-        
     }
 
-    public DateEntity()
+    public DateOnly ToDateOnly()
     {
+        return new DateOnly(year, month, day);
     }
 }

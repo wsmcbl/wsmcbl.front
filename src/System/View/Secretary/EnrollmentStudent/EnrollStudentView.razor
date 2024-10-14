@@ -1,5 +1,6 @@
 @page "/secretary/enrollments/students/{StudentId}"
-@inherits EnrollStudent;
+
+@using wsmcbl.src.View.Components;
 
 @if (Student != null)
 {
@@ -8,7 +9,9 @@
         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
-                   aria-controls="PanelStudent" aria-selected="true">Información del Estudiante</a>
+                   aria-controls="PanelStudent" aria-selected="true">
+                    Información del Estudiante
+                </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="TabAcademy" data-toggle="tab" href="#PanelTutor" role="tab"
@@ -28,7 +31,7 @@
             Guardar
         </button>
         <button type="button" class="btn btn-success"
-                @onclick="(e) => PrintSheetEnrollment(Student.studentId)">
+                @onclick="(e) => PrintEnrollSheet(Student.studentId)">
             Imprimir Hoja de Matricula
         </button>
     </div>
@@ -40,7 +43,7 @@
                     <div class="col-12 col-md-4" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body">
-                                <label class="label-required" style="display: inline-block; width: 200px;" >Primer Nombre:</label>
+                                <label class="label-required" style="display: inline-block; width: 200px;">Primer Nombre:</label>
                                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.name">
 
                                 <label style="display: inline-block; width: 200px;">Segundo Nombre:</label>
@@ -228,45 +231,13 @@
 
         </div>
     </div>
-    
-<!-- Visor de PDf-->
-<div class="modal fade" id="ModalPdf" tabindex="-1" role="dialog" aria-labelledby="PdfModal" aria-hidden="true">
-    <div class="modal-dialog" role="document"
-         style="width: 60%; height: 30%; max-width: 60%; max-height: 30%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalPdfTitle">Hoja de matricula</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-body">
-                @if (pdfContent != null)
-                {
-                    <iframe src="data:application/pdf;base64,@Convert.ToBase64String(pdfContent)" width="100%" height="600px"></iframe>
-                }
-            </div>
 
-            <div class="modal-footer">
-                <div class="right-container">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
+    <PdfViewer Title="Hoja de matrícula" PdfContent="@EnrollSheetPdf"/>
 
-        </div>
     </div>
-</div>
-<!-- Visor de PDf-->
-
-    
-</div>
 }
 else
 {
     <div class="loader"></div>
 }
-
-
-
-

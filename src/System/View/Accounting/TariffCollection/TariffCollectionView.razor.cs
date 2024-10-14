@@ -115,12 +115,11 @@ public partial class TariffCollectionView : ComponentBase
             await Notificator.ShowError("¡Error en el Pago!", "La transacción no se completó.");
             return;
         }
-
-        await Notificator.ShowSuccess("¡Pago Exitoso!", $"La transacción se completó correctamente. Id: {result}");
+        await Notificator.ShowSuccess("¡Pago Exitoso!", $"La transacción se completó correctamente.");
         await Navigator.HideModal("finistariff");
         
         InvoicePdf = await Controller.GetInvoice(result);
-        await Navigator.ShowModal("PdfViewerModal");
+        await Navigator.ShowPdfModal();
         
         await LoadStudent();
         ClearList();
@@ -131,37 +130,5 @@ public partial class TariffCollectionView : ComponentBase
     {
         ComputeTotal();
         await Navigator.ShowModal("finistariff");
-    }
-
-    protected void DistributePay()
-    {
-        if (AmountToDivide <= 0)
-            return;
-
-        foreach (var item in getDebtTariffList())
-        {
-            if (item.Total > AmountToDivide)
-            {
-                item.Total = Math.Round(AmountToDivide, 1);
-            }
-
-            TariffsToPay!.Add(item);
-
-            AmountToDivide -= item.Total;
-
-            if (AmountToDivide == 0)
-            {
-                break;
-            }
-        }
-
-        ComputeTotal();
-    }
-
-    private List<TariffModalDto> getDebtTariffList()
-    {
-        return TariffModalList!
-            .Where(item => TariffList!.First(t => t.TariffId == item.TariffId).Type == 1)
-            .ToList();
     }
 }

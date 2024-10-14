@@ -33,4 +33,9 @@ public class Navigator
     {
         await jsRuntime.InvokeVoidAsync("eval", $"$('#{modalId}').modal('hide');");
     }
+
+    public async Task ShowPdfModal()
+    {
+        await ShowModal("PdfViewerModal");
+    }
 }

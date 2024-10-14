@@ -1,4 +1,3 @@
-using System.Text.Json;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollmentStudent;
 using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
@@ -10,26 +9,20 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
 {
     public async Task<List<StudentDto>> GetStudents()
     {
-        var resource = "enrollments/students";
         List<StudentDto> defaultResult = [];
-        return await consumer.GetAsync(Modules.Secretary, resource, defaultResult);
+        return await consumer.GetAsync(Modules.Secretary, "enrollments/degrees", defaultResult);
     }
     
     public async Task<List<DegreeBasicDto>> GetDegreeBasicList()
     {
-        var resource = "enrollments/degrees";
         List<DegreeBasicDto> defaultResult = [];
-        return await consumer.GetAsync(Modules.Secretary, resource, defaultResult);
+        return await consumer.GetAsync(Modules.Secretary, "enrollments/degrees", defaultResult);
     }
 
     public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId)
     {
         var content = MapperStudent.MapToEnrollmentDto(student, enrollmentId);
-        
-        string jsonContent = JsonSerializer.Serialize(content, new JsonSerializerOptions { WriteIndented = true });
-        
-        var result = await consumer.PutAsync(Modules.Secretary, "enrollments", content);
-        return result;
+        return await consumer.PutAsync(Modules.Secretary, "enrollments", content);
     }
 
     public async Task<StudentEntity> GetInfoStudent(string studentId)
@@ -41,10 +34,9 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
         return MapperStudent.MapToEntity(studentResult);
     }
     
-    public async Task<byte[]?> GetPdfContent(string studentId)
+    public async Task<byte[]> GetEnrollSheetPdf(string studentId)
     {
         var resource = $"enrollments/documents/{studentId}";
-        var content = await consumer.GetPdfAsync(Modules.Secretary, resource);
-        return content;
+        return await consumer.GetPdfAsync(Modules.Secretary, resource);
     }
 }
