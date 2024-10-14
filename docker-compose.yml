@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   nextcloud:
     image: nextcloud
@@ -5,7 +7,7 @@ services:
     depends_on:
       - db_nextcloud
     networks:
-      - app_network
+      - app-network
     volumes:
       - nextcloud_data:/var/www/html
     deploy:
@@ -25,7 +27,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - app_network
+      - app-network
     deploy:
       resources:
         limits:
@@ -43,7 +45,7 @@ services:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     networks:
-      - app_network
+      - app-network
 
   system:
     build:
@@ -52,7 +54,7 @@ services:
     restart: unless-stopped
     container_name: system
     networks:
-      - app_network
+      - app-network
     environment:
       API: ${API}
       
@@ -63,12 +65,13 @@ services:
     restart: unless-stopped
     container_name: homepage
     networks:
-      - app_network
+      - app-network
         
         
 volumes:
-  db_data: { }
-  nextcloud_data: { }
+  db_data:
+  nextcloud_data:
 
 networks:
-  app_network:
+  app-network:
+    external: true

@@ -40,10 +40,10 @@ public class ListGrades : ComponentBase
         await JsRuntime.InvokeVoidAsync("eval", "$('#confGrade').modal('show');");
     }
     
-    protected async Task ViewGrade(string gradeId)
+    protected void ViewGrade(string gradeId)
     {
         GradeId = gradeId;
-        await Navigator.ToPage($"/secretary/grades/configuration/{gradeId}/1");
+        Navigator.ToPage($"/secretary/grades/configuration/{gradeId}/1");
     }
     
     protected async Task CreateTabs(string GradeId, int numberOfTabs)

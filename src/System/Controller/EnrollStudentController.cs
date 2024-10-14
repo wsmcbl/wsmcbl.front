@@ -44,8 +44,7 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
     public async Task<byte[]?> GetPdfContent(string studentId)
     {
         var resource = $"enrollments/documents/{studentId}";
-        byte[] defaultResult = [];
-        var content = await consumer.GetPdfAsync(Modules.Secretary, resource, defaultResult);
+        var content = await consumer.GetPdfAsync(Modules.Secretary, resource);
         return content;
     }
 }

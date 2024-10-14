@@ -1,23 +1,36 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace wsmcbl.src.Utilities;
 
 public class Navigator
 {
-    private IJSRuntime JsRuntime { get; set; } = null!;
+    private readonly IJSRuntime jsRuntime;
+    private readonly NavigationManager navigation;
 
-    public Navigator(IJSRuntime jsRuntime)
+    public Navigator(IJSRuntime jsRuntime, NavigationManager navigation)
     {
-        JsRuntime = jsRuntime;
+        this.jsRuntime = jsRuntime;
+        this.navigation = navigation;
     }
 
-    public async Task ToPage(string uri)
+    public void ToPage(string uri)
     {
-        await JsRuntime.InvokeVoidAsync("window.open",uri, "_blank");   
+        if (string.IsNullOrEmpty(uri))
+        {
+            throw new InternalException("Uri must be not null.");
+        }
+        
+        navigation.NavigateTo(uri);
     }
 
-    public async Task InvokeModal(string identifier, string modal)
+    public async Task ShowModal(string modalId)
     {
-        await JsRuntime.InvokeVoidAsync(identifier, modal);
+        await jsRuntime.InvokeVoidAsync("eval", $"$('#{modalId}').modal('show');");
+    }
+
+    public async Task HideModal(string modalId)
+    {
+        await jsRuntime.InvokeVoidAsync("eval", $"$('#{modalId}').modal('hide');");
     }
 }

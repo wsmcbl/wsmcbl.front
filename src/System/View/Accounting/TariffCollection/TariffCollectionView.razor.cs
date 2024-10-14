@@ -5,7 +5,7 @@ using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
-public class TariffCollection : ComponentBase
+public partial class TariffCollectionView : ComponentBase
 {
     [Parameter] public string? StudentId { get; set; }
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
@@ -37,6 +37,7 @@ public class TariffCollection : ComponentBase
             throw new InternalException("Student ID is not valid.");
         }
 
+        InvoicePdf = [];
         await LoadStudent();
 
         TariffList = await Controller.GetTariffListByStudentId(StudentId);
@@ -102,7 +103,7 @@ public class TariffCollection : ComponentBase
         Total += (AreArrearsApply ? -1 : 1) * Arrears;
     }
 
-    protected byte[]? InvoicePdf { get; set; }
+    protected byte[] InvoicePdf { get; set; }
     protected async Task MakePay()
     {
         Controller.BuildTransaction(TariffsToPay!, AreArrearsApply);
@@ -111,13 +112,16 @@ public class TariffCollection : ComponentBase
 
         if (string.IsNullOrEmpty(result))
         {
-            await Notificator.ShowError("¡Error en el Pago!", "La transacción no se completó correctamente.");
+            await Notificator.ShowError("¡Error en el Pago!", "La transacción no se completó.");
             return;
         }
 
-        await Notificator.ShowSuccess("¡Pago Exitoso!", "La transacción se completó correctamente.");
+        await Notificator.ShowSuccess("¡Pago Exitoso!", $"La transacción se completó correctamente. Id: {result}");
+        await Navigator.HideModal("finistariff");
+        
         InvoicePdf = await Controller.GetInvoice(result);
-
+        await Navigator.ShowModal("PdfViewerModal");
+        
         await LoadStudent();
         ClearList();
         StateHasChanged();
@@ -125,9 +129,8 @@ public class TariffCollection : ComponentBase
 
     protected async Task ConfirmTransaction()
     {
-        var modal = TariffsToPay!.Count == 0 ? "middlePay" : "finistariff";
         ComputeTotal();
-        await Navigator.InvokeModal("showModal", modal);
+        await Navigator.ShowModal("finistariff");
     }
 
     protected void DistributePay()

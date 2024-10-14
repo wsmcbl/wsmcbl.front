@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -73,17 +74,13 @@ public class ConfigureGrade : BaseView
         }
     }
     
-    
     protected void OnTeacherGuideChanged(EnrollmentEntity enrollment, string selectedTeacherId)
     {
         enrollment.teacherId = selectedTeacherId;
     }
     
-    
-    
     protected override bool IsLoad()
     {   
         return NumberEnrollment > 0 && DegreeEntity.EnrollmentList != null && TeacherList.Count != 0;
     }
-    
 }

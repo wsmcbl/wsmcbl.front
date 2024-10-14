@@ -8,6 +8,7 @@ public partial class PdfViewer : ComponentBase
     public string Title { get; set; } = null!;
     
     [Parameter]
-    public byte[]? PdfContent { get; set; } 
-    
+    public byte[]? PdfContent { get; set; }
+
+    private bool hasPdf() =>  PdfContent != null && PdfContent.Length != 0;
 }

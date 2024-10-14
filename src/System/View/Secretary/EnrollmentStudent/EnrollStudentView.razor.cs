@@ -93,6 +93,6 @@ public class EnrollStudent : ComponentBase
     protected async Task PrintSheetEnrollment(string studenId)
     {
         pdfContent = await Controller.GetPdfContent(studenId);
-        await Navigator.InvokeModal("eval", "$('#ModalPdf').modal('show');");
+        await Navigator.ShowModal("ModalPdf");
     }
 }

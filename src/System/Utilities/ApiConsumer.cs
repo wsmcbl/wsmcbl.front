@@ -1,5 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace wsmcbl.src.Utilities;
 
@@ -8,13 +8,24 @@ public class ApiConsumer
     private readonly HttpClient httpClient;
     private readonly Notificator service;
 
-    private readonly string _connectionString;
-
     public ApiConsumer(HttpClient httpClient, Notificator notificator)
     {
         this.httpClient = httpClient;
         service = notificator;
-        _connectionString = Environment.GetEnvironmentVariable("API") ?? "http://localhost:4000/v2";
+        SetServerUri();
+    }
+
+    
+    private Uri? _server;
+    private void SetServerUri()
+    {
+        var api = Environment.GetEnvironmentVariable("API");
+        if(string.IsNullOrEmpty(api))
+        {
+            api = "http://localhost:4000";
+        }
+
+        _server = new Uri($"{api}/v2");
     }
 
     private Uri BuildUri(Modules modules, string resource)
@@ -27,7 +38,7 @@ public class ApiConsumer
             _ => ""
         };
 
-        return new Uri($"{_connectionString}/{moduleDir}/{resource.TrimStart('/')}");
+        return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
     }
 
     public async Task<T> GetAsync<T>(Modules module, string resource, T defaultResult)
@@ -68,9 +79,8 @@ public class ApiConsumer
         return false;
     }
 
-    public async Task<byte[]?> GetPdfAsync(Modules module, string resource, byte[] defaultResult = null)
+    public async Task<byte[]> GetPdfAsync(Modules module, string resource)
     {
-        var result = defaultResult ?? [];
         try
         {
             var response = await httpClient.GetAsync(BuildUri(module, resource));
@@ -81,7 +91,7 @@ public class ApiConsumer
                     $"({problem.Status}) {problem.Detail}");
             }
 
-            result = await response.Content.ReadAsByteArrayAsync();
+            return await response.Content.ReadAsByteArrayAsync();
         }
         catch (InternalException ex)
         {
@@ -92,13 +102,12 @@ public class ApiConsumer
             await service.ShowError("Error interno.", ex.Message);
         }
 
-        return result;
+        return [];
     }
 
 
-    private async Task<T> Template<T>(T defaultResult, HttpResponseMessage response)
+    private async Task<T> Template<T>([DisallowNull] T defaultResult, HttpResponseMessage response)
     {
-        var result = defaultResult;
         try
         {
             if (!response.IsSuccessStatusCode)
@@ -108,7 +117,7 @@ public class ApiConsumer
                     $"({problem.Status}) {problem.Detail}");
             }
 
-            result = await response.Content.ReadFromJsonAsync<T>();
+            defaultResult = await response.Content.ReadFromJsonAsync<T>();
         }
         catch (InternalException ex)
         {
@@ -116,9 +125,9 @@ public class ApiConsumer
         }
         catch (Exception ex)
         {
-            await service.ShowError("Error interno.", ex.Message);
+            await service.ShowError("Error interno.", $"{ex.Message} Trace: {ex.StackTrace}");
         }
 
-        return result;
+        return defaultResult;
     }
 }

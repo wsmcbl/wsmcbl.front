@@ -3,6 +3,9 @@
 .idea/
 .vscode/
 
+data/
+letsencrypt/
+
 obj/
 bin/
 Properties/

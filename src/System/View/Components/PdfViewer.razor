@@ -1,4 +1,4 @@
-<div class="modal fade" id="ModalPdf" tabindex="-1" role="dialog" aria-labelledby="PdfModal" aria-hidden="true">
+<div class="modal fade" id="PdfViewerModal" tabindex="-1" aria-labelledby="PdfViewerModal" aria-hidden="true">
     <div class="modal-dialog" role="document"
          style="width: 60%; height: 30%; max-width: 60%; max-height: 30%;">
         <div class="modal-content">
@@ -10,9 +10,10 @@
             </div>
 
             <div class="modal-body">
-                @if (PdfContent != null)
+                @if (hasPdf())
                 {
-                    <iframe src="data:application/pdf;base64,@Convert.ToBase64String(PdfContent)" width="100%" height="600px"></iframe>
+                    <iframe src="data:application/pdf;base64,@Convert.ToBase64String(PdfContent!)"
+                            width="100%" height="600px"></iframe>
                 }
             </div>
 
@@ -25,4 +26,3 @@
         </div>
     </div>
 </div>
-<!-- Visor de PDf-->

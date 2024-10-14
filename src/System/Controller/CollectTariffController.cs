@@ -40,15 +40,16 @@ public class CollectTariffController
     public async Task<string> SendPay()
     {
         var defaultResult = new TransactionEntity();
-        var result = await Consumer.PostAsync(Modules.Accounting, "transactions", Transaction, defaultResult);
+        var result = await Consumer
+            .PostAsync(Modules.Accounting, "transactions", Transaction, defaultResult);
 
-        return result!.studentId;
+        return result!.transactionId!;
     }
 
     public async Task<byte[]> GetInvoice(string transactionId)
     {
         var resource = $"documents/invoices/{transactionId}";
-        return (await Consumer.GetPdfAsync(Modules.Accounting, resource))!;
+        return await Consumer.GetPdfAsync(Modules.Accounting, resource);
     }
     
     public void BuildTransaction(List<TariffModalDto> tariffs, bool isApplyArrears)
@@ -62,6 +63,7 @@ public class CollectTariffController
     {
         Transaction = new TransactionEntity
         {
+            transactionId = "",
             studentId = StudentId,
             cashierId = CashierId,
             dateTime = DateTime.UtcNow,
@@ -69,11 +71,11 @@ public class CollectTariffController
         };
     }
     
-    private void AddDetail(List<TariffModalDto> tariffs, bool isApplyArrear)
+    private void AddDetail(List<TariffModalDto> tariffs, bool isApplyArrears)
     {
         foreach (var item in tariffs)
         {
-            if (!isApplyArrear)
+            if (!isApplyArrears)
             {
                 item.Arrear = 0;
                 item.ComputeTotal();
@@ -83,7 +85,7 @@ public class CollectTariffController
             {
                 tariffId = item.TariffId,
                 amount = item.Total,
-                applyArrears = isApplyArrear
+                applyArrears = isApplyArrears
             });
         }
     }

@@ -15,7 +15,7 @@ public class CustomErrorBoundary : ErrorBoundary
         if (exception is InternalException internalException)
         {
             title = internalException.Title;
-            error = internalException.Content + internalException;
+            error = internalException.Content + internalException.StackTrace;
         }
 
         await Notificator!.ShowError(title, error);

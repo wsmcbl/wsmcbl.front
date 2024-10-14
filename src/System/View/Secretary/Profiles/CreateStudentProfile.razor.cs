@@ -9,28 +9,30 @@ public partial class CreateStudentProfile : ComponentBase
 {
     [Inject] protected CreateStudentProfileController Controller { get; set; }
     [Inject] protected Navigator Navigator { get; set; }
+    [Inject] protected Notificator Notificator { get; set; }
+    
     protected NewStudentDto NewStudent { get; set; } = null!;
     protected bool selectSex { get; set; }
     protected int selectModality { get; set; }
     protected DateOnly dateonCreate { get; set; }
-    
-    protected List<(bool Id, string Gender)> sexo { get; set; }
-    protected List<(int Id, string Modality)> modalitySelect { get; set; }
+
+    protected List<(bool Id, string Gender)> sex { get; set; } = null!;
+    protected List<(int Id, string Modality)> modalitySelect { get; set; } = null!;
     
     protected override void OnInitialized()
     {
-        sexo = new List<(bool Id, string Gender)>
-        {
+        sex =
+        [
             (false, "Femenino"),
             (true, "Masculino")
-        };
+        ];
 
-        modalitySelect = new List<(int Id, string Modality)>
-        {
+        modalitySelect =
+        [
             (1, "Preescolar"),
             (2, "Primaria"),
             (3, "Secundaria")
-        };
+        ];
         
         NewStudent = new NewStudentDto
         {
@@ -50,11 +52,13 @@ public partial class CreateStudentProfile : ComponentBase
         NewStudent.student.sex = selectSex;
         NewStudent.educationalLevel = selectModality;
         
-        var resonse = await Controller.CreateNewStudent(NewStudent);
+        var response = await Controller.CreateNewStudent(NewStudent);
 
-        if (resonse !=null)
+        if (response !=null)
         {
-            Navigator.ToPage($"/accouting/tariffcollection/{resonse}");
+            await Notificator.ShowSuccess("Se creo un nuevo perfil", "El perfil del estudiante fue creado exitosamente.");
+            await Navigator.HideModal("NewStudentModal");
+            Navigator.ToPage($"/accouting/tariffcollection/{response}");
         }
     }
 }
