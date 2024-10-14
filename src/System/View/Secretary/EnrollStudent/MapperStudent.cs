@@ -1,8 +1,8 @@
 using wsmcbl.src.Model.Secretary;
-using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears;
 
-namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
+namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
 public static class MapperStudent
 {

@@ -1,7 +1,7 @@
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+namespace wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
 public class StudentFullDto
 {

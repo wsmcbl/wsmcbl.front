@@ -26,14 +26,16 @@
                 </a>
             </li>
         </ul>
-        <button type="button" class="btn btn-success"
-                @onclick="(e) => SaveEnrollment()">
-            Guardar
-        </button>
-        <button type="button" class="btn btn-success"
-                @onclick="(e) => PrintEnrollSheet(Student.studentId)">
-            Imprimir Hoja de Matricula
-        </button>
+        <div>
+            <button type="button" class="btn btn-success"
+                    @onclick="(e) => SaveEnrollment()">
+                Guardar
+            </button>
+            <button type="button" class="btn btn-success"
+                    @onclick="(e) => PrintEnrollSheet(Student.studentId)">
+                Imprimir Hoja de Matrícula
+            </button>
+        </div>
     </div>
 
     <div class="card-body" id="tabContent">

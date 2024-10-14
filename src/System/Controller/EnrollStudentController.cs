@@ -1,6 +1,6 @@
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.EnrollmentStudent;
-using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using wsmcbl.src.View.Secretary.EnrollStudent;
+using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
 namespace wsmcbl.src.Controller;

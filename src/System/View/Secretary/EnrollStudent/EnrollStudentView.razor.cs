@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears;
 using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
-namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
+namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
 public partial class EnrollStudentView : ComponentBase
 {

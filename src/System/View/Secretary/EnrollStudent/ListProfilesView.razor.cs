@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.View.Secretary.EnrollmentStudent.Dto;
+using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
-namespace wsmcbl.src.View.Secretary.EnrollmentStudent;
+namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
-public class ListProfiles : ComponentBase
+public partial class ListProfilesView : ComponentBase
 {
     [Inject] protected IEnrollStudentController Controller { get; set; }
     protected ICollection<StudentDto>? Students { get; private set; }
