@@ -4,11 +4,9 @@ namespace wsmcbl.src.View.Components;
 
 public partial class PdfViewer : ComponentBase
 {
-    [Parameter]
-    public string Title { get; set; } = null!;
+    [Parameter] public string Title { get; set; } = null!;
     
-    [Parameter]
-    public byte[]? PdfContent { get; set; }
+    [Parameter] public byte[]? PdfContent { get; set; }
 
     private bool hasPdf() =>  PdfContent != null && PdfContent.Length != 0;
 }

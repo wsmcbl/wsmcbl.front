@@ -11,25 +11,15 @@ public partial class TariffCollectionView : ComponentBase
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; private set; } = null!;
+    
+    protected List<TariffEntity>? TariffList { get; set; }
+    protected List<TariffEntity>? TariffsToPay { get; set; }
 
+    
+    protected StudentEntity? Student { get; private set; }
+    protected bool IsLoading() => Student == null || TariffList == null;
 
-    protected double Arrears { get; set; }
-    protected double Subtotal { get; set; }
-    protected double Discount { get; set; }
-    protected double Total { get; set; }
-
-    protected double AmountToDivide { get; set; }
-    private bool AreArrearsApply { get; set; } = true;
-
-
-    protected List<TariffDto>? TariffList { get; set; }
-    private List<TariffModalDto>? TariffModalList { get; set; }
-    protected List<TariffModalDto>? TariffsToPay { get; set; }
-
-    protected StudentEntity? StudentEntity { get; private set; }
-
-    protected bool IsLoading() => StudentEntity == null || TariffList == null;
-
+    
     protected override async Task OnParametersSetAsync()
     {
         if (string.IsNullOrEmpty(StudentId))
@@ -41,50 +31,28 @@ public partial class TariffCollectionView : ComponentBase
         await LoadStudent();
 
         TariffList = await Controller.GetTariffListByStudentId(StudentId);
-
-        TariffModalList = TariffList.Where(t => isNotPay(t.TariffId)).ToModalList(StudentEntity!);
+        TariffList.ApplyDiscount(Student!);
 
         ClearList();
     }
 
-    private bool isNotPay(int tariffId) => 
-        !StudentEntity!.HasPayments(tariffId) || StudentEntity.GetDebt(tariffId) != 0;
+    private async Task LoadStudent()
+    {
+        Student = await Controller.GetStudent(StudentId!);
+    }
 
     protected void ClearList()
     {
         TariffsToPay = [];
-        ComputeTotal();
-        AmountToDivide = 0;
     }
-
-    private void ComputeTotal()
-    {
-        Subtotal = 0;
-        Discount = 0;
-        Arrears = 0;
-
-        foreach (var item in TariffsToPay!)
-        {
-            Subtotal += item.Total;
-            Discount += item.Discount;
-            Arrears += item.Arrear;
-        }
-
-        Total = Subtotal;
-    }
-
-    private async Task LoadStudent()
-    {
-        StudentEntity = await Controller.GetStudent(StudentId!);
-    }
-
-    protected void OnSelectItemChanged(ChangeEventArgs e, TariffDto tariff)
+    
+    protected void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)
     {
         if (e.Value == null)
             return;
 
         var isSelect = (bool)e.Value;
-        var tariffModal = TariffModalList!.First(t => t.TariffId == tariff.TariffId);
+        var tariffModal = TariffList!.First(t => t.TariffId == tariff.TariffId);
 
         if (isSelect && !TariffsToPay!.Contains(tariffModal))
         {
@@ -96,17 +64,11 @@ public partial class TariffCollectionView : ComponentBase
         }
     }
 
-    protected void ExonerateArrears(ChangeEventArgs e)
-    {
-        AreArrearsApply = (bool)e.Value!;
-
-        Total += (AreArrearsApply ? -1 : 1) * Arrears;
-    }
-
     protected byte[] InvoicePdf { get; set; }
     protected async Task MakePay()
     {
-        Controller.BuildTransaction(TariffsToPay!, AreArrearsApply);
+        var detail = TariffsToPay.MapToDto(true);
+        Controller.BuildTransaction(detail);
 
         var result = await Controller.SendPay();
 
@@ -128,7 +90,6 @@ public partial class TariffCollectionView : ComponentBase
 
     protected async Task ConfirmTransaction()
     {
-        ComputeTotal();
-        await Navigator.ShowModal("finistariff");
+        await Navigator.ShowModal("PaymentView");
     }
 }

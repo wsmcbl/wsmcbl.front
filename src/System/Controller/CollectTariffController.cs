@@ -30,11 +30,13 @@ public class CollectTariffController
         return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
     }
     
-    public async Task<List<TariffDto>> GetTariffListByStudentId(string studentId)
+    public async Task<List<TariffEntity>> GetTariffListByStudentId(string studentId)
     {
         var resource = $"tariffs/search?q=student:{studentId}";
         List<TariffDto> defaultResult = [];
-        return await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
+        defaultResult = await Consumer.GetAsync(Modules.Accounting, resource, defaultResult);
+
+        return defaultResult.ToEntity();
     }
     
     public async Task<string> SendPay()
@@ -52,14 +54,9 @@ public class CollectTariffController
         return await Consumer.GetPdfAsync(Modules.Accounting, resource);
     }
     
-    public void BuildTransaction(List<TariffModalDto> tariffs, bool isApplyArrears)
-    {
-        MakeTransaction();
-        AddDetail(tariffs, isApplyArrears);
-    }
     
     private TransactionEntity Transaction { get; set; }
-    private void MakeTransaction()
+    public void BuildTransaction(List<DetailDto> transactionDetail)
     {
         Transaction = new TransactionEntity
         {
@@ -67,26 +64,7 @@ public class CollectTariffController
             studentId = StudentId,
             cashierId = CashierId,
             dateTime = DateTime.UtcNow,
-            details = []
-        };
-    }
-    
-    private void AddDetail(List<TariffModalDto> tariffs, bool isApplyArrears)
-    {
-        foreach (var item in tariffs)
-        {
-            if (!isApplyArrears)
-            {
-                item.Arrear = 0;
-                item.ComputeTotal();
-            }
-            
-            Transaction.details.Add(new DetailDto
-            {
-                tariffId = item.TariffId,
-                amount = item.Total,
-                applyArrears = isApplyArrears
-            });
-        }
+            details = transactionDetail
+        }; 
     }
 }

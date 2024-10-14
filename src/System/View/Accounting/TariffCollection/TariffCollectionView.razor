@@ -2,42 +2,46 @@
 
 @using wsmcbl.src.View.Components;
 
-@if(IsLoading())
+@if (IsLoading())
 {
     <div class="loader"></div>
 }
 else
-{ 
-    //------------------------------------------------------------------------old----------------------------------------------------------------------------
-    <!-- Tabs Of Options -->
+{
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
 
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="TabTariffs" data-toggle="tab" href="#PanelTariffs" role="tab"
-                       aria-controls="PanelTariffs" aria-selected="true">Mensualidades</a>
+                       aria-controls="PanelTariffs" aria-selected="true">
+                        Mensualidades
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="TabServices" data-toggle="tab" href="#PanelServices" role="tab"
-                       aria-controls="PanelServices" aria-selected="false">Servicios</a>
+                       aria-controls="PanelServices" aria-selected="false">
+                        Servicios
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
-                       aria-controls="PanelStudent" aria-selected="false">Info Estudiante</a>
+                       aria-controls="PanelStudent" aria-selected="false">
+                        Info Estudiante
+                    </a>
                 </li>
             </ul>
-            
+
             <button type="button" class="btn btn-success"
                     @onclick="(e) => ConfirmTransaction()">
                 Cobrar
             </button>
-            
+
         </div>
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
-                
+
                 <div class="tab-pane fade show active" id="PanelTariffs" role="tabpanel" aria-labelledby="TabTariffs">
                     <div>
                         <div class="p-3 table-responsive ">
@@ -63,13 +67,13 @@ else
                                             <td>@item.SchoolYear</td>
                                             <td>@item.Concept</td>
                                             @{
-                                                var hasDebt = StudentEntity.HasPayments(item.TariffId);
-                                                var amount = hasDebt && StudentEntity.GetDebt(item.TariffId) != 0 ? StudentEntity.GetDebt(item.TariffId) : item.Amount;
+                                                var hasDebt = Student.HasPayments(item.TariffId);
+                                                var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
                                             }
                                             <td>@amount</td>
                                             <td>@item.IsLate</td>
                                             <td>@item.DueDate</td>
-                                            @if (hasDebt && StudentEntity.GetDebt(item.TariffId) == 0)
+                                            @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
                                             {
                                                 <td>
                                                     <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
@@ -79,7 +83,7 @@ else
                                             {
                                                 <td class="center-checkbox">
                                                     <label class="checkbox-label">
-                                                        <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)" />
+                                                        <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
                                                         <span class="custom-checkbox"></span>
                                                     </label>
                                                 </td>
@@ -116,11 +120,11 @@ else
                                             <td>@item.SchoolYear</td>
                                             <td>@item.Concept</td>
                                             @{
-                                                var hasDebt = StudentEntity.HasPayments(item.TariffId);
-                                                var amount = hasDebt && StudentEntity.GetDebt(item.TariffId) != 0 ? StudentEntity.GetDebt(item.TariffId) : item.Amount;
+                                                var hasDebt = Student.HasPayments(item.TariffId);
+                                                var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
                                             }
                                             <td>@amount</td>
-                                            @if (hasDebt && StudentEntity.GetDebt(item.TariffId) == 0)
+                                            @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
                                             {
                                                 <td>
                                                     <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
@@ -151,7 +155,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Nombre</span>
-                                        <span class="info-box-value">@StudentEntity.fullName</span>
+                                        <span class="info-box-value">@Student.fullName</span>
                                     </div>
                                 </div>
                             </div>
@@ -162,7 +166,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Código</span>
-                                        <span class="info-box-value">@StudentEntity.studentId</span>
+                                        <span class="info-box-value">@Student.studentId</span>
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +177,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Grado</span>
-                                        <span class="info-box-value">@StudentEntity.enrollmentLabel</span>
+                                        <span class="info-box-value">@Student.enrollmentLabel</span>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +188,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Año Lectivo</span>
-                                        <span class="info-box-value">@StudentEntity.schoolyear</span>
+                                        <span class="info-box-value">@Student.schoolyear</span>
                                     </div>
                                 </div>
                             </div>
@@ -195,7 +199,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Tutor</span>
-                                        <span class="info-box-value">@StudentEntity.tutor</span>
+                                        <span class="info-box-value">@Student.tutor</span>
                                     </div>
                                 </div>
                             </div>
@@ -206,7 +210,7 @@ else
                                     </span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Descuento</span>
-                                        <span class="info-box-value">@StudentEntity.discount</span>
+                                        <span class="info-box-value">@Student.discount</span>
                                     </div>
                                 </div>
                             </div>
@@ -220,104 +224,8 @@ else
             </div>
         </div>
     </div>
-    
-   <!-- Finiish Modal Pay -->
-    <div class="modal fade" id="finistariff" tabindex="-1" aria-labelledby="finistariff" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="finistariff">Detalle de la transacción</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    @* detalles de la transaccion *@
-                    <div class="row centrar">
-                        <div class="finishpaymodal">
-                            <table class="detailpaytable">
-                                <thead>
-                                <tr>
-                                    <th>Concepto</th>
-                                    <th>Monto</th>
-                                    <th>Desc</th>
-                                    <th>Mora</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var item in TariffsToPay!)
-                                { 
-                                    <tr>
-                                        <td>@item.Concept</td>
-                                        <td>@Math.Round(item.Amount, 1)</td>
-                                        <td>@Math.Round(item.Discount, 1)</td>
-                                        <td>@Math.Round(item.Arrear, 1)</td>
-                                    </tr>
-                                }
-                                </tbody>
 
-                                <tfoot>
-                                <tr>
-                                    <th>Totales</th>
-                                    <th class="subtotal">@Math.Round(Subtotal ,1)</th>
-                                    <th class="discount">@Math.Round(Discount, 1)</th>
-                                    <th class="arrears">@Math.Round(Arrears, 1)</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <hr/>
-                    @* cambio y monto total *@
-                    <div class="anchototal">
-
-                        <div class="row">
-                            <div class="col pay">
-                                <div>Recibí: </div>
-                            </div>
-                            <div class="col pay">
-                                <input id="amoun" type="number" class="form-control p1" placeholder="C$ 00.00" @bind="AmountToDivide">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col pay">
-                                <div>Total: </div>
-                            </div>
-                            <div class="col pay">
-                                <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@Math.Round(Total, 1)">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col pay">
-                                <div>Cambio: </div>
-                            </div>
-                            <div class="col pay">
-                                <input id="chamge" type="text" class="form-control p1" placeholder="C$ 00.00" disabled>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="left-container">
-                        <input type="checkbox" id="moraCheckbox" class="exomora" @onchange="ExonerateArrears"/>
-                        <label class="form-check-label exomora" for="moraCheckbox">Exonerar mora</label>
-                    </div>
-
-                    <div class="right-container">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
-                        <button type="button" class="btn btn-success" @onclick="(e) => MakePay()">Cobrar</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>    
-        
-        <script defer src="/js/TarriffCollection.js"></script>
-    </div>
+    <PaymentViewComponent TariffList="@TariffsToPay"/>
     
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>
 }
