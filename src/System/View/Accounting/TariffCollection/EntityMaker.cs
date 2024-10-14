@@ -21,24 +21,24 @@ public static class EntityMaker
     public static List<TariffEntity> ToEntity(this IEnumerable<TariffDto> list)
         => list.Select(e => e.ToEntity()).ToList();
     
-    private static void UpdateState(this TariffEntity tariff, StudentEntity student)
+    private static void UpdateAmounts(this TariffEntity tariff, StudentEntity student)
     {
-        tariff.UpdateDiscount(student.discount);
+        tariff.SetSubamount(student.discount);
         if (student.HasPayments(tariff.TariffId))
         {
-            tariff.Amount = student.GetDebt(tariff.TariffId);
+            tariff.SubAmount = student.GetDebt(tariff.TariffId);
             tariff.Discount = 0;
             tariff.Arrears = 0;
-            tariff.ComputeTotal();
         }
+        
+        tariff.ComputeTotal();
     }
 
-    // mejorar el nombre
-    public static void ApplyDiscount(this IEnumerable<TariffEntity> list, StudentEntity student)
+    public static void UpdateAmounts(this IEnumerable<TariffEntity> list, StudentEntity student)
     {
         foreach (var item in list)
         {
-            item.UpdateState(student);
+            item.UpdateAmounts(student);
         }
     }
 
@@ -64,5 +64,4 @@ public static class EntityMaker
 
         return result;
     }
-
 }

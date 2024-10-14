@@ -33,7 +33,7 @@ else
             </ul>
 
             <button type="button" class="btn btn-success"
-                    @onclick="(e) => ConfirmTransaction()">
+                    @onclick="(e) => OpenModal()">
                 Cobrar
             </button>
 
@@ -225,7 +225,7 @@ else
         </div>
     </div>
 
-    <PaymentViewComponent TariffList="@TariffsToPay"/>
+    <PaymentViewComponent TariffList="@TariffsToPay" OnComplexObjectCreated="@PayTariffs"/>
     
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>
 }

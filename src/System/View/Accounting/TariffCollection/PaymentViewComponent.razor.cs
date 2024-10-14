@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public partial class PaymentViewComponent : ComponentBase
 {
+    [Inject] protected Navigator Navigator { get; private set; } = null!;
     [Parameter] public List<TariffEntity> TariffList { get; set; } = null!;
     
     protected double Arrears { get; set; }
@@ -27,21 +29,25 @@ public partial class PaymentViewComponent : ComponentBase
         Subtotal = 0;
         Discount = 0;
         Arrears = 0;
+        Total = 0;
 
         foreach (var item in TariffList)
         {
-            Subtotal += item.Total;
+            Subtotal += item.Amount;
             Discount += item.Discount;
             Arrears += item.Arrears;
+            Total += item.Total;
         }
-
-        Total = Subtotal;
     }
+    
+    [Parameter] public EventCallback<List<DetailDto>> OnComplexObjectCreated { get; set; }
 
-    protected async Task MakePayment()
+    private async Task CreateDetail()
     {
-        //Controller.BuildTransaction(TariffsToPay!, AreArrearsApply);
+        var detail = TariffList.MapToDto(AreArrearsApply);
+        await OnComplexObjectCreated.InvokeAsync(detail);
         TariffList = [];
+        await Navigator.HideModal("PaymentView");
     }
     
     

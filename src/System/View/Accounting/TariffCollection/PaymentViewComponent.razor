@@ -62,7 +62,7 @@
                             <div>Total: </div>
                         </div>
                         <div class="col pay">
-                            <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled value="@Math.Round(Total, 1)">
+                            <input id="modalAmount" type="number" class="form-control p1" placeholder="C$ 00.00" disabled @bind="Total">
                         </div>
                     </div>
 
@@ -85,7 +85,7 @@
 
                 <div class="right-container">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
-                    <button type="button" class="btn btn-success" @onclick="(e) => MakePayment()">Cobrar</button>
+                    <button type="button" class="btn btn-success" @onclick="(e) => CreateDetail()">Cobrar</button>
                 </div>
             </div>
 

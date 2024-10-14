@@ -8,7 +8,7 @@ public class TariffEntity
     public double Amount { get; set; }
     public double Discount { get; set; }
     public double Arrears { get; set; }
-    public double SubTotal { get;  set; }
+    public double SubAmount { get;  set; }
     public double Total { get;  set; }
     public string? DueDate { get; set; }
     public bool IsLate { get; set; }
@@ -16,13 +16,14 @@ public class TariffEntity
     
     public void ComputeTotal()
     {
-        Total = Amount - Discount + Arrears;
+        Total = SubAmount - Discount + Arrears;
     }
 
     private const double ARREARS_RATE = 0.1; 
-    public void UpdateDiscount(double discount)
+    public void SetSubamount(double discountRate)
     {
-        Discount = Type == 1 ? Amount*discount : 0;
-        Arrears = IsLate ? Amount*(1 - discount)*ARREARS_RATE : 0;
+        SubAmount = Amount;
+        Discount = Type == 1 ? Amount*discountRate : 0;
+        Arrears = IsLate ? Amount*(1 - discountRate)*ARREARS_RATE : 0;
     }
 }

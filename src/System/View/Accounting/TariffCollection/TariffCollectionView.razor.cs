@@ -13,7 +13,7 @@ public partial class TariffCollectionView : ComponentBase
     [Inject] protected Navigator Navigator { get; private set; } = null!;
     
     protected List<TariffEntity>? TariffList { get; set; }
-    protected List<TariffEntity>? TariffsToPay { get; set; }
+    protected List<TariffEntity> TariffsToPay { get; set; }
 
     
     protected StudentEntity? Student { get; private set; }
@@ -27,47 +27,43 @@ public partial class TariffCollectionView : ComponentBase
             throw new InternalException("Student ID is not valid.");
         }
 
-        InvoicePdf = [];
         await LoadStudent();
-
         TariffList = await Controller.GetTariffListByStudentId(StudentId);
-        TariffList.ApplyDiscount(Student!);
-
-        ClearList();
+        TariffList.UpdateAmounts(Student!);
+        
+        InvoicePdf = [];
+        TariffsToPay = [];
     }
 
     private async Task LoadStudent()
     {
         Student = await Controller.GetStudent(StudentId!);
     }
-
-    protected void ClearList()
+    
+    private void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)
     {
-        TariffsToPay = [];
+        if (e.Value != null)
+        {
+            var isSelect = (bool)e.Value;
+            if (isSelect && TariffsToPay.Contains(tariff))
+            {
+                TariffsToPay.Add(tariff);
+            }
+            else
+            {
+                TariffsToPay!.Remove(tariff);
+            }
+        }
+    }
+
+    private async Task OpenModal()
+    {
+        await Navigator.ShowModal("PaymentView");
     }
     
-    protected void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)
+    private byte[] InvoicePdf { get; set; }
+    private async Task PayTariffs(List<DetailDto> detail)
     {
-        if (e.Value == null)
-            return;
-
-        var isSelect = (bool)e.Value;
-        var tariffModal = TariffList!.First(t => t.TariffId == tariff.TariffId);
-
-        if (isSelect && !TariffsToPay!.Contains(tariffModal))
-        {
-            TariffsToPay.Add(tariffModal);
-        }
-        else
-        {
-            TariffsToPay!.Remove(tariffModal);
-        }
-    }
-
-    protected byte[] InvoicePdf { get; set; }
-    protected async Task MakePay()
-    {
-        var detail = TariffsToPay.MapToDto(true);
         Controller.BuildTransaction(detail);
 
         var result = await Controller.SendPay();
@@ -78,18 +74,13 @@ public partial class TariffCollectionView : ComponentBase
             return;
         }
         await Notificator.ShowSuccess("¡Pago Exitoso!", $"La transacción se completó correctamente.");
-        await Navigator.HideModal("finistariff");
+        await Navigator.HideModal("PaymentView");
         
         InvoicePdf = await Controller.GetInvoice(result);
         await Navigator.ShowPdfModal();
         
         await LoadStudent();
-        ClearList();
+        TariffsToPay = [];
         StateHasChanged();
-    }
-
-    protected async Task ConfirmTransaction()
-    {
-        await Navigator.ShowModal("PaymentView");
     }
 }
