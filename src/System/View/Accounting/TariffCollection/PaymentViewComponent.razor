@@ -78,6 +78,25 @@
             </div>
 
             <div class="modal-footer">
+                
+                @if (Total != 0)
+                {
+                    <div class="row w-100 d-flex justify-content-center align-items-center">
+                        @if (AmountToDivide < Total)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                Se realizara un abono para la transacción!
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="alert alert-success" role="alert">
+                                Se realizara el pago completo para la transacción!
+                            </div>
+                        }
+                    </div>
+                }
+                
                 <div class="left-container">
                     <input type="checkbox" id="moraCheckbox" class="exomora" @onchange="ExonerateArrears"/>
                     <label class="form-check-label exomora" for="moraCheckbox">Exonerar mora</label>
@@ -87,6 +106,7 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Atras</button>
                     <button type="button" class="btn btn-success" @onclick="(e) => CreateDetail()">Cobrar</button>
                 </div>
+                
             </div>
 
         </div>

@@ -32,11 +32,14 @@ else
                 </li>
             </ul>
 
-            <button type="button" class="btn btn-success"
-                    @onclick="(e) => OpenModal()">
-                Cobrar
-            </button>
-
+            @if (TariffsToPay.Any())
+            {
+                <button type="button" class="btn btn-success"
+                        @onclick="(e) => OpenModal()">
+                    Cobrar
+                </button>
+            }
+            
         </div>
 
         <div class="card-body" id="tabContent">
@@ -73,21 +76,23 @@ else
                                             <td>@amount</td>
                                             <td>@item.IsLate</td>
                                             <td>@item.DueDate</td>
-                                            @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
-                                            {
-                                                <td>
-                                                    <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td class="center-checkbox">
-                                                    <label class="checkbox-label">
-                                                        <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
-                                                        <span class="custom-checkbox"></span>
-                                                    </label>
-                                                </td>
-                                            }
+                                            <td>
+                                                @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
+                                                {
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="center-checkbox">
+                                                        <label class="checkbox-label">
+                                                            <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                            <span class="custom-checkbox"></span>
+                                                        </label>
+                                                    </td>
+                                                }
+                                            </td>
                                         </tr>
                                     }
                                 }
