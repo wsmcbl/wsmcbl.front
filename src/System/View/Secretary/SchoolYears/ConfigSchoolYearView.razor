@@ -166,61 +166,7 @@ else
 
     </div>
     
-    <div class="modal fade" id="ModalNewSubject" tabindex="-1" role="dialog" aria-labelledby="ModalSubject" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalSubject">Nueva Asignatura</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="gradeIntId">Grado</label>
-                            <select id="gradeIntId" class="form-control" style="margin: 0px" @bind="SubjectNew.GradeIntId">
-                                @foreach (var option in DropdownDegreeLists)
-                                {
-                                <option value="@option.Id">@option.Nombre</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Nombre</label>
-                            <input type="text" class="form-control" id="name" @bind="SubjectNew.Name" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Abreviación</label>
-                            <input type="text" class="form-control" id="name" @bind="SubjectNew.initials" />
-                        </div>
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="isMandatory" @bind="SubjectNew.IsMandatory" />
-                            <label class="form-check-label" for="isMandatory">Es Obligatorio</label>
-                        </div>
-                        <div class="form-group">
-                            <label for="semester">Semestre</label>
-                            <select id="semester" class="form-control" style="margin: 0px" @bind="SubjectNew.Semester">
-                                @foreach (var option in DropdownSemesterLists)
-                                {
-                                <option value="@option.Id">@option.Nombre</option>
-                                }
-                            </select>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="right-container">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button class="btn btn-danger" @onclick="() => SaveNewSubject(SubjectNew)">Guardar</button>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
+    <ModalNewSubject SchoolYearEntity="SchoolYearEntity"></ModalNewSubject>
     
     <div class="modal fade" id="ModalNewTariff" tabindex="-1" role="dialog" aria-labelledby="ModalTariff" aria-hidden="true">
         <div class="modal-dialog" role="document">

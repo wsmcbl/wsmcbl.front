@@ -16,16 +16,8 @@ public class ConfigSchoolYear : ComponentBase
     protected SchoolYearEntity SchoolYearEntity;
     
     protected GradeDto SelectedGrade;
-    protected SubjectDto SubjectNew = new();
     protected SchoolYearTariffs SelectedTariff = new();
-    protected List<DropdownList> DropdownDegreeLists = new();
     protected List<DropdownList> DropdownTypeTariffsLists = new();
-    protected List<DropdownList> DropdownSemesterLists =
-    [
-        new DropdownList { Id = 1, Nombre = "Primer Semestre" },
-        new DropdownList { Id = 2, Nombre = "Segundo Semestre" },
-        new DropdownList { Id = 3, Nombre = "Ambos" }
-    ];    
     protected List<DropdownList> DropdownModalityLists =
     [
         new DropdownList { Id = 1, Nombre = "Preescolar" },
@@ -48,20 +40,9 @@ public class ConfigSchoolYear : ComponentBase
     }
 
     private Task ConfigInformation()
-    {
-        int degreeId = 1;
+    { 
         SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
         
-        foreach (var item in SchoolYearEntity.Degrees)
-        {
-            DropdownDegreeLists.Add(new DropdownList
-            {
-                Id = degreeId,
-                Nombre = item.label
-            });
-            degreeId++;
-        }
-
         foreach (var item in SchoolYearEntity.Tariffs)
         {
             if (item.DueDate != null)
