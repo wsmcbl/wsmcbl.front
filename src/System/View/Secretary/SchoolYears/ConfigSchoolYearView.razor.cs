@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
-using wsmcbl.src.dto.Output;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
@@ -81,27 +80,7 @@ public class ConfigSchoolYear : ComponentBase
             SelectedGrade.subjects.Remove(subject);
         }
     }
-    protected async Task SaveNewSubject(SubjectDto subject)
-    {
-        var response = await Controller.CreateNewSubject(subject);
-        if (response)
-        {
-            await Notificator.ShowSuccess("Éxito", "Asignatura creada correctamente, recarge la página");
-        }
-    }
     
-    protected async Task SaveNewTariff(SchoolYearTariffs tariff)
-    {
-        var response = await Controller.CreateNewTariff(tariff);
-        if (response)
-        {
-            await Notificator.ShowSuccess("Éxito", "Tarifa guardada correctamente");
-        }
-        else
-        {
-            await Notificator.ShowError("Error", "No pudimos guardar la tarifa");
-        }
-    }
     protected async Task EditTariff(SchoolYearTariffs tariff)
     {
         SelectedTariff = tariff;
