@@ -89,37 +89,32 @@ else
                                 <table id="gradetable" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Año Lectivo</th>
                                         <th>Concepto</th>
-                                        <th>Precio</th>
                                         <th>Vencimiento</th>
                                         <th>Tipo</th>
-                                        <th>Modalidad</th>
-                                        <th>Editar</th>
-                                        <th>Eliminar</th>
+                                        <th>Edu. Inicial</th>
+                                        <th>Primaria</th>
+                                        <th>Secundaria</th>
+                                        <th>Acciones</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
                                     <tr>
-                                        <th>Año Lectivo</th>
                                         <th>Concepto</th>
-                                        <th>Precio</th>
                                         <th>Vencimiento</th>
                                         <th>Tipo</th>
-                                        <th>Modalidad</th>
-                                        <th>Editar</th>
-                                        <th>Eliminar</th>
+                                        <th>Edu. Inicial</th>
+                                        <th>Primaria</th>
+                                        <th>Secundaria</th>
+                                        <th>Acciones</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
                                     @foreach (var item in SchoolYearEntity.Tariffs)
                                     {
                                         var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.Type);
-                                        var modality = DropdownModalityLists.FirstOrDefault(t => t.Id == item.Modality);
                                         <tr>
-                                            <td>@item.SchoolYear</td>
                                             <td>@item.Concept</td>
-                                            <td>@item.Amount</td>
                                             <td>@(item.OnlyDate.Year)/@(item.OnlyDate.Month)/@(item.OnlyDate.Day)</td>
                                             <td>
                                                 @if (typeTariff != null)
@@ -131,25 +126,23 @@ else
                                                     <a>Sin Tipo</a>
                                                 }
                                             </td>
-                                            <td>
-                                                @if (modality != null)
-                                                {
-                                                @modality.Nombre
-                                                }
-                                                else
-                                                {
-                                                <a>Sin Modalidad</a>
-                                                }
+                                            <td style="width: 150px;">
+                                                <InputNumber id="surname" @bind-Value="@item.Amount" class="form-control" min="1"/>
+                                            </td>
+                                            <td style="width: 150px;">
+                                                <InputNumber id="surname" @bind-Value="@item.Amount" class="form-control" min="1"/>
+                                            </td>
+                                            <td style="width: 150px;">
+                                                <InputNumber id="surname" @bind-Value="@item.Amount" class="form-control" min="1"/>
                                             </td>
                                             <td>
-                                                <button class="btn btn-secondary" @onclick="() => EditTariff(item)">Editar</button>
-                                            </td>
-                                            <td>
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveTariff(item)">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </li>
+                                                <button class="btn btn-secondary" @onclick="() => CallEditTariff(item)">
+                                                    <i class="fas fa-pen"></i>
+                                                </button>
+                                                
+                                                <button class="btn btn-danger btn-sm" @onclick="() => RemoveTariff(item)">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     }
@@ -165,65 +158,7 @@ else
         </div>
 
     </div>
-    
-    <ModalNewSubject SchoolYearEntity="SchoolYearEntity"></ModalNewSubject>
-    <ModalNewTariff DropdownTypeTariffsLists="DropdownTypeTariffsLists"></ModalNewTariff>
-    
-    
-    
-    <div class="modal fade" id="ModalEditTariff" tabindex="-1" role="dialog" aria-labelledby="ModalEdit" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ModalEdit">Editar Tarifa</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="gradeIntId">Concepto</label>
-                            <input type="text" class="form-control" id="Concept" @bind="SelectedTariff.Concept" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Cantidad</label>
-                            <input type="number" class="form-control" id="amount" @bind="SelectedTariff.Amount" />
-                        </div>
-                        <div class="form-group">
-                            <label for="semester">Vencimiento</label>
-                            <input type="date" class="form-control" id="dueDate" @bind="SelectedTariff.OnlyDate" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Tipo</label>
-                            <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Type">
-                                @foreach (var option in DropdownTypeTariffsLists)
-                                {
-                                <option value="@option.Id">@option.Nombre</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Modalidad</label>
-                            <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Modality">
-                                @foreach (var option in DropdownModalityLists)
-                                {
-                                <option value="@option.Id">@option.Nombre</option>
-                                }
-                            </select>
-                        </div>
-                    </form>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="right-container">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>                    
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
+    <ModalEditTariff @ref="modalEditTariffRef" DropdownTypeTariffsLists="DropdownTypeTariffsLists" OnEditCompleted="RefreshParentComponent" />
+    <ModalNewSubject SchoolYearEntity="SchoolYearEntity"/>
+    <ModalNewTariff DropdownTypeTariffsLists="DropdownTypeTariffsLists"/>
 }

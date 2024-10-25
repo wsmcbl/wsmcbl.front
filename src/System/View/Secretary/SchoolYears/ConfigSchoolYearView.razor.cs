@@ -15,16 +15,23 @@ public class ConfigSchoolYear : ComponentBase
     protected SchoolYearEntity SchoolYearEntity;
     
     protected GradeDto SelectedGrade;
-    protected SchoolYearTariffs SelectedTariff = new();
     protected List<DropdownList> DropdownTypeTariffsLists = new();
-    protected List<DropdownList> DropdownModalityLists =
-    [
-        new DropdownList { Id = 1, Nombre = "Preescolar" },
-        new DropdownList { Id = 2, Nombre = "Primaria" },
-        new DropdownList { Id = 3, Nombre = "Secundaria" }
-    ];
+
+    protected ModalEditTariff modalEditTariffRef { get; set; }
+
     
     
+    protected async Task CallEditTariff(SchoolYearTariffs item)
+    {
+        if (modalEditTariffRef != null)
+        {
+            await modalEditTariffRef.EditTariff(item);
+        }
+    }
+    protected void RefreshParentComponent()
+    {
+        StateHasChanged();
+    }
     protected override async Task OnParametersSetAsync()
     {
         SchoolYearEntity Default = new SchoolYearEntity();
@@ -37,11 +44,8 @@ public class ConfigSchoolYear : ComponentBase
         }
         await ConfigInformation();
     }
-
     private Task ConfigInformation()
     { 
-        SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
-        
         foreach (var item in SchoolYearEntity.Tariffs)
         {
             if (item.DueDate != null)
@@ -56,7 +60,6 @@ public class ConfigSchoolYear : ComponentBase
 
         return Task.CompletedTask;
     }
-
     protected async Task SaveSchoolYear(SchoolYearEntity schoolYearEntity)
     {
             var response = await Controller.SaveNewSchoolYear(schoolYearEntity);
@@ -80,18 +83,10 @@ public class ConfigSchoolYear : ComponentBase
             SelectedGrade.subjects.Remove(subject);
         }
     }
-    
-    protected async Task EditTariff(SchoolYearTariffs tariff)
-    {
-        SelectedTariff = tariff;
-        SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
-        await JsRuntime.InvokeVoidAsync("eval", "$('#ModalEditTariff').modal('show');");
-    }
     protected void RemoveTariff(SchoolYearTariffs tariff)
     {
         SchoolYearEntity.Tariffs?.Remove(tariff);
     }
-    
     protected string GetSelectedClass(GradeDto grade)
     {
         return grade == SelectedGrade ? "selected-grade" : string.Empty;
