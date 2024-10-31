@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
@@ -13,7 +15,8 @@ public partial class EnrollStudentView : ComponentBase
     [Inject] protected IEnrollStudentController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
-
+   
+    
     private StudentEntity? Student { get; set; }
     private int Age { get; set; }
     private string Sex;
@@ -23,6 +26,8 @@ public partial class EnrollStudentView : ComponentBase
     private List<EnrollmentsBasicDto> CurrentEnrollments = [];
     private int CurrentEnrollmentCapacity, CurrentEnrollmentQuantity;
     private string EnrollmentIdSelected;
+    
+    private string imgSrc2;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -91,7 +96,7 @@ public partial class EnrollStudentView : ComponentBase
             StateHasChanged();
         }
     }
-
+    
     private byte[] EnrollSheetPdf { get; set; }
     private async Task PrintEnrollSheet(string studentId)
     {

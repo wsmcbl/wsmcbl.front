@@ -22,6 +22,8 @@ builder.Services.AddTransient<CreateStudentProfileController>();
 
 builder.Services.AddSweetAlert2();
 
+
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
