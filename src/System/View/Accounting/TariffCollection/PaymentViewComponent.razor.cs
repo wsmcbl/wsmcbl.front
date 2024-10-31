@@ -57,4 +57,10 @@ public partial class PaymentViewComponent : ComponentBase
 
         Total += (AreArrearsApply ? -1 : 1) * Arrears;
     }
+
+    private void HandleInputChange(ChangeEventArgs e)
+    {
+        AmountToDivide = string.IsNullOrEmpty(e.Value?.ToString()) ? 0 : Convert.ToDouble(e.Value);
+        StateHasChanged();
+    }
 }
