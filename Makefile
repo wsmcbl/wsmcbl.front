@@ -22,9 +22,3 @@ restart: ## Restart the containers
 logs: ## Show all logs
 	docker-compose logs	
 
-delete-containers: ## Remove all containers 
-	docker-compose down
-
-delete-all-services: ## Remove all containers and volumes (***CAUTION***)
-	docker-compose down --volumes --remove-orphans
-	docker system prune

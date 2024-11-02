@@ -10,11 +10,6 @@ services:
       - app-network
     volumes:
       - nextcloud_data:/var/www/html
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
 
   db_nextcloud:
     image: mariadb
@@ -28,11 +23,6 @@ services:
       - db_data:/var/lib/mysql
     networks:
       - app-network
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
 
   app:
     image: 'jc21/nginx-proxy-manager:latest'
