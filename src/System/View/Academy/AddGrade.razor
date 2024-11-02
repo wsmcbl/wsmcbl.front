@@ -1,0 +1,98 @@
+@page "/grade/1"
+
+<div class="card border-bottom-danger shadow h-100 py-2 mb-4">
+    <div class="card-body">
+        <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="m-0 font-weight-bold text-primary">Sexto Grado (A)</h5>
+                    <a class="btn btn-success btn-sm" role="button">Guardar</a>
+                </div>
+                <div class="py-3 d-flex justify-content-between align-items-center">
+                    <span><strong>Maestro:</strong> Kenny Tinoco</span>
+                    <span>@DateTime.Now.ToString("dddd dd 'de' MMMM", new System.Globalization.CultureInfo("es-ES"))</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card show mb-4">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="1" href="#card-1" data-toggle="tab" role="tab" aria-controls="card-1" aria-selected="true">
+                    Sexto A
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="2" href="#card-2" data-toggle="tab" role="tab" aria-controls="card-2" aria-selected="false">
+                    Sexto B
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body" id="tabContent">
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="card-1" role="tabpanel" aria-labelledby="panel-1">
+                
+                <table id="GradeTable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Nombre</th>
+                        <th>Matematicas</th>
+                        <th>Lengua y Literatura</th>
+                        <th>Creciendo en V</th>
+                        <th>Conducta</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Nombre</th>
+                        <th>Matematicas</th>
+                        <th>Lengua y Literatura</th>
+                        <th>Creciendo en V</th>
+                        <th>Conducta</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    <tr>
+                        <td data-label="Nº">1</td>
+                        <td data-label="Nombre">Noelia Antonia</td>
+                        <td data-label="Matematicas"><input class="form-control"/></td>
+                        <td data-label="Lengua y Literatura"><input class="form-control"/></td>
+                        <td data-label="Creciendo en V"><input class="form-control"/></td>
+                        <td data-label="Conducta"><input class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Nº">2</td>
+                        <td data-label="Nombre">Kenny El Guapo Tinoco Cerda</td>
+                        <td data-label="Matematicas"><input class="form-control"/></td>
+                        <td data-label="Lengua y Literatura"><input class="form-control"/></td>
+                        <td data-label="Creciendo en V"><input class="form-control"/></td>
+                        <td data-label="Conducta"><input class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Nº">2</td>
+                        <td data-label="Nombre">Ezequielito</td>
+                        <td data-label="Matematicas"><input class="form-control"/></td>
+                        <td data-label="Lengua y Literatura"><input class="form-control"/></td>
+                        <td data-label="Creciendo en V"><input class="form-control"/></td>
+                        <td data-label="Conducta"><input class="form-control"/></td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+
+            <div class="tab-pane fade" id="card-2" role="tabpanel" aria-labelledby="panel-2">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<script defer src="js/DataTable/GradeTable.js"></script>

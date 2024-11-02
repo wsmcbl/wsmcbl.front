@@ -18,6 +18,7 @@ public partial class TariffCollectionView : ComponentBase
     
     protected StudentEntity? Student { get; private set; }
     protected bool IsLoading() => Student == null || TariffList == null;
+    protected double EstimateTotal { get; set; }
 
     
     protected override async Task OnParametersSetAsync()
@@ -50,11 +51,13 @@ public partial class TariffCollectionView : ComponentBase
         
         if (isSelect && !TariffsToPay.Contains(tariffModal))
         {
+            EstimateTotal += tariffModal.Amount;
             TariffsToPay.Add(tariffModal);
         }
         else
         {
             TariffsToPay.Remove(tariffModal);
+            EstimateTotal -= tariffModal.Amount;
         }
     }
 
