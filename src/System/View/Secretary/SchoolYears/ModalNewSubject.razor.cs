@@ -27,7 +27,7 @@ public partial class ModalNewSubject : ComponentBase
     protected override async Task OnParametersSetAsync()
     {
         int degreeId = 1;
-        foreach (var item in SchoolYearEntity.Degrees)
+        foreach (var item in SchoolYearEntity.degreeList)
         {
             DropdownDegreeLists.Add(new DropdownList
             {

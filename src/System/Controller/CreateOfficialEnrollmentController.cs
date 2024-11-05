@@ -5,6 +5,7 @@ using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Degrees.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.Controller;
 
@@ -30,11 +31,11 @@ public class CreateOfficialEnrollmentController
         return await Consumer.GetAsync(Modules.Secretary, resource, Default);
     }
     
-    public async Task<bool> SaveNewSchoolYear(Model.Secretary.SchoolYearEntity schoolYearEntity)
+    public async Task<bool> SaveNewSchoolYear(Model.Secretary.SchoolYearEntity schoolYearEntity, List<PartialListDto> partials)
     {
         var resource = "configurations/schoolyears";
         Model.Secretary.SchoolYearEntity Default = new(); 
-        var content = MapperSchoolYear.MapToNewSchoolYearDto(schoolYearEntity);
+        var content = MapperSchoolYear.MapToNewSchoolYearDto(schoolYearEntity, partials);
         var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }

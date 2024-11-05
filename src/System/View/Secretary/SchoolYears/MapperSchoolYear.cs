@@ -6,14 +6,16 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public static class MapperSchoolYear
 {
-    public static CreateSchoolYearDto MapToNewSchoolYearDto (SchoolYearEntity schoolYearEntity)
+    public static CreateSchoolYearDto MapToNewSchoolYearDto (SchoolYearEntity schoolYearEntity, List<PartialListDto> partials)
     {
         if (schoolYearEntity == null) return null;
         
         return new CreateSchoolYearDto
         {
-            degrees = schoolYearEntity.Degrees?.Select(MapToGradeCreateNewSchoolYearDto).ToList(),
-            tariffs = schoolYearEntity.Tariffs?.Select(MapToTariffCreateNewSchoolYearDto).ToList()
+            exchangeRate = schoolYearEntity.exchangeRate,
+            degrees = schoolYearEntity.degreeList?.Select(MapToGradeCreateNewSchoolYearDto).ToList(),
+            tariffs = schoolYearEntity.tariffList?.Select(MapToTariffCreateNewSchoolYearDto).ToList(),
+            partialList = partials
         };
     }
     
@@ -35,12 +37,12 @@ public static class MapperSchoolYear
         return tariffs == null ? null:
             new TariffCreateNewSchoolYearDto
         {
-            schoolYear = tariffs.SchoolYear!,
-            concept = tariffs.Concept,
-            amount = tariffs.Amount,
+            schoolYear = tariffs.schoolYear!,
+            concept = tariffs.concept,
+            amount = tariffs.amount,
             DueDateEntity = tariffs.OnlyDate.ToEntity()!,
-            type = tariffs.Type,
-            modality = tariffs.Modality
+            type = tariffs.type,
+            modality = tariffs.modality
         };
     }
     

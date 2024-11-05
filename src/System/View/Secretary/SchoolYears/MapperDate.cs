@@ -9,11 +9,11 @@ public static class MapperDate
     {
         return new TariffDataDto
         {
-            concept = schoolYearTariffs.Concept,
-            amount = schoolYearTariffs.Amount,
+            concept = schoolYearTariffs.concept,
+            amount = schoolYearTariffs.amount,
             DueDateEntity = schoolYearTariffs.OnlyDate.ToEntity(),
-            typeId = schoolYearTariffs.Type,
-            modality = schoolYearTariffs.Modality
+            typeId = schoolYearTariffs.type,
+            modality = schoolYearTariffs.modality
         };
     }
     

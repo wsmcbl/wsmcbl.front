@@ -9,60 +9,122 @@ else
 {
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@SchoolYearEntity.Label</span> </h6>
-            <a class="btn btn-success btn-sm" role="button" @onclick="() => SaveSchoolYear(SchoolYearEntity)">Guardar</a>
+            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@SchoolYearEntity.label</span> </h6>
+            <a class="btn btn-success btn-sm" role="button" @onclick="SaveSchoolYear">Guardar</a>
         </div>
 
         <div class="card-body">
 
-            <div class="row">
-                <div class="col-12 col-md-6" style="margin-bottom: 15px">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-primary font-weight-bold">Información basica</h5>
-                            <label class="label-required" style="display: inline-block; width: 200px;">Tipo de cambio</label>
-                            <input type="number" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Inicio Primer parcial :</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Inicio Segundo parcial:</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Inicio Tercer parcial:</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Inicio Cuarto parcial:</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6" style="margin-bottom: 15px">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="text-primary font-weight-bold"> Otros datos.</h5>
-                            <label class="label-required" style="display: inline-block; width: 200px;">Tipo de cambio</label>
-                            <input type="number" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Fin Primer semestre :</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Fin Segundo Semestre:</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Fin Tercer Semestre:</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-
-                            <label class="label-required">Fin Cuarto Semestre:</label>
-                            <input type="date" class="form-control" style="margin-bottom: 10px">
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- Basic information for schoolYear -->
-            
             <div id="accordion">
 
+                <div class="card">
+                    <div class="card-header" id="panel3">
+                        <h3 class="mb-0 d-flex w-100 justify-content-between">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo3" aria-expanded="true" aria-controls="panelinfo3">
+                                Configuración Básica
+                            </button>
+                        </h3>
+                    </div>
+
+                    <div id="panelinfo3" class="collapse" aria-labelledby="panel3" data-parent="#accordion">
+                        <div class="card-body">
+                            
+                            <div class="row">
+
+                                <div class="col-md-12 py-1">
+                                    <div class="card border-bottom-dark shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <label class="label-required" style="display: inline-block; width: 200px;">Tipo de cambio</label>
+                                            <input type="number" class="form-control" style="margin-bottom: 10px" @bind="SchoolYearEntity.exchangeRate" min="0" step="0.01">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 py-1">
+                                    <div class="card border-bottom-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Inicio Primer Semestre:</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 0, true)" />
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Fin Primer semestre :</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 0, false)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 py-1">
+                                    <div class="card border-bottom-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Inicio Segundo semestre :</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 1, true)" />
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Fin Segundo semestre :</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 1, false)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 py-4">
+                                    <div class="card border-bottom-danger shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Inicio Tercer semestre :</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 2, true)" />
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Fin Tercer semestre :</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 2, false)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 py-4">
+                                    <div class="card border-bottom-danger shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Inicio Cuarto semestre :</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 3, true)" />
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <label class="label-required">Fin Cuarto semestre :</label>
+                                                <input type="date" class="form-control"
+                                                       @onchange="(e) => OnDateChanged(e, 3, false)" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <!-- OLD -->
                 <div class="card">
                     <div class="card-header" id="panel1">
                         <h3 class="mb-0 d-flex w-100 justify-content-between">
@@ -82,7 +144,7 @@ else
                                 <div class="col-md-4">
                                     <h4>Grados</h4>
                                     <ul class="list-group">
-                                        @foreach (var grade in SchoolYearEntity.Degrees)
+                                        @foreach (var grade in SchoolYearEntity.degreeList)
                                         {
                                             <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
                                                 @grade.label
@@ -157,11 +219,11 @@ else
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    @foreach (var item in SchoolYearEntity.Tariffs)
+                                    @foreach (var item in SchoolYearEntity.tariffList)
                                     {
-                                        var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.Type);
+                                        var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.type);
                                         <tr>
-                                            <td>@item.Concept</td>
+                                            <td>@item.concept</td>
                                             <td>@(item.OnlyDate.Year)/@(item.OnlyDate.Month)/@(item.OnlyDate.Day)</td>
                                             <td>
                                                 @if (typeTariff != null)
@@ -174,19 +236,19 @@ else
                                                 }
                                             </td>
                                             <td style="width: 150px;">
-                                                <InputNumber id="surname" @bind-Value="@item.Amount" class="form-control" min="1"/>
+                                                <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
                                             </td>
                                             <td style="width: 150px;">
-                                                <InputNumber id="surname" @bind-Value="@item.Amount" class="form-control" min="1"/>
+                                                <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
                                             </td>
                                             <td style="width: 150px;">
-                                                <InputNumber id="surname" @bind-Value="@item.Amount" class="form-control" min="1"/>
+                                                <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
                                             </td>
                                             <td>
                                                 <button class="btn btn-secondary" @onclick="() => CallEditTariff(item)">
                                                     <i class="fas fa-pen"></i>
                                                 </button>
-                                                
+
                                                 <button class="btn btn-danger btn-sm" @onclick="() => RemoveTariff(item)">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
@@ -200,7 +262,7 @@ else
                         </div>
                     </div>
                 </div> <!-- Tariff and Services  -->
-                
+
             </div>
         </div>
 

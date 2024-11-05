@@ -18,6 +18,7 @@ public class SubjectDto
     public int Semester { get; set; }
     
     public string initials { get; set; }
+    public int area { get; set; }
 
     public static SubjectsCreateNewSchoolYearDto MapToSubjectsCreateNewSchoolYearDto(SubjectDto subjectDto)
     {
@@ -26,7 +27,8 @@ public class SubjectDto
             name = subjectDto.Name,
             isMandatory = subjectDto.IsMandatory,
             semester = subjectDto.Semester,
-            initials = subjectDto.initials
+            initials = subjectDto.initials,
+            area = subjectDto.area
         };
     }
     

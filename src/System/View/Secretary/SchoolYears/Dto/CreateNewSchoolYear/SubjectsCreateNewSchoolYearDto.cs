@@ -6,4 +6,5 @@ public class SubjectsCreateNewSchoolYearDto
     public bool isMandatory { get; set; }
     public int semester { get; set; }
     public string initials { get; set; }
+    public int area { get; set; }
 }

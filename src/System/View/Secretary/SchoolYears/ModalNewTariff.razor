@@ -12,11 +12,11 @@
                 <form>
                     <div class="form-group">
                         <label for="gradeIntId">Concepto</label>
-                        <input type="text" class="form-control" id="Concept" @bind="SelectedTariff.Concept" />
+                        <input type="text" class="form-control" id="Concept" @bind="SelectedTariff.concept" />
                     </div>
                     <div class="form-group">
                         <label for="name">Monto</label>
-                        <input type="number" class="form-control" id="amount" @bind="SelectedTariff.Amount" />
+                        <input type="number" class="form-control" id="amount" @bind="SelectedTariff.amount" />
                     </div>
                     <div class="form-group">
                         <label for="semester">Vencimiento</label>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Tipo</label>
-                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Type">
+                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.type">
                             @foreach (var option in DropdownTypeTariffsLists)
                             {
                             <option value="@option.Id">@option.Nombre</option>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Modalidad</label>
-                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Modality">
+                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.modality">
                             @foreach (var option in DropdownModalityLists)
                             {
                             <option value="@option.Id">@option.Nombre</option>
