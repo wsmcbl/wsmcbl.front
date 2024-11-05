@@ -8,266 +8,259 @@
 else
 {
     <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@SchoolYearEntity.label</span> </h6>
-            <a class="btn btn-success btn-sm" role="button" @onclick="SaveSchoolYear">Guardar</a>
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@SchoolYearEntity.label</span> </h6>
+        <a class="btn btn-success btn-sm" role="button" @onclick="SaveSchoolYear">Guardar</a>
+    </div>
+
+    <div class="card-body">
+
+    <div id="accordion">
+
+    <!-- Semester and Partials -->
+    <div class="card">
+        <div class="card-header" id="panel3">
+            <h3 class="mb-0 d-flex w-100 justify-content-between">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo3" aria-expanded="true" aria-controls="panelinfo3">
+                    Configuración Básica
+                </button>
+            </h3>
         </div>
 
-        <div class="card-body">
+        <div id="panelinfo3" class="collapse" aria-labelledby="panel3" data-parent="#accordion">
+            <div class="card-body">
 
-            <div id="accordion">
+                <div class="row">
 
-                <div class="card">
-                    <div class="card-header" id="panel3">
-                        <h3 class="mb-0 d-flex w-100 justify-content-between">
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo3" aria-expanded="true" aria-controls="panelinfo3">
-                                Configuración Básica
-                            </button>
-                        </h3>
-                    </div>
-
-                    <div id="panelinfo3" class="collapse" aria-labelledby="panel3" data-parent="#accordion">
-                        <div class="card-body">
-                            
-                            <div class="row">
-
-                                <div class="col-md-12 py-1">
-                                    <div class="card border-bottom-dark shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <label class="label-required" style="display: inline-block; width: 200px;">Tipo de cambio</label>
-                                            <input type="number" class="form-control" style="margin-bottom: 10px" @bind="SchoolYearEntity.exchangeRate" min="0" step="0.01">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 py-1">
-                                    <div class="card border-bottom-success shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Inicio Primer Semestre:</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 0, true)" />
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Fin Primer semestre :</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 0, false)" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 py-1">
-                                    <div class="card border-bottom-success shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Inicio Segundo semestre :</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 1, true)" />
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Fin Segundo semestre :</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 1, false)" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 py-4">
-                                    <div class="card border-bottom-danger shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Inicio Tercer semestre :</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 2, true)" />
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Fin Tercer semestre :</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 2, false)" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 py-4">
-                                    <div class="card border-bottom-danger shadow h-100 py-2">
-                                        <div class="card-body">
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Inicio Cuarto semestre :</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 3, true)" />
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <label class="label-required">Fin Cuarto semestre :</label>
-                                                <input type="date" class="form-control"
-                                                       @onchange="(e) => OnDateChanged(e, 3, false)" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
+                    <div class="col-md-12 py-1">
+                        <div class="card border-bottom-dark shadow h-100 py-2">
+                            <div class="card-body">
+                                <label class="label-required" style="display: inline-block; width: 200px;">Tipo de cambio</label>
+                                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="SchoolYearEntity.exchangeRate" min="0" step="0.01">
                             </div>
                         </div>
                     </div>
-                </div> 
-                
 
-
-
-
-
-
-
-
-
-
-
-
-
-                <!-- OLD -->
-                <div class="card">
-                    <div class="card-header" id="panel1">
-                        <h3 class="mb-0 d-flex w-100 justify-content-between">
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo1" aria-expanded="true" aria-controls="panelinfo1">
-                                Grados y asignaturas para este Año Lectivo
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalNewSubject">
-                                Nueva Asignatura
-                            </button>
-                        </h3>
-                    </div>
-
-                    <div id="panelinfo1" class="collapse" aria-labelledby="panel1" data-parent="#accordion">
-                        <div class="card-body">
-
-                            <div class="row" style="max-height: 700px; overflow-y: auto;">
-                                <div class="col-md-4">
-                                    <h4>Grados</h4>
-                                    <ul class="list-group">
-                                        @foreach (var grade in SchoolYearEntity.degreeList)
-                                        {
-                                            <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
-                                                @grade.label
-                                            </li>
-                                        }
-                                    </ul>
+                    <div class="col-md-6 py-1">
+                        <div class="card border-bottom-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Inicio Primer Semestre:</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 0, true)"/>
                                 </div>
-                                <div class="col-md-8">
-                                    <h4>Asignatura</h4>
-                                    @if (SelectedGrade != null)
-                                    {
-                                        <ul class="list-group">
-                                            @foreach (var subject in SelectedGrade.subjects)
-                                            {
-                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                    <span>@subject.Name</span>
-                                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveSubject(subject)">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
-                                    else
-                                    {
-                                        <p>Seleccione un grado.</p>
-                                    }
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Fin Primer semestre :</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 0, false)"/>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                </div> <!-- Grades and Subjects -->
-
-                <div class="card">
-                    <div class="card-header" id="panel2">
-                        <h3 class="mb-0 d-flex w-100 justify-content-between">
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo2" aria-expanded="true" aria-controls="panelinfo2">
-                                Tarifas y Servicios
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalNewTariff">
-                                Nueva Tarifa
-                            </button>
-                        </h3>
-                    </div>
-
-                    <div id="panelinfo2" class="collapse" aria-labelledby="panel2" data-parent="#accordion">
-                        <div class="card-body">
-
-                            <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
-                                <table id="gradetable" class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Concepto</th>
-                                        <th>Vencimiento</th>
-                                        <th>Tipo</th>
-                                        <th>Edu. Inicial</th>
-                                        <th>Primaria</th>
-                                        <th>Secundaria</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Concepto</th>
-                                        <th>Vencimiento</th>
-                                        <th>Tipo</th>
-                                        <th>Edu. Inicial</th>
-                                        <th>Primaria</th>
-                                        <th>Secundaria</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    </tfoot>
-                                    <tbody>
-                                    @foreach (var item in SchoolYearEntity.tariffList)
-                                    {
-                                        var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.type);
-                                        <tr>
-                                            <td>@item.concept</td>
-                                            <td>@(item.OnlyDate.Year)/@(item.OnlyDate.Month)/@(item.OnlyDate.Day)</td>
-                                            <td>
-                                                @if (typeTariff != null)
-                                                {
-                                                    @typeTariff.Nombre
-                                                }
-                                                else
-                                                {
-                                                    <a>Sin Tipo</a>
-                                                }
-                                            </td>
-                                            <td style="width: 150px;">
-                                                <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
-                                            </td>
-                                            <td style="width: 150px;">
-                                                <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
-                                            </td>
-                                            <td style="width: 150px;">
-                                                <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-secondary" @onclick="() => CallEditTariff(item)">
-                                                    <i class="fas fa-pen"></i>
-                                                </button>
-
-                                                <button class="btn btn-danger btn-sm" @onclick="() => RemoveTariff(item)">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    }
-                                    </tbody>
-                                </table>
+                    <div class="col-md-6 py-1">
+                        <div class="card border-bottom-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Inicio Segundo semestre :</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 1, true)"/>
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Fin Segundo semestre :</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 1, false)"/>
+                                </div>
                             </div>
-
                         </div>
                     </div>
-                </div> <!-- Tariff and Services  -->
+
+                    <div class="col-md-6 py-4">
+                        <div class="card border-bottom-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Inicio Tercer semestre :</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 2, true)"/>
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Fin Tercer semestre :</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 2, false)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 py-4">
+                        <div class="card border-bottom-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Inicio Cuarto semestre :</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 3, true)"/>
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <label class="label-required">Fin Cuarto semestre :</label>
+                                    <input type="date" class="form-control"
+                                           @onchange="(e) => OnDateChanged(e, 3, false)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Semester and Partials -->
+
+    <!-- Grades and Subjects -->
+    <div class="card">
+        <div class="card-header" id="panel1">
+            <h3 class="mb-0 d-flex w-100 justify-content-between">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo1" aria-expanded="true" aria-controls="panelinfo1">
+                    Grados y asignaturas para este Año Lectivo
+                </button>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalNewSubject">
+                    Nueva Asignatura
+                </button>
+            </h3>
+        </div>
+
+        <div id="panelinfo1" class="collapse" aria-labelledby="panel1" data-parent="#accordion">
+            <div class="card-body">
+
+                <div class="row" style="max-height: 700px; overflow-y: auto;">
+                    <div class="col-md-4">
+                        <h4>Grados</h4>
+                        <ul class="list-group">
+                            @foreach (var grade in SchoolYearEntity.degreeList)
+                            {
+                                <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
+                                    @grade.label
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-md-8">
+                        <h4>Asignatura</h4>
+                        @if (SelectedGrade != null)
+                        {
+                            <ul class="list-group">
+                                @foreach (var subject in SelectedGrade.subjects)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>@subject.Name</span>
+                                        <button class="btn btn-danger btn-sm" @onclick="() => RemoveSubject(subject)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>Seleccione un grado.</p>
+                        }
+                    </div>
+                </div>
 
             </div>
         </div>
+    </div>
+    <!-- Grades and Subjects -->
+
+    <!-- Tariff and Services  -->
+    <div class="card">
+        <div class="card-header" id="panel2">
+            <h3 class="mb-0 d-flex w-100 justify-content-between">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#panelinfo2" aria-expanded="true" aria-controls="panelinfo2">
+                    Tarifas y Servicios
+                </button>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ModalNewTariff">
+                    Nueva Tarifa
+                </button>
+            </h3>
+        </div>
+
+        <div id="panelinfo2" class="collapse" aria-labelledby="panel2" data-parent="#accordion">
+            <div class="card-body">
+
+                <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
+                    <table id="gradetable" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Vencimiento</th>
+                            <th>Tipo</th>
+                            <th>Edu. Inicial</th>
+                            <th>Primaria</th>
+                            <th>Secundaria</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Vencimiento</th>
+                            <th>Tipo</th>
+                            <th>Edu. Inicial</th>
+                            <th>Primaria</th>
+                            <th>Secundaria</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        @foreach (var item in SchoolYearEntity.tariffList)
+                        {
+                            var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.type);
+                            <tr>
+                                <td>@item.concept</td>
+                                <td>@(item.OnlyDate.Year)/@(item.OnlyDate.Month)/@(item.OnlyDate.Day)</td>
+                                <td>
+                                    @if (typeTariff != null)
+                                    {
+                                        @typeTariff.Nombre
+                                    }
+                                    else
+                                    {
+                                        <a>Sin Tipo</a>
+                                    }
+                                </td>
+                                <td style="width: 150px;">
+                                    <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
+                                </td>
+                                <td style="width: 150px;">
+                                    <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
+                                </td>
+                                <td style="width: 150px;">
+                                    <InputNumber id="surname" @bind-Value="@item.amount" class="form-control" min="1"/>
+                                </td>
+                                <td>
+                                    <button class="btn btn-secondary" @onclick="() => CallEditTariff(item)">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveTariff(item)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Tariff and Services  -->
 
     </div>
-    <ModalEditTariff @ref="modalEditTariffRef" DropdownTypeTariffsLists="DropdownTypeTariffsLists" OnEditCompleted="RefreshParentComponent" />
+    </div>
+
+    </div>
+    
+    <ModalEditTariff @ref="modalEditTariffRef" DropdownTypeTariffsLists="DropdownTypeTariffsLists" OnEditCompleted="RefreshParentComponent"/>
     <ModalNewSubject SchoolYearEntity="SchoolYearEntity"/>
     <ModalNewTariff DropdownTypeTariffsLists="DropdownTypeTariffsLists"/>
 }
