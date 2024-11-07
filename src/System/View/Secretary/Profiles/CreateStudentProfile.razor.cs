@@ -62,9 +62,15 @@ public partial class CreateStudentProfile : ComponentBase
     
     protected async Task SaveStudent()
     {
-        if (string.IsNullOrWhiteSpace(NewStudent.student.name) && string.IsNullOrWhiteSpace(NewStudent.student.surname))
+        if (string.IsNullOrWhiteSpace(NewStudent.student.name) || string.IsNullOrWhiteSpace(NewStudent.student.surname))
         {
-            Notificator.ShowInformation("Favor ingrese los campos solicitados", "El primer nombre y el primer apellido son obligatorios");
+            await Notificator.ShowInformation("Favor ingrese los campos solicitados", "El primer nombre y el primer apellido son obligatorios");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(NewStudent.tutor.name))
+        {
+            await Notificator.ShowInformation("Favor ingrese los campos solicitados", "El nombre del tutor es obligatorio");
             return;
         }
         
