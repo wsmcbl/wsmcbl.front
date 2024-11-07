@@ -42,9 +42,7 @@ public class CollectTariffController
     public async Task<string> SendPay()
     {
         var defaultResult = new TransactionEntity();
-        var result = await Consumer
-            .PostAsync(Modules.Accounting, "transactions", Transaction, defaultResult);
-
+        var result = await Consumer.PostAsync(Modules.Accounting, "transactions", Transaction, defaultResult);
         return result!.transactionId!;
     }
 
