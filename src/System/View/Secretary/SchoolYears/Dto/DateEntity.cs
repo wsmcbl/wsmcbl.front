@@ -9,7 +9,7 @@ public class DateEntity
     public DateEntity()
     {
     }
-
+    
     public DateEntity(int year, int month, int day)
     {
         this.year = year;
