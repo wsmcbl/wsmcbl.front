@@ -12,7 +12,6 @@ public partial class CreateStudentProfile : ComponentBase
     [Inject] protected Notificator Notificator { get; set; }
     
     protected NewStudentDto NewStudent { get; set; } = null!;
-    protected int selectModality { get; set; }
     protected List<(bool Id, string Gender)> sex { get; set; } = null!;
     protected List<(int Id, string Modality)> modalitySelect { get; set; } = null!;
     private string MinDate => DateTime.Today.AddYears(-6).ToString("yyyy-MM-dd");
@@ -28,12 +27,10 @@ public partial class CreateStudentProfile : ComponentBase
     private void OnSexChanged(ChangeEventArgs e)
     {
         NewStudent.student.sex = bool.Parse(e.Value.ToString());
-        Console.WriteLine(NewStudent.student.sex);
     }    
     private void OnModalityChanged(ChangeEventArgs e)
     {
         NewStudent.educationalLevel = int.Parse(e.Value.ToString());
-        Console.WriteLine(NewStudent.educationalLevel);
     }
     
     protected override void OnInitialized()
@@ -59,28 +56,59 @@ public partial class CreateStudentProfile : ComponentBase
         };
         NewStudent.student.sex = true;
     }
-    
-    protected async Task SaveStudent()
+
+    private static bool IsDateValidate(DateEntity studentBirthday)
+    {
+        return studentBirthday.year != DateTime.Now.Year || studentBirthday.month != DateTime.Now.Month || studentBirthday.day != DateTime.Now.Day;
+    }
+
+    private async Task<bool> ValidateInformation()
     {
         if (string.IsNullOrWhiteSpace(NewStudent.student.name) || string.IsNullOrWhiteSpace(NewStudent.student.surname))
         {
             await Notificator.ShowInformation("Favor ingrese los campos solicitados", "El primer nombre y el primer apellido son obligatorios");
-            return;
+            return false;
         }
 
         if (string.IsNullOrWhiteSpace(NewStudent.tutor.name))
         {
             await Notificator.ShowInformation("Favor ingrese los campos solicitados", "El nombre del tutor es obligatorio");
-            return;
+            return false; 
         }
+
+        if (!IsDateValidate(NewStudent.student.birthday))
+        {
+            await Notificator.ShowInformation("Favor ingrese los campos solicitados", "La fecha debe estar en el rango correcto");
+            return false; 
+        }
+
+        return true;
+    }
+    
+    protected async Task SaveStudent()
+    {
+        if (!await ValidateInformation())
+        {
+            return;
+        }        
         
         var response = await Controller.CreateNewStudent(NewStudent);
-
+        
         if (response !=null)
         {
-            await Notificator.ShowSuccess("Se creo un nuevo perfil", "El perfil del estudiante fue creado exitosamente.");
-            await Navigator.HideModal("NewStudentModal");
-            Navigator.ToPage($"/accounting/tariffcollection/{response}");
+            var election =  await Notificator.ShowConfirmationQuestion("Se creó un nuevo perfil", "selecciona la opción deseada",
+                ("Ir a cobros","Cerrar"));
+
+            if (election)
+            {
+                await Navigator.HideModal("NewStudentModal");
+                Navigator.ToPage($"/accounting/tariffcollection/{response}");
+            }
+            else
+            {
+                await Navigator.HideModal("NewStudentModal");   
+                StateHasChanged();
+            }
         }
     }
 }

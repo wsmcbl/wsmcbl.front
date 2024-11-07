@@ -40,6 +40,7 @@ public class Notificator
     {
         var result = await Service.FireAsync(new SweetAlertOptions
         {
+            Icon = SweetAlertIcon.Success,
             Title = title,
             Text = content,
             ShowDenyButton = true,
