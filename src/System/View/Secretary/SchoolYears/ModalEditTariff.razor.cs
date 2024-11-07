@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
@@ -14,20 +15,16 @@ public partial class ModalEditTariff : ComponentBase
     
     
     [Inject] protected Navigator navigator { get; set; }
-    private SchoolYearTariffs SelectedTariff = new();
+    protected TariffAuxEntity? SelectedTariff { get; set; }
     
-    
-    protected List<DropdownList> DropdownModalityLists =
-    [
-        new DropdownList { Id = 1, Nombre = "Preescolar" },
-        new DropdownList { Id = 2, Nombre = "Primaria" },
-        new DropdownList { Id = 3, Nombre = "Secundaria" }
-    ];
-    
-    public async Task EditTariff(SchoolYearTariffs item)
+    protected override void OnParametersSet()
+    {
+        SelectedTariff = new TariffAuxEntity();
+    }
+
+    public async Task EditTariff(TariffAuxEntity item)
     {
         SelectedTariff = item;
-        SelectedTariff.OnlyDate = DateOnly.FromDateTime(DateTime.Now);
         await navigator.ShowModal("ModalEditTariff");
     }
     

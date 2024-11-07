@@ -5,15 +5,15 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public static class MapperDate
 {
-    public static TariffDataDto MapToTariffDataDto(SchoolYearTariffs schoolYearTariffs)
+    public static TariffDataDto MapToTariffDataDto(SchoolyearTariffDto schoolyearTariffDto)
     {
         return new TariffDataDto
         {
-            concept = schoolYearTariffs.concept,
-            amount = schoolYearTariffs.amount,
-            DueDateEntity = schoolYearTariffs.OnlyDate.ToEntity(),
-            typeId = schoolYearTariffs.type,
-            modality = schoolYearTariffs.modality
+            concept = schoolyearTariffDto.concept,
+            amount = schoolyearTariffDto.amount,
+            DueDateEntity = schoolyearTariffDto.OnlyDate.ToEntity(),
+            typeId = schoolyearTariffDto.type,
+            modality = schoolyearTariffDto.modality
         };
     }
     

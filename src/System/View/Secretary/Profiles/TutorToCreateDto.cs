@@ -7,7 +7,7 @@ public class TutorToCreateDto
 
     public TutorToCreateDto()
     {
-        name = "Sin asignar";
-        phone = "Sin asignar";
+        name = "";
+        phone = "";
     }
 }

@@ -35,16 +35,17 @@ public class CreateOfficialEnrollmentController
     {
         var resource = "configurations/schoolyears";
         Model.Secretary.SchoolYearEntity Default = new(); 
-        var content = MapperSchoolYear.MapToNewSchoolYearDto(schoolYearEntity, partials);
+        var content = new CreateSchoolYearDto(schoolYearEntity, partials);
+        var jsonResult = JsonSerializer.Serialize(content);
         var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }
 
-    public async Task<bool> CreateNewTariff(SchoolYearTariffs tariff)
+    public async Task<bool> CreateNewTariff(SchoolyearTariffDto schoolyearTariff)
     {
         var resource = "configurations/schoolyears/tariffs";
         TariffDataDto Default = new();
-        var content = MapperDate.MapToTariffDataDto(tariff);
+        var content = MapperDate.MapToTariffDataDto(schoolyearTariff);
         var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }

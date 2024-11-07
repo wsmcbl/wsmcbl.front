@@ -15,10 +15,10 @@ public class StudentBasicDto
     public StudentBasicDto()
     {
         studentId = "";
-        name = "Sin asignar";
-        secondName = "Sin asignar";
-        surname = "Sin asignar";
-        secondSurname = "Sin asignar";
+        name = "";
+        secondName = "";
+        surname = "";
+        secondSurname = "";
         birthday = new DateEntity(DateTime.Today);
     }
 }

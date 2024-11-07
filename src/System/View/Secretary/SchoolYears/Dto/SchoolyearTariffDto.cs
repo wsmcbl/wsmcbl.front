@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-public class SchoolYearTariffs
+public class SchoolyearTariffDto
 { 
     public string? schoolYear { get; set; } 
     public string? concept { get; set; }

@@ -17,6 +17,11 @@ public class DateEntity
         this.day = day;
     }
 
+    public DateEntity(DateOnly? date) : this((DateOnly)date!)
+    {
+        
+    }
+    
     public DateEntity(DateOnly date) : this(date.Year, date.Month, date.Day)
     {
     }

@@ -12,7 +12,7 @@ public partial class ModalNewTariff : ComponentBase
     [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
     [Inject] protected Notificator Notificator { get; set; }
     
-    protected SchoolYearTariffs SelectedTariff = new();
+    protected SchoolyearTariffDto SelectedSchoolyearTariff = new();
     protected List<DropdownList> DropdownModalityLists =
     [
         new DropdownList { Id = 1, Nombre = "Preescolar" },
@@ -20,9 +20,9 @@ public partial class ModalNewTariff : ComponentBase
         new DropdownList { Id = 3, Nombre = "Secundaria" }
     ];
     
-    protected async Task SaveNewTariff(SchoolYearTariffs tariff)
+    protected async Task SaveNewTariff(SchoolyearTariffDto schoolyearTariff)
     {
-        var response = await Controller.CreateNewTariff(tariff);
+        var response = await Controller.CreateNewTariff(schoolyearTariff);
         if (response)
         {
             await Notificator.ShowSuccess("Éxito", "Tarifa guardada correctamente");

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
@@ -13,41 +14,33 @@ public class ConfigSchoolYear : ComponentBase
     [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
     [Inject] protected Notificator Notificator { get; set; }
     [Inject] protected IJSRuntime JsRuntime { get; set; }
-    protected SchoolYearEntity SchoolYearEntity;
+    protected SchoolYearEntity SchoolYear;
     protected List<PartialListDto> PartialListDtos { get; set; }
     
-    protected GradeDto SelectedGrade;
+    protected DegreeDto SelectedDegree;
     protected List<DropdownList> DropdownTypeTariffsLists = new();
-    protected ModalEditTariff modalEditTariffRef { get; set; }
+    protected ModalEditTariff? modalEditTariffRef { get; set; }
 
     
     
     
     protected override async Task OnParametersSetAsync()
     {
-        SchoolYearEntity Default = new SchoolYearEntity();
-        SchoolYearEntity = await Controller.GetNewSchoolYears(Default);
+        var defaultSchoolyear = new SchoolYearEntity();
+        SchoolYear = await Controller.GetNewSchoolYears(defaultSchoolyear);
         DropdownTypeTariffsLists = await Controller.GetTypeTariffList();
         
-        if (SchoolYearEntity == Default || DropdownTypeTariffsLists == null)
+        if (SchoolYear == defaultSchoolyear || DropdownTypeTariffsLists == null)
         {
             throw new InternalException("Es posible que exista mas de 2 años lectivos activos al mismo tiempo.");
         }
-        await ConfigInformation();
+        
+        ConfigInformation();
     }
-    private Task ConfigInformation()
+    
+    private void ConfigInformation()
     { 
-        foreach (var item in SchoolYearEntity.tariffList)
-        {
-            if (item.dueDate != null)
-            {
-                item.OnlyDate = new DateOnly(item.dueDate.year, item.dueDate.month, item.dueDate.day);
-            }
-            else
-            {
-                item.OnlyDate = DateOnly.MinValue;
-            }
-        }
+        SchoolYear.InitTariffAuxList();
         
         PartialListDtos = new List<PartialListDto>
         {
@@ -56,58 +49,56 @@ public class ConfigSchoolYear : ComponentBase
             new() { semester = 2, partial = 1 },
             new() { semester = 2, partial = 2 },
         };
-        return Task.CompletedTask;
     }
     protected void OnDateChanged(ChangeEventArgs e, int index, bool isStartDate)
     {
-        if (DateTime.TryParse(e.Value.ToString(), out DateTime selectedDate))
+        if (!DateTime.TryParse(e.Value!.ToString(), out DateTime selectedDate))
         {
-            if (isStartDate)
-            {
-                PartialListDtos[index].startDate.year = selectedDate.Year;
-                PartialListDtos[index].startDate.month = selectedDate.Month;
-                PartialListDtos[index].startDate.day = selectedDate.Day;
-            }
-            else
-            {
-                PartialListDtos[index].deadLine.year = selectedDate.Year;
-                PartialListDtos[index].deadLine.month = selectedDate.Month;
-                PartialListDtos[index].deadLine.day = selectedDate.Day;
-            }
+            return;
+        }
+        
+        if (isStartDate)
+        {
+            PartialListDtos[index].startDate = new DateEntity(selectedDate);
+        }
+        else
+        {
+            PartialListDtos[index].deadLine = new DateEntity(selectedDate);
         }
     }
     protected async Task SaveSchoolYear()
     {
-            var response = await Controller.SaveNewSchoolYear(SchoolYearEntity, PartialListDtos);
-            if (response)
-            {
-                await Notificator.ShowSuccess("Éxito", "El año lectivo fue creado.");
-            }
-            else
-            {
-                await Notificator.ShowError("");
-            }
+        SchoolYear.UpdateTariffList();
+        var response = await Controller.SaveNewSchoolYear(SchoolYear, PartialListDtos);
+        if (response)
+        {
+            await Notificator.ShowSuccess("Éxito", "El año lectivo fue creado.");
+        }
+        else
+        {
+            await Notificator.ShowError("");
+        }
     }
-    protected void SelectGrade(GradeDto grade)
+    protected void SelectGrade(DegreeDto degree)
     {
-        SelectedGrade = grade;
+        SelectedDegree = degree;
     }
     protected void RemoveSubject(SubjectDto subject)
     {
-        if (SelectedGrade != null)
+        if (SelectedDegree != null)
         {
-            SelectedGrade.subjects.Remove(subject);
+            SelectedDegree.subjects.Remove(subject);
         }
     }
-    protected void RemoveTariff(SchoolYearTariffs tariff)
+    protected void RemoveTariff(TariffAuxEntity tariff)
     {
-        SchoolYearEntity.tariffList?.Remove(tariff);
+        SchoolYear.tariffAuxList.Remove(tariff);
     }
-    protected string GetSelectedClass(GradeDto grade)
+    protected string GetSelectedClass(DegreeDto degree)
     {
-        return grade == SelectedGrade ? "selected-grade" : string.Empty;
+        return degree == SelectedDegree ? "selected-grade" : string.Empty;
     }
-    protected async Task CallEditTariff(SchoolYearTariffs item)
+    protected async Task CallEditTariff(TariffAuxEntity item)
     {
         if (modalEditTariffRef != null)
         {
