@@ -42,9 +42,9 @@ public partial class PaymentViewComponent : ComponentBase
     
     [Parameter] public EventCallback<List<DetailDto>> OnComplexObjectCreated { get; set; }
 
-    private async Task CreateDetail()
+    private async Task CreateDetail(double amountToPay)
     {
-        var detail = TariffList.MapToDto(AreArrearsApply);
+        var detail = TariffList.MapToDto(AreArrearsApply, amountToPay);
         await OnComplexObjectCreated.InvokeAsync(detail);
         TariffList = [];
         await Navigator.HideModal("PaymentView");

@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using wsmcbl.src.Model.Accounting;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
@@ -42,16 +43,27 @@ public static class EntityMaker
         }
     }
 
-    public static List<DetailDto> MapToDto(this List<TariffEntity> list, bool isApplyArrears)
+    public static List<DetailDto> MapToDto(this List<TariffEntity> list, bool isApplyArrears, double amountToPay)
     {
         List<DetailDto> result = [];
-        
+
         foreach (var item in list)
         {
+            if (amountToPay <= 0)
+            {
+                break;
+            }
+            
             if (!isApplyArrears)
             {
                 item.Arrears = 0;
                 item.ComputeTotal();
+            }
+
+            if (amountToPay>0 && amountToPay < item.Total)
+            {
+                item.Total = amountToPay;
+                amountToPay -= item.Total;
             }
             
             result.Add(new DetailDto

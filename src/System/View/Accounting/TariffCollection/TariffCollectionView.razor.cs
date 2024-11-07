@@ -49,6 +49,10 @@ public partial class TariffCollectionView : ComponentBase
         var isSelect = (bool)e.Value;
         var tariffModal = TariffList!.First(t => t.TariffId == tariff.TariffId);
         
+        var hasDebt = Student.HasPayments(tariff.TariffId);
+        var amount = hasDebt && Student.GetDebt(tariff.TariffId) != 0 ? Student.GetDebt(tariff.TariffId) : tariff.Amount;
+        tariffModal.Amount = amount;
+        
         if (isSelect && !TariffsToPay.Contains(tariffModal))
         {
             EstimateTotal += tariffModal.Amount;
