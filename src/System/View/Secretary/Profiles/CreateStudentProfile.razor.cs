@@ -18,12 +18,16 @@ public partial class CreateStudentProfile : ComponentBase
 
 
     private void OnDateChanged(ChangeEventArgs e)
-    {
-        if (!DateTime.TryParse(e.Value!.ToString(), out DateTime selectedDate))
+    { 
+        if (DateTime.TryParse(e.Value?.ToString(), out DateTime selectedDate))
         {
             NewStudent.student.birthday = new DateEntity(selectedDate);
+            Console.WriteLine(NewStudent.student.birthday.day);
+            Console.WriteLine(NewStudent.student.birthday.month);
+            Console.WriteLine(NewStudent.student.birthday.year);
         }
     }
+    
     private void OnSexChanged(ChangeEventArgs e)
     {
         NewStudent.student.sex = bool.Parse(e.Value.ToString());
