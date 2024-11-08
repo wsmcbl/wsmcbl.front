@@ -47,6 +47,11 @@ public class ConfigureGrade : BaseView
 
     public async Task ConfigureDegree()
     {
+        if (!await ValidateInformation())
+        {
+            return;
+        }  
+        
         var response = await Controller.PutSaveEnrollment(DegreeEntity);
         
         if (response)
@@ -56,7 +61,19 @@ public class ConfigureGrade : BaseView
             StateHasChanged();
         }
     }
-    
+
+    private async Task<bool> ValidateInformation()
+    {
+        if (DegreeEntity.EnrollmentList.Any(entity => entity.Capacity < 10))
+        {
+            await Notificator.ShowInformation("Error", "La capacidad de la sección debe ser al menos de 10");
+            return false;
+        }
+
+        return true;
+    }
+
+
     protected void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
     { 
         for (int i = 0; i < enrollment.SubjectTeacherList.Count; i++)

@@ -105,10 +105,12 @@ public class CreateOfficialEnrollmentController
         var resource = "degrees/enrollments";
         var contentList = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(degree);
         
+        
         if (contentList.Count > 0)
         {
             foreach (var content in contentList)
             {
+                string json = JsonSerializer.Serialize(content);
                 result = await Consumer.PutAsync(Modules.Secretary, resource, content);
             }
         }

@@ -10,7 +10,7 @@ public class CreateEnrollmentsDto
     public string label { get; set; }
     public int capacity { get; set; }
     public int quantity { get; set; }
-    public List<ListSubjecDto> subjects { get; set; }
+    public List<ListSubjecDto> subjectList { get; set; }
     
     public class ListSubjecDto
     {
@@ -29,7 +29,7 @@ public class CreateEnrollmentsDto
             label = enrollment.Label,
             capacity = enrollment.Capacity,
             quantity = enrollment.Quantity,
-            subjects = enrollment.SubjectTeacherList.Select(st => new CreateEnrollmentsDto.ListSubjecDto
+            subjectList = enrollment.SubjectTeacherList.Select(st => new CreateEnrollmentsDto.ListSubjecDto
             {
                 subjectId = st.subject.SubjectId ?? string.Empty, 
                 teacherId = st.teacher?.teacherId ?? string.Empty
