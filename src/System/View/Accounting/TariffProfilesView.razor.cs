@@ -12,8 +12,13 @@ public partial class TariffProfilesView : ComponentBase
     
     protected override async Task OnInitializedAsync()
     {
-        StudentList = await Controller.GetStudentList();
+        await loadStudentList();
     }
+    
+    private async Task loadStudentList()
+    {
+        StudentList = await Controller.GetStudentList();
+    } 
 
     private bool IsLoad()
     {
