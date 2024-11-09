@@ -1,3 +1,5 @@
+using System.Text;
+using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent;
@@ -23,12 +25,9 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
 
     public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId)
     {
-       
-       
-        
-        /////////////////////////////////////////////////////////////////////////////////////////
         var content = student.ToEnrollStudentDto(enrollmentId, discountId);
         var json = JsonSerializer.Serialize(content);
+        Console.WriteLine(json);
         return await consumer.PutAsync(Modules.Secretary, "enrollments", content);
     }
 

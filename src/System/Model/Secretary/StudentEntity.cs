@@ -15,9 +15,8 @@ public class StudentEntity
     public StudentTutor tutor { get; set; }
     public List<StudentParent>? parents { get; set; }
     public StudentMeasurements measurements { get; set; }
-    
     public string? minedId { get; set; }
-    public IFormFile? profilePicture { get; set; }
+    public string? profilePicture { get; set; }
     
     public StudentEntity()
     {

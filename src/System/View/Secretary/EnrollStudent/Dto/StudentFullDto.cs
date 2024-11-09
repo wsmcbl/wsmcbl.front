@@ -18,7 +18,7 @@ public class StudentFullDto
     public string diseases { get; set; } = null!;
     public string address { get; set; } = null!;
     public bool isActive { get; set; }
-    public IFormFile? profilePictureReadingValue { get; set; }
+    public string? profilePictureReadingValue { get; set; }
     
     public StudentFile file { get; set; }
     public StudentTutor tutor { get; set; }

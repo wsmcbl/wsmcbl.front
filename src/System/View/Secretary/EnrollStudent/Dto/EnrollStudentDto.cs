@@ -18,6 +18,7 @@ public class EnrollStudentDto
         this.enrollmentId = enrollmentId;
         this.discountId = discountId;
         this.student = new StudentFullDto(student);
+        profilePictureWritingValue = student.profilePicture;
     }
 
     public StudentEntity GetStudentEntity()

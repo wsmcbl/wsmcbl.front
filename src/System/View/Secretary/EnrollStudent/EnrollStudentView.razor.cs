@@ -13,32 +13,25 @@ public partial class EnrollStudentView : ComponentBase
     [Inject] protected IEnrollStudentController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
-   
-    
     private StudentEntity? Student { get; set; }
     private string? enrollmentId { get; set; }
     private int discountId { get; set; }
-    
     private int Age { get; set; }
-    private string Sex;
-    private string SelectActive;
-
+    private string Sex { get; set; }
+    private string SelectActive { get; set; }
     private List<DegreeBasicDto> Degrees = null!;
     private List<EnrollmentsBasicDto> CurrentEnrollments = [];
     private int CurrentEnrollmentCapacity, CurrentEnrollmentQuantity;
-    private string EnrollmentIdSelected;
+    private string EnrollmentIdSelected { get; set; }
     
-    private string imgSrc2;
-
     protected override async Task OnParametersSetAsync()
     {
         EnrollSheetPdf = [];
-        Degrees = [];
-        
+        Degrees = await Controller.GetDegreeBasicList();
         await LoadStudentInformation();
         SetStudentData();
     }
-    
+
     private void SetDiscount(int value)
     {
         discountId = value;
@@ -50,7 +43,6 @@ public partial class EnrollStudentView : ComponentBase
         Student = result.student;
         enrollmentId = result.enrollmentId;
         discountId = result.discountId;
-        Degrees = await Controller.GetDegreeBasicList();
     }
 
     private void SetStudentData()
@@ -91,7 +83,7 @@ public partial class EnrollStudentView : ComponentBase
         
         if (Student.parents.Count != 0)
         {
-            for (var index = Student.parents.Count - 2; index >= 0; index--)
+            for (var index = Student.parents.Count - 1; index >= 0; index--)
             {
                 if (!Student.parents[index].isValid())
                 {
