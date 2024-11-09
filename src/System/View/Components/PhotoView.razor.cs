@@ -10,15 +10,14 @@ namespace wsmcbl.src.View.Components
     {
         [Inject] protected IJSRuntime JS { get; set; } = null!;
          [Parameter] public StudentEntity? Student { get; set; }
-        protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png";
-
+        protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png"; //Usado unicamente en el componente.
         private StringBuilder imageBase64Builder = new StringBuilder();
 
-        protected override void OnParametersSet()
+        protected override async Task OnParametersSetAsync()
         {
             if (Student.profilePicture != null)
             {
-                ImgSrc = Student.profilePicture;
+                ImgSrc = await ConvertIFormFileToBase64(Student.profilePicture);
             }
         }
         
@@ -36,11 +35,11 @@ namespace wsmcbl.src.View.Components
                 await stream.CopyToAsync(memoryStream);
                 var base64 = Convert.ToBase64String(memoryStream.ToArray());
                 ImgSrc = $"data:image/png;base64,{base64}";
+                Student.profilePicture = ConvertBase64ToIFormFile(ImgSrc);
                 StateHasChanged();
             }
         }
-       ///////////////////////////////////////////////////////
-       
+        
        private async Task StartCamera()
        {
            await JS.InvokeVoidAsync("startCamera");
@@ -59,14 +58,41 @@ namespace wsmcbl.src.View.Components
        }
 
        [JSInvokable("ImageTransferComplete")]
-       public async Task ImageTransferComplete()       {
+       public async Task ImageTransferComplete()       
+       {
            var base64Image = imageBase64Builder.ToString();
            ImgSrc = imageBase64Builder.ToString();
+           Student.profilePicture = ConvertBase64ToIFormFile(ImgSrc);
            imageBase64Builder.Clear();
            await JS.InvokeVoidAsync("stopCamera");
        }
+       
+       public IFormFile ConvertBase64ToIFormFile(string captureImage)
+       {
+           var base64Data = captureImage.Substring(captureImage.IndexOf(',') + 1);
+           byte[] bytes = Convert.FromBase64String(base64Data);
+
+           var stream = new MemoryStream(bytes);
+
+           var file = new FormFile(stream, 0, bytes.Length, "file", "profile.png")
+           {
+               Headers = new HeaderDictionary(),
+               ContentType = "image/png"
+           };
+
+           return file;
+       }
         
-        
+       public async Task<string> ConvertIFormFileToBase64(IFormFile? file)
+       {
+           using (var memoryStream = new MemoryStream())
+           {
+               await file.CopyToAsync(memoryStream);
+               byte[] fileBytes = memoryStream.ToArray();
+               string base64String = Convert.ToBase64String(fileBytes);
+               return $"data:{file.ContentType};base64,{base64String}";
+           }
+       }
         
         
         

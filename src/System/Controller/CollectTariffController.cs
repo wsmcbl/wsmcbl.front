@@ -12,7 +12,7 @@ public class CollectTariffController
     public CollectTariffController(ApiConsumer consumer)
     {
         Consumer = consumer;
-        CashierId = "caj-mmercado";
+        CashierId = "caj-eurbina";
     }
     
     public async Task<List<StudentEntity>?> GetStudentList()

@@ -17,7 +17,7 @@ public class StudentEntity
     public StudentMeasurements measurements { get; set; }
     
     public string? minedId { get; set; }
-    public string? profilePicture { get; set; }
+    public IFormFile? profilePicture { get; set; }
     
     public StudentEntity()
     {

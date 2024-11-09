@@ -10,15 +10,15 @@ public class StudentParent
 
     public bool isValid()
     {
-        return name != "Sin asignar" || occupation != "Sin asignar";
+        return name != "" || occupation != "";
     }
 
     public void init()
     {
         parentId = string.Empty;
         sex = true;
-        name = "Sin asignar";
-        idCard = "Sin asignar";
-        occupation = "Sin asignar";
+        name = "";
+        idCard = "";
+        occupation = "";
     }
 }

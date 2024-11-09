@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
@@ -52,7 +50,6 @@ public partial class EnrollStudentView : ComponentBase
         Student = result.student;
         enrollmentId = result.enrollmentId;
         discountId = result.discountId;
-        
         Degrees = await Controller.GetDegreeBasicList();
     }
 
@@ -91,18 +88,16 @@ public partial class EnrollStudentView : ComponentBase
     {
         Student!.isActive = SelectActive.ToLower() == "true";
         Student.sex = Sex.ToLower() == "true";
-        discountId = 2;
-
+        
         if (Student.parents.Count != 0)
         {
-            for (var index = 0; index < Student.parents.Count; index++)
+            for (var index = Student.parents.Count - 2; index >= 0; index--)
             {
                 if (!Student.parents[index].isValid())
                 {
                     Student.parents.RemoveAt(index);
                 }
             }
-            
         }
         
         var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, discountId);

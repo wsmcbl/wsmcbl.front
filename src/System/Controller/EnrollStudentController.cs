@@ -23,13 +23,8 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
 
     public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId)
     {
-        
-        
-        
-        
-        
-        
-        
+       
+       
         
         /////////////////////////////////////////////////////////////////////////////////////////
         var content = student.ToEnrollStudentDto(enrollmentId, discountId);
