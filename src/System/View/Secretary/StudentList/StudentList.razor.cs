@@ -19,8 +19,14 @@ public partial class StudentList : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
+        await loadStudentList();
+    }
+
+    private async Task loadStudentList()
+    {
         List = await Controller.GetStudentList();
     }
+
 
     protected bool IsLoad()
     {

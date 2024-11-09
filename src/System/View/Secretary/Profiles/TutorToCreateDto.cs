@@ -10,4 +10,10 @@ public class TutorToCreateDto
         name = "";
         phone = "";
     }
+
+    public bool IsTutorValid()
+    {
+        return !string.IsNullOrWhiteSpace(name);
+    }
+    
 }

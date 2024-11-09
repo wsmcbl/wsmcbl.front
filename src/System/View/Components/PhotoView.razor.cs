@@ -13,7 +13,14 @@ namespace wsmcbl.src.View.Components
         protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png";
 
         private StringBuilder imageBase64Builder = new StringBuilder();
-        
+
+        protected override void OnParametersSet()
+        {
+            if (Student.profilePicture != null)
+            {
+                ImgSrc = Student.profilePicture;
+            }
+        }
         
         protected async Task OpenFileDialog()
         {

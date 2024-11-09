@@ -18,6 +18,9 @@ public partial class EnrollStudentView : ComponentBase
    
     
     private StudentEntity? Student { get; set; }
+    private string? enrollmentId { get; set; }
+    private int discountId { get; set; }
+    
     private int Age { get; set; }
     private string Sex;
     private string SelectActive;
@@ -37,10 +40,19 @@ public partial class EnrollStudentView : ComponentBase
         await LoadStudentInformation();
         SetStudentData();
     }
+    
+    private void SetDiscount(int value)
+    {
+        discountId = value;
+    }
 
     private async Task LoadStudentInformation()
     {  
-        Student = await Controller.GetInfoStudent(StudentId);
+        var result = await Controller.GetInfoStudent(StudentId);
+        Student = result.student;
+        enrollmentId = result.enrollmentId;
+        discountId = result.discountId;
+        
         Degrees = await Controller.GetDegreeBasicList();
     }
 
@@ -58,7 +70,7 @@ public partial class EnrollStudentView : ComponentBase
         var selectDegreeId = e.Value.ToString();
         setCurrentEnrollmentsByDegreeId(selectDegreeId);
     }
-
+    
     private void setCurrentEnrollmentsByDegreeId(string? selectDegreeId)
     {
         var selectedDegree = Degrees.FirstOrDefault(e => e.degreeId == selectDegreeId);
@@ -79,16 +91,21 @@ public partial class EnrollStudentView : ComponentBase
     {
         Student!.isActive = SelectActive.ToLower() == "true";
         Student.sex = Sex.ToLower() == "true";
+        discountId = 2;
 
-        for (var index = 0; index < 2; index++)
+        if (Student.parents.Count != 0)
         {
-            if (!Student.parents[index].isValid())
+            for (var index = 0; index < Student.parents.Count; index++)
             {
-                Student.parents.RemoveAt(index);
+                if (!Student.parents[index].isValid())
+                {
+                    Student.parents.RemoveAt(index);
+                }
             }
+            
         }
         
-        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected);
+        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, discountId);
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Matrícula guardada exitosamente");

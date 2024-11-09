@@ -240,18 +240,30 @@
                         <h5 class="card-title font-weight-bold label-required">Otros</h5>
 
                         <label style="display: inline-block; width: 200px;">Codigo del Mined:</label>
-                        <input type="number" class="form-control" placeholder="AAAA-000000-0000000" style="margin-bottom: 10px">
+                        <input type="number" class="form-control" placeholder="AAAA-000000-0000000" style="margin-bottom: 10px" @bind="Student.minedId">
 
                         <h5 class="card-title font-weight-bold" style="display: inline-block; width: 200px;">Descuento:</h5>
-                        <div class="checkbox-group">
-                            <label for="DiscoundTeacher">Hijo de Maestro</label>
-                            <input type="checkbox" name="DiscoundTeacher" id="DiscoundTeacher">
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="NoneDiscount" name="discount" value="1"
+                                       checked="@((discountId == 1))"
+                                       @onchange="() => SetDiscount(1)" />
+                                <label for="NoneDiscount">Sin descuento</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="DiscoundTeacher" name="discount" value="2"
+                                       checked="@((discountId == 2))"
+                                       @onchange="() => SetDiscount(2)" />
+                                <label for="DiscoundTeacher">Hijo de Maestro</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="DiscountBrother" name="discount" value="3"
+                                       checked="@((discountId == 3))"
+                                       @onchange="() => SetDiscount(3)" />
+                                <label for="DiscountBrother">Posee Hermanos</label>
+                            </div>
                         </div>
-                        <div class="checkbox-group">
-                            <label for="DiscountBrother">Posee Hermanos</label>
-                            <input type="checkbox" name="DiscountBrother" id="DiscountBrother">
-                        </div>
-
+                        
                     </div>
                 </div>
             </div>

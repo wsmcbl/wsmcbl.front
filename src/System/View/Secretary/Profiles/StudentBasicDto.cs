@@ -21,4 +21,6 @@ public class StudentBasicDto
         secondSurname = "";
         birthday = new DateEntity(DateTime.Today);
     }
+
+    public bool IsBirthdayValid() => !birthday.IsNotDateValid();
 }

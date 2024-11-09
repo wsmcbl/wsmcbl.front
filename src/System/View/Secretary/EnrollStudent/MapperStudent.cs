@@ -1,34 +1,15 @@
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears;
 
 namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
 public static class MapperStudent
 {
-    public static StudentEntity MapToEntity(StudentFullDto dto)
+    public static StudentEntity ToStudentEntity(this EnrollStudentDto dto)
     {
-        return new StudentEntity
-        {
-            studentId = dto.studentId,
-            name = dto.name,
-            secondName = dto.secondName,
-            surname = dto.surname,
-            secondSurname = dto.secondSurname,
-            sex = dto.sex,
-            birthday = dto.birthday.ToDateOnly(),
-            religion = dto.religion,
-            diseases = dto.diseases,
-            address = dto.address,
-            isActive = dto.isActive,
-            file = dto.file,
-            tutor = dto.tutor,
-            parents = getParents(dto.parents),
-            measurements = dto.measurements
-        };
+        return dto.GetStudentEntity();
     }
-    private static List<StudentParent> getParents(List<StudentParent> list)
-    
+    public static List<StudentParent> ToListEntity(this List<StudentParent> list)
     {
         while (list.Count < 2)
         {
@@ -40,30 +21,9 @@ public static class MapperStudent
         return list;
     }
 
-    public static StudentEnrollmentDto MapToEnrollmentDto(StudentEntity student, string enrollmentId)
+    public static EnrollStudentDto ToEnrollStudentDto(this StudentEntity student, string enrollmentId, int discountId)
     {
-        return new StudentEnrollmentDto
-        {
-            enrollmentId = enrollmentId,
-            student = new StudentFullDto
-            {
-                studentId   = student.studentId,
-                name = student.name,
-                secondName = student.secondName,
-                surname = student.surname,
-                secondSurname = student.secondSurname,
-                sex = student.sex,
-                birthday = student.birthday.ToEntityOrNull(),
-                religion = student.religion,
-                diseases = student.diseases,
-                address = student.address,
-                isActive = student.isActive,
-                file = student.file,
-                tutor = student.tutor,
-                parents = student.parents,
-                measurements = student.measurements
-            }
-        };
+        return new EnrollStudentDto(student, enrollmentId, discountId);
     }
  
     

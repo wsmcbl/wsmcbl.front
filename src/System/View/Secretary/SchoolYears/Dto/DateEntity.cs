@@ -34,4 +34,13 @@ public class DateEntity
     {
         return new DateOnly(year, month, day);
     }
+    
+    public bool IsNotDateValid()
+    {
+        var today = DateTime.Today;
+        return year == today.Year && month == today.Month && day == today.Day;
+    }
+    
+    
+    
 }
