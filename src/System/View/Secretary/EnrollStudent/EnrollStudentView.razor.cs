@@ -13,16 +13,21 @@ public partial class EnrollStudentView : ComponentBase
     [Inject] protected IEnrollStudentController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
+    
+    
     private StudentEntity? Student { get; set; }
-    private string? enrollmentId { get; set; }
+    private List<DegreeBasicDto>? Degrees { get; set; }
+    private List<EnrollmentsBasicDto>? CurrentEnrollments { get; set; }
+    
+    
     private int discountId { get; set; }
     private int Age { get; set; }
     private string Sex { get; set; }
     private string SelectActive { get; set; }
-    private List<DegreeBasicDto> Degrees = null!;
-    private List<EnrollmentsBasicDto> CurrentEnrollments = [];
-    private int CurrentEnrollmentCapacity, CurrentEnrollmentQuantity;
+    private int CurrentEnrollmentCapacity { get; set; }
+    private int CurrentEnrollmentQuantity { get; set; }
     private string EnrollmentIdSelected { get; set; }
+    private bool IsStudentsEnrollment { get; set; }
     
     protected override async Task OnParametersSetAsync()
     {
@@ -31,17 +36,25 @@ public partial class EnrollStudentView : ComponentBase
         await LoadStudentInformation();
         SetStudentData();
     }
-
-    private void SetDiscount(int value)
-    {
-        discountId = value;
-    }
-
+    
     private async Task LoadStudentInformation()
     {  
         var result = await Controller.GetInfoStudent(StudentId);
+        IsStudentsEnrollment = result.enrollmentId != null;
+        if (Degrees.Any())
+        {
+            CurrentEnrollments = Degrees
+                .Where(t => t.enrollments != null && t.enrollments.Any())
+                .Select(t => t.enrollments)
+                .FirstOrDefault(); 
+            EnrollmentIdSelected  = CurrentEnrollments.FirstOrDefault()?.enrollmentId ?? "No asignado";
+        }
+        else
+        {
+            CurrentEnrollments = new List<EnrollmentsBasicDto> { new() };       
+        }
+        
         Student = result.student;
-        enrollmentId = result.enrollmentId;
         discountId = result.discountId;
     }
 
@@ -52,6 +65,11 @@ public partial class EnrollStudentView : ComponentBase
         Sex = Student.sex ? "true" : "false";
         Student.parents[0].sex = false;
         Student.parents[1].sex = true;
+    }
+    
+    private void SetDiscount(int value)
+    {
+        discountId = value;
     }
     
     private void GetSelectDegreeId(ChangeEventArgs e)
@@ -85,7 +103,14 @@ public partial class EnrollStudentView : ComponentBase
         {
             for (var index = Student.parents.Count - 1; index >= 0; index--)
             {
-                if (!Student.parents[index].isValid())
+                if (Student.parents[index].isTutorPartiallyFilled())
+                {
+                    await Notificator.ShowInformation("Advertencia",
+                        "Todos los campos de un tutor deben ser rellenados, de lo contrario dejar en blanco");
+                    return;
+                }
+             
+                if (Student.parents[index].isTutorEmpty())
                 {
                     Student.parents.RemoveAt(index);
                 }

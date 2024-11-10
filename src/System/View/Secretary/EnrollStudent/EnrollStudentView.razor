@@ -37,10 +37,20 @@
                     @onclick="(e) => SaveEnrollment()">
                 Guardar
             </button>
-            <button type="button" class="btn btn-success"
-                    @onclick="(e) => PrintEnrollSheet(Student.studentId)">
-                Imprimir Hoja de Matrícula
-            </button>
+            |
+            @if (IsStudentsEnrollment)
+            {
+                <button type="button" class="btn btn-success"
+                        @onclick="(e) => PrintEnrollSheet(Student.studentId)">
+                    Imprimir Hoja de Matrícula
+                </button>
+            }
+            else
+            {
+                <button type="button" class="disabled btn btn-outline-secondary">
+                    Imprimir Hoja de Matrícula
+                </button>
+            }
         </div>
     </div>
 
@@ -201,17 +211,31 @@
 
                         <label style="display: inline-block; width: 200px;">Grado:</label>
                         <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">
-                            @foreach (var option in Degrees)
+                            @if (Degrees != null && Degrees.Any())
                             {
-                                <option value="@option.degreeId">@option.label</option>
+                                @foreach (var option in CurrentEnrollments)
+                                {
+                                    <option value="@option.enrollmentId">@option.label</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="">No hay secciones disponibles</option>
                             }
                         </select>
-
+                        
                         <label style="display: inline-block; width: 200px;">Sección:</label>
                         <select id="seccion" class="form-control" style="margin: 0px" @onchange="GetSection">
+                            @if (CurrentEnrollments != null && CurrentEnrollments.Any())
+                            {
                             @foreach (var option in CurrentEnrollments)
                             {
-                                <option value="@option.enrollmentId">@option.label</option>
+                            <option value="@option.enrollmentId">@option.label</option>
+                            }
+                            }
+                            else
+                            {
+                            <option value="">No hay secciones disponibles</option>
                             }
                         </select>
 

@@ -27,7 +27,6 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
     {
         var content = student.ToEnrollStudentDto(enrollmentId, discountId);
         var json = JsonSerializer.Serialize(content);
-        Console.WriteLine(json);
         return await consumer.PutAsync(Modules.Secretary, "enrollments", content);
     }
 
