@@ -16,23 +16,18 @@ public partial class EnrollStudentView : ComponentBase
     
     
     private StudentEntity? Student { get; set; }
-    private List<DegreeBasicDto>? Degrees { get; set; }
-    private List<EnrollmentsBasicDto>? CurrentEnrollments { get; set; }
-    
-    
     private int discountId { get; set; }
+    private List<DegreeBasicDto>? Degrees { get; set; }
+    
     private int Age { get; set; }
     private string Sex { get; set; }
     private string SelectActive { get; set; }
-    private int CurrentEnrollmentCapacity { get; set; }
-    private int CurrentEnrollmentQuantity { get; set; }
     private string EnrollmentIdSelected { get; set; }
     private bool IsStudentsEnrollment { get; set; }
     
     protected override async Task OnParametersSetAsync()
     {
         EnrollSheetPdf = [];
-        Degrees = await Controller.GetDegreeBasicList();
         await LoadStudentInformation();
         SetStudentData();
     }
@@ -40,58 +35,26 @@ public partial class EnrollStudentView : ComponentBase
     private async Task LoadStudentInformation()
     {  
         var result = await Controller.GetInfoStudent(StudentId);
+        Degrees = await Controller.GetDegreeBasicList();
         IsStudentsEnrollment = result.enrollmentId != null;
-        if (Degrees.Any())
-        {
-            CurrentEnrollments = Degrees
-                .Where(t => t.enrollments != null && t.enrollments.Any())
-                .Select(t => t.enrollments)
-                .FirstOrDefault(); 
-            EnrollmentIdSelected  = CurrentEnrollments.FirstOrDefault()?.enrollmentId ?? "No asignado";
-        }
-        else
-        {
-            CurrentEnrollments = new List<EnrollmentsBasicDto> { new() };       
-        }
-        
         Student = result.student;
         discountId = result.discountId;
     }
 
     private void SetStudentData()
     { 
-        Age = Student!.birthday.AgeCompute();
-        SelectActive = Student.isActive ? "true" : "false";
-        Sex = Student.sex ? "true" : "false";
-        Student.parents[0].sex = false;
-        Student.parents[1].sex = true;
-    }
-    
-    private void SetDiscount(int value)
-    {
-        discountId = value;
-    }
-    
-    private void GetSelectDegreeId(ChangeEventArgs e)
-    {
-        var selectDegreeId = e.Value.ToString();
-        setCurrentEnrollmentsByDegreeId(selectDegreeId);
-    }
-    
-    private void setCurrentEnrollmentsByDegreeId(string? selectDegreeId)
-    {
-        var selectedDegree = Degrees.FirstOrDefault(e => e.degreeId == selectDegreeId);
-        CurrentEnrollments = selectedDegree.enrollments;
-    }
-
-    private void GetSection(ChangeEventArgs e)
-    {
-        var selectEnrollmentId = e.Value.ToString();
-        var enrollment = CurrentEnrollments.FirstOrDefault(e => e.enrollmentId == selectEnrollmentId);
+        if (Student != null)
+        {
+            Age = Student.birthday.AgeCompute();
+            SelectActive = Student.isActive ? "true" : "false";
+            Sex = Student.sex ? "true" : "false";
+        }
         
-        EnrollmentIdSelected = enrollment.enrollmentId;
-        CurrentEnrollmentCapacity = enrollment.capacity;
-        CurrentEnrollmentQuantity = enrollment.quantity;
+        if (Student?.parents != null && Student.parents.Count >= 2)
+        {
+            Student.parents[0].sex = false;
+            Student.parents[1].sex = true;
+        }
     }
     
     private async Task SaveEnrollment()
@@ -112,7 +75,7 @@ public partial class EnrollStudentView : ComponentBase
              
                 if (Student.parents[index].isTutorEmpty())
                 {
-                    Student.parents.RemoveAt(index);
+                    Student.parents[index].SetDefault();
                 }
             }
         }

@@ -1,0 +1,53 @@
+<div class="row">
+            <div class="col-12 col-md-4" style="margin-bottom: 15px">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Información de la Madre</h5>
+
+                        <label style="display: inline-block; width: 200px;">Nombre de la madre:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].name" placeholder="Sin asignar">
+
+                        <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].idCard" placeholder="Sin asignar">
+
+                        <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].occupation" placeholder="Sin asignar">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4" style="margin-bottom: 15px">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Información del Padre</h5>
+                        @if (Student?.parents != null && Student.parents.Count > 0)
+                        {
+                            <label style="display: inline-block; width: 200px;">Nombre del Padre:</label>
+                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].name" placeholder="Sin asignar">
+
+                            <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
+                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].idCard" placeholder="Sin asignar">
+
+                            <label style="display: inline-block; width: 200px;">Ocupaciòn:</label>
+                            <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[1].occupation" placeholder="Sin asignar">
+                        }   
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4" style="margin-bottom: 15px">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Responsable o Tutor</h5>
+
+                        <label class="label-required" style="display: inline-block; width: 200px;">Nombre:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.name">
+
+                        <label class="label-required" style="display: inline-block; width: 200px;">Telefono:</label>
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.phone">
+
+                    </div>
+                </div>
+            </div>
+        </div>
