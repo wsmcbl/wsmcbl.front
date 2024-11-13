@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
@@ -35,7 +36,7 @@ public partial class TariffCollectionView : ComponentBase
         InvoicePdf = [];
         TariffsToPay = [];
     }
-
+    
     private async Task LoadStudent()
     {
         Student = await Controller.GetStudent(StudentId!);
@@ -68,6 +69,17 @@ public partial class TariffCollectionView : ComponentBase
     private async Task OpenModal()
     {
         await Navigator.ShowModal("PaymentView");
+    }
+    
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (TariffsToPay.Any())
+        {
+            if (e.Key == "Enter" && e.CtrlKey)
+            {
+                OpenModal();
+            }
+        }
     }
     
     private byte[] InvoicePdf { get; set; }

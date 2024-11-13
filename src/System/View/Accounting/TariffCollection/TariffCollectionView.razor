@@ -8,223 +8,225 @@
 }
 else
 {
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+    <div @onkeydown="HandleKeyDown" tabindex="0">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
 
-            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="TabTariffs" data-toggle="tab" href="#PanelTariffs" role="tab"
-                       aria-controls="PanelTariffs" aria-selected="true">
-                        Mensualidades
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="TabServices" data-toggle="tab" href="#PanelServices" role="tab"
-                       aria-controls="PanelServices" aria-selected="false">
-                        Servicios
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
-                       aria-controls="PanelStudent" aria-selected="false">
-                        Info Estudiante
-                    </a>
-                </li>
-            </ul>
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="TabTariffs" data-toggle="tab" href="#PanelTariffs" role="tab"
+                           aria-controls="PanelTariffs" aria-selected="true">
+                            Mensualidades
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabServices" data-toggle="tab" href="#PanelServices" role="tab"
+                           aria-controls="PanelServices" aria-selected="false">
+                            Servicios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
+                           aria-controls="PanelStudent" aria-selected="false">
+                            Info Estudiante
+                        </a>
+                    </li>
+                </ul>
 
-            @if (TariffsToPay.Any())
-            {
+                @if (TariffsToPay.Any())
+                {
                 <button type="button" class="btn btn-success"
                         @onclick="(e) => OpenModal()">
                     Cobrar C$ @EstimateTotal
                 </button>
-            }
-            else
-            {
+                }
+                else
+                {
                 <button type="button" class="disabled btn btn-outline-secondary">
                     Cobrar
                 </button>
-            }
-            
-        </div>
+                }
 
-        <div class="card-body" id="tabContent">
-            <div class="tab-content">
+            </div>
 
-                <div class="tab-pane fade show active" id="PanelTariffs" role="tabpanel" aria-labelledby="TabTariffs">
-                    <div>
-                        <div class="p-3 table-responsive ">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Año Lectivo</th>
-                                    <th>Concepto</th>
-                                    <th>Monto</th>
-                                    <th>Con Mora</th>
-                                    <th>Fecha Vencimiento</th>
-                                    <th>Seleccionar</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var item in TariffList!)
-                                {
+            <div class="card-body" id="tabContent">
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show active" id="PanelTariffs" role="tabpanel" aria-labelledby="TabTariffs">
+                        <div>
+                            <div class="p-3 table-responsive ">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Año Lectivo</th>
+                                        <th>Concepto</th>
+                                        <th>Monto</th>
+                                        <th>Con Mora</th>
+                                        <th>Fecha Vencimiento</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in TariffList!)
+                                    {
                                     if (item.Type == 1)
                                     {
-                                        <tr>
-                                            <td>@item.TariffId</td>
-                                            <td>@item.SchoolYear</td>
-                                            <td>@item.Concept</td>
-                                            @{
-                                                var hasDebt = Student.HasPayments(item.TariffId);
-                                                var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
-                                            }
-                                            <td>@amount</td>
-                                            <td>@item.IsLate</td>
-                                            <td>@item.DueDate</td>
-                                            <td>
-                                                @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
-                                                {
-                                                    <td>
-                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td class="center-checkbox">
-                                                        <label class="checkbox-label">
-                                                            <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
-                                                            <span class="custom-checkbox"></span>
-                                                        </label>
-                                                    </td>
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
-                                }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-pane fade" id="PanelServices" role="tabpanel" aria-labelledby="TabServices">
-                    <div>
-                        <div class="p-3 table-responsive ">
-                            <table class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Año Lectivo</th>
-                                    <th>Concepto</th>
-                                    <th>Monto</th>
-                                    <th>Seleccionar</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var item in TariffList!)
-                                {
-                                    if (item.Type != 1)
-                                    {
-                                        <tr>
-                                            <td>@item.TariffId</td>
-                                            <td>@item.SchoolYear</td>
-                                            <td>@item.Concept</td>
-                                            @{
-                                                var hasDebt = Student.HasPayments(item.TariffId);
-                                                var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
-                                            }
-                                            <td>@amount</td>
+                                    <tr>
+                                        <td>@item.TariffId</td>
+                                        <td>@item.SchoolYear</td>
+                                        <td>@item.Concept</td>
+                                        @{
+                                        var hasDebt = Student.HasPayments(item.TariffId);
+                                        var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
+                                        }
+                                        <td>@amount</td>
+                                        <td>@item.IsLate</td>
+                                        <td>@item.DueDate</td>
+                                        <td>
                                             @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
                                             {
-                                                <td>
-                                                    <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td class="center-checkbox">
-                                                    <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
-                                                </td>
-                                            }
-                                        </tr>
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                        </td>
+                                        }
+                                        else
+                                        {
+                                        <td class="center-checkbox">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                <span class="custom-checkbox"></span>
+                                            </label>
+                                        </td>
+                                        }
+                                        </td>
+                                    </tr>
                                     }
-                                }
-                                </tbody>
-                            </table>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="tab-pane fade" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
-                    <div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="info-box">
+                    <div class="tab-pane fade" id="PanelServices" role="tabpanel" aria-labelledby="TabServices">
+                        <div>
+                            <div class="p-3 table-responsive ">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Año Lectivo</th>
+                                        <th>Concepto</th>
+                                        <th>Monto</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in TariffList!)
+                                    {
+                                    if (item.Type != 1)
+                                    {
+                                    <tr>
+                                        <td>@item.TariffId</td>
+                                        <td>@item.SchoolYear</td>
+                                        <td>@item.Concept</td>
+                                        @{
+                                        var hasDebt = Student.HasPayments(item.TariffId);
+                                        var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
+                                        }
+                                        <td>@amount</td>
+                                        @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
+                                        {
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                        </td>
+                                        }
+                                        else
+                                        {
+                                        <td class="center-checkbox">
+                                            <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                        </td>
+                                        }
+                                    </tr>
+                                    }
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-box">
                                     <span class="info-box-icon bg-info text-white">
                                         <i class="fas fa-user"></i>
                                     </span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Nombre</span>
-                                        <span class="info-box-value">@Student.fullName</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Nombre</span>
+                                            <span class="info-box-value">@Student.fullName</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="info-box">
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-box">
                                     <span class="info-box-icon bg-secondary text-white">
                                         <i class="fas fa-id-badge"></i>
                                     </span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Código</span>
-                                        <span class="info-box-value">@Student.studentId</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Código</span>
+                                            <span class="info-box-value">@Student.studentId</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="info-box">
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-box">
                                     <span class="info-box-icon bg-success text-white">
                                         <i class="fas fa-graduation-cap"></i>
                                     </span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Grado</span>
-                                        <span class="info-box-value">@Student.enrollmentLabel</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Grado</span>
+                                            <span class="info-box-value">@Student.enrollmentLabel</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="info-box">
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-box">
                                     <span class="info-box-icon bg-danger text-white">
                                         <i class="fas fa-chalkboard-teacher"></i>
                                     </span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tutor</span>
-                                        <span class="info-box-value">@Student.tutor</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Tutor</span>
+                                            <span class="info-box-value">@Student.tutor</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="info-box">
+                                <div class="col-md-6 mb-3">
+                                    <div class="info-box">
                                     <span class="info-box-icon bg-primary text-white">
                                         <i class="fas fa-percent"></i>
                                     </span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Descuento</span>
-                                        <span class="info-box-value">@Student.discount</span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Descuento</span>
+                                            <span class="info-box-value">@Student.discount</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="/accouting/tariffcollection" class="btn btn-info btn-sm">Estado de cuenta</a>
+                            <div class="card-footer text-center">
+                                <a href="/accouting/tariffcollection" class="btn btn-info btn-sm">Estado de cuenta</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-
+    
     <PaymentViewComponent TariffList="@TariffsToPay" OnComplexObjectCreated="@PayTariffs"/>
     
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
 
@@ -62,5 +63,16 @@ public partial class PaymentViewComponent : ComponentBase
     {
         AmountToDivide = string.IsNullOrEmpty(e.Value?.ToString()) ? 0 : Convert.ToDouble(e.Value);
         StateHasChanged();
+    }
+    
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (AmountToDivide > 0)
+        {
+            if (e.Key == "Enter" && e.CtrlKey)
+            {
+                CreateDetail(AmountToDivide);
+            }
+        }
     }
 }
