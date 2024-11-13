@@ -12,13 +12,14 @@
             <div class="modal-body">
                 @if (hasPdf())
                 {
-                    <iframe src="data:application/pdf;base64,@Convert.ToBase64String(PdfContent!)"
+                    <iframe id="pdfViewer" src="data:application/pdf;base64,@Convert.ToBase64String(PdfContent!)"
                             width="100%" height="600px"></iframe>
                 }
             </div>
 
             <div class="modal-footer">
                 <div class="right-container">
+                    <button type="button" class="btn btn-primary" @onclick="PrintPdf">Imprimir</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -26,3 +27,16 @@
         </div>
     </div>
 </div>
+
+<script>
+    function printPdf(pdfBase64) {
+        const pdfBlob = new Blob([Uint8Array.from(atob(pdfBase64), c => c.charCodeAt(0))], { type: 'application/pdf' });
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+
+        const printWindow = window.open(pdfUrl);
+        if (printWindow) {
+            printWindow.focus();
+            printWindow.print();
+        }
+    }
+</script>
