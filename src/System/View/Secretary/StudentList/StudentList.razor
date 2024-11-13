@@ -23,6 +23,7 @@ else
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
+                        <th>Activo</th>
                         <th>Año Lectivo</th>
                         <th>Grado</th>
                         <th>Acciones</th>
@@ -32,6 +33,7 @@ else
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
+                        <th>Activo</th>
                         <th>Año Lectivo</th>
                         <th>Grado</th>
                         <th>Acciones</th>
@@ -43,14 +45,22 @@ else
                         <tr>
                             <td> @item.studentId </td>
                             <td> @item.fullName </td>
+                            <td>
+
+                                <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
+                                    @(item.isActive ? "Si" : "No")
+                                </span>
+
+                            </td>
                             <td> @item.schoolyear </td>
-                            <td> @item.enrollmentLabel </td>
+                            <td> @item.enrollment </td>
                             <td>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                     </a>
+                          
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header">Seleccione una opción:</div>

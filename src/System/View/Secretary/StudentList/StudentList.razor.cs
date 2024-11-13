@@ -24,7 +24,7 @@ public partial class StudentList : ComponentBase
 
     private async Task loadStudentList()
     {
-        List = await Controller.GetStudentList();
+        List = await PrintController.GetAllStudentsList();
     }
 
 
