@@ -1,29 +1,31 @@
-<div class="modal fade" id="PdfViewerModal" tabindex="-1" aria-labelledby="PdfViewerModal" aria-hidden="true">
-    <div class="modal-dialog" role="document"
-         style="width: 60%; height: 30%; max-width: 60%; max-height: 30%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalPdfTitle">@Title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                @if (hasPdf())
-                {
-                    <iframe id="pdfViewer" src="data:application/pdf;base64,@Convert.ToBase64String(PdfContent!)"
-                            width="100%" height="600px"></iframe>
-                }
-            </div>
-
-            <div class="modal-footer">
-                <div class="right-container">
-                    <button type="button" class="btn btn-primary" @onclick="PrintPdf">Imprimir</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+<div @onkeydown="HandleKeyDown" tabindex="0">
+    <div class="modal fade" id="PdfViewerModal" tabindex="-1" aria-labelledby="PdfViewerModal" aria-hidden="true">
+        <div class="modal-dialog" role="document"
+             style="width: 60%; height: 30%; max-width: 60%; max-height: 30%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalPdfTitle">@Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-            </div>
 
+                <div class="modal-body">
+                    @if (hasPdf())
+                    {
+                        <iframe id="pdfViewer" src="data:application/pdf;base64,@Convert.ToBase64String(PdfContent!)"
+                                width="100%" height="600px"></iframe>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button type="button" class="btn btn-success" @onclick="PrintPdf">Imprimir(F8)</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
@@ -40,3 +42,5 @@
         }
     }
 </script>
+
+

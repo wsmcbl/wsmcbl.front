@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 namespace wsmcbl.src.View.Components;
@@ -17,6 +18,17 @@ public partial class PdfViewer : ComponentBase
         {
             var pdfBase64 = Convert.ToBase64String(PdfContent);
             await Js.InvokeVoidAsync("printPdf", pdfBase64);
+        }
+    }
+    
+    private void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (PdfContent != null)
+        {
+            if (e.Key == "F8")
+            {
+                _ = PrintPdf();
+            }
         }
     }
 }
