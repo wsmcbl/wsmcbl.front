@@ -27,15 +27,6 @@ public class StudentParent
                string.IsNullOrWhiteSpace(idCard) &&
                string.IsNullOrWhiteSpace(occupation);
     }
-
-    public void SetDefault()
-    {
-        parentId = string.Empty;
-        sex = true;
-        name = "Sin registrar";
-        idCard = "Sin registrar";
-        occupation = "Sin registrar";
-    }
     
     public void init()
     {

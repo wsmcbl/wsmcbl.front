@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears;
 using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
 namespace wsmcbl.src.View.Secretary.EnrollStudent;
@@ -29,64 +29,88 @@ public partial class EnrollStudentView : ComponentBase
     {
         EnrollSheetPdf = [];
         await LoadStudentInformation();
-        SetStudentData();
     }
     
     private async Task LoadStudentInformation()
     {  
         var result = await Controller.GetInfoStudent(StudentId);
         Degrees = await Controller.GetDegreeBasicList();
+        
         IsStudentsEnrollment = result.enrollmentId != null;
         Student = result.student;
         discountId = result.discountId;
-    }
-
-    private void SetStudentData()
-    { 
-        if (Student != null)
-        {
-            Age = Student.birthday.AgeCompute();
-            SelectActive = Student.isActive ? "true" : "false";
-            Sex = Student.sex ? "true" : "false";
-        }
         
-        if (Student?.parents != null && Student.parents.Count >= 2)
+        if (!Student.parents.Any())
         {
-            Student.parents[0].sex = false;
-            Student.parents[1].sex = true;
+            Student.parents = new List<StudentParent>();
         }
     }
     
     private async Task SaveEnrollment()
     {
-        Student!.isActive = SelectActive.ToLower() == "true";
-        Student.sex = Sex.ToLower() == "true";
         
-        if (Student.parents.Count != 0)
+        if (Student != null && !Student.IsStudenValid())
         {
-            for (var index = Student.parents.Count - 1; index >= 0; index--)
-            {
-                if (Student.parents[index].isTutorPartiallyFilled())
-                {
-                    await Notificator.ShowInformation("Advertencia",
-                        "Todos los campos de un tutor deben ser rellenados, de lo contrario dejar en blanco");
-                    return;
-                }
-             
-                if (Student.parents[index].isTutorEmpty())
-                {
-                    Student.parents[index].SetDefault();
-                }
-            }
+           await Notificator.ShowInformation("Advertencia", "Rellene todos los campos marcados con (*), son obligatorios");
+            return;
+        }
+
+        if (!IsParentsValid())
+        {
+            await Notificator.ShowInformation("Advertencia",
+                "Todos los campos de un tutor deben ser rellenados, de lo contrario dejar en blanco");
+            return;
+        }
+        
+        if (!Student.IsTutorValid())
+        {
+            await Notificator.ShowInformation("Advertencia",
+                "Por favor rellene todos los campos del tutor");
+            return;
+        }
+
+        if (!Student.IsMeasurementsValid())
+        {
+            await Notificator.ShowInformation("Advertencia ","Ingrese un peso dentro de los margenes permitidos");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(EnrollmentIdSelected) || EnrollmentIdSelected == "No asignado")
+        {
+            await Notificator.ShowInformation("Advertencia",
+                "Por favor selecciona un grado y una sección para el estudiante");
+            return;
         }
         
         var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, discountId);
+        
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Matrícula guardada exitosamente");
             await LoadStudentInformation();
             StateHasChanged();
         }
+    }
+
+    private bool IsParentsValid()
+    {
+        if (Student.parents.Count != 0)
+        {
+            for (var index = Student.parents.Count - 1; index >= 0; index--)
+            {
+                if (Student.parents[index].isTutorPartiallyFilled())
+                {
+                    return false;
+                }
+             
+                if (Student.parents[index].isTutorEmpty())
+                {
+                    Student.parents[index].init();
+                }
+            }
+        }
+        
+        return true;
     }
     
     private byte[] EnrollSheetPdf { get; set; }

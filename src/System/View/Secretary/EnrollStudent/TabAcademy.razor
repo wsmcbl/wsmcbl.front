@@ -40,9 +40,9 @@
                 <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">
                     @if (Degrees != null && Degrees.Any())
                     {
-                    @foreach (var option in CurrentEnrollments)
+                    @foreach (var option in Degrees)
                     {
-                    <option value="@option.enrollmentId">@option.label</option>
+                    <option value="@option.degreeId">@option.label</option>
                     }
                     }
                     else
@@ -52,7 +52,7 @@
                 </select>
 
                 <label style="display: inline-block; width: 200px;">Sección:</label>
-                <select id="seccion" class="form-control" style="margin: 0px" @onchange="GetSection">
+                <select id="seccion" class="form-control" style="margin: 0px" @onchange="SetEnrollmentSelect">
                     @if (CurrentEnrollments != null && CurrentEnrollments.Any())
                     {
                     @foreach (var option in CurrentEnrollments)
@@ -77,10 +77,10 @@
                 <h5 class="card-title font-weight-bold label-required">Medidas</h5>
 
                 <label style="display: inline-block; width: 200px;">Peso Kg:</label>
-                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Student.measurements.weight">
+                <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200" @bind="Student.measurements.weight">
 
                 <label style="display: inline-block; width: 200px;">Altura Cm:</label>
-                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Student.measurements.height">
+                <input type="number" class="form-control" style="margin-bottom: 10px" min="50" max="300" @bind="Student.measurements.height">
 
             </div>
         </div>
@@ -88,7 +88,7 @@
     <div class="col-12 col-md-4" style="margin-bottom: 15px">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title font-weight-bold label-required">Otros</h5>
+                <h5 class="card-title font-weight-bold">Otros</h5>
 
                 <label style="display: inline-block; width: 200px;">Codigo del Mined:</label>
                 <input type="number" class="form-control" placeholder="AAAA-000000-0000000" style="margin-bottom: 10px" @bind="Student.minedId">

@@ -34,4 +34,17 @@ public class StudentEntity
     {
         return $"{name} {secondName} {surname} {secondSurname}";
     }
+
+    public bool IsStudenValid()
+    {
+        if (string.IsNullOrWhiteSpace(diseases) || string.IsNullOrWhiteSpace(religion) || string.IsNullOrWhiteSpace(address) || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(surname))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool IsTutorValid() => tutor.IsTutorValid();
+    public bool IsMeasurementsValid() => measurements.IsMeasurementsValid();
+
 }

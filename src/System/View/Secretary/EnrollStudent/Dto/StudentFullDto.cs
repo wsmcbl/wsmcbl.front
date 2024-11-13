@@ -44,7 +44,11 @@ public class StudentFullDto
         isActive = student.isActive;
         file = student.file;
         tutor = student.tutor;
-        parentList = student.parents;
+        student.parents.RemoveAll(t => t.isTutorEmpty());
+        if (student.parents.Any())
+        {
+            parentList = student.parents;
+        }
         measurements = student.measurements;
     }
 

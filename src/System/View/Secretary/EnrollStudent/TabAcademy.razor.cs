@@ -8,10 +8,13 @@ public partial class TabAcademy : ComponentBase
     [Parameter] public StudentEntity? Student { get; set; }
     [Parameter] public int discountId { get; set; }
     [Parameter] public List<DegreeBasicDto>? Degrees { get; set; }
+    [Parameter]
+    public EventCallback<string> EnrollmentIdSelectedChanged { get; set; }
+    [Parameter] public string EnrollmentIdSelected { get; set; }
     private List<EnrollmentsBasicDto>? CurrentEnrollments { get; set; }
     private int CurrentEnrollmentCapacity { get; set; }
     private int CurrentEnrollmentQuantity { get; set; }
-    private string EnrollmentIdSelected { get; set; }
+    
     
 
     protected override async Task OnParametersSetAsync()
@@ -21,8 +24,15 @@ public partial class TabAcademy : ComponentBase
             CurrentEnrollments = Degrees
                 .Where(t => t.enrollments != null && t.enrollments.Any())
                 .Select(t => t.enrollments)
-                .FirstOrDefault(); 
-            EnrollmentIdSelected  = CurrentEnrollments.FirstOrDefault()?.enrollmentId ?? "No asignado";
+                .FirstOrDefault();
+                
+            var selectedId = CurrentEnrollments.FirstOrDefault()?.enrollmentId ?? "No asignado";
+
+            if (EnrollmentIdSelected != selectedId)
+            {
+                EnrollmentIdSelected = selectedId;
+                await EnrollmentIdSelectedChanged.InvokeAsync(EnrollmentIdSelected);
+            }
         }
         else
         {
@@ -45,9 +55,10 @@ public partial class TabAcademy : ComponentBase
     {
         var selectedDegree = Degrees.FirstOrDefault(e => e.degreeId == selectDegreeId);
         CurrentEnrollments = selectedDegree.enrollments;
+        EnrollmentIdSelected = CurrentEnrollments.FirstOrDefault()?.enrollmentId;
     }
     
-    private void GetSection(ChangeEventArgs e)
+    private void SetEnrollmentSelect(ChangeEventArgs e)
     {
         var selectEnrollmentId = e.Value.ToString();
         var enrollment = CurrentEnrollments.FirstOrDefault(e => e.enrollmentId == selectEnrollmentId);
