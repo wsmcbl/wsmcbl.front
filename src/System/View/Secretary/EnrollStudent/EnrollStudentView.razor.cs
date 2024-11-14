@@ -22,11 +22,18 @@ public partial class EnrollStudentView : ComponentBase
     private int Age { get; set; }
     private string? EnrollmentIdSelected { get; set; }
     private bool IsStudentsEnrollment { get; set; }
+    private bool isLoading = true;
     
     protected override async Task OnParametersSetAsync()
     {
-        EnrollSheetPdf = [];
-        await LoadStudentInformation();
+        
+        if (isLoading)
+        {
+            EnrollSheetPdf = [];
+            await LoadStudentInformation();
+            isLoading = false;
+        }
+        
     }
     
     private async Task LoadStudentInformation()
@@ -36,6 +43,7 @@ public partial class EnrollStudentView : ComponentBase
         
         IsStudentsEnrollment = result.enrollmentId != null;
         Student = result.student;
+        DiscountId = result.discountId;
         
         if (!Student.parents!.Any())
         {
