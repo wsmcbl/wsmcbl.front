@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.Model.Academy;
 
 namespace wsmcbl.src.View.Secretary.StudentList;
 

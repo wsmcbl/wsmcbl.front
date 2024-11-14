@@ -1,4 +1,4 @@
-using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.Controller;
