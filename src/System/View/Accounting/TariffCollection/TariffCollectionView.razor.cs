@@ -31,12 +31,22 @@ public partial class TariffCollectionView : ComponentBase
 
         await LoadStudent();
         TariffList = await Controller.GetTariffListByStudentId(StudentId);
+        UpdateDiscountStudents();
         TariffList.UpdateAmounts(Student!);
         
         InvoicePdf = [];
         TariffsToPay = [];
     }
-    
+
+    private void UpdateDiscountStudents()
+    {
+        var tariff = TariffList.FirstOrDefault(e => e.Type == 1);
+        if (tariff != null)
+        {
+            Student.UpdateDiscount(tariff.Amount);
+        }
+    }
+
     private async Task LoadStudent()
     {
         Student = await Controller.GetStudent(StudentId!);

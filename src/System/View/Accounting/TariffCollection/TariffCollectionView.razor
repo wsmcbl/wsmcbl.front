@@ -189,7 +189,7 @@ else
                                     </span>
                                         <div class="info-box-content">
                                             <span class="info-box-text">Grado</span>
-                                            <span class="info-box-value">@Student.enrollment</span>
+                                            <span class="info-box-value">@Student.enrollmentLabel</span>
                                         </div>
                                     </div>
                                 </div>
@@ -211,7 +211,7 @@ else
                                     </span>
                                         <div class="info-box-content">
                                             <span class="info-box-text">Descuento</span>
-                                            <span class="info-box-value"> @Math.Round(Student.discount)</span>
+                                            <span class="info-box-value">@Student.discount.ToString("0.00")</span>
                                         </div>
                                     </div>
                                 </div>

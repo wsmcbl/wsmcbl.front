@@ -8,7 +8,7 @@ public class StudentEntity
     public string fullName { get; set; } = null!;
     public bool isActive { get; set; }
     public string schoolyear { get; set; } = null!;
-    public string enrollment { get; set; } = null!;
+    public string enrollmentLabel { get; set; } = null!;
     public string tutor { get; set; } = null!;
     public double discount { get; set; }
 
@@ -23,4 +23,13 @@ public class StudentEntity
     {
         return paymentHistory.Find(p => p.tariffId == tariffId) != null;
     }
+
+    public void UpdateDiscount(double amount)
+    {
+        if (discount > 0 && discount < 0.5)
+        { 
+            discount = 50/amount;
+        }
+    }
+    
 }

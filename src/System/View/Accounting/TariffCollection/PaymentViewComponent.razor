@@ -37,9 +37,9 @@
                                 <tfoot>
                                 <tr>
                                     <th>Totales</th>
-                                    <th class="subtotal">@Math.Round(Subtotal, 1)</th>
-                                    <th class="discount">@Math.Round(Discount, 1)</th>
-                                    <th class="arrears">@Math.Round(Arrears, 1)</th>
+                                    <th class="subtotal">@Subtotal.ToString("0.00")</th>
+                                    <th class="discount">@Discount.ToString("0.00")</th>
+                                    <th class="arrears">@Arrears.ToString("0.00")</th>
                                 </tr>
                                 </tfoot>
                             </table>
