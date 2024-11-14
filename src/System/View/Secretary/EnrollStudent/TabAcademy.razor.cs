@@ -32,6 +32,7 @@ public partial class TabAcademy : ComponentBase
             .FirstOrDefault();
                 
         var selectedId = CurrentEnrollments.FirstOrDefault()?.enrollmentId ?? "No asignado";
+        
         CurrentEnrollmentCapacity = CurrentEnrollments.FirstOrDefault()?.capacity ?? 0;
         CurrentEnrollmentQuantity = CurrentEnrollments.FirstOrDefault()?.quantity ?? 0;
             
