@@ -40,10 +40,10 @@
                 <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">
                     @if (Degrees != null && Degrees.Any())
                     {
-                    @foreach (var option in Degrees)
-                    {
-                    <option value="@option.degreeId">@option.label</option>
-                    }
+                        @foreach (var option in Degrees.OrderBy(d => d.position))
+                        {
+                            <option value="@option.degreeId">@option.label</option>
+                        }
                     }
                     else
                     {
