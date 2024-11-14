@@ -7,7 +7,6 @@ public class EnrollStudentDto
     public string? enrollmentId { get; set; }
     public int discountId { get; set; }
     public StudentFullDto student { get; set; }
-    public string? profilePictureWritingValue { get; set; }
 
     public EnrollStudentDto()
     {
@@ -18,7 +17,6 @@ public class EnrollStudentDto
         this.enrollmentId = enrollmentId;
         this.discountId = discountId;
         this.student = new StudentFullDto(student);
-        profilePictureWritingValue = student.profilePicture;
     }
 
     public StudentEntity GetStudentEntity()

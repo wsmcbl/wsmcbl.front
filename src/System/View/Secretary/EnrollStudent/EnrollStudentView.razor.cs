@@ -14,15 +14,13 @@ public partial class EnrollStudentView : ComponentBase
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
     
-    
+     
     private StudentEntity? Student { get; set; }
-    private int discountId { get; set; }
+    private int DiscountId { get; set; }
     private List<DegreeBasicDto>? Degrees { get; set; }
     
     private int Age { get; set; }
-    private string Sex { get; set; }
-    private string SelectActive { get; set; }
-    private string EnrollmentIdSelected { get; set; }
+    private string? EnrollmentIdSelected { get; set; }
     private bool IsStudentsEnrollment { get; set; }
     
     protected override async Task OnParametersSetAsync()
@@ -38,17 +36,15 @@ public partial class EnrollStudentView : ComponentBase
         
         IsStudentsEnrollment = result.enrollmentId != null;
         Student = result.student;
-        discountId = result.discountId;
         
-        if (!Student.parents.Any())
+        if (!Student.parents!.Any())
         {
-            Student.parents = new List<StudentParent>();
+            Student.parents = [];
         }
     }
     
     private async Task SaveEnrollment()
     {
-        
         if (Student != null && !Student.IsStudenValid())
         {
            await Notificator.ShowInformation("Advertencia", "Rellene todos los campos marcados con (*), son obligatorios");
@@ -82,7 +78,7 @@ public partial class EnrollStudentView : ComponentBase
             return;
         }
         
-        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, discountId);
+        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, DiscountId);
         
         if (response)
         {
@@ -94,22 +90,21 @@ public partial class EnrollStudentView : ComponentBase
 
     private bool IsParentsValid()
     {
-        if (Student.parents.Count != 0)
+        if (Student.parents.Count == 0) return true;
+        
+        for (var index = Student.parents.Count - 1; index >= 0; index--)
         {
-            for (var index = Student.parents.Count - 1; index >= 0; index--)
+            if (Student.parents[index].isTutorPartiallyFilled())
             {
-                if (Student.parents[index].isTutorPartiallyFilled())
-                {
-                    return false;
-                }
+                return false;
+            }
              
-                if (Student.parents[index].isTutorEmpty())
-                {
-                    Student.parents[index].init();
-                }
+            if (Student.parents[index].isTutorEmpty())
+            {
+                Student.parents[index].init();
             }
         }
-        
+
         return true;
     }
     

@@ -18,7 +18,7 @@ public class StudentFullDto
     public string diseases { get; set; } = null!;
     public string address { get; set; } = null!;
     public bool isActive { get; set; }
-    public string? profilePictureReadingValue { get; set; }
+    public string? profilePicture { get; set; }
     
     public StudentFile file { get; set; }
     public StudentTutor tutor { get; set; }
@@ -44,11 +44,13 @@ public class StudentFullDto
         isActive = student.isActive;
         file = student.file;
         tutor = student.tutor;
-        student.parents.RemoveAll(t => t.isTutorEmpty());
+        
+        student.parents!.RemoveAll(t => t.isTutorEmpty());
         if (student.parents.Any())
         {
             parentList = student.parents;
         }
+        
         measurements = student.measurements;
     }
 
@@ -72,7 +74,7 @@ public class StudentFullDto
             parents = parentList.ToListEntity(),
             measurements = measurements,
             minedId = minedId,
-            profilePicture = profilePictureReadingValue
+            profilePicture = profilePicture
         };
     }
 }
