@@ -1,5 +1,7 @@
 using wsmcbl.src.Controller;
 using CurrieTechnologies.Razor.SweetAlert2;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using wsmcbl.src.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,9 @@ builder.Services.AddTransient<SweetAlertService>();
 builder.Services.AddTransient<Notificator>();
 builder.Services.AddTransient<ApiConsumer>();
 builder.Services.AddTransient<CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<ProtectedLocalStorage>();
 
 builder.Services.AddTransient<Navigator>();
 
