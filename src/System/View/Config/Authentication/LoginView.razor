@@ -1,5 +1,6 @@
-@page "/login"
+@page "/"
 @layout EmptyLayout
+
 <div class="blue-background">
 
 <div class="container">
@@ -22,15 +23,13 @@
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
                                                id="login_email" aria-describedby="emailHelp"
-                                               placeholder="Ingrese su correo...">
+                                               placeholder="Ingrese su correo..." @bind="User.email">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
-                                               id="login_password" placeholder="Ingrese su contraseña">
+                                               id="login_password" placeholder="Ingrese su contraseña" @bind="User.password">
                                     </div>
-                                    <a href="/" class="btn btn-primary btn-user btn-block" id="send_data">
-                                        Login
-                                    </a>
+                                    <button type="button" class="btn btn-success" @onclick="async () => await Login()">Iniciar Sesión</button>
                                 </form>
                                 <hr>
                                 <div class="text-center">

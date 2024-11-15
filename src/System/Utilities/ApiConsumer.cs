@@ -1,8 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Mvc;
 using wsmcbl.src.View.Config;
-using HostingEnvironmentExtensions = Microsoft.AspNetCore.Hosting.HostingEnvironmentExtensions;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace wsmcbl.src.Utilities;
 
@@ -10,11 +10,13 @@ public class ApiConsumer
 {
     private readonly HttpClient httpClient;
     private readonly Notificator service;
+    private readonly ProtectedLocalStorage _localStorage;
 
-    public ApiConsumer(HttpClient httpClient, Notificator notificator)
+    public ApiConsumer(HttpClient httpClient, Notificator notificator, ProtectedLocalStorage localStorage)
     {
         this.httpClient = httpClient;
         service = notificator;
+        _localStorage = localStorage;
         SetServerUri();
     }
 
