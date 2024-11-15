@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using wsmcbl.src.View.Config;
 using HostingEnvironmentExtensions = Microsoft.AspNetCore.Hosting.HostingEnvironmentExtensions;
@@ -60,8 +61,8 @@ public class ApiConsumer
     {
         var defaultDto = new LoginDto();
         defaultDto.setDefault();
-        var reponse = await PostAsync(Modules.Config, "tokens", data, defaultDto);
-        return reponse.token;
+        var response = await PostAsync(Modules.Config, "tokens", data, defaultDto);
+        return response!.token;
     }
 
     public async Task<bool> PutAsync<T>(Modules modules, string resource, T data)
@@ -139,5 +140,15 @@ public class ApiConsumer
         }
 
         return defaultResult;
+    }
+
+    public void SetToken(string token)
+    {
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
+
+    public void ResetToken()
+    {
+        httpClient.DefaultRequestHeaders.Authorization = null;
     }
 }

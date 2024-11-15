@@ -11,6 +11,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddTransient<SweetAlertService>();
 builder.Services.AddTransient<Notificator>();
 builder.Services.AddTransient<ApiConsumer>();
+builder.Services.AddTransient<CustomAuthenticationStateProvider>();
 
 builder.Services.AddTransient<Navigator>();
 
