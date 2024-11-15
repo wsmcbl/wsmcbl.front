@@ -16,7 +16,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var token = await _localStorage.GetAsync<string>("authToken");
+        var token = await _localStorage.GetAsync<string>(Utilities.TokenKey);
         if (string.IsNullOrEmpty(token.Value))
             return new AuthenticationState(_anonymous);
 
@@ -26,13 +26,13 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public async Task MarkUserAsAuthenticated(string token)
     {
-        await _localStorage.SetAsync("authToken", token);
+        await _localStorage.SetAsync(Utilities.TokenKey, token);
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 
     public async Task MarkUserAsLoggedOut()
     {
-        await _localStorage.DeleteAsync("authToken");
+        await _localStorage.DeleteAsync(Utilities.TokenKey);
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 }

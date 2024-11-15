@@ -4,6 +4,7 @@ namespace wsmcbl.src.Utilities;
 
 public static class Utilities
 {
+    public static string TokenKey => "authToken";
     public static string ToStringFormat(this DateOnly? datetime)
     {
         if (datetime == null)
