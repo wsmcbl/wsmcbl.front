@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
+using wsmcbl.src.View.Config;
+using HostingEnvironmentExtensions = Microsoft.AspNetCore.Hosting.HostingEnvironmentExtensions;
 
 namespace wsmcbl.src.Utilities;
 
@@ -35,9 +37,9 @@ public class ApiConsumer
             Modules.Academy => "academy",
             Modules.Secretary => "secretary",
             Modules.Accounting => "accounting",
+            Modules.Config => "users",
             _ => ""
         };
-
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
     }
 
@@ -52,6 +54,14 @@ public class ApiConsumer
     {
         var response = await httpClient.PostAsJsonAsync(BuildUri(modules, resource), data);
         return await Template(defaultResult, response);
+    }
+
+    public async Task<string> LoginAsync(LoginDto data)
+    {
+        var defaultDto = new LoginDto();
+        defaultDto.setDefault();
+        var reponse = await PostAsync(Modules.Config, "tokens", data, defaultDto);
+        return reponse.token;
     }
 
     public async Task<bool> PutAsync<T>(Modules modules, string resource, T data)

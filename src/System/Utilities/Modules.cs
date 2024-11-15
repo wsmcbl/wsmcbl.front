@@ -4,5 +4,6 @@ public enum Modules
     Secretary,
     Academy,
     Management,
-    Accounting
+    Accounting,
+    Config
 }
