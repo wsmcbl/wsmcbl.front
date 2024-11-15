@@ -22,5 +22,10 @@
   
   <ItemGroup>
     <Folder Include="Model\Config\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <AdditionalFiles Include="View\Config\Authentication\ForgotPasswordView.razor" />
+    <AdditionalFiles Include="View\Config\Authentication\LoginView.razor" />
   </ItemGroup>  
 </Project>
