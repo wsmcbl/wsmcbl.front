@@ -1,16 +1,13 @@
 @page "/secretary/schoolyears"
-@inherits ListSchoolYears;
 @attribute [Authorize(Roles = "admin")]
+@inherits ListSchoolYears;
 
 @if (SchoolYear == null)
 {
     <div class="loader"></div>
 }
 else
-{
-    <link rel="stylesheet" href="css/Academy/Status.css">
-    
-    <div class="card shadow mb-4">
+{ <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Años Lectivos</h6>
             <a href="/secretary/schoolyear/new" class="btn btn-success btn-sm">Nuevo Año Lectivo</a>

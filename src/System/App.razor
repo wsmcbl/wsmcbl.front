@@ -1,17 +1,30 @@
-﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
-        <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <div class="text-center">
-                <div class="error mx-auto" data-text="404">404</div>
-                <p class="lead text-gray-800 mb-5">Aquí no hay nada que ver</p>
-                <p class="text-gray-500 mb-0">Parece que encontraste un fallo en la matrix ...</p>
-                <a href="/login">&larr; Volver al Inicio</a>
-            </div>
-        </LayoutView>
-    </NotFound>
-</Router>
+﻿@using wsmcbl.src.Utilities
+@inject Navigator Navigator
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    @if (context.User.Identity?.IsAuthenticated != true)
+                    {
+                        Navigator.ToPage("/");
+                    }
+                    else
+                    {
+                        Navigator.ToPage("/not-authorized");
+                    }
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(MainLayout)">
+                @{
+                    Navigator.ToPage("/not-authorized");
+                }
+                ;
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

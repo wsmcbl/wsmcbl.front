@@ -23,6 +23,6 @@ public partial class LoginView : ComponentBase
         }
         
         await AuthStateProvider.MarkUserAsAuthenticated(token);
-        Navigator.ToPage("/");
+        Navigator.ToPage("/dashboard");
     }
 }

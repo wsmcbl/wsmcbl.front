@@ -20,8 +20,17 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         if (string.IsNullOrEmpty(token.Value))
             return new AuthenticationState(_anonymous);
 
-        var identity = new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token.Value), "jwtAuth");
-        return new AuthenticationState(new ClaimsPrincipal(identity));
+        var claims = JwtParser.ParseClaimsFromJwt(token.Value);
+        var identity = new ClaimsIdentity(claims, "jwtAuth");
+        var user = new ClaimsPrincipal(identity);
+
+        Console.WriteLine("Authenticated User Roles:");
+        foreach (var claim in claims)
+        {
+            Console.WriteLine($"Claim Type: {claim.Type}, Value: {claim.Value}");
+        }
+
+        return new AuthenticationState(user);
     }
 
     public async Task MarkUserAsAuthenticated(string token)
