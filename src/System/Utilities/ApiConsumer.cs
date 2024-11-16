@@ -49,7 +49,7 @@ public class ApiConsumer
     }
 
     public async Task<T> GetAsync<T>(Modules module, string resource, T defaultResult)
-    {
+    {   
         await LoadToken();
         var response = await httpClient.GetAsync(BuildUri(module, resource));
         return await Template(defaultResult, response);

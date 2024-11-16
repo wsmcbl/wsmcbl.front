@@ -8,9 +8,13 @@ namespace wsmcbl.src.View.Secretary.StudentList;
 public partial class StudentList : ComponentBase
 {
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
+    [Inject] protected IEnrollStudentController ControllerEntollment { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; }
     protected ICollection<StudentEntity>? List { get; set; }
+    private byte[] PdfDocument { get; set; }
+    private string PdfDocumentName { get; set; }
+
 
     protected override void OnParametersSet()
     {
@@ -38,8 +42,23 @@ public partial class StudentList : ComponentBase
     private async Task PrintReportCard(string studentId)
     {
         ReportCardPdf = await PrintController.GetPdfContent(studentId);
+        PdfDocument = ReportCardPdf;
         
         if(ReportCardPdf.Length == 0)
+        {
+            return;
+        }
+
+        await Navigator.ShowPdfModal();
+    }
+    
+    private byte[] EnrollSheetPdf { get; set; }
+    private async Task PrintEnrollSheet(string studentId)
+    {
+        EnrollSheetPdf = await ControllerEntollment.GetEnrollSheetPdf(studentId);
+        PdfDocument = EnrollSheetPdf;
+
+        if (EnrollSheetPdf.Length == 0)
         {
             return;
         }
