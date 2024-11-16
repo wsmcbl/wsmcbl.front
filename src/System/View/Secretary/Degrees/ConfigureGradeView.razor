@@ -1,4 +1,5 @@
 @page "/secretary/grades/configuration/{GradeId}/{EnrollmentNumber}"
+@attribute [Authorize(Roles = "admin")]
 @inherits ConfigureGrade;
 
 @if(IsLoad())

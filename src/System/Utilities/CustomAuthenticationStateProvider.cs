@@ -16,22 +16,28 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var token = await _localStorage.GetAsync<string>(Utilities.TokenKey);
-        if (string.IsNullOrEmpty(token.Value))
-            return new AuthenticationState(_anonymous);
+        var tokenResult = await _localStorage.GetAsync<string>(Utilities.TokenKey);
 
-        var claims = JwtParser.ParseClaimsFromJwt(token.Value);
-        var identity = new ClaimsIdentity(claims, "jwtAuth");
-        var user = new ClaimsPrincipal(identity);
+        var token = tokenResult.Value;
 
-        Console.WriteLine("Authenticated User Roles:");
-        foreach (var claim in claims)
+        if (string.IsNullOrEmpty(token))
         {
-            Console.WriteLine($"Claim Type: {claim.Type}, Value: {claim.Value}");
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
-        return new AuthenticationState(user);
+        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+
+        // Asegúrate de que el RoleClaimType sea "role"
+        var claims = jwtToken.Claims.Select(c => 
+            c.Type == "role" ? new Claim(ClaimTypes.Role, c.Value) : c).ToList();
+
+        var identity = new ClaimsIdentity(claims, "Bearer");
+        var user = new ClaimsPrincipal(identity);
+
+        return await Task.FromResult(new AuthenticationState(user));
     }
+
 
     public async Task MarkUserAsAuthenticated(string token)
     {

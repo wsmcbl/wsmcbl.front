@@ -1,5 +1,5 @@
 @page "/secretary/students"
-
+@attribute [Authorize(Roles = "admin")]
 @using wsmcbl.src.View.Components;
 @using wsmcbl.src.View.Secretary.Profiles;
 

@@ -1,8 +1,6 @@
 @page "/accounting/profiles"
-@attribute [Authorize(Roles = "admin, cashier")]
-
 @using wsmcbl.src.View.Secretary.Profiles;
-
+@attribute [Authorize(Roles = "admin,cashier")]
 
 @if (IsLoad())
 {

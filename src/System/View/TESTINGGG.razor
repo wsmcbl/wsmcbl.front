@@ -1,6 +1,20 @@
 @page "/admin"
+@using System.Security.Claims
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@attribute [Authorize(Roles = "admin")]
+
 <h3>Admin Page</h3>
 <p>Welcome, Admin!</p>
 
+
+@code {
+    private bool isAdmin;
+    private ClaimsPrincipal currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        currentUser = state.User;
+        isAdmin = currentUser.IsInRole("admin");
+        Console.WriteLine($"{isAdmin}");
+    }
+}

@@ -28,6 +28,19 @@ builder.Services.AddTransient<CreateOfficialEnrollmentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
 builder.Services.AddTransient<CreateStudentProfileController>();
 
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.Audience = "wsmcbl.api";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        };
+    });
+
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

@@ -1,4 +1,5 @@
 ﻿@page "/dashboard"
+@attribute [Authorize(Roles = "admin")]
 @inherits Index_razor
 
 <h1 style="text-align: center;">¡Bienvenido!</h1>
