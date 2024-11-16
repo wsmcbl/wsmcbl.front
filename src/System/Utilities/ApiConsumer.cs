@@ -42,7 +42,7 @@ public class ApiConsumer
             Modules.Academy => "academy",
             Modules.Secretary => "secretary",
             Modules.Accounting => "accounting",
-            Modules.Config => "users",
+            Modules.Config => "config",
             _ => ""
         };
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
@@ -67,7 +67,7 @@ public class ApiConsumer
     {
         var defaultDto = new LoginDto();
         defaultDto.setDefault();
-        var response = await PostAsync(Modules.Config, "tokens", data, defaultDto);
+        var response = await PostAsync(Modules.Config, "users/tokens", data, defaultDto);
         return response!.token;
     }
 
@@ -124,7 +124,6 @@ public class ApiConsumer
         return [];
     }
 
-
     private async Task<T> Template<T>(T defaultResult, HttpResponseMessage response)
     {
         try
@@ -152,7 +151,16 @@ public class ApiConsumer
 
     public async Task LoadToken()
     {
-        var token = await _localStorage.GetAsync<string>(Utilities.TokenKey);
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+        var tokenResult = await _localStorage.GetAsync<string>(Utilities.TokenKey);
+        var token = tokenResult.Value;
+
+        if (!string.IsNullOrEmpty(token))
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+        else
+        {
+            httpClient.DefaultRequestHeaders.Authorization = null;
+        }
     }
 }

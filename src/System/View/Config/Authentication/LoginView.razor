@@ -29,11 +29,10 @@
                                         <input type="password" class="form-control form-control-user"
                                                id="login_password" placeholder="Ingrese su contraseña" @bind="User.password">
                                     </div>
-                                    <button type="button" class="btn btn-success" @onclick="async () => await Login()">Iniciar Sesión</button>
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="/forgot-password">Olvido su contraseña?</a>
+                                    <button type="button" class="btn btn-success" @onclick="async () => await Login()">Iniciar Sesión</button>
                                 </div>
                             </div>
                         </div>
