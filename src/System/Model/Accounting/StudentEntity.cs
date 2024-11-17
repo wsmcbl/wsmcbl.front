@@ -23,13 +23,5 @@ public class StudentEntity
     {
         return paymentHistory.Find(p => p.tariffId == tariffId) != null;
     }
-
-    public void UpdateDiscount(double amount)
-    {
-        if (discount > 0 && discount < 0.5)
-        { 
-            discount = 50/amount;
-        }
-    }
     
 }

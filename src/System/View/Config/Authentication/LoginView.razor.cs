@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Config.Authentication;
@@ -10,8 +11,7 @@ public partial class LoginView : ComponentBase
     [Inject] private Navigator Navigator { get; set; }
     [Inject] private Notificator Notificator { get; set; }
     [Inject] private CustomAuthenticationStateProvider AuthStateProvider { get; set; }
-    private bool IsLoading { get; set; }
-
+    
     public async Task Login()
     {
         var token = await Consumer.LoginAsync(User);
@@ -24,6 +24,7 @@ public partial class LoginView : ComponentBase
         
         await AuthStateProvider.MarkUserAsAuthenticated(token); 
         StateHasChanged();
+        await Task.Delay(100);
         Navigator.ToPage("/dashboard");
     }
 }

@@ -18,28 +18,31 @@ public partial class TabAcademy : ComponentBase
     private int CurrentEnrollmentCapacity { get; set; }
     private int CurrentEnrollmentQuantity { get; set; }
     
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!Degrees.Any())
+        if (firstRender)
         {
-            CurrentEnrollments = new List<EnrollmentsBasicDto> { new() }; 
-            return;
-        }
+            if (!Degrees.Any())
+            {
+                CurrentEnrollments = new List<EnrollmentsBasicDto> { new() }; 
+                return;
+            }
         
-        CurrentEnrollments = Degrees
-            .Where(t => t.enrollments != null && t.enrollments.Any())
-            .Select(t => t.enrollments)
-            .FirstOrDefault();
+            CurrentEnrollments = Degrees
+                .Where(t => t.enrollments != null && t.enrollments.Any())
+                .Select(t => t.enrollments)
+                .FirstOrDefault();
                 
-        var selectedId = CurrentEnrollments.FirstOrDefault()?.enrollmentId ?? "No asignado";
+            var selectedId = CurrentEnrollments.FirstOrDefault()?.enrollmentId ?? "No asignado";
         
-        CurrentEnrollmentCapacity = CurrentEnrollments.FirstOrDefault()?.capacity ?? 0;
-        CurrentEnrollmentQuantity = CurrentEnrollments.FirstOrDefault()?.quantity ?? 0;
+            CurrentEnrollmentCapacity = CurrentEnrollments.FirstOrDefault()?.capacity ?? 0;
+            CurrentEnrollmentQuantity = CurrentEnrollments.FirstOrDefault()?.quantity ?? 0;
             
-        if (EnrollmentIdSelected != selectedId)
-        {
-            EnrollmentIdSelected = selectedId;
-            await EnrollmentIdSelectedChanged.InvokeAsync(EnrollmentIdSelected);
+            if (EnrollmentIdSelected != selectedId)
+            {
+                EnrollmentIdSelected = selectedId;
+                await EnrollmentIdSelectedChanged.InvokeAsync(EnrollmentIdSelected);
+            }
         }
     }
     

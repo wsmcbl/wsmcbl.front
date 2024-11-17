@@ -39,6 +39,8 @@ public partial class PaymentViewComponent : ComponentBase
             Arrears += item.Arrears;
             Total += item.Total;
         }
+        
+        Total = Math.Round(Total, 2);
     }
     
     [Parameter] public EventCallback<List<DetailDto>> OnComplexObjectCreated { get; set; }
@@ -57,6 +59,7 @@ public partial class PaymentViewComponent : ComponentBase
         AreArrearsApply = (bool)e.Value!;
 
         Total += (AreArrearsApply ? -1 : 1) * Arrears;
+        Total = Math.Round(Total, 2);
     }
 
     private void HandleInputChange(ChangeEventArgs e)
