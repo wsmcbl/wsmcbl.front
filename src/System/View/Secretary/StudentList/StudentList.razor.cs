@@ -36,9 +36,13 @@ public partial class StudentList : ComponentBase
     {
         return List == null;
     }
+
+    private void ToProfileUpdate(string studentId)
+    {
+        Navigator.ToPage($"/secretary/update-profile-picture/{studentId}");
+    }
     
     private byte[] ReportCardPdf { get; set; }
-
     private async Task PrintReportCard(string studentId)
     {
         ReportCardPdf = await PrintController.GetPdfContent(studentId);

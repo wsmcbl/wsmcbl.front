@@ -1,26 +1,29 @@
+using System.Net.Http.Headers;
 using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Components
 {
     public partial class PhotoView : ComponentBase
     {
         [Inject] protected IJSRuntime JS { get; set; } = null!;
+        [Inject] protected ApiConsumer Consumer { get; set; } = null!;
         [Parameter] public StudentEntity? Student { get; set; }
         protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png"; //Usado unicamente en el componente.
         private StringBuilder imageBase64Builder = new StringBuilder();
-
+        
+        ///////////////////////////////////////////////////////////
         protected override async Task OnParametersSetAsync()
         {
             if (Student.profilePicture != null)
             {
-                ImgSrc = Student.profilePicture;
+                ImgSrc = $"data:image/png;base64,{Student.profilePicture}";
             }
         }
-
         private async Task OpenFileDialog()
         {
             await JS.InvokeVoidAsync("openFileDialog");
@@ -39,12 +42,10 @@ namespace wsmcbl.src.View.Components
                 StateHasChanged();
             }
         }
-        
        private async Task StartCamera()
        {
            await JS.InvokeVoidAsync("startCamera");
        }
-       
        protected async Task CaptureImage()
        {
            await JS.InvokeVoidAsync("captureAndSendImage", DotNetObjectReference.Create(this));
@@ -65,6 +66,33 @@ namespace wsmcbl.src.View.Components
            imageBase64Builder.Clear();
            await JS.InvokeVoidAsync("stopCamera");
        }
+       
+       /////////////////////////////////////////////////////////
+       private async Task SendProfilePictureToApi()
+       {
+           if (Student?.studentId != null)
+           {
+               var base64Data = ImgSrc.Substring(ImgSrc.IndexOf(",") + 1);
+               var imageBytes = Convert.FromBase64String(base64Data);
+
+               using var content = new MultipartFormDataContent();
+               using var imageContent = new ByteArrayContent(imageBytes);
+               imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+               content.Add(imageContent, "profilePicture", "profile.png");
+
+               bool response = false;
+               response = await Consumer.PutAsync(Modules.Secretary,$"students/{Student.studentId}", content);
+               
+               if (response)
+               {
+                   Console.WriteLine("Imagen subida exitosamente.");
+               }
+               
+           }
+       }
+       
+       
+       
        
     }
 }

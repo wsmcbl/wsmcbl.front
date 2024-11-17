@@ -16,6 +16,8 @@
                     <button class="btn btn-primary" @onclick="OpenFileDialog">Subir Foto</button>
                     <button class="btn btn-secondary" @onclick="StartCamera">Abrir Cámara</button>
                     <button class="btn btn-secondary" @onclick="CaptureImage">Tomar Foto</button>
+                    <hr/>
+                    <button class="btn btn-secondary" @onclick="SendProfilePictureToApi">Actualizar Foto</button>
                 </div>
             </div>
         </div>
@@ -27,7 +29,5 @@
         </div>
     </div>
 </div>
-
 <InputFile OnChange="HandleFileChangeAsync" style="display: none;" id="fileInput"/>
-
 <script src="js/PhotoView.js"></script>
