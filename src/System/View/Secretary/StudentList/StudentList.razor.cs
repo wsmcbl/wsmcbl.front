@@ -43,6 +43,7 @@ public partial class StudentList : ComponentBase
     {
         ReportCardPdf = await PrintController.GetPdfContent(studentId);
         PdfDocument = ReportCardPdf;
+        PdfDocumentName = "Boleta de calificaciónes";
         
         if(ReportCardPdf.Length == 0)
         {
@@ -57,6 +58,8 @@ public partial class StudentList : ComponentBase
     {
         EnrollSheetPdf = await ControllerEntollment.GetEnrollSheetPdf(studentId);
         PdfDocument = EnrollSheetPdf;
+        PdfDocumentName = "Hoja de matrícula";
+
 
         if (EnrollSheetPdf.Length == 0)
         {

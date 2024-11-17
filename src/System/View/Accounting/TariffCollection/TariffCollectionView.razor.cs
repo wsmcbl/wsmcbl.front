@@ -114,4 +114,14 @@ public partial class TariffCollectionView : ComponentBase
         TariffsToPay = [];
         StateHasChanged();
     }
+
+    private string getDiscountFormat()
+    {
+        if (Student == null)
+        {
+            return "0 %";
+        }
+        
+        return $"{Student.discount * 100:0.00} %";
+    }
 }

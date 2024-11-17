@@ -1,24 +1,48 @@
-﻿@using wsmcbl.src.View.Components;
-
+﻿@using wsmcbl.src.Utilities
+@using wsmcbl.src.View.Components;
 @inherits LayoutComponentBase;
 
-<div id="wrapper">
+@if (IsLoading)
+{
+    <LoadingPage />
+}
+else if (!IsAuthenticated)
+{
+    <RedirectToLogin />
+}
+else
+{
+    <div id="wrapper">
 
-    <SidebarNav/>
-    <div id="content-wrapper" class="d-flex flex-column">
-        <div id="content">
-            <TopNavBar/>
-            <GlobalErrorView>
-                <div class="container-fluid">
-                    @Body
-                </div>
-            </GlobalErrorView>
+        <SidebarNav/>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <TopNavBar/>
+                <GlobalErrorView>
+                    <div class="container-fluid">
+                        @Body
+                    </div>
+                </GlobalErrorView>
+            </div>
+            <FooterView/>
         </div>
-        <FooterView/>
+
     </div>
 
-</div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+}
 
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
+@code {
+    [Inject] private CustomAuthenticationStateProvider AuthStateProvider { get; set; }
+    private AuthenticationState? authState;
+    private bool IsLoading { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthStateProvider.GetAuthenticationStateAsync();
+        IsLoading = false;
+    }
+    private bool IsAuthenticated => authState?.User.Identity?.IsAuthenticated == true;
+}

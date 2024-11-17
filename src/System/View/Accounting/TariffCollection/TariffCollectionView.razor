@@ -163,12 +163,12 @@ else
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <div class="info-box">
-                                    <span class="info-box-icon bg-info text-white">
-                                        <i class="fas fa-user"></i>
-                                    </span>
+                                        <span class="info-box-icon bg-info text-white">
+                                            <i class="fas fa-user"></i>
+                                        </span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Nombre</span>
-                                            <span class="info-box-value">@Student.fullName</span>
+                                            <span class="info-box-value">Nombre:</span>
+                                            <span class="StudentData">@Student.fullName</span>
                                         </div>
                                     </div>
                                 </div>
@@ -178,8 +178,8 @@ else
                                         <i class="fas fa-id-badge"></i>
                                     </span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Código</span>
-                                            <span class="info-box-value">@Student.studentId</span>
+                                            <span class="info-box-value">Código:</span>
+                                            <span class="info-box-text">@Student.studentId</span>
                                         </div>
                                     </div>
                                 </div>
@@ -189,8 +189,8 @@ else
                                         <i class="fas fa-graduation-cap"></i>
                                     </span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Grado</span>
-                                            <span class="info-box-value">@Student.enrollmentLabel</span>
+                                            <span class="info-box-value">Grado:</span>
+                                            <span class="info-box-text">@Student.enrollmentLabel</span>
                                         </div>
                                     </div>
                                 </div>
@@ -200,8 +200,8 @@ else
                                         <i class="fas fa-chalkboard-teacher"></i>
                                     </span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Tutor</span>
-                                            <span class="info-box-value">@Student.tutor</span>
+                                            <span class="info-box-value">Tutor:</span>
+                                            <span class="info-box-text">@Student.tutor</span>
                                         </div>
                                     </div>
                                 </div>
@@ -211,8 +211,8 @@ else
                                         <i class="fas fa-percent"></i>
                                     </span>
                                         <div class="info-box-content">
-                                            <span class="info-box-text">Descuento</span>
-                                            <span class="info-box-value">@Student.discount.ToString("0.00")</span>
+                                            <span class="info-box-value">Descuento:</span>
+                                            <span class="info-box-text">@getDiscountFormat()</span>
                                         </div>
                                     </div>
                                 </div>

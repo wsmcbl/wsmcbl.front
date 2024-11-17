@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Utilities;
 
@@ -11,6 +10,7 @@ public partial class LoginView : ComponentBase
     [Inject] private Navigator Navigator { get; set; }
     [Inject] private Notificator Notificator { get; set; }
     [Inject] private CustomAuthenticationStateProvider AuthStateProvider { get; set; }
+    private bool IsLoading { get; set; }
 
     public async Task Login()
     {

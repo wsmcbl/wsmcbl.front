@@ -1,3 +1,9 @@
+.StudentData{
+    color: #4e73df;
+    font-weight: bold;
+}
+
+
 .modal-body {
     display: flex;
     justify-content: center; /* Centra horizontalmente todo el contenido del modal */
