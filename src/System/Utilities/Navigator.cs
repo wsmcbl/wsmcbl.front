@@ -21,7 +21,7 @@ public class Navigator
             throw new InternalException("Uri must be not null.");
         }
         
-        navigation.NavigateTo(uri);
+        navigation.NavigateTo(uri, true);
     }
 
     public async Task ShowModal(string modalId)

@@ -1,5 +1,5 @@
 ﻿@using wsmcbl.src.Utilities
-@using wsmcbl.src.View.Components;
+@using wsmcbl.src.View.Components
 @inherits LayoutComponentBase;
 
 @if (IsLoading)
@@ -13,7 +13,6 @@ else if (!IsAuthenticated)
 else
 {
     <div id="wrapper">
-
         <SidebarNav/>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -26,9 +25,7 @@ else
             </div>
             <FooterView/>
         </div>
-
     </div>
-
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
@@ -37,12 +34,26 @@ else
 @code {
     [Inject] private CustomAuthenticationStateProvider AuthStateProvider { get; set; }
     private AuthenticationState? authState;
-    private bool IsLoading { get; set; }
+    private bool IsLoading { get; set; } = true;
+    protected bool IsAuthenticated { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
-        await AuthStateProvider.GetAuthenticationStateAsync();
-        IsLoading = false;
+        try
+        {
+            authState = await AuthStateProvider.GetAuthenticationStateAsync();
+            if (authState?.User.Identity is not null)
+            {
+                IsAuthenticated = authState.User.Identity.IsAuthenticated;
+            }
+        }
+        catch
+        {
+            IsAuthenticated = false;
+        }
+        finally
+        {
+            IsLoading = false;
+        }
     }
-    private bool IsAuthenticated => authState?.User.Identity?.IsAuthenticated == true;
 }
