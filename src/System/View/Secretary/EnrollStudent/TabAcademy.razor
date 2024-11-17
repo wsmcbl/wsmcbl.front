@@ -2,14 +2,15 @@
 
     <div class="col-12 col-md-3" style="margin-bottom: 15px">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="min-height: 400px;">
                 <h5 class="card-title font-weight-bold label-required">Expediente</h5>
                 <div class="checkbox-group">
                     <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student.file.transferSheet">
                     <label for="hojaTraslado">Hoja de traslado</label>
                 </div>
                 <div class="checkbox-group">
-                    <input type="checkbox" name="partidaNacimiento" id="partidaNacimiento" @bind="Student.file.birthDocument">
+                    <input type="checkbox" name="partidaNacimiento" id="partidaNacimiento"
+                           @bind="Student.file.birthDocument">
                     <label for="partidaNacimiento">Partida de Nacimiento</label>
                 </div>
                 <div class="checkbox-group">
@@ -17,7 +18,8 @@
                     <label for="cedulaTutor">Cedula Tutor</label>
                 </div>
                 <div class="checkbox-group">
-                    <input type="checkbox" name="boletinActual" id="boletinActual" @bind="Student.file.updatedGradeReport">
+                    <input type="checkbox" name="boletinActual" id="boletinActual"
+                           @bind="Student.file.updatedGradeReport">
                     <label for="boletinActual">Boletín Actual</label>
                 </div>
                 <div class="checkbox-group">
@@ -25,69 +27,17 @@
                     <label for="consConducta">Cons. Conducta</label>
                 </div>
                 <div class="checkbox-group">
-                    <input type="checkbox" name="solvenciaFinanciera" id="solvenciaFinanciera" @bind="Student.file.financialSolvency">
+                    <input type="checkbox" name="solvenciaFinanciera" id="solvenciaFinanciera"
+                           @bind="Student.file.financialSolvency">
                     <label for="solvenciaFinanciera">Solvencia Financiera</label>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-12 col-md-3" style="margin-bottom: 15px">
         <div class="card">
-            <div class="card-body">
-                <h5 class="card-title font-weight-bold label-required">Grado/Sección</h5>
-
-                <label style="display: inline-block; width: 200px;">Grado:</label>
-                <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">
-                    @if (Degrees != null && Degrees.Any())
-                    {
-                        @foreach (var option in Degrees.OrderBy(d => d.position))
-                        {
-                            <option value="@option.degreeId">@option.label</option>
-                        }
-                    }
-                    else
-                    {
-                    <option value="">No hay secciones disponibles</option>
-                    }
-                </select>
-
-                <label style="display: inline-block; width: 200px;">Sección:</label>
-                <select id="seccion" class="form-control" style="margin: 0px" @onchange="SetEnrollmentSelect">
-                    @if (CurrentEnrollments != null && CurrentEnrollments.Any())
-                    {
-                    @foreach (var option in CurrentEnrollments)
-                    {
-                    <option value="@option.enrollmentId">@option.label</option>
-                    }
-                    }
-                    else
-                    {
-                    <option value="">No hay secciones disponibles</option>
-                    }
-                </select>
-
-                <p style="margin-top: 15px">Cupos Restante @CurrentEnrollmentQuantity / @CurrentEnrollmentCapacity</p>
-
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-2" style="margin-bottom: 15px">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title font-weight-bold label-required">Medidas</h5>
-
-                <label style="display: inline-block; width: 200px;">Peso Kg:</label>
-                <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200" @bind="Student.measurements.weight">
-
-                <label style="display: inline-block; width: 200px;">Altura Cm:</label>
-                <input type="number" class="form-control" style="margin-bottom: 10px" min="50" max="300" @bind="Student.measurements.height">
-
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-4" style="margin-bottom: 15px">
-        <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="min-height: 400px;">
                 <h5 class="card-title font-weight-bold">Otros</h5>
 
                 <label style="display: inline-block; width: 200px;">Codigo del Mined:</label>
@@ -114,6 +64,62 @@
                         <label for="DiscoundTeacher">Hijo de Maestro</label>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-3" style="margin-bottom: 15px">
+        <div class="card">
+            <div class="card-body" style="min-height: 400px;">
+                <h5 class="card-title font-weight-bold label-required">Medidas</h5>
+
+                <label style="display: inline-block; width: 200px;">Peso Kg:</label>
+                <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200" @bind="Student.measurements.weight">
+
+                <label style="display: inline-block; width: 200px;">Altura Cm:</label>
+                <input type="number" class="form-control" style="margin-bottom: 10px" min="50" max="300" @bind="Student.measurements.height">
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-3" style="margin-bottom: 15px">
+        <div class="card">
+            <div class="card-body" style="min-height: 400px;">
+                <h5 class="card-title font-weight-bold label-required">Grado/Sección</h5>
+
+                <label style="display: inline-block; width: 200px;">Grado:</label>
+                <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">
+                    @if (Degrees != null && Degrees.Any())
+                    {
+                        @foreach (var option in Degrees.OrderBy(d => d.position))
+                        {
+                            <option value="@option.degreeId">@option.label</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">No hay secciones disponibles</option>
+                    }
+                </select>
+
+                <label style="display: inline-block; width: 200px;">Sección:</label>
+                <select id="seccion" class="form-control" style="margin: 0px" @onchange="SetEnrollmentSelect">
+                    @if (CurrentEnrollments != null && CurrentEnrollments.Any())
+                    {
+                        @foreach (var option in CurrentEnrollments)
+                        {
+                            <option value="@option.enrollmentId">@option.label</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">No hay secciones disponibles</option>
+                    }
+                </select>
+
+                <p style="margin-top: 15px">Cupos Restante @CurrentEnrollmentQuantity / @CurrentEnrollmentCapacity</p>
 
             </div>
         </div>
