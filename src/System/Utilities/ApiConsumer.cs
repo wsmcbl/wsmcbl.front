@@ -96,6 +96,35 @@ public class ApiConsumer
         }
         return false;
     }
+    
+    public async Task<bool> PutAsyncPhoto(Modules modules, string resource, HttpContent content)
+    {
+        try
+        {
+            await LoadToken();
+            var requestUri = BuildUri(modules, resource);
+            var response = await httpClient.PutAsync(requestUri, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+                throw new InternalException("Hubo un problema con la solicitud.",
+                    $"({problem?.Status}) {problem?.Detail}");
+            }
+
+            return true;
+        }
+        catch (InternalException ex)
+        {
+            await service.ShowError(ex.Title, ex.Content);
+        }
+        catch (Exception ex)
+        {
+            await service.ShowError("Error interno.", ex.Message);
+        }
+        return false;
+    }
+
 
     public async Task<byte[]> GetPdfAsync(Modules module, string resource)
     {

@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -12,43 +13,93 @@ namespace wsmcbl.src.View.Components
     {
         [Inject] protected IJSRuntime JS { get; set; } = null!;
         [Inject] protected ApiConsumer Consumer { get; set; } = null!;
+        [Inject] public Notificator Notificator { get; set; }
         [Parameter] public StudentEntity? Student { get; set; }
-        protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png"; //Usado unicamente en el componente.
+        protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png";
         private StringBuilder imageBase64Builder = new StringBuilder();
+        private bool IsCamaraOpen { get; set; } = false;
         
-        ///////////////////////////////////////////////////////////
-        protected override async Task OnParametersSetAsync()
+        protected override Task OnParametersSetAsync()
         {
-            if (Student.profilePicture != null)
+            if (Student?.profilePicture != null)
             {
-                ImgSrc = $"data:image/png;base64,{Student.profilePicture}";
+                 ImgSrc = $"data:image/png;base64,{Student.profilePicture}";
             }
+
+            return Task.CompletedTask;
+        }
+        private async Task SaveProfilePicture()
+        {
+            var base64Data = ImgSrc.Contains(",") ? ImgSrc.Split(',')[1] : ImgSrc;
+
+            byte[] imageBytes = Convert.FromBase64String(base64Data);
+
+            using (var content = new MultipartFormDataContent())
+            {
+                var imageContent = new ByteArrayContent(imageBytes);
+                imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+
+                content.Add(imageContent, "profilePicture", "photo.jpg");
+
+                var response = await Consumer.PutAsyncPhoto(Modules.Secretary, $"students/{Student.studentId}", content);
+
+                if (response)
+                {
+                    await Notificator.ShowSuccess("Exito", "La foto ha sido actualizada");
+                }
+            }   
         }
         private async Task OpenFileDialog()
         {
             await JS.InvokeVoidAsync("openFileDialog");
         }
+        
         protected async Task HandleFileChangeAsync(InputFileChangeEventArgs e)
         {
             var files = e.GetMultipleFiles();
-            if (files.Count > 0)
+            if (files.Count == 0)
             {
-                using var stream = files[0].OpenReadStream();
-                using var memoryStream = new MemoryStream();
-                await stream.CopyToAsync(memoryStream);
-                var base64 = Convert.ToBase64String(memoryStream.ToArray());
-                ImgSrc = $"data:image/png;base64,{base64}";
-                Student.profilePicture = ImgSrc;
-                StateHasChanged();
+                await Notificator.ShowError("Error", "No se seleccionó ningún archivo.");
+                return;
             }
+            
+            var file = files[0];
+            
+            var validImageTypes = new[] { "image/jpeg", "image/png", "image/jpg", "image/gif" };
+            if (!validImageTypes.Contains(file.ContentType))
+            {
+                await Notificator.ShowError("Error", "El archivo seleccionado no es una imagen válida.");
+                return;
+            }
+            
+            const long maxFileSize = 5 * 1024 * 1024;
+            if (file.Size > maxFileSize)
+            {
+                await Notificator.ShowError("Error", "La imagen seleccionada es demasiado grande. Máximo permitido: 5 MB.");
+                return;
+            }
+
+            using var stream = file.OpenReadStream(maxFileSize);
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            var base64 = Convert.ToBase64String(memoryStream.ToArray());
+    
+            ImgSrc = $"data:{file.ContentType};base64,{base64}";
+            Student.profilePicture = ImgSrc;
+            StateHasChanged();
         }
+        
        private async Task StartCamera()
        {
            await JS.InvokeVoidAsync("startCamera");
+           IsCamaraOpen = true;
        }
-       protected async Task CaptureImage()
+
+       private async Task CaptureImage()
        {
            await JS.InvokeVoidAsync("captureAndSendImage", DotNetObjectReference.Create(this));
+           await SaveProfilePicture();
+           IsCamaraOpen = false;
        }
         
        [JSInvokable("ReceiveImageChunk")]
@@ -66,33 +117,6 @@ namespace wsmcbl.src.View.Components
            imageBase64Builder.Clear();
            await JS.InvokeVoidAsync("stopCamera");
        }
-       
-       /////////////////////////////////////////////////////////
-       private async Task SendProfilePictureToApi()
-       {
-           if (Student?.studentId != null)
-           {
-               var base64Data = ImgSrc.Substring(ImgSrc.IndexOf(",") + 1);
-               var imageBytes = Convert.FromBase64String(base64Data);
-
-               using var content = new MultipartFormDataContent();
-               using var imageContent = new ByteArrayContent(imageBytes);
-               imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-               content.Add(imageContent, "profilePicture", "profile.png");
-
-               bool response = false;
-               response = await Consumer.PutAsync(Modules.Secretary,$"students/{Student.studentId}", content);
-               
-               if (response)
-               {
-                   Console.WriteLine("Imagen subida exitosamente.");
-               }
-               
-           }
-       }
-       
-       
-       
        
     }
 }

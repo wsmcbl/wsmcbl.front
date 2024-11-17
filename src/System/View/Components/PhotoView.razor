@@ -13,11 +13,14 @@
                     <p class="profile-role">@Student.studentId</p>
                 </div>
                 <div class="profile-buttons profile-details">
-                    <button class="btn btn-primary" @onclick="OpenFileDialog">Subir Foto</button>
-                    <button class="btn btn-secondary" @onclick="StartCamera">Abrir Cámara</button>
-                    <button class="btn btn-secondary" @onclick="CaptureImage">Tomar Foto</button>
+                    <button class="btn btn-primary" @onclick="OpenFileDialog">Subir Fotografía</button>
+                    <button class="btn btn-outline-secondary" @onclick="StartCamera">Abrir Cámara</button>
+                    @if (IsCamaraOpen)
+                    {
+                        <button class="btn btn-outline-secondary" @onclick="CaptureImage">Tomar Fotografía</button> 
+                    }
                     <hr/>
-                    <button class="btn btn-secondary" @onclick="SendProfilePictureToApi">Actualizar Foto</button>
+                    <button class="btn btn-danger" @onclick="SaveProfilePicture">Actualizar Fotografía</button>
                 </div>
             </div>
         </div>
