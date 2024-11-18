@@ -5,7 +5,7 @@
                         <h5 class="card-title font-weight-bold">Información de la Madre</h5>
 
                         <label style="display: inline-block; width: 200px;">Nombre de la madre:</label>
-                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].name" placeholder="Sin asignar">
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student!.parents![0].name" placeholder="Sin asignar">
 
                         <label style="display: inline-block; width: 200px;">Numero de cedula:</label>
                         <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.parents[0].idCard" placeholder="Sin asignar">
@@ -42,7 +42,7 @@
                         <h5 class="card-title font-weight-bold">Responsable o Tutor</h5>
 
                         <label class="label-required" style="display: inline-block; width: 200px;">Nombre:</label>
-                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.name">
+                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student!.tutor.name">
 
                         <label class="label-required" style="display: inline-block; width: 200px;">Telefono:</label>
                         <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.tutor.phone">

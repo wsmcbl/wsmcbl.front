@@ -7,7 +7,7 @@
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in DegreeEntity.EnrollmentList)
+                @foreach (var item in DegreeEntity.EnrollmentList!)
                 {
                     counter++;
                     <li class="nav-item">
@@ -40,7 +40,7 @@
 
                                         <label class="label-required" style="display: inline-block; width: 200px;">Maestro Guía:</label>
                                         <select id="teacherGuideId" class="form-control" style="margin: 0px"
-                                                value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value.ToString())">
+                                                value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value!.ToString())">
                                             @foreach (var option in TeacherList)
                                             {
                                             <option value="@option.teacherId">
@@ -122,7 +122,7 @@
                                                     <td>@GetSemesterLabel(item.subject.Semester)</td>
                                                     <td>
                                                         <select id="teacherForSubject" class="form-control" style="margin: 0px" value="@item.teacher?.teacherId"
-                                                                @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value.ToString())">>
+                                                                @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value!.ToString()!)">>
                                                             
                                                             @foreach (var option in TeacherList)
                                                             {

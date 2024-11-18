@@ -2,17 +2,15 @@ namespace wsmcbl.src.View.Base;
 
 public class UserDto
 {
-    public string name { get; set; }
-    public string secondName { get; set; }
-    public string surname { get; set; }
-    public string secondSurname { get; set; }
-    public string email { get; set; }
+    public string name { get; set; } = null!;
+    public string secondName { get; set; } = null!;
+    public string surname { get; set; } = null!;
+    public string secondSurname { get; set; } = null!;
+    public string email { get; set; } = null!;
     public bool isActive { get; set; }
-    public string role { get; set; }
+    public string role { get; set; } = null!;
 
     public UserDto()
     {
-        
     }
-    
 }

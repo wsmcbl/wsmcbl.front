@@ -59,7 +59,7 @@ public partial class EnrollStudentView : ComponentBase
     
     private async Task SaveEnrollment()
     {
-        if (Student != null && !Student.IsStudenValid())
+        if (Student != null && !Student.IsStudentValid())
         {
            await Notificator.ShowInformation("Advertencia", "Rellene todos los campos marcados con (*), son obligatorios");
             return;

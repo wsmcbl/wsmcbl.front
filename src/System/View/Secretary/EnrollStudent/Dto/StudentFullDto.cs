@@ -6,24 +6,24 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
 public class StudentFullDto
 {
-    public string studentId { get; set; }
+    public string studentId { get; set; } = null!;
     public string? minedId { get; set; }
-    public string name { get; set; }
+    public string name { get; set; } = null!;
     public string? secondName { get; set; }
-    public string surname { get; set; }
+    public string surname { get; set; } = null!;
     public string? secondSurname { get; set; }
     public bool sex { get; set; }
-    public DateEntity birthday { get; set; }
+    public DateEntity birthday { get; set; } = null!;
     public bool isActive { get; set; }
     public string religion { get; set; } = null!;
     public string diseases { get; set; } = null!;
     public string address { get; set; } = null!;
     public string? profilePicture { get; set; }
     
-    public StudentFile file { get; set; }
-    public StudentTutor tutor { get; set; }
+    public StudentFile? file { get; set; }
+    public StudentTutor tutor { get; set; } = null!;
     public List<StudentParent>? parentList { get; set; }
-    public StudentMeasurements measurements { get; set; }
+    public StudentMeasurements? measurements { get; set; }
     
     public StudentFullDto()
     {
@@ -31,7 +31,7 @@ public class StudentFullDto
     
     public StudentFullDto(StudentEntity student)
     {
-        studentId = student.studentId;
+        studentId = student.studentId!;
         name = student.name;
         secondName = string.IsNullOrWhiteSpace(student.secondName) ? null : student.secondName;
         surname = student.surname;
@@ -39,11 +39,11 @@ public class StudentFullDto
         sex = student.sex;
         birthday = student.birthday.ToEntityOrNull()!;
         isActive = student.isActive;
-        religion = student.religion;
-        diseases = student.diseases;
-        address = student.address;
-        file = student.file;
-        tutor = student.tutor;
+        religion = student.religion!;
+        diseases = student.diseases!;
+        address = student.address!;
+        file = student.file!;
+        tutor = student.tutor!;
         minedId = student.minedId;
         
         student.parents!.RemoveAll(t => t.isTutorEmpty());
@@ -52,7 +52,7 @@ public class StudentFullDto
             parentList = student.parents;
         }
         
-        measurements = student.measurements;
+        measurements = student.measurements!;
     }
 
     public StudentEntity ToEntity()
@@ -72,7 +72,7 @@ public class StudentFullDto
             address = address,
             file = file,
             tutor = tutor,
-            parents = parentList.ToListEntity(),
+            parents = parentList!.ToListEntity(),
             measurements = measurements,
             minedId = minedId,
             profilePicture = profilePicture

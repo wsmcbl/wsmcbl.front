@@ -21,7 +21,7 @@ public class CollectTariffController
         return await Consumer.GetAsync(Modules.Accounting, "students", defaultResult);
     }
     
-    private string StudentId { get; set; }
+    private string? StudentId { get; set; }
     public async Task<StudentEntity> GetStudent(string studentId)
     {
         StudentId = studentId;
@@ -53,13 +53,13 @@ public class CollectTariffController
     }
     
     
-    private TransactionEntity Transaction { get; set; }
+    private TransactionEntity? Transaction { get; set; }
     public void BuildTransaction(List<DetailDto> transactionDetail)
     {
         Transaction = new TransactionEntity
         {
             transactionId = "",
-            studentId = StudentId,
+            studentId = StudentId!,
             cashierId = CashierId,
             dateTime = DateTime.UtcNow,
             details = transactionDetail

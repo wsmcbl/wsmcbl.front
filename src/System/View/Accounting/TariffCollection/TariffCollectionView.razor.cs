@@ -14,7 +14,7 @@ public partial class TariffCollectionView : ComponentBase
     [Inject] protected Navigator Navigator { get; private set; } = null!;
     
     protected List<TariffEntity>? TariffList { get; set; }
-    protected List<TariffEntity> TariffsToPay { get; set; }
+    protected List<TariffEntity>? TariffsToPay { get; set; }
 
     
     protected StudentEntity? Student { get; private set; }
@@ -50,18 +50,18 @@ public partial class TariffCollectionView : ComponentBase
         var isSelect = (bool)e.Value;
         var tariffModal = TariffList!.First(t => t.TariffId == tariff.TariffId);
         
-        var hasDebt = Student.HasPayments(tariff.TariffId);
+        var hasDebt = Student!.HasPayments(tariff.TariffId);
         var amount = hasDebt && Student.GetDebt(tariff.TariffId) != 0 ? Student.GetDebt(tariff.TariffId) : tariff.Amount;
         tariffModal.Amount = amount;
         
-        if (isSelect && !TariffsToPay.Contains(tariffModal))
+        if (isSelect && !TariffsToPay!.Contains(tariffModal))
         {
             EstimateTotal += tariffModal.Amount;
             TariffsToPay.Add(tariffModal);
         }
         else
         {
-            TariffsToPay.Remove(tariffModal);
+            TariffsToPay!.Remove(tariffModal);
             EstimateTotal -= tariffModal.Amount;
         }
     }
@@ -73,16 +73,18 @@ public partial class TariffCollectionView : ComponentBase
     
     private void HandleKeyDown(KeyboardEventArgs e)
     {
-        if (TariffsToPay.Any())
+        if (!TariffsToPay.Any())
         {
-            if (e.Key == "Enter" && e.CtrlKey)
-            {
-                OpenModal();
-            }
+            return;
+        }
+        
+        if (e.Key == "Enter" && e.CtrlKey)
+        {
+            OpenModal();
         }
     }
     
-    private byte[] InvoicePdf { get; set; }
+    private byte[]? InvoicePdf { get; set; }
     private async Task PayTariffs(List<DetailDto> detail)
     {
         Controller.BuildTransaction(detail);
@@ -107,11 +109,6 @@ public partial class TariffCollectionView : ComponentBase
 
     private string getDiscountFormat()
     {
-        if (Student == null)
-        {
-            return "0 %";
-        }
-        
-        return $"{Student.discount * 100:0.00} %";
+        return Student == null ? "0 %" : $"{Student.discount * 100:0.00} %";
     }
 }
