@@ -11,8 +11,8 @@ public partial class TabAcademy : ComponentBase
     [Parameter] public EventCallback<int> DiscountIdChanged { get; set; }
     
     [Parameter] public List<DegreeBasicDto>? Degrees { get; set; }
-    [Parameter] public EventCallback<string> EnrollmentIdSelectedChanged { get; set; }
     
+    [Parameter] public EventCallback<string> EnrollmentIdSelectedChanged { get; set; }
     [Parameter] public string EnrollmentIdSelected { get; set; }
     private List<EnrollmentsBasicDto>? CurrentEnrollments { get; set; }
     private int CurrentEnrollmentCapacity { get; set; }

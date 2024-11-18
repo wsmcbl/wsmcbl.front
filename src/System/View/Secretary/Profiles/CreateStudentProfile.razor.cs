@@ -57,7 +57,6 @@ public partial class CreateStudentProfile : ComponentBase
             tutor = new TutorToCreateDto(),
             educationalLevel = 1
         };
-        NewStudent.student.sex = true;
     }
 
     

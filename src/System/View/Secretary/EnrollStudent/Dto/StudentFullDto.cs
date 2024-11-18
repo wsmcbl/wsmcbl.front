@@ -14,10 +14,10 @@ public class StudentFullDto
     public string? secondSurname { get; set; }
     public bool sex { get; set; }
     public DateEntity birthday { get; set; }
+    public bool isActive { get; set; }
     public string religion { get; set; } = null!;
     public string diseases { get; set; } = null!;
     public string address { get; set; } = null!;
-    public bool isActive { get; set; }
     public string? profilePicture { get; set; }
     
     public StudentFile file { get; set; }
@@ -38,10 +38,10 @@ public class StudentFullDto
         secondSurname = string.IsNullOrWhiteSpace(student.secondSurname) ? null : student.secondSurname;
         sex = student.sex;
         birthday = student.birthday.ToEntityOrNull()!;
+        isActive = student.isActive;
         religion = student.religion;
         diseases = student.diseases;
         address = student.address;
-        isActive = student.isActive;
         file = student.file;
         tutor = student.tutor;
         
@@ -65,10 +65,10 @@ public class StudentFullDto
             secondSurname = secondSurname,
             sex = sex,
             birthday = birthday.ToDateOnly(),
+            isActive = isActive,
             religion = religion,
             diseases = diseases,
             address = address,
-            isActive = isActive,
             file = file,
             tutor = tutor,
             parents = parentList.ToListEntity(),

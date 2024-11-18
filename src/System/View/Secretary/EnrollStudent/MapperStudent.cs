@@ -21,9 +21,9 @@ public static class MapperStudent
         return list;
     }
 
-    public static EnrollStudentDto ToEnrollStudentDto(this StudentEntity student, string enrollmentId, int discountId)
+    public static EnrollStudentDto ToEnrollStudentDto(this StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
     {
-        return new EnrollStudentDto(student, enrollmentId, discountId);
+        return new EnrollStudentDto(student, enrollmentId, discountId, isRepeating);
     }
  
     

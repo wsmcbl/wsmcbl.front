@@ -22,6 +22,7 @@ public partial class EnrollStudentView : ComponentBase
     private int Age { get; set; }
     private string? EnrollmentIdSelected { get; set; }
     private bool IsStudentsEnrollment { get; set; }
+    private bool IsRepeating { get; set; } = false;
     private bool isLoading = true;
     
     protected override async Task OnParametersSetAsync()
@@ -49,6 +50,11 @@ public partial class EnrollStudentView : ComponentBase
         {
             Student.parents = [];
         }
+    }
+    
+    private void OnRepeatSelectionChanged(bool value)
+    {
+        IsRepeating = value;
     }
     
     private async Task SaveEnrollment()
@@ -86,7 +92,7 @@ public partial class EnrollStudentView : ComponentBase
             return;
         }
         
-        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, DiscountId);
+        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, DiscountId, IsRepeating);
         
         if (response)
         {

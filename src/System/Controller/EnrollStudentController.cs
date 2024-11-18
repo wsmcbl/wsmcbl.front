@@ -23,20 +23,19 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
         return await consumer.GetAsync(Modules.Secretary, "enrollments/degrees", defaultResult);
     }
 
-    public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId)
+    public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
     {
-        var content = student.ToEnrollStudentDto(enrollmentId, discountId);
-        var json = JsonSerializer.Serialize(content);
+        var content = student.ToEnrollStudentDto(enrollmentId, discountId, isRepeating);
         return await consumer.PutAsync(Modules.Secretary, "enrollments", content);
     }
 
-    public async Task<(StudentEntity student, string? enrollmentId, int discountId)> GetInfoStudent(string studentId)
+    public async Task<(StudentEntity student, string? enrollmentId, int discountId, bool isRepeating)> GetInfoStudent(string studentId)
     {
         var resource = $"enrollments/students/{studentId}";
         EnrollStudentDto defaultResult = new();
         var result = await consumer.GetAsync(Modules.Secretary, resource, defaultResult);
         
-        return (result.ToStudentEntity(), result.enrollmentId, result.discountId);
+        return (result.ToStudentEntity(), result.enrollmentId, result.discountId, result.isRepeating);
     }
     
     public async Task<byte[]> GetEnrollSheetPdf(string studentId)

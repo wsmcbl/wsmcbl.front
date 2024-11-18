@@ -7,10 +7,10 @@ public class StudentEntity
     public string secondSurname { get; set; }
     public bool sex { get; set; }
     public DateOnly? birthday { get; set; }
+    public bool isActive { get; set; }
     public string religion { get; set; }
     public string diseases { get; set; }
     public string address { get; set; }
-    public bool isActive { get; set; }
     public StudentFile file { get; set; }
     public StudentTutor tutor { get; set; }
     public List<StudentParent>? parents { get; set; }
