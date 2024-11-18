@@ -178,18 +178,13 @@ public class ApiConsumer
         return defaultResult;
     }
 
-    public async Task LoadToken()
+    private async Task LoadToken()
     {
         var tokenResult = await _localStorage.GetAsync<string>(Utilities.TokenKey);
         var token = tokenResult.Value;
 
-        if (!string.IsNullOrEmpty(token))
-        {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-        else
-        {
-            httpClient.DefaultRequestHeaders.Authorization = null;
-        }
+        httpClient.DefaultRequestHeaders.Authorization = !string.IsNullOrEmpty(token)
+            ? new AuthenticationHeaderValue("Bearer", token)
+            : null;
     }
 }

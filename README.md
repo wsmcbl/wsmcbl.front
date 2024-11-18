@@ -5,3 +5,7 @@
 ## Actions state
 
 ![Deploy](https://github.com/wsmcbl/wsmcbl.front/actions/workflows/deploy.yml/badge.svg?branch=master)
+
+## Vesion
+
+* 1.4 - BETA 
