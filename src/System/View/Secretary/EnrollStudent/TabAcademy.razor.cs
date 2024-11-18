@@ -59,21 +59,29 @@ public partial class TabAcademy : ComponentBase
         setCurrentEnrollmentsByDegreeId(selectDegreeId);
     }
     
-    private void setCurrentEnrollmentsByDegreeId(string? selectDegreeId)
-    {
-        var selectedDegree = Degrees!.FirstOrDefault(e => e.degreeId == selectDegreeId);
-        CurrentEnrollments = selectedDegree!.enrollments;
-        EnrollmentIdSelected = CurrentEnrollments!.FirstOrDefault()?.enrollmentId!;
-    }
     
-    private void SetEnrollmentSelect(ChangeEventArgs e)
+    private async Task SetEnrollmentSelect(ChangeEventArgs e)
     {
         var selectEnrollmentId = e.Value!.ToString();
         var enrollment = CurrentEnrollments!.FirstOrDefault(d => d.enrollmentId == selectEnrollmentId);
         
         EnrollmentIdSelected = enrollment!.enrollmentId;
+        await EnrollmentIdSelectedChanged.InvokeAsync(EnrollmentIdSelected);
         CurrentEnrollmentCapacity = enrollment.capacity;
         CurrentEnrollmentQuantity = enrollment.quantity;
+    }
+    
+    private async Task setCurrentEnrollmentsByDegreeId(string? selectDegreeId)
+    {
+        var selectedDegree = Degrees!.FirstOrDefault(e => e.degreeId == selectDegreeId);
+        
+        CurrentEnrollments = selectedDegree!.enrollments;
+        EnrollmentIdSelected = CurrentEnrollments!.FirstOrDefault()?.enrollmentId!;
+        
+        await EnrollmentIdSelectedChanged.InvokeAsync(EnrollmentIdSelected);
+        CurrentEnrollmentCapacity = CurrentEnrollments!.FirstOrDefault()?.capacity ?? 0;
+        CurrentEnrollmentQuantity = CurrentEnrollments!.FirstOrDefault()?.quantity ?? 0;
+
     }
     
     
