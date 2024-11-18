@@ -44,6 +44,7 @@ public class StudentFullDto
         address = student.address;
         file = student.file;
         tutor = student.tutor;
+        minedId = student.minedId;
         
         student.parents!.RemoveAll(t => t.isTutorEmpty());
         if (student.parents.Any())

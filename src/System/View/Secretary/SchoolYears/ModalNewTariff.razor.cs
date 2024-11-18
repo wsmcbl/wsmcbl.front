@@ -25,11 +25,11 @@ public partial class ModalNewTariff : ComponentBase
         var response = await Controller.CreateNewTariff(schoolyearTariff);
         if (response)
         {
-            await Notificator.ShowSuccess("Éxito", "Tarifa guardada correctamente");
+            await Notificator.ShowSuccess("Éxito", "Arancel guardado correctamente");
         }
         else
         {
-            await Notificator.ShowError("Error", "No pudimos guardar la tarifa");
+            await Notificator.ShowError("Error", "No pudimos guardar el arancel");
         }
     }
     

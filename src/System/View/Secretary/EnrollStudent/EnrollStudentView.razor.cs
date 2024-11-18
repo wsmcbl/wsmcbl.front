@@ -88,7 +88,7 @@ public partial class EnrollStudentView : ComponentBase
         if (string.IsNullOrWhiteSpace(EnrollmentIdSelected) || EnrollmentIdSelected == "No asignado")
         {
             await Notificator.ShowInformation("Advertencia",
-                "Por favor selecciona un grado y una sección para el estudiante");
+                "Por favor seleccione un grado y una sección para el estudiante");
             return;
         }
         

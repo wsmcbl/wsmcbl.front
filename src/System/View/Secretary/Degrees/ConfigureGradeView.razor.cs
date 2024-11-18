@@ -56,7 +56,7 @@ public class ConfigureGrade : BaseView
         
         if (response)
         {
-            Notificator.ShowSuccess("Exito", "Las matriculas fueron actualizadas correctamente");
+            Notificator.ShowSuccess("Exito", "Las matrículas fueron actualizadas correctamente");
             await loadDegree();
             StateHasChanged();
         }
@@ -66,13 +66,13 @@ public class ConfigureGrade : BaseView
     {
         if (DegreeEntity.EnrollmentList.Any(entity => entity.Capacity < 10))
         {
-            await Notificator.ShowInformation("Error", "La capacidad de la sección debe ser al menos de 10");
+            await Notificator.ShowInformation("Error", "La capacidad de la sección debe ser al menos de 10.");
             return false;
         }
 
         if (DegreeEntity.EnrollmentList.Any(entity => string.IsNullOrWhiteSpace(entity.Section)))
         {
-            await Notificator.ShowInformation("Error", "El numero del aula no puede estar vacio");
+            await Notificator.ShowInformation("Error", "El número del aula no puede estar vacío.");
             return false;
         }
 

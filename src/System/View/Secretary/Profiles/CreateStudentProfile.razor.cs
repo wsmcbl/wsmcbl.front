@@ -98,17 +98,16 @@ public partial class CreateStudentProfile : ComponentBase
            return;
         }
         
-        var election =  await Notificator.ShowConfirmationQuestion("Se creó un nuevo perfil", "Selecciona la opción deseada",
+        var election =  await Notificator.ShowConfirmationQuestion("Se creó el nuevo perfil.", "Seleccione la opción deseada",
             ("Ir a cobros","Cerrar"));
 
+        await Navigator.HideModal("NewStudentModal");
         if (election)
         {
-            await Navigator.HideModal("NewStudentModal");
             Navigator.ToPage($"/accounting/tariffcollection/{response}");
         }
         else
         {
-            await Navigator.HideModal("NewStudentModal");
             await onNewStudentCreated.InvokeAsync();
         }
     }

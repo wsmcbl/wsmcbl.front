@@ -13,8 +13,7 @@ public class ConfigSchoolYear : ComponentBase
 {
     [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
     [Inject] protected Notificator Notificator { get; set; }
-    [Inject] protected IJSRuntime JsRuntime { get; set; }
-    protected SchoolYearEntity SchoolYear;
+    protected SchoolYearEntity? SchoolYear;
     protected List<PartialListDto> PartialListDtos { get; set; }
     
     protected DegreeDto SelectedDegree;
@@ -32,7 +31,7 @@ public class ConfigSchoolYear : ComponentBase
         
         if (SchoolYear == defaultSchoolyear || DropdownTypeTariffsLists == null)
         {
-            throw new InternalException("Es posible que exista mas de 2 años lectivos activos al mismo tiempo.");
+            throw new InternalException("Es posible que exista más de 2 años lectivos activos al mismo tiempo.");
         }
         
         ConfigInformation();
@@ -40,15 +39,15 @@ public class ConfigSchoolYear : ComponentBase
     
     private void ConfigInformation()
     { 
-        SchoolYear.InitTariffAuxList();
+        SchoolYear!.InitTariffAuxList();
         
-        PartialListDtos = new List<PartialListDto>
-        {
-            new() { semester = 1, partial = 1 },
-            new() { semester = 1, partial = 2 },
-            new() { semester = 2, partial = 1 },
-            new() { semester = 2, partial = 2 },
-        };
+        PartialListDtos =
+        [
+            new PartialListDto { semester = 1, partial = 1 },
+            new PartialListDto { semester = 1, partial = 2 },
+            new PartialListDto { semester = 2, partial = 1 },
+            new PartialListDto { semester = 2, partial = 2 }
+        ];
     }
     protected void OnDateChanged(ChangeEventArgs e, int index, bool isStartDate)
     {

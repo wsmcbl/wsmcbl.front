@@ -8,7 +8,6 @@ public partial class TabStudent : ComponentBase
 {
     [Parameter] public StudentEntity? Student { get; set; }
     [Parameter] public bool SelectRepeat { get; set; }
-    [Parameter] public string SelectActive { get; set; }
     [Parameter] public EventCallback<bool> SelectRepeatChanged { get; set; }
     [Parameter] public int Age { get; set; }
     [Parameter] public string Sex { get; set; }
@@ -20,7 +19,6 @@ public partial class TabStudent : ComponentBase
         if (Student != null)
         {
             Age = Student.birthday.AgeCompute();
-            SelectActive = Student.isActive ? "true" : "false";
             Sex = Student.sex ? "true" : "false";
         }
         

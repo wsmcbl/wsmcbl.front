@@ -45,7 +45,7 @@ namespace wsmcbl.src.View.Components
 
                 if (response)
                 {
-                    await Notificator.ShowSuccess("Exito", "La foto ha sido actualizada");
+                    await Notificator.ShowSuccess("Exito", "La imagen ha sido actualizada");
                 }
             }   
         }
