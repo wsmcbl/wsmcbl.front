@@ -7,7 +7,8 @@ public class DegreeEntity
     public string schoolYear { get; set; } = null!;
     public int quantity { get; set; }
     public int sections { get; set; }
-    public string modality { get; set; } = null!;
-    public List<EnrollmentEntity>? EnrollmentList { get; set; } = null!;
+    public int position { get; set; }
+    public string educationalLevel { get; set; } = null!;
+    public List<EnrollmentEntity>? EnrollmentList { get; set; }
     public List<SubjectEntity>? SubjectList { get; set; }
 }

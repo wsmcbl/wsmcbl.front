@@ -6,7 +6,6 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent;
 public partial class TabAcademy : ComponentBase
 {
     [Parameter] public StudentEntity? Student { get; set; }
-    
     [Parameter] public int DiscountId { get; set; }
     [Parameter] public EventCallback<int> DiscountIdChanged { get; set; }
     
@@ -20,29 +19,31 @@ public partial class TabAcademy : ComponentBase
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
+        if (!firstRender)
         {
-            if (!Degrees!.Any())
-            {
-                CurrentEnrollments = new List<EnrollmentsBasicDto> { new() }; 
-                return;
-            }
+            return;
+        }
         
-            CurrentEnrollments = Degrees!
-                .Where(t => t.enrollments != null && t.enrollments.Any())
-                .Select(t => t.enrollments)
-                .FirstOrDefault();
+        if (Degrees!.Count == 0)
+        {
+            CurrentEnrollments = new List<EnrollmentsBasicDto> { new() }; 
+            return;
+        }
+        
+        CurrentEnrollments = Degrees!
+            .Where(t => t.enrollments != null && t.enrollments.Count != 0)
+            .Select(t => t.enrollments)
+            .FirstOrDefault();
                 
-            var selectedId = CurrentEnrollments!.FirstOrDefault()?.enrollmentId ?? "No asignado";
+        var selectedId = CurrentEnrollments!.FirstOrDefault()?.enrollmentId ?? "No asignado";
         
-            CurrentEnrollmentCapacity = CurrentEnrollments!.FirstOrDefault()?.capacity ?? 0;
-            CurrentEnrollmentQuantity = CurrentEnrollments!.FirstOrDefault()?.quantity ?? 0;
+        CurrentEnrollmentCapacity = CurrentEnrollments!.FirstOrDefault()?.capacity ?? 0;
+        CurrentEnrollmentQuantity = CurrentEnrollments!.FirstOrDefault()?.quantity ?? 0;
             
-            if (EnrollmentIdSelected != selectedId)
-            {
-                EnrollmentIdSelected = selectedId;
-                await EnrollmentIdSelectedChanged.InvokeAsync(EnrollmentIdSelected);
-            }
+        if (EnrollmentIdSelected != selectedId)
+        {
+            EnrollmentIdSelected = selectedId;
+            await EnrollmentIdSelectedChanged.InvokeAsync(EnrollmentIdSelected);
         }
     }
     
@@ -68,7 +69,7 @@ public partial class TabAcademy : ComponentBase
     private void SetEnrollmentSelect(ChangeEventArgs e)
     {
         var selectEnrollmentId = e.Value!.ToString();
-        var enrollment = CurrentEnrollments!.FirstOrDefault(e => e.enrollmentId == selectEnrollmentId);
+        var enrollment = CurrentEnrollments!.FirstOrDefault(d => d.enrollmentId == selectEnrollmentId);
         
         EnrollmentIdSelected = enrollment!.enrollmentId;
         CurrentEnrollmentCapacity = enrollment.capacity;

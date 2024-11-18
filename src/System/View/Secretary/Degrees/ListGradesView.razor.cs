@@ -9,7 +9,7 @@ namespace wsmcbl.src.View.Secretary.Degrees;
 public class ListGrades : ComponentBase
 {
     [Parameter]
-    public int SecctionsNumber { get; set; }
+    public int SectionsNumber { get; set; }
     [Parameter]
     public string GradeId { get; set; }
     
@@ -18,7 +18,6 @@ public class ListGrades : ComponentBase
     [Inject] protected Notificator? Notificator { get; set; }
     [Inject] protected Navigator Navigator { get; set; } = null!;
 
-    protected bool tabsCreated;
     protected List<DegreeEntity>? DegreesList { get; set; }
 
     protected override async Task OnParametersSetAsync()
@@ -63,6 +62,6 @@ public class ListGrades : ComponentBase
         }
 
         await Navigator.HideModal("confGrade");
-        Navigator.ToPage($"/secretary/grades/configuration/{GradeId}/{SecctionsNumber}");
+        Navigator.ToPage($"/secretary/grades/configuration/{GradeId}/{SectionsNumber}");
     }
 }

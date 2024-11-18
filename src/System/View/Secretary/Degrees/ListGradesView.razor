@@ -32,23 +32,23 @@
                 </tr>
                 </tfoot>
                 <tbody>
-                @foreach (var item in DegreesList)
+                @foreach (var item in DegreesList.OrderBy(e => e.position))
                 {
                     <tr>
                         <td> @item.degreeId </td>
                         <td> @item.label </td>
                         <td> @item.quantity</td>
-                        <td> @item.modality</td>
+                        <td> @item.educationalLevel</td>
                         <td>
-                            @if (item.quantity <=0)
+                            @if (item.quantity <= 0)
                             {
-                                <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.degreeId)">
+                                <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.degreeId!)">
                                     Configurar
                                 </button>
                             }
                             else
                             {
-                                <button type="button" class="btn btn-success btn-sm" @onclick="() => ViewGrade(item.degreeId)">
+                                <button type="button" class="btn btn-success btn-sm" @onclick="() => ViewGrade(item.degreeId!)">
                                     Ver
                                 </button>
                             }
@@ -76,13 +76,13 @@
                 <div class="finishpaymodal">
                     <div class="card mb-4 py-3 border-left-danger align-items-center" style="padding: 20px">
                         <h5>Ingrese la cantidad de secciones deseadas:</h5>
-                        <input type="number" class="form-control" style="margin-bottom: 10px" @bind="SecctionsNumber">
+                        <input type="number" class="form-control" style="margin-bottom: 10px" @bind="SectionsNumber">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" @onclick="(e) => CreateTabs(GradeId,SecctionsNumber)">Continuar</button>
+                <button type="button" class="btn btn-danger" @onclick="() => CreateTabs(GradeId,SectionsNumber)">Continuar</button>
             </div>
         </div>
     </div>

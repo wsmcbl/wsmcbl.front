@@ -11,7 +11,7 @@ namespace wsmcbl.src.Controller;
 
 public class CreateOfficialEnrollmentController
 {
-    private ApiConsumer Consumer;
+    private readonly ApiConsumer Consumer;
 
     public CreateOfficialEnrollmentController(ApiConsumer consumer)
     {
@@ -67,9 +67,8 @@ public class CreateOfficialEnrollmentController
 
     public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity, EnrollmentEntity Default)
     {
-        PostDegreeDto data = new PostDegreeDto { degreeId = degreeId, quantity = quantity };
-        var resource = "degrees/enrollments";
-        return await Consumer.PostAsync(Modules.Secretary, resource, data, Default);
+        var data = new PostDegreeDto { degreeId = degreeId, quantity = quantity };
+        return await Consumer.PostAsync(Modules.Secretary, "degrees/enrollments", data, Default);
     }
 
     public async Task<DegreeEntity> GetConfigureEnrollment(string GradeId)
@@ -86,9 +85,8 @@ public class CreateOfficialEnrollmentController
 
     public async Task<List<DegreeEntity>> GetDegreeList()
     {
-        var resource = "degrees/";
         List<DegreeEntity> Default = [];
-        return await Consumer.GetAsync(Modules.Secretary, resource, Default);
+        return await Consumer.GetAsync(Modules.Secretary, "degrees", Default);
     }
 
     public async Task<List<DropdownList>> GetTypeTariffList()
@@ -101,18 +99,17 @@ public class CreateOfficialEnrollmentController
 
     public async Task<bool> PutSaveEnrollment(DegreeEntity degree)
     {
-        var result = true;
-        var resource = "degrees/enrollments";
         var contentList = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(degree);
         
-        
-        if (contentList.Count > 0)
+        if (contentList.Count <= 0)
         {
-            foreach (var content in contentList)
-            {
-                string json = JsonSerializer.Serialize(content);
-                result = await Consumer.PutAsync(Modules.Secretary, resource, content);
-            }
+            return true;
+        }
+     
+        var result = true;   
+        foreach (var content in contentList)
+        {
+            result = await Consumer.PutAsync(Modules.Secretary, "degrees/enrollments", content);
         }
 
         return result;

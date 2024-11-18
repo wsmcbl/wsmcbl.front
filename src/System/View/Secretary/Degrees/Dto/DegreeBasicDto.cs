@@ -22,7 +22,7 @@ public class DegreeBasicDto
             schoolYear = schoolYear,
             quantity = quantity,
             sections = Sections,
-            modality = modality,
+            educationalLevel = modality,
             EnrollmentList = [],
             SubjectList = []
         };

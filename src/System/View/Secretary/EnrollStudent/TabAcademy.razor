@@ -5,7 +5,7 @@
             <div class="card-body" style="min-height: 400px;">
                 <h5 class="card-title font-weight-bold label-required">Expediente</h5>
                 <div class="checkbox-group">
-                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student.file.transferSheet">
+                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student!.file.transferSheet">
                     <label for="hojaTraslado">Hoja de traslado</label>
                 </div>
                 <div class="checkbox-group">
@@ -75,7 +75,7 @@
                 <h5 class="card-title font-weight-bold label-required">Medidas</h5>
 
                 <label style="display: inline-block; width: 200px;">Peso Kg:</label>
-                <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200" @bind="Student.measurements.weight">
+                <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200" @bind="Student.measurements!.weight">
 
                 <label style="display: inline-block; width: 200px;">Altura Cm:</label>
                 <input type="number" class="form-control" style="margin-bottom: 10px" min="50" max="300" @bind="Student.measurements.height">
