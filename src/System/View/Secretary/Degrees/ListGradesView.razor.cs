@@ -8,12 +8,8 @@ namespace wsmcbl.src.View.Secretary.Degrees;
 
 public class ListGrades : ComponentBase
 {
-    [Parameter]
-    public int SectionsNumber { get; set; }
-    [Parameter]
-    public string GradeId { get; set; }
-    
-    [Inject] protected IJSRuntime? JsRuntime { get; set; } 
+    [Parameter] public int SectionsNumber { get; set; }
+    [Parameter] public string? GradeId { get; set; }
     [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
     [Inject] protected Notificator? Notificator { get; set; }
     [Inject] protected Navigator Navigator { get; set; } = null!;
@@ -24,11 +20,11 @@ public class ListGrades : ComponentBase
     {
         try
         {
-            DegreesList = await Controller.GetDegreeList();
+            DegreesList = await Controller!.GetDegreeList();
         }
         catch (Exception e)
         {
-            Notificator.ShowError("Error", $"Obtuvimos algunos errores.\n Mensaje: {e}");
+            await Notificator!.ShowError("Error", $"Obtuvimos algunos errores.\n Mensaje: {e}");
         }
         
     }
@@ -49,12 +45,12 @@ public class ListGrades : ComponentBase
     {
         if (numberOfTabs is < 1 or >= 7)
         {
-            await Notificator.ShowWarning("Advertencia", "El número máximo de secciones es 7");
+            await Notificator!.ShowWarning("Advertencia", "El número máximo de secciones es 7");
             return;
         }
         
         EnrollmentEntity Default = new();
-        var response = await Controller.CreateEnrollments(GradeId, numberOfTabs, Default);
+        var response = await Controller!.CreateEnrollments(GradeId!, numberOfTabs, Default);
             
         if (response == Default)
         {
