@@ -14,7 +14,7 @@
                     <div>@appEx.Title</div>
                     <div>Detalle: @appEx.Content</div>
                 </div>
-                <button type="button" class="btn btn-warning" @onclick="@ErrorBoundary.Recover">Reintentar/Salir</button>
+                <button type="button" class="btn btn-warning" @onclick="@ErrorBoundary!.Recover">Reintentar/Salir</button>
             </div>
         }
         else
@@ -24,7 +24,7 @@
                     <div>Error inesperado</div>
                     <div>Detalle: @Exception.Message</div>
                 </div>
-                <button type="button" class="btn btn-warning" @onclick="@ErrorBoundary.Recover">Reintentar/Salir</button>
+                <button type="button" class="btn btn-warning" @onclick="@ErrorBoundary!.Recover">Reintentar/Salir</button>
             </div>
         }
     </ErrorContent>

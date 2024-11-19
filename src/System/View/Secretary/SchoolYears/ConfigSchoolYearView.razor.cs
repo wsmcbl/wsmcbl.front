@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Model.Secretary;
@@ -11,12 +10,12 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public class ConfigSchoolYear : ComponentBase
 {
-    [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
-    [Inject] protected Notificator Notificator { get; set; }
+    [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
+    [Inject] protected Notificator? Notificator { get; set; }
     protected SchoolYearEntity? SchoolYear;
-    protected List<PartialListDto> PartialListDtos { get; set; }
+    protected List<PartialListDto>? PartialListDto { get; set; }
     
-    protected DegreeDto SelectedDegree;
+    protected DegreeDto? SelectedDegree;
     protected List<DropdownList> DropdownTypeTariffsLists = new();
     protected ModalEditTariff? modalEditTariffRef { get; set; }
 
@@ -26,7 +25,7 @@ public class ConfigSchoolYear : ComponentBase
     protected override async Task OnParametersSetAsync()
     {
         var defaultSchoolyear = new SchoolYearEntity();
-        SchoolYear = await Controller.GetNewSchoolYears(defaultSchoolyear);
+        SchoolYear = await Controller!.GetNewSchoolYears(defaultSchoolyear);
         DropdownTypeTariffsLists = await Controller.GetTypeTariffList();
         
         if (SchoolYear == defaultSchoolyear || DropdownTypeTariffsLists == null)
@@ -41,7 +40,7 @@ public class ConfigSchoolYear : ComponentBase
     { 
         SchoolYear!.InitTariffAuxList();
         
-        PartialListDtos =
+        PartialListDto =
         [
             new PartialListDto { semester = 1, partial = 1 },
             new PartialListDto { semester = 1, partial = 2 },
@@ -58,24 +57,24 @@ public class ConfigSchoolYear : ComponentBase
         
         if (isStartDate)
         {
-            PartialListDtos[index].startDate = new DateEntity(selectedDate);
+            PartialListDto![index].startDate = new DateEntity(selectedDate);
         }
         else
         {
-            PartialListDtos[index].deadLine = new DateEntity(selectedDate);
+            PartialListDto![index].deadLine = new DateEntity(selectedDate);
         }
     }
     protected async Task SaveSchoolYear()
     {
-        SchoolYear.UpdateTariffList();
-        var response = await Controller.SaveNewSchoolYear(SchoolYear, PartialListDtos);
+        SchoolYear!.UpdateTariffList();
+        var response = await Controller!.SaveNewSchoolYear(SchoolYear, PartialListDto!);
         if (response)
         {
-            await Notificator.ShowSuccess("Éxito", "El año lectivo fue creado.");
+            await Notificator!.ShowSuccess("Éxito", "El año lectivo fue creado.");
         }
         else
         {
-            await Notificator.ShowError("");
+            await Notificator!.ShowError("");
         }
     }
     protected void SelectGrade(DegreeDto degree)
@@ -91,7 +90,7 @@ public class ConfigSchoolYear : ComponentBase
     }
     protected void RemoveTariff(TariffAuxEntity tariff)
     {
-        SchoolYear.tariffAuxList.Remove(tariff);
+        SchoolYear!.tariffAuxList!.Remove(tariff);
     }
     protected string GetSelectedClass(DegreeDto degree)
     {

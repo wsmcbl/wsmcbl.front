@@ -135,7 +135,7 @@ else
                     <div class="col-md-4">
                         <h4>Grados</h4>
                         <ul class="list-group">
-                            @foreach (var grade in SchoolYear.degreeList)
+                            @foreach (var grade in SchoolYear.degreeList!)
                             {
                                 <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
                                     @grade.label
@@ -212,7 +212,7 @@ else
                         </tr>
                         </tfoot>
                         <tbody>
-                        @foreach (var item in SchoolYear.tariffAuxList)
+                        @foreach (var item in SchoolYear.tariffAuxList!)
                         {
                             var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.Type);
                             <tr>

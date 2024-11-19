@@ -5,7 +5,7 @@
             <div class="card-body" style="min-height: 400px;">
                 <h5 class="card-title font-weight-bold label-required">Expediente</h5>
                 <div class="checkbox-group">
-                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student!.file.transferSheet">
+                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student!.file!.transferSheet">
                     <label for="hojaTraslado">Hoja de traslado</label>
                 </div>
                 <div class="checkbox-group">
@@ -90,7 +90,7 @@
                 <h5 class="card-title font-weight-bold label-required">Grado/Sección</h5>
 
                 <label style="display: inline-block; width: 200px;">Grado:</label>
-                <select id="grade" class="form-control" style="margin: 0px" @onchange="GetSelectDegreeId">
+                <select id="grade" class="form-control" style="margin: 0" @onchange="GetSelectDegreeId">
                     @if (Degrees != null && Degrees.Any())
                     {
                         @foreach (var option in Degrees.OrderBy(d => d.position))
@@ -105,7 +105,7 @@
                 </select>
 
                 <label style="display: inline-block; width: 200px;">Sección:</label>
-                <select id="seccion" class="form-control" style="margin: 0px" @onchange="SetEnrollmentSelect">
+                <select id="seccion" class="form-control" style="margin: 0" @onchange="SetEnrollmentSelect">
                     @if (CurrentEnrollments != null && CurrentEnrollments.Any())
                     {
                         @foreach (var option in CurrentEnrollments)

@@ -10,11 +10,11 @@ public partial class TabStudent : ComponentBase
     [Parameter] public bool SelectRepeat { get; set; }
     [Parameter] public EventCallback<bool> SelectRepeatChanged { get; set; }
     [Parameter] public int Age { get; set; }
-    [Parameter] public string Sex { get; set; }
+    [Parameter] public string? Sex { get; set; }
     
     [Parameter] public bool IsRepeating { get; set; }
     
-    protected override async Task OnParametersSetAsync()
+    protected override Task OnParametersSetAsync()
     {
         if (Student != null)
         {
@@ -27,6 +27,8 @@ public partial class TabStudent : ComponentBase
             Student.parents[0].sex = false;
             Student.parents[1].sex = true;
         }
+
+        return Task.CompletedTask;
     }
     
     private void UpdateRepeatSelection(bool value)

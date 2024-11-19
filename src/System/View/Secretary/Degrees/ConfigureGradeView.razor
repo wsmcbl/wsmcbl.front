@@ -17,7 +17,7 @@
                     </li>
                 }
                 <li class="nav-item ml-auto">
-                    <button type="button" class="btn btn-success" @onclick="(e) => ConfigureDegree()">
+                    <button type="button" class="btn btn-success" @onclick="() => ConfigureDegree()">
                         Guardar
                     </button>
                 </li>
@@ -39,8 +39,8 @@
                                         <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="enrollment.Label">
 
                                         <label class="label-required" style="display: inline-block; width: 200px;">Maestro Guía:</label>
-                                        <select id="teacherGuideId" class="form-control" style="margin: 0px"
-                                                value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value!.ToString())">
+                                        <select id="teacherGuideId" class="form-control" style="margin: 0"
+                                                value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value!.ToString()!)">
                                             @foreach (var option in TeacherList)
                                             {
                                             <option value="@option.teacherId">
@@ -121,7 +121,7 @@
                                                     </td>
                                                     <td>@GetSemesterLabel(item.subject.Semester)</td>
                                                     <td>
-                                                        <select id="teacherForSubject" class="form-control" style="margin: 0px" value="@item.teacher?.teacherId"
+                                                        <select id="teacherForSubject" class="form-control" style="margin: 0" value="@item.teacher.teacherId"
                                                                 @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value!.ToString()!)">>
                                                             
                                                             @foreach (var option in TeacherList)

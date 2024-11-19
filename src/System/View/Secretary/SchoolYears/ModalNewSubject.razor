@@ -12,7 +12,7 @@
                 <form>
                     <div class="form-group">
                         <label for="gradeIntId">Grado</label>
-                        <select id="gradeIntId" class="form-control" style="margin: 0px" @bind="SubjectNew.GradeIntId">
+                        <select id="gradeIntId" class="form-control" style="margin: 0" @bind="SubjectNew.GradeIntId">
                             @foreach (var option in DropdownDegreeLists)
                             {
                             <option value="@option.Id">@option.Nombre</option>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Abreviación</label>
-                        <input type="text" class="form-control" id="name" @bind="SubjectNew.initials" />
+                        <input type="text" class="form-control" id="initials" @bind="SubjectNew.initials" />
                     </div>
                     <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="isMandatory" @bind="SubjectNew.IsMandatory" />
@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="semester">Semestre</label>
-                        <select id="semester" class="form-control" style="margin: 0px" @bind="SubjectNew.Semester">
+                        <select id="semester" class="form-control" style="margin: 0" @bind="SubjectNew.Semester">
                             @foreach (var option in DropdownSemesterLists)
                             {
                             <option value="@option.Id">@option.Nombre</option>

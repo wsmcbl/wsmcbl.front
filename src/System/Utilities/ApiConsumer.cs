@@ -1,10 +1,7 @@
 using System.Net.Http.Headers;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Mvc;
 using wsmcbl.src.View.Config;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace wsmcbl.src.Utilities;
 
@@ -52,7 +49,7 @@ public class ApiConsumer
     {   
         await LoadToken();
         var response = await httpClient.GetAsync(BuildUri(module, resource));
-        return await Template(defaultResult, response);
+        return (await Template(defaultResult, response))!;
     }
 
     public async Task<TResponse?> PostAsync<TRequest, TResponse>(Modules modules, string resource, TRequest data,
@@ -77,14 +74,15 @@ public class ApiConsumer
         {
             await LoadToken();
             var response = await httpClient.PutAsJsonAsync(BuildUri(modules, resource), data);
-            if (!response.IsSuccessStatusCode)
+            
+            if (response.IsSuccessStatusCode)
             {
-                var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-                throw new InternalException("Hubo un problema con la solicitud.",
-                    $"({problem.Status}) {problem.Detail}");
+                return true;
             }
-
-            return true;
+            
+            var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+            throw new InternalException("Hubo un problema con la solicitud.",
+                $"({problem!.Status}) {problem.Detail}");
         }
         catch (InternalException ex)
         {
@@ -132,14 +130,15 @@ public class ApiConsumer
         {
             await LoadToken();
             var response = await httpClient.GetAsync(BuildUri(module, resource));
-            if (!response.IsSuccessStatusCode)
+            
+            if (response.IsSuccessStatusCode)
             {
-                var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-                throw new InternalException("Hubo un problema con la solicitud.",
-                    $"({problem.Status}) {problem.Detail}");
+                return await response.Content.ReadAsByteArrayAsync();
             }
-
-            return await response.Content.ReadAsByteArrayAsync();
+            
+            var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+            throw new InternalException("Hubo un problema con la solicitud.",
+                $"({problem!.Status}) {problem.Detail}");
         }
         catch (InternalException ex)
         {
@@ -153,7 +152,7 @@ public class ApiConsumer
         return [];
     }
 
-    private async Task<T> Template<T>(T defaultResult, HttpResponseMessage response)
+    private async Task<T?> Template<T>(T defaultResult, HttpResponseMessage response)
     {
         try
         {
@@ -161,10 +160,10 @@ public class ApiConsumer
             {
                 var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
                 throw new InternalException("Hubo un problema con la solicitud.",
-                    $"({problem.Status}) {problem.Detail}");
+                    $"({problem!.Status}) {problem.Detail}");
             }
 
-            defaultResult = await response.Content.ReadFromJsonAsync<T>();
+            defaultResult = (await response.Content.ReadFromJsonAsync<T>())!;
         }
         catch (InternalException ex)
         {
@@ -178,7 +177,7 @@ public class ApiConsumer
         return defaultResult;
     }
 
-    public async Task LoadToken()
+    private async Task LoadToken()
     {
         var tokenResult = await _localStorage.GetAsync<string>(Utilities.TokenKey);
         var token = tokenResult.Value;
