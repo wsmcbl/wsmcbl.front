@@ -14,7 +14,7 @@ public partial class CreateStudentProfile : ComponentBase
     protected NewStudentDto NewStudent { get; set; } = null!;
     protected List<(bool Id, string Gender)> sex { get; set; } = null!;
     protected List<(int Id, string Modality)> modalitySelect { get; set; } = null!;
-    private string MaxDate => DateTime.Today.AddYears(-7).ToString("yyyy-MM-dd");
+    private string MaxDate => DateTime.Today.AddYears(-4).ToString("yyyy-MM-dd");
     
     [Parameter] public EventCallback onNewStudentCreated { get; set; }
 
