@@ -19,24 +19,31 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         var tokenResult = await _localStorage.GetAsync<string>(Utilities.TokenKey);
 
         var token = tokenResult.Value;
-
         if (string.IsNullOrEmpty(token))
         {
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
-        var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-        var jwtToken = handler.ReadJwtToken(token);
+        try
+        {
+            var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
 
-        // Asegúrate de que el RoleClaimType sea "role"
-        var claims = jwtToken.Claims.Select(c => 
-            c.Type == "role" ? new Claim(ClaimTypes.Role, c.Value) : c).ToList();
+            var claims = jwtToken.Claims.Select(c => 
+                c.Type == "role" ? new Claim(ClaimTypes.Role, c.Value) : c).ToList();
 
-        var identity = new ClaimsIdentity(claims, "Bearer");
-        var user = new ClaimsPrincipal(identity);
+            var identity = new ClaimsIdentity(claims, "Bearer");
+            var user = new ClaimsPrincipal(identity);
 
-        return await Task.FromResult(new AuthenticationState(user));
+            return await Task.FromResult(new AuthenticationState(user));
+        }
+        catch (Exception ex)
+        {
+            await _localStorage.DeleteAsync(Utilities.TokenKey);
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        }
     }
+
 
 
     public async Task MarkUserAsAuthenticated(string token)
