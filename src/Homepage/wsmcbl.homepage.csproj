@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <AssemblyTitle>HOMEPAGE WSMCBL SNAPSHOT</AssemblyTitle>
+    <AssemblyTitle>HOMEPAGE WSMCBL BETA</AssemblyTitle>
     <AssemblyVersion>1.2.2</AssemblyVersion>
     <AssemblyDescription>Aplicación cliente del proyecto WSMCBL desarrollado en Blazor.</AssemblyDescription>
     <RootNamespace>wsmcbl.src</RootNamespace>
@@ -12,16 +12,4 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
-    <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
-    <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\php-email-form\validate.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\assets\img\cbl\cbl1.jpg" />
-    <_ContentIncludedByDefault Remove="wwwroot\assets\img\cbl\cbl2.jpg" />
-    <_ContentIncludedByDefault Remove="wwwroot\assets\img\cbl\cbl3.jpg" />
-    <_ContentIncludedByDefault Remove="wwwroot\assets\img\cbl\cbl4.jpg" />
-    <_ContentIncludedByDefault Remove="wwwroot\assets\img\cbl\cbl5.jpeg" />
-  </ItemGroup>
-
 </Project>

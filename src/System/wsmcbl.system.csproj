@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <AssemblyTitle>CLIENT APP WSMCBL SNAPSHOT</AssemblyTitle>
+    <AssemblyTitle>CLIENT APP WSMCBL BETA</AssemblyTitle>
     <AssemblyVersion>1.4.2</AssemblyVersion>
     <AssemblyDescription>Aplicación cliente del proyecto WSMCBL desarrollado en Blazor.</AssemblyDescription>
     <RootNamespace>wsmcbl.src</RootNamespace>

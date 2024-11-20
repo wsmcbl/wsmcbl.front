@@ -31,4 +31,3 @@ delete-all-services: ## Remove all containers and volumes (***CAUTION***)
 	docker-compose down --volumes --remove-orphans
 	docker system prune
 	docker network create app-network || true
-
