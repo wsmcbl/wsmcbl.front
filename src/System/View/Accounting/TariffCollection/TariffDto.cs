@@ -17,7 +17,7 @@ public class TariffDto
     public double Amount { get; set; }
 
     [JsonProperty("dueDate")]
-    public string DueDate { get; set; }
+    public string? DueDate { get; set; }
 
     [JsonProperty("isLate")]
     public bool IsLate { get; set; }

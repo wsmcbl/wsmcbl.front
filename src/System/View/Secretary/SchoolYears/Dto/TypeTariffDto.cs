@@ -12,7 +12,7 @@ public class TypeTariffDto
         return new DropdownList()
         {
             Id = typeId,
-            Nombre = description
+            Name = description
         };
     }
 }

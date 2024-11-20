@@ -26,6 +26,7 @@ public class EnrollStudentController(ApiConsumer consumer) : IEnrollStudentContr
     public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
     {
         var content = student.ToEnrollStudentDto(enrollmentId, discountId, isRepeating);
+        var json = JsonSerializer.Serialize(content);
         return await consumer.PutAsync(Modules.Secretary, "enrollments", content);
     }
 

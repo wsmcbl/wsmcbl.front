@@ -11,9 +11,22 @@ public partial class TabTutor : ComponentBase
      {
          if (Student?.parents == null || !Student.parents.Any())
          {
-             Student.parents = new List<StudentParent>();
+             Student.parents = new List<StudentParent>
+             {
+                 new(),
+                 new()
+             };
+         }
+         else if (Student.parents.Count == 1)
+         {
              Student.parents.Add(new StudentParent());
-             Student.parents.Add(new StudentParent());
+         }
+         else if (Student.parents.Count > 2)
+         {
+             while (Student.parents.Count > 2)
+             {
+                 Student.parents.RemoveAt(Student.parents.Count - 1);
+             }
          }
      }
 }

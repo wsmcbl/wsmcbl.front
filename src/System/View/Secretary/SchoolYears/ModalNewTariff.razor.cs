@@ -15,9 +15,9 @@ public partial class ModalNewTariff : ComponentBase
     protected SchoolyearTariffDto SelectedSchoolyearTariff = new();
     protected List<DropdownList> DropdownModalityLists =
     [
-        new DropdownList { Id = 1, Nombre = "Preescolar" },
-        new DropdownList { Id = 2, Nombre = "Primaria" },
-        new DropdownList { Id = 3, Nombre = "Secundaria" }
+        new DropdownList { Id = 1, Name = "Preescolar" },
+        new DropdownList { Id = 2, Name = "Primaria" },
+        new DropdownList { Id = 3, Name = "Secundaria" }
     ];
     
     protected async Task SaveNewTariff(SchoolyearTariffDto schoolyearTariff)

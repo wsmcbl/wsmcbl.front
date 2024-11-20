@@ -14,9 +14,9 @@ public partial class ModalNewSubject : ComponentBase
     
     protected List<DropdownList> DropdownSemesterLists =
     [
-        new DropdownList { Id = 1, Nombre = "Primer Semestre" },
-        new DropdownList { Id = 2, Nombre = "Segundo Semestre" },
-        new DropdownList { Id = 3, Nombre = "Ambos" }
+        new DropdownList { Id = 1, Name = "Primer Semestre" },
+        new DropdownList { Id = 2, Name = "Segundo Semestre" },
+        new DropdownList { Id = 3, Name = "Ambos" }
     ];    
     protected List<DropdownList> DropdownDegreeLists = [];
     protected SubjectDto SubjectNew = new();
@@ -29,7 +29,7 @@ public partial class ModalNewSubject : ComponentBase
             DropdownDegreeLists.Add(new DropdownList
             {
                 Id = degreeId,
-                Nombre = item.label
+                Name = item.label
             });
             degreeId++;
         }

@@ -2,12 +2,16 @@
 @attribute [Authorize(Roles = "admin")]
 @inherits ConfigureGrade;
 
-@if(IsLoad())
+@if (IsLoad())
+{
+    <div class="loader"></div>    
+}
+else
 {
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in DegreeEntity.EnrollmentList!)
+                @foreach (var item in DegreeEntity!.EnrollmentList!)
                 {
                     counter++;
                     <li class="nav-item">
@@ -41,20 +45,19 @@
                                         <label class="label-required" style="display: inline-block; width: 200px;">Maestro Guía:</label>
                                         <select id="teacherGuideId" class="form-control" style="margin: 0"
                                                 value="@enrollment.teacherId" @onchange="(e) => OnTeacherGuideChanged(enrollment, e.Value!.ToString()!)">
-                                            @foreach (var option in TeacherList)
+                                            @foreach (var option in TeacherList!)
                                             {
-                                            <option value="@option.teacherId">
-                                                @option.fullName
-                                            </option>
+                                                <option value="@option.teacherId">
+                                                    @option.fullName
+                                                </option>
                                             }
                                         </select>
-
 
 
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 col-md-4" style="margin-bottom: 15px">
                                 <div class="card">
                                     <div class="card-body">
@@ -80,7 +83,7 @@
                             </div>
                         </div>
                         <!-- Fin datos de matricula -->
-                        
+
                         <!-- Inicio de las asignaturas -->
                         <div class="card" style="margin-bottom: 15px">
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -122,8 +125,9 @@
                                                     <td>@GetSemesterLabel(item.subject.Semester)</td>
                                                     <td>
                                                         <select id="teacherForSubject" class="form-control" style="margin: 0" value="@item.teacher.teacherId"
-                                                                @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value!.ToString()!)">>
-                                                            
+                                                                @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value!.ToString()!)">
+                                                            >
+
                                                             @foreach (var option in TeacherList)
                                                             {
                                                                 <option value="@option.teacherId">@option.fullName</option>
@@ -139,19 +143,10 @@
                             </div>
                         </div>
                         <!-- Fin de las asignaturas -->
-                        
+
                     </div>
                 }
             </div>
         </div>
     </div>
 }
-else
-{
-    <div class="loader"></div>
-}
-
-
-
-
-

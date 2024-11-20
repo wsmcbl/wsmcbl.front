@@ -34,18 +34,18 @@ else
                     </li>
                 </ul>
 
-                @if (TariffsToPay.Any())
+                @if (TariffsToPay!.Any())
                 {
-                <button type="button" class="btn btn-success"
-                        @onclick="(e) => OpenModal()">
-                    Cobrar C$ @EstimateTotal
-                </button>
+                    <button type="button" class="btn btn-success"
+                            @onclick="() => OpenModal()">
+                        Cobrar C$ @EstimateTotal
+                    </button>
                 }
                 else
                 {
-                <button type="button" class="disabled btn btn-outline-secondary">
-                    Cobrar
-                </button>
+                    <button type="button" class="disabled btn btn-outline-secondary">
+                        Cobrar
+                    </button>
                 }
 
             </div>
@@ -71,38 +71,36 @@ else
                                     <tbody>
                                     @foreach (var item in TariffList!)
                                     {
-                                    if (item.Type == 1)
-                                    {
-                                    <tr>
-                                        <td>@item.TariffId</td>
-                                        <td>@item.SchoolYear</td>
-                                        <td>@item.Concept</td>
-                                        @{
-                                        var hasDebt = Student.HasPayments(item.TariffId);
-                                        var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
-                                        }
-                                        <td>@amount</td>
-                                        <td>@item.IsLate</td>
-                                        <td>@item.DueDate</td>
-                                        <td>
-                                            @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
-                                            {
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
-                                        </td>
-                                        }
-                                        else
+                                        if (item.Type == 1)
                                         {
-                                        <td class="center-checkbox">
-                                            <label class="checkbox-label">
-                                                <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
-                                                <span class="custom-checkbox"></span>
-                                            </label>
-                                        </td>
+                                            <tr>
+                                                <td>@item.TariffId</td>
+                                                <td>@item.SchoolYear</td>
+                                                <td>@item.Concept</td>
+                                                @{
+                                                    var hasDebt = Student!.HasPayments(item.TariffId);
+                                                    var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
+                                                }
+                                                <td>@amount</td>
+                                                <td>@item.GetStringIsLate()</td>
+                                                <td>@item.DueDate</td>
+                                                @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
+                                                {
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="center-checkbox">
+                                                        <label class="checkbox-label">
+                                                            <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                            <span class="custom-checkbox"></span>
+                                                        </label>
+                                                    </td>
+                                                }
+                                            </tr>
                                         }
-                                        </td>
-                                    </tr>
-                                    }
                                     }
                                     </tbody>
                                 </table>
@@ -126,31 +124,31 @@ else
                                     <tbody>
                                     @foreach (var item in TariffList!)
                                     {
-                                    if (item.Type != 1)
-                                    {
-                                    <tr>
-                                        <td>@item.TariffId</td>
-                                        <td>@item.SchoolYear</td>
-                                        <td>@item.Concept</td>
-                                        @{
-                                        var hasDebt = Student.HasPayments(item.TariffId);
-                                        var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
-                                        }
-                                        <td>@amount</td>
-                                        @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
+                                        if (item.Type != 1)
                                         {
-                                        <td>
-                                            <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
-                                        </td>
+                                            <tr>
+                                                <td>@item.TariffId</td>
+                                                <td>@item.SchoolYear</td>
+                                                <td>@item.Concept</td>
+                                                @{
+                                                    var hasDebt = Student!.HasPayments(item.TariffId);
+                                                    var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
+                                                }
+                                                <td>@amount</td>
+                                                @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
+                                                {
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="center-checkbox">
+                                                        <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                    </td>
+                                                }
+                                            </tr>
                                         }
-                                        else
-                                        {
-                                        <td class="center-checkbox">
-                                            <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
-                                        </td>
-                                        }
-                                    </tr>
-                                    }
                                     }
                                     </tbody>
                                 </table>
@@ -168,15 +166,15 @@ else
                                         </span>
                                         <div class="info-box-content">
                                             <span class="info-box-value">Nombre:</span>
-                                            <span class="StudentData">@Student.fullName</span>
+                                            <span class="StudentData">@Student!.fullName</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="info-box">
-                                    <span class="info-box-icon bg-secondary text-white">
-                                        <i class="fas fa-id-badge"></i>
-                                    </span>
+                                        <span class="info-box-icon bg-secondary text-white">
+                                            <i class="fas fa-id-badge"></i>
+                                        </span>
                                         <div class="info-box-content">
                                             <span class="info-box-value">Código:</span>
                                             <span class="StudentData">@Student.studentId</span>
@@ -185,9 +183,9 @@ else
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="info-box">
-                                    <span class="info-box-icon bg-success text-white">
-                                        <i class="fas fa-graduation-cap"></i>
-                                    </span>
+                                        <span class="info-box-icon bg-success text-white">
+                                            <i class="fas fa-graduation-cap"></i>
+                                        </span>
                                         <div class="info-box-content">
                                             <span class="info-box-value">Grado:</span>
                                             <span class="StudentData">@Student.enrollmentLabel</span>
@@ -196,9 +194,9 @@ else
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="info-box">
-                                    <span class="info-box-icon bg-danger text-white">
-                                        <i class="fas fa-chalkboard-teacher"></i>
-                                    </span>
+                                        <span class="info-box-icon bg-danger text-white">
+                                            <i class="fas fa-chalkboard-teacher"></i>
+                                        </span>
                                         <div class="info-box-content">
                                             <span class="info-box-value">Tutor:</span>
                                             <span class="StudentData">@Student.tutor</span>
@@ -207,9 +205,9 @@ else
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="info-box">
-                                    <span class="info-box-icon bg-primary text-white">
-                                        <i class="fas fa-percent"></i>
-                                    </span>
+                                        <span class="info-box-icon bg-primary text-white">
+                                            <i class="fas fa-percent"></i>
+                                        </span>
                                         <div class="info-box-content">
                                             <span class="info-box-value">Descuento:</span>
                                             <span class="StudentData">@getDiscountFormat()</span>
@@ -227,8 +225,8 @@ else
             </div>
         </div>
     </div>
-    
+
     <PaymentViewComponent TariffList="@TariffsToPay" OnComplexObjectCreated="@PayTariffs"/>
-    
+
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>
 }

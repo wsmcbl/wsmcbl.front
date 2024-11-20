@@ -32,8 +32,8 @@ public class StudentParent
     {
         parentId = string.Empty;
         sex = true;
-        name = "";
-        idCard = "";
-        occupation = "";
+        name = "N/A";
+        idCard = "N/A";
+        occupation = "N/A";
     }
 }

@@ -5,16 +5,14 @@ namespace wsmcbl.src.View.Base;
 
 public class TopNavBar_razor : ComponentBase
 {
-    [Inject] private CustomAuthenticationStateProvider AuthStateProvider { get; set; }
-    [Inject] private Navigator Navigator { get; set; }
-    [Inject] private ApiConsumer Consumer { get; set; }
-    protected UserDto User { get; set; }
-    private UserDto UserDefault { get; set; }
-    
+    [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
+    [Inject] private Navigator? Navigator { get; set; }
+    [Inject] private ApiConsumer? Consumer { get; set; }
+    protected UserDto? User { get; set; }
     public async Task LogOut()
     {
-        await AuthStateProvider.MarkUserAsLoggedOut();
-        Navigator.HideModal("logoutModal");
+        await AuthStateProvider!.MarkUserAsLoggedOut();
+        await Navigator!.HideModal("logoutModal");
         Navigator.ToPage("/");
     }
 
@@ -25,9 +23,7 @@ public class TopNavBar_razor : ComponentBase
 
     private async Task<UserDto> GetUser()
     {
-        UserDefault = new UserDto();
-        var response = await Consumer.GetAsync<UserDto>(Modules.Config, "/users", UserDefault);
-        return response ?? UserDefault;
+        return await Consumer!.GetAsync(Modules.Config, "/users", new UserDto());
     }
 
     

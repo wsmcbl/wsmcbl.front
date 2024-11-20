@@ -71,16 +71,16 @@ public partial class TariffCollectionView : ComponentBase
         await Navigator.ShowModal("PaymentView");
     }
     
-    private void HandleKeyDown(KeyboardEventArgs e)
+    private async Task HandleKeyDown(KeyboardEventArgs e)
     {
-        if (!TariffsToPay.Any())
+        if (TariffsToPay!.Count == 0)
         {
             return;
         }
         
         if (e.Key == "Enter" && e.CtrlKey)
         {
-            OpenModal();
+            await OpenModal();
         }
     }
     
