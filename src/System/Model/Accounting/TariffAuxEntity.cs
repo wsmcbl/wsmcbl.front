@@ -12,6 +12,7 @@ public class TariffAuxEntity
 
     public TariffAuxEntity()
     {
+        amounts = [];
     }
     
     public TariffAuxEntity(SchoolyearTariffDto schoolyearTariffDto)

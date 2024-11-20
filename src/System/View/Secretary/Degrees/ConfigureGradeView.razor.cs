@@ -8,17 +8,17 @@ namespace wsmcbl.src.View.Secretary.Degrees;
 
 public class ConfigureGrade : BaseView
 {
-    [Parameter] public string EnrollmentNumber { get; set; }
-    [Parameter] public string GradeId { get; set; }
+    [Parameter] public string EnrollmentNumber { get; set; } = null!;
+    [Parameter] public string GradeId { get; set; } = null!;
     
     [Inject] protected Notificator Notificator { get; set; } = null!;
-    [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
+    [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
 
     protected int NumberEnrollment;
     protected int counter;
     protected int counter2;
-    protected List<TeacherEntity> TeacherList;
-    protected DegreeEntity DegreeEntity; 
+    protected List<TeacherEntity>? TeacherList;
+    protected DegreeEntity? DegreeEntity; 
 
     
     protected override async Task OnParametersSetAsync()
@@ -26,13 +26,13 @@ public class ConfigureGrade : BaseView
         counter = 0;
         counter2 = 0;
         await loadDegree();
-        TeacherList = await Controller.GetTeacherList();
+        TeacherList = await Controller!.GetTeacherList();
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 
     private async Task loadDegree()
     {
-        DegreeEntity = await Controller.GetConfigureEnrollment(GradeId);
+        DegreeEntity = await Controller!.GetConfigureEnrollment(GradeId);
     }
 
     protected string GetSemesterLabel(int semester)
@@ -52,11 +52,11 @@ public class ConfigureGrade : BaseView
             return;
         }  
         
-        var response = await Controller.PutSaveEnrollment(DegreeEntity);
+        var response = await Controller!.PutSaveEnrollment(DegreeEntity!);
         
         if (response)
         {
-            Notificator.ShowSuccess("Exito", "Las matrículas fueron actualizadas correctamente");
+            await Notificator.ShowSuccess("Exito", "Las matrículas fueron actualizadas correctamente");
             await loadDegree();
             StateHasChanged();
         }
@@ -64,13 +64,13 @@ public class ConfigureGrade : BaseView
 
     private async Task<bool>  ValidateInformation()
     {
-        if (DegreeEntity.EnrollmentList.Any(entity => entity.Capacity < 10))
+        if (DegreeEntity!.EnrollmentList!.Any(entity => entity.Capacity < 10))
         {
             await Notificator.ShowInformation("Error", "La capacidad de la sección debe ser al menos de 10.");
             return false;
         }
 
-        if (DegreeEntity.EnrollmentList.Any(entity => string.IsNullOrWhiteSpace(entity.Section)))
+        if (DegreeEntity!.EnrollmentList!.Any(entity => string.IsNullOrWhiteSpace(entity.Section)))
         {
             await Notificator.ShowInformation("Error", "El número del aula no puede estar vacío.");
             return false;
@@ -82,18 +82,21 @@ public class ConfigureGrade : BaseView
 
     protected void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
     { 
-        for (int i = 0; i < enrollment.SubjectTeacherList.Count; i++)
+        for (var index = 0; index < enrollment.SubjectTeacherList.Count; index++)
         {
-            var tuple = enrollment.SubjectTeacherList[i];
-            if (tuple.subject.SubjectId == subject.SubjectId)
+            var tuple = enrollment.SubjectTeacherList[index];
+            
+            if (tuple.subject.SubjectId != subject.SubjectId)
             {
-                var selectedTeacher = TeacherList.FirstOrDefault(t => t.teacherId == selectedTeacherId);
-                if (selectedTeacher != null)
-                {
-                    enrollment.SubjectTeacherList[i] = (tuple.subject, selectedTeacher);
-                }
-                break;
+                continue;
             }
+            
+            var selectedTeacher = TeacherList!.FirstOrDefault(t => t.teacherId == selectedTeacherId);
+            if (selectedTeacher != null)
+            {
+                enrollment.SubjectTeacherList[index] = (tuple.subject, selectedTeacher);
+            }
+            break;
         }
     }
     
@@ -104,6 +107,6 @@ public class ConfigureGrade : BaseView
     
     protected override bool IsLoad()
     {   
-        return NumberEnrollment > 0 && DegreeEntity.EnrollmentList != null && TeacherList.Count != 0;
+        return !(NumberEnrollment > 0 && DegreeEntity!.EnrollmentList != null && TeacherList!.Count != 0);
     }
 }

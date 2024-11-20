@@ -26,5 +26,6 @@ public class TariffEntity
         Discount = Type == 1 ? Amount*discountRate : 0;
         Arrears = IsLate ? Amount*(1 - discountRate)*ARREARS_RATE : 0;
     }
-    
+
+    public string GetStringIsLate() => IsLate ? "Sí" : "No";
 }

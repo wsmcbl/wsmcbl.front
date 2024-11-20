@@ -37,7 +37,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
             return await Task.FromResult(new AuthenticationState(user));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             await _localStorage.DeleteAsync(Utilities.TokenKey);
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
