@@ -4,7 +4,7 @@ using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
 namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
-public partial class ListProfilesView : ComponentBase
+public partial class ListProfilesForEnrollmentsView : ComponentBase
 {
     [Inject] protected IEnrollStudentController Controller { get; set; }
     protected ICollection<StudentDto>? Students { get; private set; }
