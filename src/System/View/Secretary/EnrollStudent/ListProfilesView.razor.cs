@@ -11,6 +11,11 @@ public partial class ListProfilesView : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadStudents();
+    }
+
+    private async Task LoadStudents()
+    {
         Students = await Controller.GetStudents();
     }
 }
