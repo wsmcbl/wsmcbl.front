@@ -1,14 +1,17 @@
 using Microsoft.AspNetCore.Components;
+using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Base;
 
-public class TopNavBar_razor : ComponentBase
+public partial class TopNavBar : ComponentBase
 {
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
     [Inject] private Navigator? Navigator { get; set; }
     [Inject] private ApiConsumer? Consumer { get; set; }
+    
     protected UserDto? User { get; set; }
+    
     public async Task LogOut()
     {
         await AuthStateProvider!.MarkUserAsLoggedOut();

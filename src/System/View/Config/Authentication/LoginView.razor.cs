@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
+using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Config.Authentication;
