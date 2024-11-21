@@ -68,13 +68,13 @@ public partial class PaymentViewComponent : ComponentBase
         StateHasChanged();
     }
     
-    private void HandleKeyDown(KeyboardEventArgs e)
+    private async Task HandleKeyDown(KeyboardEventArgs e)
     {
         if (AmountToDivide > 0)
         {
             if (e.Key == "Enter" && e.CtrlKey)
             {
-                CreateDetail(AmountToDivide);
+                await CreateDetail(AmountToDivide);
             }
         }
     }

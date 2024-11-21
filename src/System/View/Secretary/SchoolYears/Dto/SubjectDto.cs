@@ -16,8 +16,8 @@ public class SubjectDto
     
     [JsonProperty("semester")] 
     public int Semester { get; set; }
-    
-    public string initials { get; set; }
+
+    public string initials { get; set; } = null!;
     public int area { get; set; }
 
     public static SubjectsCreateNewSchoolYearDto MapToSubjectsCreateNewSchoolYearDto(SubjectDto subjectDto)

@@ -7,9 +7,9 @@ namespace wsmcbl.src.View.Secretary.Profiles;
 
 public partial class CreateStudentProfile : ComponentBase
 {
-    [Inject] protected CreateStudentProfileController _controller { get; set; }
-    [Inject] protected Navigator _navigator { get; set; }
-    [Inject] protected Notificator _notificator { get; set; }
+    [Inject] protected CreateStudentProfileController? _controller { get; set; }
+    [Inject] protected Navigator? _navigator { get; set; }
+    [Inject] protected Notificator? _notificator { get; set; }
     
     protected StudentToCreateDto StudentToCreate { get; set; } = null!;
     protected List<(bool Id, string Gender)> sex { get; set; } = null!;
@@ -29,11 +29,13 @@ public partial class CreateStudentProfile : ComponentBase
     
     private void OnSexChanged(ChangeEventArgs e)
     {
-        StudentToCreate.student.sex = bool.Parse(e.Value.ToString());
+        if(e.Value == null) return;
+        StudentToCreate.student.sex = bool.Parse(e.Value.ToString()!);
     }    
     private void OnModalityChanged(ChangeEventArgs e)
     {
-        StudentToCreate.educationalLevel = int.Parse(e.Value.ToString());
+        if(e.Value == null) return;
+        StudentToCreate.educationalLevel = int.Parse(e.Value.ToString()!);
     }
     
     protected override void OnInitialized()
@@ -60,19 +62,19 @@ public partial class CreateStudentProfile : ComponentBase
     {
         if (!StudentToCreate.IsNameValid())
         {
-            await _notificator.ShowInformation("Favor ingrese los campos solicitados", "El primer nombre y el primer apellido son obligatorios");
+            await _notificator!.ShowInformation("Favor ingrese los campos solicitados", "El primer nombre y el primer apellido son obligatorios");
             return true;
         }
 
         if (!StudentToCreate.IsTutorValid())
         {
-            await _notificator.ShowInformation("Favor ingrese los campos solicitados", "El nombre del tutor es obligatorio");
+            await _notificator!.ShowInformation("Favor ingrese los campos solicitados", "El nombre del tutor es obligatorio");
             return true;
         }
 
         if (!StudentToCreate.IsBirthdayValid())
         {
-            await _notificator.ShowInformation("Favor ingrese los campos solicitados", "La fecha debe estar en el rango correcto");
+            await _notificator!.ShowInformation("Favor ingrese los campos solicitados", "La fecha debe estar en el rango correcto");
             return true;
         }
         
@@ -87,7 +89,7 @@ public partial class CreateStudentProfile : ComponentBase
             return;
         }        
         
-        var response = await _controller.CreateNewStudent(StudentToCreate);
+        var response = await _controller!.CreateNewStudent(StudentToCreate);
         
         if (response == null)
         {
@@ -95,10 +97,10 @@ public partial class CreateStudentProfile : ComponentBase
         }
 
         var options = ("Ir a cobros", "Cerrar");
-        var election =  await _notificator
+        var election =  await _notificator!
             .ShowConfirmationQuestion("Se creó el nuevo perfil.", "Seleccione la opción deseada", options);
 
-        await _navigator.HideModal("NewStudentModal");
+        await _navigator!.HideModal("NewStudentModal");
         StudentToCreate.SetAsDefault();
         
         if (election)

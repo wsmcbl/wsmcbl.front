@@ -15,14 +15,14 @@ namespace wsmcbl.src.View.Components
         [Inject] protected IJSRuntime JS { get; set; } = null!;
         [Inject] protected ApiConsumer Consumer { get; set; } = null!;
         [Inject] public Notificator? Notificator { get; set; }
-        [Parameter] public StudentEntity? Student { get; set; }
+        [Parameter] public StudentEntity Student { get; set; } = null!;
         protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png";
         private StringBuilder imageBase64Builder { get; set; } = new();
         private bool IsCamaraOpen { get; set; } = false;
         
         protected override Task OnParametersSetAsync()
         {
-            if (Student?.profilePicture != null)
+            if (Student.profilePicture != null)
             {
                  ImgSrc = $"data:image/png;base64,{Student.profilePicture}";
             }
@@ -41,7 +41,7 @@ namespace wsmcbl.src.View.Components
 
             content.Add(imageContent, "profilePicture", "photo.jpg");
 
-            var response = await Consumer.PutPhotoAsync(Modules.Secretary, $"students/{Student!.studentId}", content);
+            var response = await Consumer.PutPhotoAsync(Modules.Secretary, $"students/{Student.studentId}", content);
 
             if (response)
             {
@@ -84,7 +84,7 @@ namespace wsmcbl.src.View.Components
             var base64 = Convert.ToBase64String(memoryStream.ToArray());
     
             ImgSrc = $"data:{file.ContentType};base64,{base64}";
-            Student!.profilePicture = ImgSrc;
+            Student.profilePicture = ImgSrc;
             StateHasChanged();
         }
         
@@ -112,7 +112,7 @@ namespace wsmcbl.src.View.Components
        public async Task ImageTransferComplete()       
        {
            ImgSrc = imageBase64Builder.ToString();
-           Student!.profilePicture = ImgSrc;
+           Student.profilePicture = ImgSrc;
            imageBase64Builder.Clear();
            await JS.InvokeVoidAsync("stopCamera");
        }

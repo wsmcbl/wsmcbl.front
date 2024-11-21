@@ -8,7 +8,8 @@ public static class MapperSchoolYear
 {
     public static List<GradeCreateNewSchoolYearDto> ToListDto(this List<DegreeDto>? listGrade)
     {
-        return listGrade.Select(e => new GradeCreateNewSchoolYearDto(e)).ToList();
+        return listGrade == null ? [] : 
+            listGrade.Select(e => new GradeCreateNewSchoolYearDto(e)).ToList();
     }
     
     public static List<TariffCreateNewSchoolYearDto> ToListDto(this List<SchoolyearTariffDto> tariffList)

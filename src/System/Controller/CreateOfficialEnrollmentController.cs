@@ -99,7 +99,7 @@ public class CreateOfficialEnrollmentController
 
     public async Task<bool> PutSaveEnrollment(DegreeEntity degree)
     {
-        var contentList = CreateEnrollmentsDto.MaptoCreateEnrollmentsDto(degree);
+        var contentList = degree.MapToListDto();
         
         if (contentList.Count <= 0)
         {

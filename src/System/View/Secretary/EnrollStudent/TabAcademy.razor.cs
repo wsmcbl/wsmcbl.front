@@ -53,10 +53,10 @@ public partial class TabAcademy : ComponentBase
         await DiscountIdChanged.InvokeAsync(DiscountId);
     }
     
-    private void GetSelectDegreeId(ChangeEventArgs e)
+    private async Task GetSelectDegreeId(ChangeEventArgs e)
     {
         var selectDegreeId = e.Value!.ToString();
-        setCurrentEnrollmentsByDegreeId(selectDegreeId);
+        await setCurrentEnrollmentsByDegreeId(selectDegreeId);
     }
     
     

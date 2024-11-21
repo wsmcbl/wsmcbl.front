@@ -3,7 +3,7 @@
 
 <AuthorizeView>
     <Authorized>
-        @{ Navigator.ToPage("/dashboard"); }
+        @{Navigator?.ToPage("/dashboard"); }
     </Authorized>
     <NotAuthorized>
         <div class="blue-background d-flex align-items-center justify-content-center">

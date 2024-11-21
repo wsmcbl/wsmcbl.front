@@ -4,14 +4,14 @@ namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
 public class DegreeBasicDto
 {
-    public string degreeId { get; set; }
-    public string label { get; set; }
-    public string schoolYear { get; set; }
+    public string degreeId { get; set; } = null!;
+    public string label { get; set; } = null!;
+    public string schoolYear { get; set; } = null!;
     public int quantity { get; set; }
     public int Sections { get; set; }
-    public string modality { get; set; }
-    public List<EnrollmentBasicDto> enrollments {get; set;}
-    public List<SubjectDto> subjects { get; set; }
+    public string modality { get; set; } = null!;
+    public List<EnrollmentBasicDto> enrollments {get; set;} = null!;
+    public List<SubjectDto> subjects { get; set; } = null!;
     
     public DegreeEntity toEntity()
     {
@@ -41,9 +41,9 @@ public class DegreeBasicDto
         return degree;
     }
     
-    private List<TeacherEntity>? teacherList;
-    public void SetTeacherList(List<TeacherEntity> teacherList)
+    private List<TeacherEntity> teacherList = null!;
+    public void SetTeacherList(List<TeacherEntity> list)
     {
-        this.teacherList = teacherList;
+        teacherList = list;
     }
 }

@@ -4,15 +4,15 @@ namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
 public class EnrollmentBasicDto
 {
-    public string enrollmentId { get; set; }
-    public string teacherId { get; set; }
-    public string teahcerName { get; set; }
-    public string label { get; set; }
-    public string section { get; set; }
+    public string enrollmentId { get; set; } = null!;
+    public string teacherId { get; set; } = null!;
+    public string teacherName { get; set; } = null!;
+    public string label { get; set; } = null!;
+    public string section { get; set; } = null!;
     public int capacity { get; set; }
     public int quantity { get; set; }
     
-    public  List<SubjectBasicDto> subjects { get; set; }
+    public  List<SubjectBasicDto> subjects { get; set; } = null!;
 
     public EnrollmentEntity ToEntity(List<SubjectEntity> subjectList, List<TeacherEntity> teacherList)
     {
@@ -38,13 +38,9 @@ public class EnrollmentBasicDto
         foreach (var subjectDto in subjects)
         {
             var subjectEntity = subjectList.FirstOrDefault(e => e.SubjectId == subjectDto.subjectId);
-            var teacherEntity = teacherList.FirstOrDefault(e => e.teacherId == subjectDto.teacherId);
+            var teacherEntity = teacherList.FirstOrDefault(e => e.teacherId == subjectDto.teacherId)
+                                ?? new NullTeacherEntity();
 
-            if (teacherEntity == null)
-            {
-                teacherEntity = new NullTeacherEntity();
-            }
-            
             list.Add((subjectEntity!, teacherEntity));
         }
         

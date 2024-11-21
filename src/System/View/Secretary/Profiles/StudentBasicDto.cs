@@ -10,7 +10,7 @@ public class StudentBasicDto
     public string surname { get; set; } 
     public string? secondSurname { get; set; }
     public bool sex { get; set; }
-    public DateEntity birthday { get; set; }
+    public DateEntity birthday { get; set; } = null!;
 
     public StudentBasicDto()
     {

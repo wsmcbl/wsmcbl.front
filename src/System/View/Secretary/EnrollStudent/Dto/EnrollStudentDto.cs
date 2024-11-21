@@ -7,7 +7,7 @@ public class EnrollStudentDto
     public string? enrollmentId { get; set; }
     public int discountId { get; set; }
     public bool isRepeating { get; set; }
-    public StudentFullDto student { get; set; }
+    public StudentFullDto student { get; set; } = null!;
 
     public EnrollStudentDto()
     {
