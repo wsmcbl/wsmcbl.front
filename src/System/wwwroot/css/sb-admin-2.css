@@ -10023,6 +10023,10 @@ a:focus {
   background-color: #3a3b45 !important;
 }
 
+.bg-gray-cbl {
+  background: rgba(90, 92, 105, 0.5);
+}
+
 .o-hidden {
   overflow: hidden !important;
 }
@@ -11289,7 +11293,7 @@ form.user .btn-user {
 }
 
 footer.sticky-footer {
-  padding: 2rem 0;
+  padding: 1rem 0;
   flex-shrink: 0;
 }
 
