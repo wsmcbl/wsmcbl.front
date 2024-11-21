@@ -1,35 +1,24 @@
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Mvc;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Config;
 
-namespace wsmcbl.src.Utilities;
+namespace wsmcbl.src.Controller.Service;
 
 public class ApiConsumer
 {
     private readonly HttpClient httpClient;
     private readonly Notificator service;
     private readonly ProtectedLocalStorage _localStorage;
+    private readonly Uri _server;
 
     public ApiConsumer(HttpClient httpClient, Notificator notificator, ProtectedLocalStorage localStorage)
     {
         this.httpClient = httpClient;
         service = notificator;
         _localStorage = localStorage;
-        SetServerUri();
-    }
-
-    
-    private Uri? _server;
-    private void SetServerUri()
-    {
-        var api = Environment.GetEnvironmentVariable("API");
-        if(string.IsNullOrEmpty(api))
-        {
-            api = "http://localhost:4000";
-        }
-
-        _server = new Uri($"{api}/v2");
+        _server = GetServerUri();
     }
 
     private Uri BuildUri(Modules modules, string resource)
@@ -58,14 +47,6 @@ public class ApiConsumer
         await LoadToken();
         var response = await httpClient.PostAsJsonAsync(BuildUri(modules, resource), data);
         return await Template(defaultResult, response);
-    }
-
-    public async Task<string> LoginAsync(LoginDto data)
-    {
-        var defaultDto = new LoginDto();
-        defaultDto.setDefault();
-        var response = await PostAsync(Modules.Config, "users/tokens", data, defaultDto);
-        return response!.token;
     }
 
     public async Task<bool> PutAsync<T>(Modules modules, string resource, T data)
@@ -158,9 +139,9 @@ public class ApiConsumer
         {
             if (!response.IsSuccessStatusCode)
             {
-                var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+                var problem = await response.Content.ReadFromJsonAsync<ApiProblemDetails>();
                 throw new InternalException("Hubo un problema con la solicitud.",
-                    $"({problem!.Status}) {problem.Detail}");
+                    $"({problem!.Status}) {problem.Detail} {problem.GetValidationErrors()}");
             }
 
             defaultResult = (await response.Content.ReadFromJsonAsync<T>())!;
@@ -176,19 +157,32 @@ public class ApiConsumer
 
         return defaultResult;
     }
+    
+    
+    public async Task<string> LoginAsync(LoginDto data)
+    {
+        var defaultDto = new LoginDto();
+        defaultDto.SetAsDefault();
+        var response = await PostAsync(Modules.Config, "users/tokens", data, defaultDto);
+        return response!.token!;
+    }
 
     private async Task LoadToken()
     {
-        var tokenResult = await _localStorage.GetAsync<string>(Utilities.TokenKey);
+        var tokenResult = await _localStorage.GetAsync<string>(Utilities.Utilities.TokenKey);
         var token = tokenResult.Value;
 
-        if (!string.IsNullOrEmpty(token))
-        {
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-        else
-        {
-            httpClient.DefaultRequestHeaders.Authorization = null;
-        }
+        httpClient.DefaultRequestHeaders.Authorization = string.IsNullOrEmpty(token?.Trim()) ? null :
+            new AuthenticationHeaderValue("Bearer", token);
+    }
+    
+    
+    private static Uri GetServerUri()
+    {
+        var api = Environment.GetEnvironmentVariable("API");
+        if (string.IsNullOrEmpty(api))
+            throw new InternalException("API environment variable not found.");
+        
+        return new Uri($"{api}/v2");
     }
 }
