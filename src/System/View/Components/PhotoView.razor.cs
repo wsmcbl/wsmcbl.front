@@ -41,7 +41,7 @@ namespace wsmcbl.src.View.Components
 
             content.Add(imageContent, "profilePicture", "photo.jpg");
 
-            var response = await Consumer.PutAsyncPhoto(Modules.Secretary, $"students/{Student!.studentId}", content);
+            var response = await Consumer.PutPhotoAsync(Modules.Secretary, $"students/{Student!.studentId}", content);
 
             if (response)
             {

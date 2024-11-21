@@ -37,7 +37,6 @@ public class CreateOfficialEnrollmentController
         var resource = "configurations/schoolyears";
         Model.Secretary.SchoolYearEntity Default = new(); 
         var content = new CreateSchoolYearDto(schoolYearEntity, partials);
-        var jsonResult = JsonSerializer.Serialize(content);
         var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }

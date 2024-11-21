@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <EditForm Model="@NewStudent" OnValidSubmit="SaveStudent">
+                <EditForm Model="@StudentToCreate" OnValidSubmit="SaveStudent">
                     <DataAnnotationsValidator/>
                     <ValidationSummary/>
                     
@@ -19,22 +19,22 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="firstName" class="label-required">Primer Nombre:</label>
-                                            <InputText id="firstName" @bind-Value="@NewStudent.student.name" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="firstName" @bind-Value="@StudentToCreate.student.name" class="form-control" placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="secondN">Segundo Nombre:</label>
-                                            <InputText id="secondN" @bind-Value="@NewStudent.student.secondName" class="form-control"placeholder="Sin asignar"/>
+                                            <InputText id="secondN" @bind-Value="@StudentToCreate.student.secondName" class="form-control"placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="surname" class="label-required">Primer Apellido:</label>
-                                            <InputText id="surname" @bind-Value="@NewStudent.student.surname" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="surname" @bind-Value="@StudentToCreate.student.surname" class="form-control" placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="secondS">Segundo Apellido:</label>
-                                            <InputText id="secondS" @bind-Value="@NewStudent.student.secondSurname" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="secondS" @bind-Value="@StudentToCreate.student.secondSurname" class="form-control" placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
@@ -67,12 +67,12 @@
 
                                         <div class="form-group">
                                             <label for="tutor" class="label-required">Tutor:</label>
-                                            <InputText id="tutor" @bind-Value="@NewStudent.tutor.name" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="tutor" @bind-Value="@StudentToCreate.tutor.name" class="form-control" placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="tutor">Telefono del tutor:</label>
-                                            <InputText id="tutor" @bind-Value="@NewStudent.tutor.phone" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="tutor" @bind-Value="@StudentToCreate.tutor.phone" class="form-control" placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">

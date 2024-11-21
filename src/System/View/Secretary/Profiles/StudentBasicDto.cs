@@ -14,13 +14,24 @@ public class StudentBasicDto
 
     public StudentBasicDto()
     {
-        studentId = "";
-        name = "";
-        secondName = "";
-        surname = "";
-        secondSurname = "";
-        birthday = new DateEntity(DateTime.Today);
+        studentId = null;
+        name = string.Empty;
+        secondName = string.Empty;
+        surname = string.Empty;
+        secondSurname = string.Empty;
+        ResetBirthDay();
     }
 
+    public void checkData()
+    {
+        secondName = secondName?.Trim() == string.Empty ? null : secondName;
+        secondSurname = secondSurname?.Trim() == string.Empty ? null : secondSurname;
+    }
+    
     public bool IsBirthdayValid() => !birthday.IsNotDateValid();
+
+    public void ResetBirthDay()
+    {
+        birthday = new DateEntity(DateTime.Today);
+    }
 }

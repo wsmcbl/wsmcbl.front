@@ -1,24 +1,26 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Profiles;
 
 namespace wsmcbl.src.Controller;
 
 public class CreateStudentProfileController
 {
-    private ApiConsumer Consumer;
+    private readonly ApiConsumer _apiConsumer;
 
-    public CreateStudentProfileController(ApiConsumer consumer)
+    public CreateStudentProfileController(ApiConsumer apiConsumer)
     {
-        Consumer = consumer;
+        _apiConsumer = apiConsumer;
     }
 
-    public async Task<string?> CreateNewStudent(NewStudentDto newStudent)
+    public async Task<string?> CreateNewStudent(StudentToCreateDto studentToCreate)
     {
-        NewStudentDto Default = new();
-        var response = await Consumer
-            .PostAsync(Modules.Accounting, "/students", newStudent, Default);
+        StudentToCreateDto Default = new();
+        Default.SetAsDefault();
 
-        return response!.student.studentId;
+        studentToCreate.checkData();
+        var response = await _apiConsumer
+            .PostAsync(Modules.Accounting, "/students", studentToCreate, Default);
+
+        return response.student.studentId;
     }
 }
