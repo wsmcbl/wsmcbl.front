@@ -117,7 +117,7 @@ public class ApiConsumer
         if (string.IsNullOrEmpty(api?.Trim()))
             throw new InternalException("API environment variable not found.");
         
-        return new Uri($"{api}/v2");
+        return new Uri($"{api}/v3");
     }
     
     private static Task<bool> AlwaysTrue() => Task.Delay(0).ContinueWith(_ => true);

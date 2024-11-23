@@ -4,8 +4,6 @@
 
 @if (DegreesList != null)
 {
-    <link rel="stylesheet" href="css/EnrollStudent.css">
-
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Lista de Grados</h6>
@@ -32,9 +30,11 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in DegreesList)
+                    @foreach (var item in DegreesList.OrderBy(t => t.position))
                     {
                         <tr>
+                            @{Console.WriteLine(item.position);}
+                            @{Console.WriteLine(item.label);}
                             <td> @item.degreeId </td>
                             <td> @item.label </td>
                             <td> @item.quantity</td>
@@ -60,7 +60,7 @@
             </div>
         </div>
         <!-- Inicializamos datatable -->
-        <script src="/js/demo/datatables-demo.js" defer="defer"></script>
+        <script src="/js/DataTable/dataTableWhitOutOrder.js" defer="defer"></script>
     </div>
 
     <div class="modal fade" id="confGrade" tabindex="-1" role="dialog" aria-labelledby="modalconf" aria-hidden="true">

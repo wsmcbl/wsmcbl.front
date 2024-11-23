@@ -1,5 +1,6 @@
 $(document).ready(function() {
     $('#dataTable').DataTable({
+        "order": [],
         "language": {
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",

@@ -11,8 +11,8 @@ public partial class LoginView : ComponentBase
     [Inject] private Navigator? Navigator { get; set; }
     [Inject] private Notificator? Notificator { get; set; }
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
-    
-    public async Task Login()
+
+    private async Task Login()
     {
         var token = await Consumer!.LoginAsync(User);
         
