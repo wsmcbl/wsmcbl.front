@@ -11,7 +11,7 @@ public partial class TabTutor : ComponentBase
      {
          if (Student?.parents == null || !Student.parents.Any())
          {
-             Student.parents = new List<StudentParent>
+             Student!.parents = new List<StudentParent>
              {
                  new(),
                  new()

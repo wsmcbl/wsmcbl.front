@@ -30,16 +30,16 @@ public partial class TariffCollectionView : ComponentBase
         }
 
         await LoadStudent();
-        TariffList = await Controller.GetTariffListByStudentId(StudentId);
-        TariffList.UpdateAmounts(Student!);
-        
         InvoicePdf = [];
         TariffsToPay = [];
+        EstimateTotal = 0;
     }
     
     private async Task LoadStudent()
     {
         Student = await Controller.GetStudent(StudentId!);
+        TariffList = await Controller.GetTariffListByStudentId(StudentId);
+        TariffList.UpdateAmounts(Student!);
     }
     
     private void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)
@@ -63,7 +63,8 @@ public partial class TariffCollectionView : ComponentBase
         {
             TariffsToPay!.Remove(tariffModal);
             EstimateTotal -= tariffModal.Amount;
-        }
+            if (EstimateTotal < 0)
+            { EstimateTotal = 0; }}
     }
 
     private async Task OpenModal()
@@ -104,6 +105,7 @@ public partial class TariffCollectionView : ComponentBase
         
         await LoadStudent();
         TariffsToPay = [];
+        EstimateTotal = 0;
         StateHasChanged();
     }
 

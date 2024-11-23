@@ -37,7 +37,7 @@ else
                 @if (TariffsToPay!.Any())
                 {
                     <button type="button" class="btn btn-success"
-                            @onclick="() => OpenModal()">
+                            @onclick="OpenModal">
                         Cobrar C$ @EstimateTotal
                     </button>
                 }

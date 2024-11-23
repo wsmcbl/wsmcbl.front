@@ -53,7 +53,6 @@ public partial class PaymentViewComponent : ComponentBase
         await Navigator.HideModal("PaymentView");
     }
     
-    
     protected void ExonerateArrears(ChangeEventArgs e)
     {
         AreArrearsApply = (bool)e.Value!;
