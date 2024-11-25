@@ -7,61 +7,93 @@
 }
 else
 {
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Reportes</h6>
-        </div>
+    <div class="card border-bottom-success shadow h-100 py-2 mb-4">
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Id</th>
-                        <th>Estudiante</th>
-                        <th>Estado</th>
-                        <th>Monto</th>
-                        <th>Acción</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Id</th>
-                        <th>Estudiante</th>
-                        <th>Estado</th>
-                        <th>Monto</th>
-                        <th>Acción</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    <tr>
-                        <td> 19/junio/2024 </td>
-                        <td> 1525 </td>
-                        <td> Ezequielito</td>
-                        <td>  Pagado </td>
-                        <td> C$ 1800 </td>
-                        <td>
-                            <div class="dropdown no-arrow">
-                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                     aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header">Seleccione una opción:</div>
-                                    <a class="dropdown-item" href="#">Ver recibo</a>
-                                    <a class="dropdown-item" href="#">Anular</a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h5 class="m-0 font-weight-bold text-primary">Reporte de Ingresos</h5>
+                    </div>
+                </div>
             </div>
+            
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <button class="btn btn-outline-success btn-sm">Hoy</button>
+                        <button class="btn btn-outline-success btn-sm ml-5">Ayer</button>
+                        <button class="btn btn-outline-success btn-sm ml-5">Mensual</button>
+                        <button class="btn btn-outline-success btn-sm ml-5">Anual</button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            
+            <div class="row align-items-center">
+                <div class="col">
+
+                    @if (!HasData)
+                    {
+                        <div class="d-flex justify-content-center">
+                            <h4 class="text-gray-800">Sin datos que mostrar</h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="dataTableExport" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Factura</th>
+                                        <th>Estudiante</th>
+                                        <th>Fecha</th>
+                                        <th>Monto</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Factura</th>
+                                        <th>Estudiante</th>
+                                        <th>Fecha</th>
+                                        <th>Monto</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <tr>
+                                        <td> 001</td>
+                                        <td> Ezequiel De Jesus Urbina Zeledón</td>
+                                        <td> 19/junio/2024</td>
+                                        <td> C$ 1800.00</td>
+                                        <td> Valido </td>
+                                    </tr> <tr>
+                                        <td> 002</td>
+                                        <td> Kenny Jordan Tinoco Cerda</td>
+                                        <td> 19/junio/2024</td>
+                                        <td> C$ 1800.00</td>
+                                        <td> Valido </td>
+                                    </tr> <tr>
+                                        <td> 003</td>
+                                        <td> Anyelo Josue Urbina Martinez</td>
+                                        <td> 19/junio/2024</td>
+                                        <td> C$ 1800.00</td>
+                                        <td> Valido </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+            
+            
         </div>
     </div>
     
-    <script defer src="/js/demo/datatables-demo.js"></script>
+    <script defer src="/js/DataTable/ExportDataTables.js"></script>
 }
