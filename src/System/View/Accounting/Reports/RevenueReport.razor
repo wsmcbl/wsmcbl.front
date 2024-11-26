@@ -24,10 +24,10 @@ else
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                     <div class="d-flex justify-content-center align-items-center">
-                        <button class="btn btn-outline-success btn-sm">Hoy</button>
-                        <button class="btn btn-outline-success btn-sm ml-5">Ayer</button>
-                        <button class="btn btn-outline-success btn-sm ml-5">Mensual</button>
-                        <button class="btn btn-outline-success btn-sm ml-5">Anual</button>
+                        <button class="btn btn-outline-success btn-sm" @onclick="() => GetTransactionsRevenuesAsync(1)">Hoy</button>
+                        <button class="btn btn-outline-success btn-sm ml-5" @onclick="() => GetTransactionsRevenuesAsync(2)">Ayer</button>
+                        <button class="btn btn-outline-success btn-sm ml-5" @onclick="() => GetTransactionsRevenuesAsync(3)">Mensual</button>
+                        <button class="btn btn-outline-success btn-sm ml-5" @onclick="() => GetTransactionsRevenuesAsync(4)">Anual</button>
                     </div>
                 </div>
             </div>
@@ -53,6 +53,7 @@ else
                                         <th>Estudiante</th>
                                         <th>Fecha</th>
                                         <th>Monto</th>
+                                        <th>Tipo</th>
                                         <th>Estado</th>
                                     </tr>
                                     </thead>
@@ -61,30 +62,23 @@ else
                                         <th>Factura</th>
                                         <th>Estudiante</th>
                                         <th>Fecha</th>
+                                        <th>Tipo</th>
                                         <th>Monto</th>
                                         <th>Estado</th>
                                     </tr>
                                     </tfoot>
                                     <tbody>
-                                    <tr>
-                                        <td> 001</td>
-                                        <td> Ezequiel De Jesus Urbina Zeledón</td>
-                                        <td> 19/junio/2024</td>
-                                        <td> C$ 1800.00</td>
-                                        <td> Valido </td>
-                                    </tr> <tr>
-                                        <td> 002</td>
-                                        <td> Kenny Jordan Tinoco Cerda</td>
-                                        <td> 19/junio/2024</td>
-                                        <td> C$ 1800.00</td>
-                                        <td> Valido </td>
-                                    </tr> <tr>
-                                        <td> 003</td>
-                                        <td> Anyelo Josue Urbina Martinez</td>
-                                        <td> 19/junio/2024</td>
-                                        <td> C$ 1800.00</td>
-                                        <td> Valido </td>
-                                    </tr>
+                                    @foreach (var item in Transactions.transactionList)
+                                    {
+                                        <tr>
+                                            <td> @item.number</td>
+                                            <td> @item.studentName</td>
+                                            <td> @item.datetime</td>
+                                            <td> @item.amount</td>
+                                            <td> @item.type</td>
+                                            <td> @item.isValid</td>
+                                        </tr>
+                                    }
                                     </tbody>
                                 </table>
                             </div>

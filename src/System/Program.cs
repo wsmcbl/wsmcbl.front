@@ -33,6 +33,7 @@ builder.Services.AddTransient<IEnrollStudentController, EnrollStudentController>
 builder.Services.AddTransient<CreateOfficialEnrollmentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
 builder.Services.AddTransient<CreateStudentProfileController>();
+builder.Services.AddTransient<TransactionReportByDateController>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
