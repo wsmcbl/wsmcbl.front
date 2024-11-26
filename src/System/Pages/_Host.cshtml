@@ -52,7 +52,13 @@
 <script src="vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-<script src="_framework/blazor.server.js"></script>
+<script src="_framework/blazor.server.js" autostart="false"></script>
+<script>
+    window.Blazor.start({
+        reconnectInterval: 5000 // Intenta reconectar cada 5 segundos
+    });
+</script>
+
 <!-- Referencia a Libreria para los toast o carteles -->
 <script src="_content/CurrieTechnologies.Razor.SweetAlert2/sweetAlert2.min.js"></script>
 
