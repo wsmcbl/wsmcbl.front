@@ -1,0 +1,31 @@
+/* Contenedor flexible con proporción por defecto */
+.responsive-calendar {
+    position: relative;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    padding-top: 56.25%; /* Relación 16:9 por defecto */
+    overflow: hidden; /* Oculta el desbordamiento */
+}
+
+/* Ajuste del iframe */
+.responsive-calendar iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Ancho completo del contenedor */
+    height: 100%; /* Altura completa del contenedor */
+    border: 0; /* Sin bordes */
+}
+
+/* Media query para dispositivos con relación alargada (móviles modernos) */
+@media (max-width: 768px) {
+    .responsive-calendar {
+        padding-top: 52.63%; /* Relación 19:9 aproximada para móviles modernos */
+    }
+}
+
+/* Media query para dispositivos muy pequeños */
+@media (max-width: 480px) {
+    .responsive-calendar {
+        padding-top: 50%; /* Relación 2:1 para dispositivos con pantallas más alargadas */
+    }
+}
