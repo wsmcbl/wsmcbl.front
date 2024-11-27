@@ -36,47 +36,57 @@ else
                 <div class="row text-center">
                     <!-- Resumen Compacto -->
                     <div class="col-md-12">
-                        
+
                         <div class="card border-left-info p-3">
 
                             <div class="row justify-content-center">
                                 <div class="col-12">
-                                    <p class="text-muted mb-0"><strong>Usuario:</strong> @Transactions.userName</p>
+                                    <p class="text-black mb-0 custom-badge-size">
+                                        <strong>Usuario:</strong> @Transactions.userName</p>
                                 </div>
                                 <div class="col-12">
-                                    <p class="text-muted"><strong>Consulta:</strong> @Transactions.consultedIn</p>
+                                    <p class="text-black custom-badge-size">
+                                        <strong>Consulta:</strong> @Transactions.consultedIn</p>
                                 </div>
                             </div>
-
 
                             <div class="d-flex justify-content-around">
                                 <div class="font-weight-bold">
-                                    <div><span class="badge badge-success">Total Válido: C$ @Transactions.validTotal</span></div>
-                                    <div><span class="badge badge-danger">Total Inválido: C$ @Transactions.invalidTotal</span></div>
+                                    <div><span
+                                            class="badge badge-success custom-badge-size">Total Válido: C$ @Transactions.validTotal</span>
+                                    </div>
+                                    <div><span
+                                            class="badge badge-danger custom-badge-size mt-2">Total Inválido: C$ @Transactions.invalidTotal</span>
+                                    </div>
                                 </div>
                                 <div class="font-weight-bold">
                                     <div>
-                                        <span class="badge badge-info">
+                                        <span class="badge badge-info custom-badge-size">
                                             Desde: @(DateTime.TryParse(Transactions.startDate, out var startDate)
-                                                       ? startDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
-                                                       : "Sin fecha")
+                                                           ? startDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                                           : "Sin fecha")
                                         </span>
                                     </div>
                                     <div>
-                                        <span class="badge badge-info">
-                                            Desde: @(DateTime.TryParse(Transactions.endDate, out var endDate)
-                                                       ? endDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
-                                                       : "Sin fecha")
+                                        <span class="badge badge-info custom-badge-size mt-2">
+                                            Hasta: @(DateTime.TryParse(Transactions.endDate, out var endDate)
+                                                           ? endDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                                           : "Sin fecha")
                                         </span>
                                     </div>
                                 </div>
                                 <div class="font-weight-bold">
-                                    <div><span class="badge badge-secondary">Cantidad Válida: @Transactions.validQuantity</span></div>
-                                    <div><span class="badge badge-secondary">Cantidad Inválida: @Transactions.invalidQuantity</span></div>
+                                    <div><span
+                                            class="badge badge-secondary custom-badge-size">Cantidad Válida: @Transactions.validQuantity</span>
+                                    </div>
+                                    <div><span
+                                            class="badge badge-secondary custom-badge-size mt-2">Cantidad Inválida: @Transactions.invalidQuantity</span>
+                                    </div>
                                 </div>
                             </div>
-                            
+
                         </div>
+
 
                     </div>
                 </div>
