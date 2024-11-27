@@ -17,5 +17,10 @@ public class TransactionReportByDateController
         TransactionsRevenuesDto? transactionsRevenues = new TransactionsRevenuesDto();
         return await Consumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
     }
-    
+
+    public async Task<List<TypeTransactionsDto>> GetTypeTransactions()
+    {
+        List<TypeTransactionsDto> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Accounting, "transactions/types", defaultResult);
+    }
 }

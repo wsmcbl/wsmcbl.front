@@ -31,19 +31,68 @@ else
                     </div>
                 </div>
             </div>
+
+            <div class="container mt-3">
+                <div class="row text-center">
+                    <!-- Resumen Compacto -->
+                    <div class="col-md-12">
+                        
+                        <div class="card border-left-info p-3">
+
+                            <div class="row justify-content-center">
+                                <div class="col-12">
+                                    <p class="text-muted mb-0"><strong>Usuario:</strong> @Transactions.userName</p>
+                                </div>
+                                <div class="col-12">
+                                    <p class="text-muted"><strong>Consulta:</strong> @Transactions.consultedIn</p>
+                                </div>
+                            </div>
+
+
+                            <div class="d-flex justify-content-around">
+                                <div class="font-weight-bold">
+                                    <div><span class="badge badge-success">Total Válido: C$ @Transactions.validTotal</span></div>
+                                    <div><span class="badge badge-danger">Total Inválido: C$ @Transactions.invalidTotal</span></div>
+                                </div>
+                                <div class="font-weight-bold">
+                                    <div>
+                                        <span class="badge badge-info">
+                                            Desde: @(DateTime.TryParse(Transactions.startDate, out var startDate)
+                                                       ? startDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                                       : "Sin fecha")
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="badge badge-info">
+                                            Desde: @(DateTime.TryParse(Transactions.endDate, out var endDate)
+                                                       ? endDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                                       : "Sin fecha")
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="font-weight-bold">
+                                    <div><span class="badge badge-secondary">Cantidad Válida: @Transactions.validQuantity</span></div>
+                                    <div><span class="badge badge-secondary">Cantidad Inválida: @Transactions.invalidQuantity</span></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            
+            
+            
+            
+            
             <hr>
             
             <div class="row align-items-center">
                 <div class="col">
-
-                    @if (!HasData)
-                    {
-                        <div class="d-flex justify-content-center">
-                            <h4 class="text-gray-800">Sin datos que mostrar</h4>
-                        </div>
-                    }
-                    else
-                    {
+                    
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="dataTableExport" class="table table-bordered">
@@ -75,8 +124,10 @@ else
                                             <td> @item.studentName</td>
                                             <td> @item.datetime</td>
                                             <td> @item.amount</td>
-                                            <td> @item.type</td>
-                                            <td> @item.isValid</td>
+                                            <td>
+                                                @((TypeTransactions.FirstOrDefault(t => t.typeId == item.type)?.description ?? "Descripción no disponible"))
+                                            </td>
+                                            <td> @item.isValid </td>
                                         </tr>
                                     }
                                     </tbody>
@@ -84,9 +135,6 @@ else
                             </div>
                         </div>
                         
-                        <script src="js/DataTable/ExportDataTables.js"></script>
-                    }
-
                 </div>
             </div>
             
@@ -94,16 +142,6 @@ else
         </div>
     </div>
 }
-
-<script src="vendor/datatables/DataTableExport/jquery-3.7.1.js"></script>
-<script src="vendor/datatables/DataTableExport/dataTables.js"></script>
-<script src="vendor/datatables/DataTableExport/dataTables.buttons.js"></script>
-<script src="vendor/datatables/DataTableExport/buttons.dataTables.js"></script>
-<script src="vendor/datatables/DataTableExport/jszip.min.js"></script>
-<script src="vendor/datatables/DataTableExport/pdfmake.min.js"></script>
-<script src="vendor/datatables/DataTableExport/vfs_fonts.js"></script>
-<script src="vendor/datatables/DataTableExport/buttons.html5.min.js"></script>
-<script src="vendor/datatables/DataTableExport/buttons.colVis.min.js"></script>
-
+<script src="js/DataTable/ExportDataTables.js"></script>
 
 

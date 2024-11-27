@@ -14,8 +14,8 @@ public class TransactionsRevenuesDto
 
     public TransactionsRevenuesDto()
     {
-        userName = string.Empty;
-        consultedIn = string.Empty;
+        userName = "...";
+        consultedIn = "...";
         startDate = string.Empty;
         endDate = string.Empty;
         validQuantity = 0;

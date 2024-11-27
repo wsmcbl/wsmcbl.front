@@ -9,12 +9,7 @@ using wsmcbl.src.Utilities;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor()
-    .AddHubOptions(options =>
-    {
-        options.ClientTimeoutInterval = TimeSpan.FromMinutes(2); // Tiempo máximo para esperar respuesta
-        options.KeepAliveInterval = TimeSpan.FromSeconds(30);    // Mantiene viva la conexión con mensajes periódicos
-    });
+builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<SweetAlertService>();
 builder.Services.AddTransient<Notificator>();
