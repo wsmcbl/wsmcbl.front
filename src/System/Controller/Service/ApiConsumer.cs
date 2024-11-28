@@ -105,7 +105,7 @@ public class ApiConsumer
         }
         catch (Exception ex)
         {
-            await _notificator.ShowError("Error interno.", $"{ex.Message}", $"Trace: {ex.StackTrace}");
+            await _notificator.ShowError("Error interno.", $"{ex.Message} Trace: {ex.StackTrace}");
         }
 
         return defaultResult;
