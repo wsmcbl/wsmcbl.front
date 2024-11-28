@@ -18,7 +18,8 @@ builder.Services.AddTransient<Navigator>();
 builder.Services.AddSweetAlert2();
 
 builder.Services.AddTransient<CustomAuthenticationStateProvider>();
-builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
+builder.Services.AddScoped<AuthenticationStateProvider>(
+    sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<ProtectedLocalStorage>();
 
@@ -45,11 +46,8 @@ builder.Services.AddAuthentication("Bearer")
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
+app.UseExceptionHandler("/Error");
+app.UseHsts();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
