@@ -1,5 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.View.Accounting.Reports;
+using wsmcbl.src.View.Accounting.Transactions;
 
 namespace wsmcbl.src.Controller;
 
@@ -22,5 +23,10 @@ public class TransactionReportByDateController
     {
         List<TypeTransactionsDto> defaultResult = [];
         return await Consumer.GetAsync(Modules.Accounting, "transactions/types", defaultResult);
+    }
+    public async Task<List<TransactionsFullDto>> GetTransactions()
+    {
+        List<TransactionsFullDto> defaultResult = [];
+        return await Consumer.GetAsync(Modules.Accounting, "transactions", defaultResult);
     }
 }

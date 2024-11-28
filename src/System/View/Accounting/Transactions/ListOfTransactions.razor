@@ -1,0 +1,100 @@
+@page "/accounting/reports/transactions"
+@using wsmcbl.src.View.Components
+@attribute [Authorize(Roles = "admin,cashier")]
+
+
+@if (IsLoad)
+{
+    <div class="loader"></div>
+}
+else
+{
+   <div class="card border-bottom-success shadow h-100 py-2 mb-4">
+    <div class="card-body">
+
+        <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <h5 class="m-0 font-weight-bold text-primary">Lista de Transacciónes</h5>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+
+        <div class="row align-items-center">
+            <div class="col">
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="dataTable" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Estudiante</th>
+                                <th>Matrícula</th>
+                                <th>Typo</th>
+                                <th>Monto</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Estudiante</th>
+                                <th>Matrícula</th>
+                                <th>Typo</th>
+                                <th>Monto</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            @foreach (var item in Transactions)
+                            {
+                                <tr>
+                                    <td> @item.studentName</td>
+                                    <td> @item.enrollmentLabel</td>
+                                    <td>
+                                        @((TypeTransactions.FirstOrDefault(t => t.typeId == item.type)?.description ?? "Descripción no disponible"))
+                                    </td>
+                                    <td> @item.total</td>
+                                    <td>@(DateTime.TryParse(item.dateTime, out var endDate)
+                                            ? endDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                            : "Sin fecha")</td>
+                                    <td> @(item.isValid ? "Válido" : "Inválido") </td>
+                                    <td>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                 aria-labelledby="dropdownMenuLink">
+                                                <div class="dropdown-header">Seleccione una opción:</div>
+                                                <a class="dropdown-item" @onclick="() => GetInvoicePdf(item.transactionId)">Ver Recíbo</a>
+                                                <a class="dropdown-item">Anular (Proximamente)</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+    
+    <script src="js/demo/datatables-demo.js"></script>
+</div>
+
+<PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/> 
+}
+
+
