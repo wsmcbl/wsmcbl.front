@@ -46,7 +46,7 @@ else
                                 </div>
                                 <div class="col-12">
                                     <p class="text-black custom-badge-size">
-                                        <strong>Consulta:</strong> @Transactions.consultedIn</p>
+                                        <strong>Consultado el:</strong> @Transactions.consultedIn</p>
                                 </div>
                             </div>
 
@@ -105,14 +105,14 @@ else
                     
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="dataTableExport" class="table table-bordered">
+                                <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th>Factura</th>
                                         <th>Estudiante</th>
-                                        <th>Fecha</th>
                                         <th>Monto</th>
                                         <th>Tipo</th>
+                                        <th>Fecha</th>
                                         <th>Estado</th>
                                     </tr>
                                     </thead>
@@ -120,9 +120,9 @@ else
                                     <tr>
                                         <th>Factura</th>
                                         <th>Estudiante</th>
-                                        <th>Fecha</th>
                                         <th>Tipo</th>
                                         <th>Monto</th>
+                                        <th>Fecha</th>
                                         <th>Estado</th>
                                     </tr>
                                     </tfoot>
@@ -137,7 +137,7 @@ else
                                             <td>
                                                 @((TypeTransactions.FirstOrDefault(t => t.typeId == item.type)?.description ?? "Descripción no disponible"))
                                             </td>
-                                            <td> @item.isValid </td>
+                                            <td> @(item.isValid ? "Válido" : "Inválido") </td>
                                         </tr>
                                     }
                                     </tbody>
@@ -152,6 +152,5 @@ else
         </div>
     </div>
 }
-<script src="js/DataTable/ExportDataTables.js"></script>
 
 
