@@ -30,6 +30,7 @@ else
                         <table id="dataTable" class="table table-bordered">
                             <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Estudiante</th>
                                 <th>Matrícula</th>
                                 <th>Tipo</th>
@@ -41,9 +42,10 @@ else
                             </thead>
                             <tfoot>
                             <tr>
+                                <th>#</th>
                                 <th>Estudiante</th>
                                 <th>Matrícula</th>
-                                <th>Typo</th>
+                                <th>Tipo</th>
                                 <th>Monto</th>
                                 <th>Fecha</th>
                                 <th>Estado</th>
@@ -54,6 +56,7 @@ else
                             @foreach (var item in Transactions)
                             {
                                 <tr>
+                                    <td> @item.transactionId</td>
                                     <td> @item.studentName</td>
                                     <td> @item.enrollmentLabel</td>
                                     <td>
