@@ -60,14 +60,14 @@ else
                                     <div>
                                         <span class="badge badge-info custom-badge-size">
                                             Desde: @(DateTime.TryParse(Transactions.startDate, out var startDate)
-                                                           ? startDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                                           ? startDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
                                                            : "Sin fecha")
                                         </span>
                                     </div>
                                     <div>
                                         <span class="badge badge-info custom-badge-size mt-2">
                                             Hasta: @(DateTime.TryParse(Transactions.endDate, out var endDate)
-                                                           ? endDate.ToString("ddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                                           ? endDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
                                                            : "Sin fecha")
                                         </span>
                                     </div>
@@ -117,8 +117,8 @@ else
                                     <tr>
                                         <th>Factura</th>
                                         <th>Estudiante</th>
-                                        <th>Tipo</th>
                                         <th>Monto</th>
+                                        <th>Tipo</th>
                                         <th>Fecha</th>
                                         <th>Estado</th>
                                     </tr>
@@ -129,11 +129,11 @@ else
                                         <tr>
                                             <td> @item.number</td>
                                             <td> @item.studentName</td>
-                                            <td> @item.datetime</td>
                                             <td> @item.amount</td>
                                             <td>
                                                 @((TypeTransactions.FirstOrDefault(t => t.typeId == item.type)?.description ?? "Descripción no disponible"))
                                             </td>
+                                            <td> @item.datetime</td>
                                             <td> @(item.isValid ? "Válido" : "Inválido") </td>
                                         </tr>
                                     }
