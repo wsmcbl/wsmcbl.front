@@ -17,84 +17,138 @@ else
                     </div>
                 </div>
             </div>
-            
-            <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <button class="btn btn-outline-success btn-sm" @onclick="() => GetTransactionsRevenuesAsync(1)">Hoy</button>
-                        <button class="btn btn-outline-success btn-sm ml-5" @onclick="() => GetTransactionsRevenuesAsync(2)">Ayer</button>
-                        <button class="btn btn-outline-success btn-sm ml-5" @onclick="() => GetTransactionsRevenuesAsync(3)">Mensual</button>
-                        <button class="btn btn-outline-success btn-sm ml-5" @onclick="() => GetTransactionsRevenuesAsync(4)">Anual</button>
-                    </div>
+
+
+            <div class="row justify-content-center">
+
+                <div class="col-auto">
+                    <button class="btn btn-outline-success btn-sm me-2"
+                            @onclick="() => GetTransactionsRevenuesAsync(1)">Hoy
+                    </button>
                 </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-success btn-sm me-2"
+                            @onclick="() => GetTransactionsRevenuesAsync(2)">Ayer
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-success btn-sm me-2"
+                            @onclick="() => GetTransactionsRevenuesAsync(3)">Mensual
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-success btn-sm me-2"
+                            @onclick="() => GetTransactionsRevenuesAsync(4)">Anual
+                    </button>
+                </div>
+                
             </div>
+            <hr>
 
-            <div class="container mt-3">
-                <div class="row text-center">
-                    <!-- Resumen Compacto -->
-                    <div class="col-md-12">
-
-                        <div class="card border-left-info p-3">
-
-                            <div class="row justify-content-center">
-                                <div class="col-12">
-                                    <p class="text-black mb-0 custom-badge-size">
-                                        <strong>Usuario:</strong> @Transactions.userName</p>
+            <div class="row">
+                <!-- Ingresos Validos -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Válido:
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">C$ @Transactions.validTotal.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-500">Transacciones: @Transactions.validQuantity</div>
                                 </div>
-                                <div class="col-12">
-                                    <p class="text-black custom-badge-size">
-                                        <strong>Consultado el:</strong> @Transactions.consultedIn</p>
-                                </div>
-                            </div>
-
-                            <div class="d-flex justify-content-around">
-                                <div class="font-weight-bold">
-                                    <div><span
-                                            class="badge badge-success custom-badge-size">Total Válido: C$ @Transactions.validTotal</span>
-                                    </div>
-                                    <div><span
-                                            class="badge badge-danger custom-badge-size mt-2">Total Inválido: C$ @Transactions.invalidTotal</span>
-                                    </div>
-                                </div>
-                                <div class="font-weight-bold">
-                                    <div>
-                                        <span class="badge badge-info custom-badge-size">
-                                            Desde: @(DateTime.TryParse(Transactions.startDate, out var startDate)
-                                                           ? startDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
-                                                           : "Sin fecha")
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span class="badge badge-info custom-badge-size mt-2">
-                                            Hasta: @(DateTime.TryParse(Transactions.endDate, out var endDate)
-                                                           ? endDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
-                                                           : "Sin fecha")
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="font-weight-bold">
-                                    <div><span
-                                            class="badge badge-secondary custom-badge-size">Cantidad Válida: @Transactions.validQuantity</span>
-                                    </div>
-                                    <div><span
-                                            class="badge badge-secondary custom-badge-size mt-2">Cantidad Inválida: @Transactions.invalidQuantity</span>
-                                    </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                                 </div>
                             </div>
-
                         </div>
+                    </div>
+                </div>
+                <!-- Ingresos invalidos -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-danger shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Inválido:
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">C$ @Transactions.invalidTotal.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-500">Transacciones: @Transactions.invalidQuantity</div>
 
-
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-ban fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ingresos invalidos -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Usuario:
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Transactions.userName</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-circle fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Ingresos invalidos -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Consultado en:
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Transactions.consultedIn</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-clock fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
             
-            
-            
-            
-            
+            <div class="row d-flex justify-content-around mb-2">
+                <!-- Rango consultado -->
+                <a class="btn btn-info btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-hourglass-start"></i>
+                    </span>
+                    <span class="text" style="color: black">
+                        <strong>Desde: </strong> @(DateTime.TryParse(Transactions.startDate, out var startDate)
+                                   ? startDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                   : "Sin fecha")
+                    </span>
+                </a>
+            </div>
+            <div class="row d-flex justify-content-around">
+                <!-- Rango consultado -->
+                <a class="btn btn-info btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-hourglass-start"></i>
+                    </span>
+                    <span class="text" style="color: black">
+                        <strong>Hasta: </strong> @(DateTime.TryParse(Transactions.endDate, out var endDate)
+                                                         ? startDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                                                         : "Sin fecha")
+                    </span>
+                </a>
+            </div>
             <hr>
             
             <div class="row align-items-center">
