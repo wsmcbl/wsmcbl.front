@@ -42,7 +42,7 @@ public class ConfigSchoolYear : ComponentBase
         
         PartialListDto =
         [
-            new PartialListDto { semester = 1, partial = 1 },
+            new PartialListDto { semester = 1, partial = 1},
             new PartialListDto { semester = 1, partial = 2 },
             new PartialListDto { semester = 2, partial = 1 },
             new PartialListDto { semester = 2, partial = 2 }

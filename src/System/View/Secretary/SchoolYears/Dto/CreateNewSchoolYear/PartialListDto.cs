@@ -11,7 +11,7 @@ public class PartialListDto
     {
         partial = 0; 
         semester = 0; 
-        startDate = new DateEntity(); 
-        deadLine = new DateEntity(); 
+        startDate = new DateEntity(DateTime.Today); 
+        deadLine = new DateEntity(DateTime.Today); 
     }
 }
