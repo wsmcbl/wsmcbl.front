@@ -7,10 +7,9 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public partial class ModalNewTariff : ComponentBase
 {
-    [Parameter]
-    public List<DropdownList> DropdownTypeTariffsLists { get; set; }
-    [Inject] protected CreateOfficialEnrollmentController Controller { get; set; }
-    [Inject] protected Notificator Notificator { get; set; }
+    [Parameter] public List<DropdownList>? DropdownTypeTariffsLists { get; set; }
+    [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
+    [Inject] protected Notificator? Notificator { get; set; }
     
     protected SchoolyearTariffDto SelectedSchoolyearTariff = new();
     protected List<DropdownList> DropdownModalityLists =
@@ -22,14 +21,14 @@ public partial class ModalNewTariff : ComponentBase
     
     protected async Task SaveNewTariff(SchoolyearTariffDto schoolyearTariff)
     {
-        var response = await Controller.CreateNewTariff(schoolyearTariff);
+        var response = await Controller!.CreateNewTariff(schoolyearTariff);
         if (response)
         {
-            await Notificator.ShowSuccess("Éxito", "Arancel guardado correctamente");
+            await Notificator!.ShowSuccess("Éxito", "Arancel guardado correctamente");
         }
         else
         {
-            await Notificator.ShowError("Error", "No pudimos guardar el arancel");
+            await Notificator!.ShowError("Error", "No pudimos guardar el arancel");
         }
     }
     

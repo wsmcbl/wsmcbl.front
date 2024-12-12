@@ -1,4 +1,3 @@
-using System.Text.Json;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.dto.Output;
 using wsmcbl.src.Model.Academy;
@@ -12,24 +11,24 @@ namespace wsmcbl.src.Controller;
 
 public class CreateOfficialEnrollmentController
 {
-    private readonly ApiConsumer Consumer;
+    private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public CreateOfficialEnrollmentController(ApiConsumer consumer)
+    public CreateOfficialEnrollmentController(ApiConsumerWithNotificator apiConsumer)
     {
-        Consumer = consumer;
+        _apiConsumer = apiConsumer;
     }
     
     public async Task<List<SchoolYearDto>> GetSchoolYearsList()
     {
         var resource = "configurations/schoolyears?q=all";
         List<SchoolYearDto> Default = [];
-        return await Consumer.GetAsync(Modules.Secretary, resource, Default);
+        return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
     }
     
     public async Task<Model.Secretary.SchoolYearEntity> GetNewSchoolYears(Model.Secretary.SchoolYearEntity Default)
     {
         var resource = "configurations/schoolyears?q=new";
-        return await Consumer.GetAsync(Modules.Secretary, resource, Default);
+        return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
     }
     
     public async Task<bool> SaveNewSchoolYear(Model.Secretary.SchoolYearEntity schoolYearEntity, List<PartialListDto> partials)
@@ -37,7 +36,7 @@ public class CreateOfficialEnrollmentController
         var resource = "configurations/schoolyears";
         Model.Secretary.SchoolYearEntity Default = new(); 
         var content = new CreateSchoolYearDto(schoolYearEntity, partials);
-        var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
+        var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }
 
@@ -46,7 +45,7 @@ public class CreateOfficialEnrollmentController
         var resource = "configurations/schoolyears/tariffs";
         TariffDataDto Default = new();
         var content = MapperDate.MapToTariffDataDto(schoolyearTariff);
-        var response = await Consumer.PostAsync(Modules.Secretary, resource, content, Default);
+        var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }
 
@@ -54,7 +53,7 @@ public class CreateOfficialEnrollmentController
     {
         var resource = "configurations/schoolyears/subjects";
         View.Secretary.SchoolYears.Dto.SubjectDto Default = new();
-        var response = await Consumer.PostAsync(Modules.Secretary, resource, subject, Default);
+        var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, subject, Default);
         return response != Default;
     }
 
@@ -62,22 +61,22 @@ public class CreateOfficialEnrollmentController
     {
         var resource = "teachers/";
         List<TeacherEntity> Default = [];
-        return await Consumer.GetAsync(Modules.Secretary, resource, Default);
+        return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
     }
 
     public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity, EnrollmentEntity Default)
     {
         var data = new PostDegreeDto { degreeId = degreeId, quantity = quantity };
-        return await Consumer.PostAsync(Modules.Secretary, "degrees/enrollments", data, Default);
+        return await _apiConsumer.PostAsync(Modules.Secretary, "degrees/enrollments", data, Default);
     }
 
     public async Task<DegreeEntity> GetConfigureEnrollment(string GradeId)
     {
         var resource = $"degrees/{GradeId}";
         DegreeBasicDto Default = new();
-        var result = await Consumer.GetAsync(Modules.Secretary, resource, Default);
+        var result = await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
 
-        var teacherList = await Consumer.GetAsync<List<TeacherEntity>>(Modules.Secretary, "teachers", []);
+        var teacherList = await _apiConsumer.GetAsync<List<TeacherEntity>>(Modules.Secretary, "teachers", []);
         result.SetTeacherList(teacherList);
 
         return result.toEntity();
@@ -86,14 +85,14 @@ public class CreateOfficialEnrollmentController
     public async Task<List<DegreeEntity>> GetDegreeList()
     {
         List<DegreeEntity> Default = [];
-        return await Consumer.GetAsync(Modules.Secretary, "degrees", Default);
+        return await _apiConsumer.GetAsync(Modules.Secretary, "degrees", Default);
     }
 
     public async Task<List<DropdownList>> GetTypeTariffList()
     {
         var resource = "tariffs/types";
         List<TypeTariffDto> Default = [];
-        var response = await Consumer.GetAsync(Modules.Accounting, resource, Default);
+        var response = await _apiConsumer.GetAsync(Modules.Accounting, resource, Default);
         return response.Select(dto => dto.ToDropdownList()).ToList();
     }
 
@@ -109,7 +108,7 @@ public class CreateOfficialEnrollmentController
         var result = true;   
         foreach (var content in contentList)
         {
-            result = await Consumer.PutAsync(Modules.Secretary, "degrees/enrollments", content);
+            result = await _apiConsumer.PutAsync(Modules.Secretary, "degrees/enrollments", content);
         }
 
         return result;

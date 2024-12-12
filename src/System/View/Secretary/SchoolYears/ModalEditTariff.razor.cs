@@ -8,13 +8,11 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public partial class ModalEditTariff : ComponentBase
 {
-    [Parameter]
-    public List<DropdownList> DropdownTypeTariffsLists { get; set; }
-    [Parameter]
-    public EventCallback OnEditCompleted { get; set; }
+    [Parameter] public List<DropdownList> DropdownTypeTariffsLists { get; set; } = null!;
+    [Parameter] public EventCallback OnEditCompleted { get; set; }
     
     
-    [Inject] protected Navigator navigator { get; set; }
+    [Inject] protected Navigator? navigator { get; set; }
     protected TariffAuxEntity? SelectedTariff { get; set; }
     
     protected override void OnParametersSet()
@@ -25,12 +23,12 @@ public partial class ModalEditTariff : ComponentBase
     public async Task EditTariff(TariffAuxEntity item)
     {
         SelectedTariff = item;
-        await navigator.ShowModal("ModalEditTariff");
+        await navigator!.ShowModal("ModalEditTariff");
     }
     
     public async Task CompleteEdit()
     {
-        await navigator.HideModal("ModalEditTariff");
+        await navigator!.HideModal("ModalEditTariff");
         await OnEditCompleted.InvokeAsync();
     }
     

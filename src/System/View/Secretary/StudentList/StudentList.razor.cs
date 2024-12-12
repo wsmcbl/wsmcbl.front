@@ -7,7 +7,7 @@ namespace wsmcbl.src.View.Secretary.StudentList;
 
 public partial class StudentList : ComponentBase
 {
-    [Inject] protected IEnrollStudentController EnrollController { get; set; } = null!;
+    [Inject] protected EnrollStudentController EnrollController { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
     [Inject] protected Navigator? Navigator { get; set; }
     protected ICollection<StudentEntity>? List { get; set; }

@@ -8,7 +8,7 @@ public partial class UpdateProfilePictureView : ComponentBase
 {
     private bool IsLoading = true;
     [Parameter] public string? StudentId { get; set; }
-    [Inject] protected IEnrollStudentController Controller { get; set; } = null!;
+    [Inject] protected EnrollStudentController Controller { get; set; } = null!;
     protected StudentEntity? Student { get; private set; }
     
     protected override async Task OnParametersSetAsync()

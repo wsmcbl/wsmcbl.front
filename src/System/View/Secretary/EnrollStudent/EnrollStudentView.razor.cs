@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
@@ -10,7 +9,7 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent;
 public partial class EnrollStudentView : ComponentBase
 {
     [Parameter] public string StudentId { get; set; } = null!;
-    [Inject] protected IEnrollStudentController Controller { get; set; } = null!;
+    [Inject] protected EnrollStudentController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
     
@@ -22,7 +21,7 @@ public partial class EnrollStudentView : ComponentBase
     private int Age { get; set; }
     private string? EnrollmentIdSelected { get; set; }
     private bool IsStudentsEnrollment { get; set; }
-    private bool IsRepeating { get; set; } = false;
+    private bool IsRepeating { get; set; }
     private bool isLoading = true;
     
     protected override async Task OnParametersSetAsync()
@@ -72,7 +71,7 @@ public partial class EnrollStudentView : ComponentBase
             return;
         }
         
-        if (!Student.IsTutorValid())
+        if (!Student!.IsTutorValid())
         {
             await Notificator.ShowInformation("Advertencia",
                 "Por favor rellene todos los campos del tutor");
@@ -104,7 +103,10 @@ public partial class EnrollStudentView : ComponentBase
 
     private bool IsParentsValid()
     {
-        if (Student.parents.Count == 0) return true;
+        if (Student!.parents!.Count == 0)
+        {
+            return true;
+        }
         
         for (var index = Student.parents.Count - 1; index >= 0; index--)
         {
@@ -121,8 +123,8 @@ public partial class EnrollStudentView : ComponentBase
 
         return true;
     }
-    
-    private byte[] EnrollSheetPdf { get; set; }
+
+    private byte[]? EnrollSheetPdf { get; set; }
     private async Task PrintEnrollSheet(string studentId)
     {
         EnrollSheetPdf = await Controller.GetEnrollSheetPdf(studentId);
