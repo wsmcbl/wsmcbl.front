@@ -9,7 +9,7 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent;
 public partial class EnrollStudentView : ComponentBase
 {
     [Parameter] public string StudentId { get; set; } = null!;
-    [Inject] protected IEnrollStudentController Controller { get; set; } = null!;
+    [Inject] protected EnrollStudentController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
     
