@@ -6,27 +6,28 @@ namespace wsmcbl.src.Controller;
 
 public class TransactionReportByDateController
 {
-    private ApiConsumer Consumer;
-    public TransactionReportByDateController(ApiConsumer consumer)
+    private ApiConsumerWithNotificator _apiConsumer;
+    public TransactionReportByDateController(ApiConsumerWithNotificator apiConsumer)
     {
-        Consumer = consumer;
+        _apiConsumer = apiConsumer;
     }
     
     public async Task<TransactionsRevenuesDto> GetTransactionsRevenues(int type)
     {
         var resource = $"transactions/revenues?q={type}"; 
-        TransactionsRevenuesDto? transactionsRevenues = new TransactionsRevenuesDto();
-        return await Consumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
+        var transactionsRevenues = new TransactionsRevenuesDto();
+        return await _apiConsumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
     }
 
     public async Task<List<TypeTransactionsDto>> GetTypeTransactions()
     {
         List<TypeTransactionsDto> defaultResult = [];
-        return await Consumer.GetAsync(Modules.Accounting, "transactions/types", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Accounting, "transactions/types", defaultResult);
     }
+    
     public async Task<List<TransactionsFullDto>> GetTransactions()
     {
         List<TransactionsFullDto> defaultResult = [];
-        return await Consumer.GetAsync(Modules.Accounting, "transactions", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Accounting, "transactions", defaultResult);
     }
 }

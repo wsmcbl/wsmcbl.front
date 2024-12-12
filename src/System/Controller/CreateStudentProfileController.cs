@@ -5,9 +5,9 @@ namespace wsmcbl.src.Controller;
 
 public class CreateStudentProfileController
 {
-    private readonly ApiConsumer _apiConsumer;
+    private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public CreateStudentProfileController(ApiConsumer apiConsumer)
+    public CreateStudentProfileController(ApiConsumerWithNotificator apiConsumer)
     {
         _apiConsumer = apiConsumer;
     }

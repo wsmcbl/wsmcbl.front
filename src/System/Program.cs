@@ -25,7 +25,7 @@ builder.Services.AddScoped<ProtectedLocalStorage>();
 
 
 builder.Services.AddTransient<CollectTariffController>();
-builder.Services.AddTransient<IEnrollStudentController, EnrollStudentController>();
+builder.Services.AddTransient<EnrollStudentController>();
 builder.Services.AddTransient<CreateOfficialEnrollmentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
 builder.Services.AddTransient<CreateStudentProfileController>();
