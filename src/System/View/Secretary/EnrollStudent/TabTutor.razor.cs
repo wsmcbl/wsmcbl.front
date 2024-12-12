@@ -7,9 +7,9 @@ public partial class TabTutor : ComponentBase
 {
     [Parameter] public StudentEntity? Student { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnParametersSet()
      {
-         if (Student?.parents == null || !Student.parents.Any())
+         if (Student?.parents == null || Student.parents.Count == 0)
          {
              Student!.parents = new List<StudentParent>
              {

@@ -3,7 +3,7 @@
 
 @using wsmcbl.src.View.Components;
 
-@if (Student != null && Degrees.Any())
+@if (Student != null && Degrees!.Any())
 {
     <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -36,7 +36,7 @@
             @if (IsStudentsEnrollment)
             {
                 <button type="button" class="btn btn-success"
-                        @onclick="(e) => PrintEnrollSheet(Student.studentId)">
+                        @onclick="(e) => PrintEnrollSheet(Student.studentId!)">
                     Imprimir Hoja de Matrícula
                 </button>
             }

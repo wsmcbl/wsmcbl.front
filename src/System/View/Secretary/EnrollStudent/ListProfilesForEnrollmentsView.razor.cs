@@ -6,7 +6,7 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
 public partial class ListProfilesForEnrollmentsView : ComponentBase
 {
-    [Inject] protected IEnrollStudentController Controller { get; set; }
+    [Inject] protected IEnrollStudentController? Controller { get; set; }
     protected ICollection<StudentDto>? Students { get; private set; }
 
     protected override async Task OnInitializedAsync()
@@ -16,6 +16,6 @@ public partial class ListProfilesForEnrollmentsView : ComponentBase
 
     private async Task LoadStudents()
     {
-        Students = await Controller.GetStudents();
+        Students = await Controller!.GetStudents();
     }
 }
