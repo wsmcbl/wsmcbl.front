@@ -8,6 +8,7 @@ public partial class RevenueReport : ComponentBase
     [Inject] TransactionReportByDateController? Controller { get; set; }
     private TransactionsRevenuesDto? Transactions { get; set; }
     private List<TypeTransactionsDto>? TypeTransactions { get; set; }
+    private bool hasData = false;
     
     protected override async Task OnParametersSetAsync()
     {
@@ -23,7 +24,13 @@ public partial class RevenueReport : ComponentBase
     private async Task GetTransactionsRevenuesAsync(int type)
     {
         Transactions = await Controller!.GetTransactionsRevenues(type);
+        hasData = true;
         StateHasChanged();
+    }
+
+    private void ClearData()
+    {
+        hasData = false;
     }
     
     private bool IsLoad()

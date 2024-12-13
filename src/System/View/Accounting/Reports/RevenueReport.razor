@@ -17,8 +17,6 @@ else
                     </div>
                 </div>
             </div>
-
-
             <div class="row justify-content-center">
 
                 <div class="col-auto">
@@ -39,6 +37,11 @@ else
                 <div class="col-auto">
                     <button class="btn btn-outline-success btn-sm me-2"
                             @onclick="() => GetTransactionsRevenuesAsync(4)">Anual
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-warning btn-sm me-2"
+                            @onclick="ClearData">Limpiar
                     </button>
                 </div>
                 
@@ -150,54 +153,60 @@ else
                 </a>
             </div>
             <hr>
-            
-            <div class="row align-items-center">
-                <div class="col">
-                    
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>Factura</th>
-                                        <th>Estudiante</th>
-                                        <th>Monto</th>
-                                        <th>Tipo</th>
-                                        <th>Fecha</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                    </thead>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Factura</th>
-                                        <th>Estudiante</th>
-                                        <th>Monto</th>
-                                        <th>Tipo</th>
-                                        <th>Fecha</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                    </tfoot>
-                                    <tbody>
-                                    @foreach (var item in Transactions.transactionList)
-                                    {
-                                        <tr>
-                                            <td> @item.number</td>
-                                            <td> @item.studentName</td>
-                                            <td> @item.amount</td>
-                                            <td>
-                                                @((TypeTransactions!.FirstOrDefault(t => t.typeId == item.type)?.description ?? "Descripción no disponible"))
-                                            </td>
-                                            <td> @item.datetime</td>
-                                            <td> @(item.isValid ? "Válido" : "Inválido") </td>
-                                        </tr>
-                                    }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        
+
+            @if (!hasData)
+            {
+                <div class="d-flex align-items-center justify-content-center">
+                    <h5 class="text-gray-800">Sin datos</h5>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Factura</th>
+                                    <th>Estudiante</th>
+                                    <th>Monto</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Factura</th>
+                                    <th>Estudiante</th>
+                                    <th>Monto</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                </tr>
+                                </tfoot>
+                                <tbody>
+                                @foreach (var item in Transactions.transactionList)
+                                {
+                                    <tr>
+                                        <td> @item.number</td>
+                                        <td> @item.studentName</td>
+                                        <td> @item.amount</td>
+                                        <td>
+                                            @((TypeTransactions!.FirstOrDefault(t => t.typeId == item.type)?.description ?? "Descripción no disponible"))
+                                        </td>
+                                        <td> @item.datetime</td>
+                                        <td> @(item.isValid ? "Válido" : "Inválido") </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                        <script defer src="js/DataTable/dataTableWhitOutOrder.js"></script>
+                    </div>
+                </div>
+            }
             
             
         </div>
