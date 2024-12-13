@@ -80,7 +80,7 @@ else
                                                      aria-labelledby="dropdownMenuLink">
                                                     <div class="dropdown-header">Seleccione una opción:</div>
                                                     <a class="dropdown-item" @onclick="() => GetInvoicePdf(item.transactionId)">Ver Recíbo</a>
-                                                    <a class="dropdown-item">Anular (Proximamente)</a>
+                                                    <a class="dropdown-item" @onclick="() => CancelTransactions(item.transactionId)">Anular</a>
                                                 </div>
                                             </div>
                                         </td>

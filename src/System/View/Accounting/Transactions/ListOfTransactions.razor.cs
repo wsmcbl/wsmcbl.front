@@ -10,6 +10,7 @@ public partial class ListOfTransactions : ComponentBase
     [Inject] private TransactionReportByDateController? Controller { get; set; }
     [Inject] private CollectTariffController? CollectTariffController { get; set; }
     [Inject] private Navigator Navigator { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
     
     private List<TransactionsFullDto> Transactions = [];
     private List<TypeTransactionsDto> TypeTransactions { get; set; } = null!;
@@ -31,6 +32,17 @@ public partial class ListOfTransactions : ComponentBase
     {
         InvoicePdf = await CollectTariffController!.GetInvoice(transactionId);
         await Navigator.ShowPdfModal();
+    }
+    
+    private async Task CancelTransactions(string transactionId)
+    {
+        var response = await CollectTariffController!.CancelTransaction(transactionId);
+        if (response)
+        {
+           await Notificator.ShowSuccess("Exito","Transaccción anulada");
+           await LoadData();
+           StateHasChanged();
+        }
     }
     
     

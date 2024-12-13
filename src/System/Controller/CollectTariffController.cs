@@ -53,6 +53,13 @@ public class CollectTariffController
         return await _apiConsumer.GetPdfAsync(Modules.Accounting, resource);
     }
 
+    public async Task<bool> CancelTransaction(string transactionId)
+    {
+        var resource = $"transactions/{transactionId}";
+        var response = await _apiConsumer.PutAsync(Modules.Accounting, resource, transactionId);
+        return response;
+    }
+
 
     private TransactionEntity? Transaction { get; set; }
 
