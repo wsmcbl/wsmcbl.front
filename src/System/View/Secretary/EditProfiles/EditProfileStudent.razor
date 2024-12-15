@@ -1,0 +1,11 @@
+@page "/secretary/students/edit/{studentId}"
+@attribute [Authorize(Roles = "admin")]
+
+@if (IsLoading)
+{
+    <div class="loader"></div>
+}
+else
+{
+    
+}
