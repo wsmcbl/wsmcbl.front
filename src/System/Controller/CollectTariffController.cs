@@ -59,6 +59,12 @@ public class CollectTariffController
         var response = await _apiConsumer.PutAsync(Modules.Accounting, resource, transactionId);
         return response;
     }
+    
+    public async Task<bool> EditDiscount(EditDiscountDto editDiscountDto)
+    {
+        var response = await _apiConsumer.PutAsync(Modules.Accounting, "students", editDiscountDto);
+        return response;
+    }
 
 
     private TransactionEntity? Transaction { get; set; }

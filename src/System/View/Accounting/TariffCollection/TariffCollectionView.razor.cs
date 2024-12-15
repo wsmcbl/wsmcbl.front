@@ -71,6 +71,11 @@ public partial class TariffCollectionView : ComponentBase
     {
         await Navigator.ShowModal("PaymentView");
     }
+
+    private async Task OpenModalForEditDiscount()
+    {
+        await Navigator.ShowModal("EditDiscountModal");
+    }
     
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {

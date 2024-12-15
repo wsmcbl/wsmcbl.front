@@ -1,0 +1,54 @@
+    <div class="modal fade" id="EditDiscountModal" tabindex="-1" aria-labelledby="EditDiscountModal" aria-hidden="true">
+        <div class="modal-dialog" role="document"
+             style="width: 40%; height: 30%; max-width: 40%; max-height: 30%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalPdfTitle">Editar Descuento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="secondN">Codigo de seguridad:</label>
+                        <InputNumber class="form-control" id="authorizationToken" @bind-Value="EditDiscount.authorizationToken" placeholder="Obligatorio"/>
+                    </div>
+
+                    <h5 class="card-title font-weight-bold" style="display: inline-block; width: 200px;">Descuento:</h5>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="NoneDiscount" name="discount" value="1"
+                                   checked="@((DiscountId == 1))"
+                                   @onchange="() => SetDiscount(1)" />
+                            <label for="NoneDiscount">Sin descuento</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="DiscountBrother" name="discount" value="2"
+                                   checked="@((DiscountId == 2))"
+                                   @onchange="() => SetDiscount(2)" />
+                            <label for="DiscountBrother">Posee Hermanos</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="DiscoundTeacher" name="discount" value="3"
+                                   checked="@((DiscountId == 3))"
+                                   @onchange="() => SetDiscount(3)" />
+                            <label for="DiscoundTeacher">Hijo de Maestro</label>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button type="button" class="btn btn-success" @onclick="UpdateDiscount">Actualiar Descuento</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
