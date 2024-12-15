@@ -1,4 +1,6 @@
 @page "/secretary/students/edit/{studentId}"
+@using wsmcbl.src.View.Secretary.EnrollStudent
+@using wsmcbl.src.View.Components
 @attribute [Authorize(Roles = "admin")]
 
 @if (IsLoading)
@@ -7,5 +9,65 @@
 }
 else
 {
-    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
+                       aria-controls="PanelStudent" aria-selected="true">
+                        Información del Estudiante
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="TabAcademy" data-toggle="tab" href="#PanelTutor" role="tab"
+                       aria-controls="PanelTutor" aria-selected="false">
+                        Parientes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="TabAcademy" data-toggle="tab" href="#PanelAcademy" role="tab"
+                       aria-controls="PanelAcademy" aria-selected="false">
+                        Fotografia
+                    </a>
+                </li>
+            </ul>
+            <div>
+                <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar Datos</button>
+            </div>
+        </div>
+
+        <div class="card-body" id="tabContent">
+            <div class="tab-content">
+
+                <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
+                    <TabStudent Student="StudentEntity"/>
+                    <div class="col-12 col-md-4" style="margin-bottom: 15px">
+                        <div class="card">
+                            <div class="card-body" style="min-height: 400px;">
+                                <h5 class="card-title font-weight-bold label-required">Medidas</h5>
+
+                                <label style="display: inline-block; width: 200px;">Peso Kg:</label>
+                                <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200"
+                                       @bind="StudentEntity!.measurements!.weight">
+
+                                <label style="display: inline-block; width: 200px;">Altura Cm:</label>
+                                <input type="number" class="form-control" style="margin-bottom: 10px" min="50" max="300"
+                                       @bind="StudentEntity.measurements.height">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">
+                    <TabTutor Student="StudentEntity"/>
+                </div>
+
+                <div class="tab-pane fade" id="PanelAcademy" role="tabpanel" aria-labelledby="TabAcademy">
+                    <PhotoView Student="StudentEntity"/>
+                </div>
+
+            </div>
+        </div>
+    </div>
 }

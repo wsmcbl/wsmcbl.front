@@ -6,7 +6,7 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
 public class StudentFullDto
 {
-    public string studentId { get; set; } = null!;
+    public string? studentId { get; set; } = null!;
     public string? minedId { get; set; }
     public string name { get; set; } = null!;
     public string? secondName { get; set; }
@@ -15,13 +15,13 @@ public class StudentFullDto
     public bool sex { get; set; }
     public DateEntity birthday { get; set; } = null!;
     public bool isActive { get; set; }
-    public string religion { get; set; } = null!;
-    public string diseases { get; set; } = null!;
-    public string address { get; set; } = null!;
+    public string? religion { get; set; } = null!;
+    public string? diseases { get; set; } = null!;
+    public string? address { get; set; } = null!;
     public string? profilePicture { get; set; }
     
     public StudentFile? file { get; set; }
-    public StudentTutor tutor { get; set; } = null!;
+    public StudentTutor? tutor { get; set; } = null!;
     public List<StudentParent>? parentList { get; set; }
     public StudentMeasurements? measurements { get; set; }
     

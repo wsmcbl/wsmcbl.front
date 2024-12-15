@@ -30,7 +30,6 @@ public class EnrollStudentController
     public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
     {
         var content = student.ToEnrollStudentDto(enrollmentId, discountId, isRepeating);
-        var json = JsonSerializer.Serialize(content);
         return await _apiConsumer.PutAsync(Modules.Secretary, "enrollments", content);
     }
 
