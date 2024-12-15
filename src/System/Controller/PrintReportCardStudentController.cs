@@ -21,6 +21,6 @@ public class PrintReportCardStudentController
     public async Task<List<StudentEntity>?> GetAllStudentsList()
     {
         List<StudentEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, "students", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Secretary, "students?q=many%3Aall", defaultResult);
     }
 }
