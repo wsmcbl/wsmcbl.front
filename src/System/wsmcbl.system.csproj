@@ -28,5 +28,9 @@
   <ItemGroup>
     <AdditionalFiles Include="View\Config\Authentication\ForgotPasswordView.razor" />
     <AdditionalFiles Include="View\Config\Authentication\LoginView.razor" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="View\Secretary\UpdateProfilePicture\UpdateProfilePictureView.razor" />
   </ItemGroup>  
 </Project>
