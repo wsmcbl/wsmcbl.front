@@ -25,6 +25,12 @@ else
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="TabMedidas" data-toggle="tab" href="#PanelMedidas" role="tab"
+                       aria-controls="PanelMedidas" aria-selected="false">
+                        Medidas
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="TabAcademy" data-toggle="tab" href="#PanelAcademy" role="tab"
                        aria-controls="PanelAcademy" aria-selected="false">
                         Fotografia
@@ -41,6 +47,13 @@ else
 
                 <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
                     <TabStudent Student="StudentEntity"/>
+                </div>
+
+                <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">
+                    <TabTutor Student="StudentEntity"/>
+                </div>
+                
+                <div class="tab-pane fade" id="PanelMedidas" role="tabpanel" aria-labelledby="TabMedidas">
                     <div class="col-12 col-md-4" style="margin-bottom: 15px">
                         <div class="card">
                             <div class="card-body" style="min-height: 400px;">
@@ -57,10 +70,6 @@ else
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">
-                    <TabTutor Student="StudentEntity"/>
                 </div>
 
                 <div class="tab-pane fade" id="PanelAcademy" role="tabpanel" aria-labelledby="TabAcademy">
