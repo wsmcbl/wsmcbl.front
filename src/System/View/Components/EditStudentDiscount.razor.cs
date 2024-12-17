@@ -10,6 +10,7 @@ public partial class EditStudentDiscount : ComponentBase
     [Parameter] public string? StudentId { get; set; }
     [Inject] private CollectTariffController Controller { get; set; } = default!;
     [Inject] private Notificator Notificator { get; set; } = default!;
+    [Inject] private Navigator Navigator { get; set; } = default!;
     private int DiscountId { get; set; }
     private EditDiscountDto EditDiscount { get; set; } = new EditDiscountDto();
     
@@ -22,6 +23,8 @@ public partial class EditStudentDiscount : ComponentBase
         if (responsde)
         {
             await Notificator.ShowSuccess("Exito", "Descuento actualizado");
+            await Navigator.HideModal("EditDiscountModal");
+            StateHasChanged();
         }
     }
     

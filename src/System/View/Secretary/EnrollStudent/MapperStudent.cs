@@ -43,7 +43,7 @@ public static class MapperStudent
             diseases = entity.diseases,
             address = entity.address,
             isActive = entity.isActive,
-            profilePicture = entity.profilePicture,
+            profilePicture = null,
             tutor = entity.tutor,
             parentList = entity.parents,
             measurements = entity.measurements,
