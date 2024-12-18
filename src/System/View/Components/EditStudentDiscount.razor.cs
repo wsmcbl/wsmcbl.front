@@ -23,8 +23,8 @@ public partial class EditStudentDiscount : ComponentBase
         var des= await Notificator.ShowAlertQuestion("Advertencia", "Esta seguro que desea aplicar esté descuento?",("Si","No"));
         if (des)
         {
-            var responsde = await Controller.EditDiscount(EditDiscount);
-            if (responsde)
+            var response = await Controller.EditDiscount(EditDiscount);
+            if (response)
             {
                 await Notificator.ShowSuccess("Exito", "Descuento actualizado");
                 await Navigator.HideModal("EditDiscountModal");

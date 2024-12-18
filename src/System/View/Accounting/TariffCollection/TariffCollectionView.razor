@@ -32,6 +32,12 @@ else
                             Info Estudiante
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabDebt" data-toggle="tab" href="#PanelDebt" role="tab"
+                           aria-controls="PanelDebt" aria-selected="false">
+                            Deudas
+                        </a>
+                    </li>
                 </ul>
 
                 @if (TariffsToPay!.Any())
@@ -86,8 +92,8 @@ else
                                                 <td>@item.DueDate</td>
                                                 @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
                                                 {
-                                                    <td>
-                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                    <td class="center-checkbox">
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>    
                                                     </td>
                                                 }
                                                 else
@@ -210,7 +216,7 @@ else
                                         </span>
                                         <div class="info-box-content">
                                             <span class="info-box-value">Descuento:</span>
-                                            <span class="StudentData">@getDiscountFormat()</span>
+                                            <span class="StudentData">@GetDiscountFormat()</span>
                                             <button class="btn btn-success btn-sm ml-2" @onclick="OpenModalForEditDiscount"> Cambiar Descuento</button>
                                         </div>
                                     </div>
@@ -218,6 +224,54 @@ else
                             </div>
                             <div class="card-footer text-center">
                                 <a href="#" class="btn btn-info btn-sm">Estado de cuenta</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="PanelDebt" role="tabpanel" aria-labelledby="TabDebt">
+                        <div>
+                            <div class="p-3 table-responsive ">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Año Lectivo</th>
+                                        <th>Concepto</th>
+                                        <th>Total</th>
+                                        <th>Descuento</th>
+                                        <th>Mora</th>
+                                        <th>SubTotal</th>
+                                        <th>Deuda</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Student.debtList)
+                                    {
+                                            <tr>
+                                                <td>@item.tariffId</td>
+                                                <td>@item.schoolYear</td>
+                                                <td>@item.concept</td>
+                                                <td>@item.total</td>
+                                                <td>@item.discount</td>
+                                                <td>@item.arrears</td>
+                                                <td>@item.subTotal</td>
+                                                <td>@item.debtBalance</td>
+                                                <td>
+                                                    @if (item.itPaid == true)
+                                                    { 
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn btn-warning btn-sm" @onclick="() => DebitTariff(item.tariffId)">Debitar</button>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

@@ -61,6 +61,13 @@ public class CollectTariffController
         return response;
     }
     
+    public async Task<bool> DebitTariff(DebDto dto)
+    {
+        var resource = $"debts?studentId={dto.studentId}&tariffId={dto.tariffId}";
+        var response = await _apiConsumer.PutAsync(Modules.Secretary, resource, dto);
+        return response;
+    }
+    
     public async Task<bool> EditDiscount(EditDiscountDto editDiscountDto)
     {
         var response = await _apiConsumer.PutAsync(Modules.Accounting, "students", editDiscountDto);

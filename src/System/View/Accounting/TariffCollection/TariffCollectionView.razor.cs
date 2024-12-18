@@ -114,8 +114,26 @@ public partial class TariffCollectionView : ComponentBase
         StateHasChanged();
     }
 
-    private string getDiscountFormat()
+    private string GetDiscountFormat()
     {
         return Student == null ? "0 %" : $"{Student.discount * 100:0.00} %";
+    }
+
+    private async Task DebitTariff(int tariffId)
+    {
+        var dto = new DebDto(StudentId, tariffId);
+        var desc = await Notificator.ShowAlertQuestion("Alerta", "¿Estas seguro que deseas debitar esta tarifa?",("Si","No"));
+        if (desc)
+        {
+            var response = await Controller.DebitTariff(dto);
+            if (response)
+            {
+                await Notificator.ShowSuccess("Exito","Hemos debitados exitosamente la tarifa");
+                await LoadStudent();
+                StateHasChanged();
+                return;
+            }
+            await Notificator.ShowError("Error", "No tubimos exito al debitar");
+        }
     }
 }
