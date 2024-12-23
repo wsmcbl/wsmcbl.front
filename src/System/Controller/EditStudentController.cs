@@ -25,7 +25,6 @@ public class EditStudentController
     {
         var resource = $"students";
         var content = MapperStudent.ToStudentFullDto(student);
-        var json = JsonSerializer.Serialize(content);
         var response = await _apiConsumer.PutAsync(Modules.Secretary, resource, content);
         return response;    
     }

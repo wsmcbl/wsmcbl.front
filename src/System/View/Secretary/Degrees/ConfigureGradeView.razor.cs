@@ -10,21 +10,23 @@ public class ConfigureGrade : BaseView
 {
     [Parameter] public string EnrollmentNumber { get; set; } = null!;
     [Parameter] public string GradeId { get; set; } = null!;
-    
     [Inject] protected Notificator Notificator { get; set; } = null!;
+    [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
+    protected string? TeacherFlags { get; set; } = "N/A";
+    protected string? EnrollmentFlags { get; set; } = "N/A";
 
     protected int NumberEnrollment;
-    protected int counter;
-    protected int counter2;
+    protected int Counter;
+    protected int Counter2;
     protected List<TeacherEntity>? TeacherList;
     protected DegreeEntity? DegreeEntity; 
 
     
     protected override async Task OnParametersSetAsync()
     {
-        counter = 0;
-        counter2 = 0;
+        Counter = 0;
+        Counter2 = 0;
         await loadDegree();
         TeacherList = await Controller!.GetTeacherList();
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
@@ -43,6 +45,13 @@ public class ConfigureGrade : BaseView
             2 => "Segundo Semestre",
             _ => "Ambos Semestres",
         };
+    }
+
+    protected async Task ChangeTeacherGuide(string? teacherID, string enrollmentNumber)
+    {
+        TeacherFlags = TeacherList!.FirstOrDefault(t => t.teacherId == teacherID)?.fullName;
+        EnrollmentFlags = enrollmentNumber;
+        await Navigator.ShowModal("EditTeacherGuideModal"); 
     }
 
     public async Task ConfigureDegree()
