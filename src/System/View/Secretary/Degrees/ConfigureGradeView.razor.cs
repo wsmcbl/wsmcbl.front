@@ -15,6 +15,8 @@ public class ConfigureGrade : BaseView
     [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
     protected string? TeacherFlags { get; set; } = "N/A";
     protected string? EnrollmentFlags { get; set; } = "N/A";
+    protected string? SubjectFlags { get; set; } = "N/A";
+    protected string? SubjectChangeName { get; set; } = "N/A";
 
     protected int NumberEnrollment;
     protected int Counter;
@@ -52,6 +54,14 @@ public class ConfigureGrade : BaseView
         TeacherFlags = TeacherList!.FirstOrDefault(t => t.teacherId == teacherID)?.fullName;
         EnrollmentFlags = enrollmentNumber;
         await Navigator.ShowModal("EditTeacherGuideModal"); 
+    }
+
+    protected async Task UpdateTeacher(string subjectId, string subjectName, string enrollmentId)
+    {
+        SubjectFlags = subjectId;
+        EnrollmentFlags = enrollmentId;
+        SubjectChangeName = subjectName;
+        await Navigator.ShowModal("UpdateTeacherSubject");
     }
 
     public async Task ConfigureDegree()
