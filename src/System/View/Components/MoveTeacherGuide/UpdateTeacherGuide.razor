@@ -16,7 +16,7 @@
                     </div>
                     
                     <strong class="label-required" style="display: inline-block; width: 200px;">Nuevo Maestro Guía:</strong>
-                    <select id="teacherGuideId" class="form-control" style="margin: 0" @bind="NewTeacher">
+                    <select id="teacherGuideId" class="form-control" style="margin: 0" @bind="NewTeacherId">
                         @foreach (var option in TeacherAvailable)
                         {
                             <option value="@option.teacherId">
