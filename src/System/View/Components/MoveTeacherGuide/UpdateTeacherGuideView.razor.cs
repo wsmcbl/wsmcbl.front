@@ -4,7 +4,7 @@ using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Components.MoveTeacherGuide;
 
-public partial class UpdateTeacherGuide : ComponentBase
+public partial class UpdateTeacherGuideView : ComponentBase
 {
     
     [Parameter] public string? TeacherNow { get; set; } = "N/A";

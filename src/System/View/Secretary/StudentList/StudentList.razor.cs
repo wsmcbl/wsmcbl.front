@@ -11,6 +11,8 @@ public partial class StudentList : ComponentBase
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
     [Inject] protected Navigator? Navigator { get; set; }
     protected ICollection<StudentEntity>? List { get; set; }
+    private string EnrollmentNameForChange { get; set; } = string.Empty;
+    private string StudentIdForMove { get; set; } = string.Empty;
     private byte[]? PdfDocument { get; set; }
     private string? PdfDocumentName { get; set; }
 
@@ -22,10 +24,10 @@ public partial class StudentList : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        await loadStudentList();
+        await LoadStudentList();
     }
 
-    private async Task loadStudentList()
+    private async Task LoadStudentList()
     {
         List = await PrintController.GetAllStudentsList();
     }
@@ -68,5 +70,12 @@ public partial class StudentList : ComponentBase
         }
 
         await Navigator!.ShowPdfModal();
+    }
+
+    private async Task UpdateEnrollment(string studentId, string enrollmentId)
+    {
+        StudentIdForMove = studentId;
+        EnrollmentNameForChange = enrollmentId;
+        await Navigator!.ShowModal("MoveStudentModal");
     }
 }

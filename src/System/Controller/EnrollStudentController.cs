@@ -1,7 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.View.Secretary.EnrollStudent;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
 namespace wsmcbl.src.Controller;
@@ -47,4 +46,11 @@ public class EnrollStudentController
         var resource = $"enrollments/documents/{studentId}";
         return await _apiConsumer.GetPdfAsync(Modules.Secretary, resource);
     }
+    
+    public async Task<bool> UpdateEnrollmet(string studentId, string enrollmentId)
+    {
+        EnrollStudentDto defaultResult = new();
+        return await _apiConsumer.PutAsync(Modules.Academy, $"students?studentId={studentId}&enrollmentId={enrollmentId}", defaultResult);
+    }
+    
 }

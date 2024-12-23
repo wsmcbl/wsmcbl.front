@@ -1,0 +1,68 @@
+<div class="modal fade" id="MoveStudentModal" tabindex="-1" aria-labelledby="MoveStudentModal" aria-hidden="true">
+    <div class="modal-dialog" role="document"
+         style="width: 40%; height: 30%; max-width: 40%; max-height: 30%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalMoveStudent">Cambiar Matrícula</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Estudiante: </strong> <label>@StudentId</label>
+                        <strong>Matriculado en: </strong> <label>@EnrollmentName</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="display: inline-block; width: 200px;">Grado:</label>
+                        <select id="grade" class="form-control" style="margin: 0" @onchange="GetSelectDegreeId">
+                            @if (Degrees != null && Degrees.Any())
+                            {
+                                @foreach (var option in Degrees.OrderBy(d => d.position))
+                                {
+                                    <option value="@option.degreeId">@option.label</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="">No hay secciones disponibles</option>
+                            }
+                        </select>
+
+                        <label style="display: inline-block; width: 200px;">Sección:</label>
+                        <select id="seccion" class="form-control" style="margin: 0" @onchange="SetEnrollmentSelect">
+                            @if (Enrollments != null && Enrollments.Any())
+                            {
+                                @foreach (var option in Enrollments)
+                                {
+                                    <option value="@option.enrollmentId">@option.label</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="">No hay secciones disponibles</option>
+                            }
+                        </select>
+                        <p style="margin-top: 15px">Cupos Restante @EnrollmentQuantity / @EnrollmentCapacity</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-success" @onclick="UpdateStudentEnrollment">Actualiar Matrícula</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
