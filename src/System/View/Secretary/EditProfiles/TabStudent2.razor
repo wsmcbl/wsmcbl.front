@@ -1,0 +1,58 @@
+<div class="row">
+
+    <div class="col-12 col-md-4" style="margin-bottom: 15px">
+        <div class="card">
+            <div class="card-body" style="min-height: 500px;">
+                <label class="label-required" style="display: inline-block; width: 200px;">Primer Nombre:</label>
+                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student!.name">
+
+                <label style="display: inline-block; width: 200px;">Segundo Nombre:</label>
+                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.secondName">
+
+                <label class="label-required" style="display: inline-block; width: 200px;">Primer Apellido:</label>
+                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.surname">
+
+                <label style="display: inline-block; width: 200px;">Segundo Apellido:</label>
+                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.secondSurname">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" style="margin-bottom: 15px">
+        <div class="card">
+            <div class="card-body" style="min-height: 500px;">
+                <label class="label-required" style="display: inline-block; width: 250px; margin-top: 10px">Fecha de
+                    Nacimiento </label>
+                <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001"
+                       @bind="Student.birthday">
+
+                <label style="display: inline-block; width: 200px; margin-top: 10px">Edad:</label>
+                <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
+
+                <label class="label-required" style="display: inline-block; width: 200px;">Sexo:</label>
+                <select @bind="Sex" class="form-control" style="margin: 0px;">
+                    <option value="true">Masculino</option>
+                    <option value="false">Femenino</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-4" style="margin-bottom: 15px">
+        <div class="card">
+            <div class="card-body" style="min-height: 500px;">
+                
+                <label class="label-required" style="display: inline-block; width: 200px;">Padecimientos:</label>
+                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.diseases">
+
+                <label class="label-required" style="display: inline-block; width: 200px;">Religión:</label>
+                <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.religion">
+
+                <label class="label-required" style="display: inline-block; width: 200px;">Dirección:</label>
+                <textarea id="direccion" class="input-redimensionable" style="margin: 0px"
+                          @bind="Student.address"></textarea>
+            </div>
+        </div>
+    </div>
+
+</div>
