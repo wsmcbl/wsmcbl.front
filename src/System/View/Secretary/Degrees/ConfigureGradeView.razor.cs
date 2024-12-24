@@ -29,12 +29,12 @@ public class ConfigureGrade : BaseView
     {
         Counter = 0;
         Counter2 = 0;
-        await loadDegree();
+        await LoadDegree();
         TeacherList = await Controller!.GetTeacherList();
         NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 
-    private async Task loadDegree()
+    protected async Task LoadDegree()
     {
         DegreeEntity = await Controller!.GetConfigureEnrollment(GradeId);
     }
@@ -76,7 +76,7 @@ public class ConfigureGrade : BaseView
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Las matrículas fueron actualizadas correctamente");
-            await loadDegree();
+            await LoadDegree();
             StateHasChanged();
         }
     }
@@ -118,12 +118,7 @@ public class ConfigureGrade : BaseView
             break;
         }
     }
-    
-    protected void OnTeacherGuideChanged(EnrollmentEntity enrollment, string selectedTeacherId)
-    {
-        enrollment.teacherId = selectedTeacherId;
-    }
-    
+
     protected override bool IsLoad()
     {   
         return !(NumberEnrollment > 0 && DegreeEntity!.EnrollmentList != null && TeacherList!.Count != 0);

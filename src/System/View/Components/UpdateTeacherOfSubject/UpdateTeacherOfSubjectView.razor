@@ -11,6 +11,23 @@
 
             <div class="modal-body">
                 <strong>Asignatura: </strong> <label>@SubjectName</label>
+
+                <label style="display: inline-block; width: 200px;">Maestro:</label>
+                <select id="ListofTeachers" class="form-control" style="margin: 0" @onchange="GetTeacherIdSelect">
+                    @if (TeacherAvailableList.Any())
+                    {
+                        @foreach (var option in TeacherAvailableList)
+                        {
+                            <option value="@option.teacherId">@option.fullName</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">No hay secciones disponibles</option>
+                    }
+                </select>
+                
+                
             </div>
 
             <div class="modal-footer">

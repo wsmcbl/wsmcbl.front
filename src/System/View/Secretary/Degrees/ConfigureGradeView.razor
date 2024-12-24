@@ -167,8 +167,8 @@ else
     </div>
     
     
-    <UpdateTeacherGuideView TeacherNow="@TeacherFlags" EnrollmentNow="@EnrollmentFlags"/>
-    <UpdateTeacherOfSubjectView SubjectId="@SubjectFlags" SubjectName="@SubjectChangeName" EnrollmentId="@EnrollmentFlags"/>
+    <UpdateTeacherGuideView TeacherNow="@TeacherFlags" EnrollmentNow="@EnrollmentFlags" TeacherGuideUpdated="LoadDegree"/>
+    <UpdateTeacherOfSubjectView SubjectId="@SubjectFlags" SubjectName="@SubjectChangeName" EnrollmentId="@EnrollmentFlags" TeacherSubjectUpdated="LoadDegree"/>
     
 }
 
