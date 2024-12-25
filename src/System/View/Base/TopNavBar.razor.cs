@@ -9,7 +9,6 @@ public partial class TopNavBar : ComponentBase
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
     [Inject] private Navigator? Navigator { get; set; }
     [Inject] private ApiConsumer? Consumer { get; set; }
-    
     protected UserDto? User { get; set; }
     
     public async Task LogOut()
