@@ -1,0 +1,43 @@
+@page "/grade"
+@attribute [Authorize(Roles = "admin")]
+
+@if (User != null)
+{ 
+    <h3 style="text-align: center;" class="m-4">Bienvenido @User.getName()</h3>
+
+    <div class="row">
+        @foreach (var item in EnrollmentList)
+        {
+            <div class="col-md-6">
+                <div class="mb-4">
+                    <div class="card border-bottom-danger shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@item.enrollmentLabel</div>
+                                </div>
+                                <div class="col-auto">
+                                    <a class="btn btn-outline-danger" href="/grade/@item.enrollmentId?TeacherId=@item.teacherId&DegreeName=@item.enrollmentLabel">
+                                        Calificar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="loader"></div>
+}
+
+
+
+
+
+
+
+
