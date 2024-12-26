@@ -1,8 +1,14 @@
 using wsmcbl.src.Components;
+using wsmcbl.src.Controller;
+using wsmcbl.src.Controller.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
+builder.Services.AddHttpClient();
+builder.Services.AddTransient<ApiConsumer>();
+builder.Services.AddTransient<ViewGradeOnlineController>();
+
 
 var app = builder.Build();
 
