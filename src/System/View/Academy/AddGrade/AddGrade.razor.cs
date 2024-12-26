@@ -18,10 +18,8 @@ public partial class AddGrade : ComponentBase
     private GetFullInformationDto GetFullInformation { get; set; } = new();
     private FullInformationofEnrollmentDto FullInformationOfEnrollment { get; set; } = null!;
     private List<StudentSubjectGradeDto> StudentData { get; set; } = new();
-    
+    private int ActiveTabId = 1;
     private string? TeacherName = string.Empty;
-    private int Counter;
-    private int Counter2;
 
 
     protected override async Task OnParametersSetAsync()
@@ -55,37 +53,90 @@ public partial class AddGrade : ComponentBase
         GetFullInformation.partialId = 1;
         
         FullInformationOfEnrollment = await GradeController.GetFullInformationOfEnrollment(GetFullInformation);
-        StudentData = MakeData(FullInformationOfEnrollment);
+        StudentData = MapToStudentSubjectGradeDto(FullInformationOfEnrollment);
     }
-
-    private List<StudentSubjectGradeDto> MakeData(FullInformationofEnrollmentDto data)
+    
+    // Conversión desde FullInformationofEnrollmentDto
+    private List<StudentSubjectGradeDto> MapToStudentSubjectGradeDto(FullInformationofEnrollmentDto enrollmentDto)
     {
         var result = new List<StudentSubjectGradeDto>();
-        
-        foreach (var student in data.studentList)
+
+        foreach (var student in enrollmentDto.studentList)
         {
-            var studentSubjectGrade = new StudentSubjectGradeDto()
+            var studentSubjectGrades = new StudentSubjectGradeDto
             {
                 StudentId = student.studentId,
-                StudentName = student.fullName
+                FullName = student.fullName
             };
 
-            foreach (var subject in data.subjectList)
+            foreach (var subjectPartial in enrollmentDto.subjectPartialList)
             {
-                var grades = data.subjectPartialList
-                    .Where(p => p.subjectId == subject.subjectId)
-                    .SelectMany(p => p.Grades)
-                    .ToList();
-
-                studentSubjectGrade.SubjectGrades[subject.name] = grades;
+                var gradeEntry = subjectPartial.grades?.FirstOrDefault(g => g.studentId == student.studentId);
+                if (gradeEntry != null)
+                {
+                    studentSubjectGrades.SubjectGrades[subjectPartial.subjectId] = new StudentSubjectGradeDto.GradeInfo
+                    {
+                        Grade = gradeEntry.grade,
+                        ConductGrade = gradeEntry.conductGrade,
+                        Label = gradeEntry.label
+                    };
+                }
             }
 
-            result.Add(studentSubjectGrade);
+            result.Add(studentSubjectGrades);
         }
 
         return result;
     }
     
-    
+    // Actualización inversa desde StudentSubjectGradeDto a FullInformationofEnrollmentDto
+    public void UpdateFullInformationofEnrollmentDto(
+        FullInformationofEnrollmentDto enrollmentDto,
+        List<StudentSubjectGradeDto> updatedGrades)
+    {
+        foreach (var studentGrade in updatedGrades)
+        {
+            foreach (var subjectGrade in studentGrade.SubjectGrades)
+            {
+                var subjectPartial = enrollmentDto.subjectPartialList
+                    .FirstOrDefault(sp => sp.subjectId == subjectGrade.Key);
+
+                if (subjectPartial != null)
+                {
+                    var gradeEntry = subjectPartial.grades?.FirstOrDefault(g => g.studentId == studentGrade.StudentId);
+                    if (gradeEntry != null)
+                    {
+                        gradeEntry.grade = subjectGrade.Value.Grade;
+                        gradeEntry.conductGrade = subjectGrade.Value.ConductGrade;
+                        gradeEntry.label = subjectGrade.Value.Label;
+                    }
+                }
+            }
+        }
+    }
+
+
+    protected void UpdateConductGrade()
+    {
+        
+    }
+
+    protected void ShowQualification()
+    {
+        UpdateFullInformationofEnrollmentDto(FullInformationOfEnrollment, StudentData);
+        
+        foreach (var item in FullInformationOfEnrollment.subjectPartialList)
+        {
+            foreach (var grade in item.grades!)
+            {
+                Console.WriteLine("Calificacion id: " + grade.gradeId);
+                Console.WriteLine("Asignatura: " + grade.label);
+                Console.WriteLine("Student Id: " + grade.studentId);
+                Console.WriteLine("Calification: " + grade.grade);
+                Console.WriteLine("Conduct: " + grade.conductGrade);
+                
+            }
+        }
+    }
     
 }

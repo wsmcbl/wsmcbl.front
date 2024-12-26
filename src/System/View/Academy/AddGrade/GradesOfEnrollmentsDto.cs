@@ -4,5 +4,5 @@ public class GradesOfEnrollmentsDto
 {
     public int partialId { get; set; }
     public string subjectId { get; set; } = null!;
-    public List<int> Grades { get; set; } = [];
+    public List<DetailGradeDto>? grades { get; set; }
 }

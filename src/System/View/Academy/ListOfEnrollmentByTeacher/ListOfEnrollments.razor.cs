@@ -11,7 +11,7 @@ public partial class ListOfEnrollments : ComponentBase
     [Inject] private AddStudentGradeController Controller { get; set; } = null!;
     private UserDto? User { get; set; }
     private List<EnrollmentByTeacherDto> EnrollmentList { get; set; } = new();
-    public string TeacherId = "tch-002";
+    public string TeacherId = "tch-001";
     
     protected override async Task OnInitializedAsync()
     {

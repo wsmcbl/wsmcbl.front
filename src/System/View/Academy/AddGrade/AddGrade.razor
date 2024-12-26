@@ -27,11 +27,9 @@
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                 @foreach (var item in partialsList.OrderBy(t => t.partialId))
                 {
-                    Counter++;
                     <li class="nav-item">
-                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.partialId"
-                           href="#card-@item.partialId" data-toggle="tab" role="tab"
-                           aria-controls="card-@item.partialId" aria-selected="@(Counter == 1 ? "true" : "false")">
+                        <a class="nav-link @(ActiveTabId == item.partialId ? "active" : "")" id="panel-@item.partialId"
+                            @onclick="(() => ActiveTabId = item.partialId)">
                             @item.label
                         </a>
                     </li>
@@ -49,15 +47,13 @@
             <div class="tab-content">
                 @foreach (var item in partialsList.OrderBy(t => t.partialId))
                 {
-                    Counter2++;
-                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@item.partialId"
+                    <div class="tab-pane fade @(ActiveTabId == item.partialId ? "show active" : "")" id="card-@item.partialId"
                          role="tabpanel" aria-labelledby="panel-@item.partialId">
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-responsive">
                             <thead>
                             <tr>
-                                <th>Student ID</th>
-                                <th>Full Name</th>
+                                <th>Estudiante</th>
                                 @foreach (var subject in FullInformationOfEnrollment.subjectList)
                                 {
                                     <th>@subject.name</th>
@@ -68,18 +64,22 @@
                             @foreach (var student in StudentData)
                             {
                                 <tr>
-                                    <td>@student.StudentId</td>
-                                    <td>@student.StudentName</td>
+                                    <td>@student.FullName</td>
                                     @foreach (var subject in FullInformationOfEnrollment.subjectList)
                                     {
                                         <td>
-                                            @if (student.SubjectGrades.TryGetValue(subject.name, out var grades))
+                                            @if (student.SubjectGrades.TryGetValue(subject.subjectId, out var gradeInfo))
                                             {
-                                                @string.Join(", ", grades)
+                                                <div>
+                                                    <label>Nota:</label>
+                                                    <input type="number" class="form-control" step="0.01"
+                                                           @bind="gradeInfo.Grade"
+                                                           @bind:event="oninput" />
+                                                </div>
                                             }
                                             else
                                             {
-                                                <span>No Grades</span>
+                                                <span>No asignado</span>
                                             }
                                         </td>
                                     }
@@ -87,11 +87,8 @@
                             }
                             </tbody>
                         </table>
-                        
-                        
-                        
-                        
-                        
+
+                        <button class="btn btn-primary" @onclick="ShowQualification">Guardar Cambios</button>
                         
                     </div>
                 }
@@ -99,94 +96,8 @@
         </div>
         
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 else
 {
     <div class="loader"></div>
-    <div class="card show mb-4">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="1" href="#card-1" data-toggle="tab" role="tab" aria-controls="card-1" aria-selected="true">
-                        Primer Parcial
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="card-body" id="tabContent">
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="card-1" role="tabpanel" aria-labelledby="panel-1">
-                
-                    <table id="GradeTable" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Nº</th>
-                            <th>Nombre</th>
-                            <th>Matematicas</th>
-                            <th>Lengua y Literatura</th>
-                            <th>Creciendo en V</th>
-                            <th>Conducta</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Nº</th>
-                            <th>Nombre</th>
-                            <th>Matematicas</th>
-                            <th>Lengua y Literatura</th>
-                            <th>Creciendo en V</th>
-                            <th>Conducta</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        <tr>
-                            <td data-label="Nº">1</td>
-                            <td data-label="Nombre">Noelia Antonia</td>
-                            <td data-label="Matematicas"><input class="form-control"/></td>
-                            <td data-label="Lengua y Literatura"><input class="form-control"/></td>
-                            <td data-label="Creciendo en V"><input class="form-control"/></td>
-                            <td data-label="Conducta"><input class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Nº">2</td>
-                            <td data-label="Nombre">Kenny El Guapo Tinoco Cerda</td>
-                            <td data-label="Matematicas"><input class="form-control"/></td>
-                            <td data-label="Lengua y Literatura"><input class="form-control"/></td>
-                            <td data-label="Creciendo en V"><input class="form-control"/></td>
-                            <td data-label="Conducta"><input class="form-control"/></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Nº">2</td>
-                            <td data-label="Nombre">Ezequielito</td>
-                            <td data-label="Matematicas"><input class="form-control"/></td>
-                            <td data-label="Lengua y Literatura"><input class="form-control"/></td>
-                            <td data-label="Creciendo en V"><input class="form-control"/></td>
-                            <td data-label="Conducta"><input class="form-control"/></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                
-                </div>
-
-                <div class="tab-pane fade" id="card-2" role="tabpanel" aria-labelledby="panel-2">
-               
-                </div>
-            </div>
-        </div>
-    </div>
-    
 }
-
-
-
-<script defer src="js/DataTable/GradeTable.js"></script>
