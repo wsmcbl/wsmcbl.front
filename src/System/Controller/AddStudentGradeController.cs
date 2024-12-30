@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Academy.AddGrade;
 using wsmcbl.src.View.Academy.ListOfEnrollmentByTeacher;
 
@@ -18,9 +19,9 @@ public class AddStudentGradeController
         return await _apiConsumer.GetAsync(Modules.Academy,$"enrollments/{teacherId}",defaultResult);
     } 
     
-    public async Task<List<PartialsListDto>> GetPartialsList()
+    public async Task<List<PartialEntity>> GetPartialsList()
     {
-        List<PartialsListDto> defaultResult = [];
+        List<PartialEntity> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Academy,"partials",defaultResult);
     }
 

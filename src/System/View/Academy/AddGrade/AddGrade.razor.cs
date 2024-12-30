@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Components.MoveTeacherGuide;
 
 namespace wsmcbl.src.View.Academy.AddGrade;
@@ -13,12 +14,13 @@ public partial class AddGrade : ComponentBase
     [Parameter, SupplyParameterFromQuery] public string? DegreeName { get; set; }
     [Parameter] public string EnrollmentId { get; set; } = null!;
     
-    private List<PartialsListDto> partialsList = [];
-    private List<TeacherNoGuideDto> TeacherListAvailable = [];
+    private List<PartialEntity> partialsList = [];
+    private List<TeacherEntity> TeacherListAvailable = [];
     private GetFullInformationDto GetFullInformation { get; set; } = new();
     private FullInformationofEnrollmentDto FullInformationOfEnrollment { get; set; } = null!;
     private List<StudentSubjectGradeDto> StudentData { get; set; } = new();
-    private int ActiveTabId = 1;
+    private int currentPartial = 0;
+    private int ActiveTabId = 0;
     private string? TeacherName = string.Empty;
 
 
@@ -28,6 +30,8 @@ public partial class AddGrade : ComponentBase
         await GetTeachersAvailable();
         await GetNameOfTeacher();
         await GetFullInfoEnrollment();
+        currentPartial = partialsList.First(t => t.isActive).partialId;
+        ActiveTabId = currentPartial;
     }
 
     private async Task GetPartials()
@@ -50,7 +54,7 @@ public partial class AddGrade : ComponentBase
     {
         GetFullInformation.teacherId = TeacherId;
         GetFullInformation.enrollmentId = EnrollmentId;
-        GetFullInformation.partialId = 1;
+        GetFullInformation.partialId = currentPartial;
         
         FullInformationOfEnrollment = await GradeController.GetFullInformationOfEnrollment(GetFullInformation);
         StudentData = MapToStudentSubjectGradeDto(FullInformationOfEnrollment);
@@ -88,55 +92,4 @@ public partial class AddGrade : ComponentBase
 
         return result;
     }
-    
-    // Actualización inversa desde StudentSubjectGradeDto a FullInformationofEnrollmentDto
-    public void UpdateFullInformationofEnrollmentDto(
-        FullInformationofEnrollmentDto enrollmentDto,
-        List<StudentSubjectGradeDto> updatedGrades)
-    {
-        foreach (var studentGrade in updatedGrades)
-        {
-            foreach (var subjectGrade in studentGrade.SubjectGrades)
-            {
-                var subjectPartial = enrollmentDto.subjectPartialList
-                    .FirstOrDefault(sp => sp.subjectId == subjectGrade.Key);
-
-                if (subjectPartial != null)
-                {
-                    var gradeEntry = subjectPartial.grades?.FirstOrDefault(g => g.studentId == studentGrade.StudentId);
-                    if (gradeEntry != null)
-                    {
-                        gradeEntry.grade = subjectGrade.Value.Grade;
-                        gradeEntry.conductGrade = subjectGrade.Value.ConductGrade;
-                        gradeEntry.label = subjectGrade.Value.Label;
-                    }
-                }
-            }
-        }
-    }
-
-
-    protected void UpdateConductGrade()
-    {
-        
-    }
-
-    protected void ShowQualification()
-    {
-        UpdateFullInformationofEnrollmentDto(FullInformationOfEnrollment, StudentData);
-        
-        foreach (var item in FullInformationOfEnrollment.subjectPartialList)
-        {
-            foreach (var grade in item.grades!)
-            {
-                Console.WriteLine("Calificacion id: " + grade.gradeId);
-                Console.WriteLine("Asignatura: " + grade.label);
-                Console.WriteLine("Student Id: " + grade.studentId);
-                Console.WriteLine("Calification: " + grade.grade);
-                Console.WriteLine("Conduct: " + grade.conductGrade);
-                
-            }
-        }
-    }
-    
 }

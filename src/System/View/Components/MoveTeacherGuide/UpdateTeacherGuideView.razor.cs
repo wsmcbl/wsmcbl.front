@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Components.MoveTeacherGuide;
@@ -13,7 +14,7 @@ public partial class UpdateTeacherGuideView : ComponentBase
     [Inject] Notificator Notificator { get; set; } = null!;
     [Inject] Navigator Navigator { get; set; } = null!;
     [Parameter] public EventCallback TeacherGuideUpdated { get; set; }
-    private List<TeacherNoGuideDto> TeacherAvailable{ get; set; } = [];
+    private List<TeacherEntity> TeacherAvailable{ get; set; } = [];
     private ChangeTeacherDto NewTeacher { get; set; } = new ChangeTeacherDto();
     private string? NewTeacherId { get; set; }
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Components.MoveTeacherGuide;
 
@@ -15,7 +16,7 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
     [Inject] private Navigator Navigator { get; set; } = null!;
     
     private TeacherSubjectDto NewTeacherSubject = new();
-    private List<TeacherNoGuideDto> TeacherAvailableList = [];
+    private List<TeacherEntity> TeacherAvailableList = [];
     [Parameter] public EventCallback TeacherSubjectUpdated { get; set; }
 
     

@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Components.MoveTeacherGuide;
 using wsmcbl.src.View.Components.UpdateTeacherOfSubject;
 using wsmcbl.src.View.Secretary.Degrees.Dto;
@@ -14,15 +15,15 @@ public class MoveTeacherGuideFromEnrollmentController
         _apiConsumer = apiConsumer;
     }
     
-    public async Task<List<TeacherNoGuideDto>> GetTeacherNoGuide()
+    public async Task<List<TeacherEntity>> GetTeacherNoGuide()
     {
-        List<TeacherNoGuideDto> defaultResult = [];
+        List<TeacherEntity> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Academy, "enrollments/teachers", defaultResult);
     }
     
-    public async Task<List<TeacherNoGuideDto>> GetActiveTeachers()
+    public async Task<List<TeacherEntity>> GetActiveTeachers()
     {
-        List<TeacherNoGuideDto> defaultResult = [];
+        List<TeacherEntity> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Secretary, "teachers", defaultResult);
     }
 
