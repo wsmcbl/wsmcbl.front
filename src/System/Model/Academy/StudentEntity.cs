@@ -7,4 +7,25 @@ public class StudentEntity
     public bool isActive { get; set; }
     public string schoolyear { get; set; } = null!;
     public string enrollment { get; set; } = null!;
+    
+    public List<GradeEntity>? gradeList {get; set;}
+
+
+    public double getCoductGrade()
+    {
+        if (gradeList == null || gradeList.Count == 0)
+        {
+            return 0;
+        }
+        
+        return gradeList[0].Grade;
+    }
+
+    public void setConductGrade(double conduct)
+    {
+        foreach (var item in gradeList!)
+        {
+            item.ConductGrade = conduct;
+        }
+    }
 }

@@ -10,6 +10,7 @@ public static class MapperStudent
     {
         return dto.GetStudentEntity();
     }
+    
     public static List<StudentParent> ToListEntity(this List<StudentParent> list)
     {
         while (list.Count < 2)

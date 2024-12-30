@@ -87,7 +87,8 @@ public partial class AddGrade : ComponentBase
                     {
                         Grade = gradeEntry.grade,
                         ConductGrade = gradeEntry.conductGrade,
-                        Label = gradeEntry.label
+                        Label = gradeEntry.label,
+                        subjectId = talcosa
                     };
                 }
             }
