@@ -24,12 +24,12 @@ public class AddStudentGradeController
         List<PartialEntity> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Academy,"partials",defaultResult);
     }
-
-    public async Task<FullInformationofEnrollmentDto> GetFullInformationOfEnrollment(GetFullInformationDto dto)
+    
+    public async Task<(List<StudentDto> studentList, List<SubjectsDto> subjectList, List<GradesOfEnrollmentsDto> subjectPartialList)> GetFullInformationOfEnrollment(TeacherEnrollmentByPartialDto dto)
     {
         var defaultResult = new FullInformationofEnrollmentDto();
-        var a = await _apiConsumer.GetWithDtoAsync(Modules.Academy, "enrollments", dto, defaultResult);
-        return a;
+        var result = await _apiConsumer.GetAsync(Modules.Academy, "enrollments", dto, defaultResult);
+        return (result.studentList, result.subjectList, result.subjectPartialList);
     } 
     
     

@@ -38,18 +38,10 @@ public class ApiConsumer
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<T>(), defaultResult, response);
     }
     
-    public async Task<TR> GetWithDtoAsync<T, TR>(Modules module, string resource, T requestDto, TR defaultResult)
+    public async Task<TR> GetAsync<T, TR>(Modules module, string resource, T requestDto, TR defaultResult)
     {
         await LoadToken();
-
-        var content = JsonContent.Create(requestDto);
-
-        var request = new HttpRequestMessage(HttpMethod.Get, BuildUri(module, resource))
-        {
-            Content = content
-        };
-        
-        var response = await _httpClient.SendAsync(request);
+        var response = await _httpClient.GetAsync(BuildUri(module, resource));
 
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<TR>(), defaultResult, response);
     }

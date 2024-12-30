@@ -16,8 +16,10 @@ public partial class AddGrade : ComponentBase
     
     private List<PartialEntity> partialsList = [];
     private List<TeacherEntity> TeacherListAvailable = [];
-    private GetFullInformationDto GetFullInformation { get; set; } = new();
-    private FullInformationofEnrollmentDto FullInformationOfEnrollment { get; set; } = null!;
+    
+    public List<StudentDto> studentList { get; set; } = null!;
+    public List<SubjectsDto> subjectList { get; set; } = null!;
+    public List<GradesOfEnrollmentsDto> subjectPartialList { get; set; } = null!;
     private List<StudentSubjectGradeDto> StudentData { get; set; } = new();
     private int currentPartial = 0;
     private int ActiveTabId = 0;
@@ -52,12 +54,15 @@ public partial class AddGrade : ComponentBase
     
     private async Task GetFullInfoEnrollment()
     {
-        GetFullInformation.teacherId = TeacherId;
-        GetFullInformation.enrollmentId = EnrollmentId;
-        GetFullInformation.partialId = currentPartial;
+        var dto = new TeacherEnrollmentByPartialDto
+        {
+            teacherId = TeacherId,
+            enrollmentId = EnrollmentId,
+            partialId = currentPartial
+        };
         
-        FullInformationOfEnrollment = await GradeController.GetFullInformationOfEnrollment(GetFullInformation);
-        StudentData = MapToStudentSubjectGradeDto(FullInformationOfEnrollment);
+        var result = await GradeController.GetFullInformationOfEnrollment(dto);
+        StudentData = MapToStudentSubjectGradeDto();
     }
     
     // Conversión desde FullInformationofEnrollmentDto

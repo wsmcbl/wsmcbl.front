@@ -1,6 +1,6 @@
 namespace wsmcbl.src.View.Academy.AddGrade;
 
-public class GetFullInformationDto
+public class TeacherEnrollmentByPartialDto
 {
     public int partialId { get; set; }
     public string enrollmentId { get; set; } = null!;
