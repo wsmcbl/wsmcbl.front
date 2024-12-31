@@ -13,7 +13,7 @@ public class SubjectTeacherDto
         this.teacherId = teacherId;
     }
 
-    public SubjectTeacherDto(SubjectEntity subject, TeacherEntity teacher) : this(teacher.teacherId!, subject.SubjectId!)
+    public SubjectTeacherDto(SubjectEntity subject, TeacherEntity teacher) : this(teacher.teacherId!, subject.subjectId!)
     {
     }
 }

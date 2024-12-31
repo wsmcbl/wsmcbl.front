@@ -54,32 +54,35 @@
                             <thead>
                             <tr>
                                 <th>Estudiante</th>
-                                @foreach (var subject in FullInformationOfEnrollment.subjectList)
+                                @foreach (var subject in subjectList)
                                 {
                                     <th>@subject.name</th>
                                 }
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach (var student in StudentData)
+                            @foreach (var student in studentList)
                             {
                                 <tr>
-                                    <td>@student.FullName</td>
-                                    @foreach (var subject in FullInformationOfEnrollment.subjectList)
+                                    <td>@student.fullName</td>
+                                    @foreach (var subject in subjectList)
                                     {
                                         <td>
-                                            @if (student.SubjectGrades.TryGetValue(subject.subjectId, out var gradeInfo))
-                                            {
-                                                <div>
-                                                    <label>Nota:</label>
-                                                    <input type="number" class="form-control" step="0.01"
-                                                           @bind="gradeInfo.Grade"
-                                                           @bind:event="oninput" />
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <span>No asignado</span>
+                                            @{
+                                                var grade = student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId); 
+                                                
+                                                @if (grade != null)
+                                                {
+                                                    <div>
+                                                        <label>Nota:</label>
+                                                        <input type="number" class="form-control"
+                                                               @bind="grade.Grade"/>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span>No asignado</span>
+                                                }
                                             }
                                         </td>
                                     }

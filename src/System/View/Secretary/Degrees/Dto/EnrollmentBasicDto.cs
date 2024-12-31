@@ -37,7 +37,7 @@ public class EnrollmentBasicDto
 
         foreach (var subjectDto in subjects)
         {
-            var subjectEntity = subjectList.FirstOrDefault(e => e.SubjectId == subjectDto.subjectId);
+            var subjectEntity = subjectList.FirstOrDefault(e => e.subjectId == subjectDto.subjectId);
             var teacherEntity = teacherList.FirstOrDefault(e => e.teacherId == subjectDto.teacherId)
                                 ?? new NullTeacherEntity();
 

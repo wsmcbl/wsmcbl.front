@@ -126,8 +126,8 @@ else
                                             @foreach (var item in enrollment.SubjectTeacherList)
                                             {
                                                 <tr>
-                                                    <td>@item.subject.SubjectId</td>
-                                                    <td>@item.subject.Name</td>
+                                                    <td>@item.subject.subjectId</td>
+                                                    <td>@item.subject.name</td>
                                                     <td>
                                                         <span class="status-label @(item.subject.IsMandatory ? "active-status" : "inactive-status")">
                                                             @(item.subject.IsMandatory ? "Si" : "No")
@@ -146,7 +146,7 @@ else
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-info btn-sm" @onclick="() => UpdateTeacher(item.subject.SubjectId!, item.subject.Name!, enrollment.enrollmentId)">
+                                                        <button class="btn btn-info btn-sm" @onclick="() => UpdateTeacher(item.subject.subjectId!, item.subject.name!, enrollment.enrollmentId)">
                                                             <i class="fa fa-sync"></i> Actualizar Maestro
                                                         </button>
                                                     </td>

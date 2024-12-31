@@ -105,7 +105,7 @@ public class ConfigureGrade : BaseView
         {
             var tuple = enrollment.SubjectTeacherList[index];
             
-            if (tuple.subject.SubjectId != subject.SubjectId)
+            if (tuple.subject.subjectId != subject.subjectId)
             {
                 continue;
             }

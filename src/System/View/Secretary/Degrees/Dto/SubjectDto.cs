@@ -14,9 +14,9 @@ public class SubjectDto
     {
         return new SubjectEntity()
         {
-            SubjectId = subjectId,
+            subjectId = subjectId,
             Initials = initials,
-            Name = name,
+            name = name,
             IsMandatory = isMandatory,
             Semester = semester
         };

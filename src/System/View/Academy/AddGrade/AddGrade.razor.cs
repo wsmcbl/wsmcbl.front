@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
-using wsmcbl.src.View.Components.MoveTeacherGuide;
 
 namespace wsmcbl.src.View.Academy.AddGrade;
 
 public partial class AddGrade : ComponentBase
 {
-   
     [Inject] private AddStudentGradeController GradeController { get; set; } = null!;
     [Inject] private MoveTeacherGuideFromEnrollmentController TeacherController { get; set; } = null!;
     [Parameter, SupplyParameterFromQuery] public string TeacherId { get; set; } = null!;
@@ -17,10 +15,9 @@ public partial class AddGrade : ComponentBase
     private List<PartialEntity> partialsList = [];
     private List<TeacherEntity> TeacherListAvailable = [];
     
-    public List<StudentDto> studentList { get; set; } = null!;
-    public List<SubjectsDto> subjectList { get; set; } = null!;
-    public List<GradesOfEnrollmentsDto> subjectPartialList { get; set; } = null!;
-    private List<StudentSubjectGradeDto> StudentData { get; set; } = new();
+    public List<SubjectEntity> subjectList { get; set; } = null!;
+    private List<StudentEntity> studentList { get; set; } = new();
+    
     private int currentPartial = 0;
     private int ActiveTabId = 0;
     private string? TeacherName = string.Empty;
@@ -30,7 +27,7 @@ public partial class AddGrade : ComponentBase
     {
         await GetPartials();
         await GetTeachersAvailable();
-        await GetNameOfTeacher();
+        GetNameOfTeacher();
         await GetFullInfoEnrollment();
         currentPartial = partialsList.First(t => t.isActive).partialId;
         ActiveTabId = currentPartial;
@@ -46,10 +43,9 @@ public partial class AddGrade : ComponentBase
         TeacherListAvailable = await TeacherController.GetActiveTeachers();
     }
     
-    private Task GetNameOfTeacher()
+    private void GetNameOfTeacher()
     {
         TeacherName = TeacherListAvailable.FirstOrDefault(t => t.teacherId == TeacherId)?.fullName;
-        return Task.CompletedTask;
     }
     
     private async Task GetFullInfoEnrollment()
@@ -62,40 +58,7 @@ public partial class AddGrade : ComponentBase
         };
         
         var result = await GradeController.GetFullInformationOfEnrollment(dto);
-        StudentData = MapToStudentSubjectGradeDto();
-    }
-    
-    // Conversión desde FullInformationofEnrollmentDto
-    private List<StudentSubjectGradeDto> MapToStudentSubjectGradeDto(FullInformationofEnrollmentDto enrollmentDto)
-    {
-        var result = new List<StudentSubjectGradeDto>();
-
-        foreach (var student in enrollmentDto.studentList)
-        {
-            var studentSubjectGrades = new StudentSubjectGradeDto
-            {
-                StudentId = student.studentId,
-                FullName = student.fullName
-            };
-
-            foreach (var subjectPartial in enrollmentDto.subjectPartialList)
-            {
-                var gradeEntry = subjectPartial.grades?.FirstOrDefault(g => g.studentId == student.studentId);
-                if (gradeEntry != null)
-                {
-                    studentSubjectGrades.SubjectGrades[subjectPartial.subjectId] = new StudentSubjectGradeDto.GradeInfo
-                    {
-                        Grade = gradeEntry.grade,
-                        ConductGrade = gradeEntry.conductGrade,
-                        Label = gradeEntry.label,
-                        subjectId = talcosa
-                    };
-                }
-            }
-
-            result.Add(studentSubjectGrades);
-        }
-
-        return result;
+        subjectList = result.subjectList;
+        studentList = result.studentList;
     }
 }
