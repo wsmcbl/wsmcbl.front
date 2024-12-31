@@ -1,7 +1,7 @@
 @page "/grade/{EnrollmentId}"
 @attribute [Authorize(Roles = "admin")]
 
-@if (partialsList != null && FullInformationOfEnrollment != null)
+@if (partialsList != null)
 {
     //Información de la sección y del maestro
     <div class="card border-bottom-danger shadow h-100 py-2 mb-4">
