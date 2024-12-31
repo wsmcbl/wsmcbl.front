@@ -68,22 +68,19 @@
                                     @foreach (var subject in subjectList)
                                     {
                                         <td>
-                                            @{
-                                                var grade = student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId); 
-                                                
-                                                @if (grade != null)
-                                                {
-                                                    <div>
-                                                        <label>Nota:</label>
-                                                        <input type="number" class="form-control"
-                                                               @bind="grade.Grade"/>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <span>No asignado</span>
-                                                }
+                                            @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId)  != null)
+                                            {
+                                                <div>
+                                                    <label>Nota:</label>
+                                                    <input type="number" class="form-control"
+                                                           @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).Grade" />
+                                                </div>
                                             }
+                                            else
+                                            {
+                                                <span>No asignado</span>
+                                            }
+
                                         </td>
                                     }
                                 </tr>

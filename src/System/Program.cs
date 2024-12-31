@@ -16,6 +16,7 @@ builder.Services.AddTransient<Notificator>();
 builder.Services.AddTransient<ApiConsumer>();
 builder.Services.AddTransient<ApiConsumerWithNotificator>();
 builder.Services.AddTransient<Navigator>();
+builder.Services.AddTransient<JwtClaimsService>();
 builder.Services.AddSweetAlert2();
 
 builder.Services.AddTransient<CustomAuthenticationStateProvider>();

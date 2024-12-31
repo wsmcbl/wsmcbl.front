@@ -13,7 +13,7 @@ public class AddStudentGradeController
         _apiConsumer = apiConsumer;
     }
 
-    public async Task<List<EnrollmentByTeacherDto>> GetEnrollmentByTeacherId(string teacherId)
+    public async Task<List<EnrollmentByTeacherDto>> GetEnrollmentByTeacherId(string? teacherId)
     {
         List<EnrollmentByTeacherDto> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Academy,$"enrollments/{teacherId}",defaultResult);
