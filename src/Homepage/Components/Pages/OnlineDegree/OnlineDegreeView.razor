@@ -1,4 +1,5 @@
 @page "/online-grades"
+@rendermode InteractiveServer
 
 <div class="blue-background">
 
@@ -19,15 +20,28 @@
                                         <h1 class="h4 text-gray-900 mb-4">Ingrese sus credenciales</h1>
                                     </div>
 
+                                    @if (!string.IsNullOrEmpty(ErrorMessage))
+                                    {
+                                        <div class="alert alert-danger" role="alert">
+                                            @ErrorMessage
+                                        </div>
+                                    }
+                                    
                                     <form>
                                         <div class="user">
                                             <div class="form-group">
-                                                <InputText id="studentId" @bind-Value="@Model.StudentId" class="form-control" placeholder="Código del estudiante"/>
+                                                <input type="text" class="form-control" style="margin-bottom: 10px"
+                                                       placeholder="Codigo del estudiante" @bind="studentId">
                                             </div>
                                             <div class="form-group">
-                                                <InputText id="token" @bind-Value="@Model.Token" class="form-control" placeholder="Contraseña"/>
+                                                <input type="text" class="form-control" style="margin-bottom: 10px"
+                                                       placeholder="Contraseña" @bind="token">
                                             </div>
-                                            <button type="submit" class="btn btn-success" @onclick="GetGrade">Ver Calificaciones</button>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary" @onclick="GetGrade">Ver
+                                                    Calificaciones
+                                                </button>
+                                            </div>
                                         </div>
                                     </form>
                                     
@@ -48,5 +62,7 @@
     </div>
 
 </div>
+
+
 
 
