@@ -1,3 +1,5 @@
+using wsmcbl.src.View.Academy.AddGrade;
+
 namespace wsmcbl.src.Model.Academy;
 
 public class StudentEntity
@@ -7,6 +9,7 @@ public class StudentEntity
     public bool isActive { get; set; }
     public string schoolyear { get; set; } = null!;
     public string enrollment { get; set; } = null!;
+    public int conductgrade { get; set; }
     
     public List<GradeEntity>? gradeList {get; set;}
 
@@ -21,7 +24,7 @@ public class StudentEntity
         return gradeList[0].Grade;
     }
 
-    public void setConductGrade(double conduct)
+    public void setConductGrade(int conduct)
     {
         foreach (var item in gradeList!)
         {

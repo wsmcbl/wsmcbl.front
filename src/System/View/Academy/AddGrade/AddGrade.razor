@@ -10,7 +10,6 @@
                 <div class="col mr-2">
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="m-0 font-weight-bold text-primary">@DegreeName</h5>
-                        <a class="btn btn-success btn-sm" role="button">Guardar</a>
                     </div>
                     <div class="py-3 d-flex justify-content-between align-items-center">
                         <span><strong>Maestro: </strong>@TeacherName</span>
@@ -37,7 +36,7 @@
                     </li>
                 }
                 <li class="nav-item ml-auto">
-                    <button type="button" class="btn btn-success">
+                    <button class="btn btn-success btn-sm" @onclick="ToSaveGrade">
                         Guardar
                     </button>
                 </li>
@@ -60,6 +59,7 @@
                                 {
                                     <th>@subject.name</th>
                                 }
+                                <th>Conducta</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -85,6 +85,13 @@
 
                                         </td>
                                     }
+                                    <td>
+                                        <div>
+                                            <label>Nota:</label>
+                                            <input type="number" class="form-control"
+                                                   @bind="student.conductgrade" />
+                                        </div>
+                                    </td>
                                 </tr>
                             }
                             </tbody>
@@ -93,7 +100,7 @@
                 }
             </div>
         </div>
-        <button class="btn btn-outline-info" @onclick="Testing">Ver calificaciones</button>
+        <button class="btn btn-outline-info" @onclick="ToSaveGrade">Ver calificaciones</button>
     </div>
     }
     else

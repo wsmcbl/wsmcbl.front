@@ -1,3 +1,4 @@
+using System.Text.Json;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Academy.AddGrade;
@@ -35,7 +36,11 @@ public class AddStudentGradeController
         return (result.studentList, result.subjectList);
     } 
     
-    
+    public async Task<bool> UpdateGrade(SaveGradeDto grade)
+    {
+        var json = JsonSerializer.Serialize(grade);
+        return await _apiConsumer.PutAsync(Modules.Academy,"enrollments/subjects/grades",grade);
+    }
     
     
     

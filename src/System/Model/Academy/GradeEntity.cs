@@ -4,7 +4,7 @@ public class GradeEntity
 {
     public string? studentId { get; set; }
     public string? subjectId { get; set; }
-    public double Grade { get; set; }
-    public double ConductGrade { get; set; }
+    public int Grade { get; set; }
+    public int ConductGrade { get; set; }
     public string Label { get; set; } = null!;
 }
