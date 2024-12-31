@@ -21,7 +21,9 @@
         </div>
     </div>
 
-    //Pestañas para los 4 parciales.
+    @if (studentList != null && subjectList != null)
+    {
+        //Pestañas para los 4 parciales.
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -91,8 +93,16 @@
                 }
             </div>
         </div>
-        
+        <button class="btn btn-outline-info" @onclick="Testing">Ver calificaciones</button>
     </div>
+    }
+    else
+    {
+        <div class="border-left-primary">
+            <h3>No hay datos disponibles para mostrar</h3>
+        </div>
+    }
+    
 }
 else
 {

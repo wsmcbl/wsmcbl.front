@@ -14,12 +14,12 @@ public partial class AddGrade : ComponentBase
     
     private List<PartialEntity> partialsList = [];
     private List<TeacherEntity> TeacherListAvailable = [];
-    
-    public List<SubjectEntity> subjectList { get; set; } = null!;
-    private List<StudentEntity> studentList { get; set; } = new();
+
+    private List<SubjectEntity>? subjectList { get; set; }
+    private List<StudentEntity>? studentList { get; set; } = [];
     
     private int currentPartial = 0;
-    private int ActiveTabId = 0;
+    private int ActiveTabId = 1;
     private string? TeacherName = string.Empty;
 
 
@@ -28,8 +28,11 @@ public partial class AddGrade : ComponentBase
         await GetPartials();
         await GetTeachersAvailable();
         GetNameOfTeacher();
+        
+        var activePartial = partialsList.FirstOrDefault(t => t.isActive);
+        currentPartial = activePartial?.partialId ?? 1;
+        
         await GetFullInfoEnrollment();
-        currentPartial = partialsList.First(t => t.isActive).partialId;
         ActiveTabId = currentPartial;
     }
 
@@ -61,4 +64,17 @@ public partial class AddGrade : ComponentBase
         subjectList = result.subjectList;
         studentList = result.studentList;
     }
+
+    private void Testing()
+    {
+        foreach (var student in studentList!)
+        {
+            foreach (var grade in student.gradeList!)
+            {
+                Console.WriteLine(grade.studentId);
+                Console.WriteLine(grade.Grade);
+            }
+        }
+    }
+    
 }
