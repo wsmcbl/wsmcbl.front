@@ -41,18 +41,16 @@ public class ApiConsumer
     public async Task<TR> GetAsync<T, TR>(Modules module, string resource, T requestDto, TR defaultResult)
     {
         await LoadToken();
-        var content = JsonContent.Create(requestDto);
-
-        var request = new HttpRequestMessage(HttpMethod.Get, BuildUri(module, resource))
+        
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, BuildUri(module, resource))
         {
-            Content = content
+            Content = JsonContent.Create(requestDto)
         };
         
+        var response = await _httpClient.SendAsync(requestMessage);
         
-        var response = await _httpClient.SendAsync(request);
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<TR>(), defaultResult, response);
     }
-
 
     public async Task<byte[]> GetPdfAsync(Modules module, string resource)
     {

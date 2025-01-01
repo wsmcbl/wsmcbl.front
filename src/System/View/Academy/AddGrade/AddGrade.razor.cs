@@ -20,7 +20,7 @@ public partial class AddGrade : ComponentBase
     private List<SubjectEntity>? subjectList { get; set; }
     private List<StudentEntity>? studentList { get; set; } = [];
     
-    private int currentPartial = 0;
+    private int currentPartial;
     private int ActiveTabId = 1;
     private string? TeacherName = string.Empty;
 
@@ -55,83 +55,50 @@ public partial class AddGrade : ComponentBase
     
     private async Task GetFullInfoEnrollment()
     {
-        var dto = new TeacherEnrollmentByPartialDto
+        var result = await GradeController
+            .GetFullInformationOfEnrollment(getTeacherEnrollmentByPartialDto());
+        
+        subjectList = result.subjectList;
+        studentList = result.studentList;
+    }
+
+    private async Task ToSaveGrade()
+    {
+        if (studentList == null || studentList.Count == 0)
+        {
+            await Notificator.ShowError("Error", "No hay estudiantes para guardar las calificaciones.");
+            return;
+        }
+        
+        var gradeList = new List<GradeEntity>();
+        foreach (var student in studentList)
+        {
+            if (student.gradeList == null)
+            {
+                await Notificator.ShowError("Error", $"No hay calificaciones para el estudiante {student.fullName}.");
+                return;
+            }
+            
+            gradeList.AddRange(student.gradeList);
+        }
+
+        var response = await GradeController.UpdateGrade(getTeacherEnrollmentByPartialDto(), gradeList);
+        if (response)
+        {
+            await Notificator.ShowSuccess("Éxito", "Hemos guardado las calificaciones correctamente.");
+            return;
+        }
+
+        await Notificator.ShowError("Error", "Tuvimos problemas al guardar las calificaciones.");
+    }
+
+    private TeacherEnrollmentByPartialDto getTeacherEnrollmentByPartialDto()
+    {
+        return new TeacherEnrollmentByPartialDto
         {
             teacherId = TeacherId,
             enrollmentId = EnrollmentId,
             partialId = currentPartial
         };
-        
-        var result = await GradeController.GetFullInformationOfEnrollment(dto);
-        subjectList = result.subjectList;
-        studentList = result.studentList;
     }
-
-    private void Testing()
-    {
-        foreach (var student in studentList!)
-        {
-            foreach (var grade in student.gradeList!)
-            {
-                Console.WriteLine(grade.studentId);
-                Console.WriteLine(grade.Grade);
-            }
-        }
-    }
-
-    private async Task ToSaveGrade()
-    {
-        var data = new SaveGradeDto
-        {
-            teacherEnrollment = new TeacherEnrollment
-            {
-                teacherId = TeacherId,
-                enrollmentId = EnrollmentId,
-                partialId = currentPartial
-            },
-            gradeList = new List<Grade>()
-        };
-        
-        if (studentList == null || !studentList.Any())
-        {
-            await Notificator.ShowError("Error", "No hay estudiantes para guardar las calificaciones");
-            return;
-        }
-
-        foreach (var student in studentList)
-        {
-            if (student.gradeList == null)
-            {
-                await Notificator.ShowError("Error", $"No hay calificaciones para el estudiante {student.fullName}");
-                return;
-            }
-
-            foreach (var grade in student.gradeList)
-            {
-                data.gradeList.Add(new Grade
-                {
-                    gradeId = 0,
-                    studentId = student.studentId,
-                    grade = grade.Grade,
-                    conductGrade = student.conductgrade, 
-                    label = string.Empty,
-                });
-            }
-        }
-
-        var response = await GradeController.UpdateGrade(data);
-        if (response)
-        {
-            await Notificator.ShowSuccess("Éxito", "Hemos guardado las calificaciones correctamente");
-            return;
-        }
-
-        await Notificator.ShowError("Error", "Hemos tenido problemas al guardar las calificaciones");
-    }
-    
-   
-    
-    
-    
-    
 }

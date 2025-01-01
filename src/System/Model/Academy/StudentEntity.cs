@@ -21,14 +21,14 @@ public class StudentEntity
             return 0;
         }
         
-        return gradeList[0].Grade;
+        return gradeList[0].grade;
     }
 
     public void setConductGrade(int conduct)
     {
         foreach (var item in gradeList!)
         {
-            item.ConductGrade = conduct;
+            item.conductGrade = conduct;
         }
     }
 }

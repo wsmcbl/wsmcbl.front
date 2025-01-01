@@ -1,4 +1,3 @@
-using System.Text.Json;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Academy.AddGrade;
@@ -8,7 +7,7 @@ namespace wsmcbl.src.Controller;
 
 public class AddStudentGradeController
 {
-    private ApiConsumerWithNotificator _apiConsumer;
+    private readonly ApiConsumerWithNotificator _apiConsumer;
     public AddStudentGradeController(ApiConsumerWithNotificator apiConsumer)
     {
         _apiConsumer = apiConsumer;
@@ -23,7 +22,7 @@ public class AddStudentGradeController
     public async Task<List<PartialEntity>> GetPartialsList()
     {
         List<PartialEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Academy,"partials",defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Academy,"partials", defaultResult);
     }
     
     public async Task<(List<StudentEntity> studentList, List<SubjectEntity> subjectList)> GetFullInformationOfEnrollment(TeacherEnrollmentByPartialDto dto)
@@ -34,14 +33,16 @@ public class AddStudentGradeController
         result.updateStudentGradeList();
         
         return (result.studentList, result.subjectList);
-    } 
-    
-    public async Task<bool> UpdateGrade(SaveGradeDto grade)
-    {
-        var json = JsonSerializer.Serialize(grade);
-        return await _apiConsumer.PutAsync(Modules.Academy,"enrollments/subjects/grades",grade);
     }
-    
-    
-    
+
+    public async Task<bool> UpdateGrade(TeacherEnrollmentByPartialDto teacherEnrollment, List<GradeEntity> gradeList)
+    {
+        var data = new SaveGradeDto
+        {
+            teacherEnrollment = teacherEnrollment,
+            gradeList = gradeList
+        };
+        
+        return await _apiConsumer.PutAsync(Modules.Academy, "enrollments/subjects/grades", data);
+    }
 }
