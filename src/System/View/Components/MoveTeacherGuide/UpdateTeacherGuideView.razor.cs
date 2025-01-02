@@ -16,8 +16,6 @@ public partial class UpdateTeacherGuideView : ComponentBase
     [Parameter] public EventCallback TeacherGuideUpdated { get; set; }
     private List<TeacherEntity> TeacherAvailable{ get; set; } = [];
     private ChangeTeacherDto NewTeacher { get; set; } = new ChangeTeacherDto();
-    private string? NewTeacherId { get; set; }
-
     
     protected override async Task OnParametersSetAsync()
     {
