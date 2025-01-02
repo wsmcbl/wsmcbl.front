@@ -264,7 +264,7 @@ else
                                                     }
                                                     else
                                                     {
-                                                        <button class="btn btn-warning btn-sm" @onclick="() => DebitTariff(item.tariffId)">Debitar</button>
+                                                        <button class="btn btn-warning btn-sm" @onclick="() => OpenDebtModal(item.tariffId)">Debitar</button>
                                                     }
                                                 </td>
                                             </tr>
@@ -283,5 +283,6 @@ else
     <PaymentViewComponent TariffList="@TariffsToPay" OnComplexObjectCreated="@PayTariffs"/>
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>
     <EditStudentDiscount StudentId="@StudentId"/>
+    <ForgetDeb FinishTask="LoadStudent" StudentId="@StudentId" TariffId="@TariffIdForDeb"/>
     
 }

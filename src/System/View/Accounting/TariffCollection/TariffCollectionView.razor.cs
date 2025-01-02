@@ -20,6 +20,7 @@ public partial class TariffCollectionView : ComponentBase
     protected StudentEntity? Student { get; private set; }
     protected bool IsLoading() => Student == null || TariffList == null;
     protected double EstimateTotal { get; set; }
+    private int TariffIdForDeb {get; set;}
 
     
     protected override async Task OnParametersSetAsync()
@@ -38,6 +39,7 @@ public partial class TariffCollectionView : ComponentBase
     private async Task LoadStudent()
     {
         Student = await Controller.GetStudent(StudentId!);
+        Student.debtList = await Controller.GetDebitList(StudentId!);
         TariffList = await Controller.GetTariffListByStudentId(StudentId);
         TariffList.UpdateAmounts(Student!);
     }
@@ -119,21 +121,11 @@ public partial class TariffCollectionView : ComponentBase
         return Student == null ? "0 %" : $"{Student.discount * 100:0.00} %";
     }
 
-    private async Task DebitTariff(int tariffId)
+    private async Task OpenDebtModal(int tariffId)
     {
-        var dto = new DebDto(StudentId, tariffId);
-        var desc = await Notificator.ShowAlertQuestion("Alerta", "¿Estas seguro que deseas debitar esta tarifa?",("Si","No"));
-        if (desc)
-        {
-            var response = await Controller.DebitTariff(dto);
-            if (response)
-            {
-                await Notificator.ShowSuccess("Exito","Hemos debitados exitosamente la tarifa");
-                await LoadStudent();
-                StateHasChanged();
-                return;
-            }
-            await Notificator.ShowError("Error", "No tubimos exito al debitar");
-        }
+        TariffIdForDeb = tariffId;
+        await Navigator.HideModal("ForgetDebtModal");
     }
+    
+    
 }

@@ -61,6 +61,13 @@ public class CollectTariffController
         return response;
     }
     
+    public async Task<List<DebtListDto>> GetDebitList(string studentId)
+    {
+        var resource = $"debts?studentId={studentId}";
+        var defaultResult = new List<DebtListDto>();
+        return await _apiConsumer.GetAsync(Modules.Accounting, resource, defaultResult);
+    }
+    
     public async Task<bool> DebitTariff(DebDto dto)
     {
         var resource = $"debts?studentId={dto.studentId}&tariffId={dto.tariffId}";
