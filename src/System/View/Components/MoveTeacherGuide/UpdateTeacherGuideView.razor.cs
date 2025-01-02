@@ -27,10 +27,6 @@ public partial class UpdateTeacherGuideView : ComponentBase
 
     private async Task UpdateTeacherG()
     {
-        if (NewTeacherId != null)
-        {
-            NewTeacher.newTeacherId = NewTeacherId;
-        }
         NewTeacher.enrollmentId = EnrollmentNow; 
         var response = await Controller.UpdateTeacherGuide(NewTeacher);
 
