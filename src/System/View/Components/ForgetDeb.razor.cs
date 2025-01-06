@@ -11,6 +11,7 @@ public partial class ForgetDeb : ComponentBase
     [Parameter] public int TariffId { get; set; }
     [Inject] public Notificator Notificator { get; set; } = null!;
     [Inject] public CollectTariffController Controller { get; set; } = null!;
+    [Inject] public Navigator Navigator { get; set; } = null!;
     [Parameter] public EventCallback FinishTask { get; set; }
     private string AuthToken { get; set; } = null!;
 
@@ -25,8 +26,8 @@ public partial class ForgetDeb : ComponentBase
             if (response)
             {
                 await Notificator.ShowSuccess("Exito","Hemos debitados exitosamente la tarifa");
+                await Navigator.HideModal("ForgetDebtModal");
                 await FinishTask.InvokeAsync();
-                StateHasChanged();
                 return;
             }
             await Notificator.ShowError("Error", "No tubimos exito al debitar");

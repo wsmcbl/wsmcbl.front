@@ -124,7 +124,7 @@ public partial class TariffCollectionView : ComponentBase
     private async Task OpenDebtModal(int tariffId)
     {
         TariffIdForDeb = tariffId;
-        await Navigator.HideModal("ForgetDebtModal");
+        await Navigator.ShowModal("ForgetDebtModal");
     }
     
     

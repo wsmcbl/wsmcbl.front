@@ -70,8 +70,8 @@ public class CollectTariffController
     
     public async Task<bool> DebitTariff(DebDto dto)
     {
-        var resource = $"debts?studentId={dto.studentId}&tariffId={dto.tariffId}";
-        var response = await _apiConsumer.PutAsync(Modules.Secretary, resource, dto);
+        var resource = "debts";
+        var response = await _apiConsumer.PutAsync(Modules.Accounting, resource, dto);
         return response;
     }
     
