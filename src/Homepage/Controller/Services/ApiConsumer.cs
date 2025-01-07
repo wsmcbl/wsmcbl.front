@@ -1,4 +1,4 @@
-namespace wsmcbl.home.Controller.Services;
+namespace wsmcbl.homepage.Controller.Services;
 
 public class ApiConsumer
 {

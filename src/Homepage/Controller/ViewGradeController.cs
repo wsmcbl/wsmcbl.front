@@ -1,6 +1,6 @@
-using wsmcbl.home.Controller.Services;
+using wsmcbl.homepage.Controller.Services;
 
-namespace wsmcbl.home.Controller;
+namespace wsmcbl.homepage.Controller;
 
 public class ViewGradeController
 {

@@ -1,4 +1,5 @@
-namespace wsmcbl.src.Controller.Service;
+namespace wsmcbl.homepage.Controller.Services;
+
 public enum Modules
 {
     Secretary,

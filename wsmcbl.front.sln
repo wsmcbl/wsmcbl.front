@@ -2,11 +2,9 @@
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wsmcbl.homepage", "src\Homepage\wsmcbl.homepage.csproj", "{CDECEF51-B026-4117-A912-D67C10FF75A6}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wsmcbl.system", "src\System\wsmcbl.system.csproj", "{7F69A62F-BCF5-472D-843D-22D38214F8D7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wsmcbl.homepage", "src\Homepage\wsmcbl.homepage.csproj", "{D71DCFF2-F5A2-4D06-8DA9-2121F122E2E5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wsmcbl.home", "wsmcbl.home\wsmcbl.home.csproj", "{CDECEF51-B026-4117-A912-D67C10FF75A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,10 +16,6 @@ Global
 		{7F69A62F-BCF5-472D-843D-22D38214F8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F69A62F-BCF5-472D-843D-22D38214F8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F69A62F-BCF5-472D-843D-22D38214F8D7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D71DCFF2-F5A2-4D06-8DA9-2121F122E2E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D71DCFF2-F5A2-4D06-8DA9-2121F122E2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D71DCFF2-F5A2-4D06-8DA9-2121F122E2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D71DCFF2-F5A2-4D06-8DA9-2121F122E2E5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63064A26-C6AD-4040-A419-407C3D671817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63064A26-C6AD-4040-A419-407C3D671817}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63064A26-C6AD-4040-A419-407C3D671817}.Release|Any CPU.ActiveCfg = Release|Any CPU
