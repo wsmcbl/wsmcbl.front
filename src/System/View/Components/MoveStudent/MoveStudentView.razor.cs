@@ -64,12 +64,12 @@ public partial class MoveStudentView : ComponentBase
         var response = await ControllerEnrollment.UpdateEnrollmet(StudentId, NewEnrollment);
         if (response)
         {
-            await Notificator.ShowSuccess("Exito", "Hemos actualizado la matricula.");
+            await Notificator.ShowSuccess("Exito", "Hemos actualizado la matrícula.");
             LoadDegrees();
             StateHasChanged();
             return;
         }
         
-        await Notificator.ShowError("Error", "No pudimos actualizar la matricula.");
+        await Notificator.ShowError("Error", "Ocurrió un error al actualizar la matrícula.");
     }
 }
