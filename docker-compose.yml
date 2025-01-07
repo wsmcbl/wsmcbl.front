@@ -22,6 +22,8 @@ services:
       - '4002:8080'
     networks:
       - app-network
+    environment:
+      API: ${API}
 
 networks:
   app-network:

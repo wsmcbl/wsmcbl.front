@@ -1,4 +1,4 @@
-namespace wsmcbl.homepage.Controller.Services;
+namespace wsmcbl.src.Controller.Services;
 
 public class ApiConsumer
 {
@@ -22,6 +22,7 @@ public class ApiConsumer
         };
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
     }
+    
     private static Uri GetServerUri()
     {
         var api = Environment.GetEnvironmentVariable("API");
@@ -30,6 +31,7 @@ public class ApiConsumer
 
         return new Uri($"{api}/v4");
     }
+    
     protected virtual async Task<T> GenericHttpResponse<T>(Func<Task<T?>> httpRequest, T defaultResult,
         HttpResponseMessage response)
     {

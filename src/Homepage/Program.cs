@@ -1,7 +1,6 @@
-using wsmcbl.homepage.Components;
-using wsmcbl.homepage.Controller;
-using wsmcbl.homepage.Controller.Services;
 using wsmcbl.src.Components;
+using wsmcbl.src.Controller;
+using wsmcbl.src.Controller.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

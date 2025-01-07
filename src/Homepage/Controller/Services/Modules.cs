@@ -1,4 +1,4 @@
-namespace wsmcbl.homepage.Controller.Services;
+namespace wsmcbl.src.Controller.Services;
 
 public enum Modules
 {

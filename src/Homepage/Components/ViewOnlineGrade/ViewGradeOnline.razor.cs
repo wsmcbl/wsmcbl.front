@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using wsmcbl.homepage.Controller;
+using wsmcbl.src.Controller;
 
-namespace wsmcbl.homepage.Components.ViewOnlineGrade;
+namespace wsmcbl.src.Components.ViewOnlineGrade;
 
 public partial class ViewGradeOnline : ComponentBase
 {
