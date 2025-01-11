@@ -1,0 +1,78 @@
+<div class="modal fade" id="NewUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 85%; height: 30%; max-width: 90%; max-height: 50%;">>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold text-primary" id="myModalLabel">Nuevo Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <EditForm Model="@User" OnValidSubmit="SaveUser">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="firstName" class="label-required">Primer Nombre:</label>
+                                            <InputText id="firstName" @bind-Value="@User.name" class="form-control" placeholder="Sin asignar"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="secondN">Segundo Nombre:</label>
+                                            <InputText id="secondN" @bind-Value="@User.secondName" class="form-control"placeholder="Sin asignar"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="surname" class="label-required">Primer Apellido:</label>
+                                            <InputText id="surname" @bind-Value="@User.surname" class="form-control" placeholder="Sin asignar"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="secondS">Segundo Apellido:</label>
+                                            <InputText id="secondS" @bind-Value="@User.secondSurname" class="form-control" placeholder="Sin asignar"/>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        
+                                        <div class="form-group">
+                                            <h1>Permisos</h1>
+                                            @foreach (var item in PermissionsList)
+                                            {
+                                                <div class="checkbox-group">
+                                                    <label for="@item.permissionId">@item.name</label>
+                                                    <input type="checkbox" name="@item.name" id="@item.permissionId" @onchange="(e) => PermissionIsSelect(item.permissionId)">
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="right-container">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Crear</button>
+                        </div>
+                    </div>
+
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>

@@ -57,7 +57,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="modality" class="label-required">Modalidad:</label>
-                                            <select id="sexo" @onchange="OnModalityChanged" class="form-control">
+                                            <select id="modality" @onchange="OnModalityChanged" class="form-control">
                                                 @foreach (var item in modalitySelect)
                                                 {
                                                 <option value="@item.Id.ToString()">@item.Modality</option>

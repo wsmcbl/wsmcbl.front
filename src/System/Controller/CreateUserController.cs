@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.View.Components.CreateNewUser;
 using wsmcbl.src.View.Config.CreateUsers;
 
 namespace wsmcbl.src.Controller;
@@ -15,6 +16,13 @@ public class CreateUserController
     {
         var resource = "users"; 
         var defaultResult = new List<ListUserDto>();
+        return await _apiConsumer.GetAsync(Modules.Management, resource, defaultResult);
+    }
+    
+    public async Task<List<PermissionsDto>> GetPermissionList()
+    {
+        var resource = "permissions"; 
+        var defaultResult = new List<PermissionsDto>();
         return await _apiConsumer.GetAsync(Modules.Management, resource, defaultResult);
     }
     

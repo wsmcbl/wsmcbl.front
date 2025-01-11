@@ -1,4 +1,5 @@
 @page "/configuration/users"
+@using wsmcbl.src.View.Components.CreateNewUser
 @attribute [Authorize(Roles = "admin")]
 
 @if (IsLoad())
@@ -12,7 +13,7 @@ else
             <h6 class="m-0 font-weight-bold text-primary">Lista de usuarios del sistema</h6>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#NewStudentModal">
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#NewUserModal">
                     Nuevo Usuario
                 </button>
 
@@ -54,5 +55,6 @@ else
         </div>
     </div>
     
+    <CreateNewUserModal/>
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 }
