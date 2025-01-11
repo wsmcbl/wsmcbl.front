@@ -34,6 +34,7 @@ builder.Services.AddTransient<TransactionReportByDateController>();
 builder.Services.AddTransient<EditStudentController>();
 builder.Services.AddTransient<MoveTeacherGuideFromEnrollmentController>();
 builder.Services.AddTransient<AddStudentGradeController>();
+builder.Services.AddTransient<CreateUserController>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>

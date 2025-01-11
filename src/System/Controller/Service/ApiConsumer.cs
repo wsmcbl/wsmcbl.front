@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Config;
+using wsmcbl.src.View.Config.Authentication;
 
 namespace wsmcbl.src.Controller.Service;
 
@@ -26,6 +26,7 @@ public class ApiConsumer
             Modules.Secretary => "secretary",
             Modules.Accounting => "accounting",
             Modules.Config => "config",
+            Modules.Management => "management",
             _ => ""
         };
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");

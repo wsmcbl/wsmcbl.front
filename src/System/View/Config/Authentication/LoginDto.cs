@@ -1,4 +1,4 @@
-namespace wsmcbl.src.View.Config;
+namespace wsmcbl.src.View.Config.Authentication;
 
 public class LoginDto
 {

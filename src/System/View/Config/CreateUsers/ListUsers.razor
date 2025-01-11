@@ -1,0 +1,58 @@
+@page "/configuration/users"
+@attribute [Authorize(Roles = "admin")]
+
+@if (IsLoad())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de usuarios del sistema</h6>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#NewStudentModal">
+                    Nuevo Usuario
+                </button>
+
+                <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" @onclick="LoadUserList">Actualizar</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @foreach (var item in UserList!)
+                    {
+                        <tr>
+                            <td> @item.fullName </td>
+                            <td> @item.RoleName </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script defer src="js/DataTable/dataTableOrderByName.js"></script>
+}
