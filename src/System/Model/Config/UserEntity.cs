@@ -10,7 +10,7 @@ public class UserEntity
     public string userName { get; set; } = null!;
     public string password { get; set; } = null!;
     public string email { get; set; } = null!;
-    public bool state { get; set; }
+    public bool isActive { get; set; }
     public int roleId { get; set; }
     
     public string Fullname => $"{name} {secondName} {surName} {secondSurname}";

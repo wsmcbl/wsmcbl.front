@@ -6,5 +6,4 @@ public enum Role
     Secretario = 2,
     Cajero = 3,
     Profesor = 4
-    
 }

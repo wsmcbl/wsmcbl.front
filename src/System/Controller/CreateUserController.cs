@@ -1,4 +1,6 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Model.Config;
+using wsmcbl.src.View.Base;
 using wsmcbl.src.View.Components.CreateNewUser;
 using wsmcbl.src.View.Config.CreateUsers;
 
@@ -25,5 +27,20 @@ public class CreateUserController
         var defaultResult = new List<PermissionsDto>();
         return await _apiConsumer.GetAsync(Modules.Management, resource, defaultResult);
     }
+    
+    public async Task<List<string>> GetNextclodGroups()
+    {
+        var resource = "nextcloud/groups"; 
+        var defaultResult = new List<string>();
+        return await _apiConsumer.GetAsync(Modules.Management, resource, defaultResult);
+    }
+
+    public async Task<UserEntity> CreateNewUser(CreateUserDto userdata)
+    {
+        var resource = "users";
+        var defaultResult = new UserEntity();
+        return await _apiConsumer.PostAsync(Modules.Management, resource, userdata, defaultResult);
+    }
+    
     
 }

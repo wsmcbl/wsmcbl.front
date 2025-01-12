@@ -55,6 +55,7 @@ else
         </div>
     </div>
     
-    <CreateNewUserModal/>
+    <CreateNewUserModal UserEntity="@User" OnUserUpdated="HandleUserUpdated"/>
+    <UserInformationModal UserInfo="@User"/>
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 }

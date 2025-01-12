@@ -1,6 +1,17 @@
+
+
 <div class="modal fade" id="NewUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width: 85%; height: 30%; max-width: 90%; max-height: 50%;">>
         <div class="modal-content">
+
+            @if (isLoading)
+            {
+                <div class="modal-overlay">
+                    <div class="WaitingMakeUser"></div>
+                    <div class="loader-text">Cargando, por favor espere...</div>
+                </div>
+            }
+            
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold text-primary" id="myModalLabel">Nuevo Usuario</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -36,7 +47,7 @@
                                             <label for="secondS">Segundo Apellido:</label>
                                             <InputText id="secondS" @bind-Value="@User.secondSurname" class="form-control" placeholder="Sin asignar"/>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -45,16 +56,61 @@
                         <div class="col-sm-6">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col">
-                                        
+                                    <div class="col-sm-6">
+
                                         <div class="form-group">
-                                            <h1>Permisos</h1>
+                                            <h6 class="label-required"> Permisos</h6>
                                             @foreach (var item in PermissionsList)
                                             {
-                                                <div class="checkbox-group">
+                                                <div class="checkbox-wrapper-14">
+                                                    <input id="@item.permissionId" type="checkbox" class="switch"
+                                                           @onchange="(e) => PermissionIsSelect(item.permissionId)">
                                                     <label for="@item.permissionId">@item.name</label>
-                                                    <input type="checkbox" name="@item.name" id="@item.permissionId" @onchange="(e) => PermissionIsSelect(item.permissionId)">
                                                 </div>
+                                            }
+                                        </div>
+
+                                        <div class="form-group">
+                                            <h6 class="label-required">Rol en el sistema</h6>
+
+                                            <div class="checkbox-wrapper-14">
+                                                <input type="checkbox" id="adminRol"
+                                                       checked="@((User.roleId == 1))"
+                                                       @onchange="() => User.roleId = 1"/>
+                                                <label for="adminRol">Administrador</label>
+                                            </div>
+                                            <div class="checkbox-wrapper-14">
+                                                <input type="checkbox" id="SecretaryRol"
+                                                       checked="@((User.roleId == 2))"
+                                                       @onchange="() => User.roleId = 2"/>
+                                                <label for="SecretaryRol">Secretario</label>
+                                            </div>
+                                            <div class="checkbox-wrapper-14">
+                                                <input type="checkbox" id="CashierRol"
+                                                       checked="@((User.roleId == 3))"
+                                                       @onchange="() => User.roleId = 3"/>
+                                                <label for="CashierRol">Cajero</label>
+                                            </div>
+                                            <div class="checkbox-wrapper-14">
+                                                <input type="checkbox" id="TeacherRol"
+                                                       checked="@((User.roleId == 4))"
+                                                       @onchange="() => User.roleId = 4"/>
+                                                <label for="TeacherRol">Profesor</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <h6 class="label-required"> Grupo en Nextcloud</h6>
+                                            @foreach (var item in NextcloudGroup)
+                                            {
+                                                <div class="checkbox-wrapper-14">
+                                                    <input type="checkbox" id="@item" value="@item"
+                                                           checked="@((User.nextCloudGroup == item))"
+                                                           @onchange="() => User.nextCloudGroup = item"/>
+
+                                                    <label for="@item">@item</label>
+                                                </div>
+
                                             }
                                         </div>
 
@@ -62,6 +118,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="modal-footer">
