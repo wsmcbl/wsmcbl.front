@@ -30,7 +30,7 @@ public partial class ViewGradeOnline : ComponentBase
                 403 => "No tiene permisos para hacer esta consulta.",
                 404 => "El estudiante no fue encontrado.",
                 409 => "El estudiante no esta solvente.",
-                500 => "Error del servidor. Inténtelo nuevamente más tarde.",
+                500 => "Inténtelo nuevamente más tarde.",
                 _ => "Ocurrió un error inesperado. Código: " + statusCode
             };
             
