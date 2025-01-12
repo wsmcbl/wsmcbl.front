@@ -17,7 +17,7 @@ public class CreateUserDto
             return false;
         }
 
-        if (permissionList.Count <= 0 || roleId == 0)
+        if (roleId == 0)
         {
             return false;
         }

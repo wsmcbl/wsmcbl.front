@@ -25,9 +25,10 @@ public partial class ListUsers : ComponentBase
         UserList = await Controller.GetUserList();
     }
     
-    private void HandleUserUpdated(UserEntity updatedUser)
+    private async Task HandleUserUpdated(UserEntity updatedUser)
     {
         User = updatedUser;
+        await LoadUserList();
     }
     
 }

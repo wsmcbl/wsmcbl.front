@@ -36,7 +36,7 @@ public partial class CreateNewUserModal : ComponentBase
     {
         if (!User.IsDataValid())
         {
-            await Notificator.ShowInformation("Advertencia", "Todos los campos con  son obligatorios");
+            await Notificator.ShowInformation("Advertencia", "Todos los campos con * son obligatorios");
             return;
         }
         

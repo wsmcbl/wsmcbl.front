@@ -31,22 +31,44 @@ else
                 <table id="dataTable" class="table table-bordered">
                     <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Nombre</th>
                         <th>Rol</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
+                        <th>Id</th>
                         <th>Nombre</th>
                         <th>Rol</th>
+                        <th>Acciones</th>
                     </tr>
                     </tfoot>
                     <tbody>
                     @foreach (var item in UserList!)
                     {
                         <tr>
+                            <td> @item.userId </td>
                             <td> @item.fullName </td>
                             <td> @item.RoleName </td>
+                            <td>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                         aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header">Seleccione una opción:</div>
+                                        <a class="dropdown-item" href="#">Ver perfil (Proximamente)</a>
+                                        <a class="dropdown-item" href="#">Desactivar (Proximamente)</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Cambiar Contraseña (Proximamente)</a>
+                                    </div>
+                                </div>
+                             </td>
                         </tr>
                     }
                     </tbody>
