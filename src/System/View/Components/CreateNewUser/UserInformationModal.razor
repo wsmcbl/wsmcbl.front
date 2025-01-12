@@ -21,13 +21,17 @@
                     <p><strong>Contraseña:</strong> @(UserInfo != null ? UserInfo.password : "Sin dato")</p> 
                 </div>
                 
-                <div class="modal-footer">
-                    <div class="right-container">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-outline-primary" onclick="imprimirContenido()">Imprimir</button>
                 </div>
-                
             </div>
         </div>
     </div>
+    <script defer src="js/UserInformationModal.js"></script>
 </div>
+
+
