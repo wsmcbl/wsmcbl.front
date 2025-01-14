@@ -1,5 +1,5 @@
 @page "/grade/{EnrollmentId}"
-@attribute [Authorize(Roles = "admin")]
+@attribute [Authorize(Roles = "admin,teacher")]
 
 @if (partialsList != null)
 {

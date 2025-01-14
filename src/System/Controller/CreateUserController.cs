@@ -18,28 +18,28 @@ public class CreateUserController
     {
         var resource = "users"; 
         var defaultResult = new List<ListUserDto>();
-        return await _apiConsumer.GetAsync(Modules.Management, resource, defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Config, resource, defaultResult);
     }
     
     public async Task<List<PermissionsDto>> GetPermissionList()
     {
         var resource = "permissions"; 
         var defaultResult = new List<PermissionsDto>();
-        return await _apiConsumer.GetAsync(Modules.Management, resource, defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Config, resource, defaultResult);
     }
     
     public async Task<List<string>> GetNextclodGroups()
     {
         var resource = "nextcloud/groups"; 
         var defaultResult = new List<string>();
-        return await _apiConsumer.GetAsync(Modules.Management, resource, defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Config, resource, defaultResult);
     }
 
     public async Task<UserEntity> CreateNewUser(CreateUserDto userdata)
     {
         var resource = "users";
         var defaultResult = new UserEntity();
-        return await _apiConsumer.PostAsync(Modules.Management, resource, userdata, defaultResult);
+        return await _apiConsumer.PostAsync(Modules.Config, resource, userdata, defaultResult);
     }
     
     
