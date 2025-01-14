@@ -7,11 +7,12 @@ namespace wsmcbl.src.View.Base;
 public partial class TopNavBar : ComponentBase
 {
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
+    [Inject] private JwtClaimsService JwtClaimsService { get; set; } = null!;
     [Inject] private Navigator? Navigator { get; set; }
     [Inject] private ApiConsumer? Consumer { get; set; }
     protected UserDto? User { get; set; }
-    
-    public async Task LogOut()
+
+    private async Task LogOut()
     {
         await AuthStateProvider!.MarkUserAsLoggedOut();
         await Navigator!.HideModal("logoutModal");
@@ -25,7 +26,8 @@ public partial class TopNavBar : ComponentBase
 
     private async Task<UserDto> GetUser()
     {
-        return await Consumer!.GetAsync(Modules.Config, "/users", new UserDto());
+        var userId = await JwtClaimsService.GetClaimAsync("nameid");
+        return await Consumer!.GetAsync(Modules.Config, $"/users/{userId}", new UserDto());
     }
 
     
