@@ -14,4 +14,9 @@ public class UserEntity
     public string email { get; set; } = null!;
     
     public string getFullName() => $"{name} {secondName} {surName} {secondSurname}";
+
+    public string getAlias()
+    {
+        return $"{name} {surName}";
+    }
 }
