@@ -16,7 +16,7 @@ public partial class AddGradeView : BaseView
     private string TeacherId { get; set; } = null!;
     private string? TeacherName { get; set; } = string.Empty;
     [Parameter] public string EnrollmentId { get; set; } = null!;
-    public string enrollmentLabel { get; set; } = null!;
+    private string enrollmentLabel { get; set; } = null!;
 
     private List<PartialEntity>? partialsList { get; set; }
     private List<SubjectEntity>? subjectList { get; set; }
@@ -46,8 +46,9 @@ public partial class AddGradeView : BaseView
 
     private async Task GetFullInfoEnrollment()
     {
-        var result = await controller.GetFullEnrollment(getTeacherEnrollmentByPartialDto());
+        var result = await controller.GetFullEnrollment(getRequestDto());
 
+        enrollmentLabel = result.label;
         subjectList = result.subjectList;
         studentList = result.studentList;
     }
@@ -72,7 +73,7 @@ public partial class AddGradeView : BaseView
             gradeList.AddRange(student.gradeList);
         }
 
-        var response = await controller.UpdateGrade(getTeacherEnrollmentByPartialDto(), gradeList);
+        var response = await controller.UpdateGrade(getRequestDto(), gradeList);
         if (response)
         {
             await Notificator.ShowSuccess("Éxito", "Hemos guardado las calificaciones correctamente.");
@@ -82,7 +83,7 @@ public partial class AddGradeView : BaseView
         await Notificator.ShowError("Error", "Tuvimos problemas al guardar las calificaciones.");
     }
 
-    private TeacherEnrollmentByPartialDto getTeacherEnrollmentByPartialDto()
+    private TeacherEnrollmentByPartialDto getRequestDto()
     {
         return new TeacherEnrollmentByPartialDto
         {

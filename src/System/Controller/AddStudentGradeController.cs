@@ -28,14 +28,14 @@ public class AddStudentGradeController
         return await _apiConsumer.GetAsync(Modules.Academy,"partials", defaultResult);
     }
     
-    public async Task<(List<StudentEntity> studentList, List<SubjectEntity> subjectList)> GetFullEnrollment(TeacherEnrollmentByPartialDto dto)
+    public async Task<FullInformationOfEnrollmentDto> GetFullEnrollment(TeacherEnrollmentByPartialDto dto)
     {
         var defaultResult = new FullInformationOfEnrollmentDto();
         var result = await _apiConsumer.GetAsync(Modules.Academy, "enrollments", dto, defaultResult);
 
         result.updateStudentGradeList();
-        
-        return (result.studentList, result.subjectList);
+
+        return result;
     }
 
     public async Task<bool> UpdateGrade(TeacherEnrollmentByPartialDto teacherEnrollment, List<GradeEntity> gradeList)
