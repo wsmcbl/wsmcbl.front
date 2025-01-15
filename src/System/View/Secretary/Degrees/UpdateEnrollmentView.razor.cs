@@ -9,7 +9,7 @@ namespace wsmcbl.src.View.Secretary.Degrees;
 public partial class UpdateEnrollmentView : BaseView
 {
     [Parameter] public string EnrollmentNumber { get; set; } = null!;
-    [Parameter] public string GradeId { get; set; } = null!;
+    [Parameter] public string degreeId { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected UpdateOfficialEnrollmentController? Controller { get; set; }
@@ -36,7 +36,7 @@ public partial class UpdateEnrollmentView : BaseView
 
     protected async Task LoadDegree()
     {
-        DegreeEntity = await Controller!.GetConfigureEnrollment(GradeId);
+        DegreeEntity = await Controller!.GetConfigureEnrollment(degreeId);
     }
 
     protected string GetSemesterLabel(int semester)
