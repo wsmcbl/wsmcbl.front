@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
@@ -11,6 +10,7 @@ public class ListGrades : ComponentBase
     [Parameter] public int SectionsNumber { get; set; }
     [Parameter] public string? GradeId { get; set; }
     [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
+    [Inject] protected CreateEnrollmentController? createController { get; set; }
     [Inject] protected Notificator? Notificator { get; set; }
     [Inject] protected Navigator Navigator { get; set; } = null!;
 
@@ -20,7 +20,7 @@ public class ListGrades : ComponentBase
     {
         try
         {
-            DegreesList = await Controller!.GetDegreeList();
+            DegreesList = await createController!.GetDegreeList();
         }
         catch (Exception e)
         {
@@ -41,7 +41,7 @@ public class ListGrades : ComponentBase
         Navigator.ToPage($"/secretary/grades/configuration/{gradeId}/1");
     }
     
-    protected async Task CreateTabs(string GradeId, int numberOfTabs)
+    protected async Task CreateTabs(string gradeId, int numberOfTabs)
     {
         if (numberOfTabs is < 1 or >= 7)
         {
@@ -50,14 +50,13 @@ public class ListGrades : ComponentBase
         }
         
         EnrollmentEntity Default = new();
-        var response = await Controller!.CreateEnrollments(GradeId, numberOfTabs, Default);
-            
+        var response = await createController!.CreateEnrollments(gradeId, numberOfTabs, Default);
         if (response == Default)
         {
             return;
         }
 
         await Navigator.HideModal("confGrade");
-        Navigator.ToPage($"/secretary/grades/configuration/{GradeId}/{SectionsNumber}");
+        Navigator.ToPage($"/secretary/grades/configuration/{gradeId}/{SectionsNumber}");
     }
 }

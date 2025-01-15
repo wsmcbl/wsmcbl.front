@@ -64,12 +64,6 @@ public class CreateOfficialEnrollmentController
         return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
     }
 
-    public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity, EnrollmentEntity Default)
-    {
-        var route = $"degrees/{degreeId}/enrollments?quantity={quantity}";
-        return await _apiConsumer.PostAsync<object, EnrollmentEntity>(Modules.Secretary, route, null, Default);
-    }
-
     public async Task<DegreeEntity> GetConfigureEnrollment(string GradeId)
     {
         var resource = $"degrees/{GradeId}";
@@ -81,13 +75,7 @@ public class CreateOfficialEnrollmentController
 
         return result.toEntity();
     }
-
-    public async Task<List<DegreeEntity>> GetDegreeList()
-    {
-        List<DegreeEntity> Default = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, "degrees", Default);
-    }
-
+    
     public async Task<List<DropdownList>> GetTypeTariffList()
     {
         var resource = "tariffs/types";
