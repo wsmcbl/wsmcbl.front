@@ -6,7 +6,7 @@ using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
-public class ConfigureGrade : BaseView
+public partial class UpdateEnrollmentView : BaseView
 {
     [Parameter] public string EnrollmentNumber { get; set; } = null!;
     [Parameter] public string GradeId { get; set; } = null!;
