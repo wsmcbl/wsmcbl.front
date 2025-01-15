@@ -1,9 +1,14 @@
-@page "/grade"
-@attribute [Authorize(Roles = "admin")]
+@page "/grades"
+@attribute [Authorize(Roles = "admin,teacher")]
+@inherits BaseView;
 
-@if (User != null)
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
 { 
-    <h3 style="text-align: center;" class="m-4">Bienvenido @User.getName(), @TeacherId</h3>
+    <h3 style="text-align: center;" class="m-4">Bienvenido @User!.getName(), @TeacherId</h3>
 
     <div class="row">
         @foreach (var item in EnrollmentList)
@@ -28,10 +33,6 @@
             </div>
         }
     </div>
-}
-else
-{
-    <div class="loader"></div>
 }
 
 

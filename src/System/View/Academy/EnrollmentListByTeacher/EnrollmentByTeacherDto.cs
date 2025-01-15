@@ -1,4 +1,4 @@
-namespace wsmcbl.src.View.Academy.ListOfEnrollmentByTeacher;
+namespace wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 
 public class EnrollmentByTeacherDto
 {

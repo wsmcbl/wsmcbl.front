@@ -1,15 +1,14 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 
-namespace wsmcbl.src.View.Academy.ListOfEnrollmentByTeacher;
+namespace wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 
-public partial class ListOfEnrollments : ComponentBase
+public partial class EnrollmentListView : BaseView
 { 
-    [Inject] private ApiConsumer? Consumer { get; set; }
+    [Inject] private ApiConsumer? _apiConsumer { get; set; }
     [Inject] private AddStudentGradeController Controller { get; set; } = null!;
     [Inject] private JwtClaimsService ClaimsService { get; set; } = null!;
     private UserDto? User { get; set; }
@@ -25,11 +24,16 @@ public partial class ListOfEnrollments : ComponentBase
 
     private async Task<UserDto> GetUser()
     {
-        return await Consumer!.GetAsync(Modules.Config, "/users", new UserDto());
+        return await _apiConsumer!.GetAsync(Modules.Config, "/users", new UserDto());
     }
 
     private async Task GetEnrollments()
     {
         EnrollmentList = await Controller.GetEnrollmentByTeacherId(TeacherId);
+    }
+
+    protected override bool IsLoading()
+    {
+        return User == null;
     }
 }

@@ -1,7 +1,7 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Academy.AddGrade;
-using wsmcbl.src.View.Academy.ListOfEnrollmentByTeacher;
+using wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 
 namespace wsmcbl.src.Controller;
 
