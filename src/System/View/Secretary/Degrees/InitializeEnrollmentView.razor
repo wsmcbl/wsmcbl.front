@@ -1,0 +1,13 @@
+@page "/secretary/degrees/{degreeId}/enrollments/{EnrollmentNumber}"
+
+@attribute [Authorize(Roles = "admin,secretary")]
+
+@if (IsLoad())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="loader"></div>
+}
+
