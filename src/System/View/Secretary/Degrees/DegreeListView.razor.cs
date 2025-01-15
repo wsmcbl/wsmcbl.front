@@ -9,18 +9,18 @@ namespace wsmcbl.src.View.Secretary.Degrees;
 public partial class DegreeListView : BaseView
 {
     [Parameter] public int SectionsNumber { get; set; }
-    [Parameter] public string? GradeId { get; set; }
+    [Parameter] public string? degreeId { get; set; }
     [Inject] protected CreateEnrollmentController? createController { get; set; }
     [Inject] protected Notificator? Notificator { get; set; }
     [Inject] protected Navigator Navigator { get; set; } = null!;
 
-    protected List<DegreeEntity>? DegreesList { get; set; }
+    protected List<DegreeEntity>? DegreeList { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
-            DegreesList = await createController!.GetDegreeList();
+            DegreeList = await createController!.GetDegreeList();
         }
         catch (Exception e)
         {
@@ -29,39 +29,40 @@ public partial class DegreeListView : BaseView
         
     }
     
-    protected async Task OpenModal(string gradeId)
+    protected async Task OpenModal(string value)
     {
-        GradeId = gradeId;
+        degreeId = value;
         await Navigator.ShowModal("confGrade");
     }
     
-    protected void ViewGrade(string gradeId)
+    protected void ViewGrade(string value)
     {
-        GradeId = gradeId;
-        Navigator.ToPage($"/secretary/grades/configuration/{gradeId}/1");
+        degreeId = value;
+        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments");
     }
     
-    protected async Task CreateTabs(string gradeId, int numberOfTabs)
+    protected async Task CreateTabs(string value, int quantity)
     {
-        if (numberOfTabs is < 1 or >= 7)
+        if (quantity is < 1 or >= 7)
         {
-            await Notificator!.ShowWarning("Advertencia", "El número máximo de secciones es 7");
+            await Notificator!.ShowWarning("Advertencia", "El número máximo de secciones es 7.");
             return;
         }
-        
-        EnrollmentEntity Default = new();
-        var response = await createController!.CreateEnrollments(gradeId, numberOfTabs, Default);
-        if (response == Default)
+
+        degreeId = value;
+        EnrollmentEntity defaultValue = new();
+        var response = await createController!.CreateEnrollments(degreeId, quantity, defaultValue);
+        if (response == defaultValue)
         {
             return;
         }
 
         await Navigator.HideModal("confGrade");
-        Navigator.ToPage($"/secretary/grades/configuration/{gradeId}/{SectionsNumber}");
+        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments/{SectionsNumber}");
     }
 
     protected override bool IsLoad()
     {
-        return DegreesList == null;
+        return DegreeList == null;
     }
 }

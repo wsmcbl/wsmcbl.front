@@ -34,7 +34,7 @@ else
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in DegreesList!.OrderBy(t => t.position))
+                    @foreach (var item in DegreeList!.OrderBy(t => t.position))
                     {
                         <tr>
                             @{Console.WriteLine(item.position);}
@@ -86,7 +86,7 @@ else
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" @onclick="() => CreateTabs(GradeId!, SectionsNumber)">Continuar</button>
+                    <button type="button" class="btn btn-danger" @onclick="() => CreateTabs(degreeId!, SectionsNumber)">Continuar</button>
                 </div>
             </div>
         </div>
