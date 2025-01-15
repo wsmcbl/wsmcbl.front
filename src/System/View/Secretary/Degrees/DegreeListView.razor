@@ -1,8 +1,12 @@
-@page "/secretary/grades"
-@attribute [Authorize(Roles = "admin")]
-@inherits ListGrades;
+@page "/secretary/degrees"
+@attribute [Authorize(Roles = "admin,secretary")]
+@inherits BaseView;
 
-@if (DegreesList != null)
+@if (IsLoad())
+{
+    <div class="loader"></div>
+}
+else
 {
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -30,7 +34,7 @@
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in DegreesList.OrderBy(t => t.position))
+                    @foreach (var item in DegreesList!.OrderBy(t => t.position))
                     {
                         <tr>
                             @{Console.WriteLine(item.position);}
@@ -87,8 +91,4 @@
             </div>
         </div>
     </div>
-}
-else
-{
-    <div class="loader"></div>
 }

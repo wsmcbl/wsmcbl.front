@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
-public class ListGrades : ComponentBase
+public partial class DegreeListView : BaseView
 {
     [Parameter] public int SectionsNumber { get; set; }
     [Parameter] public string? GradeId { get; set; }
@@ -57,5 +58,10 @@ public class ListGrades : ComponentBase
 
         await Navigator.HideModal("confGrade");
         Navigator.ToPage($"/secretary/grades/configuration/{gradeId}/{SectionsNumber}");
+    }
+
+    protected override bool IsLoad()
+    {
+        return DegreesList == null;
     }
 }
