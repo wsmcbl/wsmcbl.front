@@ -1,4 +1,4 @@
-@page "/grades"
+@page "/enrollments"
 @attribute [Authorize(Roles = "admin,teacher")]
 @inherits BaseView;
 
@@ -8,7 +8,7 @@
 }
 else
 { 
-    <h3 style="text-align: center;" class="m-4">Bienvenido @user!.getFullName(), @TeacherId</h3>
+    <h3 style="text-align: center;" class="m-4">Bienvenido @user!.getFullName()</h3>
 
     <div class="row">
         @foreach (var item in EnrollmentList)
@@ -22,7 +22,7 @@ else
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">@item.enrollmentLabel</div>
                                 </div>
                                 <div class="col-auto">
-                                    <a class="btn btn-outline-danger" href="/grade/@item.enrollmentId?TeacherId=@item.teacherId&DegreeName=@item.enrollmentLabel">
+                                    <a class="btn btn-outline-danger" href="/enrollments/@item.enrollmentId/grades">
                                         Calificar
                                     </a>
                                 </div>

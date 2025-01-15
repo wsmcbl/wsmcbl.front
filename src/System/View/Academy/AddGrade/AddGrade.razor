@@ -1,7 +1,11 @@
-@page "/grade/{EnrollmentId}"
+@page "/enrollments/{EnrollmentId}/grades"
 @attribute [Authorize(Roles = "admin,teacher")]
 
-@if (partialsList != null)
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
 {
     //Información de la sección y del maestro
     <div class="card border-bottom-danger shadow h-100 py-2 mb-4">
@@ -109,8 +113,4 @@
         </div>
     }
     
-}
-else
-{
-    <div class="loader"></div>
 }
