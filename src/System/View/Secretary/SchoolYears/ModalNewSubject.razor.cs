@@ -9,7 +9,7 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 public partial class ModalNewSubject : ComponentBase
 {
     [Parameter] public SchoolYearEntity? SchoolYearEntity { get; set; }
-    [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
+    [Inject] protected UpdateOfficialEnrollmentController? Controller { get; set; }
     [Inject] protected Notificator? Notificator { get; set; }
     
     protected List<DropdownList> DropdownSemesterLists =

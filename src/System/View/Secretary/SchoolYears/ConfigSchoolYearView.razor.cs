@@ -10,7 +10,7 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public class ConfigSchoolYear : ComponentBase
 {
-    [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
+    [Inject] protected UpdateOfficialEnrollmentController? Controller { get; set; }
     [Inject] protected Notificator? Notificator { get; set; }
     protected SchoolYearEntity? SchoolYear;
     protected List<PartialListDto>? PartialListDto { get; set; }

@@ -27,7 +27,7 @@ builder.Services.AddScoped<ProtectedLocalStorage>();
 
 builder.Services.AddTransient<CollectTariffController>();
 builder.Services.AddTransient<EnrollStudentController>();
-builder.Services.AddTransient<CreateOfficialEnrollmentController>();
+builder.Services.AddTransient<UpdateOfficialEnrollmentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
 builder.Services.AddTransient<CreateStudentProfileController>();
 builder.Services.AddTransient<TransactionReportByDateController>();
@@ -35,6 +35,8 @@ builder.Services.AddTransient<EditStudentController>();
 builder.Services.AddTransient<MoveTeacherGuideFromEnrollmentController>();
 builder.Services.AddTransient<AddStudentGradeController>();
 builder.Services.AddTransient<CreateUserController>();
+
+builder.Services.AddTransient<CreateEnrollmentController>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>

@@ -9,7 +9,6 @@ public class ListGrades : ComponentBase
 {
     [Parameter] public int SectionsNumber { get; set; }
     [Parameter] public string? GradeId { get; set; }
-    [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
     [Inject] protected CreateEnrollmentController? createController { get; set; }
     [Inject] protected Notificator? Notificator { get; set; }
     [Inject] protected Navigator Navigator { get; set; } = null!;

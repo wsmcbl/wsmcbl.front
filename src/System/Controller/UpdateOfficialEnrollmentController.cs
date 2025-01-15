@@ -9,11 +9,11 @@ using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.Controller;
 
-public class CreateOfficialEnrollmentController
+public class UpdateOfficialEnrollmentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public CreateOfficialEnrollmentController(ApiConsumerWithNotificator apiConsumer)
+    public UpdateOfficialEnrollmentController(ApiConsumerWithNotificator apiConsumer)
     {
         _apiConsumer = apiConsumer;
     }

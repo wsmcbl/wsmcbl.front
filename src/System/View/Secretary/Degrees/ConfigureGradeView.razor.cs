@@ -12,7 +12,7 @@ public class ConfigureGrade : BaseView
     [Parameter] public string GradeId { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
-    [Inject] protected CreateOfficialEnrollmentController? Controller { get; set; }
+    [Inject] protected UpdateOfficialEnrollmentController? Controller { get; set; }
     protected string? TeacherFlags { get; set; } = "N/A";
     protected string? EnrollmentFlags { get; set; } = "N/A";
     protected string? SubjectFlags { get; set; } = "N/A";
