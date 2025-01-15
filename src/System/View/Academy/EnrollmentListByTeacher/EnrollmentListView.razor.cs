@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 
@@ -8,7 +7,7 @@ namespace wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 
 public partial class EnrollmentListView : BaseView
 { 
-    [Inject] private ApiConsumer? _apiConsumer { get; set; }
+    [Inject] private LoginController loginController { get; set; } = null!;
     [Inject] private AddStudentGradeController Controller { get; set; } = null!;
     [Inject] private JwtClaimsService ClaimsService { get; set; } = null!;
     private UserDto? User { get; set; }
@@ -17,14 +16,9 @@ public partial class EnrollmentListView : BaseView
     
     protected override async Task OnInitializedAsync()
     {
-        User = await GetUser();
+        var user = await loginController.getUserById();
         TeacherId = await ClaimsService.GetClaimAsync("roleid");
         await GetEnrollments();
-    }
-
-    private async Task<UserDto> GetUser()
-    {
-        return await _apiConsumer!.GetAsync(Modules.Config, "/users", new UserDto());
     }
 
     private async Task GetEnrollments()

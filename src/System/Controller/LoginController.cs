@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Model.Config;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Config.Authentication;
 
@@ -24,5 +25,16 @@ public class LoginController
         var result = await _apiConsumer.PostAsync(Modules.Config, "users/tokens", data, defaultDto);
         
         return result.token!;
+    }
+
+    public async Task<UserEntity> getUserById()
+    {
+        var userId = await _jwtClaimsService.GetClaimAsync("nameid");
+        if (userId == null)
+        {
+            throw new InternalException("User has not userId in jwt.");
+        }
+        
+        return await _apiConsumer.GetAsync(Modules.Config, $"/users/{userId}", new UserEntity());
     }
 }
