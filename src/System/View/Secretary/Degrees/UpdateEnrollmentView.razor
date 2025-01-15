@@ -1,7 +1,8 @@
-@page "/secretary/grades/configuration/{GradeId}/{EnrollmentNumber}"
+@page "/secretary/degrees/{degreeId}/enrollments/{EnrollmentNumber}"
 @attribute [Authorize(Roles = "admin")]
 @using wsmcbl.src.View.Components.MoveTeacherGuide
 @using wsmcbl.src.View.Components.UpdateTeacherOfSubject
+@inherits BaseView
 
 @if (IsLoad())
 {
