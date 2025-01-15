@@ -61,7 +61,7 @@ public partial class DegreeListView : BaseView
         Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments/{SectionsNumber}");
     }
 
-    protected override bool IsLoad()
+    protected override bool IsLoading()
     {
         return DegreeList == null;
     }

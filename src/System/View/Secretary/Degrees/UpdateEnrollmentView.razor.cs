@@ -119,7 +119,7 @@ public partial class UpdateEnrollmentView : BaseView
         }
     }
 
-    protected override bool IsLoad()
+    protected override bool IsLoading()
     {   
         return !(NumberEnrollment > 0 && DegreeEntity!.EnrollmentList != null && TeacherList!.Count != 0);
     }

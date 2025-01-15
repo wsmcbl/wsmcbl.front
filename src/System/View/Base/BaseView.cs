@@ -4,7 +4,7 @@ namespace wsmcbl.src.View.Base;
 
 public abstract class BaseView : ComponentBase
 {
-    protected virtual bool IsLoad()
+    protected virtual bool IsLoading()
     {
         return false;
     }

@@ -3,7 +3,7 @@
 @attribute [Authorize(Roles = "admin,secretary")]
 @inherits BaseView;
 
-@if (IsLoad())
+@if (IsLoading())
 {
     <div class="loader"></div>
 }
