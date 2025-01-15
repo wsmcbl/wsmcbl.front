@@ -38,10 +38,10 @@ public partial class DegreeListView : BaseView
     protected void ViewGrade(string value)
     {
         degreeId = value;
-        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments");
+        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments/{SectionsNumber}");
     }
     
-    protected async Task CreateTabs(string value, int quantity)
+    protected async Task CreateEnrollments(string value, int quantity)
     {
         if (quantity is < 1 or >= 7)
         {
@@ -50,15 +50,15 @@ public partial class DegreeListView : BaseView
         }
 
         degreeId = value;
-        EnrollmentEntity defaultValue = new();
-        var response = await createController!.CreateEnrollments(degreeId, quantity, defaultValue);
-        if (response == defaultValue)
+        
+        var response = await createController!.CreateEnrollments(degreeId, quantity);
+        if (response == null)
         {
             return;
         }
 
         await Navigator.HideModal("confGrade");
-        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments/{SectionsNumber}");
+        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments");
     }
 
     protected override bool IsLoading()

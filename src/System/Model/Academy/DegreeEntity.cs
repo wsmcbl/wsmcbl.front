@@ -11,4 +11,9 @@ public class DegreeEntity
     public string educationalLevel { get; set; } = null!;
     public List<EnrollmentEntity>? EnrollmentList { get; set; }
     public List<SubjectEntity>? SubjectList { get; set; }
+
+    public bool haveEnrollments()
+    {
+        return quantity < 1;
+    }
 }

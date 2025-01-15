@@ -12,10 +12,14 @@ public class CreateEnrollmentController
         _apiConsumer = apiConsumer;
     }
     
-    public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity, EnrollmentEntity Default)
+    public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity)
     {
         var route = $"degrees/{degreeId}/enrollments?quantity={quantity}";
-        return await _apiConsumer.PostAsync<object, EnrollmentEntity>(Modules.Secretary, route, null, Default);
+        
+        EnrollmentEntity defaultValue = new();
+        var result = await _apiConsumer.PostAsync<object, EnrollmentEntity>(Modules.Secretary, route, null, defaultValue);
+        
+        return result != defaultValue ? result : null;
     }
     
     public async Task<List<DegreeEntity>> GetDegreeList()

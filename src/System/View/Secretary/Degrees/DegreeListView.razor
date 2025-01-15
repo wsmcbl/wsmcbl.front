@@ -37,14 +37,12 @@ else
                     @foreach (var item in DegreeList!.OrderBy(t => t.position))
                     {
                         <tr>
-                            @{Console.WriteLine(item.position);}
-                            @{Console.WriteLine(item.label);}
                             <td> @item.degreeId </td>
                             <td> @item.label </td>
                             <td> @item.quantity</td>
                             <td> @item.educationalLevel</td>
                             <td>
-                                @if (item.quantity <= 0)
+                                @if (item.haveEnrollments())
                                 {
                                     <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.degreeId!)">
                                         Configurar
@@ -86,7 +84,7 @@ else
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" @onclick="() => CreateTabs(degreeId!, SectionsNumber)">Continuar</button>
+                    <button type="button" class="btn btn-danger" @onclick="() => CreateEnrollments(degreeId!, SectionsNumber)">Continuar</button>
                 </div>
             </div>
         </div>

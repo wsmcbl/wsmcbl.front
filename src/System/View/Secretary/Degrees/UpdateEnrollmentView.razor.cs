@@ -81,7 +81,7 @@ public partial class UpdateEnrollmentView : BaseView
         }
     }
 
-    private async Task<bool>  ValidateInformation()
+    private async Task<bool> ValidateInformation()
     {
         if (DegreeEntity!.EnrollmentList!.Any(entity => entity.Capacity < 10))
         {
