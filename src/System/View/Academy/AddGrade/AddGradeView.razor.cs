@@ -6,7 +6,7 @@ using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Academy.AddGrade;
 
-public partial class AddGrade : BaseView
+public partial class AddGradeView : BaseView
 {
     [Inject] private AddStudentGradeController controller { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
