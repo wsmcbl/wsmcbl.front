@@ -7,8 +7,8 @@ namespace wsmcbl.src.Controller;
 
 public class LoginController
 {
-    private ApiConsumerWithNotificator _apiConsumer;
-    private JwtClaimsService _jwtClaimsService;
+    private readonly ApiConsumerWithNotificator _apiConsumer;
+    private readonly JwtClaimsService _jwtClaimsService;
 
     public LoginController(ApiConsumerWithNotificator apiConsumer, JwtClaimsService jwtClaimsService)
     {
@@ -36,5 +36,16 @@ public class LoginController
         }
         
         return await _apiConsumer.GetAsync(Modules.Config, $"/users/{userId}", new UserEntity());
+    }
+
+    public async Task<string> getRoleIdFromToken()
+    {
+        var id =  await _jwtClaimsService.GetClaimAsync("roleid");
+        if (id == null)
+        {
+            throw new InternalException("User has not roleId in jwt.");
+        }
+
+        return id;
     }
 }
