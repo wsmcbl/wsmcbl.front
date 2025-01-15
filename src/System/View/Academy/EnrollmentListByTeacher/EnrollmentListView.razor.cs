@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Config;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 
@@ -10,13 +11,13 @@ public partial class EnrollmentListView : BaseView
     [Inject] private LoginController loginController { get; set; } = null!;
     [Inject] private AddStudentGradeController Controller { get; set; } = null!;
     [Inject] private JwtClaimsService ClaimsService { get; set; } = null!;
-    private UserDto? User { get; set; }
+    private UserEntity? user { get; set; }
     private List<EnrollmentByTeacherDto> EnrollmentList { get; set; } = new();
     private string? TeacherId = string.Empty;
     
     protected override async Task OnInitializedAsync()
     {
-        var user = await loginController.getUserById();
+        user = await loginController.getUserById();
         TeacherId = await ClaimsService.GetClaimAsync("roleid");
         await GetEnrollments();
     }
@@ -28,6 +29,6 @@ public partial class EnrollmentListView : BaseView
 
     protected override bool IsLoading()
     {
-        return User == null;
+        return user == null;
     }
 }
