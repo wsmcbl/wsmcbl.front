@@ -2,61 +2,53 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Academy.AddGrade;
 
-public partial class AddGrade : ComponentBase
+public partial class AddGrade : BaseView
 {
-    [Inject] private AddStudentGradeController GradeController { get; set; } = null!;
-    [Inject] private MoveTeacherGuideFromEnrollmentController TeacherController { get; set; } = null!;
+    [Inject] private AddStudentGradeController controller { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
-    [Parameter, SupplyParameterFromQuery] public string TeacherId { get; set; } = null!;
-    [Parameter, SupplyParameterFromQuery] public string? DegreeName { get; set; }
-    [Parameter] public string EnrollmentId { get; set; } = null!;
-    
-    private List<PartialEntity> partialsList = [];
-    private List<TeacherEntity> TeacherListAvailable = [];
-
-    private List<SubjectEntity>? subjectList { get; set; }
-    private List<StudentEntity>? studentList { get; set; } = [];
     
     private int currentPartial;
     private int ActiveTabId = 1;
     private string? TeacherName = string.Empty;
+    public string TeacherId { get; set; } = null!;
+    [Parameter] public string EnrollmentId { get; set; } = null!;
+    [Parameter, SupplyParameterFromQuery] public string? enrollmentName { get; set; }
+    
+    private List<PartialEntity>? partialsList { get; set; }
+    private List<SubjectEntity>? subjectList { get; set; }
+    private List<StudentEntity>? studentList { get; set; } = [];
 
 
     protected override async Task OnParametersSetAsync()
     {
         await GetPartials();
-        await GetTeachersAvailable();
-        GetNameOfTeacher();
+        await loadTeacherInformation();
         
-        var activePartial = partialsList.FirstOrDefault(t => t.isActive);
+        var activePartial = partialsList!.FirstOrDefault(t => t.isActive);
         currentPartial = activePartial?.partialId ?? 1;
         
         await GetFullInfoEnrollment();
         ActiveTabId = currentPartial;
     }
 
+    private async Task loadTeacherInformation()
+    {
+        TeacherId = await controller.getTeacherId();
+        TeacherName = await controller.getTeacherName(TeacherId);
+    }
+
     private async Task GetPartials()
     {
-        partialsList = await GradeController.GetPartialsList();
-    }
-    
-    private async Task GetTeachersAvailable()
-    {
-        TeacherListAvailable = await TeacherController.GetActiveTeachers();
-    }
-    
-    private void GetNameOfTeacher()
-    {
-        TeacherName = TeacherListAvailable.FirstOrDefault(t => t.teacherId == TeacherId)?.fullName;
+        partialsList = await controller.GetPartialsList();
     }
     
     private async Task GetFullInfoEnrollment()
     {
-        var result = await GradeController
-            .GetFullInformationOfEnrollment(getTeacherEnrollmentByPartialDto());
+        var result = await controller.GetFullEnrollment(getTeacherEnrollmentByPartialDto());
         
         subjectList = result.subjectList;
         studentList = result.studentList;
@@ -82,7 +74,7 @@ public partial class AddGrade : ComponentBase
             gradeList.AddRange(student.gradeList);
         }
 
-        var response = await GradeController.UpdateGrade(getTeacherEnrollmentByPartialDto(), gradeList);
+        var response = await controller.UpdateGrade(getTeacherEnrollmentByPartialDto(), gradeList);
         if (response)
         {
             await Notificator.ShowSuccess("Éxito", "Hemos guardado las calificaciones correctamente.");
@@ -100,5 +92,10 @@ public partial class AddGrade : ComponentBase
             enrollmentId = EnrollmentId,
             partialId = currentPartial
         };
+    }
+
+    protected override bool IsLoading()
+    {
+        return partialsList == null;
     }
 }
