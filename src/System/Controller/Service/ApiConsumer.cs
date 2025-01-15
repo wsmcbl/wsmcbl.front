@@ -92,14 +92,6 @@ public class ApiConsumer
         return await GenericHttpResponse(AlwaysTrue, false, response);
     }
 
-    public async Task<string> LoginAsync(LoginDto data)
-    {
-        var defaultDto = new LoginDto();
-        defaultDto.SetAsDefault();
-        var response = await PostAsync(Modules.Config, "users/tokens", data, defaultDto);
-        return response.token!;
-    }
-
     private async Task LoadToken()
     {
         var tokenResult = await _localStorage.GetAsync<string>(Utilities.Utilities.TokenKey);

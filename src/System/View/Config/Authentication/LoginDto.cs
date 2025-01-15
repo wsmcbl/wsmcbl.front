@@ -12,4 +12,14 @@ public class LoginDto
         email = string.Empty;
         password = string.Empty;
     }
+
+    public LoginDto()
+    {
+    }
+
+    public LoginDto(string email, string password)
+    {
+        this.email = email;
+        this.password = password;
+    }
 }
