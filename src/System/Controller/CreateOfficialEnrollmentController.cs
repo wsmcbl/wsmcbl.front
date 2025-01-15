@@ -66,8 +66,8 @@ public class CreateOfficialEnrollmentController
 
     public async Task<EnrollmentEntity?> CreateEnrollments(string degreeId, int quantity, EnrollmentEntity Default)
     {
-        var data = new PostDegreeDto { degreeId = degreeId, quantity = quantity };
-        return await _apiConsumer.PostAsync(Modules.Secretary, "degrees/enrollments", data, Default);
+        var route = $"degrees/{degreeId}/enrollments?quantity={quantity}";
+        return await _apiConsumer.PostAsync<object, EnrollmentEntity>(Modules.Secretary, route, null, Default);
     }
 
     public async Task<DegreeEntity> GetConfigureEnrollment(string GradeId)

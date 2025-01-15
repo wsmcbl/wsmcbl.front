@@ -1,4 +1,6 @@
 using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Config.Authentication;
@@ -60,10 +62,19 @@ public class ApiConsumer
         return await GenericHttpResponse(() => response.Content.ReadAsByteArrayAsync()!, [], response);
     }
 
-    public async Task<R> PostAsync<T, R>(Modules modules, string resource, T data, R defaultResult)
+    public async Task<R> PostAsync<T, R>(Modules modules, string resource, T? data, R defaultResult)
     {
         await LoadToken();
-        var response = await _httpClient.PostAsJsonAsync(BuildUri(modules, resource), data);
+
+        StringContent? content = null;
+        if (data != null)
+        {
+            var json = JsonSerializer.Serialize(data);
+            content = new StringContent(json, Encoding.UTF8, "application/json");
+        }
+        
+        var response = await _httpClient.PostAsync(BuildUri(modules, resource), content);
+        
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<R>(), defaultResult, response);
     }
 

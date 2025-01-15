@@ -50,7 +50,7 @@ public class ListGrades : ComponentBase
         }
         
         EnrollmentEntity Default = new();
-        var response = await Controller!.CreateEnrollments(GradeId!, numberOfTabs, Default);
+        var response = await Controller!.CreateEnrollments(GradeId, numberOfTabs, Default);
             
         if (response == Default)
         {
