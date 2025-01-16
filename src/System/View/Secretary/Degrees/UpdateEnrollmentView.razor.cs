@@ -13,17 +13,17 @@ public partial class UpdateEnrollmentView : BaseView
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected UpdateOfficialEnrollmentController Controller { get; set; } = null!;
-    protected string? TeacherFlags { get; set; } = "N/A";
-    protected string? EnrollmentFlags { get; set; } = "N/A";
-    protected string? SubjectFlags { get; set; } = "N/A";
-    protected string? SubjectChangeName { get; set; } = "N/A";
 
-    protected int NumberEnrollment;
-    protected int Counter;
-    protected int Counter2;
-    
-    private List<EnrollmentEntity> enrollmentList { get; set; } = null!;
-    private List<TeacherEntity> teacherList { get; set; } = null!;
+    private string? TeacherFlags { get; set; } = "N/A";
+    private string? EnrollmentFlags { get; set; } = "N/A";
+    private string? SubjectFlags { get; set; } = "N/A";
+    private string? SubjectChangeName { get; set; } = "N/A";
+
+    private int Counter { get; set; }
+    private int Counter2{ get; set; }
+
+    private List<EnrollmentEntity> enrollmentList { get; set; } = [];
+    private List<TeacherEntity> teacherList { get; set; } = [];
     private List<SubjectEntity> subjectList { get; set; } = null!;
 
     
@@ -43,7 +43,7 @@ public partial class UpdateEnrollmentView : BaseView
         teacherList = await Controller.GetTeacherList();
     }
 
-    protected string GetSemesterLabel(int semester)
+    private string GetSemesterLabel(int semester)
     {
         return semester switch
         {
@@ -60,7 +60,7 @@ public partial class UpdateEnrollmentView : BaseView
         await Navigator.ShowModal("EditTeacherGuideModal"); 
     }
 
-    protected async Task UpdateTeacher(string subjectId, string subjectName, string enrollmentId)
+    private async Task UpdateTeacher(string subjectId, string subjectName, string enrollmentId)
     {
         SubjectFlags = subjectId;
         EnrollmentFlags = enrollmentId;
@@ -91,13 +91,13 @@ public partial class UpdateEnrollmentView : BaseView
     }
 
 
-    protected void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
+    private void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
     { 
    
     }
 
     protected override bool IsLoading()
     {   
-        return !(enrollmentList.Count != 0 && teacherList.Count != 0);
+        return enrollmentList.Count == 0 || teacherList.Count == 0;
     }
 }
