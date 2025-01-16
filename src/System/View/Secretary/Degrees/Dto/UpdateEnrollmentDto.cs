@@ -6,4 +6,9 @@ public class UpdateEnrollmentDto
 {
     public List<EnrollmentEntity> enrollmentList { get; set; } = null!;
     public List<SubjectEntity> subjectList { get; set; } = null!;
+
+    public void setSubjectListInEnrollmentList()
+    {
+        
+    }
 }

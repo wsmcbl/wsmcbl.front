@@ -129,11 +129,11 @@ else
                                                     <td>@item.subjectId</td>
                                                     <td>@item.name</td>
                                                     <td>
-                                                        <span class="status-label @(item.IsMandatory ? "active-status" : "inactive-status")">
-                                                            @(item.IsMandatory ? "Si" : "No")
+                                                        <span class="status-label @(item.isMandatory ? "active-status" : "inactive-status")">
+                                                            @(item.isMandatory ? "Si" : "No")
                                                         </span>
                                                     </td>
-                                                    <td>@GetSemesterLabel(item.Semester)</td>
+                                                    <td>@GetSemesterLabel(item.semester)</td>
                                                     <td>
                                                         <select id="teacherForSubject" class="form-control" style="margin: 0" value="@item.subjectId"
                                                                 @onchange="(e) => OnTeacherChanged(enrollment, item, e.Value!.ToString()!)">
