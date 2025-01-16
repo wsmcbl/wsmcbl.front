@@ -23,7 +23,7 @@ public partial class UpdateEnrollmentView : BaseView
     protected int Counter2;
     protected List<TeacherEntity>? TeacherList;
     protected DegreeEntity DegreeEntity = null!; //validar que tenga Enrollments y que tenga la tupla
-    protected DataofGrade DataofGrade = new();
+    protected UpdateEnrollmentDto UpdateEnrollmentDto = new();
 
     
     protected override async Task OnParametersSetAsync()
@@ -38,14 +38,14 @@ public partial class UpdateEnrollmentView : BaseView
         DegreeEntity = await Controller!.GetConfigureEnrollment(degreeId);
         TeacherList = await Controller!.GetTeacherList();
         
-        DataofGrade = await Controller.GetDataOfGrade(degreeId);
+        UpdateEnrollmentDto = await Controller.GetDataOfGrade(degreeId);
         
         List<(SubjectEntity subject, TeacherEntity teacher)> subjectTeacherPairs = DegreeEntity.SubjectList!
             .Zip(TeacherList, (subject, teacher) => (subject, teacher))
             .ToList();
         
         
-        foreach (var enrollment in DataofGrade.EnrollmentList!)
+        foreach (var enrollment in UpdateEnrollmentDto.EnrollmentList!)
         {
             enrollment.SetSubjectTeacherList(subjectTeacherPairs);
         }

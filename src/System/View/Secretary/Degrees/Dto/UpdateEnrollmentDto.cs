@@ -2,7 +2,7 @@ using wsmcbl.src.Model.Academy;
 
 namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
-public class DataofGrade
+public class UpdateEnrollmentDto
 {
     public List<EnrollmentEntity>? EnrollmentList { get; set; }
     public List<TeacherEntity>? TeacherList { get; set; }

@@ -13,7 +13,7 @@ else
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in DataofGrade.EnrollmentList!)
+                @foreach (var item in UpdateEnrollmentDto.EnrollmentList!)
                 {
                     Counter++;
                     <li class="nav-item">
@@ -32,7 +32,7 @@ else
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
-                @foreach (var enrollment in DataofGrade.EnrollmentList)
+                @foreach (var enrollment in UpdateEnrollmentDto.EnrollmentList)
                 {
                     Counter2++;
                     <!-- Inicio datos de matricula -->
