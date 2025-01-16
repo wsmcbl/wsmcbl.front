@@ -9,6 +9,9 @@ public class UpdateEnrollmentDto
 
     public void setSubjectListInEnrollmentList()
     {
-        
+        foreach (var item in enrollmentList)
+        {
+            item.updateSubjectList(subjectList);
+        }
     }
 }

@@ -37,6 +37,8 @@ public partial class UpdateEnrollmentView : BaseView
     protected async Task LoadDegree()
     {
         var dto = await Controller.GetEnrollmentListByDegreeId(degreeId);
+        
+        dto.setSubjectListInEnrollmentList();
         enrollmentList = dto.enrollmentList;
         subjectList = dto.subjectList;
 
