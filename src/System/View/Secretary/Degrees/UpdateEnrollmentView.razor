@@ -71,7 +71,7 @@ else
                                     <div class="card-body">
 
                                         <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
-                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px">
+                                        <input type="text" class="form-control" disabled="disabled" @bind="enrollment.schoolyear" style="margin-bottom: 10px">
 
                                         <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px" min="10" @bind="enrollment.capacity">

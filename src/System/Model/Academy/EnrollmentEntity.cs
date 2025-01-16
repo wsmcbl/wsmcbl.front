@@ -7,6 +7,7 @@ public class EnrollmentEntity
     public string label { get; set; } = null!;
     public int capacity { get; set; }
     public int quantity { get; set; }
+    public string? schoolyear { get; set; }
     public string? section { get; set; }
     public List<StudentEntity> studentList { get; set; } = [];
     public List<SubjectEntity> subjectList { get; set; } = [];

@@ -49,10 +49,10 @@ public class UpdateOfficialEnrollmentController
         return response != Default;
     }
 
-    public async Task<bool> CreateNewSubject(View.Secretary.SchoolYears.Dto.SubjectDto subject)
+    public async Task<bool> CreateNewSubject(SubjectDto subject)
     {
         var resource = "configurations/schoolyears/subjects";
-        View.Secretary.SchoolYears.Dto.SubjectDto Default = new();
+        SubjectDto Default = new();
         var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, subject, Default);
         return response != Default;
     }
@@ -78,4 +78,15 @@ public class UpdateOfficialEnrollmentController
         return response.Select(dto => dto.ToDropdownList()).ToList();
     }
 
+    public async Task<bool> UpdateEnrollmentList(List<EnrollmentEntity> enrollmentList)
+    {
+        var result = false;
+        foreach (var item in enrollmentList)
+        {
+            var dto = new UpdateEnrollmentDto2(item);
+            result = result && await _apiConsumer.PutAsync(Modules.Academy, $"enrollments/{item.enrollmentId}", dto);
+        }
+
+        return result;
+    }
 }

@@ -3,7 +3,6 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
-using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -72,18 +71,31 @@ public partial class UpdateEnrollmentView : BaseView
 
     private async Task UpdateEnrollmentList()
     {
-        var resutl = await ValidateInformation();
+        var isValidEnrollmentList = await ValidateInformation();
+        if (!isValidEnrollmentList)
+        {
+            return;
+        }
+
+        var result = await Controller.UpdateEnrollmentList(enrollmentList);
+        if (!result)
+        {
+            await Notificator.ShowError("Error", "No pudimos actualizar la información de matrícula.");
+            return;
+        }
+        
+        await Notificator.ShowSuccess("Exito", "Hemos actualizado la información de la matrícula.");
     }
 
     private async Task<bool> ValidateInformation()
     {
-        if (enrollmentList!.Any(entity => entity.capacity < 10))
+        if (enrollmentList.Any(entity => entity.capacity < 10))
         {
             await Notificator.ShowInformation("Error", "La capacidad de la sección debe ser al menos de 10.");
             return false;
         }
 
-        if (enrollmentList!.Any(entity => string.IsNullOrWhiteSpace(entity.section)))
+        if (enrollmentList.Any(entity => string.IsNullOrWhiteSpace(entity.section)))
         {
             await Notificator.ShowInformation("Error", "El número del aula no puede estar vacío.");
             return false;
