@@ -13,7 +13,7 @@ else
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in UpdateEnrollmentDto.enrollmentList!)
+                @foreach (var item in enrollmentList!)
                 {
                     Counter++;
                     <li class="nav-item">
@@ -23,7 +23,7 @@ else
                     </li>
                 }
                 <li class="nav-item ml-auto">
-                    <button type="button" class="btn btn-success" @onclick="() => ConfigureDegree()">
+                    <button type="button" class="btn btn-success" @onclick="() => UpdateEnrollmentList()">
                         Guardar
                     </button>
                 </li>
@@ -32,7 +32,7 @@ else
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
-                @foreach (var enrollment in UpdateEnrollmentDto.enrollmentList)
+                @foreach (var enrollment in enrollmentList)
                 {
                     Counter2++;
                     <!-- Inicio datos de matricula -->
@@ -123,20 +123,20 @@ else
                                             </tr>
                                             </tfoot>
                                             <tbody>
-                                            @foreach (var item in enrollment.SubjectTeacherList)
+                                            @foreach (var item in enrollment.subjectList)
                                             {
                                                 <tr>
-                                                    <td>@item.subject.subjectId</td>
-                                                    <td>@item.subject.name</td>
+                                                    <td>@item.subjectId</td>
+                                                    <td>@item.name</td>
                                                     <td>
-                                                        <span class="status-label @(item.subject.IsMandatory ? "active-status" : "inactive-status")">
-                                                            @(item.subject.IsMandatory ? "Si" : "No")
+                                                        <span class="status-label @(item.IsMandatory ? "active-status" : "inactive-status")">
+                                                            @(item.IsMandatory ? "Si" : "No")
                                                         </span>
                                                     </td>
-                                                    <td>@GetSemesterLabel(item.subject.Semester)</td>
+                                                    <td>@GetSemesterLabel(item.Semester)</td>
                                                     <td>
-                                                        <select id="teacherForSubject" class="form-control" style="margin: 0" value="@item.teacher.teacherId"
-                                                                @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value!.ToString()!)">
+                                                        <select id="teacherForSubject" class="form-control" style="margin: 0" value="@item.subjectId"
+                                                                @onchange="(e) => OnTeacherChanged(enrollment, item, e.Value!.ToString()!)">
                                                             >
 
                                                             @foreach (var option in TeacherList!)
@@ -146,7 +146,7 @@ else
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-info btn-sm" @onclick="() => UpdateTeacher(item.subject.subjectId!, item.subject.name!, enrollment.enrollmentId)">
+                                                        <button class="btn btn-info btn-sm" @onclick="() => UpdateTeacher(item.subjectId!, item.name!, enrollment.enrollmentId)">
                                                             <i class="fa fa-sync"></i> Actualizar Maestro
                                                         </button>
                                                     </td>

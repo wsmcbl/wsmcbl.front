@@ -63,23 +63,12 @@ public class UpdateOfficialEnrollmentController
         List<TeacherEntity> Default = [];
         return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }
-
-    public async Task<DegreeEntity> GetConfigureEnrollment(string GradeId)
-    {
-        var resource = $"degrees/{GradeId}/enrollments";
-        DegreeEntity Default = new();
-        var result = await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
-        
-        return result;
-    }
     
-    public async Task<UpdateEnrollmentDto> GetDataOfGrade(string GradeId)
+    public async Task<UpdateEnrollmentDto> GetEnrollmentListByDegreeId(string GradeId)
     {
         var resource = $"degrees/{GradeId}/enrollments";
         UpdateEnrollmentDto Default = new();
-        var result = await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
-        
-        return result;
+        return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }
     
     public async Task<List<DropdownList>> GetTypeTariffList()
@@ -88,24 +77,6 @@ public class UpdateOfficialEnrollmentController
         List<TypeTariffDto> Default = [];
         var response = await _apiConsumer.GetAsync(Modules.Accounting, resource, Default);
         return response.Select(dto => dto.ToDropdownList()).ToList();
-    }
-
-    public async Task<bool> PutSaveEnrollment(DegreeEntity degree)
-    {
-        var contentList = degree.MapToListDto();
-        
-        if (contentList.Count <= 0)
-        {
-            return true;
-        }
-     
-        var result = true;   
-        foreach (var content in contentList)
-        {
-            result = await _apiConsumer.PutAsync(Modules.Secretary, "degrees/enrollments", content);
-        }
-
-        return result;
     }
 
 }

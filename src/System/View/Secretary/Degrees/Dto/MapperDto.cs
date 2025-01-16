@@ -8,11 +8,4 @@ public static class MapperDto
     {
         return value.EnrollmentList?.Select(e => new CreateEnrollmentsDto(e)).ToList()!; 
     }
-
-    public static List<SubjectTeacherDto> MapToListDto(this EnrollmentEntity value)
-    {
-        return value.SubjectTeacherList
-            .Select(st => new SubjectTeacherDto(st.subject, st.teacher))
-            .ToList();
-    }
 }

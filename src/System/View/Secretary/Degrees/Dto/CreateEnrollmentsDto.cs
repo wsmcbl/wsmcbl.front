@@ -21,6 +21,6 @@ public class CreateEnrollmentsDto
         label = enrollment.label;
         capacity = enrollment.capacity;
         quantity = enrollment.quantity;
-        subjectList = enrollment.MapToListDto();
+        //subjectList = enrollment.MapToListDto();
     }
 }

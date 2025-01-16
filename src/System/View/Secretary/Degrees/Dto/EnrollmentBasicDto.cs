@@ -26,7 +26,7 @@ public class EnrollmentBasicDto
             quantity = quantity
         };
 
-        result.SetSubjectTeacherList(getSubjectTeacherTuple(subjectList, teacherList));
+        //result.SetSubjectTeacherList(getSubjectTeacherTuple(subjectList, teacherList));
 
         return result;
     }
