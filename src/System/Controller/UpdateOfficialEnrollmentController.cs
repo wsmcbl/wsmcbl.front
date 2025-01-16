@@ -63,10 +63,10 @@ public class UpdateOfficialEnrollmentController
         return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=active", Default);
     }
     
-    public async Task<UpdateEnrollmentDto> GetEnrollmentListByDegreeId(string degreeId)
+    public async Task<EnrollmentSubjectListDto> GetEnrollmentListByDegreeId(string degreeId)
     {
         var resource = $"degrees/{degreeId}/enrollments";
-        UpdateEnrollmentDto Default = new();
+        EnrollmentSubjectListDto Default = new();
         return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }
     
@@ -83,7 +83,7 @@ public class UpdateOfficialEnrollmentController
         var result = false;
         foreach (var item in enrollmentList)
         {
-            var dto = new UpdateEnrollmentDto2(item);
+            var dto = new UpdateEnrollmentDto(item);
             result = result && await _apiConsumer.PutAsync(Modules.Academy, $"enrollments/{item.enrollmentId}", dto);
         }
 

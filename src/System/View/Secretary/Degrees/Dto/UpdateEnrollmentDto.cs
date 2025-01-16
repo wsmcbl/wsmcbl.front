@@ -4,14 +4,16 @@ namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 
 public class UpdateEnrollmentDto
 {
-    public List<EnrollmentEntity> enrollmentList { get; set; } = null!;
-    public List<SubjectEntity> subjectList { get; set; } = null!;
-
-    public void setSubjectListInEnrollmentList()
+    public string label { get; set; }
+    public int capacity { get; set; }
+    public int quantity { get; set; }
+    public string section { get; set; }
+    
+    public UpdateEnrollmentDto(EnrollmentEntity value)
     {
-        foreach (var item in enrollmentList)
-        {
-            item.updateSubjectList(subjectList);
-        }
+        label = value.label;
+        capacity = value.capacity;
+        quantity = value.quantity;
+        section = value.section!;
     }
 }
