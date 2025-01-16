@@ -16,7 +16,7 @@
                     </div>
                     
                     <strong class="label-required" style="display: inline-block; width: 200px;">Nuevo Maestro Guía:</strong>
-                    <select id="teacherGuideId" class="form-control" style="margin: 0" @bind="NewTeacher.newTeacherId">
+                    <select id="teacherGuideId" class="form-control" style="margin: 0" @bind="teacherId">
                         @foreach (var option in TeacherAvailable)
                         {
                             <option value="@option.teacherId">
@@ -30,7 +30,7 @@
 
                 <div class="modal-footer">
                     <div class="right-container">
-                        <button type="button" class="btn btn-success" @onclick="UpdateTeacherG">Actualiar Maestro</button>
+                        <button type="button" class="btn btn-success" @onclick="UpdateTeacherGuide">Actualiar Maestro</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>

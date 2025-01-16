@@ -15,27 +15,28 @@ public partial class UpdateTeacherGuideView : ComponentBase
     [Inject] Navigator Navigator { get; set; } = null!;
     [Parameter] public EventCallback TeacherGuideUpdated { get; set; }
     private List<TeacherEntity> TeacherAvailable{ get; set; } = [];
-    private ChangeTeacherDto NewTeacher { get; set; } = new ChangeTeacherDto();
+    public string? enrollmentId { get; set; }
+    public string? teacherId { get; set; }
     
     protected override async Task OnParametersSetAsync()
     {
         TeacherAvailable = await Controller.GetTeacherNoGuide();
-        NewTeacher.newTeacherId = TeacherAvailable.FirstOrDefault()?.teacherId!;
+        teacherId = TeacherAvailable.FirstOrDefault()?.teacherId!;
     }
 
-    private async Task UpdateTeacherG()
+    private async Task UpdateTeacherGuide()
     {
-        NewTeacher.enrollmentId = EnrollmentNow; 
-        var response = await Controller.UpdateTeacherGuide(NewTeacher);
-
+        enrollmentId = EnrollmentNow; 
+        var response = await Controller.UpdateTeacherGuide(enrollmentId!, teacherId!);
         if (response)
         {
-            await Notificator.ShowSuccess("Exito", "Hemos actualizado con exito al maestro guia");
-            await Navigator.HideModal("EditTeacherGuideModal");
-            await TeacherGuideUpdated.InvokeAsync();
-            StateHasChanged();
+            await Notificator.ShowError("Error", "No pudimos actualizar al maestro guia.");
             return;
         }
-        await Notificator.ShowError("Error", "No pudimos actualizar al maestro guia.");
+        
+        await Notificator.ShowSuccess("Exito", "Hemos actualizado con exito al maestro guia");
+        await Navigator.HideModal("EditTeacherGuideModal");
+        await TeacherGuideUpdated.InvokeAsync();
+        StateHasChanged();
     }
 }
