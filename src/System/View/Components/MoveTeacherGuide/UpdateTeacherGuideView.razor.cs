@@ -28,13 +28,13 @@ public partial class UpdateTeacherGuideView : ComponentBase
     {
         enrollmentId = EnrollmentNow; 
         var response = await Controller.UpdateTeacherGuide(enrollmentId!, teacherId!);
-        if (response)
+        if (!response)
         {
-            await Notificator.ShowError("Error", "No pudimos actualizar al maestro guia.");
+            await Notificator.ShowError("Error", "No pudimos actualizar al maestro guía.");
             return;
         }
         
-        await Notificator.ShowSuccess("Exito", "Hemos actualizado con exito al maestro guia");
+        await Notificator.ShowSuccess("Exito", "Hemos actualizado con éxito al maestro guía.");
         await Navigator.HideModal("EditTeacherGuideModal");
         await TeacherGuideUpdated.InvokeAsync();
         StateHasChanged();
