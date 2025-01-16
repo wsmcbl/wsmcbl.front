@@ -84,7 +84,7 @@ public partial class UpdateEnrollmentView : BaseView
             return;
         }
         
-        await Notificator.ShowSuccess("Exito", "Hemos actualizado la información de la matrícula.");
+        await Notificator.ShowSuccess("Éxito", "Hemos actualizado la información de la matrícula.");
     }
 
     private async Task<bool> ValidateInformation()

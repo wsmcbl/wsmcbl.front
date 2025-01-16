@@ -80,13 +80,16 @@ public class UpdateOfficialEnrollmentController
 
     public async Task<bool> UpdateEnrollmentList(List<EnrollmentEntity> enrollmentList)
     {
-        var result = false;
         foreach (var item in enrollmentList)
         {
             var dto = new UpdateEnrollmentDto(item);
-            result = result && await _apiConsumer.PutAsync(Modules.Academy, $"enrollments/{item.enrollmentId}", dto);
+            var result = await _apiConsumer.PutAsync(Modules.Academy, $"enrollments/{item.enrollmentId}", dto);
+            if (!result)
+            {
+                return false;
+            }
         }
 
-        return result;
+        return true;
     }
 }
