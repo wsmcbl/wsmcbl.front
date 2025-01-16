@@ -29,7 +29,7 @@ public class LoginController
 
     public async Task<UserEntity> getUserById()
     {
-        var userId = await _jwtClaimsService.GetClaimAsync("nameid");
+        var userId = await _jwtClaimsService.GetClaimAsync("userid");
         if (userId == null)
         {
             throw new InternalException("User has not userId in jwt.");
