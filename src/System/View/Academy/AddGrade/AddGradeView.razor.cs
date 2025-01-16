@@ -48,7 +48,7 @@ public partial class AddGradeView : BaseView
     private async Task GetFullInfoEnrollment()
     {
         var result = await controller.GetFullEnrollment(getRequestDto());
-
+        
         enrollmentLabel = result.label;
         subjectList = result.subjectList;
         studentList = result.studentList;

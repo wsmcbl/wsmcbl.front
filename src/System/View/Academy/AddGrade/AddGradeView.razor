@@ -89,7 +89,7 @@ else
                                                     <div>
                                                         <label>Etiqueta:</label> @student.gradeList!.First(e => e.subjectId == subject.subjectId).label
                                                     </div>
-                                                    <div class="py-3 d-flex">
+                                                    <div >
                                                         <label>Nota:</label>
                                                         <input type="number" class="form-control"
                                                                @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"/>

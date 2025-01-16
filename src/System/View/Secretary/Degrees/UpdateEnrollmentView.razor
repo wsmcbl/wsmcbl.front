@@ -1,4 +1,4 @@
-@page "/secretary/degrees/{degreeId}/enrollments/{EnrollmentNumber}"
+@page "/secretary/degrees/{degreeId}/enrollments"
 @attribute [Authorize(Roles = "admin,secretary")]
 @using wsmcbl.src.View.Components.MoveTeacherGuide
 @using wsmcbl.src.View.Components.UpdateTeacherOfSubject
@@ -6,24 +6,26 @@
 
 @if (IsLoading())
 {
-    <div class="loader"></div>    
+    <div class="loader"></div>
 }
 else
 {
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in DegreeEntity!.EnrollmentList!)
+                @foreach (var item in enrollmentList!)
                 {
                     Counter++;
                     <li class="nav-item">
-                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId" href="#card-@item.enrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
-                            @item.Label
+                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId"
+                           href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
+                           aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
+                            @item.label
                         </a>
                     </li>
                 }
                 <li class="nav-item ml-auto">
-                    <button type="button" class="btn btn-success" @onclick="() => ConfigureDegree()">
+                    <button type="button" class="btn btn-success" @onclick="UpdateEnrollmentList">
                         Guardar
                     </button>
                 </li>
@@ -32,11 +34,12 @@ else
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
-                @foreach (var enrollment in DegreeEntity.EnrollmentList)
+                @foreach (var enrollment in enrollmentList)
                 {
                     Counter2++;
                     <!-- Inicio datos de matricula -->
-                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId" role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
+                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
+                         role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
                         <div class="row">
                             <div class="col-12 col-md-6" style="margin-bottom: 15px">
                                 <div class="card">
@@ -45,13 +48,13 @@ else
 
                                         <label style="display: inline-block; width: 200px;">Nombre:</label>
                                         <input type="text" class="form-control" disabled="disabled"
-                                               style="margin-bottom: 10px" @bind="enrollment.Label">
+                                               style="margin-bottom: 10px" @bind="enrollment.label">
 
                                         <label style="display: inline-block; width: 200px;">Maestro Guía:</label>
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <input class="form-control"
-                                                       value="@(TeacherList?.FirstOrDefault(t => t.teacherId == enrollment.teacherId)?.fullName ?? "N/A")"
+                                                       value="@(teacherList?.FirstOrDefault(t => t.teacherId == enrollment.teacherId)?.fullName ?? "N/A")"
                                                        disabled="disabled">
                                             </div>
                                             <div class="col-md-4">
@@ -61,7 +64,7 @@ else
                                                 </button>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -71,10 +74,12 @@ else
                                     <div class="card-body">
 
                                         <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
-                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeEntity.schoolYear">
+                                        <input type="text" class="form-control" disabled="disabled"
+                                               @bind="enrollment.schoolyear" style="margin-bottom: 10px">
 
                                         <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" min="10" @bind="enrollment.Capacity">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" min="10"
+                                               @bind="enrollment.capacity">
                                     </div>
                                 </div>
                             </div>
@@ -82,10 +87,13 @@ else
                                 <div class="card">
                                     <div class="card-body">
                                         <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Quantity">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px"
+                                               @bind="enrollment.quantity">
 
-                                        <label class="label-required" style="display: inline-block; width: 200px;"># De Aula:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Section">
+                                        <label class="label-required" style="display: inline-block; width: 200px;"># De
+                                            Aula:</label>
+                                        <input type="text" class="form-control" style="margin-bottom: 10px"
+                                               @bind="enrollment.section">
                                     </div>
                                 </div>
                             </div>
@@ -123,31 +131,35 @@ else
                                             </tr>
                                             </tfoot>
                                             <tbody>
-                                            @foreach (var item in enrollment.SubjectTeacherList)
+                                            @foreach (var item in enrollment.subjectList)
                                             {
                                                 <tr>
-                                                    <td>@item.subject.subjectId</td>
-                                                    <td>@item.subject.name</td>
+                                                    <td>@item.subjectId</td>
+                                                    <td>@item.name</td>
                                                     <td>
-                                                        <span class="status-label @(item.subject.IsMandatory ? "active-status" : "inactive-status")">
-                                                            @(item.subject.IsMandatory ? "Si" : "No")
+                                                        <span
+                                                            class="status-label @(item.isMandatory ? "active-status" : "inactive-status")">
+                                                            @(item.isMandatory ? "Si" : "No")
                                                         </span>
                                                     </td>
-                                                    <td>@GetSemesterLabel(item.subject.Semester)</td>
+                                                    <td>@GetSemesterLabel(item.semester)</td>
                                                     <td>
-                                                        <select id="teacherForSubject" class="form-control" style="margin: 0" value="@item.teacher.teacherId"
-                                                                @onchange="(e) => OnTeacherChanged(enrollment, item.subject, e.Value!.ToString()!)">
+                                                        <select id="teacherForSubject" class="form-control"
+                                                                style="margin: 0" value="@item.teacherId"
+                                                                @onchange="(e) => OnTeacherChanged(enrollment, item, e.Value!.ToString()!)">
                                                             >
 
-                                                            @foreach (var option in TeacherList!)
+                                                            @foreach (var option in teacherList!)
                                                             {
-                                                                <option value="@option.teacherId">@option.fullName</option>
+                                                                <option
+                                                                    value="@option.teacherId">@option.fullName</option>
                                                             }
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <button class="btn btn-info btn-sm" @onclick="() => UpdateTeacher(item.subject.subjectId!, item.subject.name!, enrollment.enrollmentId)">
-                                                            <i class="fa fa-sync"></i> Actualizar Maestro
+                                                        <button class="btn btn-info btn-sm"
+                                                                @onclick="() => UpdateTeacher(item.subjectId!, item.name!, enrollment.enrollmentId)">
+                                                            <i class="fa fa-sync"></i> Actualizar docente
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -165,10 +177,11 @@ else
             </div>
         </div>
     </div>
-    
-    
-    <UpdateTeacherGuideView TeacherNow="@TeacherFlags" EnrollmentNow="@EnrollmentFlags" TeacherGuideUpdated="LoadDegree"/>
-    <UpdateTeacherOfSubjectView SubjectId="@SubjectFlags" SubjectName="@SubjectChangeName" EnrollmentId="@EnrollmentFlags" TeacherSubjectUpdated="LoadDegree"/>
-    
+
+
+    <UpdateTeacherGuideView TeacherNow="@TeacherFlags" EnrollmentNow="@EnrollmentFlags"
+                            TeacherGuideUpdated="LoadDegree"/>
+    <UpdateTeacherOfSubjectView SubjectId="@SubjectFlags" SubjectName="@SubjectChangeName"
+                                EnrollmentId="@EnrollmentFlags" TeacherSubjectUpdated="LoadDegree"/>
 }
 

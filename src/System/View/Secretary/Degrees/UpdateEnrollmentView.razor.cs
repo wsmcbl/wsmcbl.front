@@ -8,21 +8,22 @@ namespace wsmcbl.src.View.Secretary.Degrees;
 
 public partial class UpdateEnrollmentView : BaseView
 {
-    [Parameter] public string EnrollmentNumber { get; set; } = null!;
     [Parameter] public string degreeId { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
-    [Inject] protected UpdateOfficialEnrollmentController? Controller { get; set; }
-    protected string? TeacherFlags { get; set; } = "N/A";
-    protected string? EnrollmentFlags { get; set; } = "N/A";
-    protected string? SubjectFlags { get; set; } = "N/A";
-    protected string? SubjectChangeName { get; set; } = "N/A";
+    [Inject] protected UpdateOfficialEnrollmentController Controller { get; set; } = null!;
 
-    protected int NumberEnrollment;
-    protected int Counter;
-    protected int Counter2;
-    protected List<TeacherEntity>? TeacherList;
-    protected DegreeEntity? DegreeEntity; 
+    private string? TeacherFlags { get; set; } = "N/A";
+    private string? EnrollmentFlags { get; set; } = "N/A";
+    private string? SubjectFlags { get; set; } = "N/A";
+    private string? SubjectChangeName { get; set; } = "N/A";
+
+    private int Counter { get; set; }
+    private int Counter2{ get; set; }
+
+    private List<EnrollmentEntity> enrollmentList { get; set; } = [];
+    private List<TeacherEntity> teacherList { get; set; } = [];
+    private List<SubjectEntity> subjectList { get; set; } = null!;
 
     
     protected override async Task OnParametersSetAsync()
@@ -30,16 +31,20 @@ public partial class UpdateEnrollmentView : BaseView
         Counter = 0;
         Counter2 = 0;
         await LoadDegree();
-        TeacherList = await Controller!.GetTeacherList();
-        NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 
     protected async Task LoadDegree()
     {
-        DegreeEntity = await Controller!.GetConfigureEnrollment(degreeId);
+        var dto = await Controller.GetEnrollmentListByDegreeId(degreeId);
+        
+        dto.setSubjectListInEnrollmentList();
+        enrollmentList = dto.enrollmentList;
+        subjectList = dto.subjectList;
+
+        teacherList = await Controller.GetTeacherList();
     }
 
-    protected string GetSemesterLabel(int semester)
+    private string GetSemesterLabel(int semester)
     {
         return semester switch
         {
@@ -49,14 +54,14 @@ public partial class UpdateEnrollmentView : BaseView
         };
     }
 
-    protected async Task ChangeTeacherGuide(string? teacherID, string enrollmentNumber)
+    private async Task ChangeTeacherGuide(string? teacherID, string enrollmentNumber)
     {
-        TeacherFlags = TeacherList!.FirstOrDefault(t => t.teacherId == teacherID)?.fullName;
+        TeacherFlags = teacherList.FirstOrDefault(t => t.teacherId == teacherID)?.fullName;
         EnrollmentFlags = enrollmentNumber;
         await Navigator.ShowModal("EditTeacherGuideModal"); 
     }
 
-    protected async Task UpdateTeacher(string subjectId, string subjectName, string enrollmentId)
+    private async Task UpdateTeacher(string subjectId, string subjectName, string enrollmentId)
     {
         SubjectFlags = subjectId;
         EnrollmentFlags = enrollmentId;
@@ -64,32 +69,33 @@ public partial class UpdateEnrollmentView : BaseView
         await Navigator.ShowModal("UpdateTeacherSubject");
     }
 
-    public async Task ConfigureDegree()
+    private async Task UpdateEnrollmentList()
     {
-        if (!await ValidateInformation())
+        var isValidEnrollmentList = await ValidateInformation();
+        if (!isValidEnrollmentList)
         {
             return;
-        }  
-        
-        var response = await Controller!.PutSaveEnrollment(DegreeEntity!);
-        
-        if (response)
-        {
-            await Notificator.ShowSuccess("Exito", "Las matrículas fueron actualizadas correctamente");
-            await LoadDegree();
-            StateHasChanged();
         }
+
+        var result = await Controller.UpdateEnrollmentList(enrollmentList);
+        if (!result)
+        {
+            await Notificator.ShowError("Error", "No pudimos actualizar la información de matrícula.");
+            return;
+        }
+        
+        await Notificator.ShowSuccess("Éxito", "Hemos actualizado la información de la matrícula.");
     }
 
     private async Task<bool> ValidateInformation()
     {
-        if (DegreeEntity!.EnrollmentList!.Any(entity => entity.Capacity < 10))
+        if (enrollmentList.Any(entity => entity.capacity < 10))
         {
             await Notificator.ShowInformation("Error", "La capacidad de la sección debe ser al menos de 10.");
             return false;
         }
 
-        if (DegreeEntity!.EnrollmentList!.Any(entity => string.IsNullOrWhiteSpace(entity.Section)))
+        if (enrollmentList.Any(entity => string.IsNullOrWhiteSpace(entity.section)))
         {
             await Notificator.ShowInformation("Error", "El número del aula no puede estar vacío.");
             return false;
@@ -99,28 +105,13 @@ public partial class UpdateEnrollmentView : BaseView
     }
 
 
-    protected void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
+    private void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
     { 
-        for (var index = 0; index < enrollment.SubjectTeacherList.Count; index++)
-        {
-            var tuple = enrollment.SubjectTeacherList[index];
-            
-            if (tuple.subject.subjectId != subject.subjectId)
-            {
-                continue;
-            }
-            
-            var selectedTeacher = TeacherList!.FirstOrDefault(t => t.teacherId == selectedTeacherId);
-            if (selectedTeacher != null)
-            {
-                enrollment.SubjectTeacherList[index] = (tuple.subject, selectedTeacher);
-            }
-            break;
-        }
+   
     }
 
     protected override bool IsLoading()
     {   
-        return !(NumberEnrollment > 0 && DegreeEntity!.EnrollmentList != null && TeacherList!.Count != 0);
+        return enrollmentList.Count == 0 || teacherList.Count == 0;
     }
 }

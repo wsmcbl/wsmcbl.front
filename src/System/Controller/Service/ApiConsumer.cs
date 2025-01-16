@@ -74,14 +74,21 @@ public class ApiConsumer
         }
         
         var response = await _httpClient.PostAsync(BuildUri(modules, resource), content);
-        
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<R>(), defaultResult, response);
     }
 
-    public async Task<bool> PutAsync<T>(Modules modules, string resource, T data)
+    public async Task<bool> PutAsync<T>(Modules modules, string resource, T? data)
     {
         await LoadToken();
-        var response = await _httpClient.PutAsJsonAsync(BuildUri(modules, resource), data);
+        
+        StringContent? content = null;
+        if (data != null)
+        {
+            var json = JsonSerializer.Serialize(data);
+            content = new StringContent(json, Encoding.UTF8, "application/json");
+        }
+        
+        var response = await _httpClient.PutAsync(BuildUri(modules, resource), content);
         return await GenericHttpResponse(AlwaysTrue, false, response);
     }
 

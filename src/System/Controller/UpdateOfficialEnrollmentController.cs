@@ -49,31 +49,25 @@ public class UpdateOfficialEnrollmentController
         return response != Default;
     }
 
-    public async Task<bool> CreateNewSubject(View.Secretary.SchoolYears.Dto.SubjectDto subject)
+    public async Task<bool> CreateNewSubject(SubjectDto subject)
     {
         var resource = "configurations/schoolyears/subjects";
-        View.Secretary.SchoolYears.Dto.SubjectDto Default = new();
+        SubjectDto Default = new();
         var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, subject, Default);
         return response != Default;
     }
 
     public async Task<List<TeacherEntity>> GetTeacherList()
     {
-        var resource = "teachers/";
         List<TeacherEntity> Default = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
+        return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=active", Default);
     }
-
-    public async Task<DegreeEntity> GetConfigureEnrollment(string GradeId)
+    
+    public async Task<EnrollmentSubjectListDto> GetEnrollmentListByDegreeId(string degreeId)
     {
-        var resource = $"degrees/{GradeId}";
-        DegreeBasicDto Default = new();
-        var result = await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
-
-        var teacherList = await _apiConsumer.GetAsync<List<TeacherEntity>>(Modules.Secretary, "teachers", []);
-        result.SetTeacherList(teacherList);
-
-        return result.toEntity();
+        var resource = $"degrees/{degreeId}/enrollments";
+        EnrollmentSubjectListDto Default = new();
+        return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }
     
     public async Task<List<DropdownList>> GetTypeTariffList()
@@ -84,22 +78,18 @@ public class UpdateOfficialEnrollmentController
         return response.Select(dto => dto.ToDropdownList()).ToList();
     }
 
-    public async Task<bool> PutSaveEnrollment(DegreeEntity degree)
+    public async Task<bool> UpdateEnrollmentList(List<EnrollmentEntity> enrollmentList)
     {
-        var contentList = degree.MapToListDto();
-        
-        if (contentList.Count <= 0)
+        foreach (var item in enrollmentList)
         {
-            return true;
-        }
-     
-        var result = true;   
-        foreach (var content in contentList)
-        {
-            result = await _apiConsumer.PutAsync(Modules.Secretary, "degrees/enrollments", content);
+            var dto = new UpdateEnrollmentDto(item);
+            var result = await _apiConsumer.PutAsync(Modules.Academy, $"enrollments/{item.enrollmentId}", dto);
+            if (!result)
+            {
+                return false;
+            }
         }
 
-        return result;
+        return true;
     }
-
 }

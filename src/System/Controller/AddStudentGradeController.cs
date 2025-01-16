@@ -33,6 +33,7 @@ public class AddStudentGradeController
         var defaultResult = new FullInformationOfEnrollmentDto();
         var result = await _apiConsumer.GetAsync(Modules.Academy, "enrollments", dto, defaultResult);
 
+        result.deleteWithoutGrades();
         result.updateStudentGradeList();
 
         return result;

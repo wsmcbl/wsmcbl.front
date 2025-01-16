@@ -4,25 +4,25 @@ public class EnrollmentEntity
 {
     public string enrollmentId { get; set; } = null!;
     public string? teacherId { get; set; }
-    public string Label { get; set; } = null!;
-    public int Capacity { get; set; }
-    public int Quantity { get; set; }
-    public string? Section { get; set; }
-    
-    public List<(SubjectEntity subject, TeacherEntity teacher)> SubjectTeacherList { get; private set; } = null!;
+    public string label { get; set; } = null!;
+    public int capacity { get; set; }
+    public int quantity { get; set; }
+    public string? schoolyear { get; set; }
+    public string? section { get; set; }
+    public List<StudentEntity> studentList { get; set; } = [];
+    public List<SubjectEntity> subjectList { get; set; } = [];
 
-    public void SetSubjectTeacherList(List<(SubjectEntity subject, TeacherEntity teacher)> list)
+    public void updateSubjectList(List<SubjectEntity> list)
     {
-        SubjectTeacherList = list; 
-    }
-
-    public void SetSubjectTeacherList(List<SubjectEntity> list)
-    {
-        SubjectTeacherList = [];
-        var nullTeacher = new NullTeacherEntity();
-        foreach (var item in list)
+        foreach (var item in subjectList)
         {
-            SubjectTeacherList.Add((item, nullTeacher));
+            var result = list.FirstOrDefault(e => e.subjectId == item.subjectId);
+            if (result == null)
+            {
+                continue;
+            }
+
+            item.updateData(result);
         }
     }
 }
