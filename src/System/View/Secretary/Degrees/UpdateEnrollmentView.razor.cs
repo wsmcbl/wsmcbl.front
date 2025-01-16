@@ -21,8 +21,7 @@ public partial class UpdateEnrollmentView : BaseView
     protected int NumberEnrollment;
     protected int Counter;
     protected int Counter2;
-    protected List<TeacherEntity>? TeacherList; //validar que tenga Enrollments y que tenga la tupla
-
+    
     private List<EnrollmentEntity> enrollmentList { get; set; } = null!;
     private List<TeacherEntity> teacherList { get; set; } = null!;
     private List<SubjectEntity> subjectList { get; set; } = null!;
@@ -39,8 +38,9 @@ public partial class UpdateEnrollmentView : BaseView
     {
         var dto = await Controller.GetEnrollmentListByDegreeId(degreeId);
         enrollmentList = dto.enrollmentList;
-        teacherList = dto.teacherList;
         subjectList = dto.subjectList;
+
+        teacherList = await Controller.GetTeacherList();
     }
 
     protected string GetSemesterLabel(int semester)
@@ -53,9 +53,9 @@ public partial class UpdateEnrollmentView : BaseView
         };
     }
 
-    protected async Task ChangeTeacherGuide(string? teacherID, string enrollmentNumber)
+    private async Task ChangeTeacherGuide(string? teacherID, string enrollmentNumber)
     {
-        TeacherFlags = TeacherList!.FirstOrDefault(t => t.teacherId == teacherID)?.fullName;
+        TeacherFlags = teacherList.FirstOrDefault(t => t.teacherId == teacherID)?.fullName;
         EnrollmentFlags = enrollmentNumber;
         await Navigator.ShowModal("EditTeacherGuideModal"); 
     }
@@ -98,6 +98,6 @@ public partial class UpdateEnrollmentView : BaseView
 
     protected override bool IsLoading()
     {   
-        return !(enrollmentList.Count != 0 && TeacherList!.Count != 0);
+        return !(enrollmentList.Count != 0 && teacherList.Count != 0);
     }
 }

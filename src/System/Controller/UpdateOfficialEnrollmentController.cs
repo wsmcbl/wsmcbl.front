@@ -59,9 +59,8 @@ public class UpdateOfficialEnrollmentController
 
     public async Task<List<TeacherEntity>> GetTeacherList()
     {
-        var resource = "teachers?q=active";
         List<TeacherEntity> Default = [];
-        return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
+        return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=active", Default);
     }
     
     public async Task<UpdateEnrollmentDto> GetEnrollmentListByDegreeId(string degreeId)

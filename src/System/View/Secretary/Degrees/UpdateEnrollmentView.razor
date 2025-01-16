@@ -51,7 +51,7 @@ else
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <input class="form-control"
-                                                       value="@(TeacherList?.FirstOrDefault(t => t.teacherId == enrollment.teacherId)?.fullName ?? "N/A")"
+                                                       value="@(teacherList?.FirstOrDefault(t => t.teacherId == enrollment.teacherId)?.fullName ?? "N/A")"
                                                        disabled="disabled">
                                             </div>
                                             <div class="col-md-4">
@@ -139,7 +139,7 @@ else
                                                                 @onchange="(e) => OnTeacherChanged(enrollment, item, e.Value!.ToString()!)">
                                                             >
 
-                                                            @foreach (var option in TeacherList!)
+                                                            @foreach (var option in teacherList!)
                                                             {
                                                                 <option value="@option.teacherId">@option.fullName</option>
                                                             }
