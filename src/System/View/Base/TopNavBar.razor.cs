@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Components;
-using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Config;
 using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Base;
 
 public partial class TopNavBar : ComponentBase
 {
-    [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
-    [Inject] private JwtClaimsService JwtClaimsService { get; set; } = null!;
     [Inject] private Navigator? Navigator { get; set; }
-    [Inject] private ApiConsumer? Consumer { get; set; }
-    protected UserDto? User { get; set; }
+    [Inject] private LoginController controller { get; set; } = null!;
+    [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
+    private UserEntity? User { get; set; }
 
     private async Task LogOut()
     {
@@ -21,15 +21,6 @@ public partial class TopNavBar : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        User = await GetUser();
+        User = await controller.getUserById();
     }
-
-    private async Task<UserDto> GetUser()
-    {
-        var userId = await JwtClaimsService.GetClaimAsync("nameid");
-        return await Consumer!.GetAsync(Modules.Config, $"/users/{userId}", new UserDto());
-    }
-
-    
-    
 }

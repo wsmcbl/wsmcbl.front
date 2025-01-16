@@ -16,7 +16,7 @@
                     <p><strong>Roles:</strong> @(UserInfo != null && Enum.IsDefined(typeof(Role), UserInfo.roleId) 
                                                    ? Enum.GetName(typeof(Role), UserInfo.roleId) 
                                                    : "Unknown")</p>
-                    <p><strong>Nombre:</strong> @(UserInfo != null ? UserInfo.Fullname : "Sin dato")</p>
+                    <p><strong>Nombre:</strong> @(UserInfo != null ? UserInfo.getFullName() : "Sin dato")</p>
                     <p><strong>Email:</strong> @(UserInfo != null ? UserInfo.email : "Sin dato")</p>
                     <p><strong>Contraseña:</strong> @(UserInfo != null ? UserInfo.password : "Sin dato")</p> 
                 </div>

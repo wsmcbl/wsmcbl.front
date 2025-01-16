@@ -18,13 +18,13 @@ public class MoveTeacherGuideFromEnrollmentController
     public async Task<List<TeacherEntity>> GetTeacherNoGuide()
     {
         List<TeacherEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Academy, "enrollments/teachers", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=non-guided", defaultResult);
     }
     
     public async Task<List<TeacherEntity>> GetActiveTeachers()
     {
         List<TeacherEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, "teachers", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=active", defaultResult);
     }
 
     

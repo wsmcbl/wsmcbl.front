@@ -24,19 +24,26 @@ builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredServ
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<ProtectedLocalStorage>();
 
-
+// I iteration
 builder.Services.AddTransient<CollectTariffController>();
-builder.Services.AddTransient<EnrollStudentController>();
 builder.Services.AddTransient<UpdateOfficialEnrollmentController>();
+builder.Services.AddTransient<EnrollStudentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
+builder.Services.AddTransient<MoveTeacherGuideFromEnrollmentController>();
+
+// II iteration
 builder.Services.AddTransient<CreateStudentProfileController>();
+builder.Services.AddTransient<AddStudentGradeController>();
+builder.Services.AddTransient<LoginController>();
+
+// III iteration
 builder.Services.AddTransient<TransactionReportByDateController>();
 builder.Services.AddTransient<EditStudentController>();
-builder.Services.AddTransient<MoveTeacherGuideFromEnrollmentController>();
-builder.Services.AddTransient<AddStudentGradeController>();
-builder.Services.AddTransient<CreateUserController>();
 
+// IV iteration
+builder.Services.AddTransient<CreateUserController>();
 builder.Services.AddTransient<CreateEnrollmentController>();
+
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>

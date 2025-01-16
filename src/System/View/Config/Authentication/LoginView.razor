@@ -23,11 +23,11 @@
                                     <div class="form-group mb-3">
                                         <input type="email" class="form-control form-control-user"
                                                id="login_email" aria-describedby="emailHelp"
-                                               placeholder="Ingrese su correo..." @bind="User.email">
+                                               placeholder="Ingrese su correo..." @bind="email">
                                     </div>
                                     <div class="form-group mb-4">
                                         <input type="password" class="form-control form-control-user"
-                                               id="login_password" placeholder="Ingrese su contraseña" @bind="User.password">
+                                               id="login_password" placeholder="Ingrese su contraseña" @bind="password">
                                     </div>
                                     <div class="text-center">
                                         <button type="button" class="btn btn-success w-100" @onclick="async () => await Login()">Iniciar Sesión</button>
