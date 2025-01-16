@@ -45,7 +45,7 @@ public partial class UpdateEnrollmentView : BaseView
             .ToList();
         
         
-        foreach (var enrollment in UpdateEnrollmentDto.EnrollmentList!)
+        foreach (var enrollment in UpdateEnrollmentDto.enrollmentList!)
         {
             enrollment.SetSubjectTeacherList(subjectTeacherPairs);
         }
