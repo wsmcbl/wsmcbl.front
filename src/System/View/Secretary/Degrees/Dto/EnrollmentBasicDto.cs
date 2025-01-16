@@ -11,8 +11,8 @@ public class EnrollmentBasicDto
     public string section { get; set; } = null!;
     public int capacity { get; set; }
     public int quantity { get; set; }
-    
-    public  List<SubjectBasicDto> subjects { get; set; } = null!;
+    public List<StudentEntity> studentList { get; set; } = [];
+    public List<SubjectBasicDto> subjects { get; set; } = [];
 
     public EnrollmentEntity ToEntity(List<SubjectEntity> subjectList, List<TeacherEntity> teacherList)
     {

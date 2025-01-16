@@ -38,7 +38,8 @@ public partial class DegreeListView : BaseView
     protected void ViewGrade(string value)
     {
         degreeId = value;
-        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments/{SectionsNumber}");
+        Navigator.ToPage($"secretary/degrees/{degreeId}/enrollments");
+        
     }
     
     protected async Task CreateEnrollments(string value, int quantity)

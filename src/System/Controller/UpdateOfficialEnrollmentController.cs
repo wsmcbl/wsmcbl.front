@@ -59,21 +59,27 @@ public class UpdateOfficialEnrollmentController
 
     public async Task<List<TeacherEntity>> GetTeacherList()
     {
-        var resource = "teachers/";
+        var resource = "teachers?q=active";
         List<TeacherEntity> Default = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
+        return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }
 
     public async Task<DegreeEntity> GetConfigureEnrollment(string GradeId)
     {
-        var resource = $"degrees/{GradeId}";
-        DegreeBasicDto Default = new();
-        var result = await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
-
-        var teacherList = await _apiConsumer.GetAsync<List<TeacherEntity>>(Modules.Secretary, "teachers", []);
-        result.SetTeacherList(teacherList);
-
-        return result.toEntity();
+        var resource = $"degrees/{GradeId}/enrollments";
+        DegreeEntity Default = new();
+        var result = await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
+        
+        return result;
+    }
+    
+    public async Task<DataofGrade> GetDataOfGrade(string GradeId)
+    {
+        var resource = $"degrees/{GradeId}/enrollments";
+        DataofGrade Default = new();
+        var result = await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
+        
+        return result;
     }
     
     public async Task<List<DropdownList>> GetTypeTariffList()

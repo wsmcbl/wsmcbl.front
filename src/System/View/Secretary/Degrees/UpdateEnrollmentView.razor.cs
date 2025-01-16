@@ -3,12 +3,12 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
+using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
 public partial class UpdateEnrollmentView : BaseView
 {
-    [Parameter] public string EnrollmentNumber { get; set; } = null!;
     [Parameter] public string degreeId { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; set; } = null!;
@@ -22,7 +22,8 @@ public partial class UpdateEnrollmentView : BaseView
     protected int Counter;
     protected int Counter2;
     protected List<TeacherEntity>? TeacherList;
-    protected DegreeEntity? DegreeEntity; 
+    protected DegreeEntity DegreeEntity = null!; //validar que tenga Enrollments y que tenga la tupla
+    protected DataofGrade DataofGrade = new();
 
     
     protected override async Task OnParametersSetAsync()
@@ -30,13 +31,24 @@ public partial class UpdateEnrollmentView : BaseView
         Counter = 0;
         Counter2 = 0;
         await LoadDegree();
-        TeacherList = await Controller!.GetTeacherList();
-        NumberEnrollment = Convert.ToInt32(EnrollmentNumber);
     }
 
     protected async Task LoadDegree()
     {
         DegreeEntity = await Controller!.GetConfigureEnrollment(degreeId);
+        TeacherList = await Controller!.GetTeacherList();
+        
+        DataofGrade = await Controller.GetDataOfGrade(degreeId);
+        
+        List<(SubjectEntity subject, TeacherEntity teacher)> subjectTeacherPairs = DegreeEntity.SubjectList!
+            .Zip(TeacherList, (subject, teacher) => (subject, teacher))
+            .ToList();
+        
+        
+        foreach (var enrollment in DataofGrade.EnrollmentList!)
+        {
+            enrollment.SetSubjectTeacherList(subjectTeacherPairs);
+        }
     }
 
     protected string GetSemesterLabel(int semester)
@@ -121,6 +133,6 @@ public partial class UpdateEnrollmentView : BaseView
 
     protected override bool IsLoading()
     {   
-        return !(NumberEnrollment > 0 && DegreeEntity!.EnrollmentList != null && TeacherList!.Count != 0);
+        return !(DegreeEntity?.EnrollmentList != null && TeacherList!.Count != 0);
     }
 }

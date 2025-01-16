@@ -10,7 +10,7 @@ public class DegreeBasicDto
     public int quantity { get; set; }
     public int Sections { get; set; }
     public string modality { get; set; } = null!;
-    public List<EnrollmentBasicDto> enrollments {get; set;} = null!;
+    public List<EnrollmentBasicDto> enrollmentList {get; set;} = null!;
     public List<SubjectDto> subjects { get; set; } = null!;
     
     public DegreeEntity toEntity()
@@ -32,7 +32,7 @@ public class DegreeBasicDto
             degree.SubjectList.Add(item.ToEntity());
         }
 
-        foreach (var item in enrollments)
+        foreach (var item in enrollmentList)
         {
             var entity = item.ToEntity(degree.SubjectList, teacherList!);
             degree.EnrollmentList.Add(entity);

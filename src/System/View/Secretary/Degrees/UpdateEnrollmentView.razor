@@ -1,4 +1,4 @@
-@page "/secretary/degrees/{degreeId}/enrollments/{EnrollmentNumber}"
+@page "/secretary/degrees/{degreeId}/enrollments"
 @attribute [Authorize(Roles = "admin,secretary")]
 @using wsmcbl.src.View.Components.MoveTeacherGuide
 @using wsmcbl.src.View.Components.UpdateTeacherOfSubject
@@ -13,7 +13,7 @@ else
     <div class="card show mb-4">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in DegreeEntity!.EnrollmentList!)
+                @foreach (var item in DataofGrade.EnrollmentList!)
                 {
                     Counter++;
                     <li class="nav-item">
@@ -32,7 +32,7 @@ else
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
-                @foreach (var enrollment in DegreeEntity.EnrollmentList)
+                @foreach (var enrollment in DataofGrade.EnrollmentList)
                 {
                     Counter2++;
                     <!-- Inicio datos de matricula -->
@@ -71,7 +71,7 @@ else
                                     <div class="card-body">
 
                                         <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
-                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px" @bind="DegreeEntity.schoolYear">
+                                        <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px">
 
                                         <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px" min="10" @bind="enrollment.Capacity">

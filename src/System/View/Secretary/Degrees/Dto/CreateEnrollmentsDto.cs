@@ -5,16 +5,13 @@ namespace wsmcbl.src.View.Secretary.Degrees.Dto;
 public class CreateEnrollmentsDto
 {
     public string enrollmentId { get; set; } = null!;
-    public string teacherId { get; set; } = null!;
-    public string section { get; set; } = null!;
-    public string label { get; set; } = null!;
+    public string? teacherId { get; set; }
+    public string? section { get; set; }
+    public string? label { get; set; }
     public int capacity { get; set; }
     public int quantity { get; set; }
     public List<SubjectTeacherDto> subjectList { get; set; } = null!;
-    
-    public CreateEnrollmentsDto()
-    {
-    }
+ 
 
     public CreateEnrollmentsDto(EnrollmentEntity enrollment)
     {
