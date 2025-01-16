@@ -64,9 +64,9 @@ public class UpdateOfficialEnrollmentController
         return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }
     
-    public async Task<UpdateEnrollmentDto> GetEnrollmentListByDegreeId(string GradeId)
+    public async Task<UpdateEnrollmentDto> GetEnrollmentListByDegreeId(string degreeId)
     {
-        var resource = $"degrees/{GradeId}/enrollments";
+        var resource = $"degrees/{degreeId}/enrollments";
         UpdateEnrollmentDto Default = new();
         return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }

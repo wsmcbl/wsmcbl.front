@@ -38,7 +38,9 @@ public partial class UpdateEnrollmentView : BaseView
     protected async Task LoadDegree()
     {
         var dto = await Controller.GetEnrollmentListByDegreeId(degreeId);
-        
+        enrollmentList = dto.enrollmentList;
+        teacherList = dto.teacherList;
+        subjectList = dto.subjectList;
     }
 
     protected string GetSemesterLabel(int semester)
