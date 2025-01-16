@@ -1,5 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
+using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.Controller;
 
@@ -27,4 +28,12 @@ public class CreateEnrollmentController
         List<DegreeEntity> Default = [];
         return await _apiConsumer.GetAsync(Modules.Secretary, "degrees", Default);
     }    
+    
+    public async Task<bool> InitializerEnrollment(SaveInitializerDto dto)
+    {
+        return await _apiConsumer.PutAsync(Modules.Secretary, "degrees/enrollments", dto);
+    }   
+    
+    
+    
 }

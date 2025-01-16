@@ -62,7 +62,7 @@ public partial class DegreeListView
 
         await Navigator.HideModal("confGrade");
         StateHasChanged();
-        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments/initialize");
+        await Navigator.ShowModal("InitGrade");
     }
 
     private bool IsLoading()

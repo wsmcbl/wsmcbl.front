@@ -1,83 +1,104 @@
-@page "/secretary/degrees/{degreeId}/enrollments/initialize"
 @attribute [Authorize(Roles = "admin,secretary")]
 
 @if (!IsLoading())
 {
-    <div class="loader"></div>
+    <div></div>
 }
 else
 {
-    <div class="card show mb-4">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in DegreeObj!.EnrollmentList!)
-                {
-                    Counter++;
-                    <li class="nav-item">
-                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId"
-                           href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
-                           aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
-                            @item.label
-                        </a>
-                    </li>
-                }
-                <li class="nav-item ml-auto">
-                    <button type="button" class="btn btn-success" @onclick="() => SaveEnrollments()">
-                        Guardar
+    <div class="modal fade" id="InitGrade" tabindex="-1" role="dialog" aria-labelledby="modalinit" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document"
+             style="width: 90%; height: 80%; max-width: 90%; max-height: 80%;">>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalinit">Configuración de las secciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                     </button>
-                </li>
-            </ul>
-        </div>
+                </div>
+                <div class="modal-body">
 
-        <div class="card-body" id="tabContent">
-            <div class="tab-content">
-                @foreach (var enrollment in DegreeObj.EnrollmentList)
-                {
-                    Counter2++;
-                    <!-- Inicio datos de matricula -->
-                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
-                         role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
-                        <div class="row">
-                            <div class="col-12 col-md-6" style="margin-bottom: 15px">
-                                <div class="card">
-                                    <div class="card-body">
 
-                                        <label style="display: inline-block; width: 200px;">Nombre:</label>
-                                        <input type="text" class="form-control" disabled="disabled"
-                                               style="margin-bottom: 10px" @bind="enrollment.label">
+                    <div class="card show mb-4">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                                @foreach (var item in DegreeObj!.EnrollmentList!)
+                                {
+                                    Counter++;
+                                    <li class="nav-item">
+                                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId"
+                                           href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
+                                           aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
+                                            @item.label
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
 
-                                        <label class="label-required" style="display: inline-block; width: 200px;"># De
-                                            Aula:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px"
-                                               @bind="enrollment.section">
+                        <div class="card-body" id="tabContent">
+                            <div class="tab-content">
+                                @foreach (var enrollment in DegreeObj.EnrollmentList)
+                                {
+                                    Counter2++;
+                                    <!-- Inicio datos de matricula -->
+                                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
+                                         role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
+                                        <div class="row">
+                                            
+                                            <div class="col-12 col-md-6" style="margin-bottom: 15px">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <label style="display: inline-block; width: 200px;">Nombre:</label>
+                                                        <input type="text" class="form-control" disabled="disabled"
+                                                               style="margin-bottom: 10px" @bind="enrollment.label">
 
+                                                        <label class="label-required" style="display: inline-block; width: 200px;"># De
+                                                            Aula:</label>
+                                                        <input type="text" class="form-control" style="margin-bottom: 10px"
+                                                               @bind="enrollment.section">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-md-6" style="margin-bottom: 15px">
+                                                <div class="card">
+                                                    <div class="card-body">
+
+                                                        <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
+                                                        <input type="text" class="form-control" style="margin-bottom: 10px" min="10"
+                                                               @bind="enrollment.capacity">
+
+                                                        <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
+                                                        <input type="text" class="form-control" style="margin-bottom: 10px"
+                                                               @bind="enrollment.quantity">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-danger" @onclick="() => SaveEnrollments(enrollment.enrollmentId)">Guardar</button>
+                                        </div>
+                                        
                                     </div>
-
-                                </div>
+                                    <!-- Fin datos de matricula -->
+                                }
                             </div>
                         </div>
-
-                        <div class="col-12 col-md-3" style="margin-bottom: 15px">
-                            <div class="card">
-                                <div class="card-body">
-
-                                    <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
-                                    <input type="text" class="form-control" style="margin-bottom: 10px" min="10"
-                                           @bind="enrollment.capacity">
-
-                                    <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
-                                    <input type="text" class="form-control" style="margin-bottom: 10px"
-                                           @bind="enrollment.quantity">
-
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-                    <!-- Fin datos de matricula -->
-                }
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
