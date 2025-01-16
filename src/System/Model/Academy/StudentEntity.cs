@@ -1,5 +1,3 @@
-using wsmcbl.src.View.Academy.AddGrade;
-
 namespace wsmcbl.src.Model.Academy;
 
 public class StudentEntity
@@ -14,7 +12,7 @@ public class StudentEntity
     public List<GradeEntity>? gradeList {get; set;}
 
 
-    public double getCoductGrade()
+    public double getConductGrade()
     {
         if (gradeList == null || gradeList.Count == 0)
         {

@@ -8,7 +8,6 @@
 }
 else
 {
-    //Información de la sección y del maestro
     <div class="card border-bottom-danger shadow h-100 py-2 mb-4">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -16,9 +15,10 @@ else
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="m-0 font-weight-bold text-primary">@enrollmentLabel</h5>
                     </div>
-                    <div class="py-3 d-flex justify-content-between align-items-center">
-                        <span><strong>Maestro: </strong>@TeacherName</span>
-                        <span>@DateTime.Now.ToString("dddd dd 'de' MMMM", new System.Globalization.CultureInfo("es-ES"))</span>
+                    <div class="py-3">
+                        <div><strong>Docente: </strong>@TeacherName</div>
+                        <div><strong>Parcial activo: </strong>@getPartialName()</div>
+                        <div><strong>Fecha: </strong>@getDatetime()</div>
                     </div>
                 </div>
             </div>
@@ -28,84 +28,96 @@ else
     @if (studentList != null && subjectList != null)
     {
         //Pestañas para los 4 parciales.
-    <div class="card show mb-4">
-        <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                @foreach (var item in partialsList!.OrderBy(t => t.partialId))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link @(ActiveTabId == item.partialId ? "active" : "")" id="panel-@item.partialId"
-                            @onclick="(() => ActiveTabId = item.partialId)">
-                            @item.label
-                        </a>
+        <div class="card show mb-4">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                    @foreach (var item in partialsList!.OrderBy(t => t.partialId))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(ActiveTabId == item.partialId ? "active" : "")"
+                               id="panel-@item.partialId"
+                               @onclick="(() => ActiveTabId = item.partialId)">
+                                @item.label
+                            </a>
+                        </li>
+                    }
+
+                    <li class="nav-item ml-auto">
+                        <button class="disabled btn btn-outline-secondary">
+                            Subir Excel
+                        </button>
+                        <button class="disabled btn btn-outline-secondary">
+                            Descargar Excel
+                        </button>
+                        <button class="btn btn-success btn-sm" @onclick="UpdateGradeList">
+                            Guardar
+                        </button>
                     </li>
-                }
-                <li class="nav-item ml-auto">
-                    <button class="btn btn-success btn-sm" @onclick="ToSaveGrade">
-                        Guardar
-                    </button>
-                </li>
-            </ul>
-        </div>
+                </ul>
+            </div>
 
-        
-        <div class="card-body" id="tabContent">
-            <div class="tab-content">
-                @foreach (var item in partialsList!.OrderBy(t => t.partialId))
-                {
-                    <div class="tab-pane fade @(ActiveTabId == item.partialId ? "show active" : "")" id="card-@item.partialId"
-                         role="tabpanel" aria-labelledby="panel-@item.partialId">
 
-                        <table class="table table-bordered table-responsive">
-                            <thead>
-                            <tr>
-                                <th>Estudiante</th>
-                                @foreach (var subject in subjectList)
-                                {
-                                    <th>@subject.name</th>
-                                }
-                                <th>Conducta</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var student in studentList)
-                            {
+            <div class="card-body" id="tabContent">
+                <div class="tab-content">
+                    @foreach (var item in partialsList!.OrderBy(t => t.partialId))
+                    {
+                        <div class="tab-pane fade @(ActiveTabId == item.partialId ? "show active" : "")"
+                             id="card-@item.partialId"
+                             role="tabpanel" aria-labelledby="panel-@item.partialId">
+
+                            <table class="table table-bordered table-responsive">
+                                <thead>
                                 <tr>
-                                    <td>@student.fullName</td>
+                                    <th>Estudiante</th>
                                     @foreach (var subject in subjectList)
                                     {
-                                        <td>
-                                            @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId)  != null)
-                                            {
-                                                <div>
-                                                    <label>Nota:</label>
-                                                    <input type="number" class="form-control"
-                                                           @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade" />
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <span>No asignado</span>
-                                            }
-
-                                        </td>
+                                        <th>@subject.name</th>
                                     }
-                                    <td>
-                                        <div>
-                                            <label>Nota:</label>
-                                            <input type="number" class="form-control"
-                                                   @bind="student.conductgrade" />
-                                        </div>
-                                    </td>
+                                    <th>Conducta</th>
                                 </tr>
-                            }
-                            </tbody>
-                        </table>
-                    </div>
-                }
+                                </thead>
+                                <tbody>
+                                @foreach (var student in studentList)
+                                {
+                                    <tr>
+                                        <td>@student.fullName</td>
+                                        @foreach (var subject in subjectList)
+                                        {
+                                            <td>
+                                                @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
+                                                {
+                                                    <div>
+                                                        <label>Etiqueta:</label> @student.gradeList!.First(e => e.subjectId == subject.subjectId).label
+                                                    </div>
+                                                    <div class="py-3 d-flex">
+                                                        <label>Nota:</label>
+                                                        <input type="number" class="form-control"
+                                                               @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"/>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <span>No asignado</span>
+                                                }
+
+                                            </td>
+                                        }
+                                        <td>
+                                            <div>
+                                                <label>Nota:</label>
+                                                <input type="number" class="form-control"
+                                                       @bind="student.conductgrade"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-    </div>
     }
     else
     {
@@ -113,5 +125,4 @@ else
             <h3>No hay datos disponibles para mostrar</h3>
         </div>
     }
-    
 }

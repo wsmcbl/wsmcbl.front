@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
@@ -53,7 +54,7 @@ public partial class AddGradeView : BaseView
         studentList = result.studentList;
     }
 
-    private async Task ToSaveGrade()
+    private async Task UpdateGradeList()
     {
         if (studentList == null || studentList.Count == 0)
         {
@@ -77,6 +78,7 @@ public partial class AddGradeView : BaseView
         if (response)
         {
             await Notificator.ShowSuccess("Éxito", "Hemos guardado las calificaciones correctamente.");
+            await GetFullInfoEnrollment();
             return;
         }
 
@@ -96,5 +98,22 @@ public partial class AddGradeView : BaseView
     protected override bool IsLoading()
     {
         return partialsList == null;
+    }
+
+    private string getDatetime()
+    {
+        return DateTime.Now.ToString("dddd dd 'de' MMMM 'de' yyyy", new CultureInfo("es-ES"));
+    }
+
+    private string getPartialName()
+    {
+        return currentPartial switch
+        {
+            1 => "I Parcial",
+            2 => "II Parcial",
+            3 => "III Parcial",
+            4 => "VI Parcial",
+            _ => "No hay parcial activo."
+        };
     }
 }
