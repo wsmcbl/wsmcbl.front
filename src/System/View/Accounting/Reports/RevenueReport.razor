@@ -146,8 +146,8 @@ else
                         <i class="fas fa-hourglass-start"></i>
                     </span>
                     <span class="text" style="color: black">
-                        <strong>Hasta: </strong> @(DateTime.TryParse(Transactions.endDate, out _)
-                                                     ? startDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                        <strong>Hasta: </strong> @(DateTime.TryParse(Transactions.endDate, out var endDate)
+                                                     ? endDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
                                                      : "Sin fecha")
                     </span>
                 </a>

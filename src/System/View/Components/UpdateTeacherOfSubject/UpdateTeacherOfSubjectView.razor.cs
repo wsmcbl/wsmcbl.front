@@ -11,13 +11,14 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
     [Parameter] public string SubjectId { get; set; } = null!;
     [Parameter] public string SubjectName { get; set; } = null!;
     [Parameter] public string EnrollmentId { get; set; } = null!;
+    [Parameter] public EventCallback TeacherSubjectUpdated { get; set; }
+
     [Inject] private MoveTeacherGuideFromEnrollmentController Controller { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
-    
-    private TeacherSubjectDto NewTeacherSubject = new();
+
+    private string? teacherId {get;set;}
     private List<TeacherEntity> TeacherAvailableList = [];
-    [Parameter] public EventCallback TeacherSubjectUpdated { get; set; }
 
     
     protected override async Task OnParametersSetAsync()
@@ -28,26 +29,28 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
 
     private async Task UpdateTeacher()
     {
-        NewTeacherSubject.subjectId = SubjectId;
-        NewTeacherSubject.enrollmentId = EnrollmentId;
-        
-        var response = await Controller.UpdateTeacherSubject(NewTeacherSubject);
-        if (response)
+        var response = await Controller.UpdateTeacherSubject(EnrollmentId, SubjectId, teacherId!);
+        if (!response)
         {
-            await Notificator.ShowSuccess("Exito", "Hemos asignado al nuevo maestro");
-            await TeacherSubjectUpdated.InvokeAsync();
-            await Navigator.HideModal("UpdateTeacherSubject");
-            StateHasChanged();
+            await Notificator.ShowError("Error", "No pudimos asignar al docente.");
             return;
         }
-
-        await Notificator.ShowError("Error", "No pudimos asignar al maestro");
+        
+        await Notificator.ShowSuccess("Exito", "Hemos asignado al nuevo docente.");
+        await TeacherSubjectUpdated.InvokeAsync();
+        await Navigator.HideModal("UpdateTeacherSubject");
+        StateHasChanged();
     }
 
     private Task GetTeacherIdSelect(ChangeEventArgs e)
     {
         var selectTeacherId = e.Value!.ToString();
-        if (selectTeacherId != null) NewTeacherSubject.teacherId = selectTeacherId;
+
+        if (selectTeacherId != null)
+        {
+            teacherId = selectTeacherId;
+        }
+
         return Task.CompletedTask;
     }
 }

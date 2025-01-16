@@ -34,11 +34,10 @@ public class MoveTeacherGuideFromEnrollmentController
         return await _apiConsumer.PutAsync<object>(Modules.Academy, resource, null);
     }
     
-    public async Task<bool> UpdateTeacherSubject(TeacherSubjectDto teacher)
+    public async Task<bool> UpdateTeacherSubject(string enrollmentId, string subjectId, string teacherId)
     {
-        var resource = $"subjects";
-        var response = await _apiConsumer.PutAsync(Modules.Secretary, resource, teacher);
-        return response;    
+        var resource = $"enrollments/{enrollmentId}/subjects/{subjectId}?teacherId={teacherId}";
+        return await _apiConsumer.PutAsync<object>(Modules.Academy, resource, null);
     }
     
 }
