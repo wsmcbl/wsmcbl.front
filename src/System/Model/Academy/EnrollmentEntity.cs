@@ -4,10 +4,10 @@ public class EnrollmentEntity
 {
     public string enrollmentId { get; set; } = null!;
     public string? teacherId { get; set; }
-    public string Label { get; set; } = null!;  
-    public int Capacity { get; set; }
-    public int Quantity { get; set; }
-    public string? Section { get; set; }
+    public string label { get; set; } = null!;  
+    public int capacity { get; set; }
+    public int quantity { get; set; }
+    public string? section { get; set; }
     public List<StudentEntity> studentList { get; set; } = new List<StudentEntity>();    
     public List<MinimalSubject> subjectList { get; set; } = new List<MinimalSubject>();
     public List<(SubjectEntity subject, TeacherEntity teacher)> SubjectTeacherList { get; private set; } = null!;

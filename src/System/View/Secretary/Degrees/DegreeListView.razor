@@ -1,6 +1,5 @@
 @page "/secretary/degrees"
 @attribute [Authorize(Roles = "admin,secretary")]
-@inherits BaseView;
 
 @if (IsLoading())
 {
@@ -44,7 +43,7 @@ else
                             <td>
                                 @if (item.haveEnrollments())
                                 {
-                                    <button type="button" class="btn btn-danger" @onclick="() => OpenModal(item.degreeId!)">
+                                    <button type="button" class="btn btn-danger" @onclick="() => CreateEnrollmentModal(item.degreeId!)">
                                         Configurar
                                     </button>
                                 }
@@ -89,4 +88,10 @@ else
             </div>
         </div>
     </div>
+    
+    <InitializeEnrollmentView @bind-DegreeObj="Degree" />
+    
+    
+    
+    
 }

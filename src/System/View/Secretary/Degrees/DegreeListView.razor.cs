@@ -6,7 +6,7 @@ using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
-public partial class DegreeListView : BaseView
+public partial class DegreeListView
 {
     [Parameter] public int SectionsNumber { get; set; }
     [Parameter] public string? degreeId { get; set; }
@@ -14,13 +14,15 @@ public partial class DegreeListView : BaseView
     [Inject] protected Notificator? Notificator { get; set; }
     [Inject] protected Navigator Navigator { get; set; } = null!;
 
-    protected List<DegreeEntity>? DegreeList { get; set; }
+    private List<DegreeEntity>? DegreeList { get; set; }
+    protected DegreeEntity? Degree { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
             DegreeList = await createController!.GetDegreeList();
+            StateHasChanged();
         }
         catch (Exception e)
         {
@@ -28,21 +30,21 @@ public partial class DegreeListView : BaseView
         }
         
     }
-    
-    protected async Task OpenModal(string value)
+
+    private async Task CreateEnrollmentModal(string value)
     {
         degreeId = value;
         await Navigator.ShowModal("confGrade");
     }
-    
-    protected void ViewGrade(string value)
+
+    private void ViewGrade(string value)
     {
         degreeId = value;
         Navigator.ToPage($"secretary/degrees/{degreeId}/enrollments");
         
     }
-    
-    protected async Task CreateEnrollments(string value, int quantity)
+
+    private async Task CreateEnrollments(string value, int quantity)
     {
         if (quantity is < 1 or >= 7)
         {
@@ -51,18 +53,19 @@ public partial class DegreeListView : BaseView
         }
 
         degreeId = value;
-        
-        var response = await createController!.CreateEnrollments(degreeId, quantity);
-        if (response == null)
+        Degree = await createController!.CreateEnrollments(value, quantity);
+        if (Degree == null)
         {
+            await Notificator!.ShowError("Error", "No pudimos crear las secciones");
             return;
         }
 
         await Navigator.HideModal("confGrade");
-        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments");
+        StateHasChanged();
+        Navigator.ToPage($"/secretary/degrees/{degreeId}/enrollments/initialize");
     }
 
-    protected override bool IsLoading()
+    private bool IsLoading()
     {
         return DegreeList == null;
     }

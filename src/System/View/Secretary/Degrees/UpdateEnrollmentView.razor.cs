@@ -95,13 +95,13 @@ public partial class UpdateEnrollmentView : BaseView
 
     private async Task<bool> ValidateInformation()
     {
-        if (DegreeEntity!.EnrollmentList!.Any(entity => entity.Capacity < 10))
+        if (DegreeEntity!.EnrollmentList!.Any(entity => entity.capacity < 10))
         {
             await Notificator.ShowInformation("Error", "La capacidad de la sección debe ser al menos de 10.");
             return false;
         }
 
-        if (DegreeEntity!.EnrollmentList!.Any(entity => string.IsNullOrWhiteSpace(entity.Section)))
+        if (DegreeEntity!.EnrollmentList!.Any(entity => string.IsNullOrWhiteSpace(entity.section)))
         {
             await Notificator.ShowInformation("Error", "El número del aula no puede estar vacío.");
             return false;

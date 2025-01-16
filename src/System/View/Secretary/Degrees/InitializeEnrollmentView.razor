@@ -1,16 +1,83 @@
-@page "/secretary/degrees/{degreeId}/enrollments/1"
-
+@page "/secretary/degrees/{degreeId}/enrollments/initialize"
 @attribute [Authorize(Roles = "admin,secretary")]
-@inherits BaseView;
 
-@if (IsLoading())
+@if (!IsLoading())
 {
     <div class="loader"></div>
 }
 else
 {
-    <div class="modal-body">
-        Content
+    <div class="card show mb-4">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                @foreach (var item in DegreeObj!.EnrollmentList!)
+                {
+                    Counter++;
+                    <li class="nav-item">
+                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId"
+                           href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
+                           aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
+                            @item.label
+                        </a>
+                    </li>
+                }
+                <li class="nav-item ml-auto">
+                    <button type="button" class="btn btn-success" @onclick="() => SaveEnrollments()">
+                        Guardar
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body" id="tabContent">
+            <div class="tab-content">
+                @foreach (var enrollment in DegreeObj.EnrollmentList)
+                {
+                    Counter2++;
+                    <!-- Inicio datos de matricula -->
+                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
+                         role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
+                        <div class="row">
+                            <div class="col-12 col-md-6" style="margin-bottom: 15px">
+                                <div class="card">
+                                    <div class="card-body">
+
+                                        <label style="display: inline-block; width: 200px;">Nombre:</label>
+                                        <input type="text" class="form-control" disabled="disabled"
+                                               style="margin-bottom: 10px" @bind="enrollment.label">
+
+                                        <label class="label-required" style="display: inline-block; width: 200px;"># De
+                                            Aula:</label>
+                                        <input type="text" class="form-control" style="margin-bottom: 10px"
+                                               @bind="enrollment.section">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-3" style="margin-bottom: 15px">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
+                                    <input type="text" class="form-control" style="margin-bottom: 10px" min="10"
+                                           @bind="enrollment.capacity">
+
+                                    <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
+                                    <input type="text" class="form-control" style="margin-bottom: 10px"
+                                           @bind="enrollment.quantity">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Fin datos de matricula -->
+                }
+            </div>
+        </div>
     </div>
 }
 

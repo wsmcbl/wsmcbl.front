@@ -20,10 +20,10 @@ public class EnrollmentBasicDto
         {
             enrollmentId = enrollmentId,
             teacherId = teacherId,
-            Label = label,
-            Section = section,
-            Capacity = capacity,
-            Quantity = quantity
+            label = label,
+            section = section,
+            capacity = capacity,
+            quantity = quantity
         };
 
         result.SetSubjectTeacherList(getSubjectTeacherTuple(subjectList, teacherList));

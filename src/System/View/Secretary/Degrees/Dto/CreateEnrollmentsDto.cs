@@ -17,10 +17,10 @@ public class CreateEnrollmentsDto
     {
         enrollmentId = enrollment.enrollmentId;
         teacherId = enrollment.teacherId!;
-        section = enrollment.Section!;
-        label = enrollment.Label;
-        capacity = enrollment.Capacity;
-        quantity = enrollment.Quantity;
+        section = enrollment.section!;
+        label = enrollment.label;
+        capacity = enrollment.capacity;
+        quantity = enrollment.quantity;
         subjectList = enrollment.MapToListDto();
     }
 }

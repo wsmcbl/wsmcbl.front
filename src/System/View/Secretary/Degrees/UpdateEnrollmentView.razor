@@ -18,7 +18,7 @@ else
                     Counter++;
                     <li class="nav-item">
                         <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId" href="#card-@item.enrollmentId" data-toggle="tab" role="tab" aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
-                            @item.Label
+                            @item.label
                         </a>
                     </li>
                 }
@@ -45,7 +45,7 @@ else
 
                                         <label style="display: inline-block; width: 200px;">Nombre:</label>
                                         <input type="text" class="form-control" disabled="disabled"
-                                               style="margin-bottom: 10px" @bind="enrollment.Label">
+                                               style="margin-bottom: 10px" @bind="enrollment.label">
 
                                         <label style="display: inline-block; width: 200px;">Maestro Guía:</label>
                                         <div class="row">
@@ -74,7 +74,7 @@ else
                                         <input type="text" class="form-control" disabled="disabled" style="margin-bottom: 10px">
 
                                         <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" min="10" @bind="enrollment.Capacity">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" min="10" @bind="enrollment.capacity">
                                     </div>
                                 </div>
                             </div>
@@ -82,10 +82,10 @@ else
                                 <div class="card">
                                     <div class="card-body">
                                         <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Quantity">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.quantity">
 
                                         <label class="label-required" style="display: inline-block; width: 200px;"># De Aula:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.Section">
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" @bind="enrollment.section">
                                     </div>
                                 </div>
                             </div>
