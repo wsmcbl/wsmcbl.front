@@ -21,7 +21,7 @@
                     <div class="form-group">
                         <label for="name">Tipo</label>
                         <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Type">
-                            @foreach (var option in DropdownTypeTariffsLists)
+                            @foreach (var option in TariffTypeItemList)
                             {
                             <option value="@option.Id">@option.Name</option>
                             }

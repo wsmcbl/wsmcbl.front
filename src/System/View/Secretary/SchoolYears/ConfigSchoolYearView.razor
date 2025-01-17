@@ -216,7 +216,7 @@ else
                         <tbody>
                         @foreach (var item in SchoolYear.tariffAuxList!)
                         {
-                            var typeTariff = DropdownTypeTariffsLists.FirstOrDefault(t => t.Id == item.Type);
+                            var typeTariff = TariffTypeItemList.FirstOrDefault(t => t.Id == item.Type);
                             <tr>
                                 <td>@item.Concept</td>
                                 <td>@item.DueDate.ToStringFormat()</td>
@@ -264,7 +264,7 @@ else
 
     </div>
     
-    <ModalEditTariff @ref="modalEditTariffRef" DropdownTypeTariffsLists="DropdownTypeTariffsLists" OnEditCompleted="RefreshParentComponent"/>
+    <ModalEditTariff @ref="modalEditTariffRef" TariffTypeItemList="TariffTypeItemList" OnEditCompleted="RefreshParentComponent"/>
     <ModalNewSubject SchoolYearEntity="SchoolYear"/>
-    <ModalNewTariff DropdownTypeTariffsLists="DropdownTypeTariffsLists"/>
+    <ModalNewTariff TariffTypeItemList="TariffTypeItemList"/>
 }

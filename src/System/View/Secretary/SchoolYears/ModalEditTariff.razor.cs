@@ -8,7 +8,7 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public partial class ModalEditTariff : ComponentBase
 {
-    [Parameter] public List<DropdownList> DropdownTypeTariffsLists { get; set; } = null!;
+    [Parameter] public List<DropDownItem> TariffTypeItemList { get; set; } = null!;
     [Parameter] public EventCallback OnEditCompleted { get; set; }
     
     

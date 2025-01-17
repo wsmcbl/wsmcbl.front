@@ -55,7 +55,7 @@ public class CreateSchoolYearController
         return response != Default;
     }
     
-    public async Task<List<DropdownList>> GetTypeTariffList()
+    public async Task<List<DropDownItem>> GetTypeTariffList()
     {
         var resource = "tariffs/types";
         List<TypeTariffDto> Default = [];

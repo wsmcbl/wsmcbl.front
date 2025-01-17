@@ -25,16 +25,6 @@ public class Notificator
         await Service.FireAsync(new SweetAlertOptions{ Title = title, Text = text, Icon = SweetAlertIcon.Info});
     }
     
-    public async Task ShowError(string title, string text, string footer)
-    {
-        await Service.FireAsync(new SweetAlertOptions 
-        {
-            Title = title,
-            Text = text,
-            Footer  = footer,
-            Icon = SweetAlertIcon.Error
-        });
-    }
     
     public async Task ShowError(string content)
     {
@@ -44,6 +34,17 @@ public class Notificator
     public async Task ShowError(string title, string text)
     {
         await ShowError(title, text, string.Empty);
+    }
+    
+    public async Task ShowError(string title, string text, string footer)
+    {
+        await Service.FireAsync(new SweetAlertOptions 
+        {
+            Title = title,
+            Text = text,
+            Footer  = footer,
+            Icon = SweetAlertIcon.Error
+        });
     }
     
     public async Task ShowWarning(string title, string text)

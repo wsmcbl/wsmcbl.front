@@ -13,19 +13,19 @@ public class ConfigSchoolYear : ComponentBase
     [Inject] protected CreateSchoolYearController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
     protected SchoolYearEntity? SchoolYear { get; set; }
-    protected List<PartialListDto>? PartialListDto { get; set; }
+    private List<PartialListDto>? PartialListDto { get; set; }
     
     protected DegreeDto? SelectedDegree;
-    protected List<DropdownList> DropdownTypeTariffsLists = new();
+    protected List<DropDownItem> TariffTypeItemList { get; set; } = new();
     protected ModalEditTariff? modalEditTariffRef { get; set; }
     
     protected override async Task OnParametersSetAsync()
     {
         var defaultSchoolyear = new SchoolYearEntity();
         SchoolYear = await controller!.GetNewSchoolYears(defaultSchoolyear);
-        DropdownTypeTariffsLists = await controller.GetTypeTariffList();
+        TariffTypeItemList = await controller.GetTypeTariffList();
         
-        if (SchoolYear == defaultSchoolyear || DropdownTypeTariffsLists == null)
+        if (SchoolYear == defaultSchoolyear || TariffTypeItemList == null)
         {
             throw new InternalException("Es posible que exista más de 2 años lectivos activos al mismo tiempo.");
         }

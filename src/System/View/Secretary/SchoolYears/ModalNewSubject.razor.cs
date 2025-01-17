@@ -12,13 +12,13 @@ public partial class ModalNewSubject : ComponentBase
     [Inject] protected CreateSchoolYearController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
     
-    private List<DropdownList> DropdownSemesterLists =
+    private List<DropDownItem> semesterItemList { get; set; } =
     [
-        new DropdownList { Id = 1, Name = "Primer Semestre" },
-        new DropdownList { Id = 2, Name = "Segundo Semestre" },
-        new DropdownList { Id = 3, Name = "Ambos" }
+        new() { Id = 1, Name = "Primer Semestre" },
+        new() { Id = 2, Name = "Segundo Semestre" },
+        new() { Id = 3, Name = "Ambos" }
     ];    
-    private List<DropdownList> DropdownDegreeLists = [];
+    private List<DropDownItem> degreeItemList = [];
     private SubjectDto SubjectNew = new();
 
     protected override Task OnParametersSetAsync()
@@ -26,7 +26,7 @@ public partial class ModalNewSubject : ComponentBase
         var degreeId = 1;
         foreach (var item in SchoolYearEntity!.degreeList!)
         {
-            DropdownDegreeLists.Add(new DropdownList
+            degreeItemList.Add(new DropDownItem
             {
                 Id = degreeId,
                 Name = item.label

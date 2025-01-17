@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label for="gradeIntId">Grado</label>
                         <select id="gradeIntId" class="form-control" style="margin: 0" @bind="SubjectNew.GradeIntId">
-                            @foreach (var option in DropdownDegreeLists)
+                            @foreach (var option in degreeItemList)
                             {
                             <option value="@option.Id">@option.Name</option>
                             }
@@ -34,7 +34,7 @@
                     <div class="form-group">
                         <label for="semester">Semestre</label>
                         <select id="semester" class="form-control" style="margin: 0" @bind="SubjectNew.Semester">
-                            @foreach (var option in DropdownSemesterLists)
+                            @foreach (var option in semesterItemList)
                             {
                             <option value="@option.Id">@option.Name</option>
                             }

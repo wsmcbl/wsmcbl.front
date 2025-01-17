@@ -7,9 +7,9 @@ public class TypeTariffDto
     public int typeId { get; set; }
     public string description { get; set; } = null!;
     
-    public DropdownList ToDropdownList()
+    public DropDownItem ToDropdownList()
     {
-        return new DropdownList()
+        return new DropDownItem()
         {
             Id = typeId,
             Name = description
