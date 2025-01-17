@@ -112,13 +112,14 @@ public class ApiConsumer
     protected virtual async Task<T> GenericHttpResponse<T>(Func<Task<T?>> httpRequest, T defaultResult,
         HttpResponseMessage response)
     {
-        response.EnsureSuccessStatusCode();
         if (response.IsSuccessStatusCode)
         {
             return (await httpRequest())!;
         }
         
-        return defaultResult;
+        var problem = await response.Content.ReadFromJsonAsync<ApiProblemDetails>();
+        throw new InternalException("Lo sentimos, ocurrió un error.",
+            $"{problem?.Detail}",  problem!.GetValidationErrors(), (int)response.StatusCode);
     }
 
     private static Uri GetServerUri()

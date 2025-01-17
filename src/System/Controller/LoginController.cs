@@ -26,14 +26,25 @@ public class LoginController
         var data = new LoginDto(email, password);
         try
         {
-            var result = await _apiConsumer.PostAsync(Modules.Config, "users/tokens", data, defaultDto);
+            var result = await _apiConsumer
+                .PostAsync(Modules.Config, "users/tokens", data, defaultDto);
+            
             return result.token!;
         }
-        catch (Exception e)
+        catch (InternalException e)
         {
-            errorMessage = e.Message;
+            setErrorMessage(e.StatusCode);
             return string.Empty;
         }
+    }
+
+    private void setErrorMessage(int statusCode)
+    {
+        errorMessage = statusCode switch
+        {
+            400 => "Usuario no autorizado, verifique su correo y contraseña.",
+            _ => "Lo sentimos, ocurrió un error el sistema, intente más tarde."
+        };
     }
 
     public async Task<UserEntity> getUserById()
