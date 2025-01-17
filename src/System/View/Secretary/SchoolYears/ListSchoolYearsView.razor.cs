@@ -7,7 +7,7 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 public class ListSchoolYears : ComponentBase
 {
     protected List<SchoolYearDto>? SchoolYear;
-    [Inject] protected UpdateOfficialEnrollmentController Controller { get; set; } = null!;
+    [Inject] protected CreateSchoolYearController Controller { get; set; } = null!;
     
     protected override async Task OnParametersSetAsync()
     {

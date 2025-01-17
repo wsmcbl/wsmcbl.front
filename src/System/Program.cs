@@ -26,6 +26,7 @@ builder.Services.AddScoped<ProtectedLocalStorage>();
 
 // I iteration
 builder.Services.AddTransient<CollectTariffController>();
+builder.Services.AddTransient<CreateSchoolYearController>();
 builder.Services.AddTransient<UpdateOfficialEnrollmentController>();
 builder.Services.AddTransient<EnrollStudentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
