@@ -44,4 +44,6 @@ public static class Utilities
     } 
     
     public static string ToStringValid(this bool isValid) => isValid ? "Válido" : "Inválido";
+    
+    public static string ToStringYesOrNo(this bool value) => value ? "Sí" : "No"; 
 }

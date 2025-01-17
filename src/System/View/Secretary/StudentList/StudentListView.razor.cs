@@ -22,7 +22,7 @@ public partial class StudentListView : BaseView
 
     protected override void OnParametersSet()
     {
-        ReportCardPdf = [];
+        PdfDocument = [];
     }
 
     protected override async Task OnInitializedAsync()
@@ -40,40 +40,27 @@ public partial class StudentListView : BaseView
         return studentList == null;
     }
 
-    private void ToProfileUpdate(string studentId)
-    {
-        Navigator.ToPage($"/secretary/update-profile-picture/{studentId}");
-    }
-
-    private byte[]? ReportCardPdf { get; set; }
-
     private async Task PrintReportCard(string studentId)
     {
-        ReportCardPdf = await PrintController.GetPdfContent(studentId);
-        PdfDocument = ReportCardPdf;
-        PdfDocumentName = "Boleta de calificaciónes";
-
-        if (ReportCardPdf.Length == 0)
+        PdfDocument = await PrintController.GetPdfContent(studentId);
+        if (PdfDocument.Length == 0)
         {
             return;
         }
 
+        PdfDocumentName = "Boleta de calificaciones";
         await Navigator.ShowPdfModal();
     }
-
-    private byte[]? EnrollSheetPdf { get; set; }
-
+    
     private async Task PrintEnrollSheet(string studentId)
     {
-        EnrollSheetPdf = await EnrollController.GetEnrollSheetPdf(studentId);
-        PdfDocument = EnrollSheetPdf;
-        PdfDocumentName = "Hoja de matrícula";
-
-        if (EnrollSheetPdf.Length == 0)
+        PdfDocument = await EnrollController.GetEnrollSheetPdf(studentId);
+        if (PdfDocument.Length == 0)
         {
             return;
         }
 
+        PdfDocumentName = "Hoja de matrícula";
         await Navigator.ShowPdfModal();
     }
 

@@ -3,6 +3,7 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin")]
 
+@using wsmcbl.src.Utilities
 @using wsmcbl.src.View.Components
 @using wsmcbl.src.View.Secretary.CreateStudent
 @using wsmcbl.src.View.Components.MoveStudent
@@ -39,7 +40,7 @@ else
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Activo</th>
-                        <th>Año Lectivo</th>
+                        <th>Año lectivo</th>
                         <th>Grado</th>
                         <th>Acciones</th>
                     </tr>
@@ -49,7 +50,7 @@ else
                         <th>Id</th>
                         <th>Nombre</th>
                         <th>Activo</th>
-                        <th>Año Lectivo</th>
+                        <th>Año lectivo</th>
                         <th>Grado</th>
                         <th>Acciones</th>
                     </tr>
@@ -62,7 +63,7 @@ else
                             <td> @item.fullName </td>
                             <td>
                                 <span class="status-label @getStatusLabel(item.isActive)">
-                                    @item.isActive.yesOrNo()
+                                    @item.isActive.ToStringYesOrNo()
                                 </span>
                             </td>
                             <td> @item.schoolyear </td>
