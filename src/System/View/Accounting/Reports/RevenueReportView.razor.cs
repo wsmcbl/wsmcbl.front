@@ -29,13 +29,13 @@ public partial class RevenueReportView : BaseView
         
         report = await controller.GetReport(type);
         hasData = report.transactionList.Count > 0;
+        StateHasChanged();
     }
 
     private void ClearData()
     {
-        report = new TransactionsRevenuesDto();
+        report!.transactionList = [];
         hasData = false;
-        StateHasChanged();
     }
 
     protected override bool IsLoading()

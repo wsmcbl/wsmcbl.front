@@ -6,20 +6,42 @@ public static class Utilities
 {
     public static string TokenKey => "authToken";
     
-    public static string ToStringFormat(this DateOnly? datetime)
+    public static string ToStringFormat(this DateOnly? date)
     {
-        if (datetime == null)
+        if (date == null)
             return string.Empty;
         
         var culture = new CultureInfo("es-ES")
         {
             DateTimeFormat =
             {
-                AMDesignator = "AM",
-                PMDesignator = "PM"
+                AMDesignator = "am",
+                PMDesignator = "pm"
             }
         };
 
-        return ((DateOnly)datetime).ToString("dd/MMM/yyyy", culture);
+        return ((DateOnly)date).ToString("dd/MMM/yyyy", culture);
     }
+
+    private static string ToStringFormat(this DateTime dateTime)
+    {
+        var culture = new CultureInfo("es-ES")
+        {
+            DateTimeFormat =
+            {
+                AMDesignator = "am",
+                PMDesignator = "pm"
+            }
+        };
+
+        return dateTime.ToString("dddd dd/MMM/yyyy, h:mm tt", culture);   
+    }
+    
+    public static string ToDateTimeFormat(this string date)
+    {
+        var result = DateTime.TryParse(date, out var value);
+        return result ? value.ToStringFormat() : "Sin fecha.";
+    } 
+    
+    public static string ToStringValid(this bool isValid) => isValid ? "Válido" : "Inválido";
 }

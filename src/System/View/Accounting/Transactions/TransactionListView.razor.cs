@@ -8,25 +8,24 @@ namespace wsmcbl.src.View.Accounting.Transactions;
 
 public partial class TransactionListView : BaseView
 {
-    [Inject] private TransactionReportByDateController? Controller { get; set; }
-    [Inject] private CollectTariffController? CollectTariffController { get; set; }
     [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private TransactionReportByDateController controller { get; set; } = null!;
+    [Inject] private CollectTariffController CollectTariffController { get; set; } = null!;
     
-    private List<TransactionFullDto> Transactions = [];
-    private List<TransactionTypeDto> TypeTransactions { get; set; } = null!;
     private byte[]? InvoicePdf { get; set; }
-    private bool IsLoad { get; set; } = true;
+    private List<TransactionFullDto>? transactionList { get; set; }
+    private List<TransactionTypeDto>? transactionTypeList { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         await LoadData();
     }
+    
     private async Task LoadData()
     {
-        TypeTransactions = await Controller!.GetTypeTransactions();
-        Transactions = await Controller!.GetTransactions();
-        IsLoad = false;
+        transactionTypeList = await controller!.GetTypeTransactions();
+        transactionList = await controller!.GetTransactions();
     }
     
     private async Task GetInvoicePdf(string transactionId)
@@ -40,21 +39,31 @@ public partial class TransactionListView : BaseView
         var result = await Notificator
             .ShowAlertQuestion("Advertencia", $"¿Está seguro de anular la transacción {transactionId}?",
                 ("Sí", "No"));
-        
-        if (result)
+        if (!result)
         {
-            var response = await CollectTariffController!.CancelTransaction(transactionId);
-            if (!response)
-            {
-                await Notificator.ShowError("Hubo un fallo al anular la transacción.");
-                return;
-            }
-            
-            await Notificator.ShowSuccess("Transacción anulada correctamente.");
-            await LoadData();
-            StateHasChanged();
+            return;
         }
+        
+        var response = await CollectTariffController!.CancelTransaction(transactionId);
+        if (!response)
+        {
+            await Notificator.ShowError("Hubo un fallo al anular la transacción.");
+            return;
+        }
+            
+        await Notificator.ShowSuccess("Transacción anulada correctamente.");
+        await LoadData();
+        StateHasChanged();
     }
     
-    
+    private string getTransactionDescription(int type)
+    {
+        return transactionTypeList!
+            .FirstOrDefault(t => t.typeId == type)?.description ?? "Descripción no disponible";
+    }
+
+    protected override bool IsLoading()
+    {
+        return transactionList == null || transactionTypeList == null;
+    }
 }

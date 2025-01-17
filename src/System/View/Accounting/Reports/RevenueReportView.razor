@@ -1,5 +1,6 @@
 @page "/accounting/reports/revenue"
 @attribute [Authorize(Roles = "admin,cashier")]
+@using wsmcbl.src.Utilities
 @inherits BaseView
 
 @if (IsLoading())
@@ -134,7 +135,7 @@ else
                         <i class="fas fa-hourglass-start"></i>
                     </span>
                     <span class="text" style="color: black">
-                        <strong>Desde: </strong> @report.getStartDate()
+                        <strong>Desde: </strong> @report.startDate.ToDateTimeFormat()
                     </span>
                 </a>
             </div>
@@ -145,7 +146,7 @@ else
                         <i class="fas fa-hourglass-start"></i>
                     </span>
                     <span class="text" style="color: black">
-                        <strong>Hasta: </strong> @report.getEndDate()
+                        <strong>Hasta: </strong> @report.endDate.ToDateTimeFormat()
                     </span>
                 </a>
             </div>
@@ -192,7 +193,7 @@ else
                                         <td> @item.amount</td>
                                         <td> @getTransactionDescription(item.type)</td>
                                         <td> @item.datetime</td>
-                                        <td> @item.getIsValidString() </td>
+                                        <td> @item.isValid.ToStringValid()</td>
                                     </tr>
                                 }
                                 </tbody>

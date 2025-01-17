@@ -1,3 +1,5 @@
+using wsmcbl.src.Utilities;
+
 namespace wsmcbl.src.View.Accounting.Reports;
 
 public class TransactionsRevenuesDto
@@ -33,22 +35,5 @@ public class TransactionsRevenuesDto
     public string getInvalidTotalString()
     {
         return invalidTotal.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
-    }
-
-    public string getStartDate()
-    {
-        return getDateTimeFormat(startDate);
-    }
-
-    public string getEndDate()
-    {
-        return getDateTimeFormat(endDate);
-    }
-
-    private string getDateTimeFormat(string date)
-    {
-        var result = DateTime.TryParse(date, out var value);
-        return result ? value.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
-                : "Sin fecha.";
     }
 }

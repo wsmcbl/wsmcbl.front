@@ -1,3 +1,5 @@
+using wsmcbl.src.Utilities;
+
 namespace wsmcbl.src.View.Accounting.Transactions;
 
 public class TransactionFullDto

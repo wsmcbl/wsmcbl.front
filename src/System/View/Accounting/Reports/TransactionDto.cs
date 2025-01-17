@@ -8,6 +8,4 @@ public class TransactionDto
     public float amount { get; set; }
     public int type { get; set; }
     public bool isValid { get; set; }
-
-    public string getIsValidString() => isValid ? "Válido" : "Inválido";
 }
