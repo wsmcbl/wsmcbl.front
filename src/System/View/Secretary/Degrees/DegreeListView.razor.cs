@@ -18,17 +18,9 @@ public partial class DegreeListView : BaseView
     private DegreeEntity? Degree { get; set; }
     private List<DegreeEntity>? DegreeList { get; set; }
 
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            DegreeList = await controller.GetDegreeList();
-            StateHasChanged();
-        }
-        catch (Exception e)
-        {
-            await Notificator.ShowError($"Obtuvimos algunos errores.\n Mensaje: {e}");
-        }
+        DegreeList = await controller.GetDegreeList();
     }
 
     private async Task CreateEnrollmentModal(string value)

@@ -1,11 +1,7 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,secretary")]
 
-@if (IsLoading())
-{
-    <div class="loader"></div>
-}
-else
+@if (!IsLoading())
 {
     <div class="modal fade" id="InitGrade" tabindex="-1" role="dialog" aria-labelledby="modalinit" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document"
@@ -23,7 +19,7 @@ else
                     <div class="card show mb-4">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                                @foreach (var item in degree!.EnrollmentList!)
+                                @foreach (var item in Degree!.EnrollmentList!)
                                 {
                                     Counter++;
                                     <li class="nav-item">
@@ -39,7 +35,7 @@ else
 
                         <div class="card-body" id="tabContent">
                             <div class="tab-content">
-                                @foreach (var enrollment in degree.EnrollmentList)
+                                @foreach (var enrollment in Degree.EnrollmentList)
                                 {
                                     Counter2++;
                                     <!-- Inicio datos de matricula -->

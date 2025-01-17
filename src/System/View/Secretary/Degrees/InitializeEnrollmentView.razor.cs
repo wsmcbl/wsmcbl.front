@@ -9,8 +9,8 @@ namespace wsmcbl.src.View.Secretary.Degrees;
 
 public partial class InitializeEnrollmentView : BaseView
 {
-    [Parameter] public DegreeEntity? degree { get; set; }
-    [Parameter] public EventCallback<DegreeEntity?> DegreeObjChanged { get; set; }
+    [Parameter] public DegreeEntity? Degree { get; set; }
+    [Parameter] public EventCallback<DegreeEntity?> DegreeChanged { get; set; }
     
     [Inject] public Notificator Notificator { get; set; } = null!;
     [Inject] public CreateEnrollmentController Controller { get; set; } = null!;
@@ -21,7 +21,7 @@ public partial class InitializeEnrollmentView : BaseView
 
     private async Task SaveEnrollments(string enrollmentId)
     {
-        var enroll = degree!.EnrollmentList!.FirstOrDefault(t => t.enrollmentId == enrollmentId);
+        var enroll = Degree!.EnrollmentList!.FirstOrDefault(t => t.enrollmentId == enrollmentId);
         if (enroll is not null)
         {
             Initializer.enrollmentId = enroll.enrollmentId;
@@ -40,8 +40,14 @@ public partial class InitializeEnrollmentView : BaseView
         await Notificator.ShowError("Hubo un fallo al completar la tarea.");
     }
     
+    private async Task UpdateDegree(DegreeEntity? newDegree)
+    {
+        Degree = newDegree;
+        await DegreeChanged.InvokeAsync(Degree);
+    }
+    
     protected override bool IsLoading()
     {
-        return degree == null;
+        return Degree == null;
     }
 }
