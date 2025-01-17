@@ -2,17 +2,20 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.Model.Academy;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Secretary.StudentList;
 
-public partial class StudentList : ComponentBase
+public partial class StudentListView : BaseView
 {
+    [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected EnrollStudentController EnrollController { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
-    [Inject] protected Navigator? Navigator { get; set; }
-    protected ICollection<StudentEntity>? List { get; set; }
+
+    private ICollection<StudentEntity>? studentList { get; set; }
     private string EnrollmentNameForChange { get; set; } = string.Empty;
     private string StudentIdForMove { get; set; } = string.Empty;
+
     private byte[]? PdfDocument { get; set; }
     private string? PdfDocumentName { get; set; }
 
@@ -29,47 +32,49 @@ public partial class StudentList : ComponentBase
 
     private async Task LoadStudentList()
     {
-        List = await PrintController.GetAllStudentsList();
+        studentList = await PrintController.GetAllStudentsList();
     }
-    
-    protected bool IsLoad()
+
+    protected override bool IsLoading()
     {
-        return List == null;
+        return studentList == null;
     }
 
     private void ToProfileUpdate(string studentId)
     {
-        Navigator!.ToPage($"/secretary/update-profile-picture/{studentId}");
+        Navigator.ToPage($"/secretary/update-profile-picture/{studentId}");
     }
-    
+
     private byte[]? ReportCardPdf { get; set; }
+
     private async Task PrintReportCard(string studentId)
     {
         ReportCardPdf = await PrintController.GetPdfContent(studentId);
         PdfDocument = ReportCardPdf;
         PdfDocumentName = "Boleta de calificaciónes";
-        
-        if(ReportCardPdf.Length == 0)
+
+        if (ReportCardPdf.Length == 0)
         {
             return;
         }
 
-        await Navigator!.ShowPdfModal();
+        await Navigator.ShowPdfModal();
     }
-    
+
     private byte[]? EnrollSheetPdf { get; set; }
+
     private async Task PrintEnrollSheet(string studentId)
     {
         EnrollSheetPdf = await EnrollController.GetEnrollSheetPdf(studentId);
         PdfDocument = EnrollSheetPdf;
         PdfDocumentName = "Hoja de matrícula";
-        
+
         if (EnrollSheetPdf.Length == 0)
         {
             return;
         }
 
-        await Navigator!.ShowPdfModal();
+        await Navigator.ShowPdfModal();
     }
 
     private async Task UpdateEnrollment(string studentId, string enrollmentId)
@@ -78,4 +83,6 @@ public partial class StudentList : ComponentBase
         EnrollmentNameForChange = enrollmentId;
         await Navigator!.ShowModal("MoveStudentModal");
     }
+
+    private string getStatusLabel(bool value) => value ? "active-status" : "inactive-status";
 }
