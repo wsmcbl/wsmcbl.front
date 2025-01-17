@@ -10,24 +10,24 @@ public partial class UpdateTeacherGuideView : ComponentBase
     
     [Parameter] public string? TeacherNow { get; set; } = "N/A";
     [Parameter] public string? EnrollmentNow { get; set; } = "N/A";
-    [Inject] MoveTeacherGuideFromEnrollmentController Controller { get; set; } = null!;
-    [Inject] Notificator Notificator { get; set; } = null!;
-    [Inject] Navigator Navigator { get; set; } = null!;
+    [Inject] private UpdateOfficialEnrollmentController controller { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private Navigator Navigator { get; set; } = null!;
     [Parameter] public EventCallback TeacherGuideUpdated { get; set; }
     private List<TeacherEntity> TeacherAvailable{ get; set; } = [];
-    public string? enrollmentId { get; set; }
-    public string? teacherId { get; set; }
+    private string? enrollmentId { get; set; }
+    private string? teacherId { get; set; }
     
     protected override async Task OnParametersSetAsync()
     {
-        TeacherAvailable = await Controller.GetTeacherNoGuide();
+        TeacherAvailable = await controller.GetNonGuidedTeacherList();
         teacherId = TeacherAvailable.FirstOrDefault()?.teacherId!;
     }
 
     private async Task UpdateTeacherGuide()
     {
         enrollmentId = EnrollmentNow; 
-        var response = await Controller.UpdateTeacherGuide(enrollmentId!, teacherId!);
+        var response = await controller.UpdateTeacherGuide(enrollmentId!, teacherId!);
         if (!response)
         {
             await Notificator.ShowError("Error", "No pudimos actualizar al maestro guía.");

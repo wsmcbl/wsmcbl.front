@@ -29,7 +29,6 @@ builder.Services.AddTransient<CollectTariffController>();
 builder.Services.AddTransient<UpdateOfficialEnrollmentController>();
 builder.Services.AddTransient<EnrollStudentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
-builder.Services.AddTransient<MoveTeacherGuideFromEnrollmentController>();
 
 // II iteration
 builder.Services.AddTransient<CreateStudentProfileController>();

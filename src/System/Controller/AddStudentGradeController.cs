@@ -57,9 +57,9 @@ public class AddStudentGradeController
 
     public async Task<string?> getTeacherName(string teacherId)
     {
-        var controller = new MoveTeacherGuideFromEnrollmentController(_apiConsumer);
+        var controller = new UpdateOfficialEnrollmentController(_apiConsumer);
         
-        var teacherList = await controller.GetActiveTeachers();
+        var teacherList = await controller.GetActiveTeacherList();
         if (teacherList == null || teacherList.Count == 0)
         {
             throw new InternalException("No there teachers active.");

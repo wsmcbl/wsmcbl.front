@@ -13,7 +13,7 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
     [Parameter] public string EnrollmentId { get; set; } = null!;
     [Parameter] public EventCallback TeacherSubjectUpdated { get; set; }
 
-    [Inject] private MoveTeacherGuideFromEnrollmentController Controller { get; set; } = null!;
+    [Inject] private UpdateOfficialEnrollmentController Controller { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
 
@@ -23,7 +23,7 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
     
     protected override async Task OnParametersSetAsync()
     {
-        TeacherAvailableList = await Controller.GetActiveTeachers();
+        TeacherAvailableList = await Controller.GetActiveTeacherList();
     }
 
 
@@ -42,15 +42,14 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
         StateHasChanged();
     }
 
-    private Task GetTeacherIdSelect(ChangeEventArgs e)
+    private void GetTeacherIdSelect(ChangeEventArgs e)
     {
         var selectTeacherId = e.Value!.ToString();
-
-        if (selectTeacherId != null)
+        if (selectTeacherId == null)
         {
-            teacherId = selectTeacherId;
+            return;
         }
-
-        return Task.CompletedTask;
+        
+        teacherId = selectTeacherId;
     }
 }
