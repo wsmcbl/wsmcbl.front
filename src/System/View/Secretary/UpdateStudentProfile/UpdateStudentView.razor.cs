@@ -11,35 +11,29 @@ namespace wsmcbl.src.View.Secretary.UpdateStudentProfile;
 public partial class UpdateStudentView : BaseView
 {
     [Parameter] public string? StudentId { get; set; }
-    [Inject] private UpdateStudentController Controller { get; set; } = default!;
-    [Inject] private Notificator Notificator { get; set; } = default!;
-    private StudentFullDto Student { get; set; } = new();
-    private StudentEntity? StudentEntity { get; set; }
+    [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private UpdateStudentController Controller { get; set; } = null!;
+    private StudentEntity? student { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        await LoadStudent();
-    }
-
-    private async Task LoadStudent()
-    {
-        Student = await Controller.GetStudentData(StudentId);
-        StudentEntity = new StudentEntity(Student);
+        student = await Controller.GetStudentById(StudentId);
     }
 
     private async Task UpdateStudent()
     {
-        var response = await Controller.UpdateStudentData(StudentEntity);
+        var response = await Controller.UpdateStudentData(student);
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Los datos han sido actualizados con exito");
             return;
         }
+        
         await Notificator.ShowError("Error", "No pudimos actualizar los datos");
     }
 
     protected override bool IsLoading()
     {
-        return base.IsLoading();
+        return student == null;
     }
 }

@@ -13,11 +13,13 @@ public class UpdateStudentController
         _apiConsumer = apiConsumer;
     }
     
-    public async Task<StudentFullDto> GetStudentData(string? studentId)
+    public async Task<StudentEntity> GetStudentById(string? studentId)
     {
         var resource = $"students?q=one%3A{studentId}"; 
         var defaultResult = new StudentFullDto();
-        return await _apiConsumer.GetAsync(Modules.Secretary, resource, defaultResult);
+        var result = await _apiConsumer.GetAsync(Modules.Secretary, resource, defaultResult);
+        
+        return new StudentEntity(result); 
     }
     
      public async Task<bool> UpdateStudentData(StudentEntity? student)

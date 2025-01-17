@@ -47,11 +47,11 @@ else
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
-                    <BasicStudentInformationComponent Student="StudentEntity"/>
+                    <BasicStudentInformationComponent Student="student"/>
                 </div>
 
                 <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">
-                    <TabTutor Student="StudentEntity"/>
+                    <TabTutor Student="student"/>
                 </div>
                 
                 <div class="tab-pane fade" id="PanelMedidas" role="tabpanel" aria-labelledby="TabMedidas">
@@ -62,11 +62,11 @@ else
 
                                 <label style="display: inline-block; width: 200px;">Peso Kg:</label>
                                 <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200"
-                                       @bind="StudentEntity!.measurements!.weight">
+                                       @bind="student!.measurements!.weight">
 
                                 <label style="display: inline-block; width: 200px;">Altura Cm:</label>
                                 <input type="number" class="form-control" style="margin-bottom: 10px" min="50" max="300"
-                                       @bind="StudentEntity.measurements.height">
+                                       @bind="student.measurements.height">
 
                             </div>
                         </div>
@@ -74,7 +74,7 @@ else
                 </div>
 
                 <div class="tab-pane fade" id="PanelAcademy" role="tabpanel" aria-labelledby="TabAcademy">
-                    <PhotoView Student="StudentEntity"/>
+                    <PhotoView Student="student"/>
                 </div>
 
             </div>
