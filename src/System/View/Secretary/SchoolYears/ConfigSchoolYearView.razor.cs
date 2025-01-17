@@ -10,23 +10,20 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public class ConfigSchoolYear : ComponentBase
 {
-    [Inject] protected UpdateOfficialEnrollmentController? Controller { get; set; }
+    [Inject] protected CreateSchoolYearController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
-    protected SchoolYearEntity? SchoolYear;
+    protected SchoolYearEntity? SchoolYear { get; set; }
     protected List<PartialListDto>? PartialListDto { get; set; }
     
     protected DegreeDto? SelectedDegree;
     protected List<DropdownList> DropdownTypeTariffsLists = new();
     protected ModalEditTariff? modalEditTariffRef { get; set; }
-
-    
-    
     
     protected override async Task OnParametersSetAsync()
     {
         var defaultSchoolyear = new SchoolYearEntity();
-        SchoolYear = await Controller!.GetNewSchoolYears(defaultSchoolyear);
-        DropdownTypeTariffsLists = await Controller.GetTypeTariffList();
+        SchoolYear = await controller!.GetNewSchoolYears(defaultSchoolyear);
+        DropdownTypeTariffsLists = await controller.GetTypeTariffList();
         
         if (SchoolYear == defaultSchoolyear || DropdownTypeTariffsLists == null)
         {
@@ -67,7 +64,7 @@ public class ConfigSchoolYear : ComponentBase
     protected async Task SaveSchoolYear()
     {
         SchoolYear!.UpdateTariffList();
-        var response = await Controller!.SaveNewSchoolYear(SchoolYear, PartialListDto!);
+        var response = await controller!.SaveNewSchoolYear(SchoolYear, PartialListDto!);
         if (response)
         {
             await Notificator!.ShowSuccess("Éxito", "El año lectivo fue creado.");
