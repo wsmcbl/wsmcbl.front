@@ -1,6 +1,6 @@
 namespace wsmcbl.src.View.Accounting.Transactions;
 
-public class TransactionsFullDto
+public class TransactionFullDto
 {
     public string transactionId { get; set; }
     public string studentId { get; set; }
@@ -11,7 +11,7 @@ public class TransactionsFullDto
     public int type { get; set; }
     public bool isValid { get; set; }
 
-    public TransactionsFullDto()
+    public TransactionFullDto()
     {
         transactionId = "";
         studentId = "";

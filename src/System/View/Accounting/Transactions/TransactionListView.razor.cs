@@ -2,17 +2,18 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.Reports;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Accounting.Transactions;
 
-public partial class ListOfTransactions : ComponentBase
+public partial class TransactionListView : BaseView
 {
     [Inject] private TransactionReportByDateController? Controller { get; set; }
     [Inject] private CollectTariffController? CollectTariffController { get; set; }
     [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
     
-    private List<TransactionsFullDto> Transactions = [];
+    private List<TransactionFullDto> Transactions = [];
     private List<TransactionTypeDto> TypeTransactions { get; set; } = null!;
     private byte[]? InvoicePdf { get; set; }
     private bool IsLoad { get; set; } = true;
