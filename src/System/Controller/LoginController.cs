@@ -20,12 +20,12 @@ public class LoginController
     
     public async Task<string> login(string email, string password)
     {
-        var defaultDto = new LoginDto();
-        defaultDto.SetAsDefault();
-        
-        var data = new LoginDto(email, password);
         try
         {
+            var defaultDto = new LoginDto();
+            defaultDto.SetAsDefault();
+        
+            var data = new LoginDto(email, password);
             var result = await _apiConsumer
                 .PostAsync(Modules.Config, "users/tokens", data, defaultDto);
             

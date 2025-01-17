@@ -16,7 +16,7 @@ public partial class LoginView : ComponentBase
 
     private async Task Login()
     {
-        errorMessage = null;
+        errorMessage = "Iniciando sesión ...";
         var token = await controller.login(email, password);
         if (token == string.Empty)
         {
