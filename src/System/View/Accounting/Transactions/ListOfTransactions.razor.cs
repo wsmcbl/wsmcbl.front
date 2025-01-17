@@ -13,7 +13,7 @@ public partial class ListOfTransactions : ComponentBase
     [Inject] private Notificator Notificator { get; set; } = null!;
     
     private List<TransactionsFullDto> Transactions = [];
-    private List<TypeTransactionsDto> TypeTransactions { get; set; } = null!;
+    private List<TransactionTypeDto> TypeTransactions { get; set; } = null!;
     private byte[]? InvoicePdf { get; set; }
     private bool IsLoad { get; set; } = true;
 

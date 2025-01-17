@@ -66,7 +66,7 @@ public partial class EnrollStudentView : ComponentBase
 
         if (!IsParentsValid())
         {
-            await Notificator.ShowInformation("Los campos de un tutor deben ser ingresados, o bien dejar en blanco.");
+            await Notificator.ShowInformation("Debe ingresar los datos del tutor, o bien dejar en blanco.");
             return;
         }
         

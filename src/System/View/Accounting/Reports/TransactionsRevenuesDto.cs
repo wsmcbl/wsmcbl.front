@@ -10,7 +10,7 @@ public class TransactionsRevenuesDto
     public int validTotal { get; set; }
     public int invalidQuantity { get; set; }
     public int invalidTotal { get; set; }
-    public List<TransactionsDto> transactionList { get; set; }
+    public List<TransactionDto> transactionList { get; set; }
 
     public TransactionsRevenuesDto()
     {
@@ -23,5 +23,32 @@ public class TransactionsRevenuesDto
         invalidQuantity = 0;
         invalidTotal = 0;
         transactionList = [];
+    }
+
+    public string getValidTotalString()
+    {
+        return validTotal.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    public string getInvalidTotalString()
+    {
+        return invalidTotal.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    public string getStartDate()
+    {
+        return getDateTimeFormat(startDate);
+    }
+
+    public string getEndDate()
+    {
+        return getDateTimeFormat(endDate);
+    }
+
+    private string getDateTimeFormat(string date)
+    {
+        var result = DateTime.TryParse(date, out var value);
+        return result ? value.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
+                : "Sin fecha.";
     }
 }

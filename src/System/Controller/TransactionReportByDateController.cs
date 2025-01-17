@@ -12,16 +12,16 @@ public class TransactionReportByDateController
         _apiConsumer = apiConsumer;
     }
     
-    public async Task<TransactionsRevenuesDto> GetTransactionsRevenues(int type)
+    public async Task<TransactionsRevenuesDto> GetReport(int type)
     {
         var resource = $"transactions/revenues?q={type}"; 
         var transactionsRevenues = new TransactionsRevenuesDto();
         return await _apiConsumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
     }
 
-    public async Task<List<TypeTransactionsDto>> GetTypeTransactions()
+    public async Task<List<TransactionTypeDto>> GetTypeTransactions()
     {
-        List<TypeTransactionsDto> defaultResult = [];
+        List<TransactionTypeDto> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Accounting, "transactions/types", defaultResult);
     }
     

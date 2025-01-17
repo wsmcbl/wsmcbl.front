@@ -1,7 +1,8 @@
 @page "/accounting/reports/revenue"
 @attribute [Authorize(Roles = "admin,cashier")]
+@inherits BaseView
 
-@if (IsLoad())
+@if (IsLoading())
 {
     <div class="loader"></div>
 }
@@ -58,8 +59,8 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Total Válido:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @Transactions!.validTotal.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)</div>
-                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @Transactions.validQuantity</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report!.getValidTotalString()</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.validQuantity</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -77,8 +78,8 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Total Inválido:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @Transactions.invalidTotal.ToString("N0", System.Globalization.CultureInfo.InvariantCulture)</div>
-                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @Transactions.invalidQuantity</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report.getInvalidTotalString()</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.invalidQuantity</div>
 
                                 </div>
                                 <div class="col-auto">
@@ -97,7 +98,7 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Usuario:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@Transactions.userName</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.userName</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-user-circle fa-2x text-gray-300"></i>
@@ -115,7 +116,7 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Consultado en:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@Transactions.consultedIn</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.consultedIn</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -133,9 +134,7 @@ else
                         <i class="fas fa-hourglass-start"></i>
                     </span>
                     <span class="text" style="color: black">
-                        <strong>Desde: </strong> @(DateTime.TryParse(Transactions.startDate, out var startDate)
-                                   ? startDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
-                                   : "Sin fecha")
+                        <strong>Desde: </strong> @report.getStartDate()
                     </span>
                 </a>
             </div>
@@ -146,9 +145,7 @@ else
                         <i class="fas fa-hourglass-start"></i>
                     </span>
                     <span class="text" style="color: black">
-                        <strong>Hasta: </strong> @(DateTime.TryParse(Transactions.endDate, out var endDate)
-                                                     ? endDate.ToString("dddd dd/MMM/yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))
-                                                     : "Sin fecha")
+                        <strong>Hasta: </strong> @report.getEndDate()
                     </span>
                 </a>
             </div>
@@ -187,17 +184,15 @@ else
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                @foreach (var item in Transactions.transactionList)
+                                @foreach (var item in report.transactionList)
                                 {
                                     <tr>
                                         <td> @item.number</td>
                                         <td> @item.studentName</td>
                                         <td> @item.amount</td>
-                                        <td>
-                                            @((TypeTransactions!.FirstOrDefault(t => t.typeId == item.type)?.description ?? "Descripción no disponible"))
-                                        </td>
+                                        <td> @getTransactionDescription(item.type)</td>
                                         <td> @item.datetime</td>
-                                        <td> @(item.isValid ? "Válido" : "Inválido") </td>
+                                        <td> @item.getIsValidString() </td>
                                     </tr>
                                 }
                                 </tbody>

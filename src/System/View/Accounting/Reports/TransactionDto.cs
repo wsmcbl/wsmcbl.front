@@ -1,6 +1,6 @@
 namespace wsmcbl.src.View.Accounting.Reports;
 
-public class TransactionsDto
+public class TransactionDto
 {
     public int number { get; set; }
     public string studentName { get; set; } = null!;
@@ -8,4 +8,6 @@ public class TransactionsDto
     public float amount { get; set; }
     public int type { get; set; }
     public bool isValid { get; set; }
+
+    public string getIsValidString() => isValid ? "Válido" : "Inválido";
 }
