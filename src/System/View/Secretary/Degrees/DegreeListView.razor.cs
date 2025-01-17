@@ -13,7 +13,7 @@ public partial class DegreeListView : BaseView
 
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
-    [Inject] protected CreateEnrollmentController createController { get; set; } = null!;
+    [Inject] protected CreateEnrollmentController controller { get; set; } = null!;
     
     private DegreeEntity? Degree { get; set; }
     private List<DegreeEntity>? DegreeList { get; set; }
@@ -22,7 +22,7 @@ public partial class DegreeListView : BaseView
     {
         try
         {
-            DegreeList = await createController.GetDegreeList();
+            DegreeList = await controller.GetDegreeList();
             StateHasChanged();
         }
         catch (Exception e)
@@ -47,12 +47,12 @@ public partial class DegreeListView : BaseView
     {
         if (quantity is < 1 or >= 7)
         {
-            await Notificator.ShowWarning("Advertencia", "El número máximo de secciones es 7.");
+            await Notificator.ShowInformation("El número máximo de secciones es 7.");
             return;
         }
 
         degreeId = value;
-        Degree = await createController!.CreateEnrollments(value, quantity);
+        Degree = await controller.CreateEnrollments(value, quantity);
         if (Degree == null)
         {
             await Notificator.ShowError("Hubo un fallo al crear las secciones.");

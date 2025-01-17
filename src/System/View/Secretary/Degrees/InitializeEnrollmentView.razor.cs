@@ -18,12 +18,6 @@ public partial class InitializeEnrollmentView : BaseView
     private SaveInitializerDto Initializer { get; set; } = new();
     private int Counter { get; set; }
     private int Counter2 { get; set; }
-    
-    private async Task UpdateDegreeObj(DegreeEntity? newDegree)
-    {
-        degree = newDegree;
-        await DegreeObjChanged.InvokeAsync(degree);
-    }
 
     private async Task SaveEnrollments(string enrollmentId)
     {
