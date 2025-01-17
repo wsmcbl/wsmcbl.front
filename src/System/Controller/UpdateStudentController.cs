@@ -25,7 +25,4 @@ public class UpdateStudentController
         var content = MapperStudent.ToStudentFullDto(student);
         return await _apiConsumer.PutAsync(Modules.Secretary, "students", content);
     }
-    
-    
-    
 }

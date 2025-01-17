@@ -2,8 +2,9 @@
 @using wsmcbl.src.View.Secretary.EnrollStudent
 @using wsmcbl.src.View.Components
 @attribute [Authorize(Roles = "admin")]
+@inherits BaseView
 
-@if (IsLoading)
+@if (IsLoading())
 {
     <div class="loader"></div>
 }
@@ -46,7 +47,7 @@ else
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
-                    <TabStudent2 Student="StudentEntity"/>
+                    <BasicStudentInformationComponent Student="StudentEntity"/>
                 </div>
 
                 <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">

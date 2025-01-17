@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.View.Base;
 using wsmcbl.src.View.Secretary.SchoolYears;
 
-namespace wsmcbl.src.View.Secretary.EditProfiles;
+namespace wsmcbl.src.View.Secretary.UpdateStudentProfile;
 
-public partial class TabStudent2 : ComponentBase
+public partial class BasicStudentInformationComponent : BaseView
 {
     [Parameter] public StudentEntity? Student { get; set; }
     [Parameter] public bool SelectRepeat { get; set; }
