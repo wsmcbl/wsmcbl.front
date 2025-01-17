@@ -3,9 +3,9 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.src.View.Secretary.Profiles;
+namespace wsmcbl.src.View.Secretary.CreateStudent;
 
-public partial class CreateStudentProfile : ComponentBase
+public partial class CreateStudentProfileView : ComponentBase
 {
     [Inject] protected CreateStudentProfileController? _controller { get; set; }
     [Inject] protected Navigator? _navigator { get; set; }

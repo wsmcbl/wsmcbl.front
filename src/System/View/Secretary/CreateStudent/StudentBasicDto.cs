@@ -1,6 +1,6 @@
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.src.View.Secretary.Profiles;
+namespace wsmcbl.src.View.Secretary.CreateStudent;
 
 public class StudentBasicDto
 {

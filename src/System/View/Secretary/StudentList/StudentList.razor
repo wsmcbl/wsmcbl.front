@@ -1,7 +1,7 @@
 @page "/secretary/students"
 @attribute [Authorize(Roles = "admin")]
 @using wsmcbl.src.View.Components;
-@using wsmcbl.src.View.Secretary.Profiles;
+@using wsmcbl.src.View.Secretary.CreateStudent;
 @using wsmcbl.src.View.Components.MoveStudent
 
 @if (IsLoad())
@@ -96,7 +96,7 @@ else
     
     <PdfViewer Title="@PdfDocumentName" PdfContent="@PdfDocument"/>
     
-    <CreateStudentProfile onNewStudentCreated="@LoadStudentList"/>
+    <CreateStudentProfileView onNewStudentCreated="@LoadStudentList"/>
     
     <MoveStudentView StudentId="@StudentIdForMove" EnrollmentName="@EnrollmentNameForChange"/>
     
