@@ -3,7 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.TariffCollection;
 
-namespace wsmcbl.src.View.Components;
+namespace wsmcbl.src.View.Accounting;
 
 public partial class ForgetDeb : ComponentBase
 {

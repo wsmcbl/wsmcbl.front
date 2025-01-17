@@ -3,9 +3,6 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,secretary")]
 
-@using wsmcbl.src.View.Components.MoveTeacherGuide
-@using wsmcbl.src.View.Components.UpdateTeacherOfSubject
-
 @if (IsLoading())
 {
     <div class="loader"></div>
@@ -179,7 +176,6 @@ else
             </div>
         </div>
     </div>
-
 
     <UpdateTeacherGuideView TeacherNow="@TeacherFlags" EnrollmentNow="@EnrollmentFlags"
                             TeacherGuideUpdated="LoadDegree"/>

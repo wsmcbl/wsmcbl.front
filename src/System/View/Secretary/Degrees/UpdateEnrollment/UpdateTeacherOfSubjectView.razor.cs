@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Components.MoveTeacherGuide;
 
-namespace wsmcbl.src.View.Components.UpdateTeacherOfSubject;
+namespace wsmcbl.src.View.Secretary.Degrees.UpdateEnrollment;
 
 public partial class UpdateTeacherOfSubjectView : ComponentBase
 {
@@ -13,20 +12,19 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
     [Parameter] public string EnrollmentId { get; set; } = null!;
     [Parameter] public EventCallback TeacherSubjectUpdated { get; set; }
 
-    [Inject] private UpdateOfficialEnrollmentController Controller { get; set; } = null!;
-    [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private UpdateOfficialEnrollmentController Controller { get; set; } = null!;
 
-    private string? teacherId {get;set;}
-    private List<TeacherEntity> TeacherAvailableList = [];
-
+    private string? teacherId { get; set; }
+    private List<TeacherEntity> TeacherAvailableList { get; set; } = [];
+    
     
     protected override async Task OnParametersSetAsync()
     {
         TeacherAvailableList = await Controller.GetActiveTeacherList();
     }
-
-
+    
     private async Task UpdateTeacher()
     {
         var response = await Controller.UpdateTeacherSubject(EnrollmentId, SubjectId, teacherId!);

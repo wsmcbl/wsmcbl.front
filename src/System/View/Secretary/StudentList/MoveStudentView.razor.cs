@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
-using wsmcbl.src.View.Secretary.CreateStudent;
 
-namespace wsmcbl.src.View.Components.MoveStudent;
+namespace wsmcbl.src.View.Secretary.StudentList;
 
 public partial class MoveStudentView : ComponentBase
 {

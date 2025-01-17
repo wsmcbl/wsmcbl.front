@@ -3,20 +3,21 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 
-namespace wsmcbl.src.View.Components.MoveTeacherGuide;
+namespace wsmcbl.src.View.Secretary.Degrees.UpdateEnrollment;
 
 public partial class UpdateTeacherGuideView : ComponentBase
 {
-    
     [Parameter] public string? TeacherNow { get; set; } = "N/A";
     [Parameter] public string? EnrollmentNow { get; set; } = "N/A";
-    [Inject] private UpdateOfficialEnrollmentController controller { get; set; } = null!;
-    [Inject] private Notificator Notificator { get; set; } = null!;
-    [Inject] private Navigator Navigator { get; set; } = null!;
     [Parameter] public EventCallback TeacherGuideUpdated { get; set; }
-    private List<TeacherEntity> TeacherAvailable{ get; set; } = [];
-    private string? enrollmentId { get; set; }
+    
+    [Inject] private Navigator Navigator { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private UpdateOfficialEnrollmentController controller { get; set; } = null!;
+    
     private string? teacherId { get; set; }
+    private string? enrollmentId { get; set; }
+    private List<TeacherEntity> TeacherAvailable{ get; set; } = [];
     
     protected override async Task OnParametersSetAsync()
     {

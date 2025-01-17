@@ -4,7 +4,7 @@ using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 
-namespace wsmcbl.src.View.Secretary.Degrees;
+namespace wsmcbl.src.View.Secretary.Degrees.UpdateEnrollment;
 
 public partial class UpdateEnrollmentView : BaseView
 {
