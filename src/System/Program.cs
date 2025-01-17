@@ -38,7 +38,7 @@ builder.Services.AddTransient<LoginController>();
 
 // III iteration
 builder.Services.AddTransient<TransactionReportByDateController>();
-builder.Services.AddTransient<EditStudentController>();
+builder.Services.AddTransient<UpdateStudentController>();
 
 // IV iteration
 builder.Services.AddTransient<CreateUserController>();

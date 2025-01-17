@@ -10,7 +10,7 @@ namespace wsmcbl.src.View.Secretary.EditProfiles;
 public partial class EditProfileStudent : ComponentBase
 {
     [Parameter] public string? StudentId { get; set; }
-    [Inject] private EditStudentController Controller { get; set; } = default!;
+    [Inject] private UpdateStudentController Controller { get; set; } = default!;
     [Inject] private Notificator Notificator { get; set; } = default!;
     private StudentFullDto Student { get; set; } = new();
     private StudentEntity? StudentEntity { get; set; }
