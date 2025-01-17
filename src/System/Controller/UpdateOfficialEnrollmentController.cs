@@ -56,19 +56,6 @@ public class UpdateOfficialEnrollmentController
         var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, subject, Default);
         return response != Default;
     }
-
-    public async Task<List<TeacherEntity>> GetTeacherList()
-    {
-        List<TeacherEntity> Default = [];
-        return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=active", Default);
-    }
-    
-    public async Task<EnrollmentSubjectListDto> GetEnrollmentListByDegreeId(string degreeId)
-    {
-        var resource = $"degrees/{degreeId}/enrollments";
-        EnrollmentSubjectListDto Default = new();
-        return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
-    }
     
     public async Task<List<DropdownList>> GetTypeTariffList()
     {
@@ -76,6 +63,39 @@ public class UpdateOfficialEnrollmentController
         List<TypeTariffDto> Default = [];
         var response = await _apiConsumer.GetAsync(Modules.Accounting, resource, Default);
         return response.Select(dto => dto.ToDropdownList()).ToList();
+    }
+    
+    
+    
+    public async Task<List<TeacherEntity>> GetActiveTeacherList()
+    {
+        List<TeacherEntity> defaultResult = [];
+        return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=active", defaultResult);
+    }
+    
+    public async Task<List<TeacherEntity>> GetNonGuidedTeacherList()
+    {
+        List<TeacherEntity> defaultResult = [];
+        return await _apiConsumer.GetAsync(Modules.Academy, "teachers?q=non-guided", defaultResult);
+    }
+    
+    public async Task<bool> UpdateTeacherGuide(string enrollmentId, string teacherId)
+    {
+        var resource = $"enrollments/{enrollmentId}/teachers?teacherId={teacherId}";
+        return await _apiConsumer.PutAsync<object>(Modules.Academy, resource, null);
+    }
+    
+    public async Task<bool> UpdateTeacherSubject(string enrollmentId, string subjectId, string teacherId)
+    {
+        var resource = $"enrollments/{enrollmentId}/subjects/{subjectId}?teacherId={teacherId}";
+        return await _apiConsumer.PutAsync<object>(Modules.Academy, resource, null);
+    }    
+    
+    public async Task<EnrollmentSubjectListDto> GetEnrollmentListByDegreeId(string degreeId)
+    {
+        var resource = $"degrees/{degreeId}/enrollments";
+        EnrollmentSubjectListDto Default = new();
+        return await _apiConsumer.GetAsync(Modules.Academy, resource, Default);
     }
 
     public async Task<bool> UpdateEnrollmentList(List<EnrollmentEntity> enrollmentList)

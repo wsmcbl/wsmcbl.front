@@ -41,7 +41,7 @@ public partial class UpdateEnrollmentView : BaseView
         enrollmentList = dto.enrollmentList;
         subjectList = dto.subjectList;
 
-        teacherList = await Controller.GetTeacherList();
+        teacherList = await Controller.GetActiveTeacherList();
     }
 
     private string GetSemesterLabel(int semester)
