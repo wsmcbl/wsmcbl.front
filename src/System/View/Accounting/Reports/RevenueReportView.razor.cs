@@ -25,19 +25,22 @@ public partial class RevenueReportView : BaseView
 
     private async Task GetTransactionsRevenuesAsync(int type)
     {
+        ClearData();
+        
         report = await controller.GetReport(type);
-        hasData = true;
-        StateHasChanged();
+        hasData = report.transactionList.Count > 0;
     }
 
     private void ClearData()
     {
+        report = new TransactionsRevenuesDto();
         hasData = false;
+        StateHasChanged();
     }
 
     protected override bool IsLoading()
     {
-        return hasData;
+        return report == null || transactionTypeList == null;
     }
 
     private string getTransactionDescription(int type)
