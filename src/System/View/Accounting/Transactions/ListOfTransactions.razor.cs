@@ -36,18 +36,22 @@ public partial class ListOfTransactions : ComponentBase
     
     private async Task CancelTransactions(string transactionId)
     {
-        var desc = await Notificator.ShowAlertQuestion("Advertencia", $"Estas seguro que deseas anular la transacción {transactionId}", ("Si", "No"));
-        if (desc)
+        var result = await Notificator
+            .ShowAlertQuestion("Advertencia", $"¿Está seguro de anular la transacción {transactionId}?",
+                ("Sí", "No"));
+        
+        if (result)
         {
             var response = await CollectTariffController!.CancelTransaction(transactionId);
-            if (response)
+            if (!response)
             {
-                await Notificator.ShowSuccess("Exito","Transaccción anulada");
-                await LoadData();
-                StateHasChanged();
+                await Notificator.ShowError("Hubo un fallo al anular la transacción.");
                 return;
             }
-            await Notificator.ShowError("Error","No pudimos anular la transacción");
+            
+            await Notificator.ShowSuccess("Transacción anulada correctamente.");
+            await LoadData();
+            StateHasChanged();
         }
     }
     

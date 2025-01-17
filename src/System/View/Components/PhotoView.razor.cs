@@ -42,10 +42,9 @@ namespace wsmcbl.src.View.Components
             content.Add(imageContent, "profilePicture", "photo.jpg");
 
             var response = await Consumer.PutPhotoAsync(Modules.Secretary, $"students/{Student.studentId}", content);
-
             if (response)
             {
-                await Notificator!.ShowSuccess("Exito", "La imagen ha sido actualizada");
+                await Notificator!.ShowSuccess("Se ha actualizado la imagen correctamente.");
             }
         }
         private async Task OpenFileDialog()
@@ -58,7 +57,7 @@ namespace wsmcbl.src.View.Components
             var files = e.GetMultipleFiles();
             if (files.Count == 0)
             {
-                await Notificator!.ShowError("Error", "No se seleccionó ningún archivo.");
+                await Notificator!.ShowError("No ha seleccionado ningún archivo.");
                 return;
             }
             
@@ -67,14 +66,14 @@ namespace wsmcbl.src.View.Components
             var validImageTypes = new[] { "image/jpeg", "image/png", "image/jpg", "image/gif" };
             if (!validImageTypes.Contains(file.ContentType))
             {
-                await Notificator!.ShowError("Error", "El archivo seleccionado no es una imagen válida.");
+                await Notificator!.ShowError("El archivo seleccionado no es una imagen válida.");
                 return;
             }
             
             const long maxFileSize = 5 * 1024 * 1024;
             if (file.Size > maxFileSize)
             {
-                await Notificator!.ShowError("Error", "La imagen seleccionada es demasiado grande. Máximo permitido: 5 MB.");
+                await Notificator!.ShowError("La imagen seleccionada es demasiado grande. Máximo permitido: 5 MB.");
                 return;
             }
 

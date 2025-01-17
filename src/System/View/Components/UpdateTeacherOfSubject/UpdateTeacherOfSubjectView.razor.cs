@@ -32,11 +32,11 @@ public partial class UpdateTeacherOfSubjectView : ComponentBase
         var response = await Controller.UpdateTeacherSubject(EnrollmentId, SubjectId, teacherId!);
         if (!response)
         {
-            await Notificator.ShowError("Error", "No pudimos asignar al docente.");
+            await Notificator.ShowError("Hubo un fallo al asignar el docente.");
             return;
         }
         
-        await Notificator.ShowSuccess("Exito", "Hemos asignado al nuevo docente.");
+        await Notificator.ShowSuccess("Se asignó el docente correctamente.");
         await TeacherSubjectUpdated.InvokeAsync();
         await Navigator.HideModal("UpdateTeacherSubject");
         StateHasChanged();

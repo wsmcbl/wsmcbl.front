@@ -62,14 +62,14 @@ public partial class MoveStudentView : ComponentBase
     private async Task UpdateStudentEnrollment()
     {
         var response = await ControllerEnrollment.UpdateEnrollmet(StudentId, NewEnrollment);
-        if (response)
+        if (!response)
         {
-            await Notificator.ShowSuccess("Exito", "Hemos actualizado la matrícula.");
-            LoadDegrees();
-            StateHasChanged();
+            await Notificator.ShowError("Hubo un fallo al actualizar la matrícula.");
             return;
         }
         
-        await Notificator.ShowError("Error", "Ocurrió un error al actualizar la matrícula.");
+        await Notificator.ShowSuccess("Se ha actualizado la matrícula correctamente.");
+        LoadDegrees();
+        StateHasChanged();
     }
 }

@@ -62,19 +62,19 @@ public partial class CreateStudentProfile : ComponentBase
     {
         if (!StudentToCreate.IsNameValid())
         {
-            await _notificator!.ShowInformation("Favor ingrese los campos solicitados", "El primer nombre y el primer apellido son obligatorios");
+            await _notificator!.ShowInformation("El primer nombre y el primer apellido son obligatorios, ingreselos.");
             return true;
         }
 
         if (!StudentToCreate.IsTutorValid())
         {
-            await _notificator!.ShowInformation("Favor ingrese los campos solicitados", "El nombre del tutor es obligatorio");
+            await _notificator!.ShowInformation("El nombre del tutor es obligatorio.");
             return true;
         }
 
         if (!StudentToCreate.IsBirthdayValid())
         {
-            await _notificator!.ShowInformation("Favor ingrese los campos solicitados", "La fecha debe estar en el rango correcto");
+            await _notificator!.ShowInformation("La fecha debe estar en el rango correcto.");
             return true;
         }
         
@@ -90,7 +90,6 @@ public partial class CreateStudentProfile : ComponentBase
         }        
         
         var response = await _controller!.CreateNewStudent(StudentToCreate);
-        
         if (response == null)
         {
            return;

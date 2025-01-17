@@ -67,11 +67,11 @@ public class ConfigSchoolYear : ComponentBase
         var response = await controller!.SaveNewSchoolYear(SchoolYear, PartialListDto!);
         if (response)
         {
-            await Notificator!.ShowSuccess("Éxito", "El año lectivo fue creado.");
+            await Notificator!.ShowSuccess("Se ha creado el año lectivo correctamente.");
         }
         else
         {
-            await Notificator!.ShowError("");
+            await Notificator!.ShowError("Hubo un fallo al crear el año lectivo.");
         }
     }
     protected void SelectGrade(DegreeDto degree)

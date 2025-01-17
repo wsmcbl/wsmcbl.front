@@ -58,7 +58,7 @@ public partial class AddGradeView : BaseView
     {
         if (studentList == null || studentList.Count == 0)
         {
-            await Notificator.ShowError("Error", "No hay estudiantes para guardar las calificaciones.");
+            await Notificator.ShowError("No hay estudiantes para guardar las calificaciones.");
             return;
         }
 
@@ -67,7 +67,7 @@ public partial class AddGradeView : BaseView
         {
             if (student.gradeList == null)
             {
-                await Notificator.ShowError("Error", $"No hay calificaciones para el estudiante {student.fullName}.");
+                await Notificator.ShowError($"No hay calificaciones para el estudiante {student.fullName}.");
                 return;
             }
 
@@ -77,12 +77,12 @@ public partial class AddGradeView : BaseView
         var response = await controller.UpdateGrade(getRequestDto(), gradeList);
         if (response)
         {
-            await Notificator.ShowSuccess("Éxito", "Hemos guardado las calificaciones correctamente.");
+            await Notificator.ShowSuccess("Las calificaciones se han registrado satisfactoriamente.");
             await GetFullInfoEnrollment();
             return;
         }
 
-        await Notificator.ShowError("Error", "Tuvimos problemas al guardar las calificaciones.");
+        await Notificator.ShowError("Hubo un fallo al intentar registrar las calificaciones.");
     }
 
     private TeacherEnrollmentByPartialDto getRequestDto()

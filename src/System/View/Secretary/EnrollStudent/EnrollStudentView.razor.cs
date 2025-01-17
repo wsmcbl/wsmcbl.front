@@ -60,42 +60,39 @@ public partial class EnrollStudentView : ComponentBase
     {
         if (Student != null && !Student.IsStudentValid())
         {
-           await Notificator.ShowInformation("Advertencia", "Rellene todos los campos marcados con (*), son obligatorios");
+           await Notificator.ShowInformation("Los campos marcados con (*) son obligatorios.");
             return;
         }
 
         if (!IsParentsValid())
         {
-            await Notificator.ShowInformation("Advertencia",
-                "Todos los campos de un tutor deben ser rellenados, de lo contrario dejar en blanco");
+            await Notificator.ShowInformation("Los campos de un tutor deben ser ingresados, o bien dejar en blanco.");
             return;
         }
         
         if (!Student!.IsTutorValid())
         {
-            await Notificator.ShowInformation("Advertencia",
-                "Por favor rellene todos los campos del tutor");
+            await Notificator.ShowInformation("Por favor, ingrese todos los campos del tutor.");
             return;
         }
 
         if (!Student.IsMeasurementsValid())
         {
-            await Notificator.ShowInformation("Advertencia ","Ingrese un peso dentro de los margenes permitidos");
+            await Notificator.ShowInformation("Ingrese un peso dentro de los margenes permitidos.");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(EnrollmentIdSelected) || EnrollmentIdSelected == "No asignado")
         {
             await Notificator.ShowInformation("Advertencia",
-                "Por favor seleccione un grado y una sección para el estudiante");
+                "Por favor seleccione un grado y una sección para el estudiante.");
             return;
         }
         
         var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, DiscountId, IsRepeating);
-        
         if (response)
         {
-            await Notificator.ShowSuccess("Exito", "Matrícula guardada exitosamente");
+            await Notificator.ShowSuccess("Se ha registrado la matrícula correctamente.");
             await LoadStudentInformation();
             StateHasChanged();
         }

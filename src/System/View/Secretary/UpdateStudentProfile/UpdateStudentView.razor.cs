@@ -25,11 +25,11 @@ public partial class UpdateStudentView : BaseView
         var response = await Controller.UpdateStudentData(student);
         if (response)
         {
-            await Notificator.ShowSuccess("Exito", "Los datos han sido actualizados con exito");
+            await Notificator.ShowSuccess("Se ha actualizado el estudiante correctamente.");
             return;
         }
         
-        await Notificator.ShowError("Error", "No pudimos actualizar los datos");
+        await Notificator.ShowError( "Hubo un fallo al actualizar el estudiante.");
     }
 
     protected override bool IsLoading()

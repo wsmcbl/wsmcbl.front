@@ -18,19 +18,23 @@ public partial class ForgetDeb : ComponentBase
 
     private async Task DebitTariff()
     {
-        var dto = new DebDto(StudentId, TariffId, AuthToken);
-        var request = await Notificator.ShowAlertQuestion("Alerta", "¿Estas seguro que deseas debitar esta tarifa?",("Si","No"));
-        if (request)
+        var result = await Notificator.ShowAlertQuestion("Alerta", "¿Está seguro de debitar esta tarifa?",
+            ("Sí","No"));
+        if (!result)
         {
-            var response = await Controller.DebitTariff(dto);
-            if (response)
-            {
-                await Notificator.ShowSuccess("Exito","Hemos debitados exitosamente la tarifa");
-                await Navigator.HideModal("ForgetDebtModal");
-                await FinishTask.InvokeAsync();
-                return;
-            }
-            await Notificator.ShowError("Error", "No tubimos exito al debitar");
+            return;
         }
+        
+        var dto = new DebDto(StudentId, TariffId, AuthToken);
+        var response = await Controller.DebitTariff(dto);
+        if (!response)
+        {
+            await Notificator.ShowError("Hubo un fallo al debitar la tarifa.");
+            return;
+        }
+        
+        await Notificator.ShowSuccess("Se ha debitado la tarifa correctamente.");
+        await Navigator.HideModal("ForgetDebtModal");
+        await FinishTask.InvokeAsync();
     }
 }

@@ -20,13 +20,15 @@ public partial class EditStudentDiscount : ComponentBase
         EditDiscount.studentId = StudentId;
         EditDiscount.discountId = DiscountId;
 
-        var des= await Notificator.ShowAlertQuestion("Advertencia", "Esta seguro que desea aplicar esté descuento?",("Si","No"));
-        if (des)
+        var result= await Notificator
+            .ShowAlertQuestion("Advertencia", "¿Está seguro de aplicar este descuento?",
+                ("Sí","No"));
+        if (result)
         {
             var response = await Controller.EditDiscount(EditDiscount);
             if (response)
             {
-                await Notificator.ShowSuccess("Exito", "Descuento actualizado");
+                await Notificator.ShowSuccess("El descuento fue actualizado satisfactoriamente.");
                 await Navigator.HideModal("EditDiscountModal");
                 StateHasChanged();
                 return;

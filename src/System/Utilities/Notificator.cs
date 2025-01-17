@@ -11,10 +11,14 @@ public class Notificator
         Service = service;
     }
 
+    public async Task ShowSuccess(string text) => await ShowSuccess("¡Operación exitosa!", text);
+    
     public async Task ShowSuccess(string title, string text)
     {
         await Service.FireAsync(new SweetAlertOptions{ Title = title, Text = text, Icon = SweetAlertIcon.Success});
     }
+
+    public async Task ShowInformation(string text) => await ShowInformation("Información no válida.",text);
     
     public async Task ShowInformation(string title, string text)
     {
@@ -32,14 +36,14 @@ public class Notificator
         });
     }
     
+    public async Task ShowError(string content)
+    {
+        await ShowError("Lo sentimos, ocurrió un error.", content);
+    }
+    
     public async Task ShowError(string title, string text)
     {
         await ShowError(title, text, string.Empty);
-    }
-
-    public async Task ShowError(string content)
-    {
-        await ShowError("Ocurrió un error.", content);
     }
     
     public async Task ShowWarning(string title, string text)

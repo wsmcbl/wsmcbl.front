@@ -42,13 +42,12 @@ public partial class InitializeEnrollmentView
         }
 
         var response = await Controller.InitializerEnrollment(Initializer);
-
         if (response)
         {
-            await Notificator.ShowSuccess("Exito", "Hemos actualizado con exito las secciones");
+            await Notificator.ShowSuccess("Se ha actualizado las secciones correctamente.");
             return;
         }
 
-        await Notificator.ShowError("Error", "No hemos podido completar la tarea");
+        await Notificator.ShowError("Hubo un fallo al completar la tarea");
     }
 }

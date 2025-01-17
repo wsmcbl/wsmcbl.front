@@ -36,7 +36,7 @@ public partial class CreateNewUserModal : ComponentBase
     {
         if (!User.IsDataValid())
         {
-            await Notificator.ShowInformation("Advertencia", "Todos los campos con * son obligatorios");
+            await Notificator.ShowInformation("Todos los campos con * son obligatorios.");
             return;
         }
         
@@ -50,7 +50,7 @@ public partial class CreateNewUserModal : ComponentBase
             await Navigator.ShowModal("InfoUserModal");
             return;
         }
-        await Notificator.ShowInformation("Error", "No hemos podido crear el usuario intentelo mas tarde");
+        await Notificator.ShowError("Hubo un fallo al crear el usuario, inténtelo más tarde.");
         isLoading = false;
     }
     

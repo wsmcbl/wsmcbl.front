@@ -39,10 +39,10 @@ public partial class ModalNewSubject : ComponentBase
 
     private async Task SaveNewSubject(SubjectDto subject)
     {
-        var response = await controller!.CreateNewSubject(subject);
+        var response = await controller.CreateNewSubject(subject);
         if (response)
         {
-            await Notificator!.ShowSuccess("Éxito", "Asignatura creada correctamente, recarge la página");
+            await Notificator!.ShowSuccess("Se ha creado la asignatura correctamente, recarge la página.");
         }
     }
 }
