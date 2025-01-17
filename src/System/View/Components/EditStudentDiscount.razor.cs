@@ -28,7 +28,7 @@ public partial class EditStudentDiscount : ComponentBase
             var response = await Controller.EditDiscount(EditDiscount);
             if (response)
             {
-                await Notificator.ShowSuccess("El descuento fue actualizado satisfactoriamente.");
+                await Notificator.ShowSuccess("Se ha actualizado el descuento correctamente.");
                 await Navigator.HideModal("EditDiscountModal");
                 StateHasChanged();
                 return;

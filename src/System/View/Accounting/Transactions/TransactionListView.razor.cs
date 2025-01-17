@@ -51,7 +51,7 @@ public partial class TransactionListView : BaseView
             return;
         }
             
-        await Notificator.ShowSuccess("Transacción anulada correctamente.");
+        await Notificator.ShowSuccess("Se ha anulado la transacción correctamente.");
         await LoadData();
         StateHasChanged();
     }
