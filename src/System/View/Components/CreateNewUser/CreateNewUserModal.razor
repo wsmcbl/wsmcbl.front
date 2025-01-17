@@ -1,5 +1,3 @@
-
-
 <div class="modal fade" id="NewUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width: 85%; height: 30%; max-width: 90%; max-height: 50%;">>
         <div class="modal-content">
@@ -11,7 +9,7 @@
                     <div class="loader-text">Cargando, por favor espere...</div>
                 </div>
             }
-            
+
             <div class="modal-header">
                 <h5 class="modal-title font-weight-bold text-primary" id="myModalLabel">Nuevo Usuario</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -30,22 +28,26 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label for="firstName" class="label-required">Primer Nombre:</label>
-                                            <InputText id="firstName" @bind-Value="@User.name" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="firstName" @bind-Value="@User.name" class="form-control"
+                                                       placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="secondN">Segundo Nombre:</label>
-                                            <InputText id="secondN" @bind-Value="@User.secondName" class="form-control"placeholder="Sin asignar"/>
+                                            <InputText id="secondN" @bind-Value="@User.secondName" class="form-control"
+                                                       placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="surname" class="label-required">Primer Apellido:</label>
-                                            <InputText id="surname" @bind-Value="@User.surname" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="surname" @bind-Value="@User.surname" class="form-control"
+                                                       placeholder="Sin asignar"/>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="secondS">Segundo Apellido:</label>
-                                            <InputText id="secondS" @bind-Value="@User.secondSurname" class="form-control" placeholder="Sin asignar"/>
+                                            <InputText id="secondS" @bind-Value="@User.secondSurname"
+                                                       class="form-control" placeholder="Sin asignar"/>
                                         </div>
 
                                     </div>
@@ -110,7 +112,6 @@
 
                                                     <label for="@item">@item</label>
                                                 </div>
-
                                             }
                                         </div>
 

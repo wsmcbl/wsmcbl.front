@@ -1,6 +1,7 @@
 @page "/enrollments"
-@attribute [Authorize(Roles = "admin,teacher")]
+
 @inherits BaseView;
+@attribute [Authorize(Roles = "admin,teacher")]
 
 @if (IsLoading())
 {

@@ -1,7 +1,9 @@
 @page "/secretary/schoolyear/new"
-@attribute [Authorize(Roles = "admin")]
-@using wsmcbl.src.Utilities
+
 @inherits ConfigSchoolYear;
+@attribute [Authorize(Roles = "admin")]
+
+@using wsmcbl.src.Utilities
 
 @if (SchoolYear == null)
 {

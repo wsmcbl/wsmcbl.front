@@ -1,6 +1,7 @@
 @page "/secretary/schoolyears"
-@attribute [Authorize(Roles = "admin")]
+
 @inherits ListSchoolYears;
+@attribute [Authorize(Roles = "admin")]
 
 @if (SchoolYear == null)
 {

@@ -1,6 +1,8 @@
 @page "/accounting/profiles"
-@using wsmcbl.src.View.Secretary.CreateStudent;
+
 @attribute [Authorize(Roles = "admin,cashier")]
+
+@using wsmcbl.src.View.Secretary.CreateStudent;
 
 @if (IsLoad())
 {

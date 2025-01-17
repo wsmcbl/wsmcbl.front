@@ -1,6 +1,7 @@
 @using wsmcbl.src.View.Config.CreateUsers
 
-<div class="modal fade" id="InfoUserModal" tabindex="-1" role="dialog" aria-labelledby="myInfoUserModal" aria-hidden="true">
+<div class="modal fade" id="InfoUserModal" tabindex="-1" role="dialog" aria-labelledby="myInfoUserModal"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,14 +14,14 @@
 
                 <div class="card-body">
                     <h5 class="card-title">Detalles de @(UserInfo != null ? UserInfo.name : "Sin dato")</h5>
-                    <p><strong>Roles:</strong> @(UserInfo != null && Enum.IsDefined(typeof(Role), UserInfo.roleId) 
-                                                   ? Enum.GetName(typeof(Role), UserInfo.roleId) 
-                                                   : "Unknown")</p>
+                    <p><strong>Roles:</strong> @(UserInfo != null && Enum.IsDefined(typeof(Role), UserInfo.roleId)
+                                                       ? Enum.GetName(typeof(Role), UserInfo.roleId)
+                                                       : "Unknown")</p>
                     <p><strong>Nombre:</strong> @(UserInfo != null ? UserInfo.getFullName() : "Sin dato")</p>
                     <p><strong>Email:</strong> @(UserInfo != null ? UserInfo.email : "Sin dato")</p>
-                    <p><strong>Contraseña:</strong> @(UserInfo != null ? UserInfo.password : "Sin dato")</p> 
+                    <p><strong>Contraseña:</strong> @(UserInfo != null ? UserInfo.password : "Sin dato")</p>
                 </div>
-                
+
             </div>
 
             <div class="modal-footer">

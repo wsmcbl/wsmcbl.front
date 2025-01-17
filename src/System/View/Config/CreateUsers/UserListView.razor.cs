@@ -1,21 +1,23 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Config;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Config.CreateUsers;
 
-public partial class ListUsers : ComponentBase
+public partial class UserListView : BaseView
 {
-    [Inject] CreateUserController Controller { get; set; } = null!;
+    [Inject] private CreateUserController Controller { get; set; } = null!;
+    
     private UserEntity? User { get; set; }
-    private List<ListUserDto>? UserList { get; set; }
+    private List<UserToListDto>? UserList { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
         await LoadUserList();
     }
-    
-    private bool IsLoad()
+
+    protected override bool IsLoading()
     {
         return UserList == null;
     }

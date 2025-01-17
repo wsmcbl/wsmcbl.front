@@ -1,8 +1,10 @@
 @page "/accounting/reports/transactions"
+
+@inherits BaseView
+@attribute [Authorize(Roles = "admin,cashier")]
+
 @using wsmcbl.src.Utilities
 @using wsmcbl.src.View.Components
-@attribute [Authorize(Roles = "admin,cashier")]
-@inherits BaseView
 
 @if (IsLoading())
 {

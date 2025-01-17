@@ -1,8 +1,11 @@
 @page "/configuration/users"
-@using wsmcbl.src.View.Components.CreateNewUser
+
+@inherits BaseView
 @attribute [Authorize(Roles = "admin")]
 
-@if (IsLoad())
+@using wsmcbl.src.View.Components.CreateNewUser
+
+@if (IsLoading())
 {
     <div class="loader"></div>
 }

@@ -14,10 +14,10 @@ public class CreateUserController
         _apiConsumer = apiConsumer;
     }
     
-    public async Task<List<ListUserDto>> GetUserList()
+    public async Task<List<UserToListDto>> GetUserList()
     {
         var resource = "users"; 
-        var defaultResult = new List<ListUserDto>();
+        var defaultResult = new List<UserToListDto>();
         return await _apiConsumer.GetAsync(Modules.Config, resource, defaultResult);
     }
     

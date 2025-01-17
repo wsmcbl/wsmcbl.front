@@ -1,7 +1,9 @@
 @page "/accounting/reports/revenue"
-@attribute [Authorize(Roles = "admin,cashier")]
-@using wsmcbl.src.Utilities
+
 @inherits BaseView
+@attribute [Authorize(Roles = "admin,cashier")]
+
+@using wsmcbl.src.Utilities
 
 @if (IsLoading())
 {

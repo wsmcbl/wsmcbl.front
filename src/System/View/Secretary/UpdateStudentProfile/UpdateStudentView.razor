@@ -1,8 +1,10 @@
 @page "/secretary/students/edit/{studentId}"
+
+@inherits BaseView
+@attribute [Authorize(Roles = "admin")]
+
 @using wsmcbl.src.View.Secretary.EnrollStudent
 @using wsmcbl.src.View.Components
-@attribute [Authorize(Roles = "admin")]
-@inherits BaseView
 
 @if (IsLoading())
 {
