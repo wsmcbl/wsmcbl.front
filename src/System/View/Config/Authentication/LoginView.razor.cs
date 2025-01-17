@@ -6,20 +6,21 @@ namespace wsmcbl.src.View.Config.Authentication;
 
 public partial class LoginView : ComponentBase
 {
+    private string? errorMessage { get; set; }
     private string email { get; set; } = null!;
     private string password { get; set; } = null!;
     
-    [Inject] private LoginController controller { get; set; } = null!;
     [Inject] private Navigator? Navigator { get; set; }
-    [Inject] private Notificator? Notificator { get; set; }
+    [Inject] private LoginController controller { get; set; } = null!;
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
 
     private async Task Login()
     {
+        errorMessage = null;
         var token = await controller.login(email, password);
         if (token == string.Empty)
         {
-            await Notificator!.ShowError("Error al iniciar sesión.","Revise el correo y contraseña ingresada.");
+            errorMessage = controller.errorMessage;
             return;
         }
         

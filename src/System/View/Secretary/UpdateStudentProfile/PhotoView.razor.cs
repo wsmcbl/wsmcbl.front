@@ -11,13 +11,15 @@ namespace wsmcbl.src.View.Secretary.UpdateStudentProfile;
 
 public partial class PhotoView : ComponentBase
 {
-    [Inject] protected IJSRuntime JS { get; set; } = null!;
-    [Inject] protected ApiConsumer Consumer { get; set; } = null!;
-    [Inject] public Notificator? Notificator { get; set; }
     [Parameter] public StudentEntity Student { get; set; } = null!;
-    protected string ImgSrc { get; set; } = "/img/Placeholder/Man.png";
-    private StringBuilder imageBase64Builder { get; set; } = new();
+    
+    [Inject] protected IJSRuntime JS { get; set; } = null!;
+    [Inject] public Notificator? Notificator { get; set; }
+    [Inject] protected ApiConsumerWithNotificator Consumer { get; set; } = null!;
+    
     private bool IsCamaraOpen { get; set; } = false;
+    private StringBuilder imageBase64Builder { get; set; } = new();
+    private string ImgSrc { get; set; } = "/img/Placeholder/Man.png";
 
     protected override Task OnParametersSetAsync()
     {

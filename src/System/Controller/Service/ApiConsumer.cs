@@ -112,6 +112,7 @@ public class ApiConsumer
     protected virtual async Task<T> GenericHttpResponse<T>(Func<Task<T?>> httpRequest, T defaultResult,
         HttpResponseMessage response)
     {
+        response.EnsureSuccessStatusCode();
         if (response.IsSuccessStatusCode)
         {
             return (await httpRequest())!;

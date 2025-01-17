@@ -33,6 +33,12 @@
                                     <div class="text-center">
                                         <button type="button" class="btn btn-success w-100" @onclick="async () => await Login()">Iniciar Sesión</button>
                                     </div>
+                                    <div style="margin-top: 10px;">
+                                        @if (!string.IsNullOrEmpty(errorMessage))
+                                        {
+                                            <label>@errorMessage</label>
+                                        }
+                                    </div>
                                 </form>
                             </div>
                         </div>

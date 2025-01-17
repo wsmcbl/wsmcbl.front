@@ -7,14 +7,16 @@ namespace wsmcbl.src.Controller;
 
 public class LoginController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
+    private readonly ApiConsumer _apiConsumer;
     private readonly JwtClaimsService _jwtClaimsService;
 
-    public LoginController(ApiConsumerWithNotificator apiConsumer, JwtClaimsService jwtClaimsService)
+    public LoginController(ApiConsumer apiConsumer, JwtClaimsService jwtClaimsService)
     {
         _apiConsumer = apiConsumer;
         _jwtClaimsService = jwtClaimsService;
     }
+    
+    public string? errorMessage { get; set; }
     
     public async Task<string> login(string email, string password)
     {
@@ -22,9 +24,16 @@ public class LoginController
         defaultDto.SetAsDefault();
         
         var data = new LoginDto(email, password);
-        var result = await _apiConsumer.PostAsync(Modules.Config, "users/tokens", data, defaultDto);
-        
-        return result.token!;
+        try
+        {
+            var result = await _apiConsumer.PostAsync(Modules.Config, "users/tokens", data, defaultDto);
+            return result.token!;
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+            return string.Empty;
+        }
     }
 
     public async Task<UserEntity> getUserById()
