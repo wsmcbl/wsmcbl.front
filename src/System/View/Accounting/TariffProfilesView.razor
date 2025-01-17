@@ -1,5 +1,5 @@
 @page "/accounting/profiles"
-@using wsmcbl.src.View.Secretary.Profiles;
+@using wsmcbl.src.View.Secretary.CreateStudent;
 @attribute [Authorize(Roles = "admin,cashier")]
 
 @if (IsLoad())
@@ -73,5 +73,5 @@ else
 
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 
-    <CreateStudentProfile onNewStudentCreated="@loadStudentList"/>
+    <CreateStudentProfileView onNewStudentCreated="@loadStudentList"/>
 }
