@@ -1,4 +1,6 @@
 @page "/secretary/degrees"
+
+@inherits BaseView
 @attribute [Authorize(Roles = "admin,secretary")]
 
 @if (IsLoading())
@@ -89,7 +91,7 @@ else
         </div>
     </div>
     
-    <InitializeEnrollmentView @bind-DegreeObj="Degree" />
+    <InitializeEnrollmentView @bind-degree="Degree" />
     
     
     

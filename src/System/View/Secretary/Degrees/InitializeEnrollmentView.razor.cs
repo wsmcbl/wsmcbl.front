@@ -7,32 +7,27 @@ using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
-public partial class InitializeEnrollmentView
+public partial class InitializeEnrollmentView : BaseView
 {
-    [Parameter] public DegreeEntity? DegreeObj { get; set; }
+    [Parameter] public DegreeEntity? degree { get; set; }
     [Parameter] public EventCallback<DegreeEntity?> DegreeObjChanged { get; set; }
-    [Inject] public CreateEnrollmentController Controller { get; set; } = null!;
+    
     [Inject] public Notificator Notificator { get; set; } = null!;
-    protected SaveInitializerDto Initializer { get; set; } = new();
-    public int Counter2 { get; set; }
-    public int Counter { get; set; }
-
+    [Inject] public CreateEnrollmentController Controller { get; set; } = null!;
+    
+    private SaveInitializerDto Initializer { get; set; } = new();
+    private int Counter { get; set; }
+    private int Counter2 { get; set; }
     
     private async Task UpdateDegreeObj(DegreeEntity? newDegree)
     {
-        DegreeObj = newDegree;
-        await DegreeObjChanged.InvokeAsync(DegreeObj);
-    }
-    
-    private bool IsLoading()
-    {
-        return DegreeObj is not null;
+        degree = newDegree;
+        await DegreeObjChanged.InvokeAsync(degree);
     }
 
     private async Task SaveEnrollments(string enrollmentId)
     {
-        var enroll = DegreeObj!.EnrollmentList!.FirstOrDefault(t => t.enrollmentId == enrollmentId);
-        
+        var enroll = degree!.EnrollmentList!.FirstOrDefault(t => t.enrollmentId == enrollmentId);
         if (enroll is not null)
         {
             Initializer.enrollmentId = enroll.enrollmentId;
@@ -48,6 +43,11 @@ public partial class InitializeEnrollmentView
             return;
         }
 
-        await Notificator.ShowError("Hubo un fallo al completar la tarea");
+        await Notificator.ShowError("Hubo un fallo al completar la tarea.");
+    }
+    
+    protected override bool IsLoading()
+    {
+        return degree == null;
     }
 }
