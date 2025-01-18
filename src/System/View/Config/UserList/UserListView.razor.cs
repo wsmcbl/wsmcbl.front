@@ -3,7 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Config;
 using wsmcbl.src.View.Base;
 
-namespace wsmcbl.src.View.Config.CreateUsers;
+namespace wsmcbl.src.View.Config.UserList;
 
 public partial class UserListView : BaseView
 {
