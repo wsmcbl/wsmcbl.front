@@ -1,4 +1,4 @@
-@page "/accounting/profiles"
+@page "/accounting/students"
 
 @attribute [Authorize(Roles = "admin,cashier")]
 
@@ -63,7 +63,7 @@ else
                             <td> @item.tutor </td>
                             <td> @item.enrollmentLabel </td>
                             <td>
-                                <a href="/accounting/tariffcollection/@item.studentId" class="btn btn-success btn-sm">Ver perfil</a>
+                                <a href="/accounting/students/@item.studentId" class="btn btn-success btn-sm">Ver perfil</a>
                             </td>
                         </tr>
                     }

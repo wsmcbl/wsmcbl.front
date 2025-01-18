@@ -1,4 +1,4 @@
-@page "/enrollments"
+@page "/academy/enrollments"
 
 @inherits BaseView;
 @attribute [Authorize(Roles = "admin,teacher")]
@@ -24,7 +24,7 @@ else
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">@item.enrollmentLabel</div>
                                 </div>
                                 <div class="col-auto">
-                                    <a class="btn btn-outline-danger" href="/enrollments/@item.enrollmentId/grades">
+                                    <a class="btn btn-outline-danger" href="/academy/enrollments/@item.enrollmentId/grades">
                                         Calificar
                                     </a>
                                 </div>
