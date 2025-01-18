@@ -1,8 +1,9 @@
 @page "/secretary/enroll/students"
 
+@inherits BaseView
 @attribute [Authorize(Roles = "admin")]
 
-@if (Students == null)
+@if(IsLoading())
 {
     <div class="loader"></div>
 }
@@ -31,7 +32,7 @@ else
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach(var item in Students)
+                    @foreach(var item in studentList!)
                     {
                         <tr>
                             <td>@item.StudentId</td>

@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.View.Base;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
 namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
-public partial class ListProfilesForEnrollmentsView : ComponentBase
+public partial class StudentListToEnrollView : BaseView
 {
     [Inject] protected EnrollStudentController? Controller { get; set; }
-    protected ICollection<StudentDto>? Students { get; private set; }
+    private List<StudentDto>? studentList { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -16,6 +17,11 @@ public partial class ListProfilesForEnrollmentsView : ComponentBase
 
     private async Task LoadStudents()
     {
-        Students = await Controller!.GetStudents();
+        studentList = await Controller!.GetStudents();
+    }
+
+    protected override bool IsLoading()
+    {
+        return studentList == null;
     }
 }
