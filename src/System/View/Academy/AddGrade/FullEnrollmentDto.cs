@@ -24,7 +24,7 @@ public class FullEnrollmentDto
         foreach (var item in studentList)
         {
             item.gradeList = GetGradeListByStudent(item.studentId);
-            item.loadConductGrade();
+            item.LoadConductGradeFromList();
         }
     }
     

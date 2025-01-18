@@ -71,7 +71,7 @@ public partial class AddGradeView : BaseView
                 return;
             }
 
-            student.setConductGrade();
+            student.UpdateConductGradeIntoList();
             gradeList.AddRange(student.gradeList);
         }
 

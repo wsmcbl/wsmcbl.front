@@ -12,7 +12,7 @@ public class StudentEntity
     public List<GradeEntity>? gradeList {get; set;}
 
 
-    public void loadConductGrade()
+    public void LoadConductGradeFromList()
     {
         if (gradeList == null || gradeList.Count == 0)
         {
@@ -23,7 +23,7 @@ public class StudentEntity
         conductGrade = gradeList[0].conductGrade;
     }
 
-    public void setConductGrade()
+    public void UpdateConductGradeIntoList()
     {
         foreach (var item in gradeList!)
         {
