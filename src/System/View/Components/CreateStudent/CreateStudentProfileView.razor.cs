@@ -104,7 +104,7 @@ public partial class CreateStudentProfileView : ComponentBase
         
         if (election)
         {
-            _navigator.ToPage($"/accounting/tariffcollection/{response}");
+            _navigator.ToPage($"/accounting/students/{response}");
         }
         else
         {
