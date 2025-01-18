@@ -8,7 +8,6 @@ namespace wsmcbl.src.Utilities;
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly ProtectedLocalStorage _localStorage;
-    private ClaimsPrincipal _anonymous = new(new ClaimsIdentity());
 
     public CustomAuthenticationStateProvider(ProtectedLocalStorage localStorage)
     {
@@ -17,16 +16,26 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        // Intenta obtener el token desde el almacenamiento local
-        var tokenResult = await _localStorage.GetAsync<string>(Utilities.TokenKey);
-        var token = tokenResult.Value;
-
-        // Si no existe un token, retorna un estado no autenticado
-        if (string.IsNullOrEmpty(token))
+        try
         {
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            var browserStorage = await _localStorage.GetAsync<string>(Utilities.TokenKey);
+        
+            var token = browserStorage.Value;
+            if (string.IsNullOrEmpty(token))
+            {
+                return await NotAuthenticated();
+            }
+        
+            return await BuildAuthentication(token);
         }
+        catch (Exception)
+        {
+            return await NotAuthenticated();
+        }
+    }
 
+    private async Task<AuthenticationState> BuildAuthentication(string token)
+    {
         try
         {
             var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
@@ -54,42 +63,15 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         }
         catch (SecurityTokenException ex)
         {
-            // Log de errores en el token
             Console.WriteLine($"Token inválido: {ex.Message}");
         }
         catch (Exception ex)
         {
-            // Otros errores (por ejemplo, almacenamiento local)
             Console.WriteLine($"Error procesando el token: {ex.Message}");
         }
-
-        // Si ocurre algún error, elimina el token y retorna un estado no autenticado
-        await _localStorage.DeleteAsync(Utilities.TokenKey);
-        return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        
+        return await NotAuthenticated();
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
 
 
     public async Task MarkUserAsAuthenticated(string token)
@@ -102,5 +84,11 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         await _localStorage.DeleteAsync(Utilities.TokenKey);
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+    }
+
+    private async Task<AuthenticationState> NotAuthenticated()
+    {
+        await _localStorage.DeleteAsync(Utilities.TokenKey);
+        return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
     }
 }

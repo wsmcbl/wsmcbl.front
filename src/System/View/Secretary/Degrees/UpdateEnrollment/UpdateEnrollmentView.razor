@@ -99,6 +99,45 @@ else
                         </div>
                         <!-- Fin datos de matricula -->
 
+                        <!-- Inicio de los estudiantes -->
+                        <div class="card" style="margin-bottom: 15px">
+                            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="m-0 font-weight-bold text-primary">Estudiantes</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="table-responsive" style="max-height: 750px; overflow-y: auto;">
+                                        <table id="datatable" class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Nombre</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            </thead>
+                                            <tfoot>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Nombre</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                            </tfoot>
+                                            <tbody>
+                                            @foreach (var item in enrollment.studentList)
+                                            {
+                                                <tr>
+                                                    <td>@item.studentId</td>
+                                                    <td>@item.fullName</td>
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin de los estudiantes -->
+
                         <!-- Inicio de las asignaturas -->
                         <div class="card" style="margin-bottom: 15px">
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -170,7 +209,6 @@ else
                             </div>
                         </div>
                         <!-- Fin de las asignaturas -->
-
                     </div>
                 }
             </div>
