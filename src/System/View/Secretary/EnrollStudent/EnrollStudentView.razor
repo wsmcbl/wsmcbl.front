@@ -1,10 +1,15 @@
 @page "/secretary/enroll/students/{StudentId}"
 
+@inherits BaseView
 @attribute [Authorize(Roles = "admin")]
 
 @using wsmcbl.src.View.Components;
 
-@if (Student != null && Degrees!.Any())
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
 {
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -12,7 +17,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
                        aria-controls="PanelStudent" aria-selected="true">
-                        Información del Estudiante
+                        Información del estudiante
                     </a>
                 </li>
                 <li class="nav-item">
@@ -24,7 +29,7 @@
                 <li class="nav-item">
                     <a class="nav-link" id="TabAcademy" data-toggle="tab" href="#PanelAcademy" role="tab"
                        aria-controls="PanelAcademy" aria-selected="false">
-                        Academica
+                        Académica
                     </a>
                 </li>
             </ul>
@@ -37,14 +42,14 @@
                 @if (IsStudentsEnrollment)
                 {
                     <button type="button" class="btn btn-success"
-                            @onclick="(e) => PrintEnrollSheet(Student.studentId!)">
-                        Imprimir Hoja de Matrícula
+                            @onclick="(e) => PrintEnrollSheet(Student!.studentId!)">
+                        Imprimir hoja de matrícula
                     </button>
                 }
                 else
                 {
                     <button type="button" class="disabled btn btn-outline-secondary">
-                        Imprimir Hoja de Matrícula
+                        Imprimir hoja de matrícula
                     </button>
                 }
             </div>
@@ -63,7 +68,7 @@
                 </div>
 
                 <div class="tab-pane fade" id="PanelAcademy" role="tabpanel" aria-labelledby="TabAcademy">
-                    <TabAcademy Student="Student" Degrees="Degrees" @bind-DiscountId="DiscountId"
+                    <TabAcademy Student="Student" Degrees="DegreeList" @bind-DiscountId="DiscountId"
                                 @bind-EnrollmentIdSelected="EnrollmentIdSelected"/>
                 </div>
 
@@ -74,8 +79,4 @@
         <PdfViewer Title="Hoja de matrícula" PdfContent="@EnrollSheetPdf"/>
 
     </div>
-}
-else
-{
-    <div class="loader"></div>
 }
