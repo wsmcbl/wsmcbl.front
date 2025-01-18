@@ -1,4 +1,4 @@
-namespace wsmcbl.src.View.Components.CreateNewUser;
+namespace wsmcbl.src.View.Config.CreateNewUser;
 
 public class PermissionsDto
 {

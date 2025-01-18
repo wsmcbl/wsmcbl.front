@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Model.Config;
-using wsmcbl.src.View.Config.CreateUsers;
 
-namespace wsmcbl.src.View.Components.CreateNewUser;
+namespace wsmcbl.src.View.Config.CreateNewUser;
 
 public partial class UserInformationModal : ComponentBase
 {

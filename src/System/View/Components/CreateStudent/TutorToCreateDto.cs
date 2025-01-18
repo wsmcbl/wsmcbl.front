@@ -1,4 +1,4 @@
-namespace wsmcbl.src.View.Secretary.CreateStudent;
+namespace wsmcbl.src.View.Components.CreateStudent;
 
 public class TutorToCreateDto
 {

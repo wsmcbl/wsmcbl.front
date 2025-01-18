@@ -22,11 +22,17 @@
   </ItemGroup>
   
   <ItemGroup>
+    <AdditionalFiles Include="View\Components\CreateStudent\CreateStudentProfileView.razor" />
     <AdditionalFiles Include="View\Config\Authentication\ForgotPasswordView.razor" />
     <AdditionalFiles Include="View\Config\Authentication\LoginView.razor" />
+    <AdditionalFiles Include="View\Config\CreateNewUser\CreateNewUserModal.razor" />
+    <AdditionalFiles Include="View\Config\CreateNewUser\UserInformationModal.razor" />
   </ItemGroup>
   
   <ItemGroup>
     <_ContentIncludedByDefault Remove="View\Secretary\UpdateProfilePicture\UpdateProfilePictureView.razor" />
+    <_ContentIncludedByDefault Remove="View\Secretary\CreateStudent\CreateStudentProfileView.razor" />
+    <_ContentIncludedByDefault Remove="View\Components\CreateNewUser\CreateNewUserModal.razor" />
+    <_ContentIncludedByDefault Remove="View\Components\CreateNewUser\UserInformationModal.razor" />
   </ItemGroup>  
 </Project>
