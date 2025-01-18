@@ -1,4 +1,4 @@
-namespace wsmcbl.src.View.Config.UserList;
+namespace wsmcbl.src.View.Config;
 
 public enum Role
 {
