@@ -1,8 +1,7 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Config;
-using wsmcbl.src.View.Base;
-using wsmcbl.src.View.Components.CreateNewUser;
-using wsmcbl.src.View.Config.CreateUsers;
+using wsmcbl.src.View.Config.CreateNewUser;
+using wsmcbl.src.View.Config.UserList;
 
 namespace wsmcbl.src.Controller;
 
