@@ -1,5 +1,5 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.View.Secretary.CreateStudent;
+using wsmcbl.src.View.Components.CreateStudent;
 
 namespace wsmcbl.src.Controller;
 

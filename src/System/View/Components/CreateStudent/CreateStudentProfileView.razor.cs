@@ -3,7 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.src.View.Components;
+namespace wsmcbl.src.View.Components.CreateStudent;
 
 public partial class CreateStudentProfileView : ComponentBase
 {
