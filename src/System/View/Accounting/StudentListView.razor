@@ -1,10 +1,11 @@
 @page "/accounting/students"
 
+@inherits BaseView
 @attribute [Authorize(Roles = "admin,cashier")]
 
 @using wsmcbl.src.View.Secretary.CreateStudent;
 
-@if (IsLoad())
+@if (IsLoading())
 {
     <div class="loader"></div>
 }
@@ -13,13 +14,14 @@ else
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Perfiles de cobro</h6>
-            
+
             <div class="btn-group">
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#NewStudentModal">
                     Nuevo estudiante
                 </button>
 
-                <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
 
@@ -27,11 +29,6 @@ else
                     <a class="dropdown-item" @onclick="loadStudentList">Actualizar</a>
                 </div>
             </div>
-
-
-            
-
-
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -63,7 +60,8 @@ else
                             <td> @item.tutor </td>
                             <td> @item.enrollmentLabel </td>
                             <td>
-                                <a href="/accounting/students/@item.studentId" class="btn btn-success btn-sm">Ver perfil</a>
+                                <a href="/accounting/students/@item.studentId" class="btn btn-success btn-sm">Ver
+                                    perfil</a>
                             </td>
                         </tr>
                     }
