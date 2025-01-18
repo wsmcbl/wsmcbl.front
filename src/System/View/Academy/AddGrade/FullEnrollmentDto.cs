@@ -34,7 +34,12 @@ public class FullEnrollmentDto
         foreach (var item in subjectPartialList)
         {
             var grade = item.grades!.FirstOrDefault(e => e.studentId == studentId);
-            grade!.subjectId = item.subjectId;
+            if (grade == null)
+            {
+                continue;
+            }
+            
+            grade.subjectId = item.subjectId;
             gradeList.Add(grade);
         }
         
