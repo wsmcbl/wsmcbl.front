@@ -2,25 +2,33 @@ using wsmcbl.src.Model.Academy;
 
 namespace wsmcbl.src.View.Academy.AddGrade;
 
-public class FullInformationOfEnrollmentDto
+public class FullEnrollmentDto
 {
     public string label { get; set; } = null!;
     public List<StudentEntity> studentList { get; set; } = null!;
     public List<SubjectEntity> subjectList { get; set; } = null!;
     public List<SubjectWithGradeListDto> subjectPartialList { get; set; } = null!;
 
-    public void deleteWithoutGrades()
+    public void DeleteWithoutGrades()
     {
-        subjectList = subjectList.Where(e => hasGrades(e)).ToList();
+        subjectList = subjectList.Where(e => HasGrades(e)).ToList();
     }
 
-    private bool hasGrades(SubjectEntity value)
+    private bool HasGrades(SubjectEntity value)
     {
         return subjectPartialList.FirstOrDefault(e => e.subjectId == value.subjectId) != null;
     }
 
-
-    private List<GradeEntity> getGradeListByStudent(string studentId)
+    public void UpdateStudentGradeList()
+    {
+        foreach (var item in studentList)
+        {
+            item.gradeList = GetGradeListByStudent(item.studentId);
+            item.loadConductGrade();
+        }
+    }
+    
+    private List<GradeEntity> GetGradeListByStudent(string studentId)
     {
         var gradeList = new List<GradeEntity>();
         foreach (var item in subjectPartialList)
@@ -31,13 +39,5 @@ public class FullInformationOfEnrollmentDto
         }
         
         return gradeList;
-    }
-
-    public void updateStudentGradeList()
-    {
-        foreach (var item in studentList)
-        {
-            item.gradeList = getGradeListByStudent(item.studentId);
-        }
     }
 }

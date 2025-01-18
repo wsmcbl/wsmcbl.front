@@ -26,26 +26,26 @@ public partial class AddGradeView : BaseView
     protected override async Task OnParametersSetAsync()
     {
         partialsList = await controller.GetPartialsList();
-        loadActivePartial();
-        await loadTeacherInformation();
+        LoadActivePartial();
+        await LoadTeacherInformation();
 
-        await GetFullInfoEnrollment();
+        await GetEnrollmentData();
     }
 
-    private void loadActivePartial()
+    private void LoadActivePartial()
     {
         var activePartial = partialsList!.FirstOrDefault(t => t.isActive);
         currentPartial = activePartial?.partialId ?? 1;
         ActiveTabId = currentPartial;
     }
 
-    private async Task loadTeacherInformation()
+    private async Task LoadTeacherInformation()
     {
         TeacherId = await controller.getTeacherId();
         TeacherName = await controller.getTeacherName(TeacherId);
     }
 
-    private async Task GetFullInfoEnrollment()
+    private async Task GetEnrollmentData()
     {
         var result = await controller.GetFullEnrollment(getRequestDto());
         
@@ -71,6 +71,7 @@ public partial class AddGradeView : BaseView
                 return;
             }
 
+            student.setConductGrade();
             gradeList.AddRange(student.gradeList);
         }
 
@@ -78,7 +79,7 @@ public partial class AddGradeView : BaseView
         if (response)
         {
             await Notificator.ShowSuccess("Las calificaciones se han registrado satisfactoriamente.");
-            await GetFullInfoEnrollment();
+            await GetEnrollmentData();
             return;
         }
 
