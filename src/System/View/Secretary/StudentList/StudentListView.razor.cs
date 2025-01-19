@@ -15,6 +15,7 @@ public partial class StudentListView : BaseView
     private ICollection<StudentEntity>? studentList { get; set; }
     private string EnrollmentNameForChange { get; set; } = string.Empty;
     private string StudentIdForMove { get; set; } = string.Empty;
+    private string StudentIdForChangeEducationLevel { get; set; } = string.Empty;
 
     private byte[]? PdfDocument { get; set; }
     private string? PdfDocumentName { get; set; }
@@ -69,6 +70,12 @@ public partial class StudentListView : BaseView
         StudentIdForMove = studentId;
         EnrollmentNameForChange = enrollmentId;
         await Navigator!.ShowModal("MoveStudentModal");
+    }
+    
+    private async Task UpdateEducationLevel(string studentId)
+    {
+        StudentIdForChangeEducationLevel = studentId;
+        await Navigator!.ShowModal("ChangeEducationLevelModal");
     }
 
     private string getStatusLabel(bool value) => value ? "active-status" : "inactive-status";

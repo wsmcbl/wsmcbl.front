@@ -1,0 +1,64 @@
+<div class="modal fade" id="ChangeEducationLevelModal" tabindex="-1" aria-labelledby="ChangeEducationLevelModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document"
+         style="width: 80%; max-width: 90%; height: 40%; max-height: 40%; margin: auto;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalChangeEducationLevel">Actualizar Nivel Educativo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div>
+                                <strong>Estudiante:</strong> <label>@Student.fullName</label>
+                            </div>
+                            <div>
+                                <strong>Nivel Actual:</strong> <label>@((Levels)EducationLevelNow)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <h6 class="label-required"><strong>Nuevo Nivel: </strong></h6>
+
+                            <div class="checkbox-wrapper-14">
+                                <input type="checkbox" id="Pre-School"
+                                       checked="@((Student.educationalLevel == 1))"
+                                       @onchange="() => Student.educationalLevel = 1"/>
+                                <label for="Pre-School">Preescolar</label>
+                            </div>
+                            <div class="checkbox-wrapper-14">
+                                <input type="checkbox" id="Primary"
+                                       checked="@((Student.educationalLevel == 2))"
+                                       @onchange="() => Student.educationalLevel = 2"/>
+                                <label for="Primary">Primaria</label>
+                            </div>
+                            <div class="checkbox-wrapper-14">
+                                <input type="checkbox" id="Secondary"
+                                       checked="@((Student.educationalLevel == 3))"
+                                       @onchange="() => Student.educationalLevel = 3"/>
+                                <label for="Secondary">Secundaria</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-success" @onclick="Actualizar">Actualizar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
