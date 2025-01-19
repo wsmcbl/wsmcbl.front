@@ -8,4 +8,4 @@
 
 ## Version
 
-* 4.1.0 - SNAPSHOT
+* 4.1.0 - BETA
