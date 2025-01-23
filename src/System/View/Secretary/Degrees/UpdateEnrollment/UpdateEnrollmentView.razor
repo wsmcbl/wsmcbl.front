@@ -3,6 +3,8 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,secretary")]
 
+@using wsmcbl.src.Utilities
+
 @if (IsLoading())
 {
     <div class="loader"></div>
@@ -49,17 +51,17 @@ else
                                         <input type="text" class="form-control" disabled="disabled"
                                                style="margin-bottom: 10px" @bind="enrollment.label">
 
-                                        <label style="display: inline-block; width: 200px;">Maestro Guía:</label>
+                                        <label style="display: inline-block; width: 200px;">Docente guía:</label>
                                         <div class="row">
                                             <div class="col-md-8">
                                                 <input class="form-control"
-                                                       value="@(teacherList?.FirstOrDefault(t => t.teacherId == enrollment.teacherId)?.fullName ?? "N/A")"
+                                                       value="@GetTeacherNameById(enrollment.teacherId)"
                                                        disabled="disabled">
                                             </div>
                                             <div class="col-md-4">
                                                 <button class="btn btn-outline-info btn-sm"
                                                         @onclick="() => ChangeTeacherGuide(enrollment.teacherId, enrollment.enrollmentId)">
-                                                    <i class="fa fa-sync"></i> Cambiar Maestro
+                                                    <i class="fa fa-sync"></i> Cambiar docente guía
                                                 </button>
                                             </div>
                                         </div>
@@ -72,7 +74,7 @@ else
                                 <div class="card">
                                     <div class="card-body">
 
-                                        <label style="display: inline-block; width: 200px;">Año Lectivo:</label>
+                                        <label style="display: inline-block; width: 200px;">Año lectivo:</label>
                                         <input type="text" class="form-control" disabled="disabled"
                                                @bind="enrollment.schoolyear" style="margin-bottom: 10px">
 
@@ -85,7 +87,7 @@ else
                             <div class="col-12 col-md-3" style="margin-bottom: 15px">
                                 <div class="card">
                                     <div class="card-body">
-                                        <label style="display: inline-block; width: 200px;">Capacidad Usada:</label>
+                                        <label style="display: inline-block; width: 200px;">Capacidad usada:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px"
                                                @bind="enrollment.quantity">
 
@@ -99,14 +101,14 @@ else
                         </div>
                         <!-- Fin datos de matricula -->
 
-                        <!-- Inicio de los estudiantes -->
+                        <!-- Inicio de los estudiantes -->                       
                         <div class="card" style="margin-bottom: 15px">
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                 <h6 class="m-0 font-weight-bold text-primary">Estudiantes</h6>
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="table-responsive" style="max-height: 750px; overflow-y: auto;">
+                                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
                                         <table id="datatable" class="table table-bordered">
                                             <thead>
                                             <tr>
@@ -128,6 +130,21 @@ else
                                                 <tr>
                                                     <td>@item.studentId</td>
                                                     <td>@item.fullName</td>
+                                                    <td>
+                                                        <div class="dropdown no-arrow">
+                                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                                        </a>
+
+                                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                            aria-labelledby="dropdownMenuLink">
+                                                            <div class="dropdown-header">Seleccione una opción:</div>
+                                                                <a class="dropdown-item" href="#">Ver perfil (Proximamente)</a>
+                                                                <a class="dropdown-item" href="#"> Mover (Proximamente)</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             }
                                             </tbody>
@@ -146,14 +163,14 @@ else
                             <div class="card-body">
                                 <div class="row">
                                     <div class="table-responsive" style="max-height: 750px; overflow-y: auto;">
-                                        <table id="datatable" class="table table-bordered">
+                                        <table id="datatableSubject" class="table table-bordered">
                                             <thead>
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Nombre</th>
                                                 <th>¿Es reprobable?</th>
                                                 <th>Semestre</th>
-                                                <th>Maestro</th>
+                                                <th>Docente</th>
                                                 <th>Acciones</th>
 
                                             </tr>
@@ -164,7 +181,7 @@ else
                                                 <th>Nombre</th>
                                                 <th>¿Es reprobable?</th>
                                                 <th>Semestre</th>
-                                                <th>Maestro</th>
+                                                <th>Docente</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </tfoot>
@@ -177,23 +194,11 @@ else
                                                     <td>
                                                         <span
                                                             class="status-label @(item.isMandatory ? "active-status" : "inactive-status")">
-                                                            @(item.isMandatory ? "Si" : "No")
+                                                            @item.isMandatory.ToStringYesOrNo()
                                                         </span>
                                                     </td>
                                                     <td>@GetSemesterLabel(item.semester)</td>
-                                                    <td>
-                                                        <select id="teacherForSubject" class="form-control"
-                                                                style="margin: 0" value="@item.teacherId"
-                                                                @onchange="(e) => OnTeacherChanged(enrollment, item, e.Value!.ToString()!)">
-                                                            >
-
-                                                            @foreach (var option in teacherList!)
-                                                            {
-                                                                <option
-                                                                    value="@option.teacherId">@option.fullName</option>
-                                                            }
-                                                        </select>
-                                                    </td>
+                                                    <td>@GetTeacherNameById(item.teacherId)</td>
                                                     <td>
                                                         <button class="btn btn-info btn-sm"
                                                                 @onclick="() => UpdateTeacher(item.subjectId!, item.name!, enrollment.enrollmentId)">
@@ -219,5 +224,7 @@ else
                             TeacherGuideUpdated="LoadDegree"/>
     <UpdateTeacherOfSubjectView SubjectId="@SubjectFlags" SubjectName="@SubjectChangeName"
                                 EnrollmentId="@EnrollmentFlags" TeacherSubjectUpdated="LoadDegree"/>
+                                
+    <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 }
 

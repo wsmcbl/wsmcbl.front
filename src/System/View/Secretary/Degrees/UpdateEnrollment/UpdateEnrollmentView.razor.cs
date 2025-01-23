@@ -104,14 +104,19 @@ public partial class UpdateEnrollmentView : BaseView
         return true;
     }
 
-
-    private void OnTeacherChanged(EnrollmentEntity enrollment, SubjectEntity subject, string selectedTeacherId)
-    { 
-   
-    }
-
     protected override bool IsLoading()
     {   
         return enrollmentList.Count == 0 || teacherList.Count == 0;
+    }
+
+    private string GetTeacherNameById(string? teacherId)
+    {
+        if (teacherId == null)
+        {
+            return "N/A";
+        }
+        
+        var teacher = teacherList.FirstOrDefault(t => t.teacherId == teacherId);
+        return teacher?.fullName ?? "N/A";
     }
 }
