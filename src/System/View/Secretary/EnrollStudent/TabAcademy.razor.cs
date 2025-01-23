@@ -5,9 +5,8 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent;
 
 public partial class TabAcademy : ComponentBase
 {
-    [Parameter] public StudentEntity? Student { get; set; }
-    
-    [Parameter] public List<DegreeBasicDto>? DegreeList { get; set; }
+    [Parameter] public StudentEntity Student { get; set; } = null!;
+    [Parameter] public List<DegreeBasicDto> DegreeList { get; set; } = null!;
     
     [Parameter] public int DiscountId { get; set; }
     [Parameter] public EventCallback<int> DiscountIdChanged { get; set; }

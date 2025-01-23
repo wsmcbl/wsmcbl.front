@@ -1,10 +1,50 @@
 <div class="row">
+
+    <div class="col-12 col-md-3" style="margin-bottom: 15px">
+        <div class="card">
+            <div class="card-body" style="min-height: 400px;">
+
+            <div class="form-group">
+                <h5 class="card-title font-weight-bold">Otros</h5>
+
+                <label style="display: inline-block; width: 200px;">Código Mined:</label>
+                <input type="text" class="form-control" placeholder="AAAA-000000-0000000" style="margin-bottom: 10px" @bind="Student.minedId">
+            </div>
+        
+
+            <div class="form-group">
+                <h5 class="card-title font-weight-bold">Descuento</h5>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="NoneDiscount" name="discount" value="1"
+                               checked="@((DiscountId == 1))"
+                               @onchange="() => SetDiscount(1)" />
+                        <label for="NoneDiscount">Sin descuento</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="DiscountBrother" name="discount" value="2"
+                               checked="@((DiscountId == 2))"
+                               @onchange="() => SetDiscount(2)" />
+                        <label for="DiscountBrother">Posee hermanos</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="DiscoundTeacher" name="discount" value="3"
+                               checked="@((DiscountId == 3))"
+                               @onchange="() => SetDiscount(3)" />
+                        <label for="DiscoundTeacher">Hijo de maestro</label>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
     <div class="col-12 col-md-3" style="margin-bottom: 15px">
         <div class="card">
             <div class="card-body" style="min-height: 400px;">
                 <h5 class="card-title font-weight-bold label-required">Expediente</h5>
                 <div class="checkbox-group">
-                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student!.file!.transferSheet">
+                    <input type="checkbox" name="hojaTraslado" id="hojaTraslado" @bind="Student.file!.transferSheet">
                     <label for="hojaTraslado">Hoja de traslado</label>
                 </div>
                 <div class="checkbox-group">
@@ -33,41 +73,6 @@
             </div>
         </div>
     </div>
-
-    <div class="col-12 col-md-3" style="margin-bottom: 15px">
-        <div class="card">
-            <div class="card-body" style="min-height: 400px;">
-                <h5 class="card-title font-weight-bold">Otros</h5>
-
-                <label style="display: inline-block; width: 200px;">Código Mined:</label>
-                <input type="text" class="form-control" placeholder="AAAA-000000-0000000" style="margin-bottom: 10px" @bind="Student.minedId">
-
-                <h5 class="card-title font-weight-bold" style="display: inline-block; width: 200px;">Descuento:</h5>
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="NoneDiscount" name="discount" value="1"
-                               checked="@((DiscountId == 1))"
-                               @onchange="() => SetDiscount(1)" />
-                        <label for="NoneDiscount">Sin descuento</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="DiscountBrother" name="discount" value="2"
-                               checked="@((DiscountId == 2))"
-                               @onchange="() => SetDiscount(2)" />
-                        <label for="DiscountBrother">Posee hermanos</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="DiscoundTeacher" name="discount" value="3"
-                               checked="@((DiscountId == 3))"
-                               @onchange="() => SetDiscount(3)" />
-                        <label for="DiscoundTeacher">Hijo de maestro</label>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
     <div class="col-12 col-md-3" style="margin-bottom: 15px">
         <div class="card">
             <div class="card-body" style="min-height: 400px;">
@@ -86,8 +91,10 @@
     <div class="col-12 col-md-3" style="margin-bottom: 15px">
         <div class="card">
             <div class="card-body" style="min-height: 400px;">
+                
             <div class="form-group">
-                <label class="label-required" style="display: inline-block; width: 200px;">¿Repite?</label>
+                <h5 class="card-title font-weight-bold label-required">¿Repite?</h5>
+                
                 <div class="checkbox-group">
                     <input type="checkbox" id="NoRepeatStudent"
                            checked="@(SelectRepeat == false)"
