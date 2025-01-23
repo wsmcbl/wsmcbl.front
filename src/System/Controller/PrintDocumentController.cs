@@ -9,5 +9,10 @@ public class PrintDocumentController
     public PrintDocumentController(ApiConsumerWithNotificator apiConsumer)
     {
         _apiConsumer = apiConsumer;
-    }    
+    }
+
+    public async Task<byte[]> GetAssistanceDocument()
+    {
+        return await _apiConsumer.GetPdfAsync(Modules.Secretary, "degrees/documents");
+    }
 }

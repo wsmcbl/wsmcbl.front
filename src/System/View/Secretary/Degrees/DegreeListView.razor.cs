@@ -61,4 +61,10 @@ public partial class DegreeListView : BaseView
     {
         return DegreeList == null;
     }
+
+    private byte[]? pdf { get; set; }
+    private async Task GetAssistanceDocument()
+    {
+        pdf = await documentController.GetAssistanceDocument();
+    }
 }
