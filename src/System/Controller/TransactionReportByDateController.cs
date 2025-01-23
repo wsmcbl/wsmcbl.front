@@ -6,18 +6,24 @@ namespace wsmcbl.src.Controller;
 
 public class TransactionReportByDateController
 {
-    private ApiConsumerWithNotificator _apiConsumer;
+    private readonly ApiConsumerWithNotificator _apiConsumer;
     public TransactionReportByDateController(ApiConsumerWithNotificator apiConsumer)
     {
         _apiConsumer = apiConsumer;
     }
     
-    public async Task<TransactionsRevenuesDto> GetReport(int type)
+    public async Task<TransactionsRevenuesDto> GetReport(DateOnly start, DateOnly end)
     {
-        var resource = $"transactions/revenues?q={type}"; 
+        var startDate = getStringFormat(start);
+        var endDate = getStringFormat(end);
+        
+        var resource = $"transactions/revenues?start={startDate}&end={endDate}"; 
         var transactionsRevenues = new TransactionsRevenuesDto();
         return await _apiConsumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
     }
+
+    private static string getStringFormat(DateOnly date) => date.ToString("dd-MM-yyyy");
+    
 
     public async Task<List<TransactionTypeDto>> GetTypeTransactions()
     {
