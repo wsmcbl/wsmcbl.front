@@ -18,7 +18,7 @@ else
                 <li class="nav-item">
                     <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
                        aria-controls="PanelStudent" aria-selected="true">
-                        Información del Estudiante
+                        Información del estudiante
                     </a>
                 </li>
                 <li class="nav-item">
@@ -36,12 +36,12 @@ else
                 <li class="nav-item">
                     <a class="nav-link" id="TabAcademy" data-toggle="tab" href="#PanelAcademy" role="tab"
                        aria-controls="PanelAcademy" aria-selected="false">
-                        Fotografia
+                        Fotografía
                     </a>
                 </li>
             </ul>
             <div>
-                <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar Datos</button>
+                <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar datos</button>
             </div>
         </div>
 
@@ -62,11 +62,11 @@ else
                             <div class="card-body" style="min-height: 400px;">
                                 <h5 class="card-title font-weight-bold label-required">Medidas</h5>
 
-                                <label style="display: inline-block; width: 200px;">Peso Kg:</label>
+                                <label style="display: inline-block; width: 200px;">Peso (kg):</label>
                                 <input type="number" class="form-control" style="margin-bottom: 10px" min="5" max="200"
                                        @bind="student!.measurements!.weight">
 
-                                <label style="display: inline-block; width: 200px;">Altura Cm:</label>
+                                <label style="display: inline-block; width: 200px;">Estatura (cm):</label>
                                 <input type="number" class="form-control" style="margin-bottom: 10px" min="50" max="300"
                                        @bind="student.measurements.height">
 
