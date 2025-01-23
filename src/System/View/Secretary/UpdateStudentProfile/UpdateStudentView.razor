@@ -40,8 +40,14 @@ else
                     </a>
                 </li>
             </ul>
-            <div>
-                <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar datos</button>
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <div class="checkbox-group">
+                    <input type="checkbox" name="generateToken" id="generateTokenId" @bind="generateToken">
+                    <label for="hojaTraslado">(Texto y estilo adecuado)</label>
+                </div>
+                <div>
+                    <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar datos</button>
+                </div>
             </div>
         </div>
 
