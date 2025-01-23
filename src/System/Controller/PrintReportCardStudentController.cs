@@ -5,7 +5,7 @@ namespace wsmcbl.src.Controller;
 
 public class PrintReportCardStudentController
 {
-    private ApiConsumerWithNotificator _apiConsumer;
+    private readonly ApiConsumerWithNotificator _apiConsumer;
     
     public PrintReportCardStudentController(ApiConsumerWithNotificator apiConsumer)
     {

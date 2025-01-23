@@ -44,6 +44,7 @@ builder.Services.AddTransient<UpdateStudentController>();
 builder.Services.AddTransient<CreateUserController>();
 builder.Services.AddTransient<CreateEnrollmentController>();
 builder.Services.AddTransient<ChangeEducationLevelController>();
+builder.Services.AddTransient<PrintDocumentController>(); //(Auxiliar)
 
 
 builder.Services.AddAuthentication("Bearer")
