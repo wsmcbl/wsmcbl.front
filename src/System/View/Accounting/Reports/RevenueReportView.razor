@@ -25,14 +25,14 @@ else
                 <div class="col-auto">
                     <div style="display: flex; flex-direction: row; gap: 10px;">
                         <label class="label-required">Desde:</label>
-                        <input type="date" class="form-control" @onchange="(e) => OnDateChanged(e, true)"/>
+                        <input type="date" class="form-control" @bind="startDate"/>
                     </div>
                 </div>
 
                 <div class="col-auto">
                     <div style="display: flex; flex-direction: row; gap: 10px;">
                         <label class="label-required">Hasta:</label>
-                        <input type="date" class="form-control" @onchange="(e) => OnDateChanged(e, false)"/>
+                        <input type="date" class="form-control" @bind="endDate"/>
                     </div>
                 </div>            
                 
@@ -59,7 +59,7 @@ else
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Total Válido:
+                                        Total válido:
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report!.getValidTotalString()</div>
                                     <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.validQuantity</div>
@@ -78,7 +78,7 @@ else
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Total Inválido:
+                                        Total inválido:
                                     </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report.getInvalidTotalString()</div>
                                     <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.invalidQuantity</div>

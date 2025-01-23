@@ -14,6 +14,7 @@ public partial class DegreeListView : BaseView
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected CreateEnrollmentController controller { get; set; } = null!;
+    [Inject] protected PrintDocumentController documentController { get; set; } = null!;
     
     private DegreeEntity? Degree { get; set; }
     private List<DegreeEntity>? DegreeList { get; set; }
