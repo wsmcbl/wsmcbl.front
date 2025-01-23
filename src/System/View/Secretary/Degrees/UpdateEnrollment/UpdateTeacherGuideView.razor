@@ -4,7 +4,7 @@
          style="width: 40%; height: 30%; max-width: 40%; max-height: 30%;">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalPdfTitle">Cambiar maestro guía</h5>
+                <h5 class="modal-title" id="ModalPdfTitle">Cambiar docente guía</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,10 +13,10 @@
             <div class="modal-body">
 
                 <div class="form-group">
-                    <strong>Maestro actual:</strong> <label>@TeacherNow</label>
+                    <strong>Docente actual:</strong> <label>@TeacherNow</label>
                 </div>
 
-                <strong class="label-required" style="display: inline-block; width: 200px;">Nuevo maestro guía:</strong>
+                <strong class="label-required" style="display: inline-block; width: 200px;">Nuevo docente guía:</strong>
                 <select id="teacherGuideId" class="form-control" style="margin: 0" @bind="teacherId">
                     @foreach (var option in TeacherAvailable)
                     {
@@ -29,7 +29,7 @@
 
             <div class="modal-footer">
                 <div class="right-container">
-                    <button type="button" class="btn btn-success" @onclick="UpdateTeacherGuide">Actualizar maestro
+                    <button type="button" class="btn btn-success" @onclick="UpdateTeacherGuide">Actualizar docente
                     </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 </div>

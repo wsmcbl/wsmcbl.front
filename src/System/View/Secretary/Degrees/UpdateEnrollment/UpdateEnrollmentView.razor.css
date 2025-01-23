@@ -14,17 +14,17 @@
 }
 
 .active-status {
-    background-color: #1CC88A;
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 4px 7px; /* Espaciado interno para darle tamaño */
+    background-color: #28A745;
+    border-radius: 6px; /* Bordes redondeados */
+    padding: 4px 8px; /* Espaciado interno para darle tamaño */
     color: white; /* Color del texto */
     display: inline-block; /* Asegura que se comporte como un elemento en línea con tamaño ajustable */
 }
 
 .inactive-status {
-    background-color: red;
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 4px 7px; /* Espaciado interno para darle tamaño */
+    background-color: #E74C3C;
+    border-radius: 6px; /* Bordes redondeados */
+    padding: 4px 5px; /* Espaciado interno para darle tamaño */
     color: white; /* Color del texto */
     display: inline-block; /* Asegura que se comporte como un elemento en línea con tamaño ajustable */
 }
