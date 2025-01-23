@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Accounting.Reports;
@@ -17,6 +18,9 @@ public partial class RevenueReportView : BaseView
 
     protected override async Task OnParametersSetAsync()
     {
+        endDate = DateOnly.FromDateTime(DateTime.Today);
+        startDate = endDate;
+        
         report = new TransactionsRevenuesDto();
         await LoadTypeTransactions();
     }
@@ -34,14 +38,6 @@ public partial class RevenueReportView : BaseView
         hasData = report.transactionList.Count > 0;
         StateHasChanged();
     }
-    
-    private async Task GetReportToday()
-    {
-        endDate = DateOnly.FromDateTime(DateTime.Today);
-        startDate = endDate;   
-        
-        await GetReport();
-    }
 
     private void ClearData()
     {
@@ -58,5 +54,22 @@ public partial class RevenueReportView : BaseView
     {
         return transactionTypeList!
             .FirstOrDefault(t => t.typeId == type)?.description ?? "Descripción no disponible";
+    }
+    
+    private void OnDateChanged(ChangeEventArgs e, bool isStartDate)
+    {
+        if (!DateTime.TryParse(e.Value!.ToString(), out var selectedDate))
+        {
+            return;
+        }
+
+        if (isStartDate)
+        {
+            startDate = DateOnly.FromDateTime(selectedDate);
+        }
+        else
+        {
+            endDate = DateOnly.FromDateTime(selectedDate);
+        }
     }
 }

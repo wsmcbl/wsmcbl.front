@@ -22,12 +22,26 @@ else
                 </div>
             </div>
             <div class="row justify-content-center">
+                <div class="col-auto">
+                    <div style="display: flex; flex-direction: row; gap: 10px;">
+                        <label class="label-required">Desde:</label>
+                        <input type="date" class="form-control" @onchange="(e) => OnDateChanged(e, true)"/>
+                    </div>
+                </div>
 
                 <div class="col-auto">
+                    <div style="display: flex; flex-direction: row; gap: 10px;">
+                        <label class="label-required">Hasta:</label>
+                        <input type="date" class="form-control" @onchange="(e) => OnDateChanged(e, false)"/>
+                    </div>
+                </div>            
+                
+                <div class="col-auto">
                     <button class="btn btn-outline-success btn-sm me-2"
-                            @onclick="() => GetReportToday()">Hoy
+                            @onclick="() => GetReport()">Consultar
                     </button>
                 </div>
+                
                 <div class="col-auto">
                     <button class="btn btn-outline-warning btn-sm me-2"
                             @onclick="ClearData">Limpiar
@@ -104,7 +118,7 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Consultado en:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.consultedIn</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.consultedIn.ToDateTimeFormat()</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-clock fa-2x text-gray-300"></i>
