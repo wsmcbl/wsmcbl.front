@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 
-namespace wsmcbl.src.View.Secretary.EnrollStudent;
+namespace wsmcbl.src.View.Secretary;
 
-public partial class TabTutor : ComponentBase
+public partial class UpdateParentsComponent : ComponentBase
 {
     [Parameter] public StudentEntity Student { get; set; } = null!;
 
