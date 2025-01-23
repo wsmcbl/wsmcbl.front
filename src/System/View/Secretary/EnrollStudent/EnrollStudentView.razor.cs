@@ -33,7 +33,7 @@ public partial class EnrollStudentView : BaseView
 
     private async Task LoadStudentInformation()
     {
-        var result = await Controller.GetInfoStudent(StudentId);
+        var result = await Controller.GetStudentById(StudentId);
         DegreeList = await Controller.GetDegreeBasicList();
 
         IsStudentsEnrollment = result.enrollmentId != null;
@@ -109,7 +109,7 @@ public partial class EnrollStudentView : BaseView
 
             if (Student.parents[index].isTutorEmpty())
             {
-                Student.parents[index].init();
+                Student.parents[index].SetDefaultValues();
             }
         }
 

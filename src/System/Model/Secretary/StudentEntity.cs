@@ -1,5 +1,3 @@
-using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
-
 namespace wsmcbl.src.Model.Secretary;
 
 public class StudentEntity
@@ -29,29 +27,10 @@ public class StudentEntity
             new StudentParent()
         ];
         tutor = new StudentTutor();
-        measurements = new StudentMeasurements();
         file = new StudentFile();
-    }
-
-    public StudentEntity(StudentFullDto dto)
-    {
-        studentId = dto.studentId;
-        minedId = dto.minedId;
-        name = dto.name;
-        secondName = dto.secondName;
-        surname = dto.surname;
-        secondSurname = dto.secondSurname;
-        sex = dto.sex;
-        birthday = new DateOnly(dto.birthday.year, dto.birthday.month, dto.birthday.day);
-        isActive = dto.isActive;
-        religion = dto.religion;
-        diseases = dto.diseases;
-        address = dto.address;
-        profilePicture = dto.profilePicture;
-        file = dto.file;
-        tutor = dto.tutor;
-        parents = dto.parentList;
-        measurements = dto.measurements;
+        
+        measurements = new StudentMeasurements();
+        measurements.SetDefaultValues();
     }
     
     public string FullName()
@@ -69,6 +48,6 @@ public class StudentEntity
     }
 
     public bool IsTutorValid() => tutor!.IsTutorValid();
+    
     public bool IsMeasurementsValid() => measurements!.IsMeasurementsValid();
-
 }

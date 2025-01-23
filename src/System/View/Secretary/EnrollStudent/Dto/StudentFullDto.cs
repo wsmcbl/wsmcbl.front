@@ -1,4 +1,5 @@
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
@@ -21,7 +22,7 @@ public class StudentFullDto
     public string? profilePicture { get; set; }
     
     public StudentFile? file { get; set; }
-    public StudentTutor? tutor { get; set; } = null!;
+    public StudentTutor tutor { get; set; } = null!;
     public List<StudentParent>? parentList { get; set; }
     public StudentMeasurements? measurements { get; set; }
     
@@ -32,34 +33,38 @@ public class StudentFullDto
     public StudentFullDto(StudentEntity student)
     {
         studentId = student.studentId!;
+        minedId = student.minedId;
+        
         name = student.name;
-        secondName = string.IsNullOrWhiteSpace(student.secondName) ? null : student.secondName;
+        secondName = student.secondName.GetValueOrNull();
         surname = student.surname;
-        secondSurname = string.IsNullOrWhiteSpace(student.secondSurname) ? null : student.secondSurname;
+        secondSurname = student.secondSurname.GetValueOrNull();
+        
         sex = student.sex;
         birthday = student.birthday.ToEntityOrNull()!;
         isActive = student.isActive;
-        religion = student.religion!;
-        diseases = student.diseases!;
-        address = student.address!;
+        
+        religion = student.religion.GetValueOrDefault();
+        diseases = student.diseases.GetValueOrDefault();
+        address = student.address.GetValueOrDefault();
+        
         file = student.file!;
         tutor = student.tutor!;
-        minedId = student.minedId;
-        
-        student.parents!.RemoveAll(t => t.isTutorEmpty());
-        if (student.parents.Any())
-        {
-            parentList = student.parents;
-        }
-        
+        parentList = student.parents;
         measurements = student.measurements!;
     }
 
     public StudentEntity ToEntity()
     {
+        tutor.email = tutor.email.GetValueOrDefault();
+
+        measurements ??= new StudentMeasurements();
+        measurements.SetDefaultValues();
+        
         return new StudentEntity
         {
             studentId = studentId,
+            minedId = minedId,
             name = name,
             secondName = secondName,
             surname = surname,
@@ -67,14 +72,13 @@ public class StudentFullDto
             sex = sex,
             birthday = birthday.ToDateOnly(),
             isActive = isActive,
-            religion = religion,
-            diseases = diseases,
-            address = address,
+            religion = religion.GetValueOrDefault(),
+            diseases = diseases.GetValueOrDefault(),
+            address = address.GetValueOrDefault(),
             file = file,
             tutor = tutor,
             parents = parentList!.ToListEntity(),
             measurements = measurements,
-            minedId = minedId,
             profilePicture = profilePicture
         };
     }

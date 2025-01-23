@@ -32,7 +32,7 @@ public class EnrollStudentController
         return await _apiConsumer.PutAsync(Modules.Secretary, "enrollments", content);
     }
 
-    public async Task<(StudentEntity student, string? enrollmentId, int discountId, bool isRepeating)> GetInfoStudent(string studentId)
+    public async Task<(StudentEntity student, string? enrollmentId, int discountId, bool isRepeating)> GetStudentById(string studentId)
     {
         var resource = $"enrollments/students/{studentId}";
         EnrollStudentDto defaultResult = new();

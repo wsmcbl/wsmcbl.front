@@ -45,5 +45,9 @@ public static class Utilities
     
     public static string ToStringValid(this bool isValid) => isValid ? "Válido" : "Inválido";
     
-    public static string ToStringYesOrNo(this bool value) => value ? "Sí" : "No"; 
+    public static string ToStringYesOrNo(this bool value) => value ? "Sí" : "No";
+
+    public static string? GetValueOrNull(this string? value) => string.IsNullOrWhiteSpace(value?.Trim()) ? null : value;
+    
+    public static string GetValueOrDefault(this string? value) => string.IsNullOrWhiteSpace(value) ? "N/A" : value;
 }

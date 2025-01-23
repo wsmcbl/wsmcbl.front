@@ -8,23 +8,24 @@ namespace wsmcbl.src.Controller;
 public class UpdateStudentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
+
     public UpdateStudentController(ApiConsumerWithNotificator apiConsumer)
     {
         _apiConsumer = apiConsumer;
     }
-    
+
     public async Task<StudentEntity> GetStudentById(string? studentId)
     {
-        var resource = $"students?q=one%3A{studentId}"; 
+        var resource = $"students?q=one%3A{studentId}";
         var defaultResult = new StudentFullDto();
         var result = await _apiConsumer.GetAsync(Modules.Secretary, resource, defaultResult);
-        
-        return new StudentEntity(result); 
+
+        return result.ToEntity();
     }
-    
-     public async Task<bool> UpdateStudentData(StudentEntity? student)
+
+    public async Task<bool> UpdateStudentData(StudentEntity student, bool generateToken)
     {
-        var content = MapperStudent.ToStudentFullDto(student);
-        return await _apiConsumer.PutAsync(Modules.Secretary, "students", content);
+        var resource = $"students?withNewToken={generateToken}";
+        return await _apiConsumer.PutAsync(Modules.Secretary, resource, student.MapToDto());
     }
 }

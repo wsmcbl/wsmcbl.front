@@ -28,7 +28,7 @@ public class StudentParent
                string.IsNullOrWhiteSpace(occupation);
     }
     
-    public void init()
+    public void SetDefaultValues()
     {
         parentId = string.Empty;
         sex = true;
