@@ -11,6 +11,9 @@ public partial class RevenueReportView : BaseView
     private bool hasData { get; set; }
     private TransactionsRevenuesDto? report { get; set; }
     private List<TransactionTypeDto>? transactionTypeList { get; set; }
+    
+    private DateOnly startDate { get; set; }
+    private DateOnly endDate { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -23,13 +26,21 @@ public partial class RevenueReportView : BaseView
         transactionTypeList = await controller.GetTypeTransactions();
     }
 
-    private async Task GetTransactionsRevenuesAsync(int type)
+    private async Task GetReport()
     {
         ClearData();
         
-        report = await controller.GetReport(type);
+        report = await controller.GetReport(startDate, endDate);
         hasData = report.transactionList.Count > 0;
         StateHasChanged();
+    }
+    
+    private async Task GetReportToday()
+    {
+        endDate = DateOnly.FromDateTime(DateTime.Today);
+        startDate = endDate;   
+        
+        await GetReport();
     }
 
     private void ClearData()
