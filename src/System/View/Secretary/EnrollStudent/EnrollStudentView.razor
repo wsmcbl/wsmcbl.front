@@ -3,6 +3,7 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin")]
 
+
 @using wsmcbl.src.View.Components;
 
 @if (IsLoading())
@@ -59,8 +60,7 @@ else
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
-                    <TabStudent Student="Student" Age="Age" Sex="Sex" SelectRepeat="@IsRepeating"
-                                SelectRepeatChanged="@OnRepeatSelectionChanged"/>
+                    <TabStudent Student="Student"/>
                 </div>
 
                 <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">
@@ -68,8 +68,9 @@ else
                 </div>
 
                 <div class="tab-pane fade" id="PanelAcademy" role="tabpanel" aria-labelledby="TabAcademy">
-                    <TabAcademy Student="Student" Degrees="DegreeList" @bind-DiscountId="DiscountId"
-                                @bind-EnrollmentIdSelected="EnrollmentIdSelected"/>
+                    <TabAcademy Student="Student" DegreeList="DegreeList" @bind-DiscountId="DiscountId"
+                                @bind-EnrollmentIdSelected="EnrollmentIdSelected" SelectRepeat="@IsRepeating"
+                                SelectRepeatChanged="@OnRepeatSelectionChanged"/>
                 </div>
 
             </div>

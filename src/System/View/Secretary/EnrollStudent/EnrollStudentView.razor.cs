@@ -18,8 +18,7 @@ public partial class EnrollStudentView : BaseView
     private int DiscountId { get; set; }
     private StudentEntity? Student { get; set; }
     private List<DegreeBasicDto>? DegreeList { get; set; }
-
-    private int Age { get; set; }
+    
     private bool IsRepeating { get; set; }
     private bool IsStudentsEnrollment { get; set; }
     private string? EnrollmentIdSelected { get; set; }

@@ -15,21 +15,21 @@ public partial class BasicStudentInformationComponent : BaseView
     
     [Parameter] public bool IsRepeating { get; set; }
     
-    protected override Task OnParametersSetAsync()
+    protected override void OnParametersSet()
     {
         if (Student != null)
         {
             Age = Student.birthday.AgeCompute();
             Sex = Student.sex ? "true" : "false";
         }
-        
-        if (Student?.parents != null && Student.parents.Count >= 2)
-        {
-            Student.parents[0].sex = false;
-            Student.parents[1].sex = true;
-        }
 
-        return Task.CompletedTask;
+        if (Student?.parents == null || Student.parents.Count < 2)
+        {
+            return;
+        }
+        
+        Student.parents[0].sex = false;
+        Student.parents[1].sex = true;
     }
     
 }

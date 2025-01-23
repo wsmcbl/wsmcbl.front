@@ -6,16 +6,21 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent;
 public partial class TabAcademy : ComponentBase
 {
     [Parameter] public StudentEntity? Student { get; set; }
+    
+    [Parameter] public List<DegreeBasicDto>? DegreeList { get; set; }
+    
     [Parameter] public int DiscountId { get; set; }
     [Parameter] public EventCallback<int> DiscountIdChanged { get; set; }
     
-    [Parameter] public List<DegreeBasicDto>? Degrees { get; set; }
-    
-    [Parameter] public EventCallback<string> EnrollmentIdSelectedChanged { get; set; }
     [Parameter] public string? EnrollmentIdSelected { get; set; }
-    private List<EnrollmentsBasicDto>? CurrentEnrollments { get; set; }
+    [Parameter] public EventCallback<string> EnrollmentIdSelectedChanged { get; set; }
+    
+    [Parameter] public bool SelectRepeat { get; set; }
+    [Parameter] public EventCallback<bool> SelectRepeatChanged { get; set; }
+    
     private int CurrentEnrollmentCapacity { get; set; }
     private int CurrentEnrollmentQuantity { get; set; }
+    private List<EnrollmentsBasicDto>? CurrentEnrollments { get; set; }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -24,13 +29,13 @@ public partial class TabAcademy : ComponentBase
             return;
         }
         
-        if (Degrees!.Count == 0)
+        if (DegreeList!.Count == 0)
         {
-            CurrentEnrollments = new List<EnrollmentsBasicDto> { new() }; 
+            CurrentEnrollments = [new()]; 
             return;
         }
         
-        CurrentEnrollments = Degrees!
+        CurrentEnrollments = DegreeList!
             .Where(t => t.enrollments != null && t.enrollments.Count != 0)
             .Select(t => t.enrollments)
             .FirstOrDefault();
@@ -73,7 +78,7 @@ public partial class TabAcademy : ComponentBase
     
     private async Task setCurrentEnrollmentsByDegreeId(string? selectDegreeId)
     {
-        var selectedDegree = Degrees!.FirstOrDefault(e => e.degreeId == selectDegreeId);
+        var selectedDegree = DegreeList!.FirstOrDefault(e => e.degreeId == selectDegreeId);
         
         CurrentEnrollments = selectedDegree!.enrollments;
         EnrollmentIdSelected = CurrentEnrollments!.FirstOrDefault()?.enrollmentId!;
@@ -84,6 +89,9 @@ public partial class TabAcademy : ComponentBase
 
     }
     
-    
-    
+    private void UpdateRepeatSelection(bool value)
+    {
+        SelectRepeat = value;
+        SelectRepeatChanged.InvokeAsync(value);
+    }
 }

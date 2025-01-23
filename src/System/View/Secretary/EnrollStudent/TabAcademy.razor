@@ -91,9 +91,9 @@
 
                 <label style="display: inline-block; width: 200px;">Grado:</label>
                 <select id="grade" class="form-control" style="margin: 0" @onchange="GetSelectDegreeId">
-                    @if (Degrees != null && Degrees.Any())
+                    @if (DegreeList != null && DegreeList.Any())
                     {
-                        @foreach (var option in Degrees.OrderBy(d => d.position))
+                        @foreach (var option in DegreeList.OrderBy(d => d.position))
                         {
                             <option value="@option.degreeId">@option.label</option>
                         }
@@ -121,6 +121,21 @@
 
                 <p style="margin-top: 15px">Cupos Restante @CurrentEnrollmentQuantity / @CurrentEnrollmentCapacity</p>
 
+            </div>
+
+            <div class="form-group">
+                <label class="label-required" style="display: inline-block; width: 200px;">¿Repite?</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="NoRepeatStudent"
+                           checked="@(SelectRepeat == false)"
+                           @onchange="@(() => UpdateRepeatSelection(false))" />
+                    <label for="NoRepeatStudent">No</label>
+
+                    <input type="checkbox" id="RepeatStudent" class="ml-3"
+                           checked="@(SelectRepeat == true)"
+                           @onchange="@(() => UpdateRepeatSelection(true))" />
+                    <label for="RepeatStudent">Sí</label>
+                </div>
             </div>
         </div>
     </div>

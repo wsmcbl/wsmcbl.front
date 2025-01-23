@@ -1,3 +1,4 @@
+@using wsmcbl.src.View.Secretary.SchoolYears
 <div class="row">
     
     <div class="col-12 col-md-4" style="margin-bottom: 15px">
@@ -27,10 +28,10 @@
                        @bind="Student.birthday">
 
                 <label style="display: inline-block; width: 200px; margin-top: 10px">Edad:</label>
-                <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" @bind="Age">
+                <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" value="@Student.birthday.AgeCompute()">
 
                 <label class="label-required" style="display: inline-block; width: 200px;">Sexo:</label>
-                <select @bind="Sex" class="form-control" style="margin: 0px;">
+                <select @bind="Student.sex" class="form-control" style="margin: 0px;">
                     <option value="true">Masculino</option>
                     <option value="false">Femenino</option>
                 </select>
@@ -41,21 +42,6 @@
     <div class="col-12 col-md-4" style="margin-bottom: 15px">
         <div class="card">
             <div class="card-body" style="min-height: 500px;">
-
-                <div class="form-group">
-                    <label class="label-required" style="display: inline-block; width: 200px;">¿Repite?</label>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="NoRepeatStudent"
-                               checked="@(SelectRepeat == false)"
-                               @onchange="@(() => UpdateRepeatSelection(false))" />
-                        <label for="NoRepeatStudent">No</label>
-                        
-                        <input type="checkbox" id="RepeatStudent" class="ml-3"
-                               checked="@(SelectRepeat == true)"
-                               @onchange="@(() => UpdateRepeatSelection(true))" />
-                        <label for="RepeatStudent">Sí</label>
-                    </div>
-                </div>
                 
                 <label class="label-required" style="display: inline-block; width: 200px;">Padecimientos:</label>
                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.diseases">
