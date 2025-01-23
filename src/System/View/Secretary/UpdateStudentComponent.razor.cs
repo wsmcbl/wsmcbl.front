@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Model.Secretary;
 
-namespace wsmcbl.src.View.Secretary.EnrollStudent;
+namespace wsmcbl.src.View.Secretary;
 
-public partial class TabStudent : ComponentBase
+public partial class UpdateStudentComponent : ComponentBase
 {
     [Parameter] public StudentEntity Student { get; set; } = null!;
 
     protected override void OnParametersSet()
     {
-        if (Student?.parents == null || Student.parents.Count < 2)
+        if (Student.parents == null || Student.parents.Count < 2)
         {
             return;
         }
