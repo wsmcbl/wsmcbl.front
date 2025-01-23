@@ -15,16 +15,16 @@
 
 .active-status {
     background-color: #28A745;
-    border-radius: 6px; /* Bordes redondeados */
-    padding: 4px 8px; /* Espaciado interno para darle tamaño */
-    color: white; /* Color del texto */
-    display: inline-block; /* Asegura que se comporte como un elemento en línea con tamaño ajustable */
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: white;
+    display: inline-block;
 }
 
 .inactive-status {
     background-color: #E74C3C;
-    border-radius: 6px; /* Bordes redondeados */
-    padding: 4px 5px; /* Espaciado interno para darle tamaño */
-    color: white; /* Color del texto */
-    display: inline-block; /* Asegura que se comporte como un elemento en línea con tamaño ajustable */
+    border-radius: 6px;
+    padding: 4px 5px;
+    color: white;
+    display: inline-block;
 }
