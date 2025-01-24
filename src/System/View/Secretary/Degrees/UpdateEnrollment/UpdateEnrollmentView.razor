@@ -106,7 +106,7 @@ else
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                 <h6 class="m-0 font-weight-bold text-primary">Estudiantes</h6>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="max-height: 400px; overflow-y: auto;">
                                 <div class="row">
                                     <div class="table-responsive">
                                         <table id="dataTable" class="table table-bordered">
@@ -125,7 +125,7 @@ else
                                             </tr>
                                             </tfoot>
                                             <tbody>
-                                            @foreach (var item in enrollment.studentList)
+                                            @foreach (var item in enrollment.studentList.OrderBy(t => t.fullName))
                                             {
                                                 <tr>
                                                     <td>@item.studentId</td>
@@ -152,7 +152,6 @@ else
                                     </div>
                                 </div>
                             </div>
-                            <script defer src="js/DataTable/dataTableOrderByName.js"></script>
                         </div>
                         <!-- Fin de los estudiantes -->
 
