@@ -106,10 +106,10 @@ else
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                 <h6 class="m-0 font-weight-bold text-primary">Estudiantes</h6>
                             </div>
-                            <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                            <div class="card-body">
                                 <div class="row">
                                     <div class="table-responsive">
-                                        <table id="datatable" class="table table-bordered">
+                                        <table id="dataTable" class="table table-bordered">
                                             <thead>
                                             <tr>
                                                 <th>Código</th>
@@ -132,14 +132,14 @@ else
                                                     <td>@item.fullName</td>
                                                     <td>
                                                         <div class="dropdown no-arrow">
-                                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                        </a>
+                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                                            </a>
 
-                                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                            aria-labelledby="dropdownMenuLink">
-                                                            <div class="dropdown-header">Seleccione una opción:</div>
+                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                                 aria-labelledby="dropdownMenuLink">
+                                                                <div class="dropdown-header">Seleccione una opción:</div>
                                                                 <a class="dropdown-item" href="#">Ver perfil (Proximamente)</a>
                                                                 <a class="dropdown-item" href="#"> Mover (Proximamente)</a>
                                                             </div>
@@ -152,6 +152,7 @@ else
                                     </div>
                                 </div>
                             </div>
+                            <script defer src="js/DataTable/dataTableOrderByName.js"></script>
                         </div>
                         <!-- Fin de los estudiantes -->
 
@@ -225,6 +226,6 @@ else
     <UpdateTeacherOfSubjectView SubjectId="@SubjectFlags" SubjectName="@SubjectChangeName"
                                 EnrollmentId="@EnrollmentFlags" TeacherSubjectUpdated="LoadDegree"/>
                                 
-    <script defer src="js/DataTable/dataTableOrderByName.js"></script>
+    
 }
 
