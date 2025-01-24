@@ -1,3 +1,7 @@
 .custom-badge-size {
     font-size: 1rem; /* Tamaño de fuente similar al de 'Cantidad Válida' */
 }
+
+::-webkit-clear-button {
+    display: none;
+}
