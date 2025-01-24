@@ -27,6 +27,15 @@ public partial class RevenueReportView : BaseView
         await LoadTypeTransactions();
     }
 
+    public void ValidateDate()
+    {
+        if (startDate == DateOnly.MinValue || endDate == DateOnly.MinValue)
+        {
+            endDate = DateOnly.FromDateTime(DateTime.Today);
+            startDate = endDate;
+        }
+    }
+
     private async Task LoadTypeTransactions()
     {
         transactionTypeList = await controller.GetTypeTransactions();
@@ -34,7 +43,11 @@ public partial class RevenueReportView : BaseView
 
     private async Task GetReport()
     {
+        ValidateDate();
         ClearData();
+        Console.WriteLine(startDate);
+        Console.WriteLine(startDate);
+        Console.WriteLine(startDate);
         
         report = await controller.GetReport(startDate, endDate);
         hasData = report.transactionList.Count > 0;
