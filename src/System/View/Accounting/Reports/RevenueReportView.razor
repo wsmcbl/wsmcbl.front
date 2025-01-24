@@ -24,15 +24,15 @@ else
             <div class="row justify-content-center">
                 <div class="col-auto">
                     <div style="display: flex; flex-direction: row; gap: 10px;">
-                        <label class="label-required">Desde:</label>
-                        <input type="date" class="form-control" @bind="startDate"/>
+                        <label>Desde:</label>
+                        <input type="date" class="form-control" min="2000-01-01" max="@MaxDate" @bind="startDate"/>
                     </div>
                 </div>
 
                 <div class="col-auto">
-                    <div style="display: flex; flex-direction: row; gap: 10px;">
-                        <label class="label-required">Hasta:</label>
-                        <input type="date" class="form-control" @bind="endDate"/>
+                    <div style="display: flex; flex-direction: row; gap: 10px; align-items: center">
+                        <label>Hasta:</label>
+                        <input type="date" class="form-control" min="2000-01-01" max="@MaxDate" @bind="endDate"/>
                     </div>
                 </div>            
                 

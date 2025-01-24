@@ -15,6 +15,8 @@ public partial class RevenueReportView : BaseView
     
     private DateOnly startDate { get; set; }
     private DateOnly endDate { get; set; }
+    private string MaxDate => DateTime.Today.ToString("yyyy-MM-dd");
+    private string MinDate => DateTime.Today.ToString("yyyy-MM-dd");
 
     protected override async Task OnParametersSetAsync()
     {
