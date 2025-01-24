@@ -41,10 +41,6 @@ else
                 </li>
             </ul>
             <div style="display: flex; flex-direction: row; gap: 10px;">
-                <div class="checkbox-group">
-                    <input type="checkbox" name="generateToken" id="generateTokenId" @bind="generateToken">
-                    <label for="hojaTraslado">(Texto y estilo adecuado)</label>
-                </div>
                 <div>
                     <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar datos</button>
                 </div>
@@ -56,6 +52,13 @@ else
 
                 <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
                     <UpdateStudentComponent Student="student"/>
+                    
+                    <div class="checkbox-wrapper-14">
+                        <input type="checkbox"  id="generateTokenId" @bind="generateToken">
+                        <label for="generateTokenId">
+                            <h6 class="text-gray-800">Restablecer Contraseña</h6>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">
