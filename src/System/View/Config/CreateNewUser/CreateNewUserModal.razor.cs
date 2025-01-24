@@ -13,22 +13,12 @@ public partial class CreateNewUserModal : ComponentBase
     [Inject] Notificator Notificator { get; set; } = default!;
     [Inject] Navigator Navigator { get; set; } = default!;
     private CreateUserDto User { get; set; } = new();
-    private List<PermissionsDto> PermissionsList { get; set; } = [];
     private List<string> NextcloudGroup { get; set; } = [];
     private bool isLoading = false;
 
     protected override async Task OnParametersSetAsync()
     {
-        PermissionsList = await Controller.GetPermissionList();
         NextcloudGroup = await Controller.GetNextclodGroups();
-    }
-    
-    private void PermissionIsSelect(int permissionId)
-    {
-        if (!User.permissionList.Remove(permissionId))
-        {
-            User.permissionList.Add(permissionId);
-        }
     }
     
     private async Task SaveUser()

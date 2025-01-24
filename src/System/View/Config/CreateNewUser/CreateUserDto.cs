@@ -7,7 +7,6 @@ public class CreateUserDto
     public string? secondName { get; set; }
     public string surname { get; set; } = null!;
     public string? secondSurname { get; set; }
-    public List<int> permissionList { get; set; } = new List<int>();
     public string nextCloudGroup { get; set; } = null!;
 
     public bool IsDataValid()

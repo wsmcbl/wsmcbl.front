@@ -61,18 +61,6 @@
                                     <div class="col-sm-6">
 
                                         <div class="form-group">
-                                            <h6> Permisos</h6>
-                                            @foreach (var item in PermissionsList)
-                                            {
-                                                <div class="checkbox-wrapper-14">
-                                                    <input id="@item.permissionId" type="checkbox" class="switch"
-                                                           @onchange="(e) => PermissionIsSelect(item.permissionId)">
-                                                    <label for="@item.permissionId">@item.name</label>
-                                                </div>
-                                            }
-                                        </div>
-
-                                        <div class="form-group">
                                             <h6 class="label-required">Rol en el sistema</h6>
 
                                             <div class="checkbox-wrapper-14">
