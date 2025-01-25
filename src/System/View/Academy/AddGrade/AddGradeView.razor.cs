@@ -25,7 +25,7 @@ public partial class AddGradeView : BaseView
 
     protected override async Task OnParametersSetAsync()
     {
-        partialsList = await controller.GetPartialsList();
+        partialsList = await controller.GetPartialList();
         LoadActivePartial();
         await LoadTeacherInformation();
 
@@ -47,7 +47,7 @@ public partial class AddGradeView : BaseView
 
     private async Task GetEnrollmentData()
     {
-        var result = await controller.GetFullEnrollment(getRequestDto());
+        var result = await controller.GetEnrollment(getRequestDto());
         
         enrollmentLabel = result.label;
         subjectList = result.subjectList;

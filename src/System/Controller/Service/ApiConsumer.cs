@@ -41,20 +41,6 @@ public class ApiConsumer
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<T>(), defaultResult, response);
     }
     
-    public async Task<TR> GetAsync<T, TR>(Modules module, string resource, T requestDto, TR defaultResult)
-    {
-        await LoadToken();
-        
-        var requestMessage = new HttpRequestMessage(HttpMethod.Get, BuildUri(module, resource))
-        {
-            Content = JsonContent.Create(requestDto)
-        };
-        
-        var response = await _httpClient.SendAsync(requestMessage);
-        
-        return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<TR>(), defaultResult, response);
-    }
-
     public async Task<byte[]> GetPdfAsync(Modules module, string resource)
     {
         await LoadToken();

@@ -18,7 +18,7 @@ public partial class EnrollmentListView : BaseView
     {
         user = await loginController.getUserById();
         TeacherId = await loginController.getRoleIdFromToken();
-        EnrollmentList = await Controller.GetEnrollmentByTeacherId(TeacherId);
+        EnrollmentList = await Controller.GetEnrollmentList(TeacherId);
     }
 
     protected override bool IsLoading()
