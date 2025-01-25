@@ -9,8 +9,31 @@
 }
 else
 { 
-    <h3 style="text-align: center;" class="m-4">Docente @teacher!.fullName!</h3>
-    <h4 style="text-align: center;" class="m-4">Cantidad de secciones @getEnrollmentCount()</h4>
+    <h3 style="text-align: center;" class="m-4">Secciones</h3>
+    
+    
+    <div class="card border-bottom-danger shadow h-100 py-2 mb-4">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="py-3">
+                        <div class="col-auto">
+                            <div><strong>Docente: </strong>@teacher!.fullName!</div>
+                            <div>
+                                <strong>Sección guiada: </strong>@teacher!.enrollment!.label
+                                ####Botón de ver#### 
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div><strong>Parcial activo: </strong>@GetActivePartial()</div>
+                            <div><strong>Secciones: </strong>@GetEnrollmentCount()</div>
+                              ####EN DOS COLUMNAS#### 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         @foreach (var item in enrollmentList)
@@ -19,16 +42,15 @@ else
                 <div class="mb-4">
                     <div class="card border-bottom-danger shadow h-100 py-2">
                         <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@item.enrollmentLabel</div>
-                                </div>
-                                <div class="col-auto">
-                                    <a class="btn btn-outline-danger" href="/academy/enrollments/@item.enrollmentId/grades">
-                                        Calificar
-                                    </a>
-                                </div>
+                            <div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@item.enrollmentLabel</div>
                             </div>
+                            <div><strong>Estudiantes: </strong>@item.studentQuantity</div>
+                            <div><strong>Asignaturas: </strong>@item.subjectQuantity</div>
+                            <div>
+                                <a class="btn btn-success btn-sm" href="/academy/enrollments/@item.enrollmentId/grades">Ver</a>
+                            </div>
+                          ####REDUCIR EL ANCHO, MEJORAR EL TAMAÑO DE FUENTE, ETC#### 
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,7 @@ public partial class EnrollmentListView : BaseView
     
     private TeacherEntity? teacher { get; set; }
     private List<EnrollmentByTeacherDto> enrollmentList { get; set; } = [];
+    private List<PartialEntity> partialList { get; set; } = [];
     
     protected override async Task OnInitializedAsync()
     {
@@ -19,6 +20,8 @@ public partial class EnrollmentListView : BaseView
         
         var result = await controller.GetEnrollmentList(teacherId);
         enrollmentList = result.OrderBy(e => e.degreeId).ToList();
+
+        partialList = await controller.GetPartialList();
     }
 
     protected override bool IsLoading()
@@ -26,5 +29,11 @@ public partial class EnrollmentListView : BaseView
         return teacher == null;
     }
 
-    private int getEnrollmentCount() => enrollmentList.Count;
+    private int GetEnrollmentCount() => enrollmentList.Count;
+
+    private string GetActivePartial()
+    {
+        var activePartial = partialList.FirstOrDefault(t => t.isActive);
+        return activePartial == null ? "No hay parcial activo" : activePartial.label!;
+    }
 }
