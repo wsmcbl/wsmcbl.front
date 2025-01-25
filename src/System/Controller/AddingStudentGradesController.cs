@@ -37,6 +37,8 @@ public class AddingStudentGradesController
     public async Task<FullEnrollmentDto> GetEnrollment(string teacherId, string enrollmentId, int partialId)
     {
         var defaultResult = new FullEnrollmentDto();
+        defaultResult.Init();
+        
         var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}?partialId={partialId}";
         var result = await _apiConsumer.GetAsync(Modules.Academy, resource, defaultResult);
 
