@@ -7,25 +7,25 @@ namespace wsmcbl.src.Controller;
 
 public class AddingStudentGradesController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
+    private readonly ApiConsumerFactory _apiConsumerFactory;
     private readonly LoginController _loginController;
 
-    public AddingStudentGradesController(ApiConsumerWithNotificator apiConsumer, LoginController loginController)
+    public AddingStudentGradesController(ApiConsumerFactory apiConsumerFactory, LoginController loginController)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumerFactory  = apiConsumerFactory;
         _loginController = loginController;
     }
 
     public async Task<List<PartialEntity>> GetPartialList()
     {
         List<PartialEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Academy, "partials", defaultResult);
+        return await _apiConsumerFactory.WithNotificator.GetAsync(Modules.Academy, "partials", defaultResult);
     }
 
     public async Task<TeacherEntity> GetTeacherById(string teacherId)
     {
         var defaultResult = new TeacherDto();
-        var result = await _apiConsumer.GetAsync(Modules.Academy, $"teachers/{teacherId}", defaultResult);
+        var result = await _apiConsumerFactory.WithNotificator.GetAsync(Modules.Academy, $"teachers/{teacherId}", defaultResult);
 
         return result.toEntity();
     }
@@ -34,7 +34,7 @@ public class AddingStudentGradesController
     {
         List<EnrollmentByTeacherDto> defaultResult = [];
         var resource = $"teachers/{teacherId}/enrollments";
-        return await _apiConsumer.GetAsync(Modules.Academy, resource, defaultResult);
+        return await _apiConsumerFactory.WithNotificator.GetAsync(Modules.Academy, resource, defaultResult);
     }
 
     public async Task<FullEnrollmentDto> GetEnrollment(string teacherId, string enrollmentId, int partialId)
@@ -43,7 +43,7 @@ public class AddingStudentGradesController
         defaultResult.Init();
 
         var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}?partialId={partialId}";
-        var result = await _apiConsumer.GetAsync(Modules.Academy, resource, defaultResult);
+        var result = await _apiConsumerFactory.WithNotificator.GetAsync(Modules.Academy, resource, defaultResult);
 
         result.DeleteWithoutGrades();
         result.UpdateStudentGradeList();
@@ -55,7 +55,7 @@ public class AddingStudentGradesController
         List<GradeEntity> gradeList)
     {
         var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}?partialId={partialId}";
-        return await _apiConsumer.PutAsync(Modules.Academy, resource, gradeList);
+        return await _apiConsumerFactory.WithNotificator.PutAsync(Modules.Academy, resource, gradeList);
     }
 
     public async Task<string> GetTeacherId()
