@@ -10,7 +10,7 @@ namespace wsmcbl.src.View.Academy.AddGrade;
 public partial class AddGradeView : BaseView
 {
     [Inject] private Notificator Notificator { get; set; } = null!;
-    [Inject] private AddStudentGradeController controller { get; set; } = null!;
+    [Inject] private AddingStudentGradesController controller { get; set; } = null!;
 
     private int currentPartial { get; set; }
     private int ActiveTabId { get; set; } = 1;

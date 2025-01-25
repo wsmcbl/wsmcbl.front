@@ -33,7 +33,7 @@ builder.Services.AddTransient<PrintReportCardStudentController>();
 
 // II iteration
 builder.Services.AddTransient<CreateStudentProfileController>();
-builder.Services.AddTransient<AddStudentGradeController>();
+builder.Services.AddTransient<AddingStudentGradesController>();
 builder.Services.AddTransient<LoginController>();
 
 // III iteration

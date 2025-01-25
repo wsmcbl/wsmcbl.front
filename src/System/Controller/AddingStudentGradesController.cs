@@ -6,11 +6,11 @@ using wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 
 namespace wsmcbl.src.Controller;
 
-public class AddStudentGradeController
+public class AddingStudentGradesController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     private readonly LoginController _loginController;
-    public AddStudentGradeController(ApiConsumerWithNotificator apiConsumer, LoginController loginController)
+    public AddingStudentGradesController(ApiConsumerWithNotificator apiConsumer, LoginController loginController)
     {
         _apiConsumer = apiConsumer;
         _loginController = loginController;

@@ -8,7 +8,7 @@ namespace wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 public partial class EnrollmentListView : BaseView
 { 
     [Inject] private LoginController loginController { get; set; } = null!;
-    [Inject] private AddStudentGradeController Controller { get; set; } = null!;
+    [Inject] private AddingStudentGradesController Controller { get; set; } = null!;
     
     private UserEntity? user { get; set; }
     private string? TeacherId { get; set; } = string.Empty;
