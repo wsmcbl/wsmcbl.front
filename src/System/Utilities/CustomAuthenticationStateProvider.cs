@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
@@ -13,19 +14,19 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         _localStorage = localStorage;
     }
-    
+
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         try
         {
             var browserStorage = await _localStorage.GetAsync<string>(Utilities.TokenKey);
-        
+
             var token = browserStorage.Value;
             if (string.IsNullOrEmpty(token))
             {
                 return await NotAuthenticated();
             }
-        
+
             return await BuildAuthentication(token);
         }
         catch (Exception)
@@ -34,28 +35,24 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         }
     }
 
+
+    private JwtSecurityTokenHandler handler { get; set; } = null!;
     private async Task<AuthenticationState> BuildAuthentication(string token)
     {
         try
         {
-            var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-
-            // Verifica si el token es válido (formato JWT)
-            if (!handler.CanReadToken(token))
+            handler = new JwtSecurityTokenHandler();
+            if (!handler.CanReadToken(token) || IsTokenExpired(token))
             {
                 throw new SecurityTokenException("El token no tiene un formato válido.");
             }
 
             var jwtToken = handler.ReadJwtToken(token);
-
-            // Extrae las reclamaciones del token
             var claims = jwtToken.Claims.Select(c =>
-                    c.Type == "role"
-                        ? new Claim(ClaimTypes.Role, c.Value) // Mapea el rol
-                        : new Claim(c.Type, c.Value) // Mapea otros valores
-            ).ToList();
+                c.Type == "role"
+                    ? new Claim(ClaimTypes.Role, c.Value)
+                    : new Claim(c.Type, c.Value)).ToList();
 
-            // Crea una identidad con las reclamaciones extraídas
             var identity = new ClaimsIdentity(claims, "Bearer");
             var user = new ClaimsPrincipal(identity);
 
@@ -69,10 +66,15 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         {
             Console.WriteLine($"Error procesando el token: {ex.Message}");
         }
-        
+
         return await NotAuthenticated();
     }
 
+    private bool IsTokenExpired(string token)
+    {
+        var jwtToken = handler.ReadJwtToken(token);
+        return jwtToken.ValidTo < DateTime.UtcNow;
+    }
 
     public async Task MarkUserAsAuthenticated(string token)
     {
