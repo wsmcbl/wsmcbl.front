@@ -20,14 +20,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         try
         {
             var browserStorage = await _localStorage.GetAsync<string>(Utilities.TokenKey);
-
-            var token = browserStorage.Value;
-            if (string.IsNullOrEmpty(token))
-            {
-                return await NotAuthenticated();
-            }
-
-            return await BuildAuthentication(token);
+            return await BuildAuthentication(browserStorage.Value!);
         }
         catch (Exception)
         {
