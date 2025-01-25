@@ -8,9 +8,9 @@ public class CreateEnrollmentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public CreateEnrollmentController(ApiConsumerWithNotificator apiConsumer)
+    public CreateEnrollmentController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<DegreeEntity?> CreateEnrollments(string degreeId, int quantity)

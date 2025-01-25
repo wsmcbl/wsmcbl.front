@@ -6,9 +6,9 @@ public class PrintDocumentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     
-    public PrintDocumentController(ApiConsumerWithNotificator apiConsumer)
+    public PrintDocumentController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
 
     public async Task<byte[]> GetAssistanceDocument()

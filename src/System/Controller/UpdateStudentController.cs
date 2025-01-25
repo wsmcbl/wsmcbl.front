@@ -9,9 +9,9 @@ public class UpdateStudentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public UpdateStudentController(ApiConsumerWithNotificator apiConsumer)
+    public UpdateStudentController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
 
     public async Task<StudentEntity> GetStudentById(string? studentId)

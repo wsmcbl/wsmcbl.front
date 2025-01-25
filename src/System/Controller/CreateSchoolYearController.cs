@@ -11,9 +11,9 @@ public class CreateSchoolYearController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public CreateSchoolYearController(ApiConsumerWithNotificator apiConsumer)
+    public CreateSchoolYearController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<List<SchoolYearDto>> GetSchoolYearsList()

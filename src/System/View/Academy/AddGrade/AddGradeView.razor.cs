@@ -10,7 +10,7 @@ namespace wsmcbl.src.View.Academy.AddGrade;
 public partial class AddGradeView : BaseView
 {
     [Inject] private Notificator Notificator { get; set; } = null!;
-    [Inject] private AddStudentGradeController controller { get; set; } = null!;
+    [Inject] private AddingStudentGradesController controller { get; set; } = null!;
 
     private int currentPartial { get; set; }
     private int ActiveTabId { get; set; } = 1;
@@ -19,13 +19,13 @@ public partial class AddGradeView : BaseView
     [Parameter] public string EnrollmentId { get; set; } = null!;
     private string enrollmentLabel { get; set; } = null!;
 
-    private List<PartialEntity>? partialsList { get; set; }
+    private List<PartialEntity>? partialList { get; set; }
     private List<SubjectEntity>? subjectList { get; set; }
     private List<StudentEntity>? studentList { get; set; } = [];
 
     protected override async Task OnParametersSetAsync()
     {
-        partialsList = await controller.GetPartialsList();
+        partialList = await controller.GetPartialList();
         LoadActivePartial();
         await LoadTeacherInformation();
 
@@ -34,20 +34,23 @@ public partial class AddGradeView : BaseView
 
     private void LoadActivePartial()
     {
-        var activePartial = partialsList!.FirstOrDefault(t => t.isActive);
-        currentPartial = activePartial?.partialId ?? 1;
+        var activePartial = partialList!.FirstOrDefault(t => t.isActive);
+        
+        currentPartial = activePartial?.partialId ?? partialList!.First().partialId;
         ActiveTabId = currentPartial;
     }
 
     private async Task LoadTeacherInformation()
     {
-        TeacherId = await controller.getTeacherId();
-        TeacherName = await controller.getTeacherName(TeacherId);
+        TeacherId = await controller.GetTeacherId();
+        
+        var teacher = await controller.GetTeacherById(TeacherId);
+        TeacherName = teacher.fullName;
     }
 
     private async Task GetEnrollmentData()
     {
-        var result = await controller.GetFullEnrollment(getRequestDto());
+        var result = await controller.GetEnrollment(TeacherId, EnrollmentId, currentPartial);
         
         enrollmentLabel = result.label;
         subjectList = result.subjectList;
@@ -75,7 +78,7 @@ public partial class AddGradeView : BaseView
             gradeList.AddRange(student.gradeList);
         }
 
-        var response = await controller.UpdateGrade(getRequestDto(), gradeList);
+        var response = await controller.UpdateGrade(TeacherId, EnrollmentId, currentPartial, gradeList);
         if (response)
         {
             await Notificator.ShowSuccess("Las calificaciones se han registrado satisfactoriamente.");
@@ -86,35 +89,19 @@ public partial class AddGradeView : BaseView
         await Notificator.ShowError("Hubo un fallo al intentar registrar las calificaciones.");
     }
 
-    private TeacherEnrollmentByPartialDto getRequestDto()
-    {
-        return new TeacherEnrollmentByPartialDto
-        {
-            teacherId = TeacherId,
-            enrollmentId = EnrollmentId,
-            partialId = currentPartial
-        };
-    }
-
     protected override bool IsLoading()
     {
-        return partialsList == null;
+        return partialList == null;
     }
 
-    private string getDatetime()
+    private static string GetDatetime()
     {
         return DateTime.Now.ToString("dddd dd 'de' MMMM 'de' yyyy", new CultureInfo("es-ES"));
     }
 
     private string getPartialName()
     {
-        return currentPartial switch
-        {
-            1 => "I Parcial",
-            2 => "II Parcial",
-            3 => "III Parcial",
-            4 => "VI Parcial",
-            _ => "No hay parcial activo."
-        };
+        var activePartial = partialList!.FirstOrDefault(e => e.partialId == currentPartial);
+        return activePartial != null ? activePartial.label : "No hay parcial activo";
     }
 }

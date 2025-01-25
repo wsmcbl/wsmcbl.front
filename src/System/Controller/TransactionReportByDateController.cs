@@ -7,9 +7,10 @@ namespace wsmcbl.src.Controller;
 public class TransactionReportByDateController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
-    public TransactionReportByDateController(ApiConsumerWithNotificator apiConsumer)
+
+    public TransactionReportByDateController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<TransactionsRevenuesDto> GetReport(DateOnly start, DateOnly end)

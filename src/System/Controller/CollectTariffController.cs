@@ -10,9 +10,9 @@ public class CollectTariffController
     private readonly ApiConsumerWithNotificator _apiConsumer;
     private string CashierId { get; set; }
 
-    public CollectTariffController(ApiConsumerWithNotificator apiConsumer)
+    public CollectTariffController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
         CashierId = "caj-eurbina";
     }
 

@@ -7,10 +7,11 @@ namespace wsmcbl.src.Controller;
 
 public class CreateUserController
 {
-    private ApiConsumerWithNotificator _apiConsumer;
-    public CreateUserController(ApiConsumerWithNotificator apiConsumer)
+    private readonly ApiConsumerWithNotificator _apiConsumer;
+    
+    public CreateUserController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<List<UserToListDto>> GetUserList()

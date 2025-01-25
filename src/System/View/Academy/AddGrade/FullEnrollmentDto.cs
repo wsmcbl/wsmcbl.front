@@ -9,6 +9,14 @@ public class FullEnrollmentDto
     public List<SubjectEntity> subjectList { get; set; } = null!;
     public List<SubjectWithGradeListDto> subjectPartialList { get; set; } = null!;
 
+    public void Init()
+    {
+        label = string.Empty;
+        studentList = [];
+        subjectList = [];
+        subjectPartialList = [];
+    }
+
     public void DeleteWithoutGrades()
     {
         subjectList = subjectList.Where(e => HasGrades(e)).ToList();
