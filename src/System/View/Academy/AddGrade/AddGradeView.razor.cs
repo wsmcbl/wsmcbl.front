@@ -42,12 +42,14 @@ public partial class AddGradeView : BaseView
     private async Task LoadTeacherInformation()
     {
         TeacherId = await controller.getTeacherId();
-        TeacherName = await controller.getTeacherName(TeacherId);
+        
+        var teacher = await controller.GetTeacherById(TeacherId);
+        TeacherName = teacher.fullName;
     }
 
     private async Task GetEnrollmentData()
     {
-        var result = await controller.GetEnrollment(getRequestDto());
+        var result = await controller.GetEnrollment(TeacherId, EnrollmentId, currentPartial);
         
         enrollmentLabel = result.label;
         subjectList = result.subjectList;
@@ -75,7 +77,7 @@ public partial class AddGradeView : BaseView
             gradeList.AddRange(student.gradeList);
         }
 
-        var response = await controller.UpdateGrade(getRequestDto(), gradeList);
+        var response = await controller.UpdateGrade(TeacherId, EnrollmentId, currentPartial, gradeList);
         if (response)
         {
             await Notificator.ShowSuccess("Las calificaciones se han registrado satisfactoriamente.");
@@ -84,16 +86,6 @@ public partial class AddGradeView : BaseView
         }
 
         await Notificator.ShowError("Hubo un fallo al intentar registrar las calificaciones.");
-    }
-
-    private TeacherEnrollmentByPartialDto getRequestDto()
-    {
-        return new TeacherEnrollmentByPartialDto
-        {
-            teacherId = TeacherId,
-            enrollmentId = EnrollmentId,
-            partialId = currentPartial
-        };
     }
 
     protected override bool IsLoading()
