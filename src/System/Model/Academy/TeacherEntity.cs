@@ -7,5 +7,6 @@ public class TeacherEntity
     public bool isGuide { get; set; }
     public string? Phone { get; set; }
     
+    public EnrollmentEntity? enrollment { get; set; }
     public List<SubjectEntity>? SubjectList { get; set; }
 }
