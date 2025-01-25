@@ -9,11 +9,11 @@
 }
 else
 { 
-    <h3 style="text-align: center;" class="m-4">Docente @user!.getFullName()</h3>
+    <h3 style="text-align: center;" class="m-4">Docente @teacher!.fullName!</h3>
     <h4 style="text-align: center;" class="m-4">Cantidad de secciones @getEnrollmentCount()</h4>
 
     <div class="row">
-        @foreach (var item in EnrollmentList)
+        @foreach (var item in enrollmentList)
         {
             <div class="col-md-6">
                 <div class="mb-4">

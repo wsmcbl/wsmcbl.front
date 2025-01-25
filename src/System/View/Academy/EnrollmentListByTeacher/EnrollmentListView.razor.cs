@@ -10,13 +10,15 @@ public partial class EnrollmentListView : BaseView
     [Inject] private AddingStudentGradesController controller { get; set; } = null!;
     
     private TeacherEntity? teacher { get; set; }
-    private List<EnrollmentByTeacherDto> EnrollmentList { get; set; } = [];
+    private List<EnrollmentByTeacherDto> enrollmentList { get; set; } = [];
     
     protected override async Task OnInitializedAsync()
     {
         var teacherId = await controller.GetTeacherId();
         teacher = await controller.GetTeacherById(teacherId);
-        EnrollmentList = await controller.GetEnrollmentList(teacherId);
+        
+        var result = await controller.GetEnrollmentList(teacherId);
+        enrollmentList = result.OrderBy(e => e.degreeId).ToList();
     }
 
     protected override bool IsLoading()
@@ -24,5 +26,5 @@ public partial class EnrollmentListView : BaseView
         return teacher == null;
     }
 
-    private int getEnrollmentCount() => EnrollmentList.Count;
+    private int getEnrollmentCount() => enrollmentList.Count;
 }
