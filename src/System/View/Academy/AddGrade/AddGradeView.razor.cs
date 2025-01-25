@@ -19,13 +19,13 @@ public partial class AddGradeView : BaseView
     [Parameter] public string EnrollmentId { get; set; } = null!;
     private string enrollmentLabel { get; set; } = null!;
 
-    private List<PartialEntity>? partialsList { get; set; }
+    private List<PartialEntity>? partialList { get; set; }
     private List<SubjectEntity>? subjectList { get; set; }
     private List<StudentEntity>? studentList { get; set; } = [];
 
     protected override async Task OnParametersSetAsync()
     {
-        partialsList = await controller.GetPartialList();
+        partialList = await controller.GetPartialList();
         LoadActivePartial();
         await LoadTeacherInformation();
 
@@ -34,8 +34,9 @@ public partial class AddGradeView : BaseView
 
     private void LoadActivePartial()
     {
-        var activePartial = partialsList!.FirstOrDefault(t => t.isActive);
-        currentPartial = activePartial?.partialId ?? 1;
+        var activePartial = partialList!.FirstOrDefault(t => t.isActive);
+        
+        currentPartial = activePartial?.partialId ?? partialList!.First().partialId;
         ActiveTabId = currentPartial;
     }
 
@@ -90,23 +91,17 @@ public partial class AddGradeView : BaseView
 
     protected override bool IsLoading()
     {
-        return partialsList == null;
+        return partialList == null;
     }
 
-    private string getDatetime()
+    private static string GetDatetime()
     {
         return DateTime.Now.ToString("dddd dd 'de' MMMM 'de' yyyy", new CultureInfo("es-ES"));
     }
 
     private string getPartialName()
     {
-        return currentPartial switch
-        {
-            1 => "I Parcial",
-            2 => "II Parcial",
-            3 => "III Parcial",
-            4 => "VI Parcial",
-            _ => "No hay parcial activo."
-        };
+        var activePartial = partialList!.FirstOrDefault(e => e.partialId == currentPartial);
+        return activePartial != null ? activePartial.label : "No hay parcial activo";
     }
 }

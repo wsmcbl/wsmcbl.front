@@ -19,7 +19,7 @@ else
                     <div class="py-3">
                         <div><strong>Docente: </strong>@TeacherName</div>
                         <div><strong>Parcial activo: </strong>@getPartialName()</div>
-                        <div><strong>Fecha: </strong>@getDatetime()</div>
+                        <div><strong>Fecha: </strong>@GetDatetime()</div>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@ else
         <div class="card show mb-4">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                    @foreach (var item in partialsList!.OrderBy(t => t.partialId))
+                    @foreach (var item in partialList!.OrderBy(t => t.partialId))
                     {
                         <li class="nav-item">
                             <a class="nav-link @(ActiveTabId == item.partialId ? "active" : "")"
@@ -60,7 +60,7 @@ else
 
             <div class="card-body" id="tabContent">
                 <div class="tab-content">
-                    @foreach (var item in partialsList!.OrderBy(t => t.partialId))
+                    @foreach (var item in partialList!.OrderBy(t => t.partialId))
                     {
                         <div class="tab-pane fade @(ActiveTabId == item.partialId ? "show active" : "")"
                              id="card-@item.partialId"

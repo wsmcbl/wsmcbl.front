@@ -34,6 +34,6 @@ public partial class EnrollmentListView : BaseView
     private string GetActivePartial()
     {
         var activePartial = partialList.FirstOrDefault(t => t.isActive);
-        return activePartial == null ? "No hay parcial activo" : activePartial.label!;
+        return activePartial != null ? activePartial.label : "No hay parcial activo";
     }
 }
