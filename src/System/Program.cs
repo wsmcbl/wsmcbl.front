@@ -11,17 +11,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
-builder.Services.AddTransient<SweetAlertService>();
-builder.Services.AddTransient<Notificator>();
-builder.Services.AddTransient<ApiConsumerFactory>();
-builder.Services.AddTransient<Navigator>();
-builder.Services.AddTransient<JwtClaimsService>();
-builder.Services.AddSweetAlert2();
 
+builder.Services.AddSweetAlert2();
+builder.Services.AddTransient<SweetAlertService>();
+builder.Services.AddTransient<Navigator>();
+builder.Services.AddTransient<Notificator>();
+builder.Services.AddTransient<JwtClaimsService>();
+builder.Services.AddTransient<ApiConsumerFactory>();
 builder.Services.AddTransient<CustomAuthenticationStateProvider>();
-builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
+
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<ProtectedLocalStorage>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
 
 // I iteration
 builder.Services.AddTransient<CollectTariffController>();
@@ -57,7 +58,6 @@ builder.Services.AddAuthentication("Bearer")
             RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         };
     });
-
 
 var app = builder.Build();
 

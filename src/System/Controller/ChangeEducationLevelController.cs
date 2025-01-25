@@ -7,9 +7,9 @@ public class ChangeEducationLevelController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public ChangeEducationLevelController(ApiConsumerWithNotificator apiConsumer)
+    public ChangeEducationLevelController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<StudentForEducationLevelDto> GetStudent(string? studentId)

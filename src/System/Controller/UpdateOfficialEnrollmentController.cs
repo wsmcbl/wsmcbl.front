@@ -13,9 +13,9 @@ public class UpdateOfficialEnrollmentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public UpdateOfficialEnrollmentController(ApiConsumerWithNotificator apiConsumer)
+    public UpdateOfficialEnrollmentController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<List<TeacherEntity>> GetActiveTeacherList()

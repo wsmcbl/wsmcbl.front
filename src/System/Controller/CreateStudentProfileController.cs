@@ -7,9 +7,9 @@ public class CreateStudentProfileController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public CreateStudentProfileController(ApiConsumerWithNotificator apiConsumer)
+    public CreateStudentProfileController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
 
     public async Task<string?> CreateNewStudent(StudentToCreateDto studentToCreate)

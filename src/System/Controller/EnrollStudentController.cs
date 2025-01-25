@@ -7,11 +7,11 @@ namespace wsmcbl.src.Controller;
 
 public class EnrollStudentController
 {
-    private ApiConsumerWithNotificator _apiConsumer;
+    private readonly ApiConsumerWithNotificator _apiConsumer;
     
-    public EnrollStudentController(ApiConsumerWithNotificator apiConsumer)
+    public EnrollStudentController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<List<StudentDto>> GetStudents()

@@ -10,9 +10,9 @@ public class LoginController
     private readonly ApiConsumer _apiConsumer;
     private readonly JwtClaimsService _jwtClaimsService;
 
-    public LoginController(ApiConsumer apiConsumer, JwtClaimsService jwtClaimsService)
+    public LoginController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.Dafault;
         _jwtClaimsService = jwtClaimsService;
     }
     

@@ -7,9 +7,9 @@ public class PrintReportCardStudentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     
-    public PrintReportCardStudentController(ApiConsumerWithNotificator apiConsumer)
+    public PrintReportCardStudentController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumer;
+        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<byte[]> GetPdfContent(string studentId)
