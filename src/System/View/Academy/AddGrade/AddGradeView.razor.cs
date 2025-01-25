@@ -41,7 +41,7 @@ public partial class AddGradeView : BaseView
 
     private async Task LoadTeacherInformation()
     {
-        TeacherId = await controller.getTeacherId();
+        TeacherId = await controller.GetTeacherId();
         
         var teacher = await controller.GetTeacherById(TeacherId);
         TeacherName = teacher.fullName;

@@ -9,22 +9,25 @@ public class AddingStudentGradesController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     private readonly LoginController _loginController;
+
     public AddingStudentGradesController(ApiConsumerWithNotificator apiConsumer, LoginController loginController)
     {
         _apiConsumer = apiConsumer;
         _loginController = loginController;
-    } 
-    
+    }
+
     public async Task<List<PartialEntity>> GetPartialList()
     {
         List<PartialEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Academy,"partials", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Academy, "partials", defaultResult);
     }
 
     public async Task<TeacherEntity> GetTeacherById(string teacherId)
     {
-        var defaultResult = new TeacherEntity();
-        return await _apiConsumer.GetAsync(Modules.Academy, $"teachers/{teacherId}", defaultResult);
+        var defaultResult = new TeacherDto();
+        var result = await _apiConsumer.GetAsync(Modules.Academy, $"teachers/{teacherId}", defaultResult);
+
+        return result.toEntity();
     }
 
     public async Task<List<EnrollmentByTeacherDto>> GetEnrollmentList(string teacherId)
@@ -33,12 +36,12 @@ public class AddingStudentGradesController
         var resource = $"teachers/{teacherId}/enrollments";
         return await _apiConsumer.GetAsync(Modules.Academy, resource, defaultResult);
     }
-    
+
     public async Task<FullEnrollmentDto> GetEnrollment(string teacherId, string enrollmentId, int partialId)
     {
         var defaultResult = new FullEnrollmentDto();
         defaultResult.Init();
-        
+
         var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}?partialId={partialId}";
         var result = await _apiConsumer.GetAsync(Modules.Academy, resource, defaultResult);
 
@@ -48,13 +51,14 @@ public class AddingStudentGradesController
         return result;
     }
 
-    public async Task<bool> UpdateGrade(string teacherId, string enrollmentId, int partialId, List<GradeEntity> gradeList)
+    public async Task<bool> UpdateGrade(string teacherId, string enrollmentId, int partialId,
+        List<GradeEntity> gradeList)
     {
         var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}?partialId={partialId}";
         return await _apiConsumer.PutAsync(Modules.Academy, resource, gradeList);
     }
 
-    public async Task<string> getTeacherId()
+    public async Task<string> GetTeacherId()
     {
         return await _loginController.getRoleIdFromToken();
     }

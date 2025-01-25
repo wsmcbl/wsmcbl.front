@@ -1,29 +1,27 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.Model.Config;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 
 public partial class EnrollmentListView : BaseView
 { 
-    [Inject] private LoginController loginController { get; set; } = null!;
-    [Inject] private AddingStudentGradesController Controller { get; set; } = null!;
+    [Inject] private AddingStudentGradesController controller { get; set; } = null!;
     
-    private UserEntity? user { get; set; }
-    private string? TeacherId { get; set; } = string.Empty;
-    private List<EnrollmentByTeacherDto> EnrollmentList { get; set; } = new();
+    private TeacherEntity? teacher { get; set; }
+    private List<EnrollmentByTeacherDto> EnrollmentList { get; set; } = [];
     
     protected override async Task OnInitializedAsync()
     {
-        user = await loginController.getUserById();
-        TeacherId = await loginController.getRoleIdFromToken();
-        EnrollmentList = await Controller.GetEnrollmentList(TeacherId);
+        var teacherId = await controller.GetTeacherId();
+        teacher = await controller.GetTeacherById(teacherId);
+        EnrollmentList = await controller.GetEnrollmentList(teacherId);
     }
 
     protected override bool IsLoading()
     {
-        return user == null;
+        return teacher == null;
     }
 
     private int getEnrollmentCount() => EnrollmentList.Count;
