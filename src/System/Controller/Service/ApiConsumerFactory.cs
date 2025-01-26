@@ -17,10 +17,9 @@ public class ApiConsumerFactory
     }
 
     private ApiConsumer? _default;
-    public ApiConsumer Dafault => _default ??= new ApiConsumer(_httpClient, _localStorage);
-
+    public ApiConsumer Default => _default ??= new ApiConsumer(_httpClient, _localStorage);
+    
     private ApiConsumerWithNotificator? _withNotificator;
-
     public ApiConsumerWithNotificator WithNotificator => _withNotificator ??=
         new ApiConsumerWithNotificator(_notificator, _httpClient, _localStorage);
 }

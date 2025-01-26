@@ -36,7 +36,7 @@ else
     </div>
 
     <div class="row">
-        @foreach (var item in enrollmentList)
+        @foreach (var item in enrollmentList.OrderBy(e => e.degreeId))
         {
             <div class="col-md-6">
                 <div class="mb-4">

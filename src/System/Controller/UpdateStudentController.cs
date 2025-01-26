@@ -28,4 +28,9 @@ public class UpdateStudentController
         var resource = $"students?withNewToken={generateToken}";
         return await _apiConsumer.PutAsync(Modules.Secretary, resource, student.MapToDto());
     }
+
+    public async Task<bool> SaveProfile(string studentId, MultipartFormDataContent content)
+    {
+        return await _apiConsumer.PutPhotoAsync(Modules.Secretary, $"students/{studentId}", content);
+    }
 }

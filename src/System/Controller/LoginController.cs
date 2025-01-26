@@ -12,7 +12,7 @@ public class LoginController
 
     public LoginController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService)
     {
-        _apiConsumer = apiConsumerFactory.Dafault;
+        _apiConsumer = apiConsumerFactory.Default;
         _jwtClaimsService = jwtClaimsService;
     }
     

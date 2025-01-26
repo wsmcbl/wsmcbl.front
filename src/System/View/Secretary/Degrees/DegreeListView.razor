@@ -3,6 +3,8 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,secretary")]
 
+@using wsmcbl.src.View.Components
+
 @if (IsLoading())
 {
     <div class="loader"></div>
@@ -14,7 +16,7 @@ else
             <h6 class="m-0 font-weight-bold text-primary">Lista de Grados</h6>
             
             <div>
-                <button type="button" class="btn btn-outline-secondary">Imprimir listas</button>
+                <button type="button" class="btn btn-success btn-sm" @onclick="GetOfficialEnrollmentListDocument"><i class="fas fa-print"></i>    Lista oficial</button>
             </div>
         </div>
         <div class="card-body">
@@ -96,4 +98,5 @@ else
     </div>
     
     <InitializeEnrollmentView @bind-Degree="Degree" />
+    <PdfViewer Title="Lista Oficial" PdfContent="@pdf"/>
 }

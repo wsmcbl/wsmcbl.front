@@ -63,8 +63,15 @@ public partial class DegreeListView : BaseView
     }
 
     private byte[]? pdf { get; set; }
-    private async Task GetAssistanceDocument()
+    private async Task GetOfficialEnrollmentListDocument()
     {
-        pdf = await documentController.GetAssistanceDocument();
+        pdf = await documentController.GetOfficialEnrollmentListDocument();
+        if (pdf.Length == 0)
+        {
+            await Notificator.ShowError("No se pudo generar el docuemtno.");
+            return;
+        }
+        
+        await Navigator.ShowPdfModal();
     }
 }

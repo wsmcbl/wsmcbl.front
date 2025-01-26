@@ -48,7 +48,7 @@ public class AddingStudentGradesController
         try
         {
             var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}?partialId={partialId}";
-            result = await _apiConsumerFactory.Dafault.GetAsync(Modules.Academy, resource, result);
+            result = await _apiConsumerFactory.Default.GetAsync(Modules.Academy, resource, result);
 
             result.DeleteWithoutGrades();
             result.UpdateStudentGradeList();
@@ -57,8 +57,8 @@ public class AddingStudentGradesController
         {
             if (e.StatusCode == 404)
             {
-                await _notificator.ShowInformation("El registro de calificaciones no está activo en este momento.\n" +
-                                             " Por favor, inténtelo más tarde.");
+                await _notificator.ShowInformation("El registro de calificaciones no está activo en este momento. " +
+                                             "Por favor, inténtelo más tarde.");
             }
         }
         catch (Exception)

@@ -3,7 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 
@@ -13,9 +13,9 @@ public partial class PhotoView : ComponentBase
 {
     [Parameter] public StudentEntity Student { get; set; } = null!;
     
-    [Inject] protected IJSRuntime JS { get; set; } = null!;
-    [Inject] public Notificator? Notificator { get; set; }
-    [Inject] protected ApiConsumerWithNotificator Consumer { get; set; } = null!;
+    [Inject] private IJSRuntime JS { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private UpdateStudentController controller { get; set; } = null!;
     
     private bool IsCamaraOpen { get; set; } = false;
     private StringBuilder imageBase64Builder { get; set; } = new();
@@ -42,11 +42,10 @@ public partial class PhotoView : ComponentBase
         imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
 
         content.Add(imageContent, "profilePicture", "photo.jpg");
-
-        var response = await Consumer.PutPhotoAsync(Modules.Secretary, $"students/{Student.studentId}", content);
-        if (response)
+        var result = await controller.SaveProfile(Student.studentId!, content);
+        if (result)
         {
-            await Notificator!.ShowSuccess("Se ha actualizado la imagen correctamente.");
+            await Notificator.ShowSuccess("Se ha actualizado la imagen correctamente.");
         }
     }
 
@@ -60,7 +59,7 @@ public partial class PhotoView : ComponentBase
         var files = e.GetMultipleFiles();
         if (files.Count == 0)
         {
-            await Notificator!.ShowError("No ha seleccionado ningún archivo.");
+            await Notificator.ShowError("No ha seleccionado ningún archivo.");
             return;
         }
 
@@ -69,14 +68,14 @@ public partial class PhotoView : ComponentBase
         var validImageTypes = new[] { "image/jpeg", "image/png", "image/jpg", "image/gif" };
         if (!validImageTypes.Contains(file.ContentType))
         {
-            await Notificator!.ShowError("El archivo seleccionado no es una imagen válida.");
+            await Notificator.ShowError("El archivo seleccionado no es una imagen válida.");
             return;
         }
 
         const long maxFileSize = 5 * 1024 * 1024;
         if (file.Size > maxFileSize)
         {
-            await Notificator!.ShowError("La imagen seleccionada es demasiado grande. Máximo permitido: 5 MB.");
+            await Notificator.ShowError("La imagen seleccionada es demasiado grande. Máximo permitido: 5 MB.");
             return;
         }
 

@@ -11,7 +11,7 @@ public class PrintDocumentController
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
 
-    public async Task<byte[]> GetAssistanceDocument()
+    public async Task<byte[]> GetOfficialEnrollmentListDocument()
     {
         return await _apiConsumer.GetPdfAsync(Modules.Secretary, "degrees/documents");
     }

@@ -17,10 +17,7 @@ public partial class EnrollmentListView : BaseView
     {
         var teacherId = await controller.GetTeacherId();
         teacher = await controller.GetTeacherById(teacherId);
-        
-        var result = await controller.GetEnrollmentList(teacherId);
-        enrollmentList = result.OrderBy(e => e.degreeId).ToList();
-
+        enrollmentList = await controller.GetEnrollmentList(teacherId);
         partialList = await controller.GetPartialList();
     }
 
