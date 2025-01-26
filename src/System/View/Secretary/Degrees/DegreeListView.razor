@@ -25,6 +25,7 @@ else
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>Año</th>
                         <th>Nombre</th>
                         <th># Secciones</th>
                         <th>Modalidad</th>
@@ -34,6 +35,7 @@ else
                     <tfoot>
                     <tr>
                         <th>#</th>
+                        <th>Año</th>
                         <th>Nombre</th>
                         <th># Secciones</th>
                         <th>Modalidad</th>
@@ -45,6 +47,16 @@ else
                     {
                         <tr>
                             <td> @item.degreeId </td>
+                            <td>
+                                @if (ThisSchoolYear != null)
+                                {
+                                    @ThisSchoolYear.FirstOrDefault(t => t.SchoolYearId == item.schoolYear)!.Label
+                                }
+                                else
+                                {
+                                    <label>Sin determinar</label>
+                                }
+                            </td>
                             <td> @item.label </td>
                             <td> @item.quantity</td>
                             <td> @item.educationalLevel</td>

@@ -3,6 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -14,14 +15,18 @@ public partial class DegreeListView : BaseView
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected CreateEnrollmentController controller { get; set; } = null!;
+    [Inject] protected CreateSchoolYearController SchoolYearController { get; set; } = null!;
     [Inject] protected PrintDocumentController documentController { get; set; } = null!;
     
     private DegreeEntity? Degree { get; set; }
     private List<DegreeEntity>? DegreeList { get; set; }
+    
+    private List<SchoolYearDto>? ThisSchoolYear; 
 
     protected override async Task OnInitializedAsync()
     {
         DegreeList = await controller.GetDegreeList();
+        ThisSchoolYear = await SchoolYearController.GetSchoolYearsList();
     }
 
     private async Task CreateEnrollmentModal(string value)

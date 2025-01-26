@@ -2,7 +2,7 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
+    <!-- Sidebar - Logo -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
         <div class="sidebar-brand-icon">
             <img src="img/cbl_logo.png" alt="Logo" class="img-fluid" style="max-width: 50px;">
@@ -15,10 +15,26 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
         <a class="nav-link" href="/dashboard">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-home"></i>
             <span>Inicio</span></a>
     </li>
+    
+    <AuthorizeView Roles="teacher">
+        <!-- Nav Item - Grade -->
+        <li class="nav-item">
+            <a class="nav-link" href="academy/enrollments">
+                <i class="fas fa-list-alt"></i>
+                <span>Calificar</span></a>
+        </li>
 
+        <!-- Nav Item - Grade -->
+        <li class="nav-item">
+            <a class="nav-link">
+                <i class="fas fa-house-user"></i>
+                <span>Sección Guiada</span></a>
+        </li>
+    </AuthorizeView>
+    
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -39,8 +55,6 @@
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Opciones académicas:</h6>
-                    <a class="collapse-item" href="academy/enrollments">Calificar</a>
-                    <a class="collapse-item" href="#">Profesores</a>
                     <a class="collapse-item" href="#">Reportes</a>
                 </div>
             </div>
@@ -111,14 +125,19 @@
     <hr class="sidebar-divider d-none d-md-block">
     
     <AuthorizeView Roles="admin,secretary,teacher">
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Utilidades
+        </div>
+        
         <li class="nav-item">
-            <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/mail/" target="_blank" >
+            <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/mail/" target="_blank">
                 <i class="fas fa-fw fa-envelope"></i>
                 <span>Correo</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/files/" target="_blank" >
+            <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/files/" target="_blank">
                 <i class="fas fa-fw fa-archive"></i>
                 <span>Archivos</span>
             </a>
