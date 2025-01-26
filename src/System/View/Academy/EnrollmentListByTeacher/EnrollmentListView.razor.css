@@ -1,0 +1,47 @@
+.modern-card {
+    border: 1px solid #4e73df;
+    border-radius: 8px;
+    background-color: #f8f9fc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.modern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.modern-card .card-header {
+    background-color: #4e73df;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 2px solid #2e59d9;
+    display: flex;
+    align-items: center;
+}
+
+.modern-card .card-header .icon {
+    font-size: 28px;
+    margin-right: 10px;
+}
+
+.modern-card .card-body {
+    padding: 20px;
+}
+
+.modern-card .h5 {
+    color: #343a40;
+    font-weight: bold;
+}
+
+.modern-card .btn {
+    margin-top: 10px;
+    background-color: #4e73df;
+    border: none;
+    font-weight: bold;
+}
+
+.modern-card .btn:hover {
+    background-color: #2e59d9;
+}
