@@ -34,17 +34,18 @@
                 <span>Sección Guiada</span></a>
         </li>
     </AuthorizeView>
-    
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Módulos
-    </div>
 
     <!-- Opciones Academicas -->
-    <AuthorizeView Roles="admin,secretary,teacher">
+    <AuthorizeView Roles="admin,secretary">
+    
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Módulos
+        </div>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                aria-expanded="true" aria-controls="collapseUtilities">
@@ -120,11 +121,11 @@
             </div>
         </li>
     </AuthorizeView>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
     
     <AuthorizeView Roles="admin,secretary,teacher">
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+        
         <!-- Heading -->
         <div class="sidebar-heading">
             Utilidades

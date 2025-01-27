@@ -7,17 +7,16 @@ namespace wsmcbl.src.View.Components.CreateStudent;
 
 public partial class CreateStudentProfileView : ComponentBase
 {
-    [Inject] protected CreateStudentProfileController? _controller { get; set; }
-    [Inject] protected Navigator? _navigator { get; set; }
-    [Inject] protected Notificator? _notificator { get; set; }
-    
-    protected StudentToCreateDto StudentToCreate { get; set; } = null!;
-    protected List<(bool Id, string Gender)> sex { get; set; } = null!;
-    protected List<(int Id, string Modality)> modalitySelect { get; set; } = null!;
-    private string MaxDate => DateTime.Today.AddYears(-4).ToString("yyyy-MM-dd");
+    [Inject] protected Navigator _navigator { get; set; } = null!;
+    [Inject] protected Notificator _notificator { get; set; } = null!;
+    [Inject] protected CreateStudentProfileController _controller { get; set; } = null!;
     
     [Parameter] public EventCallback onNewStudentCreated { get; set; }
-
+    
+    private StudentToCreateDto StudentToCreate { get; set; } = null!;
+    private List<(bool Id, string Gender)> sex { get; set; } = null!;
+    private List<(int Id, string Modality)> modalitySelect { get; set; } = null!;
+    private string MaxDate => DateTime.Today.AddYears(-4).ToString("yyyy-MM-dd");
 
     private void OnDateChanged(ChangeEventArgs e)
     { 
@@ -62,19 +61,19 @@ public partial class CreateStudentProfileView : ComponentBase
     {
         if (!StudentToCreate.IsNameValid())
         {
-            await _notificator!.ShowInformation("El primer nombre y el primer apellido son obligatorios, ingreselos.");
+            await _notificator.ShowInformation("El primer nombre y el primer apellido son obligatorios, ingreselos.");
             return true;
         }
 
         if (!StudentToCreate.IsTutorValid())
         {
-            await _notificator!.ShowInformation("El nombre del tutor es obligatorio.");
+            await _notificator.ShowInformation("El nombre del tutor es obligatorio.");
             return true;
         }
 
         if (!StudentToCreate.IsBirthdayValid())
         {
-            await _notificator!.ShowInformation("La fecha debe estar en el rango correcto.");
+            await _notificator.ShowInformation("La fecha debe estar en el rango correcto.");
             return true;
         }
         
@@ -89,17 +88,17 @@ public partial class CreateStudentProfileView : ComponentBase
             return;
         }        
         
-        var response = await _controller!.CreateNewStudent(StudentToCreate);
+        var response = await _controller.CreateNewStudent(StudentToCreate);
         if (response == null)
         {
            return;
         }
 
         var options = ("Ir a cobros", "Cerrar");
-        var election =  await _notificator!
+        var election =  await _notificator
             .ShowConfirmationQuestion("Se creó el nuevo perfil.", "Seleccione la opción deseada", options);
 
-        await _navigator!.HideModal("NewStudentModal");
+        await _navigator.HideModal("NewStudentModal");
         StudentToCreate.SetAsDefault();
         
         if (election)
