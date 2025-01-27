@@ -5,8 +5,6 @@ services:
       dockerfile: ./Config/System/Dockerfile
     restart: unless-stopped
     container_name: system
-    ports:
-      - '4001:8080'
     networks:
       - app-network
     environment:
@@ -18,8 +16,6 @@ services:
       dockerfile: ./Config/Homepage/Dockerfile
     restart: unless-stopped
     container_name: homepage
-    ports:
-      - '4002:8080'
     networks:
       - app-network
     environment:
