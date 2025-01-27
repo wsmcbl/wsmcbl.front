@@ -9,17 +9,11 @@ public static class Utilities
     public static string ToStringFormat(this DateOnly? date)
     {
         if (date == null)
-            return string.Empty;
-        
-        var culture = new CultureInfo("es-ES")
         {
-            DateTimeFormat =
-            {
-                AMDesignator = "am",
-                PMDesignator = "pm"
-            }
-        };
+            return string.Empty;
+        }
 
+        var culture = new CultureInfo("es-ES");
         return ((DateOnly)date).ToString("dd/MMM/yyyy", culture);
     }
 

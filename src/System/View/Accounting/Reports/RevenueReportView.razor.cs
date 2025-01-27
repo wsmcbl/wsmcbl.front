@@ -7,6 +7,7 @@ namespace wsmcbl.src.View.Accounting.Reports;
 
 public partial class RevenueReportView : BaseView
 {
+    [Inject] private Notificator notificator { get; set; } = null!;
     [Inject] private TransactionReportByDateController controller { get; set; } = null!;
 
     private bool hasData { get; set; }
@@ -15,25 +16,36 @@ public partial class RevenueReportView : BaseView
     
     private DateOnly startDate { get; set; }
     private DateOnly endDate { get; set; }
-    private string MaxDate => DateTime.Today.ToString("dd-MM-yyyy");
-    private string MinDate => DateTime.Today.ToString("dd-MM-yyyy");
+    private string MaxDate { get; set; } = DateTime.Today.ToString("dd/MM/yyyy");
 
     protected override async Task OnParametersSetAsync()
     {
-        endDate = DateOnly.FromDateTime(DateTime.Today);
-        startDate = endDate;
-        
+        SetDefaultDate();
         report = new TransactionsRevenuesDto();
         await LoadTypeTransactions();
     }
 
-    public void ValidateDate()
+    private void SetDefaultDate()
     {
-        if (startDate == DateOnly.MinValue || endDate == DateOnly.MinValue)
+        endDate = DateOnly.FromDateTime(DateTime.Today);
+        startDate = endDate;
+    }
+    
+    private async Task<bool> ValidateDate()
+    {
+        if (startDate.Year < 2000 || endDate.Year < 2000)
         {
-            endDate = DateOnly.FromDateTime(DateTime.Today);
-            startDate = endDate;
+            await notificator.ShowInformation("Alguna de las fechas ingresadas no es válida. Por favor, verifíquelas.");
+            return false;
         }
+
+        if (startDate <= endDate)
+        {
+            return true;
+        }
+        
+        await notificator.ShowInformation("La fecha de inicio no puede ser posterior a la fecha de finalización.");
+        return false;
     }
 
     private async Task LoadTypeTransactions()
@@ -43,21 +55,27 @@ public partial class RevenueReportView : BaseView
 
     private async Task GetReport()
     {
-        ValidateDate();
-        ClearData();
-        Console.WriteLine(startDate);
-        Console.WriteLine(startDate);
-        Console.WriteLine(startDate);
+        if (!await ValidateDate())
+        {
+            return;
+        }
+        
+        ClearData(false);
         
         report = await controller.GetReport(startDate, endDate);
         hasData = report.transactionList.Count > 0;
         StateHasChanged();
     }
 
-    private void ClearData()
+    private void ClearData(bool withDate = true)
     {
         report!.transactionList = [];
         hasData = false;
+
+        if (withDate)
+        {
+            SetDefaultDate();
+        }
     }
 
     protected override bool IsLoading()
@@ -69,22 +87,5 @@ public partial class RevenueReportView : BaseView
     {
         return transactionTypeList!
             .FirstOrDefault(t => t.typeId == type)?.description ?? "Descripción no disponible";
-    }
-    
-    private void OnDateChanged(ChangeEventArgs e, bool isStartDate)
-    {
-        if (!DateTime.TryParse(e.Value!.ToString(), out var selectedDate))
-        {
-            return;
-        }
-
-        if (isStartDate)
-        {
-            startDate = DateOnly.FromDateTime(selectedDate);
-        }
-        else
-        {
-            endDate = DateOnly.FromDateTime(selectedDate);
-        }
     }
 }
