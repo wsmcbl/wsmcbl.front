@@ -73,7 +73,7 @@ public partial class DegreeListView : BaseView
         pdf = await documentController.GetOfficialEnrollmentListDocument();
         if (pdf.Length == 0)
         {
-            await Notificator.ShowError("No se pudo generar el docuemtno.");
+            await Notificator.ShowError("No se pudo generar el documento.");
             return;
         }
         
