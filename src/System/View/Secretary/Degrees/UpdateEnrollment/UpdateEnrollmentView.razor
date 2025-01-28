@@ -17,9 +17,9 @@ else
                 @foreach (var item in enrollmentList!)
                 {
                     <li class="nav-item">
-                        <a class="nav-link @(ActiveTab == 1 ? "active" : "")" id="panel-@Panel"
+                        <a class="nav-link @(ActiveTab == 0 ? "active" : "")" id="panel-@Panel"
                            href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
-                           aria-controls="card-@item.enrollmentId" aria-selected="@(ActiveTab == 1 ? "true" : "false")" @onclick="(() => ActiveTab = Panel)">
+                           aria-controls="card-@item.enrollmentId" aria-selected="@(ActiveTab == 0 ? "true" : "false")" @onclick="(() => ActiveTab = Panel)">
                             @item.label
                         </a>
                     </li>
@@ -41,7 +41,7 @@ else
                 @foreach (var enrollment in enrollmentList)
                 {
                     <!-- Inicio datos de matricula -->
-                    <div class="tab-pane fade @(ActiveTab == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
+                    <div class="tab-pane fade @(ActiveTab == 0 ? "show active" : "")" id="card-@enrollment.enrollmentId"
                          role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
                         <div class="row">
                             <div class="col-12 col-md-6" style="margin-bottom: 15px">

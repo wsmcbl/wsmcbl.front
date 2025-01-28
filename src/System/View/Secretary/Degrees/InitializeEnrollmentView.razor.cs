@@ -16,8 +16,9 @@ public partial class InitializeEnrollmentView : BaseView
     [Inject] public CreateEnrollmentController Controller { get; set; } = null!;
     
     private SaveInitializerDto Initializer { get; set; } = new();
-    private int Counter { get; set; }
-    private int Counter2 { get; set; }
+
+    private int Panel { get; set; } = 1;
+    private int ActiveTab { get; set; } = 1;
 
     private async Task SaveEnrollments(string enrollmentId)
     {

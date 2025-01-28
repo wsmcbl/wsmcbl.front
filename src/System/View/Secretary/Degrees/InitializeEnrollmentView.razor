@@ -21,25 +21,26 @@
                             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                                 @foreach (var item in Degree!.EnrollmentList!)
                                 {
-                                    Counter++;
                                     <li class="nav-item">
-                                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId"
+                                        <a class="nav-link @(ActiveTab == 0 ? "active" : "")" id="panel-@Panel"
                                            href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
-                                           aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
+                                           aria-controls="card-@item.enrollmentId" aria-selected="@(ActiveTab == 0 ? "true" : "false")" @onclick="(() => ActiveTab = Panel)">
                                             @item.label
                                         </a>
                                     </li>
+                                    ActiveTab++;
+                                    Panel++;
                                 }
                             </ul>
                         </div>
+
+                        @{ ActiveTab = 0;}
 
                         <div class="card-body" id="tabContent">
                             <div class="tab-content">
                                 @foreach (var enrollment in Degree.EnrollmentList)
                                 {
-                                    Counter2++;
-                                    <!-- Inicio datos de matricula -->
-                                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
+                                    <div class="tab-pane fade @(ActiveTab == 0 ? "show active" : "")" id="card-@enrollment.enrollmentId"
                                          role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
                                         <div class="row">
                                             
@@ -77,6 +78,7 @@
                                         
                                     </div>
                                     <!-- Fin datos de matricula -->
+                                    ActiveTab++;
                                 }
                             </div>
                         </div>

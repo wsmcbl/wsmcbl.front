@@ -17,8 +17,7 @@ public partial class UpdateEnrollmentView : BaseView
     private string? EnrollmentFlags { get; set; } = "N/A";
     private string? SubjectFlags { get; set; } = "N/A";
     private string? SubjectChangeName { get; set; } = "N/A";
-
-    private int Counter2{ get; set; }
+    
     private int Position { get; set; } = 1;
     private int ActiveTab { get; set; } = 1;
     private int Panel { get; set; } = 1;
@@ -30,7 +29,6 @@ public partial class UpdateEnrollmentView : BaseView
     
     protected override async Task OnParametersSetAsync()
     {
-        Counter2 = 0;
         await LoadDegree();
     }
 
