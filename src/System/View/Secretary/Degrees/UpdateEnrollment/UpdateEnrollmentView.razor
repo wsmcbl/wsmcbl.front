@@ -16,14 +16,15 @@ else
             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                 @foreach (var item in enrollmentList!)
                 {
-                    Counter++;
                     <li class="nav-item">
-                        <a class="nav-link @(Counter == 1 ? "active" : "")" id="panel-@item.enrollmentId"
+                        <a class="nav-link @(ActiveTab == 1 ? "active" : "")" id="panel-@Panel"
                            href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
-                           aria-controls="card-@item.enrollmentId" aria-selected="@(Counter == 1 ? "true" : "false")">
+                           aria-controls="card-@item.enrollmentId" aria-selected="@(ActiveTab == 1 ? "true" : "false")" @onclick="(() => ActiveTab = Panel)">
                             @item.label
                         </a>
                     </li>
+                    ActiveTab++;
+                    Panel++;
                 }
                 <li class="nav-item ml-auto">
                     <button type="button" class="btn btn-success" @onclick="UpdateEnrollmentList">
@@ -33,13 +34,14 @@ else
             </ul>
         </div>
 
+        @{ ActiveTab = 0;}
+        
         <div class="card-body" id="tabContent">
             <div class="tab-content">
                 @foreach (var enrollment in enrollmentList)
                 {
-                    Counter2++;
                     <!-- Inicio datos de matricula -->
-                    <div class="tab-pane fade @(Counter2 == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
+                    <div class="tab-pane fade @(ActiveTab == 1 ? "show active" : "")" id="card-@enrollment.enrollmentId"
                          role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
                         <div class="row">
                             <div class="col-12 col-md-6" style="margin-bottom: 15px">
@@ -112,15 +114,19 @@ else
                                         <table id="dataTable" class="table table-bordered">
                                             <thead>
                                             <tr>
+                                                <th>N°</th>
                                                 <th>Código</th>
                                                 <th>Nombre</th>
+                                                <th>Sex</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
                                             <tfoot>
                                             <tr>
+                                                <th>N°</th>
                                                 <th>Código</th>
                                                 <th>Nombre</th>
+                                                <th>Sexo</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </tfoot>
@@ -128,8 +134,10 @@ else
                                             @foreach (var item in enrollment.studentList.OrderBy(t => t.fullName))
                                             {
                                                 <tr>
+                                                    <td>@Position</td>
                                                     <td>@item.studentId</td>
                                                     <td>@item.fullName</td>
+                                                    <td>@(item.sex ? "Varón" : "Mujer")</td>
                                                     <td>
                                                         <div class="dropdown no-arrow">
                                                             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -146,6 +154,7 @@ else
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                Position++;
                                             }
                                             </tbody>
                                         </table>
@@ -215,6 +224,7 @@ else
                         </div>
                         <!-- Fin de las asignaturas -->
                     </div>
+                    ActiveTab++;
                 }
             </div>
         </div>
