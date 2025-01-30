@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.IdentityModel.Tokens;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Config;
 using wsmcbl.src.Utilities;
@@ -25,6 +26,7 @@ public partial class ViewUserInfo : BaseView
         permissions = await CreateUserController.GetPermissionList();
         User = await LoginController.getUserById(userId);
         GetRoleName();
+        CofigEditUser();
     }
     
     private  void GetRoleName()
@@ -33,18 +35,22 @@ public partial class ViewUserInfo : BaseView
             ? ((Role)User.roleId).ToString() 
             : "Sin asignar";
     }
+
+    private void CofigEditUser()
+    {
+        EditUser.name = User.name;
+        EditUser.secondName = User.secondName;
+        EditUser.surname = User.surName;
+        EditUser.secondSurname = User.secondSurname;
+    }
     
     private bool ValidData()
     {
-        if (EditUser != null)
+        if (EditUser.name.IsNullOrEmpty() || EditUser.surname.IsNullOrEmpty())    
         {
-            EditUser.name = User.name;
-            EditUser.secondName = User.secondName;
-            EditUser.surname = User.surName;
-            EditUser.secondSurname = User.secondSurname;
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private void AddPermissions(int permission)
@@ -68,6 +74,7 @@ public partial class ViewUserInfo : BaseView
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Hemos actualizado los datos del usuario con exito");
+            await OnParametersSetAsync();
             return;
         }
         
