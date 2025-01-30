@@ -1,6 +1,7 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Config;
 using wsmcbl.src.View.Config.CreateNewUser;
+using wsmcbl.src.View.Config.UserInformationView;
 using wsmcbl.src.View.Config.UserList;
 
 namespace wsmcbl.src.Controller;
@@ -41,6 +42,10 @@ public class CreateUserController
         var defaultResult = new UserEntity();
         return await _apiConsumer.PostAsync(Modules.Config, resource, userdata, defaultResult);
     }
-    
+
+    public async Task<bool> UpdateUser(EditUserDto userdata, string userId)
+    {
+        return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}", userdata);
+    }
     
 }

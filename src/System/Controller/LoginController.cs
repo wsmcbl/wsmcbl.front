@@ -57,6 +57,11 @@ public class LoginController
         
         return await _apiConsumer.GetAsync(Modules.Config, $"/users/{userId}", new UserEntity());
     }
+    
+    public async Task<UserEntity> getUserById(string UserId)
+    {
+        return await _apiConsumer.GetAsync(Modules.Config, $"/users/{UserId}", new UserEntity());
+    }
 
     public async Task<string> getRoleIdFromToken()
     {

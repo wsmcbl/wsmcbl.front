@@ -1,0 +1,124 @@
+@page "/configuration/users/{userId}"
+
+@inherits BaseView
+
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">@User?.getFullName()</h6>
+            <button class="btn btn-success btn-sm" @onclick="UpdateUser">Guardar Cambios</button>
+        </div>
+        <div class="card-body">
+
+            <!--Informacion Personal -->
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div class="col">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="firstName" class="label-required">Primer Nombre:</label>
+                                    <InputText id="firstName" @bind-Value="@User!.name" class="form-control"
+                                               placeholder="Sin asignar"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="secondN">Segundo Nombre:</label>
+                                    <InputText id="secondN" @bind-Value="@User.secondName" class="form-control"
+                                               placeholder="Sin asignar"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="surname" class="label-required">Primer Apellido:</label>
+                                    <InputText id="surname" @bind-Value="@User.surName" class="form-control"
+                                               placeholder="Sin asignar"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="secondS">Segundo Apellido:</label>
+                                    <InputText id="secondS" @bind-Value="@User.secondSurname" class="form-control"
+                                               placeholder="Sin asignar"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="secondS">Correo:</label>
+                                    <InputText id="secondS" @bind-Value="@User.email" class="form-control"
+                                               placeholder="Sin asignar" disabled/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="secondS">Rol:</label>
+                                    <InputText id="secondS" @bind-Value="@RoleName" class="form-control"
+                                               placeholder="Sin asignar" disabled/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <div class="col">
+                            <div class="col">
+                                <div class="form-group">
+                                    <h2 class="label-required"> Permisos</h2>
+
+                                    <h3 class="text-gray-800">Administración</h3>
+                                    @foreach (var item in permissions.Where(t => t.area == "cashier"))
+                                    {
+                                        <div class="checkbox-wrapper-14">
+                                            <input type="checkbox" id="@item.permissionId" value="@item.permissionId"
+                                                   @onchange="() => AddPermissions(item.permissionId)"/>
+                                            <label for="@item.permissionId">@item.name</label>
+                                        </div>
+                                    }
+
+
+                                    <h3 class="text-gray-800">Secrearia</h3>
+                                    @foreach (var item in permissions.Where(t => t.area == "secretary"))
+                                    {
+                                        <div class="checkbox-wrapper-14">
+                                            <input type="checkbox" id="@item.permissionId" value="@item.permissionId"
+                                                   @onchange="() => AddPermissions(item.permissionId)"/>
+                                            <label for="@item.permissionId">@item.name</label>
+                                        </div>
+                                    }
+
+                                    <h3 class="text-gray-800">Contabilidad</h3>
+                                    @foreach (var item in permissions.Where(t => t.area == "cashier"))
+                                    {
+                                        <div class="checkbox-wrapper-14">
+                                            <input type="checkbox" id="@item.permissionId" value="@item.permissionId"
+                                                   @onchange="() => AddPermissions(item.permissionId)"/>
+                                            <label for="@item.permissionId">@item.name</label>
+                                        </div>
+                                    }
+
+                                    <h3 class="text-gray-800">Profesor</h3>
+                                    @foreach (var item in permissions.Where(t => t.area == "cashier"))
+                                    {
+                                        <div class="checkbox-wrapper-14">
+                                            <input type="checkbox" id="@item.permissionId" value="@item.permissionId"
+                                                   @onchange="() => AddPermissions(item.permissionId)"/>
+                                            <label for="@item.permissionId">@item.name</label>
+                                        </div>
+                                    }
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+}
+
