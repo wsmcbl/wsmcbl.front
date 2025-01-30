@@ -5,7 +5,7 @@ using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Base;
 
-public partial class TopNavBar : ComponentBase
+public partial class SidebarNav : ComponentBase
 {
     [Inject] private Navigator? Navigator { get; set; }
     [Inject] private LoginController controller { get; set; } = null!;

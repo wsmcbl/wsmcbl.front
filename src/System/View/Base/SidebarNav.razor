@@ -144,8 +144,44 @@
             </a>
         </li>
     </AuthorizeView>
-    
-    
+
+    <hr class="sidebar-divider d-none d-md-block">
+    <div class="sidebar-heading">
+        Usuario
+    </div>
+    <AuthorizeView Roles="admin,secretary,teacher,cashier">
+        <!-- User Info -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser"
+               aria-expanded="true"
+               aria-controls="collapseUser">
+                <i class="fas fa-user"> </i>
+                <span>@User?.getAlias()</span>
+            </a>
+            <div id="collapseUser" class="collapse" aria-labelledby="collapseFour" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Opciónes</h6>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Perfil
+                    </a>
+                    <a class="dropdown-item" href="https://nextcloud.cbl-edu.com/apps/mail/" target="_blank">
+                        <i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Correo
+                    </a>
+                    <a class="dropdown-item" href="https://nextcloud.cbl-edu.com/apps/files/" target="_blank">
+                        <i class="fas fa-archive fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Archivos
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Salir
+                    </a>
+                </div>
+            </div>
+        </li>
+    </AuthorizeView>
     
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
@@ -157,4 +193,27 @@
 
 </ul>
 <!-- End of Sidebar -->
+
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro desea salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión actual.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" @onclick="LogOut">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </CascadingAuthenticationState>
