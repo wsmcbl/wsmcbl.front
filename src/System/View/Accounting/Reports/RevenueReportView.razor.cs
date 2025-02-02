@@ -16,8 +16,8 @@ public partial class RevenueReportView : BaseView
     
     private DateOnly startDate { get; set; }
     private DateOnly endDate { get; set; }
-    private string MaxDate { get; set; } = DateTime.Today.ToString("dd/MM/yyyy");
-
+    private string MaxDate { get; set; } = DateTime.UtcNow.AddHours(-6).ToString("yyyy-MM-dd");
+    
     protected override async Task OnParametersSetAsync()
     {
         SetDefaultDate();
@@ -27,7 +27,7 @@ public partial class RevenueReportView : BaseView
 
     private void SetDefaultDate()
     {
-        endDate = DateOnly.FromDateTime(DateTime.Today);
+        endDate = DateOnly.FromDateTime(DateTime.UtcNow.AddHours(-6));
         startDate = endDate;
     }
     
