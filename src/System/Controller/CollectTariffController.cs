@@ -34,7 +34,7 @@ public class CollectTariffController
 
     public async Task<List<TariffEntity>> GetTariffListByStudentId(string? studentId)
     {
-        var resource = $"tariffs/search?q=student:{studentId}";
+        var resource = $"students/{studentId}/tariffs";
         List<TariffDto> defaultResult = [];
         defaultResult = await _apiConsumer.GetAsync(Modules.Accounting, resource, defaultResult);
 

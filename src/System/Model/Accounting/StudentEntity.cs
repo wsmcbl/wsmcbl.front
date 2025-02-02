@@ -7,10 +7,12 @@ public class StudentEntity
     public string studentId { get; set; } = null!;
     public string fullName { get; set; } = null!;
     public bool isActive { get; set; }
-    public string schoolyear { get; set; } = null!;
+    public string? schoolyear { get; set; }
     public string enrollmentLabel { get; set; } = null!;
+    public string educationalLevel { get; set; } = null!;
     public string tutor { get; set; } = null!;
     public double discount { get; set; }
+    public int discountId { get; set; }
 
     public List<PaymentDto> paymentHistory { get; set; } = null!;
     public List<DebtListDto> debtList { get; set; } = null!;

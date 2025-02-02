@@ -27,7 +27,11 @@ public partial class MoveStudentView : ComponentBase
 
     private async void LoadDegrees()
     {
-        Degrees = await ControllerEnrollment.GetDegreeBasicList();
+        if (!string.IsNullOrEmpty(StudentId))
+        { 
+            Degrees = await ControllerEnrollment.GetDegreeBasicList(StudentId);
+            StateHasChanged();
+        }
     }
     
     private async Task GetSelectDegreeId(ChangeEventArgs e)

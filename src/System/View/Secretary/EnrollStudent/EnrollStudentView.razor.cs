@@ -33,7 +33,7 @@ public partial class EnrollStudentView : BaseView
     private async Task LoadStudentInformation()
     {
         var result = await Controller.GetStudentById(StudentId);
-        DegreeList = await Controller.GetDegreeBasicList();
+        DegreeList = await Controller.GetDegreeBasicList(StudentId);
 
         IsStudentsEnrollment = result.enrollmentId != null;
         Student = result.student;

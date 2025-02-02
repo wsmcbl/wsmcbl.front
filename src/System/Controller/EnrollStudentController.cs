@@ -20,10 +20,10 @@ public class EnrollStudentController
         return await _apiConsumer.GetAsync(Modules.Secretary, "enrollments/students", defaultResult);
     }
     
-    public async Task<List<DegreeBasicDto>> GetDegreeBasicList()
+    public async Task<List<DegreeBasicDto>> GetDegreeBasicList(string studentId)
     {
         List<DegreeBasicDto> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, "enrollments/degrees", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Secretary, $"enrollments/students/{studentId}/degrees", defaultResult);
     }
 
     public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
