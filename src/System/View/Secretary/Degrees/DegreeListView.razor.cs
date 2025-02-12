@@ -25,8 +25,13 @@ public partial class DegreeListView : BaseView
 
     protected override async Task OnInitializedAsync()
     {
-        DegreeList = await controller.GetDegreeList();
+        await Load();
         ThisSchoolYear = await SchoolYearController.GetSchoolYearsList();
+    }
+
+    private async Task Load()
+    {
+        DegreeList = await controller.GetDegreeList();
     }
 
     private async Task CreateEnrollmentModal(string value)
@@ -58,6 +63,7 @@ public partial class DegreeListView : BaseView
         }
 
         await Navigator.HideModal("confGrade");
+        await Load();
         StateHasChanged();
         await Navigator.ShowModal("InitGrade");
     }
