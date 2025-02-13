@@ -33,7 +33,7 @@ public partial class EnrollStudentView : BaseView
     private async Task LoadStudentInformation()
     {
         var result = await Controller.GetStudentById(StudentId);
-        DegreeList = await Controller.GetDegreeBasicList(StudentId);
+        await LoadDegreeList();
 
         IsStudentsEnrollment = result.enrollmentId != null;
         Student = result.student;
@@ -42,6 +42,17 @@ public partial class EnrollStudentView : BaseView
         if (Student.parents!.Count == 0)
         {
             Student.parents = [];
+        }
+    }
+
+    private async Task LoadDegreeList()
+    {
+        DegreeList = await Controller.GetDegreeBasicList(StudentId);
+        
+        if (DegreeList.Count == 0)
+        {
+            await Notificator.ShowError($"No hay lugares disponibles para matricular al estudiante ({StudentId}).");
+            Navigator.ToPage("/secretary/enroll/students");
         }
     }
 
