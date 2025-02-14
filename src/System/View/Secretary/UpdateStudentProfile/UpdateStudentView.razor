@@ -3,9 +3,6 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin")]
 
-@using wsmcbl.src.View.Secretary.EnrollStudent
-@using wsmcbl.src.View.Components
-
 @if (IsLoading())
 {
     <div class="loader"></div>
