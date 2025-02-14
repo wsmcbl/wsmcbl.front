@@ -1,187 +1,204 @@
-@page "/configuration/users/{userId}"
-
 @inherits BaseView
 
-@if (IsLoading())
-{
-    <div class="loader"></div>
-}
-else
-{
-    <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">@User?.getFullName()</h6>
-            <button class="btn btn-success btn-sm" @onclick="UpdateUser">Guardar Cambios</button>
-        </div>
-        <div class="card-body">
+<div class="modal fade" id="FullUserInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 85%; height: 30%; max-width: 90%; max-height: 50%;">>
+        <div class="modal-content">
 
-            <div class="row">
-                <!-- Columna de Datos del Usuario -->
-                <div class="col-md-6">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-danger">
-                                <i class="fas fa-user-circle mr-2"></i>Datos del Usuario
-                            </h6>
+            @if (IsLoading())
+            {
+                <div class="loader"></div>
+            }
+            else
+            {
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">@User?.getFullName()</h6>
+                        <button class="btn btn-success btn-sm" @onclick="UpdateUser">Actualizar</button>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <!-- Columna de Datos del Usuario -->
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-danger">
+                                            <i class="fas fa-user-circle mr-2"></i>Datos del Usuario
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="firstName" class="font-weight-bold text-gray-800">Primer Nombre:</label>
+                                                <InputText id="firstName" @bind-Value="@EditUser.name" class="form-control"
+                                                           placeholder="Sin asignar" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="secondN" class="font-weight-bold text-gray-800">Segundo Nombre:</label>
+                                                <InputText id="secondN" @bind-Value="@EditUser.secondName" class="form-control"
+                                                           placeholder="Sin asignar" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="surname" class="font-weight-bold text-gray-800">Primer Apellido:</label>
+                                                <InputText id="surname" @bind-Value="@EditUser.surname" class="form-control"
+                                                           placeholder="Sin asignar" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="secondS" class="font-weight-bold text-gray-800">Segundo Apellido:</label>
+                                                <InputText id="secondS" @bind-Value="@EditUser.secondSurname" class="form-control"
+                                                           placeholder="Sin asignar" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="mail" class="font-weight-bold text-gray-800">Correo:</label>
+                                                @if (User != null)
+                                                {
+                                                    <InputText id="mail" @bind-Value="@(User.email)" class="form-control"
+                                                               placeholder="Sin asignar" disabled/>
+                                                }
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="rol" class="font-weight-bold text-gray-800">Rol:</label>
+                                                <InputText id="rol" @bind-Value="@RoleName" class="form-control"
+                                                           placeholder="Sin asignar" disabled />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="mail" class="font-weight-bold text-gray-800">Grupo en Nextcloud:</label>
+                                                @if (User != null)
+                                                {
+                                                    <InputText id="mail" @bind-Value="@(User.nextCloudGroup)" class="form-control"
+                                                               placeholder="Sin asignar" disabled/>
+                                                }
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Columna de Permisos -->
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-danger">
+                                            <i class="fas fa-key mr-2"></i>Permisos
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="accordion" id="permissionsAccordion">
+                                            <!-- Administración -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingAdmin">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
+                                                            <i class="fas fa-cogs mr-2"></i>Administración
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "admin"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Secretario -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingSecretary">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapsesecretary" aria-expanded="true" aria-controls="collapsesecretary">
+                                                            <i class="fas fa-user-tie mr-2"></i>Secretario
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapsesecretary" class="collapse" aria-labelledby="headingSecretary" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "secretary"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Cajero -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingCashier">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapseCashier" aria-expanded="true" aria-controls="collapseCashier">
+                                                            <i class="fas fa-cash-register mr-2"></i>Cajero
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseCashier" class="collapse" aria-labelledby="headingCashier" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "cashier"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Maestro -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingTeacher">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapseTeacher" aria-expanded="true" aria-controls="collapseTeacher">
+                                                            <i class="fas fa-chalkboard-teacher mr-2"></i>Maestro
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseTeacher" class="collapse" aria-labelledby="headingTeacher" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "teacher"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="firstName" class="font-weight-bold text-gray-800">Primer Nombre:</label>
-                                    <InputText id="firstName" @bind-Value="@EditUser.name" class="form-control"
-                                               placeholder="Sin asignar" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="secondN" class="font-weight-bold text-gray-800">Segundo Nombre:</label>
-                                    <InputText id="secondN" @bind-Value="@EditUser.secondName" class="form-control"
-                                               placeholder="Sin asignar" />
-                                </div>
-                            </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="surname" class="font-weight-bold text-gray-800">Primer Apellido:</label>
-                                    <InputText id="surname" @bind-Value="@EditUser.surname" class="form-control"
-                                               placeholder="Sin asignar" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="secondS" class="font-weight-bold text-gray-800">Segundo Apellido:</label>
-                                    <InputText id="secondS" @bind-Value="@EditUser.secondSurname" class="form-control"
-                                               placeholder="Sin asignar" />
-                                </div>
-                            </div>
-
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="mail" class="font-weight-bold text-gray-800">Correo:</label>
-                                    @if (User != null)
-                                    {
-                                        <InputText id="mail" @bind-Value="@(User.email)" class="form-control"
-                                                   placeholder="Sin asignar" disabled/>
-                                    }
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="rol" class="font-weight-bold text-gray-800">Rol:</label>
-                                    <InputText id="rol" @bind-Value="@RoleName" class="form-control"
-                                               placeholder="Sin asignar" disabled />
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-
-                <!-- Columna de Permisos -->
-                <div class="col-md-6">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-danger">
-                                <i class="fas fa-key mr-2"></i>Permisos
-                            </h6>
-                        </div>
-                        <div class="card-body">
-                            <div class="accordion" id="permissionsAccordion">
-                                <!-- Administración -->
-                                <div class="card">
-                                    <div class="card-header" id="headingAdmin">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
-                                                    data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
-                                                <i class="fas fa-cogs mr-2"></i>Administración
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#permissionsAccordion">
-                                        <div class="card-body">
-                                            @foreach (var item in permissions.Where(t => t.area == "admin"))
-                                            {
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
-                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
-                                                    <label class="custom-control-label" for="@item.permissionId">@item.name</label>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Secretario -->
-                                <div class="card">
-                                    <div class="card-header" id="headingSecretary">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
-                                                    data-toggle="collapse" data-target="#collapsesecretary" aria-expanded="true" aria-controls="collapsesecretary">
-                                                <i class="fas fa-user-tie mr-2"></i>Secretario
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapsesecretary" class="collapse" aria-labelledby="headingSecretary" data-parent="#permissionsAccordion">
-                                        <div class="card-body">
-                                            @foreach (var item in permissions.Where(t => t.area == "secretary"))
-                                            {
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
-                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
-                                                    <label class="custom-control-label" for="@item.permissionId">@item.name</label>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Cajero -->
-                                <div class="card">
-                                    <div class="card-header" id="headingCashier">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
-                                                    data-toggle="collapse" data-target="#collapseCashier" aria-expanded="true" aria-controls="collapseCashier">
-                                                <i class="fas fa-cash-register mr-2"></i>Cajero
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseCashier" class="collapse" aria-labelledby="headingCashier" data-parent="#permissionsAccordion">
-                                        <div class="card-body">
-                                            @foreach (var item in permissions.Where(t => t.area == "cashier"))
-                                            {
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
-                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
-                                                    <label class="custom-control-label" for="@item.permissionId">@item.name</label>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Maestro -->
-                                <div class="card">
-                                    <div class="card-header" id="headingTeacher">
-                                        <h2 class="mb-0">
-                                            <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
-                                                    data-toggle="collapse" data-target="#collapseTeacher" aria-expanded="true" aria-controls="collapseTeacher">
-                                                <i class="fas fa-chalkboard-teacher mr-2"></i>Maestro
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseTeacher" class="collapse" aria-labelledby="headingTeacher" data-parent="#permissionsAccordion">
-                                        <div class="card-body">
-                                            @foreach (var item in permissions.Where(t => t.area == "teacher"))
-                                            {
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
-                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
-                                                    <label class="custom-control-label" for="@item.permissionId">@item.name</label>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
             
         </div>
     </div>
-}
-
+</div>

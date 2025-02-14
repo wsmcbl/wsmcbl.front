@@ -4,6 +4,7 @@
 @attribute [Authorize(Roles = "admin")]
 
 @using wsmcbl.src.View.Config.CreateNewUser
+@using wsmcbl.src.View.Config.UserInformationView
 
 @if (IsLoading())
 {
@@ -66,6 +67,7 @@ else
                                          aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header">Seleccione una opción:</div>
                                         <a class="dropdown-item" href="/configuration/users/@item.userId">Ver perfil</a>
+                                        <button class="dropdown-item" @onclick="() => ViewUserData(item.userId)">Ver Perfil</button>
                                         <a class="dropdown-item" href="#">Desactivar (Proximamente)</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Cambiar Contraseña (Proximamente)</a>
@@ -82,5 +84,8 @@ else
     
     <CreateNewUserModal UserEntity="@User" OnUserUpdated="HandleUserUpdated"/>
     <UserInformationModal UserInfo="@User"/>
+    <ViewUserInfo userId="@UserIdForViewInformation"/>
+    
+    
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 }

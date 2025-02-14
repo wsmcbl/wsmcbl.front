@@ -10,7 +10,7 @@ namespace wsmcbl.src.View.Config.UserInformationView;
 
 public partial class ViewUserInfo : BaseView
 {
-    [Parameter] public string userId { get; set; } = null!;
+    [Parameter] public string? userId { get; set; }
     [Inject] private CreateUserController CreateUserController { get; set; } = null!;
     [Inject] private LoginController LoginController { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
@@ -23,10 +23,13 @@ public partial class ViewUserInfo : BaseView
     
     protected override async Task OnParametersSetAsync()
     {
-        permissions = await CreateUserController.GetPermissionList();
-        User = await LoginController.getUserById(userId);
-        GetRoleName();
-        CofigEditUser();
+        if (userId is not null)
+        {
+            permissions = await CreateUserController.GetPermissionList();
+            User = await LoginController.getUserById(userId);
+            GetRoleName();
+            CofigEditUser();
+        }
     }
     
     private  void GetRoleName()
@@ -70,7 +73,7 @@ public partial class ViewUserInfo : BaseView
             await Notificator.ShowError("Error","Valide los datos ingresados");
         }
         
-        var response = await CreateUserController.UpdateUser(EditUser!, userId);
+        var response = await CreateUserController.UpdateUser(EditUser!, userId!);
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Hemos actualizado los datos del usuario con exito");
