@@ -95,8 +95,8 @@ else
                                             @foreach (var item in permissions.Where(t => t.area == "admin"))
                                             {
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
+                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
                                                     <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                 </div>
                                             }
@@ -119,8 +119,8 @@ else
                                             @foreach (var item in permissions.Where(t => t.area == "secretary"))
                                             {
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
+                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
                                                     <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                 </div>
                                             }
@@ -143,8 +143,8 @@ else
                                             @foreach (var item in permissions.Where(t => t.area == "cashier"))
                                             {
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
+                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
                                                     <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                 </div>
                                             }
@@ -167,8 +167,8 @@ else
                                             @foreach (var item in permissions.Where(t => t.area == "teacher"))
                                             {
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                    <input type="checkbox" class="custom-control-input" id="@item.permissionId" 
+                                                           checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
                                                     <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                 </div>
                                             }

@@ -12,6 +12,9 @@ public class UserEntity
     public string userName { get; set; } = null!;
     public string password { get; set; } = null!;
     public string email { get; set; } = null!;
+    public string? nextCloudGroup { get; set; }
+    public List<int> permissionList { get; set; } = [];
+    
     
     public string getFullName() => $"{name} {secondName} {surName} {secondSurname}";
 
