@@ -11,6 +11,7 @@ public partial class EnrollmentListView : BaseView
     
     private TeacherEntity? teacher { get; set; }
     private List<EnrollmentByTeacherDto> enrollmentList { get; set; } = [];
+    private List<DegreeEntity> degreeList { get; set; } = [];
     private List<PartialEntity> partialList { get; set; } = [];
     
     protected override async Task OnInitializedAsync()
@@ -18,6 +19,7 @@ public partial class EnrollmentListView : BaseView
         var teacherId = await controller.GetTeacherId();
         teacher = await controller.GetTeacherById(teacherId);
         enrollmentList = await controller.GetEnrollmentList(teacherId);
+        degreeList = await controller.GetDegreeList();
         partialList = await controller.GetPartialList();
     }
 
