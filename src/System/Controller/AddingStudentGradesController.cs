@@ -55,7 +55,7 @@ public class AddingStudentGradesController
         }
         catch (InternalException e)
         {
-            if (e.StatusCode == 404)
+            if (e.StatusCode == 409)
             {
                 await _notificator.ShowInformation("El registro de calificaciones no está activo en este momento. " +
                                              "Por favor, inténtelo más tarde.");
