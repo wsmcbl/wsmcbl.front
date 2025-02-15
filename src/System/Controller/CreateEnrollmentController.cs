@@ -23,10 +23,10 @@ public class CreateEnrollmentController
         return result != defaultValue ? result : null;
     }
     
-    public async Task<List<DegreeEntity>?> GetDegreeList()
+    public async Task<List<DegreeEntity>> GetDegreeList()
     {
-        List<DegreeEntity> Default = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, "degrees", Default);
+        return await _apiConsumer
+            .GetAsync(Modules.Secretary, "degrees", new List<DegreeEntity>());
     }    
     
     public async Task<bool> InitializerEnrollment(SaveInitializerDto dto)

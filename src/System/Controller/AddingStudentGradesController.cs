@@ -85,7 +85,6 @@ public class AddingStudentGradesController
     {
         var createEnrollmentController = new CreateEnrollmentController(_apiConsumerFactory);
         var result = await createEnrollmentController.GetDegreeList();
-
-        return result?.OrderBy(e => e.position).ToList() ?? [];
+        return result.OrderBy(e => e.position).ToList();
     }
 }
