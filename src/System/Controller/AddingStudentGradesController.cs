@@ -81,11 +81,11 @@ public class AddingStudentGradesController
         return await _loginController.getRoleIdFromToken();
     }
 
-    public async Task<List<DegreeEntity>> GetDegreeList()
+    public async Task<List<DegreeEntity>> GetSortedDegreeList()
     {
         var createEnrollmentController = new CreateEnrollmentController(_apiConsumerFactory);
         var result = await createEnrollmentController.GetDegreeList();
 
-        return result ?? [];
+        return result?.OrderBy(e => e.position).ToList() ?? [];
     }
 }
