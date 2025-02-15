@@ -25,7 +25,6 @@ public partial class EnrollmentListView : BaseView
     private async Task LoadEnrollmentList(string teacherId)
     {
         var degreeList = await controller.GetSortedDegreeList();
-        SetupDegreeColorList(degreeList);
 
         var result = await controller.GetEnrollmentList(teacherId);
         foreach (var degree in degreeList)
@@ -34,15 +33,18 @@ public partial class EnrollmentListView : BaseView
                 result.Where(e => e.degreeId == degree.degreeId)
                     .OrderBy(e => e.position));
         }
+        
+        SetupDegreeColorList(degreeList);
     }
 
-    private Dictionary<string, string>? degreeColorList { get; set; }
+    private Dictionary<string, string> degreeColorList { get; set; } = new();
 
     private void SetupDegreeColorList(List<DegreeEntity> degreeList)
     {
-        degreeColorList = new Dictionary<string, string>();
-        
-        List<string> colorList = [ "red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
+        List<string> colorList = ["red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
+            "orange", "purple", "pink", "brown","red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
+            "orange", "purple", "pink", "brown", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
+            "orange", "purple", "pink", "brown","red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
             "orange", "purple", "pink", "brown"];
 
         for (var i = 0; i < degreeList.Count; i++)
