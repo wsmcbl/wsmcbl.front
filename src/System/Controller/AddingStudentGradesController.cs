@@ -14,7 +14,7 @@ public class AddingStudentGradesController
 
     public AddingStudentGradesController(ApiConsumerFactory apiConsumerFactory, LoginController loginController, Notificator notificator)
     {
-        _apiConsumerFactory  = apiConsumerFactory;
+        _apiConsumerFactory = apiConsumerFactory;
         _loginController = loginController;
         _notificator = notificator;
     }
@@ -79,5 +79,13 @@ public class AddingStudentGradesController
     public async Task<string> GetTeacherId()
     {
         return await _loginController.getRoleIdFromToken();
+    }
+
+    public async Task<List<DegreeEntity>> GetDegreeList()
+    {
+        var createEnrollmentController = new CreateEnrollmentController(_apiConsumerFactory);
+        var result = await createEnrollmentController.GetDegreeList();
+
+        return result ?? [];
     }
 }
