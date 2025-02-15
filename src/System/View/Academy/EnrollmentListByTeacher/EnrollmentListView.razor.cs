@@ -18,9 +18,22 @@ public partial class EnrollmentListView : BaseView
     {
         var teacherId = await controller.GetTeacherId();
         teacher = await controller.GetTeacherById(teacherId);
-        enrollmentList = await controller.GetEnrollmentList(teacherId);
-        degreeList = await controller.GetDegreeList();
         partialList = await controller.GetPartialList();
+        
+        await LoadEnrollmentList(teacherId);
+    }
+
+    private async Task LoadEnrollmentList(string teacherId)
+    {
+        degreeList = await controller.GetSortedDegreeList();
+        var result = await controller.GetEnrollmentList(teacherId);
+
+        foreach (var degree in degreeList)
+        {
+            enrollmentList.AddRange(
+                result.Where(e => e.degreeId == degree.degreeId)
+                    .OrderBy(e => e.position));
+        }
     }
 
     protected override bool IsLoading()
