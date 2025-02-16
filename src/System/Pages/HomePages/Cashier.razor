@@ -1,0 +1,98 @@
+@page "/cashier"
+@using wsmcbl.src.View.Components
+@attribute [Authorize(Roles = "admin,cashier")]
+
+<div class="container-fluid">
+    <!-- Título de Bienvenida -->
+    <h1 class="mt-4 text-center">¡Bienvenido Cajero!</h1>
+    <p class="text-center mb-4">Seleccione una opción para comenzar.</p>
+
+    <!-- Grid de Tarjetas -->
+    <div class="row">
+        <!-- Tarjeta 1: Buscar Estudiantes -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                <i class="fas fa-search mr-2"></i>Buscar Estudiantes
+                            </div>
+                            <div class="h7 mb-0 font-weight-bold text-gray-800">
+                                Acceda a la información de los estudiantes.
+                            </div>
+                        </div>
+                        <a href="/accounting/students" class="btn btn-primary btn-sm">Ir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta 2: Aplicar Mora -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow">
+                <div class="card-body p-3"> <!-- Reducimos el padding -->
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Aplicar Mora
+                            </div>
+                            <div class="h7 mb-0 font-weight-bold text-gray-800">
+                                Gestione los cargos por mora.
+                            </div>
+                        </div>
+                        <a class="btn btn-success btn-sm">Ir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta 3: Reportes -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow">
+                <div class="card-body p-3"> <!-- Reducimos el padding -->
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                <i class="fas fa-file-alt mr-2"></i>Reportes
+                            </div>
+                            <div class="h7 mb-0 font-weight-bold text-gray-800">
+                                Seleccione una opción
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Seleccionar
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/accounting/reports/revenues">Reporte de Ingresos</a>
+                                <button class="dropdown-item" @onclick="GetPdfContent">Reporte de Deudores</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta 4: Transacciones -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow">
+                <div class="card-body p-3"> <!-- Reducimos el padding -->
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                <i class="fas fa-exchange-alt mr-2"></i>Transacciones
+                            </div>
+                            <div class="h7 mb-0 font-weight-bold text-gray-800">
+                                Ver transacciones.
+                            </div>
+                        </div>
+                        <a href="/accounting/reports/transactions" class="btn btn-warning btn-sm">Ir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<PdfViewer Title="Listado de deudores" PdfContent="@Pdf"/>

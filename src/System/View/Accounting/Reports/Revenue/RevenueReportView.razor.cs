@@ -3,7 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 
-namespace wsmcbl.src.View.Accounting.Reports;
+namespace wsmcbl.src.View.Accounting.Reports.Revenue;
 
 public partial class RevenueReportView : BaseView
 {

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.Reports;
+using wsmcbl.src.View.Accounting.Reports.Revenue;
 using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Accounting.Transactions;

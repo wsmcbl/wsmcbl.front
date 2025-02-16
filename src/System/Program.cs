@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.IdentityModel.Tokens;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Accounting.TariffCollection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddTransient<CreateUserController>();
 builder.Services.AddTransient<CreateEnrollmentController>();
 builder.Services.AddTransient<ChangeEducationLevelController>();
 builder.Services.AddTransient<PrintDocumentController>(); //(Auxiliar)
+builder.Services.AddTransient<DebtopController>(); 
 
 
 builder.Services.AddAuthentication("Bearer")

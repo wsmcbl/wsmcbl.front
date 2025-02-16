@@ -1,6 +1,4 @@
-using wsmcbl.src.Utilities;
-
-namespace wsmcbl.src.View.Accounting.Reports;
+namespace wsmcbl.src.View.Accounting.Reports.Revenue;
 
 public class TransactionsRevenuesDto
 {

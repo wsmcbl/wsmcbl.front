@@ -1,5 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.View.Accounting.Reports;
+using wsmcbl.src.View.Accounting.Reports.Revenue;
 using wsmcbl.src.View.Accounting.Transactions;
 
 namespace wsmcbl.src.Controller;
