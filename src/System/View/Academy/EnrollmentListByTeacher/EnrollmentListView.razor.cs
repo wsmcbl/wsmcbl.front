@@ -29,8 +29,7 @@ public partial class EnrollmentListView : BaseView
         var result = await controller.GetEnrollmentList(teacherId);
         foreach (var degree in degreeList)
         {
-            enrollmentList.AddRange(
-                result.Where(e => e.degreeId == degree.degreeId)
+            enrollmentList.AddRange(result.Where(e => e.degreeId == degree.degreeId)
                     .OrderBy(e => e.position));
         }
         
@@ -42,14 +41,13 @@ public partial class EnrollmentListView : BaseView
     private void SetupDegreeColorList(List<DegreeEntity> degreeList)
     {
         List<string> colorList = ["red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
-            "orange", "purple", "pink", "brown","red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
-            "orange", "purple", "pink", "brown", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
-            "orange", "purple", "pink", "brown","red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
             "orange", "purple", "pink", "brown"];
+        
+        var colorListQuantity = colorList.Count;
 
         for (var i = 0; i < degreeList.Count; i++)
         {
-            degreeColorList[degreeList[i].degreeId!] = colorList[i];
+            degreeColorList[degreeList[i].degreeId!] = colorList[i % colorListQuantity];
         }
     }
 
