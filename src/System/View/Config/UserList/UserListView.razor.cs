@@ -40,5 +40,6 @@ public partial class UserListView : BaseView
     {
         UserIdForViewInformation = userId;
         await Navigator.ShowModal("FullUserInfoModal");
+        StateHasChanged();
     }
 }
