@@ -100,13 +100,13 @@
                                                     <h2 class="mb-0">
                                                         <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
                                                                 data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
-                                                            <i class="fas fa-cogs mr-2"></i>Administración
+                                                            <i class="fas fa-cogs mr-2"></i>Configuración
                                                         </button>
                                                     </h2>
                                                 </div>
                                                 <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#permissionsAccordion">
                                                     <div class="card-body">
-                                                        @foreach (var item in permissions.Where(t => t.area == "admin"))
+                                                        @foreach (var item in permissions.Where(t => t.area == "config"))
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
@@ -125,7 +125,7 @@
                                                     <h2 class="mb-0">
                                                         <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
                                                                 data-toggle="collapse" data-target="#collapsesecretary" aria-expanded="true" aria-controls="collapsesecretary">
-                                                            <i class="fas fa-user-tie mr-2"></i>Secretario
+                                                            <i class="fas fa-user-tie mr-2"></i>Secretaría
                                                         </button>
                                                     </h2>
                                                 </div>
@@ -149,13 +149,13 @@
                                                     <h2 class="mb-0">
                                                         <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
                                                                 data-toggle="collapse" data-target="#collapseCashier" aria-expanded="true" aria-controls="collapseCashier">
-                                                            <i class="fas fa-cash-register mr-2"></i>Cajero
+                                                            <i class="fas fa-cash-register mr-2"></i>Contabilidad
                                                         </button>
                                                     </h2>
                                                 </div>
                                                 <div id="collapseCashier" class="collapse" aria-labelledby="headingCashier" data-parent="#permissionsAccordion">
                                                     <div class="card-body">
-                                                        @foreach (var item in permissions.Where(t => t.area == "cashier"))
+                                                        @foreach (var item in permissions.Where(t => t.area == "accounting"))
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
@@ -173,13 +173,13 @@
                                                     <h2 class="mb-0">
                                                         <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
                                                                 data-toggle="collapse" data-target="#collapseTeacher" aria-expanded="true" aria-controls="collapseTeacher">
-                                                            <i class="fas fa-chalkboard-teacher mr-2"></i>Maestro
+                                                            <i class="fas fa-chalkboard-teacher mr-2"></i>Academico
                                                         </button>
                                                     </h2>
                                                 </div>
                                                 <div id="collapseTeacher" class="collapse" aria-labelledby="headingTeacher" data-parent="#permissionsAccordion">
                                                     <div class="card-body">
-                                                        @foreach (var item in permissions.Where(t => t.area == "teacher"))
+                                                        @foreach (var item in permissions.Where(t => t.area == "academy"))
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
