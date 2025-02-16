@@ -110,7 +110,8 @@
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                                       checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           @onchange="() => AddPermissions(item.permissionId)" />
+                                                                       checked="@(User!.permissionList?.Contains(item.permissionId) == true)"                                                           
+                                                                       @onchange="() => AddPermissions(item.permissionId)" />
                                                                 <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                             </div>
                                                         }

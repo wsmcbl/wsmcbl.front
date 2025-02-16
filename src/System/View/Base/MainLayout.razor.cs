@@ -8,7 +8,7 @@ public partial class MainLayout
     [Inject] private CustomAuthenticationStateProvider AuthStateProvider { get; set; } = null!;
     private bool IsLoading { get; set; } = true;
     protected bool IsAuthenticated { get; set; }
-
+    
     protected override async Task OnInitializedAsync()
     {
         try
