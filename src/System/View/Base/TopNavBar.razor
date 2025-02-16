@@ -1,14 +1,30 @@
 @using wsmcbl.src.View.Components
 <!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="height: 60px;">
 
     <!-- Sidebar Toggle (Topbar) -->
-
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
 
+    <!-- Contenedor para las migas de pan -->
+    <div class="container-fluid d-flex align-items-center justify-content-start h-100 ml-2">
 
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent p-0 mb-0">
+                <li class="breadcrumb-item">
+                    <a href="/" class="text-primary">Inicio</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="/secretary" class="text-primary">Secretaría</a>
+                </li>
+                <li class="breadcrumb-item active text-gray-800" aria-current="page">Estudiantes</li>
+            </ol>
+        </nav>
+
+    </div>
+
+    <!-- User Info -->
     <ul class="navbar-nav ml-auto">
 
         <div class="topbar-divider d-none d-sm-block"></div>
@@ -18,12 +34,12 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User?.getAlias()</span>
-                <i class="fas fa-user"> </i>
+                <i class="fas fa-user"></i>
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <button class="dropdown-item" @onclick="() => OpenUserData()">
-                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Ver Perfil
                 </button>
                 <div class="dropdown-divider"></div>
@@ -35,7 +51,9 @@
         </li>
 
     </ul>
+
 </nav>
+
 <!-- End of Topbar -->
 
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
