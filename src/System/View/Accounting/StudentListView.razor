@@ -3,6 +3,7 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,cashier")]
 
+@using wsmcbl.src.Model.Accounting
 @using wsmcbl.src.View.Components.CreateStudent;
 
 @if (IsLoading())
@@ -30,45 +31,114 @@ else
                 </div>
             </div>
         </div>
+        
+        <!------------------------------------------------------------------------------------------------------------------------------------->
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Tutor</th>
-                        <th>Matrícula</th>
-                        <th>Acción</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Tutor</th>
-                        <th>Matrícula</th>
-                        <th>Acción</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    @foreach (var item in StudentList!)
-                    {
-                        <tr>
-                            <td> @item.studentId </td>
-                            <td> @item.fullName </td>
-                            <td> @item.tutor </td>
-                            <td> @item.enrollmentLabel </td>
-                            <td>
-                                <a href="/accounting/students/@item.studentId" class="btn btn-success btn-sm">Ver
-                                    perfil</a>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="d-flex align-items-center">
+                        Mostrar
+                        <select class="form-control form-control-sm d-inline-block w-auto mx-2" @onchange="ShowPageSize">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        registros
+                    </label>
+                </div>
+
+                <div class="col-md-6 d-flex justify-content-end">
+                    <div class="input-group" style="width: 200px;">
+                        <input type="text" class="form-control form-control-sm" placeholder="Buscar..." @bind="SearchText" @onkeyup="Searching">
+                        @if (!string.IsNullOrEmpty(SearchText))
+                        {
+                            <div class="">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
+                                    ✖
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
+
+            @if (!hasData)
+            {
+                <div class="d-flex align-items-center justify-content-center">
+                    <h5 class="text-gray-800">Sin datos</h5>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+
+                        <thead>
+                        <tr>
+                            <th @onclick="() => SortByColumn(nameof(StudentEntity.studentId))"
+                                class="@(SortColumn == nameof(StudentEntity.studentId) ? "font-weight-bold" : "")">
+                                Id
+                                <span>@(SortColumn == nameof(StudentEntity.studentId) ? (IsAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="() => SortByColumn(nameof(StudentEntity.fullName))"
+                                class="@(SortColumn == nameof(StudentEntity.fullName) ? "font-weight-bold" : "")">
+                                Nombre
+                                <span>@(SortColumn == nameof(StudentEntity.fullName) ? (IsAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="() => SortByColumn(nameof(StudentEntity.tutor))"
+                                class="@(SortColumn == nameof(StudentEntity.tutor) ? "font-weight-bold" : "")">
+                                Tutor
+                                <span>@(SortColumn == nameof(StudentEntity.tutor) ? (IsAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="() => SortByColumn(nameof(StudentEntity.enrollmentLabel))"
+                                class="@(SortColumn == nameof(StudentEntity.enrollmentLabel) ? "font-weight-bold" : "")">
+                                Matrícula
+                                <span>@(SortColumn == nameof(StudentEntity.enrollmentLabel) ? (IsAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+                        
+                        <tbody>
+                        @foreach (var item in StudentList!.data)
+                        {
+                            <tr>
+                                <td>@item.studentId</td>
+                                <td>@item.fullName</td>
+                                <td>@item.tutor</td>
+                                <td>@item.enrollmentLabel</td>
+                                <td>
+                                    <a href="/accounting/students/@item.studentId" class="btn btn-success btn-sm">Ver
+                                        perfil</a>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>
+                            Página @StudentList.page de @StudentList.totalPages -
+                            Mostrando @StudentList.data.Count registros de @StudentList.quantity
+                        </p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-outline-primary btn-sm" @onclick="GoToPreviousPage" disabled="@(CurrentPage == 1)">
+                            Anterior
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm" @onclick="GoToNextPage" disabled="@(CurrentPage == StudentList.totalPages)">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+            }
         </div>
+        <!-------------------------------------------------------------------------------------------------------------------------------------->
+        
     </div>
 
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>

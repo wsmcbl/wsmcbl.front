@@ -1,6 +1,7 @@
 using System.Text.Json;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.TariffCollection;
 
 namespace wsmcbl.src.Controller;
@@ -16,10 +17,12 @@ public class CollectTariffController
         CashierId = "caj-eurbina";
     }
 
-    public async Task<List<StudentEntity>?> GetStudentList()
+    public async Task<Paginator<StudentEntity>> GetStudentList(string searchText, string sortColumn, int currentPage ,int pageSize, bool isAscending)
     {
-        List<StudentEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Accounting, "students", defaultResult);
+        Paginator<StudentEntity> defaultResult = new ();
+        return await _apiConsumer.GetAsync(Modules.Accounting, 
+            $"students?search={searchText}&sortBy={sortColumn}&page={currentPage}&pageSize={pageSize}&isAscending={isAscending}", 
+            defaultResult);
     }
 
     private string? StudentId { get; set; }
