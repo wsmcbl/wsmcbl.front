@@ -47,6 +47,7 @@ builder.Services.AddTransient<CreateEnrollmentController>();
 builder.Services.AddTransient<ChangeEducationLevelController>();
 builder.Services.AddTransient<PrintDocumentController>(); //(Auxiliar)
 builder.Services.AddTransient<DebtopController>(); 
+builder.Services.AddTransient<EnablePartialGradeRecordingController>(); 
 
 
 builder.Services.AddAuthentication("Bearer")

@@ -1,0 +1,72 @@
+<div class="modal fade" id="ActivePartialsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 85%; height: 30%; max-width: 90%; max-height: 50%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold text-primary" id="myModalLabel">Activar Parciales</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="text-gray-800">Al activar el </div>
+                </div>
+                
+                <div class="row">
+                    
+                    <div class="col-sm-6">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+
+                                    <div class="form-group">
+                                        <label style="display: inline-block; width: 200px;">Parcial:</label>
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" disabled @bind="PartialName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="display: inline-block; width: 200px;">Semestre:</label>
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" disabled @bind="Semester">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    
+                                    <div class="form-group">
+                                        <label style="display: inline-block; width: 200px;">Periodo:</label>
+                                        <input type="text" class="form-control" style="margin-bottom: 10px" disabled @bind="DateRange">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label style="display: inline-block; width: 200px;">Activar hasta el:</label>
+                                        <input type="datetime-local" class="form-control" style="margin-bottom: 10px"
+                                               min="@FormatDateTime(DeadLineMin)"
+                                               max="@FormatDateTime(DeadLineMax)"
+                                               @bind="DeadLine">
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success" @onclick="ActivePartials">Activar</button>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
