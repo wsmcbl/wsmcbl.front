@@ -118,21 +118,35 @@ else
                         </tbody>
                     </table>
                 </div>
-
                 <div class="row">
-                    <div class="col-md-6">
+                        
+                    <div class="col-sm-12 col-md-5">
                         <p>
                             Página @StudentList.page de @StudentList.totalPages -
                             Mostrando @StudentList.data.Count registros de @StudentList.quantity
                         </p>
                     </div>
-                    <div class="col-md-6 text-right">
-                        <button class="btn btn-outline-primary btn-sm" @onclick="GoToPreviousPage" disabled="@(CurrentPage == 1)">
-                            Anterior
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm" @onclick="GoToNextPage" disabled="@(CurrentPage == StudentList.totalPages)">
-                            Siguiente
-                        </button>
+                        
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination d-flex justify-content-end">
+                                <li class="paginate_button page-item previous @(CurrentPage == 1 ? "disabled" : "")">
+                                    <a @onclick="GoToPreviousPage" aria-controls="dataTable" tabindex="0" class="page-link">Previous</a>
+                                </li>
+
+                                @for (int i = 1; i <= StudentList.totalPages; i++)
+                                {
+                                    int pageNumber = i;
+                                    <li class="paginate_button page-item @(CurrentPage == pageNumber ? "active" : "")">
+                                        <a @onclick="() => ShowPage(pageNumber)" aria-controls="dataTable" tabindex="0" class="page-link">@(pageNumber)</a>
+                                    </li>
+                                }
+
+                                <li class="paginate_button page-item next @(CurrentPage == StudentList.totalPages ? "disabled" : "")">
+                                    <a @onclick="GoToNextPage" aria-controls="dataTable" tabindex="0" class="page-link">Next</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             }

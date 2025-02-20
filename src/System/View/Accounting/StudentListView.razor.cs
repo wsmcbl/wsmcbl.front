@@ -12,6 +12,7 @@ public partial class StudentListView : BaseView
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
     private Paginator<StudentEntity>? StudentList { get; set; }
     private bool hasData {get; set;}
+
     private string SearchText { get; set; } = string.Empty;
     private string SortColumn { get; set; } = string.Empty;
     private int CurrentPage { get; set; } = 1;
@@ -64,23 +65,18 @@ public partial class StudentListView : BaseView
         }
     }
     
-    private async Task GoToPreviousPage()
+    private async Task ShowPage(int pageNumber)
     {
-        if (CurrentPage > 1)
+        if (pageNumber >= 1 && pageNumber <= StudentList!.totalPages)
         {
-            CurrentPage--;
+            CurrentPage = pageNumber;
             await loadStudentList();
         }
     }
     
-    private async Task GoToNextPage()
-    {
-        if (CurrentPage < StudentList!.totalPages)
-        {
-            CurrentPage++;
-            await loadStudentList(); 
-        }
-    }
+    private async Task GoToPreviousPage() => await ShowPage(CurrentPage - 1);
+    private async Task GoToNextPage() => await ShowPage(CurrentPage + 1);
+
     
     private async Task Searching(KeyboardEventArgs e)
     {
