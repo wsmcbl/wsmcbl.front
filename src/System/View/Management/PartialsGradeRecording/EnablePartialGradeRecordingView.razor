@@ -55,8 +55,13 @@ else
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header">Seleccione una opción:</div>
-                                        <a class="dropdown-item" @onclick="() => EnablePartials(item.semester, item.partialId, item.period, item.label)">Habilitar
-                                            registro de calificaciones</a>
+                                        <a class="dropdown-item" @onclick="() => EnablePartials(item.semester, item.partialId, item.period, item.label, item.isActive)">
+
+                                            1. Habilitar parcial
+                                        </a>
+                                        <a class="dropdown-item" @onclick="() => EnableGradeRecording(item.semester, item.partialId, item.period, item.label)">
+                                            2. Habilitar registros de calificaciones
+                                        </a>
                                         <div class="dropdown-divider"></div>
                                     </div>
                                 </div>
@@ -69,7 +74,8 @@ else
         </div>
     </div>
     
-    <ActivePartialsComponent Semester="@SemesterForActive" PartialId="@PartialIdForActive" DateRange="@DateRange" PartialName="@PartialNameForActive"/>
+    <ActivePartialsGradeComponent Semester="@SemesterForActive" PartialId="@PartialIdForActive" DateRange="@DateRange" PartialName="@PartialNameForActive"/>
+    <ActivePartialsComponent Semester="@SemesterForActive" DateRange="@DateRange" PartialName="@PartialNameForActive" PartialId="PartialIdForActive" isActive="IsActive"/> 
     
     
 }

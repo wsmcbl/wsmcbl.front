@@ -1,4 +1,4 @@
-<div class="modal fade" id="ActivePartialsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="ActivePartialsGradeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document" style="width: 85%; height: 30%; max-width: 90%; max-height: 50%;">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,9 +12,9 @@
                 <div class="row">
                     <div class="text-gray-800">Al activar el </div>
                 </div>
-
+                
                 <div class="row">
-
+                    
                     <div class="col-sm-6">
                         <div class="card-body">
                             <div class="row">
@@ -37,33 +37,35 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-
+                                    
                                     <div class="form-group">
                                         <label style="display: inline-block; width: 200px;">Periodo:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px" disabled @bind="DateRange">
                                     </div>
 
-                                    <div class="checkbox-wrapper-14">
-                                        <input type="checkbox" id="isActivePartials"
-                                               checked="@((isActive == true))"/>
-                                        <label for="isActivePartials">Activar Parcial</label>
-                                    </div>
-
+                                    <div class="form-group">
+                                        <label style="display: inline-block; width: 200px;">Activar hasta el:</label>
+                                        <input type="datetime-local" class="form-control" style="margin-bottom: 10px"
+                                               min="@FormatDateTime(DeadLineMin)"
+                                               max="@FormatDateTime(DeadLineMax)"
+                                               @bind="DeadLine">
+                                        </div>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    
                 </div>
 
                 <div class="modal-footer">
                     <div class="right-container">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success" @onclick="ActivePartial">Activar</button>
+                        <button type="submit" class="btn btn-success" @onclick="ActivePartials">Activar</button>
                     </div>
                 </div>
 
-
+                
             </div>
         </div>
     </div>

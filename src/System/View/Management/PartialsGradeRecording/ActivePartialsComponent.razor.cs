@@ -1,31 +1,30 @@
 using Microsoft.AspNetCore.Components;
+using wsmcbl.src.Controller;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Management.PartialsGradeRecording;
 
 public partial class ActivePartialsComponent : ComponentBase
 {
-    [Parameter] public int PartialId {get; set;}
-    [Parameter] public string? PartialName {get; set;}
-    [Parameter] public string? Semester {get; set;}
-    [Parameter] public string? DateRange {get; set;}
-    private bool Enabled {get; set;} = true;
-    
-    
-    
-    private DateTime DeadLine { get; set; } = DateTime.Now.AddHours(1);
-    private DateTime DeadLineMax { get; set; } = DateTime.Now.AddDays(15);
-    private DateTime DeadLineMin { get; set; } = DateTime.Now.AddHours(1);
+    [Inject] EnablePartialGradeRecordingController Controller { get; set; } = default!;
+    [Inject] Notificator Notificator { get; set; } = default!;
+    [Inject] Navigator Navigator { get; set; } = default!;
+    [Parameter] public int PartialId { get; set; }
+    [Parameter] public string PartialName { get; set; } = string.Empty;
+    [Parameter] public string Semester { get; set; } = string.Empty;
+    [Parameter] public string DateRange { get; set; } = string.Empty;
+    [Parameter] public bool isActive {get; set;}
 
-    private string FormatDateTime(DateTime date) => date.ToString("yyyy-MM-ddTHH:mm");
-    
-    
-    protected override Task OnInitializedAsync()
+    private async Task ActivePartial()
     {
-        return Task.CompletedTask;
-    }
-
-    private void ActivePartials()
-    { 
-        Console.Write(DeadLine);
+        var response =  await Controller.ActivePartials(PartialId, isActive);
+        if (response)
+        {
+            await Notificator.ShowSuccess("Exito","Hemos activado correctamente el parcial, ahora puedes habilitar el registro de calificaciones");
+            await Navigator.HideModal("ActivePartialsModal");
+        }
+        
+        
+        
     }
 }
