@@ -11,52 +11,43 @@ public partial class StudentListView : BaseView
 {
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
     private Paginator<StudentEntity>? StudentList { get; set; }
+    private PagedRequest Request { get; set; } = new();
     private bool hasData {get; set;}
-
-    private string SearchText { get; set; } = string.Empty;
-    private string SortColumn { get; set; } = string.Empty;
-    private int CurrentPage { get; set; } = 1;
-    private int PageSize { get; set; } = 10;
-    private bool IsAscending = true;  
     
     protected override async Task OnInitializedAsync()
     {
         await loadStudentList();
     }
-    
     private async Task loadStudentList()
     {
-        StudentList = await Controller.GetStudentList(SearchText, SortColumn, CurrentPage, PageSize, IsAscending);
+        StudentList = await Controller.GetStudentList(Request);
         hasData = StudentList.data.Count > 0;
     }
-
     protected override bool IsLoading()
     {
         return StudentList == null;
     }
-    
     private async Task SortByColumn(string columnName)
     {
-        if (SortColumn == columnName)
+        if (Request.sortBy == columnName)
         {
-            IsAscending = !IsAscending;
+            Request.isAscending = !Request.isAscending;
         }
         else
         {
-            SortColumn = columnName;
-            IsAscending = true;
+            Request.sortBy = columnName;
+            Request.isAscending = true;
         }
 
-        SortColumn = columnName;
+        Request.sortBy = columnName;
         await loadStudentList();
     }
-    
     private async Task ShowPageSize(ChangeEventArgs e)
     {
         if (int.TryParse(e.Value?.ToString(), out int selectedValue))
         {
-            PageSize = selectedValue;
-            CurrentPage = 1;
+            Request.pageSize = selectedValue;
+            Request.CurrentPage = 1;
             await loadStudentList();
         }
         else
@@ -64,20 +55,16 @@ public partial class StudentListView : BaseView
             Console.WriteLine("Error: No se pudo convertir el valor seleccionado a entero.");
         }
     }
-    
     private async Task ShowPage(int pageNumber)
     {
         if (pageNumber >= 1 && pageNumber <= StudentList!.totalPages)
         {
-            CurrentPage = pageNumber;
+            Request.CurrentPage = pageNumber;
             await loadStudentList();
         }
     }
-    
-    private async Task GoToPreviousPage() => await ShowPage(CurrentPage - 1);
-    private async Task GoToNextPage() => await ShowPage(CurrentPage + 1);
-
-    
+    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
+    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
     private async Task Searching(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
@@ -87,10 +74,9 @@ public partial class StudentListView : BaseView
             if (StudentList != null) hasData = StudentList.data.Count > 0;
         }
     }
-
     private async Task ClearSearch()
     {
-        SearchText = string.Empty;
+        Request.SearchText = string.Empty;
         await loadStudentList();
     }
 }

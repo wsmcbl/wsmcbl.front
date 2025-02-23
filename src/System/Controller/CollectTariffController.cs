@@ -17,11 +17,11 @@ public class CollectTariffController
         CashierId = "caj-eurbina";
     }
 
-    public async Task<Paginator<StudentEntity>> GetStudentList(string searchText, string sortColumn, int currentPage ,int pageSize, bool isAscending)
+    public async Task<Paginator<StudentEntity>> GetStudentList(PagedRequest pagedRequest)
     {
         Paginator<StudentEntity> defaultResult = new ();
         return await _apiConsumer.GetAsync(Modules.Accounting, 
-            $"students?search={searchText}&sortBy={sortColumn}&page={currentPage}&pageSize={pageSize}&isAscending={isAscending}", 
+            $"students{pagedRequest}", 
             defaultResult);
     }
 
