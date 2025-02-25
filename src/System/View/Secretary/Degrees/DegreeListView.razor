@@ -19,69 +19,186 @@ else
                 <button type="button" class="btn btn-success btn-sm" @onclick="GetOfficialEnrollmentListDocument"><i class="fas fa-print"></i>    Lista oficial</button>
             </div>
         </div>
+
+        <!------------------------------------------------------------------------------------------------------------------------------------->
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Año</th>
-                        <th>Nombre</th>
-                        <th># Secciones</th>
-                        <th>Modalidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>Año</th>
-                        <th>Nombre</th>
-                        <th># Secciones</th>
-                        <th>Modalidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    @foreach (var item in DegreeList!.OrderBy(t => t.position))
-                    {
-                        <tr>
-                            <td> @item.degreeId </td>
-                            <td>
-                                @if (ThisSchoolYear != null)
-                                {
-                                    @ThisSchoolYear.FirstOrDefault(t => t.SchoolYearId == item.schoolYear)!.Label
-                                }
-                                else
-                                {
-                                    <label>Sin determinar</label>
-                                }
-                            </td>
-                            <td> @item.label </td>
-                            <td> @item.quantity</td>
-                            <td> @item.educationalLevel</td>
-                            <td>
-                                @if (item.haveEnrollments())
-                                {
-                                    <button type="button" class="btn btn-danger" @onclick="() => CreateEnrollmentModal(item.degreeId!)">
-                                        Configurar
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn btn-success btn-sm" @onclick="() => ViewGrade(item.degreeId!)">
-                                        Ver
-                                    </button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="d-flex align-items-center">
+                        Mostrar
+                        <select class="form-control form-control-sm d-inline-block w-auto mx-2" @onchange="ShowPageSize">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        registros
+                    </label>
+                </div>
+
+                <div class="col-md-6 d-flex justify-content-end">
+                    <div class="input-group" style="width: 200px;">
+                        <input type="text" class="form-control form-control-sm" placeholder="Buscar..." @bind="Request.SearchText" @onkeyup="Searching">
+                        @if (!string.IsNullOrEmpty(Request.SearchText))
+                        {
+                            <div class="">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
+                                    ✖
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
+            @if (!hasData)
+            {
+                <div class="d-flex align-items-center justify-content-center">
+                    <h5 class="text-gray-800">Sin datos</h5>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+
+                        <thead>
+                        <tr>
+                            <th @onclick="@(() => SortByColumn("degreeId"))"
+                                class="@(Request.sortBy == "degreeId" ? "font-weight-bold" : "")">
+                                Id
+                                <span>@(Request.sortBy == "degreeId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("schoolYear"))"
+                                class="@(Request.sortBy == "schoolYear" ? "font-weight-bold" : "")">
+                                Año
+                                <span>@(Request.sortBy == "schoolYear" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("label"))"
+                                class="@(Request.sortBy == "label" ? "font-weight-bold" : "")">
+                                Nombre
+                                <span>@(Request.sortBy == "label" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("quantity"))"
+                                class="@(Request.sortBy == "quantity" ? "font-weight-bold" : "")">
+                                # Secciones
+                                <span>@(Request.sortBy == "quantity" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("educationalLevel"))"
+                                class="@(Request.sortBy == "educationalLevel" ? "font-weight-bold" : "")">
+                                Modalidad
+                                <span>@(Request.sortBy == "educationalLevel" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach (var item in DegreeList!.data)
+                        {
+                            <tr>
+                                <td> @item.degreeId </td>
+                                <td>
+                                    @if (ThisSchoolYear != null)
+                                    {
+                                        @ThisSchoolYear.FirstOrDefault(t => t.SchoolYearId == item.schoolYear)!.Label
+                                    }
+                                    else
+                                    {
+                                        <label>Sin determinar</label>
+                                    }
+                                </td>
+                                <td> @item.label </td>
+                                <td> @item.quantity</td>
+                                <td> @item.educationalLevel</td>
+                                <td>
+                                    @if (item.haveEnrollments())
+                                    {
+                                        <button type="button" class="btn btn-danger" @onclick="() => CreateEnrollmentModal(item.degreeId!)">
+                                            Configurar
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-success btn-sm" @onclick="() => ViewGrade(item.degreeId!)">
+                                            Ver
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-5">
+                        <p>
+                            Mostrando @DegreeList.data.Count registros de @DegreeList.quantity
+                        </p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination d-flex justify-content-end">
+                                <!-- Botón Anterior -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
+                                    <a @onclick="GoToPreviousPage" class="page-link">Anterior</a>
+                                </li>
+
+                                <!-- Primera Página -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "active" : "")">
+                                    <a @onclick="() => ShowPage(1)" class="page-link">1</a>
+                                </li>
+
+                                <!-- ... si la página actual está lejos de la primera página -->
+                                @if (Request.CurrentPage > 3)
+                                {
+                                    <li class="paginate_button page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                <!-- Página actual -->
+                                @if (Request.CurrentPage > 1 && Request.CurrentPage < DegreeList.totalPages)
+                                {
+                                    <li class="paginate_button page-item active">
+                                        <a class="page-link">@Request.CurrentPage</a>
+                                    </li>
+                                }
+
+                                <!-- ... si la página actual está lejos de la última página -->
+                                @if (Request.CurrentPage < DegreeList.totalPages - 2)
+                                {
+                                    <li class="paginate_button page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                <!-- Última Página -->
+                                @if (DegreeList.totalPages > 1)
+                                {
+                                    <li class="paginate_button page-item @(Request.CurrentPage == DegreeList.totalPages ? "active" : "")">
+                                        <a @onclick="() => ShowPage(DegreeList.totalPages)" class="page-link">@DegreeList.totalPages</a>
+                                    </li>
+                                }
+
+                                <!-- Botón Siguiente -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == DegreeList.totalPages ? "disabled" : "")">
+                                    <a @onclick="GoToNextPage" class="page-link">Siguiente</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            }
         </div>
-        <!-- Inicializamos datatable -->
-        <script src="/js/DataTable/dataTableWhitOutOrder.js" defer="defer"></script>
+        <!-------------------------------------------------------------------------------------------------------------------------------------->
     </div>
 
     <div class="modal fade" id="confGrade" tabindex="-1" role="dialog" aria-labelledby="modalconf" aria-hidden="true">

@@ -1,5 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.Controller;
@@ -23,10 +24,9 @@ public class CreateEnrollmentController
         return result != defaultValue ? result : null;
     }
     
-    public async Task<List<DegreeEntity>> GetDegreeList()
+    public async Task<Paginator<DegreeEntity>> GetDegreeList(PagedRequest pagedRequest)
     {
-        return await _apiConsumer
-            .GetAsync(Modules.Secretary, "degrees", new List<DegreeEntity>());
+        return await _apiConsumer.GetAsync(Modules.Secretary, $"degrees{pagedRequest}", new Paginator<DegreeEntity>());
     }    
     
     public async Task<bool> InitializerEnrollment(SaveInitializerDto dto)

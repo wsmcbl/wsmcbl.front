@@ -83,8 +83,9 @@ public class AddingStudentGradesController
 
     public async Task<List<DegreeEntity>> GetSortedDegreeList()
     {
+        
         var createEnrollmentController = new CreateEnrollmentController(_apiConsumerFactory);
-        var result = await createEnrollmentController.GetDegreeList();
-        return result.Where(e => e.quantity > 0).OrderBy(e => e.position).ToList();
+        var result = await createEnrollmentController.GetDegreeList(new PagedRequest());
+        return result.data.Where(e => e.quantity > 0).OrderBy(e => e.position).ToList();
     }
 }

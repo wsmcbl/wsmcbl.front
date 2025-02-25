@@ -75,26 +75,31 @@ else
 
                         <thead>
                         <tr>
-                            <th @onclick="() => SortByColumn(nameof(StudentEntity.studentId))"
-                                class="@(Request.sortBy == nameof(StudentEntity.studentId) ? "font-weight-bold" : "")">
+                            
+                            <th @onclick="@(() => SortByColumn("studentId"))"
+                                class="@(Request.sortBy == "studentId" ? "font-weight-bold" : "")">
                                 Id
-                                <span>@(Request.sortBy == nameof(StudentEntity.studentId) ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                <span>@(Request.sortBy == "studentId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="() => SortByColumn(nameof(StudentEntity.fullName))"
-                                class="@(Request.sortBy == nameof(StudentEntity.fullName) ? "font-weight-bold" : "")">
+
+                            <th @onclick="@(() => SortByColumn("fullName"))"
+                                class="@(Request.sortBy == "fullName" ? "font-weight-bold" : "")">
                                 Nombre
-                                <span>@(Request.sortBy == nameof(StudentEntity.fullName) ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                <span>@(Request.sortBy == "fullName" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="() => SortByColumn(nameof(StudentEntity.tutor))"
-                                class="@(Request.sortBy == nameof(StudentEntity.tutor) ? "font-weight-bold" : "")">
+
+                            <th @onclick="@(() => SortByColumn("tutor"))"
+                                class="@(Request.sortBy == "tutor" ? "font-weight-bold" : "")">
                                 Tutor
-                                <span>@(Request.sortBy == nameof(StudentEntity.tutor) ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                <span>@(Request.sortBy == "tutor" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="() => SortByColumn(nameof(StudentEntity.enrollmentLabel))"
-                                class="@(Request.sortBy == nameof(StudentEntity.enrollmentLabel) ? "font-weight-bold" : "")">
+
+                            <th @onclick="@(() => SortByColumn("enrollment"))"
+                                class="@(Request.sortBy == "enrollment" ? "font-weight-bold" : "")">
                                 Matrícula
-                                <span>@(Request.sortBy == nameof(StudentEntity.enrollmentLabel) ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                <span>@(Request.sortBy == "enrollment" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
+                            
                             <th>Acción</th>
                         </tr>
                         </thead>
