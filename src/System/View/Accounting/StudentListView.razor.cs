@@ -27,6 +27,8 @@ public partial class StudentListView : BaseView
     {
         return StudentList == null;
     }
+    
+    
     private async Task SortByColumn(string columnName)
     {
         if (Request.sortBy == columnName)

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Config;
 using wsmcbl.src.Utilities;
@@ -11,35 +12,90 @@ public partial class UserListView : BaseView
     [Inject] private CreateUserController Controller { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
     private string? UserIdForViewInformation {get; set;}
-    
     private UserEntity? User { get; set; }
-    private List<UserToListDto>? UserList { get; set; }
+    
+    private PagedRequest Request { get; set; } = new();
+    private Paginator<UserToListDto>? UserPaginator { get; set; }
+    private bool hasData {get; set;}
 
+    
+    
     protected override async Task OnParametersSetAsync()
     {
         await LoadUserList();
     }
-
-    protected override bool IsLoading()
-    {
-        return UserList == null;
-    }
-
     private async Task LoadUserList()
     {
-        UserList = await Controller.GetUserList();
+        UserPaginator = await Controller.GetUserList(Request);
+        hasData = UserPaginator.data.Count > 0;
     }
-    
     private async Task HandleUserUpdated(UserEntity updatedUser)
     {
         User = updatedUser;
         await LoadUserList();
     }
-
     private async Task ViewUserData(string userId)
     {
         UserIdForViewInformation = userId;
         await Navigator.ShowModal("FullUserInfoModal");
         StateHasChanged();
+    }
+    protected override bool IsLoading()
+    {
+        return UserPaginator == null;
+    }
+    
+    //Method for paginator
+    private async Task SortByColumn(string columnName)
+    {
+        if (Request.sortBy == columnName)
+        {
+            Request.isAscending = !Request.isAscending;
+        }
+        else
+        {
+            Request.sortBy = columnName;
+            Request.isAscending = true;
+        }
+
+        Request.sortBy = columnName;
+        await LoadUserList();
+    }
+    private async Task ShowPageSize(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int selectedValue))
+        {
+            Request.pageSize = selectedValue;
+            Request.CurrentPage = 1;
+            await LoadUserList();
+        }
+        else
+        {
+            Console.WriteLine("Error: No se pudo convertir el valor seleccionado a entero.");
+        }
+    }
+    private async Task ShowPage(int pageNumber)
+    {
+        if (pageNumber >= 1 && pageNumber <= UserPaginator!.totalPages)
+        {
+            Request.CurrentPage = pageNumber;
+            await LoadUserList();
+        }
+    }
+    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
+    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
+    private async Task Searching(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            hasData = false;
+            await LoadUserList();
+            if (UserPaginator != null) hasData = UserPaginator.data.Count > 0;
+        }
+    }
+    private async Task ClearSearch()
+    {
+        Request.SearchText = string.Empty;
+        await LoadUserList();
     }
 }

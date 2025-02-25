@@ -1,5 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Config;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Config.CreateNewUser;
 using wsmcbl.src.View.Config.UserInformationView;
 using wsmcbl.src.View.Config.UserList;
@@ -15,11 +16,10 @@ public class CreateUserController
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<List<UserToListDto>> GetUserList()
+    public async Task<Paginator<UserToListDto>> GetUserList(PagedRequest pagedRequest)
     {
-        var resource = "users"; 
-        var defaultResult = new List<UserToListDto>();
-        return await _apiConsumer.GetAsync(Modules.Config, resource, defaultResult);
+        Paginator<UserToListDto> defaultResult = new ();
+        return await _apiConsumer.GetAsync(Modules.Config, $"users{pagedRequest}", defaultResult);
     }
     
     public async Task<List<PermissionsDto>> GetPermissionList()
