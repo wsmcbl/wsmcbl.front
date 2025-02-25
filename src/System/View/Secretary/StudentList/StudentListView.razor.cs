@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.Model.Academy;
@@ -12,35 +13,35 @@ public partial class StudentListView : BaseView
     [Inject] protected EnrollStudentController EnrollController { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
 
-    private ICollection<StudentEntity>? studentList { get; set; }
     private string EnrollmentNameForChange { get; set; } = string.Empty;
     private string StudentIdForMove { get; set; } = string.Empty;
     private string StudentIdForChangeEducationLevel { get; set; } = string.Empty;
-
     private byte[]? PdfDocument { get; set; }
     private string? PdfDocumentName { get; set; }
+    
+    //var for paginator
+    private Paginator<StudentEntity>? studentList { get; set; }
+    private PagedRequest Request { get; set; } = new();
+    private bool hasData {get; set;}
 
 
     protected override void OnParametersSet()
     {
         PdfDocument = [];
     }
-
     protected override async Task OnInitializedAsync()
     {
         await LoadStudentList();
     }
-
     private async Task LoadStudentList()
     {
-        studentList = await PrintController.GetAllStudentsList();
+        studentList = await PrintController.GetAllStudentsList(Request);
+        hasData = studentList.data.Count > 0;
     }
-
     protected override bool IsLoading()
     {
         return studentList == null;
     }
-
     private async Task PrintReportCard(string studentId)
     {
         PdfDocument = await PrintController.GetPdfContent(studentId);
@@ -52,7 +53,6 @@ public partial class StudentListView : BaseView
         PdfDocumentName = "Boleta de calificaciones";
         await Navigator.ShowPdfModal();
     }
-    
     private async Task PrintEnrollSheet(string studentId)
     {
         PdfDocument = await EnrollController.GetEnrollSheetPdf(studentId);
@@ -64,19 +64,70 @@ public partial class StudentListView : BaseView
         PdfDocumentName = "Hoja de matrícula";
         await Navigator.ShowPdfModal();
     }
-
     private async Task UpdateEnrollment(string studentId, string enrollmentId)
     {
         StudentIdForMove = studentId;
         EnrollmentNameForChange = enrollmentId;
         await Navigator!.ShowModal("MoveStudentModal");
     }
-    
     private async Task UpdateEducationLevel(string studentId)
     {
         StudentIdForChangeEducationLevel = studentId;
         await Navigator!.ShowModal("ChangeEducationLevelModal");
     }
+    private string GetStatusLabel(bool value) => value ? "active-status" : "inactive-status";
+    
+    //Method for paginator
+    private async Task SortByColumn(string columnName)
+    {
+        if (Request.sortBy == columnName)
+        {
+            Request.isAscending = !Request.isAscending;
+        }
+        else
+        {
+            Request.sortBy = columnName;
+            Request.isAscending = true;
+        }
 
-    private string getStatusLabel(bool value) => value ? "active-status" : "inactive-status";
+        Request.sortBy = columnName;
+        await LoadStudentList();
+    }
+    private async Task ShowPageSize(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int selectedValue))
+        {
+            Request.pageSize = selectedValue;
+            Request.CurrentPage = 1;
+            await LoadStudentList();
+        }
+        else
+        {
+            Console.WriteLine("Error: No se pudo convertir el valor seleccionado a entero.");
+        }
+    }
+    private async Task ShowPage(int pageNumber)
+    {
+        if (pageNumber >= 1 && pageNumber <= studentList!.totalPages)
+        {
+            Request.CurrentPage = pageNumber;
+            await LoadStudentList();
+        }
+    }
+    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
+    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
+    private async Task Searching(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            hasData = false;
+            await LoadStudentList();
+            if (studentList != null) hasData = studentList.data.Count > 0;
+        }
+    }
+    private async Task ClearSearch()
+    {
+        Request.SearchText = string.Empty;
+        await LoadStudentList();
+    }
 }

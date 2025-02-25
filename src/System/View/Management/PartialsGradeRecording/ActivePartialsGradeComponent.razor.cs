@@ -18,7 +18,6 @@ public partial class ActivePartialsGradeComponent : ComponentBase
     
     
     private DateTime DeadLine { get; set; } = DateTime.Now.AddHours(1);
-    private string? formattedDeadline {get; set;}
     private DateTime DeadLineMax { get; set; } = DateTime.Now.AddDays(15);
     private DateTime DeadLineMin { get; set; } = DateTime.Now.AddHours(1);
 
@@ -32,8 +31,7 @@ public partial class ActivePartialsGradeComponent : ComponentBase
 
     private async Task ActivePartials()
     {
-        formattedDeadline = DeadLine.ToString("o"); 
-        var response = await Controller.ActiveGradesRecording(PartialId, Enabled, formattedDeadline );
+        var response = await Controller.ActiveGradesRecording(PartialId, Enabled, DeadLine );
         if (response)
         {
             await Notificator.ShowSuccess("Exito",

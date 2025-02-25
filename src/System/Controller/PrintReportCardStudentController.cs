@@ -1,5 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.Controller;
 
@@ -18,9 +19,8 @@ public class PrintReportCardStudentController
         return await _apiConsumer.GetPdfAsync(Modules.Academy, resource);
     }
     
-    public async Task<List<StudentEntity>?> GetAllStudentsList()
+    public async Task<Paginator<StudentEntity>> GetAllStudentsList(PagedRequest pagedRequest)
     {
-        List<StudentEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, "students", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Secretary, $"students{pagedRequest}", new Paginator<StudentEntity>());
     }
 }

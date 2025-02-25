@@ -32,37 +32,92 @@ else
                 </div>
             </div>
         </div>
+
+        <!------------------------------------------------------------------------------------------------------------------------------------->
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Activo</th>
-                        <th>Año lectivo</th>
-                        <th>Grado</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Activo</th>
-                        <th>Año lectivo</th>
-                        <th>Grado</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    @foreach (var item in studentList!)
-                    {
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="d-flex align-items-center">
+                        Mostrar
+                        <select class="form-control form-control-sm d-inline-block w-auto mx-2" @onchange="ShowPageSize">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        registros
+                    </label>
+                </div>
+
+                <div class="col-md-6 d-flex justify-content-end">
+                    <div class="input-group" style="width: 200px;">
+                        <input type="text" class="form-control form-control-sm" placeholder="Buscar..." @bind="Request.SearchText" @onkeyup="Searching">
+                        @if (!string.IsNullOrEmpty(Request.SearchText))
+                        {
+                            <div class="">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
+                                    ✖
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (!hasData)
+            {
+                <div class="d-flex align-items-center justify-content-center">
+                    <h5 class="text-gray-800">Sin datos</h5>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+
+                        <thead>
                         <tr>
+                            <th @onclick="@(() => SortByColumn("studentId"))"
+                                class="@(Request.sortBy == "studentId" ? "font-weight-bold" : "")">
+                                Id
+                                <span>@(Request.sortBy == "studentId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("fullName"))"
+                                class="@(Request.sortBy == "fullName" ? "font-weight-bold" : "")">
+                                Nombre
+                                <span>@(Request.sortBy == "fullName" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("isActive"))"
+                                class="@(Request.sortBy == "isActive" ? "font-weight-bold" : "")">
+                                Estado
+                                <span>@(Request.sortBy == "isActive" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("schoolyear"))"
+                                class="@(Request.sortBy == "schoolyear" ? "font-weight-bold" : "")">
+                                Año Lectivo
+                                <span>@(Request.sortBy == "schoolyear" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th @onclick="@(() => SortByColumn("enrollment"))"
+                                class="@(Request.sortBy == "enrollment" ? "font-weight-bold" : "")">
+                                Grado
+                                <span>@(Request.sortBy == "enrollment" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+
+                            <th>Acción</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach (var item in studentList!.data)
+                        {
+                            <tr>
                             <td> @item.studentId </td>
                             <td> @item.fullName </td>
                             <td>
-                                <span class="status-label @getStatusLabel(item.isActive)">
+                                <span class="status-label @GetStatusLabel(item.isActive)">
                                     @item.isActive.ToStringYesOrNo()
                                 </span>
                             </td>
@@ -74,7 +129,7 @@ else
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                     </a>
-                          
+
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                          aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header">Seleccione una opción:</div>
@@ -88,11 +143,75 @@ else
                                 </div>
                             </td>
                         </tr>
-                    }
-                    </tbody>
-                </table>
-            </div>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-5">
+                        <p>
+                            Mostrando @studentList.data.Count registros de @studentList.quantity
+                        </p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination d-flex justify-content-end">
+                                <!-- Botón Anterior -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
+                                    <a @onclick="GoToPreviousPage" class="page-link">Anterior</a>
+                                </li>
+
+                                <!-- Primera Página -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "active" : "")">
+                                    <a @onclick="() => ShowPage(1)" class="page-link">1</a>
+                                </li>
+
+                                <!-- ... si la página actual está lejos de la primera página -->
+                                @if (Request.CurrentPage > 3)
+                                {
+                                    <li class="paginate_button page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                <!-- Página actual -->
+                                @if (Request.CurrentPage > 1 && Request.CurrentPage < studentList.totalPages)
+                                {
+                                    <li class="paginate_button page-item active">
+                                        <a class="page-link">@Request.CurrentPage</a>
+                                    </li>
+                                }
+
+                                <!-- ... si la página actual está lejos de la última página -->
+                                @if (Request.CurrentPage < studentList.totalPages - 2)
+                                {
+                                    <li class="paginate_button page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                <!-- Última Página -->
+                                @if (studentList.totalPages > 1)
+                                {
+                                    <li class="paginate_button page-item @(Request.CurrentPage == studentList.totalPages ? "active" : "")">
+                                        <a @onclick="() => ShowPage(studentList.totalPages)" class="page-link">@studentList.totalPages</a>
+                                    </li>
+                                }
+
+                                <!-- Botón Siguiente -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == studentList.totalPages ? "disabled" : "")">
+                                    <a @onclick="GoToNextPage" class="page-link">Siguiente</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            }
         </div>
+        <!-------------------------------------------------------------------------------------------------------------------------------------->
     </div>
     
     <PdfViewer Title="@PdfDocumentName" PdfContent="@PdfDocument"/>
@@ -102,7 +221,4 @@ else
     <MoveStudentView StudentId="@StudentIdForMove" EnrollmentName="@EnrollmentNameForChange"/>
     
     <ChangeEducationLevelView StudentId="@StudentIdForChangeEducationLevel"/>
-    
-    <!-- Inicializamos datatable -->
-    <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 }
