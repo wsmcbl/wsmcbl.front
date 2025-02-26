@@ -39,5 +39,29 @@ public class PagedRequest
         
         return queryParams.Count > 0 ? $"?{string.Join("&", queryParams)}" : string.Empty;
     }
+    
+    public string ToRevenueView()
+    {
+        var queryParams = new List<string>();
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+            queryParams.Add($"search={Uri.EscapeDataString(SearchText)}");
+
+        if (!string.IsNullOrWhiteSpace(sortBy))
+            queryParams.Add($"sortBy={Uri.EscapeDataString(sortBy)}");
+
+        queryParams.Add($"isAscending={isAscending.ToString().ToLower()}");
+
+        if (CurrentPage > 0)
+            queryParams.Add($"page={CurrentPage}");
+
+        if (pageSize > 0)
+            queryParams.Add($"pageSize={pageSize}");
+
+        if (Quantity > 0)
+            queryParams.Add($"quantity={Quantity}");
+        
+        return queryParams.Count > 0 ? $"&{string.Join("&", queryParams)}" : string.Empty;
+    }
 }
 

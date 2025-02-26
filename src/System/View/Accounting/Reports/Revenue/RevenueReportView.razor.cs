@@ -62,7 +62,7 @@ public partial class RevenueReportView : BaseView
         
         ClearData(false);
         
-        report = await controller.GetReport(startDate, endDate);
+        report = await controller.GetReport(startDate, endDate, Request);
         hasData = report.data.Count > 0;
         StateHasChanged();
     }

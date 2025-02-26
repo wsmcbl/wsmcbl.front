@@ -15,12 +15,12 @@ public class TransactionReportByDateController
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<TransactionsRevenuesDto> GetReport(DateOnly start, DateOnly end)
+    public async Task<TransactionsRevenuesDto> GetReport(DateOnly start, DateOnly end, PagedRequest pagedRequest)
     {
         var startDate = getStringFormat(start);
         var endDate = getStringFormat(end);
         
-        var resource = $"transactions/revenues?to={startDate}&from={endDate}"; 
+        var resource = $"transactions/revenues?to={startDate}&from={endDate}{pagedRequest.ToRevenueView()}"; 
         var transactionsRevenues = new TransactionsRevenuesDto();
         return await _apiConsumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
     }
