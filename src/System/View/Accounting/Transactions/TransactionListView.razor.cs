@@ -22,19 +22,16 @@ public partial class TransactionListView : BaseView
     {
         await LoadData();
     }
-    
     private async Task LoadData()
     {
         transactionTypeList = await controller!.GetTypeTransactions();
         transactionList = await controller!.GetTransactions();
     }
-    
     private async Task GetInvoicePdf(string transactionId)
     {
         InvoicePdf = await CollectTariffController!.GetInvoice(transactionId);
         await Navigator.ShowPdfModal();
     }
-    
     private async Task CancelTransactions(string transactionId)
     {
         var result = await Notificator
@@ -56,15 +53,15 @@ public partial class TransactionListView : BaseView
         await LoadData();
         StateHasChanged();
     }
-    
     private string getTransactionDescription(int type)
     {
         return transactionTypeList!
             .FirstOrDefault(t => t.typeId == type)?.description ?? "Descripción no disponible";
     }
-
     protected override bool IsLoading()
     {
         return transactionList == null || transactionTypeList == null;
     }
+    
+    
 }

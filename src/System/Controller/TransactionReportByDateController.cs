@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.Reports;
 using wsmcbl.src.View.Accounting.Reports.Revenue;
 using wsmcbl.src.View.Accounting.Transactions;
@@ -19,7 +20,7 @@ public class TransactionReportByDateController
         var startDate = getStringFormat(start);
         var endDate = getStringFormat(end);
         
-        var resource = $"transactions/revenues?start={startDate}&end={endDate}"; 
+        var resource = $"transactions/revenues?to={startDate}&from={endDate}"; 
         var transactionsRevenues = new TransactionsRevenuesDto();
         return await _apiConsumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
     }

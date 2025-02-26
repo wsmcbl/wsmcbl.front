@@ -62,8 +62,8 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Total válido:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report!.getValidTotalString()</div>
-                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.validQuantity</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report!.summary.getValidTotalString()</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.summary.validQuantity</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -81,8 +81,8 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Total inválido:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report.getInvalidTotalString()</div>
-                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.invalidQuantity</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report.summary.getInvalidTotalString()</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.summary.invalidQuantity</div>
 
                                 </div>
                                 <div class="col-auto">
@@ -101,7 +101,7 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Usuario:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.userName</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.summary.userName</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-user-circle fa-2x text-gray-300"></i>
@@ -119,7 +119,7 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Consultado en:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.consultedIn.ToDateTimeFormat()</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.summary.consultedIn.ToDateTimeFormat()</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -137,7 +137,7 @@ else
                         <i class="fas fa-hourglass-start"></i>
                     </span>
                     <span class="text" style="color: black">
-                        <strong>Desde: </strong> @report.startDate.ToDateTimeFormat()
+                        <strong>Desde: </strong> @report.summary.startDate.ToDateTimeFormat()
                     </span>
                 </a>
             </div>
@@ -148,63 +148,174 @@ else
                         <i class="fas fa-hourglass-start"></i>
                     </span>
                     <span class="text" style="color: black">
-                        <strong>Hasta: </strong> @report.endDate.ToDateTimeFormat()
+                        <strong>Hasta: </strong> @report.summary.endDate.ToDateTimeFormat()
                     </span>
                 </a>
             </div>
             <hr>
 
-            @if (!hasData)
-            {
-                <div class="d-flex align-items-center justify-content-center">
-                    <h5 class="text-gray-800">Sin datos</h5>
-                </div>
-            }
-            else
-            {
-                <div class="row align-items-center">
-                    <div class="col">
-                        <div class="table-responsive">
-                            <table id="dataTable" class="table table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>Factura</th>
-                                    <th>Estudiante</th>
-                                    <th>Monto</th>
-                                    <th>Tipo</th>
-                                    <th>Fecha</th>
-                                    <th>Estado</th>
-                                </tr>
-                                </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Factura</th>
-                                    <th>Estudiante</th>
-                                    <th>Monto</th>
-                                    <th>Tipo</th>
-                                    <th>Fecha</th>
-                                    <th>Estado</th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                @foreach (var item in report.transactionList)
-                                {
-                                    <tr>
-                                        <td> @item.number</td>
-                                        <td> @item.studentName</td>
-                                        <td> @item.amount</td>
-                                        <td> @getTransactionDescription(item.type)</td>
-                                        <td> @item.datetime</td>
-                                        <td> @item.isValid.ToStringValid()</td>
-                                    </tr>
-                                }
-                                </tbody>
-                            </table>
+            <!------------------------------------------------------------------------------------------------------------------------------------->
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="d-flex align-items-center">
+                            Mostrar
+                            <select class="form-control form-control-sm d-inline-block w-auto mx-2" @onchange="ShowPageSize">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            registros
+                        </label>
+                    </div>
+
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <div class="input-group" style="width: 200px;">
+                            <input type="text" class="form-control form-control-sm" placeholder="Buscar..." @bind="Request.SearchText" @onkeyup="Searching">
+                            @if (!string.IsNullOrEmpty(Request.SearchText))
+                            {
+                                <div class="">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
+                                        ✖
+                                    </button>
+                                </div>
+                            }
                         </div>
-                        <script defer src="js/DataTable/dataTableWhitOutOrder.js"></script>
                     </div>
                 </div>
-            }
+                @if (!hasData)
+                {
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h5 class="text-gray-800">Sin datos</h5>
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+
+                            <thead>
+                            <tr>
+                                <th @onclick="@(() => SortByColumn(""))"
+                                    class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
+                                    Factura
+                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn(""))"
+                                    class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
+                                    Estudiante
+                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn(""))"
+                                    class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
+                                    Monto
+                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn(""))"
+                                    class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
+                                    Tipo
+                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn(""))"
+                                    class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
+                                    Fecha
+                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn(""))"
+                                    class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
+                                    Estado
+                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @foreach (var item in report!.data)
+                            {
+                                <tr>
+                                    <td> @item.number</td>
+                                    <td> @item.studentName</td>
+                                    <td> @item.amount</td>
+                                    <td> @getTransactionDescription(item.type)</td>
+                                    <td> @item.datetime</td>
+                                    <td> @item.isValid.ToStringValid()</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-12 col-md-5">
+                            <p>
+                                Mostrando @report.data.Count registros de @report.quantity
+                            </p>
+                        </div>
+
+                        <div class="col-sm-12 col-md-7">
+                            <div class="dataTables_paginate paging_simple_numbers">
+                                <ul class="pagination d-flex justify-content-end">
+                                    <!-- Botón Anterior -->
+                                    <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
+                                        <a @onclick="GoToPreviousPage" class="page-link">Anterior</a>
+                                    </li>
+
+                                    <!-- Primera Página -->
+                                    <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "active" : "")">
+                                        <a @onclick="() => ShowPage(1)" class="page-link">1</a>
+                                    </li>
+
+                                    <!-- ... si la página actual está lejos de la primera página -->
+                                    @if (Request.CurrentPage > 3)
+                                    {
+                                        <li class="paginate_button page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+
+                                    <!-- Página actual -->
+                                    @if (Request.CurrentPage > 1 && Request.CurrentPage < report.totalPages)
+                                    {
+                                        <li class="paginate_button page-item active">
+                                            <a class="page-link">@Request.CurrentPage</a>
+                                        </li>
+                                    }
+
+                                    <!-- ... si la página actual está lejos de la última página -->
+                                    @if (Request.CurrentPage < report.totalPages - 2)
+                                    {
+                                        <li class="paginate_button page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+
+                                    <!-- Última Página -->
+                                    @if (report.totalPages > 1)
+                                    {
+                                        <li class="paginate_button page-item @(Request.CurrentPage == report.totalPages ? "active" : "")">
+                                            <a @onclick="() => ShowPage(report.totalPages)" class="page-link">@report.totalPages</a>
+                                        </li>
+                                    }
+
+                                    <!-- Botón Siguiente -->
+                                    <li class="paginate_button page-item @(Request.CurrentPage == report.totalPages ? "disabled" : "")">
+                                        <a @onclick="GoToNextPage" class="page-link">Siguiente</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+            <!-------------------------------------------------------------------------------------------------------------------------------------->
         </div>
     </div>
 }
