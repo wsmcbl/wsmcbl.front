@@ -34,9 +34,9 @@ public class TransactionReportByDateController
         return await _apiConsumer.GetAsync(Modules.Accounting, "transactions/types", defaultResult);
     }
     
-    public async Task<List<TransactionFullDto>> GetTransactions()
+    public async Task<Paginator<TransactionFullDto>> GetTransactions(PagedRequest pagedRequest)
     {
-        List<TransactionFullDto> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Accounting, "transactions", defaultResult);
+        Paginator<TransactionFullDto> defaultResult = new ();
+        return await _apiConsumer.GetAsync(Modules.Accounting, $"transactions{pagedRequest}", defaultResult);
     }
 }
