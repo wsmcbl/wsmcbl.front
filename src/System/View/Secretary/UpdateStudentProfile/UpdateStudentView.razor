@@ -48,10 +48,10 @@ else
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
-                    <UpdateStudentComponent Student="student"/>
+                    <UpdateStudentComponent Student="student" isEditing="@true" />
                     
                     <div class="checkbox-wrapper-14">
-                        <input type="checkbox"  id="generateTokenId" @bind="generateToken">
+                        <input type="checkbox" id="generateTokenId" @bind="generateToken">
                         <label for="generateTokenId">
                             <h6 class="text-gray-800">Restablecer Contraseña</h6>
                         </label>

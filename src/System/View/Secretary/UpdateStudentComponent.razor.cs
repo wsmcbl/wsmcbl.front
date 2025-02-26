@@ -6,6 +6,7 @@ namespace wsmcbl.src.View.Secretary;
 public partial class UpdateStudentComponent : ComponentBase
 {
     [Parameter] public StudentEntity Student { get; set; } = null!;
+    [Parameter] public bool isEditing { get; set; } = false;
 
     protected override void OnParametersSet()
     {

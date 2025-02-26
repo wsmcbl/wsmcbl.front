@@ -15,6 +15,13 @@
 
                 <label style="display: inline-block; width: 200px;">Segundo apellido:</label>
                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.secondSurname">
+                
+                @if (Student?.minedId != null && isEditing)
+                {
+                    <label style="display: inline-block; width: 200px;">Código Mined:</label>
+                    <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.minedId">
+                }
+                
             </div>
         </div>
     </div>
@@ -25,7 +32,7 @@
                 <label class="label-required" style="display: inline-block; width: 250px; margin-top: 10px">Fecha de
                     nacimiento </label>
                 <input id="fechaNacimiento" type="date" class="form-control" placeholder="19/06/2001"
-                       @bind="Student.birthday">
+                       @bind="Student!.birthday">
 
                 <label style="display: inline-block; width: 200px; margin-top: 10px">Edad:</label>
                 <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" value="@Student.birthday.AgeCompute()">
