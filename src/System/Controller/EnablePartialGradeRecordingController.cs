@@ -24,7 +24,7 @@ public class EnablePartialGradeRecordingController
         return await _apiConsumer.PutAsync(Modules.Management, $"partials/{partialId}/activate?isActive={isActive}", defaultResult);
     }
 
-    public async Task<bool> ActiveGradesRecording(int partialId, bool isActive, DateTime endTime)
+    public async Task<bool> ActiveGradesRecording(int partialId, bool isActive, string endTime)
     { 
         var resource = "";
         resource = isActive == false ? $"partials/{partialId}?enable={isActive}" : $"partials/{partialId}?enable={isActive}&deadline={endTime}";

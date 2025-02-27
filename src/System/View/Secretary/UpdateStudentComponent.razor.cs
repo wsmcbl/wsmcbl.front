@@ -18,4 +18,10 @@ public partial class UpdateStudentComponent : ComponentBase
         Student.parents[0].sex = false;
         Student.parents[1].sex = true;
     }
+    
+    private string SexString
+    {
+        get => Student.sex ? "true" : "false";
+        set => Student.sex = value == "true"; 
+    }
 }

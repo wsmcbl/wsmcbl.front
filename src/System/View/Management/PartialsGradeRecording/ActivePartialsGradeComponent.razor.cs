@@ -31,7 +31,8 @@ public partial class ActivePartialsGradeComponent : ComponentBase
 
     private async Task ActivePartials()
     {
-        var response = await Controller.ActiveGradesRecording(PartialId, Enabled, DeadLine );
+        var formattedDeadline = DeadLine.ToString("yyyy-MM-ddTHH:mm:ss.fffffff");
+        var response = await Controller.ActiveGradesRecording(PartialId, Enabled, formattedDeadline );
         if (response)
         {
             await Notificator.ShowSuccess("Exito",

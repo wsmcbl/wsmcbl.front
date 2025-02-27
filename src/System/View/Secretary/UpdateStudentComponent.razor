@@ -4,6 +4,14 @@
     <div class="col-12 col-md-4" style="margin-bottom: 15px">
         <div class="card">
             <div class="card-body" style="min-height: 500px;">
+
+                @if (isEditing)
+                {
+                    <label style="display: inline-block; width: 200px;">Código Mined:</label>
+                    <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.minedId">
+                    <hr/>
+                }
+                
                 <label class="label-required" style="display: inline-block; width: 200px;">Primer nombre:</label>
                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student!.name">
 
@@ -15,13 +23,7 @@
 
                 <label style="display: inline-block; width: 200px;">Segundo apellido:</label>
                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.secondSurname">
-                
-                @if (Student?.minedId != null && isEditing)
-                {
-                    <label style="display: inline-block; width: 200px;">Código Mined:</label>
-                    <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.minedId">
-                }
-                
+
             </div>
         </div>
     </div>
@@ -38,9 +40,9 @@
                 <input disabled="disabled" type="number" class="form-control" style="margin-bottom: 10px" value="@Student.birthday.AgeCompute()">
 
                 <label class="label-required" style="display: inline-block; width: 200px;">Sexo:</label>
-                <select @bind="Student.sex" class="form-control" style="margin: 0px;">
-                    <option value="@true">Masculino</option>
-                    <option value="@false">Femenino</option>
+                <select @bind="SexString" class="form-control" style="margin: 0px;">
+                    <option value="true">Masculino</option>
+                    <option value="false">Femenino</option>
                 </select>
             </div>
         </div>
