@@ -104,6 +104,6 @@ public class CollectTariffController
 
     private async Task GetCashierId()
     {
-        CashierId = await _JwtClaimsService.GetClaimAsync("cashierId") ?? "caj-eurbina";
+        CashierId = await _JwtClaimsService.GetClaimAsync("roleid") ?? "caj-eurbina";
     }
 }
