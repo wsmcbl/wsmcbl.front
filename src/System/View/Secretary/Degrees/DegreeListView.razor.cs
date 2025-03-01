@@ -24,7 +24,7 @@ public partial class DegreeListView : BaseView
     
     //Var for paginator
     private Paginator<DegreeEntity>? DegreeList { get; set; }
-    private PagedRequest Request { get; set; } = new();
+    private PagedRequest Request { get; set; } = new() { pageSize = 25 };
     private bool hasData {get; set;}
     
     

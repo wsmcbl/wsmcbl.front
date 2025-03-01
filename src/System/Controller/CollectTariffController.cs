@@ -9,11 +9,13 @@ namespace wsmcbl.src.Controller;
 public class CollectTariffController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
+    private readonly JwtClaimsService _JwtClaimsService;
     private string CashierId { get; set; }
 
-    public CollectTariffController(ApiConsumerFactory apiConsumerFactory)
+    public CollectTariffController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;
+        _JwtClaimsService = jwtClaimsService;
         CashierId = "caj-eurbina";
     }
 
@@ -89,6 +91,7 @@ public class CollectTariffController
 
     public void BuildTransaction(List<DetailDto> transactionDetail)
     {
+        _ = GetCashierId();
         Transaction = new TransactionEntity
         {
             transactionId = "",
@@ -97,5 +100,10 @@ public class CollectTariffController
             dateTime = DateTime.UtcNow,
             details = transactionDetail
         };
+    }
+
+    private async Task GetCashierId()
+    {
+        CashierId = await _JwtClaimsService.GetClaimAsync("cashierId") ?? "caj-eurbina";
     }
 }
