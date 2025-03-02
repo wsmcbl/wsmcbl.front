@@ -1,0 +1,99 @@
+@page "/accounting/apply-arrears"
+
+@inherits BaseView
+@attribute [Authorize(Roles = "cashier, admin")]
+
+@if (!IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Activa la mora de los aranceles vencidos</h6>
+        </div>
+        
+     
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Año</th>
+                            <th>Concepto</th>
+                            <th>Monto</th>
+                            <th>Vence</th>
+                            <th>Estado</th>
+                            <th>Tipo</th>
+                            <th>Modalidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Año</th>
+                            <th>Concepto</th>
+                            <th>Monto</th>
+                            <th>Vence</th>
+                            <th>Estado</th>
+                            <th>Tipo</th>
+                            <th>Modalidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        @foreach(var item in Tariffs!)
+                        {
+                            var typeTariff = TariffTypeItemList.FirstOrDefault(t => t.Id == item.Type);
+                            <tr>
+                                <td>@item.TariffId</td>
+                                <td>@item.SchoolYear</td>
+                                <td>@item.Concept</td>
+                                <td>@item.Amount</td>
+                                <td>@item.DueDate</td>
+                                <td>
+                                    <span class="status-label @GetStatusLabel(item.IsLate)">
+                                    @(item.IsLate ? "Activado" : "Desactivado")
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (typeTariff != null)
+                                    {
+                                        @typeTariff.Name
+                                    }
+                                    else
+                                    {
+                                        <a>Sin Tipo</a>
+                                    }
+                                </td>
+                                <td>
+                                    @(item.educationalLevel == 1 ? "Preescolar" :
+                                    item.educationalLevel == 2 ? "Primaria" :
+                                    item.educationalLevel == 3 ? "Secundaria" :
+                                    "Nivel no definido")
+                                </td>
+                                <td>
+                                    <button class="btn btn-success" @onclick="() => ActiveArrears(item.TariffId)">Activar Mora</button>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <!-- Inicializamos datatable -->
+        <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
+        
+    </div>
+    
+    
+    
+    
+  
+}
+
+
+

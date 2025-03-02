@@ -13,6 +13,7 @@ public class TariffEntity
     public string? DueDate { get; set; }
     public bool IsLate { get; set; }
     public int Type { get; set; }
+    public int educationalLevel { get; set; }
     
     public void ComputeTotal()
     {

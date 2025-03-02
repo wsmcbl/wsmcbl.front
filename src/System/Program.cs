@@ -49,6 +49,8 @@ builder.Services.AddTransient<PrintDocumentController>(); //(Auxiliar)
 builder.Services.AddTransient<DebtopController>(); 
 builder.Services.AddTransient<EnablePartialGradeRecordingController>(); 
 
+// V iteracion
+builder.Services.AddTransient<ApplyArrearsController>(); 
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>

@@ -11,6 +11,33 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+.status-label {
+  display: inline-block;
+  padding: 3px 5px;
+  border-radius: 15px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.active-status {
+  background-color: #28A745;
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: white;
+  display: inline-block;
+}
+
+.inactive-status {
+  background-color: #E74C3C;
+  border-radius: 6px;
+  padding: 4px 5px;
+  color: white;
+  display: inline-block;
+}
+
+
 .label-required:after {
   content: " *";
   color: red;
