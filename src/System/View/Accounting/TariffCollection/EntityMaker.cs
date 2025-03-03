@@ -60,7 +60,7 @@ public static class EntityMaker
                 item.ComputeTotal();
             }
 
-            if (amountToPay>0 && amountToPay < item.Total)
+            if (amountToPay < item.Total)
             {
                 item.Total = amountToPay;
                 amountToPay -= item.Total;
@@ -70,7 +70,7 @@ public static class EntityMaker
             {
                 tariffId = item.TariffId,
                 amount = item.Total,
-                applyArrears = isApplyArrears
+                applyArrears = !isApplyArrears
             });
         }
 
