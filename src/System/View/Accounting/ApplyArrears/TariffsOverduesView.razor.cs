@@ -8,36 +8,46 @@ namespace wsmcbl.src.View.Accounting.ApplyArrears;
 
 public partial class TariffsOverduesView : BaseView
 {
-    [Inject] ApplyArrearsController Controller { get; set; } = default!;
-    [Inject] Notificator Notificator { get; set; } = default!;
-    protected List<DropDownItem> TariffTypeItemList { get; set; } = new();
-    private List<TariffEntity> Tariffs { get; set; } = new();
+    [Inject] private ApplyArrearsController Controller { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
+    
+    private List<DropDownItem> TariffTypeItemList { get; set; } = [];
+    private List<TariffEntity>? Tariffs { get; set; }
     
     protected override async Task OnParametersSetAsync()
     {
-        Tariffs = await Controller.GetTariffsOverdues();
+        await LoadTariffList();
         TariffTypeItemList = await Controller.GetTypeTariffList();
     }
 
     private async Task ActiveArrears(int tariffId)
     {
-        var active = await Notificator.ShowAlertQuestion("Advertencia", "¿Esta seguro que desea activar la mora?",( "Activar","Cancelar"));
-        if (active)
+        var active = await Notificator.ShowAlertQuestion("Advertencia",
+            "¿Esta seguro que desea activar la mora?", ("Activar","Cancelar"));
+        if (!active)
         {
-            var response = await Controller.ActiveArrears(tariffId);
-            if (response)
-            {
-                await Notificator.ShowSuccess("Exito", "Hemos activado la mora correctamente.");
-                return;
-            }
-        
-            await Notificator.ShowError("Error", "No hemos podido activar la mora, intentelo mas tarde");
+            return;
         }
+        
+        var response = await Controller.ActiveArrears(tariffId);
+        if (!response)
+        {
+            await Notificator.ShowError("Error", "No hemos podido activar la mora, intentelo mas tarde");
+            return;
+        }
+
+        await LoadTariffList();
+        await Notificator.ShowSuccess("Exito", "Hemos activado la mora correctamente.");
+    }
+
+    private async Task LoadTariffList()
+    {
+        Tariffs = await Controller.GetTariffsOverdues();
     }
     
     protected override bool IsLoading()
     {
-        return Tariffs.Any();
+        return Tariffs != null;
     }
     
     private string GetStatusLabel(bool value) => value ? "active-status" : "inactive-status";
