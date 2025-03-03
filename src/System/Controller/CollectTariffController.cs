@@ -102,6 +102,7 @@ public class CollectTariffController
 
     private async Task<string> GetCashierId()
     {
-        return await _JwtClaimsService.GetClaimAsync("roleid") ?? "caj-eurbina";
+        var value = await _JwtClaimsService.GetClaimAsync("roleid");
+        return !string.IsNullOrWhiteSpace(value) ? value : "caj-eurbina";
     }
 }
