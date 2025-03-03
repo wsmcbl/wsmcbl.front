@@ -1,4 +1,3 @@
-using System.Text.Json;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
@@ -10,13 +9,11 @@ public class CollectTariffController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     private readonly JwtClaimsService _JwtClaimsService;
-    private string CashierId { get; set; }
 
     public CollectTariffController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;
         _JwtClaimsService = jwtClaimsService;
-        CashierId = "caj-eurbina";
     }
 
     public async Task<Paginator<StudentEntity>> GetStudentList(PagedRequest pagedRequest)
@@ -89,9 +86,10 @@ public class CollectTariffController
 
     private TransactionEntity? Transaction { get; set; }
 
-    public void BuildTransaction(List<DetailDto> transactionDetail)
+    public async Task BuildTransaction(List<DetailDto> transactionDetail)
     {
-        _ = GetCashierId();
+        var CashierId = await GetCashierId();
+        
         Transaction = new TransactionEntity
         {
             transactionId = "",
@@ -102,8 +100,8 @@ public class CollectTariffController
         };
     }
 
-    private async Task GetCashierId()
+    private async Task<string> GetCashierId()
     {
-        CashierId = await _JwtClaimsService.GetClaimAsync("roleid") ?? "caj-eurbina";
+        return await _JwtClaimsService.GetClaimAsync("roleid") ?? "caj-eurbina";
     }
 }

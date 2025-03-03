@@ -95,7 +95,7 @@ public partial class TariffCollectionView : ComponentBase
     private byte[]? InvoicePdf { get; set; }
     private async Task PayTariffs(List<DetailDto> detail)
     {
-        Controller.BuildTransaction(detail);
+        await Controller.BuildTransaction(detail);
 
         var result = await Controller.SendPay();
 
