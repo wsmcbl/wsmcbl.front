@@ -7,7 +7,7 @@ public class EditUserDto
     public string surname { get; set; } = null!;
     public string? secondSurname { get; set; }
     public List<int> permissionList { get; set; } = [];
-    public string nextCloudGroup { get; set; } = null!;
+    public string? nextCloudGroup { get; set; } = null!;
 
     public bool IsDataValid()
     {

@@ -48,7 +48,6 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Opciones de secretaría</h6>
                             <a class="collapse-item" href="/secretary/students">Estudiantes</a>
-                            @if (HasPermission("student:read")){<a class="collapse-item" href="/secretary/enroll/students">Matricular</a> }
                             @if (HasPermission("enrollment:read")){<a class="collapse-item" href="/secretary/enroll/students">Matricular</a> }
                             @if (HasPermission("degree:read")){<a class="collapse-item" href="/secretary/degrees">Grados</a> }
                             @if (HasPermission("degree:read")){<a class="collapse-item" href="/secretary/schoolyears">Años lectivos</a> }

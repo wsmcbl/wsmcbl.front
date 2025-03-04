@@ -45,6 +45,8 @@ public partial class ViewUserInfo : BaseView
         EditUser.secondName = User.secondName;
         EditUser.surname = User.surName;
         EditUser.secondSurname = User.secondSurname;
+        EditUser.permissionList = User.permissionList;
+        EditUser.nextCloudGroup = User.nextCloudGroup;
     }
     
     private bool ValidData()

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Config;
 using wsmcbl.src.Utilities;
@@ -45,6 +46,7 @@ public class CreateUserController
 
     public async Task<bool> UpdateUser(EditUserDto userdata, string userId)
     {
+        var json = JsonSerializer.Serialize(userdata);
         return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}", userdata);
     }
     

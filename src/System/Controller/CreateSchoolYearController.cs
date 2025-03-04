@@ -57,7 +57,7 @@ public class CreateSchoolYearController
     
     public async Task<List<DropDownItem>> GetTypeTariffList()
     {
-        var resource = "tariffs/tariffs/types";
+        var resource = "tariffs/types";
         List<TypeTariffDto> Default = [];
         var response = await _apiConsumer.GetAsync(Modules.Accounting, resource, Default);
         return response.Select(dto => dto.ToDropdownList()).ToList();
