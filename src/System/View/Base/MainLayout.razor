@@ -13,7 +13,32 @@ else if (!IsAuthenticated)
 else
 {
     <div id="wrapper">
-        <SidebarNav/>
+
+        @if (UserRole == "admin")
+        {
+            <SidebarCashier/>
+        }
+        else if (UserRole == "secretary")
+        {
+            <SidebarSecretary/>
+        }
+        else if (UserRole == "cashier")
+        {
+            <SidebarCashier/>
+        }
+        else if (UserRole == "principal")
+        {
+            <SidebarPrincipal/>
+        }
+        else if (UserRole == "viceprincipal")
+        {
+            <SidebarVicePrincipal/>
+        }
+        else if (UserRole == "teacher")
+        {
+            <SidebarTeacher/>
+        }
+        
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content" class="bg-gray-300">
                 <TopNavBar/>

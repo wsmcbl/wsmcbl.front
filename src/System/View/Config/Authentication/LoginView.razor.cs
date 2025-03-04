@@ -12,6 +12,7 @@ public partial class LoginView : ComponentBase
     
     [Inject] private Navigator? Navigator { get; set; }
     [Inject] private LoginController controller { get; set; } = null!;
+    [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
 
     private async Task Login()
@@ -27,6 +28,24 @@ public partial class LoginView : ComponentBase
         await AuthStateProvider!.MarkUserAsAuthenticated(token); 
         StateHasChanged();
         await Task.Delay(100);
-        Navigator!.ToPage("/dashboard");
+        
+        //validar que rol tiene el usuario y redireccionarlo al homepage especifico.
+        var userRole = await jwtClaimsService.GetClaimRole("role");
+        
+        var roleRoutes = new Dictionary<string, string>
+        {
+            { "admin", "/dashboard" },
+            { "secretary", "/secretary" },
+            { "cashier", "/cashier" },
+            { "teacher", "/teacher" },
+            { "principal", "/principal" },
+            { "viceprincipal", "/viceprincipal" }
+        };
+
+        if (userRole is not null && roleRoutes.TryGetValue(userRole, out var route))
+        {
+             Navigator!.ToPage(route);
+        }
+        
     }
 }

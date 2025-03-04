@@ -1,0 +1,110 @@
+<CascadingAuthenticationState>
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+
+        <AuthorizeView Roles="admin,cashier">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/cashier">
+                <div class="sidebar-brand-icon">
+                    <img src="img/cbl_logo.png" alt="Logo" class="img-fluid" style="max-width: 50px;">
+                </div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/cashier">
+                    <i class="fas fa-home"></i>
+                    <span>Inicio</span></a>
+            </li>
+            <hr class="sidebar-divider d-none d-md-block">
+            
+            <div class="sidebar-heading">
+                Modulos
+            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccounting"
+                   aria-expanded="true" aria-controls="collapseAccounting">
+                    <i class="fas fa-fw fa-dollar-sign"></i>
+                    <span>Contabilidad</span>
+                </a>
+                <div id="collapseAccounting" class="collapse" aria-labelledby="collapseAccounting" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opciones contables</h6>
+                        <a class="collapse-item" href="/accounting/students">Estudiantes</a>
+                        <a class="collapse-item" href="/accounting/apply-arrears">Aplicar mora</a>
+                        <a class="collapse-item" href="/accounting/reports/revenues">Reportes</a>
+                        <a class="collapse-item" href="/accounting/reports/transactions">Transacciones</a>
+                    </div>
+                </div>
+            </li>
+
+            @if (HasPermission("student:read"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSecretary"
+                       aria-expanded="true" aria-controls="collapseSecretary">
+                        <i class="fas fa-fw fa-scroll"></i>
+                        <span>Secretaría</span>
+                    </a>
+                    <div id="collapseSecretary" class="collapse" aria-labelledby="collapseSecretary" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Opciones de secretaría</h6>
+                            <a class="collapse-item" href="/secretary/students">Estudiantes</a>
+                            @if (HasPermission("student:read")){<a class="collapse-item" href="/secretary/enroll/students">Matricular</a> }
+                            @if (HasPermission("enrollment:read")){<a class="collapse-item" href="/secretary/enroll/students">Matricular</a> }
+                            @if (HasPermission("degree:read")){<a class="collapse-item" href="/secretary/degrees">Grados</a> }
+                            @if (HasPermission("degree:read")){<a class="collapse-item" href="/secretary/schoolyears">Años lectivos</a> }
+                        </div>
+                    </div>
+                </li>
+            }
+            
+            <hr class="sidebar-divider d-none d-md-block">
+            <div class="sidebar-heading">
+                Utilidades
+            </div>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/mail/" target="_blank">
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>Correo</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/files/" target="_blank">
+                    <i class="fas fa-fw fa-archive"></i>
+                    <span>Archivos</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </AuthorizeView>
+    </ul>
+    <!-- End of Sidebar -->
+
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro desea salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión
+                    actual.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" @onclick="LogOut">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</CascadingAuthenticationState>

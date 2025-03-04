@@ -1,0 +1,80 @@
+<CascadingAuthenticationState>
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/teacher">
+            <div class="sidebar-brand-icon">
+                <img src="img/cbl_logo.png" alt="Logo" class="img-fluid" style="max-width: 50px;">
+            </div>
+        </a>
+
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item">
+            <a class="nav-link" href="/teacher">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span></a>
+        </li>
+        <hr class="sidebar-divider my-0">
+
+        <AuthorizeView Roles="teacher">
+            <li class="nav-item">
+                <a class="nav-link" href="/academy/enrollments">
+                    <i class="fas fa-list-alt"></i>
+                    <span>Calificar</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">
+                    <i class="fas fa-house-user"></i>
+                    <span>Sección Guiada</span></a>
+            </li>
+        </AuthorizeView>
+
+        <AuthorizeView Roles="teacher">
+            <hr class="sidebar-divider d-none d-md-block">
+            <div class="sidebar-heading">
+                Utilidades
+            </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/mail/" target="_blank">
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>Correo</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/files/" target="_blank">
+                    <i class="fas fa-fw fa-archive"></i>
+                    <span>Archivos</span>
+                </a>
+            </li>
+        </AuthorizeView>
+
+        <hr class="sidebar-divider d-none d-md-block">
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+
+    </ul>
+    
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">¿Seguro desea salir?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Seleccione "Cerrar sesión" a continuación si está listo para finalizar su sesión
+                    actual.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" @onclick="LogOut">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Cerrar Sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</CascadingAuthenticationState>
