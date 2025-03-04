@@ -1,7 +1,7 @@
 @page "/partials"
 
 @inherits BaseView
-@attribute [Authorize(Roles = "admin")]
+@attribute [Authorize(Roles = "admin,principal")]
 
 @if (IsLoading())
 {

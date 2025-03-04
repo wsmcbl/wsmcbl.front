@@ -10,11 +10,30 @@ public partial class LoginView : ComponentBase
     private string email { get; set; } = null!;
     private string password { get; set; } = null!;
     
-    [Inject] private Navigator? Navigator { get; set; }
+    [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private LoginController controller { get; set; } = null!;
     [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var userRole = await jwtClaimsService.GetClaimRole("role");
+        var roleRoutes = new Dictionary<string, string>
+        {
+            { "admin", "/dashboard" },
+            { "secretary", "/secretary" },
+            { "cashier", "/cashier" },
+            { "teacher", "/teacher" },
+            { "principal", "/principal" },
+            { "viceprincipal", "/viceprincipal" }
+        };
 
+        if (userRole is not null && roleRoutes.TryGetValue(userRole, out var route))
+        {
+            Navigator.ToPage(route);
+        }
+    }
+    
     private async Task Login()
     {
         errorMessage = "Iniciando sesión ...";

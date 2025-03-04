@@ -3,9 +3,6 @@
 @layout EmptyLayout
 
 <AuthorizeView>
-    <Authorized>
-        @{Navigator?.ToPage("/dashboard"); }
-    </Authorized>
     <NotAuthorized>
         <div class="blue-background d-flex align-items-center justify-content-center">
             <div class="card o-hidden border-0 shadow-lg" style="max-width: 40rem; width: 100%;">
