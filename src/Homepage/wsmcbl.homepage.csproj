@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <AssemblyTitle>HOMEPAGE WSMCBL SNAPSHOT</AssemblyTitle>
-        <AssemblyVersion>5.0.0</AssemblyVersion>
+        <AssemblyVersion>5.1.0</AssemblyVersion>
         <AssemblyDescription>Aplicación cliente del proyecto WSMCBL desarrollado en Blazor.</AssemblyDescription>
         <RootNamespace>wsmcbl.src</RootNamespace>
     </PropertyGroup>
