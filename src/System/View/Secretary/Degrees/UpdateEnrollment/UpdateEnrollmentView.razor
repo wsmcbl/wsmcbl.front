@@ -131,10 +131,11 @@ else
                                             </tr>
                                             </tfoot>
                                             <tbody>
-                                            @foreach (var item in enrollment.studentList.OrderBy(t => t.fullName))
+                                            @for (int i = 0; i < enrollment.studentList.Count; i++)
                                             {
+                                                var item = enrollment.studentList[i];
                                                 <tr>
-                                                    <td>@Position</td>
+                                                    <td>@(i + 1)</td> <!-- Numeración basada en el índice -->
                                                     <td>@item.studentId</td>
                                                     <td>@item.fullName</td>
                                                     <td>@(item.sex ? "Varón" : "Mujer")</td>
@@ -148,14 +149,14 @@ else
                                                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                                  aria-labelledby="dropdownMenuLink">
                                                                 <div class="dropdown-header">Seleccione una opción:</div>
-                                                                <a class="dropdown-item" href="#">Ver perfil (Proximamente)</a>
-                                                                <a class="dropdown-item" href="#"> Mover (Proximamente)</a>
+                                                                <a class="dropdown-item" href="#">Ver perfil (Próximamente)</a>
+                                                                <a class="dropdown-item" href="#">Mover (Próximamente)</a>
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                Position++;
                                             }
+
                                             </tbody>
                                         </table>
                                     </div>

@@ -18,7 +18,6 @@ public partial class UpdateEnrollmentView : BaseView
     private string? SubjectFlags { get; set; } = "N/A";
     private string? SubjectChangeName { get; set; } = "N/A";
     
-    private int Position { get; set; } = 1;
     private int ActiveTab { get; set; } = 1;
     private int Panel { get; set; } = 1;
 
