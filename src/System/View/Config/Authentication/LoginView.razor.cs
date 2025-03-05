@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 
@@ -33,7 +34,6 @@ public partial class LoginView : ComponentBase
             Navigator.ToPage(route);
         }
     }
-    
     private async Task Login()
     {
         errorMessage = "Iniciando sesión ...";
@@ -66,5 +66,12 @@ public partial class LoginView : ComponentBase
              Navigator!.ToPage(route);
         }
         
+    }
+    private async Task HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await Login();
+        }
     }
 }
