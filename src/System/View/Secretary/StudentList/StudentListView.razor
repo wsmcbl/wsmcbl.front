@@ -218,7 +218,7 @@ else
     
     <CreateStudentProfileView onNewStudentCreated="@LoadStudentList"/>
     
-    <MoveStudentView StudentId="@StudentIdForMove" EnrollmentName="@EnrollmentNameForChange"/>
+    <MoveStudentView StudentId="@StudentIdForMove" EnrollmentName="@EnrollmentNameForChange" OnMoveStudents="LoadStudentList"/>
     
     <ChangeEducationLevelView StudentId="@StudentIdForChangeEducationLevel"/>
 }

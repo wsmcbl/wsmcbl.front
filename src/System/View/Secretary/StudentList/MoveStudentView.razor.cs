@@ -9,6 +9,7 @@ public partial class MoveStudentView : ComponentBase
 {
     [Parameter] public string StudentId { get; set; } = "";
     [Parameter] public string EnrollmentName { get; set; } = "";
+    [Parameter] public EventCallback OnMoveStudents { get; set; }
     [Inject] protected EnrollStudentController ControllerEnrollment { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     private List<DegreeBasicDto>? Degrees { get; set; }
@@ -72,6 +73,7 @@ public partial class MoveStudentView : ComponentBase
         }
         
         await Notificator.ShowSuccess("Se ha actualizado la matrícula correctamente.");
+        await OnMoveStudents.InvokeAsync();
         LoadDegrees();
         StateHasChanged();
     }
