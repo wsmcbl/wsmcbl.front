@@ -1,177 +1,66 @@
 <CascadingAuthenticationState>
-<!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
 
-    <!-- Sidebar - Logo -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
-        <div class="sidebar-brand-icon">
-            <img src="img/cbl_logo.png" alt="Logo" class="img-fluid" style="max-width: 50px;">
-        </div>
-    </a>
-    
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item">
-        <a class="nav-link" href="/dashboard">
-            <i class="fas fa-home"></i>
-            <span>Inicio</span></a>
-    </li>
-    
-    <AuthorizeView Roles="teacher">
-        <!-- Nav Item - Grade -->
-        <li class="nav-item">
-            <a class="nav-link" href="/academy/enrollments">
-                <i class="fas fa-list-alt"></i>
-                <span>Calificar</span></a>
-        </li>
-
-        <!-- Nav Item - Grade -->
-        <li class="nav-item">
-            <a class="nav-link">
-                <i class="fas fa-house-user"></i>
-                <span>Sección Guiada</span></a>
-        </li>
-    </AuthorizeView>
-
-    <!-- Opciones Academicas -->
-    <AuthorizeView Roles="admin,secretary">
-    
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Módulos
-        </div>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAcademy"
-               aria-expanded="true" aria-controls="collapseAcademy">
-                <i class="fas fa-fw fa-graduation-cap"></i>
-                <span>Académico</span>
-            </a>
-            <div id="collapseAcademy" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Opciones académicas</h6>
-                    <a class="collapse-item" href="#">Reportes</a>
-                </div>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/viceprincipal">
+            <div class="sidebar-brand-icon">
+                <img src="img/cbl_logo.png" alt="Logo" class="img-fluid" style="max-width: 50px;">
             </div>
-        </li>
-    </AuthorizeView>
+        </a>
 
-    <!-- Opciones Adminstrativas -->
-    <AuthorizeView Roles="admin,principal">
+        <hr class="sidebar-divider my-0">
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePrincipal"
-               aria-expanded="true" aria-controls="collapsePrincipal">
-                <i class="fas fa-user-shield"></i>
-                <span>Administración</span>
-            </a>
-            <div id="collapsePrincipal" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Opciones administrativas</h6>
-                    <a class="collapse-item" href="/partials">Parciales</a>
+            <a class="nav-link" href="/viceprincipal">
+                <i class="fas fa-home"></i>
+                <span>Inicio</span></a>
+        </li>
+
+        <AuthorizeView Roles="admin,viceprincipal">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePrincipal"
+                   aria-expanded="true" aria-controls="collapsePrincipal">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Administración</span>
+                </a>
+                <div id="collapsePrincipal" class="collapse" aria-labelledby="headingUtilities"
+                     data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Opciones administrativas</h6>
+                        <a class="collapse-item" href="/partials">Parciales</a>
+                    </div>
                 </div>
-            </div>
-        </li>
-    </AuthorizeView>
+            </li>
 
-    <!-- Opciones Contables -->
-    <AuthorizeView Roles="admin,cashier">
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAccounting"
-               aria-expanded="true" aria-controls="collapseAccounting">
-                <i class="fas fa-fw fa-dollar-sign"></i>
-                <span>Contabilidad</span>
-            </a>
-            <div id="collapseAccounting" class="collapse" aria-labelledby="collapseAccounting" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Opciones contables</h6>
-                    <a class="collapse-item" href="/cashier">Inicio</a>
-                    <a class="collapse-item" href="/accounting/students">Estudiantes</a>
-                    <a class="collapse-item" href="/accounting/apply-arrears">Aplicar mora</a>
-                    <a class="collapse-item" href="/accounting/reports/revenues">Reportes</a>
-                    <a class="collapse-item" href="/accounting/reports/transactions">Transacciones</a>
-                </div>
-            </div>
-        </li>
-    </AuthorizeView>
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
 
-    <!-- Opciones Secretary -->
-    <AuthorizeView Roles="admin,secretary">
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSecretary"
-               aria-expanded="true" aria-controls="collapseSecretary">
-                <i class="fas fa-fw fa-scroll"></i>
-                <span>Secretaría</span>
-            </a>
-            <div id="collapseSecretary" class="collapse" aria-labelledby="collapseSecretary" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Opciones de secretaría</h6>
-                    <a class="collapse-item" href="/secretary">Inicio</a>
-                    <a class="collapse-item" href="/secretary/students">Estudiantes</a>
-                    <a class="collapse-item" href="/secretary/enroll/students">Matricular</a>
-                    <a class="collapse-item" href="/secretary/degrees">Grados</a>
-                    <a class="collapse-item" href="/secretary/schoolyears">Años lectivos</a>
-                </div>
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Utilidades
             </div>
-        </li>
-    </AuthorizeView>
 
-    <!-- Opciones de Configuracion -->
-    <AuthorizeView Roles="admin">
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseConfig"
-               aria-expanded="true" aria-controls="collapseConfig">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Configuración</span>
-            </a>
-            <div id="collapseConfig" class="collapse" aria-labelledby="collapseConfig" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Configuración del sistema</h6>
-                    <a class="collapse-item" href="configuration/users">Usuarios</a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/mail/" target="_blank">
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>Correo</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/files/" target="_blank">
+                    <i class="fas fa-fw fa-archive"></i>
+                    <span>Archivos</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
-        </li>
-    </AuthorizeView>
-    
-    <AuthorizeView Roles="admin,secretary,teacher">
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
-        
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            Utilidades
-        </div>
-        
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/mail/" target="_blank">
-                <i class="fas fa-fw fa-envelope"></i>
-                <span>Correo</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="https://nextcloud.cbl-edu.com/apps/files/" target="_blank">
-                <i class="fas fa-fw fa-archive"></i>
-                <span>Archivos</span>
-            </a>
-        </li>
-    </AuthorizeView>
-    
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
-    
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
 
-</ul>
-<!-- End of Sidebar -->
+        </AuthorizeView>
+    </ul>
+    <!-- End of Sidebar -->
 
 
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
