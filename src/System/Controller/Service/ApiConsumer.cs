@@ -62,7 +62,7 @@ public class ApiConsumer
         var response = await _httpClient.PostAsync(BuildUri(modules, resource), content);
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<R>(), defaultResult, response);
     }
-
+    
     public async Task<bool> PutAsync<T>(Modules modules, string resource, T? data)
     {
         await LoadToken();
@@ -76,6 +76,21 @@ public class ApiConsumer
         
         var response = await _httpClient.PutAsync(BuildUri(modules, resource), content);
         return await GenericHttpResponse(AlwaysTrue, false, response);
+    }
+    
+    public async Task<T> PutWhitData<T>(Modules modules, string resource, T? data)
+    {
+        await LoadToken();
+        
+        StringContent? content = null;
+        if (data != null)
+        {
+            var json = JsonSerializer.Serialize(data);
+            content = new StringContent(json, Encoding.UTF8, "application/json");
+        }
+        
+        var response = await _httpClient.PutAsync(BuildUri(modules, resource), content);
+        return (await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<T>(), data, response))!;
     }
 
     public async Task<bool> PutPhotoAsync(Modules modules, string resource, HttpContent content)

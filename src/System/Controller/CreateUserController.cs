@@ -46,8 +46,13 @@ public class CreateUserController
 
     public async Task<bool> UpdateUser(EditUserDto userdata, string userId)
     {
-        var json = JsonSerializer.Serialize(userdata);
         return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}", userdata);
+    }
+    
+    public async Task<UserEntity> ChangePassword(string userId)
+    {
+        var defaultResult = new UserEntity();
+        return await _apiConsumer.PutWhitData(Modules.Config, $"users/{userId}/passwords", defaultResult);
     }
     
 }
