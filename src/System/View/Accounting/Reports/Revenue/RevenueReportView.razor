@@ -280,11 +280,12 @@ else
                                         </li>
                                     }
 
-                                    <!-- Página actual -->
-                                    @if (Request.CurrentPage > 1 && Request.CurrentPage < report.totalPages)
+                                    <!-- Páginas adyacentes a la página actual -->
+                                    @for (int i = Math.Max(2, Request.CurrentPage - 2); i <= Math.Min(report.totalPages - 1, Request.CurrentPage + 2); i++)
                                     {
-                                        <li class="paginate_button page-item active">
-                                            <a class="page-link">@Request.CurrentPage</a>
+                                        int pageNumber = i; // Asegúrate de que pageNumber sea igual a i
+                                        <li class="paginate_button page-item @(Request.CurrentPage == pageNumber ? "active" : "")">
+                                            <a @onclick="() => ShowPage(pageNumber)" class="page-link">@pageNumber</a>
                                         </li>
                                     }
 

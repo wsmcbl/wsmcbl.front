@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.WebUtilities;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
@@ -33,6 +34,12 @@ public partial class DegreeListView : BaseView
         await Load();
         ThisSchoolYear = await SchoolYearController.GetSchoolYearsList();
     }
+
+    protected override void OnParametersSet()
+    {
+        UpdateRequest();
+    }
+
     private async Task Load()
     {
         DegreeList = await controller.GetDegreeList(Request);
@@ -88,6 +95,47 @@ public partial class DegreeListView : BaseView
     
     
     //Method for paginator
+    private Task UpdateUrl()
+    {
+        var uri = $"/secretary/degrees{Request.ToString()}";
+        Navigator.UpdateUrl(uri);
+        return Task.CompletedTask;
+    }
+    private void UpdateRequest()
+    {
+        var uri = new Uri(Navigator.GetUrl());
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+
+        if (queryParams.TryGetValue("search", out var search))
+        {
+            Request.SearchText = search;
+        }
+
+        if (queryParams.TryGetValue("sortBy", out var sortBy))
+        {
+            Request.sortBy = sortBy;
+        }
+
+        if (queryParams.TryGetValue("isAscending", out var isAscending))
+        {
+            Request.isAscending = bool.Parse(isAscending!);
+        }
+
+        if (queryParams.TryGetValue("page", out var page))
+        {
+            Request.CurrentPage = int.Parse(page!);
+        }
+
+        if (queryParams.TryGetValue("pageSize", out var pageSize))
+        {
+            Request.pageSize = int.Parse(pageSize!);
+        }
+
+        if (queryParams.TryGetValue("quantity", out var quantity))
+        {
+            Request.Quantity = int.Parse(quantity!);
+        }
+    }
     private async Task SortByColumn(string columnName)
     {
         if (Request.sortBy == columnName)
@@ -101,6 +149,7 @@ public partial class DegreeListView : BaseView
         }
 
         Request.sortBy = columnName;
+        await UpdateUrl();
         await Load();
     }
     private async Task ShowPageSize(ChangeEventArgs e)
@@ -109,6 +158,7 @@ public partial class DegreeListView : BaseView
         {
             Request.pageSize = selectedValue;
             Request.CurrentPage = 1;
+            await UpdateUrl();
             await Load();
         }
         else
@@ -121,16 +171,16 @@ public partial class DegreeListView : BaseView
         if (pageNumber >= 1 && pageNumber <= DegreeList!.totalPages)
         {
             Request.CurrentPage = pageNumber;
+            await UpdateUrl();
             await Load();
         }
     }
-    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
-    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
     private async Task Searching(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
             hasData = false;
+            await UpdateUrl();
             await Load();
             if (DegreeList != null) hasData = DegreeList.data.Count > 0;
         }
@@ -138,6 +188,9 @@ public partial class DegreeListView : BaseView
     private async Task ClearSearch()
     {
         Request.SearchText = string.Empty;
+        await UpdateUrl();
         await Load();
     }
+    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
+    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
 }
