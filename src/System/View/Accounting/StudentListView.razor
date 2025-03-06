@@ -142,11 +142,12 @@ else
                                     <a @onclick="() => ShowPage(1)" class="page-link">1</a>
                                 </li>
 
-                                <!-- ... si la página actual está lejos de la primera página -->
-                                @if (Request.CurrentPage > 3)
+                                <!-- Páginas adyacentes a la página actual -->
+                                @for (int i = Math.Max(2, Request.CurrentPage - 2); i <= Math.Min(StudentList.totalPages - 1, Request.CurrentPage + 2); i++)
                                 {
-                                    <li class="paginate_button page-item disabled">
-                                        <span class="page-link">...</span>
+                                    int pageNumber = i; // Asegúrate de que pageNumber sea igual a i
+                                    <li class="paginate_button page-item @(Request.CurrentPage == pageNumber ? "active" : "")">
+                                        <a @onclick="() => ShowPage(pageNumber)" class="page-link">@pageNumber</a>
                                     </li>
                                 }
 

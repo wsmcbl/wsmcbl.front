@@ -179,8 +179,9 @@ else
                                 <!-- Páginas adyacentes a la página actual -->
                                 @for (int i = Math.Max(2, Request.CurrentPage - 2); i <= Math.Min(studentList.totalPages - 1, Request.CurrentPage + 2); i++)
                                 {
-                                    <li class="paginate_button page-item @(Request.CurrentPage == i ? "active" : "")">
-                                        <a @onclick="() => ShowPage(i)" class="page-link">@i</a>
+                                    int pageNumber = i; // Asegúrate de que pageNumber sea igual a i
+                                    <li class="paginate_button page-item @(Request.CurrentPage == pageNumber ? "active" : "")">
+                                        <a @onclick="() => ShowPage(pageNumber)" class="page-link">@pageNumber</a>
                                     </li>
                                 }
 
