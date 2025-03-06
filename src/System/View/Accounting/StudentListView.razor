@@ -27,7 +27,7 @@ else
                 </button>
 
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" @onclick="loadStudentList">Actualizar</a>
+                    <a class="dropdown-item" @onclick="LoadStudentList">Actualizar</a>
                 </div>
             </div>
         </div>
@@ -191,5 +191,5 @@ else
 
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 
-    <CreateStudentProfileView onNewStudentCreated="@loadStudentList"/>
+    <CreateStudentProfileView onNewStudentCreated="@LoadStudentList"/>
 }

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.WebUtilities;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
@@ -10,15 +11,17 @@ namespace wsmcbl.src.View.Accounting;
 public partial class StudentListView : BaseView
 {
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
+    [Inject] protected Navigator Navigator { get; set; } = null!;
     private Paginator<StudentEntity>? StudentList { get; set; }
     private PagedRequest Request { get; set; } = new();
     private bool hasData {get; set;}
     
     protected override async Task OnInitializedAsync()
     {
-        await loadStudentList();
+        UpdateRequest();
+        await LoadStudentList();
     }
-    private async Task loadStudentList()
+    private async Task LoadStudentList()
     {
         StudentList = await Controller.GetStudentList(Request);
         hasData = StudentList.data.Count > 0;
@@ -29,6 +32,47 @@ public partial class StudentListView : BaseView
     }
     
     
+    private Task UpdateUrl()
+    {
+        var uri = $"/accounting/students{Request.ToString()}";
+        Navigator.UpdateUrl(uri);
+        return Task.CompletedTask;
+    }
+    private void  UpdateRequest()
+    {
+        var uri = new Uri(Navigator.GetUrl());
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+
+        if (queryParams.TryGetValue("search", out var search))
+        {
+            Request.SearchText = search;
+        }
+
+        if (queryParams.TryGetValue("sortBy", out var sortBy))
+        {
+            Request.sortBy = sortBy;
+        }
+
+        if (queryParams.TryGetValue("isAscending", out var isAscending))
+        {
+            Request.isAscending = bool.Parse(isAscending!);
+        }
+
+        if (queryParams.TryGetValue("page", out var page))
+        {
+            Request.CurrentPage = int.Parse(page!);
+        }
+
+        if (queryParams.TryGetValue("pageSize", out var pageSize))
+        {
+            Request.pageSize = int.Parse(pageSize!);
+        }
+
+        if (queryParams.TryGetValue("quantity", out var quantity))
+        {
+            Request.Quantity = int.Parse(quantity!);
+        }
+    }
     private async Task SortByColumn(string columnName)
     {
         if (Request.sortBy == columnName)
@@ -42,7 +86,8 @@ public partial class StudentListView : BaseView
         }
 
         Request.sortBy = columnName;
-        await loadStudentList();
+        await UpdateUrl();
+        await LoadStudentList();
     }
     private async Task ShowPageSize(ChangeEventArgs e)
     {
@@ -50,7 +95,8 @@ public partial class StudentListView : BaseView
         {
             Request.pageSize = selectedValue;
             Request.CurrentPage = 1;
-            await loadStudentList();
+            await UpdateUrl();
+            await LoadStudentList();
         }
         else
         {
@@ -62,23 +108,26 @@ public partial class StudentListView : BaseView
         if (pageNumber >= 1 && pageNumber <= StudentList!.totalPages)
         {
             Request.CurrentPage = pageNumber;
-            await loadStudentList();
+            await UpdateUrl();
+            await LoadStudentList();
         }
     }
-    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
-    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
     private async Task Searching(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
             hasData = false;
-            await loadStudentList();
+            await UpdateUrl();
+            await LoadStudentList();
             if (StudentList != null) hasData = StudentList.data.Count > 0;
         }
     }
     private async Task ClearSearch()
     {
         Request.SearchText = string.Empty;
-        await loadStudentList();
+        await UpdateUrl();
+        await LoadStudentList();
     }
+    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
+    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
 }

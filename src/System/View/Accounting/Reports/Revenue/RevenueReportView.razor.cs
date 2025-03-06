@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.WebUtilities;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
@@ -9,6 +10,7 @@ namespace wsmcbl.src.View.Accounting.Reports.Revenue;
 public partial class RevenueReportView : BaseView
 {
     [Inject] private Notificator notificator { get; set; } = null!;
+    [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private TransactionReportByDateController controller { get; set; } = null!;
     
     private TransactionsRevenuesDto? report { get; set; }
@@ -24,6 +26,7 @@ public partial class RevenueReportView : BaseView
     protected override async Task OnParametersSetAsync()
     {
         SetDefaultDate();
+        UpdateRequest();
         await LoadTypeTransactions();
         report = new TransactionsRevenuesDto();
         hasData = report.data.Count > 0;
@@ -87,6 +90,47 @@ public partial class RevenueReportView : BaseView
     }
     
     //Method for paginator
+    private Task UpdateUrl()
+    {
+        var uri = $"accounting/reports/revenues{Request.ToString()}";
+        Navigator.UpdateUrl(uri);
+        return Task.CompletedTask;
+    }
+    private void  UpdateRequest()
+    {
+        var uri = new Uri(Navigator.GetUrl());
+        var queryParams = QueryHelpers.ParseQuery(uri.Query);
+
+        if (queryParams.TryGetValue("search", out var search))
+        {
+            Request.SearchText = search;
+        }
+
+        if (queryParams.TryGetValue("sortBy", out var sortBy))
+        {
+            Request.sortBy = sortBy;
+        }
+
+        if (queryParams.TryGetValue("isAscending", out var isAscending))
+        {
+            Request.isAscending = bool.Parse(isAscending!);
+        }
+
+        if (queryParams.TryGetValue("page", out var page))
+        {
+            Request.CurrentPage = int.Parse(page!);
+        }
+
+        if (queryParams.TryGetValue("pageSize", out var pageSize))
+        {
+            Request.pageSize = int.Parse(pageSize!);
+        }
+
+        if (queryParams.TryGetValue("quantity", out var quantity))
+        {
+            Request.Quantity = int.Parse(quantity!);
+        }
+    }
     private async Task SortByColumn(string columnName)
     {
         if (Request.sortBy == columnName)
@@ -100,6 +144,7 @@ public partial class RevenueReportView : BaseView
         }
 
         Request.sortBy = columnName;
+        await UpdateUrl();
         await GetReport();
     }
     private async Task ShowPageSize(ChangeEventArgs e)
@@ -108,6 +153,7 @@ public partial class RevenueReportView : BaseView
         {
             Request.pageSize = selectedValue;
             Request.CurrentPage = 1;
+            await UpdateUrl();
             await GetReport();
         }
         else
@@ -120,16 +166,16 @@ public partial class RevenueReportView : BaseView
         if (pageNumber >= 1 && pageNumber <= report!.totalPages)
         {
             Request.CurrentPage = pageNumber;
+            await UpdateUrl();
             await GetReport();
         }
     }
-    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
-    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
     private async Task Searching(KeyboardEventArgs e)
     {
         if (e.Key == "Enter")
         {
             hasData = false;
+            await UpdateUrl();
             await GetReport();
             if (report != null) hasData = report.data.Count > 0;
         }
@@ -137,6 +183,9 @@ public partial class RevenueReportView : BaseView
     private async Task ClearSearch()
     {
         Request.SearchText = string.Empty;
+        await UpdateUrl();
         await GetReport();
     }
+    private async Task GoToPreviousPage() => await ShowPage(Request.CurrentPage - 1);
+    private async Task GoToNextPage() => await ShowPage(Request.CurrentPage + 1);
 }

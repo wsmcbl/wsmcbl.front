@@ -20,7 +20,7 @@ public class TransactionReportByDateController
         var startDate = getStringFormat(start);
         var endDate = getStringFormat(end);
         
-        var resource = $"transactions/revenues?to={startDate}&from={endDate}{pagedRequest.ToRevenueView()}"; 
+        var resource = $"transactions/revenues?to={endDate}&from={startDate}{pagedRequest.ToRevenueView()}"; 
         var transactionsRevenues = new TransactionsRevenuesDto();
         return await _apiConsumer.GetAsync(Modules.Accounting, resource, transactionsRevenues);
     }
