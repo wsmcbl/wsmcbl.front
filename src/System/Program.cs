@@ -51,6 +51,7 @@ builder.Services.AddTransient<EnablePartialGradeRecordingController>();
 
 // V iteracion
 builder.Services.AddTransient<ApplyArrearsController>(); 
+builder.Services.AddTransient<BackupController>(); 
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>

@@ -6,7 +6,6 @@ namespace wsmcbl.src.Controller;
 public class ChangeEducationLevelController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
-
     public ChangeEducationLevelController(ApiConsumerFactory apiConsumerFactory)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;

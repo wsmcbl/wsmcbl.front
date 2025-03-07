@@ -10,6 +10,7 @@ namespace wsmcbl.src.View.Config.UserList;
 public partial class UserListView : BaseView
 {
     [Inject] private CreateUserController Controller { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
     private string? UserIdForViewInformation {get; set;}
     private UserEntity? User { get; set; }
@@ -44,10 +45,13 @@ public partial class UserListView : BaseView
     
     private async Task ChangePassword(string itemUserId)
     {
-        User = await Controller.ChangePassword(itemUserId);
-        await Navigator.ShowModal("InfoUserModal");
-        StateHasChanged();
-        
+        var response = await Notificator.ShowAlertQuestion("Alerta","¿Estás seguro que deseas cambiar la contraseña?",("Si","No"));
+        if (response)
+        {
+            User = await Controller.ChangePassword(itemUserId);
+            await Navigator.ShowModal("InfoUserModal");
+            StateHasChanged();
+        }
     }
     
     //Method for paginator

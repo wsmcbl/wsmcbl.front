@@ -1,0 +1,30 @@
+@page "/config/backup"
+@attribute [Authorize(Roles = "admin")]
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-database"></i> Descarga de Copia de Seguridad
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning d-flex align-items-center" role="alert">
+            <i class="fas fa-exclamation-triangle fa-2x mr-2"></i>
+            <div>
+                <strong>Importante:</strong> La copia de seguridad descargada es un archivo especial diseñado exclusivamente para restaurar la base de datos del sistema. No está destinado para su lectura o análisis manual.
+            </div>
+        </div>
+        <p>
+            <i class="fas fa-info-circle text-primary"></i>
+            El archivo descargado será el último backup guardado en el servidor dentro de las últimas 24 horas.
+        </p>
+        <p>
+            <i class="fas fa-envelope text-primary"></i>
+            Si tienes inconvenientes o errores en la descarga, por favor contacta al administrador:
+            <a href="mailto:soporte@cbl-edu.com" class="text-primary font-weight-bold">soporte@cbl-edu.com</a>
+        </p>
+        <button class="btn btn-success btn-sm" @onclick="GetBackup">
+            <i class="fas fa-download"></i> Descargar copia de seguridad
+        </button>
+    </div>
+</div>

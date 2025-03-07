@@ -34,6 +34,14 @@ public class ApiConsumer
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
     }
 
+    public async Task<byte[]> GetBackupAsync(Modules module, string resource)
+    {
+        await LoadToken();
+        var response = await _httpClient.GetAsync(BuildUri(module, resource));
+        return await GenericHttpResponse(() => response.Content.ReadAsByteArrayAsync()!, [], response);
+    }
+
+    
     public async Task<T> GetAsync<T>(Modules module, string resource, T defaultResult)
     {
         await LoadToken();
