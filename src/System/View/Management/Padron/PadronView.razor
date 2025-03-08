@@ -1,0 +1,259 @@
+@page "/management/padron"
+
+@using wsmcbl.src.Utilities
+@inherits BaseView
+@attribute [Authorize(Roles = "admin,principal")]
+
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de todos los estudiantes</h6>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" @onclick="DowloadPadron">
+                    Descargar Padrón Actual
+                </button>
+            </div>
+        </div>
+
+        <!------------------------------------------------------------------------------------------------------------------------------------->
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="d-flex align-items-center">
+                        Mostrar
+                        <select class="form-control form-control-sm d-inline-block w-auto mx-2"
+                                @onchange="ShowPageSize">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        registros
+                    </label>
+                </div>
+
+                <div class="col-md-6 d-flex justify-content-end">
+                    <div class="input-group" style="width: 200px;">
+                        <input type="text" class="form-control form-control-sm" placeholder="Buscar..."
+                               @bind="Request.SearchText" @onkeyup="Searching">
+                        @if (!string.IsNullOrEmpty(Request.SearchText))
+                        {
+                            <div class="">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
+                                    ✖
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (hasData)
+            {
+                <div class="d-flex align-items-center justify-content-center">
+                    <h5 class="text-gray-800">Sin datos</h5>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+
+                        <thead>
+                        <tr>
+                            <th @onclick="@(() => SortByColumn("studentId"))"
+                                class="@(Request.sortBy == "studentId" ? "font-weight-bold" : "")">
+                                Código
+                                <span>@(Request.sortBy == "studentId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="@(() => SortByColumn("minedId"))"
+                                class="@(Request.sortBy == "minedId" ? "font-weight-bold" : "")">
+                                Cod. Mined
+                                <span>@(Request.sortBy == "minedId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="@(() => SortByColumn("educationalLevel"))"
+                                class="@(Request.sortBy == "educationalLevel" ? "font-weight-bold" : "")">
+                                Modalidad
+                                <span>@(Request.sortBy == "educationalLevel" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="@(() => SortByColumn("degreePosition"))"
+                                class="@(Request.sortBy == "degreePosition" ? "font-weight-bold" : "")">
+                                Grado
+                                <span>@(Request.sortBy == "degreePosition" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Sección</th>
+                            <th @onclick="@(() => SortByColumn("fullName"))"
+                                class="@(Request.sortBy == "fullName" ? "font-weight-bold" : "")">
+                                Nombre
+                                <span>@(Request.sortBy == "fullName" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="@(() => SortByColumn("birthday"))"
+                                class="@(Request.sortBy == "birthday" ? "font-weight-bold" : "")">
+                                F. Nac
+                                <span>@(Request.sortBy == "birthday" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Edad</th>
+                            <th @onclick="@(() => SortByColumn("sex"))"
+                                class="@(Request.sortBy == "sex" ? "font-weight-bold" : "")">
+                                Sexo
+                                <span>@(Request.sortBy == "sex" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Peso</th>
+                            <th>Altura</th>
+                            <th>Padec</th>
+                            <th @onclick="@(() => SortByColumn("address"))"
+                                class="@(Request.sortBy == "address" ? "font-weight-bold" : "")">
+                                Dirección
+                                <span>@(Request.sortBy == "address" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="@(() => SortByColumn("mother"))"
+                                class="@(Request.sortBy == "mother" ? "font-weight-bold" : "")">
+                                Mamá
+                                <span>@(Request.sortBy == "mother" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Ced. Mamá</th>
+                            <th @onclick="@(() => SortByColumn("father"))"
+                                class="@(Request.sortBy == "father" ? "font-weight-bold" : "")">
+                                Papá
+                                <span>@(Request.sortBy == "father" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Ced. Papá</th>
+                            <th @onclick="@(() => SortByColumn("tutor"))"
+                                class="@(Request.sortBy == "tutor" ? "font-weight-bold" : "")">
+                                Tutor
+                                <span>@(Request.sortBy == "tutor" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Tel. Tutor</th>
+                            <th @onclick="@(() => SortByColumn("isRepeating"))"
+                                class="@(Request.sortBy == "isRepeating" ? "font-weight-bold" : "")">
+                                ¿Repite?
+                                <span>@(Request.sortBy == "isRepeating" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th>Activo</th>
+                            <th @onclick="@(() => SortByColumn("enrollDate"))"
+                                class="@(Request.sortBy == "enrollDate" ? "font-weight-bold" : "")">
+                                Fec. Matrícula
+                                <span>@(Request.sortBy == "enrollDate" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                            <th @onclick="@(() => SortByColumn("schoolyear"))"
+                                class="@(Request.sortBy == "schoolyear" ? "font-weight-bold" : "")">
+                                Año
+                                <span>@(Request.sortBy == "schoolyear" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @foreach (var item in Padron!.data)
+                        {
+                            <tr>
+                                <td> @item.studentId</td>
+                                <td> @item.minedId</td>
+                                <td> @item.educationalLevel</td>
+                                <td> @item.degree</td>
+                                <td> @item.section</td>
+                                <td> @item.fullName</td>
+                                <td> @item.birthday</td>
+                                <td> @item.age</td>
+                                <td> @item.sex.ToSex()</td>
+                                <td> @item.weight</td>
+                                <td> @item.height</td>
+                                <td> @item.diseases</td>
+                                <td> @item.address</td>
+                                <td> @item.mother</td>
+                                <td> @item.motherIdCard</td>
+                                <td> @item.father</td>
+                                <td> @item.fatherIdCard</td>
+                                <td> @item.tutor</td>
+                                <td> @item.phone</td>
+                                <td>
+                                    <span class="status-label @GetStatusLabel(item.isRepeating)">
+                                        @item.isRepeating.ToStringYesOrNo()
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-label @GetStatusLabel(item.isActive)">
+                                    @item.isActive.ToStringYesOrNo()
+                                    </span>
+                                </td>
+                                <td> @item.enrollDate</td>
+                                <td> @item.schoolyear</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-5">
+                        <p>
+                            Mostrando @Padron.data.Count registros de @Padron.quantity
+                        </p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-7">
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <ul class="pagination d-flex justify-content-end">
+                                <!-- Botón Anterior -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
+                                    <a @onclick="GoToPreviousPage" class="page-link">Anterior</a>
+                                </li>
+
+                                <!-- Primera Página -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "active" : "")">
+                                    <a @onclick="() => ShowPage(1)" class="page-link">1</a>
+                                </li>
+
+                                <!-- ... si la página actual está lejos de la primera página -->
+                                @if (Request.CurrentPage > 3)
+                                {
+                                    <li class="paginate_button page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                <!-- Páginas adyacentes a la página actual -->
+                                @for (int i = Math.Max(2, Request.CurrentPage - 2); i <= Math.Min(Padron.totalPages - 1, Request.CurrentPage + 2); i++)
+                                {
+                                    int pageNumber = i; // Asegúrate de que pageNumber sea igual a i
+                                    <li class="paginate_button page-item @(Request.CurrentPage == pageNumber ? "active" : "")">
+                                        <a @onclick="() => ShowPage(pageNumber)" class="page-link">@pageNumber</a>
+                                    </li>
+                                }
+
+                                <!-- ... si la página actual está lejos de la última página -->
+                                @if (Request.CurrentPage < Padron.totalPages - 2)
+                                {
+                                    <li class="paginate_button page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                <!-- Última Página -->
+                                @if (Padron.totalPages > 1)
+                                {
+                                    <li class="paginate_button page-item @(Request.CurrentPage == Padron.totalPages ? "active" : "")">
+                                        <a @onclick="() => ShowPage(Padron.totalPages)"
+                                           class="page-link">@Padron.totalPages</a>
+                                    </li>
+                                }
+
+                                <!-- Botón Siguiente -->
+                                <li class="paginate_button page-item @(Request.CurrentPage == Padron.totalPages ? "disabled" : "")">
+                                    <a @onclick="GoToNextPage" class="page-link">Siguiente</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+        <!-------------------------------------------------------------------------------------------------------------------------------------->
+    </div>
+}

@@ -11,6 +11,11 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+.clickable-row {
+  cursor: pointer;
+}
+
+
 .status-label {
   display: inline-block;
   padding: 3px 5px;
