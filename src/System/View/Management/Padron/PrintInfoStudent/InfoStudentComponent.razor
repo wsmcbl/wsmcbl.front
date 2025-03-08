@@ -1,0 +1,151 @@
+<div class="modal fade" id="PdfStudentInfoModal" tabindex="-1" aria-labelledby="PdfViewerModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- Encabezado del modal (visible en pantalla, oculto al imprimir) -->
+            <div class="modal-header bg-primary text-white no-print">
+                <h5 class="modal-title" id="ModalPdfTitle">Información del @Padron.fullName</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <!-- Logo y Encabezado -->
+                    <div class="row mb-4">
+                        <div class="col-12 text-center">
+                            <img src="img/cbl_logo.png" alt="Logo" class="img-fluid mb-3" style="max-height: 100px;">
+                            <h3>Colegio Bautista Libertad</h3>
+                            <p>Entrada norte, Centro Comercial Managua, 1 cuadra arriba, 1/2 cuadra al sur.</p>
+                            <p>Correo.: soporte@cbl-edu.com</p>
+                            <p>Tel.: 2270-5587</p>
+                            <p>www.cbl-edu.com</p>
+                        </div>
+                    </div>
+
+                    <!-- Datos Generales del Estudiante -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-header bg-gray-900 text-white">
+                                    <h4 class="card-title">DATOS GENERALES DEL ESTUDIANTE</h4>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <th>Código:</th>
+                                            <td>@Padron.studentId</td>
+                                            <th>Cod. MINED:</th>
+                                            <td>@Padron.minedId</td>
+                                            <th>Fecha Nto.:</th>
+                                            <td>@Padron.birthday</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nombre Completo:</th>
+                                            <td colspan="3">@Padron.fullName</td>
+                                            <th>Sexo:</th>
+                                            <td>@(Padron.sex ? "Masculino" : "Femenino")</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Dirección:</th>
+                                            <td colspan="5">@Padron.address</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Enfermedades:</th>
+                                            <td colspan="5">@Padron.diseases</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Peso:</th>
+                                            <td>@Padron.weight kg</td>
+                                            <th>Talla:</th>
+                                            <td>@Padron.height cm</td>
+                                            <th>Edad:</th>
+                                            <td>@Padron.age años</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Datos Académicos -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-header bg-gray-900 text-white">
+                                    <h4 class="card-title">DATOS ACADÉMICOS</h4>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <th>Fecha de Matrícula:</th>
+                                            <td>@Padron.enrollDate</td>
+                                            <th>Año Escolar:</th>
+                                            <td>@Padron.schoolyear</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Nivel Educativo:</th>
+                                            <td>@Padron.educationalLevel</td>
+                                            <th>Grado:</th>
+                                            <td>@Padron.degree</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sección:</th>
+                                            <td>@Padron.section</td>
+                                            <th>Repitente:</th>
+                                            <td>@(Padron.isRepeating ? "Sí" : "No")</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Datos de los Padres -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-header bg-gray-900 text-white">
+                                    <h4 class="card-title">DATOS DE LOS PADRES</h4>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <th>Madre:</th>
+                                            <td>@Padron.mother</td>
+                                            <th>Cédula:</th>
+                                            <td>@Padron.motherIdCard</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Padre:</th>
+                                            <td>@Padron.father</td>
+                                            <th>Cédula:</th>
+                                            <td>@Padron.fatherIdCard</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Tutor:</th>
+                                            <td colspan="3">@Padron.tutor</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Teléfono:</th>
+                                            <td colspan="3">@Padron.phone</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-gray-800">
+                Impreso el @DateTime.Now.ToString("ddd dd/MMM/yyyy, h:mm tt") por @User?.getAlias()
+            </div>
+            <!-- Pie de página del modal (visible en pantalla, oculto al imprimir) -->
+            <div class="modal-footer no-print">
+                <button type="button" class="btn btn-success" onclick="window.print()">Imprimir (F8)</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

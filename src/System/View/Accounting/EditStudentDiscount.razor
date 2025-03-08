@@ -12,8 +12,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="secondN">Codigo de seguridad:</label>
-                    <InputText class="form-control" id="authorizationToken"
-                               @bind-Value="EditDiscount.authorizationToken" placeholder="Obligatorio"/>
+                    <input id="authorizationToken" class="form-control" type="password" @bind="EditDiscount.authorizationToken" placeholder="Obligatorio"/>
                 </div>
 
                 <h5 class="card-title font-weight-bold" style="display: inline-block; width: 200px;">Descuento:</h5>

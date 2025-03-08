@@ -11,7 +11,8 @@ public partial class PadronView : BaseView
 {
     [Inject] PadronController Controller { get; set; } = default!;
     [Inject] Navigator Navigator { get; set; } = default!;
-    
+
+    private PadronDto ThisStudent = new();
     
     //var for paginator
     private Paginator<PadronDto>? Padron { get; set; }
@@ -34,9 +35,13 @@ public partial class PadronView : BaseView
     {
         return Padron == null;
     }
-    private string GetStatusLabel(bool value) => value ? "active-status" : "inactive-status";
 
-    
+    private async Task ShowInfoStudent(PadronDto item)
+    {
+        ThisStudent = item;
+        await Navigator.ShowModal("PdfStudentInfoModal");
+    }
+    private string GetStatusLabel(bool value) => value ? "active-status" : "inactive-status";
     
     //Method for paginator
     private Task UpdateUrl()

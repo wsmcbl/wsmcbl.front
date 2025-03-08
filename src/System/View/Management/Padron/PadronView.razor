@@ -1,6 +1,7 @@
 @page "/management/padron"
 
 @using wsmcbl.src.Utilities
+@using wsmcbl.src.View.Management.Padron.PrintInfoStudent
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,principal")]
 
@@ -44,7 +45,7 @@ else
                                @bind="Request.SearchText" @onkeyup="Searching">
                         @if (!string.IsNullOrEmpty(Request.SearchText))
                         {
-                            <div class="">
+                            <div>
                                 <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
                                     ✖
                                 </button>
@@ -62,85 +63,85 @@ else
             else
             {
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-
+                    <table class="table table-bordered" style="min-width: 1500px;">
                         <thead>
                         <tr>
-                            <th @onclick="@(() => SortByColumn("studentId"))"
+                            <th style="min-width: 50px;">Ver</th>
+                            <th style="min-width: 100px;" @onclick="@(() => SortByColumn("studentId"))"
                                 class="@(Request.sortBy == "studentId" ? "font-weight-bold" : "")">
                                 Código
                                 <span>@(Request.sortBy == "studentId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="@(() => SortByColumn("minedId"))"
+                            <th style="min-width: 100px;" @onclick="@(() => SortByColumn("minedId"))"
                                 class="@(Request.sortBy == "minedId" ? "font-weight-bold" : "")">
                                 Cod. Mined
                                 <span>@(Request.sortBy == "minedId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="@(() => SortByColumn("educationalLevel"))"
+                            <th style="min-width: 100px;" @onclick="@(() => SortByColumn("educationalLevel"))"
                                 class="@(Request.sortBy == "educationalLevel" ? "font-weight-bold" : "")">
                                 Modalidad
                                 <span>@(Request.sortBy == "educationalLevel" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="@(() => SortByColumn("degreePosition"))"
+                            <th style="min-width: 100px;" @onclick="@(() => SortByColumn("degreePosition"))"
                                 class="@(Request.sortBy == "degreePosition" ? "font-weight-bold" : "")">
                                 Grado
                                 <span>@(Request.sortBy == "degreePosition" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th>Sección</th>
-                            <th @onclick="@(() => SortByColumn("fullName"))"
+                            <th style="min-width: 80px;">Sección</th>
+                            <th style="min-width: 200px;" @onclick="@(() => SortByColumn("fullName"))"
                                 class="@(Request.sortBy == "fullName" ? "font-weight-bold" : "")">
                                 Nombre
                                 <span>@(Request.sortBy == "fullName" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="@(() => SortByColumn("birthday"))"
+                            <th style="min-width: 100px;" @onclick="@(() => SortByColumn("birthday"))"
                                 class="@(Request.sortBy == "birthday" ? "font-weight-bold" : "")">
-                                F. Nac
+                                Fecha Nto:
                                 <span>@(Request.sortBy == "birthday" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th>Edad</th>
-                            <th @onclick="@(() => SortByColumn("sex"))"
+                            <th style="min-width: 50px;">Edad</th>
+                            <th style="min-width: 80px;" @onclick="@(() => SortByColumn("sex"))"
                                 class="@(Request.sortBy == "sex" ? "font-weight-bold" : "")">
                                 Sexo
                                 <span>@(Request.sortBy == "sex" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th>Peso</th>
-                            <th>Altura</th>
-                            <th>Padec</th>
-                            <th @onclick="@(() => SortByColumn("address"))"
+                            <th style="min-width: 80px;">Peso</th>
+                            <th style="min-width: 80px;">Altura</th>
+                            <th style="min-width: 100px;">Padec</th>
+                            <th style="min-width: 200px;" @onclick="@(() => SortByColumn("address"))"
                                 class="@(Request.sortBy == "address" ? "font-weight-bold" : "")">
                                 Dirección
                                 <span>@(Request.sortBy == "address" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="@(() => SortByColumn("mother"))"
+                            <th style="min-width: 150px;" @onclick="@(() => SortByColumn("mother"))"
                                 class="@(Request.sortBy == "mother" ? "font-weight-bold" : "")">
                                 Mamá
                                 <span>@(Request.sortBy == "mother" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th>Ced. Mamá</th>
-                            <th @onclick="@(() => SortByColumn("father"))"
+                            <th style="min-width: 100px;">Ced. Mamá</th>
+                            <th style="min-width: 150px;" @onclick="@(() => SortByColumn("father"))"
                                 class="@(Request.sortBy == "father" ? "font-weight-bold" : "")">
                                 Papá
                                 <span>@(Request.sortBy == "father" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th>Ced. Papá</th>
-                            <th @onclick="@(() => SortByColumn("tutor"))"
+                            <th style="min-width: 100px;">Ced. Papá</th>
+                            <th style="min-width: 150px;" @onclick="@(() => SortByColumn("tutor"))"
                                 class="@(Request.sortBy == "tutor" ? "font-weight-bold" : "")">
                                 Tutor
                                 <span>@(Request.sortBy == "tutor" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th>Tel. Tutor</th>
-                            <th @onclick="@(() => SortByColumn("isRepeating"))"
+                            <th style="min-width: 100px;">Tel. Tutor</th>
+                            <th style="min-width: 80px;" @onclick="@(() => SortByColumn("isRepeating"))"
                                 class="@(Request.sortBy == "isRepeating" ? "font-weight-bold" : "")">
                                 ¿Repite?
                                 <span>@(Request.sortBy == "isRepeating" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th>Activo</th>
-                            <th @onclick="@(() => SortByColumn("enrollDate"))"
+                            <th style="min-width: 80px;">Activo</th>
+                            <th style="min-width: 100px;" @onclick="@(() => SortByColumn("enrollDate"))"
                                 class="@(Request.sortBy == "enrollDate" ? "font-weight-bold" : "")">
                                 Fec. Matrícula
                                 <span>@(Request.sortBy == "enrollDate" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
-                            <th @onclick="@(() => SortByColumn("schoolyear"))"
+                            <th style="min-width: 80px;" @onclick="@(() => SortByColumn("schoolyear"))"
                                 class="@(Request.sortBy == "schoolyear" ? "font-weight-bold" : "")">
                                 Año
                                 <span>@(Request.sortBy == "schoolyear" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
@@ -152,6 +153,9 @@ else
                         @foreach (var item in Padron!.data)
                         {
                             <tr>
+                                <td>
+                                    <a class="btn btn-info btn-sm" @onclick="() => ShowInfoStudent(item)">Ver</a>
+                                </td>
                                 <td> @item.studentId</td>
                                 <td> @item.minedId</td>
                                 <td> @item.educationalLevel</td>
@@ -172,14 +176,14 @@ else
                                 <td> @item.tutor</td>
                                 <td> @item.phone</td>
                                 <td>
-                                    <span class="status-label @GetStatusLabel(item.isRepeating)">
-                                        @item.isRepeating.ToStringYesOrNo()
-                                    </span>
+                        <span class="status-label @GetStatusLabel(item.isRepeating)">
+                            @item.isRepeating.ToStringYesOrNo()
+                        </span>
                                 </td>
                                 <td>
-                                    <span class="status-label @GetStatusLabel(item.isActive)">
-                                    @item.isActive.ToStringYesOrNo()
-                                    </span>
+                        <span class="status-label @GetStatusLabel(item.isActive)">
+                            @item.isActive.ToStringYesOrNo()
+                        </span>
                                 </td>
                                 <td> @item.enrollDate</td>
                                 <td> @item.schoolyear</td>
@@ -256,4 +260,6 @@ else
         </div>
         <!-------------------------------------------------------------------------------------------------------------------------------------->
     </div>
+
+    <InfoStudentComponent Padron="@ThisStudent" Title="@ThisStudent.fullName"/>
 }
