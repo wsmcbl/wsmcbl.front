@@ -1,0 +1,56 @@
+@page "/configuration/roles"
+
+@inherits BaseView
+@attribute [Authorize(Roles = "admin")]
+
+@if(!IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Listado de Roles</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Editar</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Editar</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @foreach(var item in Roles)
+                    {
+                        <tr>
+                            <td>@item.roleId</td>
+                            <td>@item.name</td>
+                            <td>@item.description</td>
+                            <td>
+                                <button class="btn btn-success btn-sm" @onclick="() => OpenRoleDetails(item.roleId)">Editar</button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <UpdateRoleComponent permissions="@permissions" Role="@ThisRoles"></UpdateRoleComponent>
+    
+    <!-- Inicializamos datatable -->
+    <script src="js/DataTable/dataTableOrderByName.js"></script>
+}

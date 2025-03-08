@@ -1,0 +1,177 @@
+@inherits BaseView
+
+<div class="modal fade" id="UpdateRoleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="width: 85%; height: 30%; max-width: 90%; max-height: 50%;">
+        <div class="modal-content">
+
+            @if (IsLoading())
+            {
+                <div class="loader"></div>
+            }
+            else
+            {
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                        <h6 class="m-0 font-weight-bold text-primary">Editar Permisos</h6>
+                        <button class="btn btn-success btn-sm" @onclick="UpdateUser">Actualizar</button>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row">
+                            <!-- Columna de Datos del Usuario -->
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-danger">
+                                            <i class="fas fa-database"></i> Datos
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="firstName" class="font-weight-bold text-gray-800">Rol:</label>
+                                                <InputText id="firstName" @bind-Value="@Role.name" class="form-control"
+                                                           placeholder="Sin asignar" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="secondN" class="font-weight-bold text-gray-800">Descripción:</label>
+                                                <InputText id="secondN" @bind-Value="@Role.description" class="form-control"
+                                                           placeholder="Sin asignar" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                                                <i class="fas fa-exclamation-triangle fa-2x mr-2"></i>
+                                                <div>
+                                                    <strong>Importante:</strong>
+                                                    Al modificar los permisos de un rol, estos cambios afectarán a todos los usuarios que lo tengan asignado. Asegúrese de revisar los ajustes antes de aplicar las modificaciones, ya que los usuarios podrían ganar o perder acceso a ciertas funciones del sistema.                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Columna de Permisos -->
+                            <div class="col-md-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-danger">
+                                            <i class="fas fa-key mr-2"></i>Permisos
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="accordion" id="permissionsAccordion">
+                                            <!-- Administración -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingAdmin">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapseAdmin" aria-expanded="true" aria-controls="collapseAdmin">
+                                                            <i class="fas fa-cogs mr-2"></i>Configuración
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseAdmin" class="collapse" aria-labelledby="headingAdmin" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "config"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@Role.permissionList.Contains(item.permissionId)"
+                                                                       @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Secretario -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingSecretary">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapsesecretary" aria-expanded="true" aria-controls="collapsesecretary">
+                                                            <i class="fas fa-user-tie mr-2"></i>Secretaría
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapsesecretary" class="collapse" aria-labelledby="headingSecretary" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "secretary"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@Role.permissionList.Contains(item.permissionId)"
+                                                                       @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Cajero -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingCashier">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapseCashier" aria-expanded="true" aria-controls="collapseCashier">
+                                                            <i class="fas fa-cash-register mr-2"></i>Contabilidad
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseCashier" class="collapse" aria-labelledby="headingCashier" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "accounting"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@Role.permissionList.Contains(item.permissionId)"
+                                                                       @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Maestro -->
+                                            <div class="card">
+                                                <div class="card-header" id="headingTeacher">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link btn-block text-left text-primary font-weight-bold" type="button"
+                                                                data-toggle="collapse" data-target="#collapseTeacher" aria-expanded="true" aria-controls="collapseTeacher">
+                                                            <i class="fas fa-chalkboard-teacher mr-2"></i>Academico
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseTeacher" class="collapse" aria-labelledby="headingTeacher" data-parent="#permissionsAccordion">
+                                                    <div class="card-body">
+                                                        @foreach (var item in permissions.Where(t => t.area == "academy"))
+                                                        {
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input" id="@item.permissionId"
+                                                                       checked="@Role.permissionList.Contains(item.permissionId)"
+                                                                       @onchange="() => AddPermissions(item.permissionId)" />
+                                                                <label class="custom-control-label" for="@item.permissionId">@item.name</label>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>
