@@ -14,7 +14,6 @@ else
             <h6 class="m-0 font-weight-bold text-primary">Activa la mora de los aranceles vencidos</h6>
         </div>
         
-     
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="dataTable" class="table table-bordered">
@@ -25,8 +24,6 @@ else
                             <th>Concepto</th>
                             <th>Monto</th>
                             <th>Vence</th>
-                            <th>Estado</th>
-                            <th>Tipo</th>
                             <th>Modalidad</th>
                             <th>Acciones</th>
                         </tr>
@@ -38,8 +35,6 @@ else
                             <th>Concepto</th>
                             <th>Monto</th>
                             <th>Vence</th>
-                            <th>Estado</th>
-                            <th>Tipo</th>
                             <th>Modalidad</th>
                             <th>Acciones</th>
                         </tr>
@@ -55,21 +50,6 @@ else
                                 <td>@item.Amount</td>
                                 <td>@item.DueDate</td>
                                 <td>
-                                    <span class="status-label @GetStatusLabel(item.IsLate)">
-                                    @(item.IsLate ? "Activado" : "Desactivado")
-                                    </span>
-                                </td>
-                                <td>
-                                    @if (typeTariff != null)
-                                    {
-                                        @typeTariff.Name
-                                    }
-                                    else
-                                    {
-                                        <a>Sin Tipo</a>
-                                    }
-                                </td>
-                                <td>
                                     @(item.educationalLevel == 1 ? "Preescolar" :
                                     item.educationalLevel == 2 ? "Primaria" :
                                     item.educationalLevel == 3 ? "Secundaria" :
@@ -84,15 +64,7 @@ else
                     </table>
                 </div>
             </div>
-        <!-- Inicializamos datatable -->
-        <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
-        
     </div>
-    
-    
-    
-    
-  
 }
 
 

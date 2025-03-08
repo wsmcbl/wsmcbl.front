@@ -8,6 +8,8 @@ namespace wsmcbl.src.View.Accounting;
 public partial class EditStudentDiscount : ComponentBase
 {
     [Parameter] public string? StudentId { get; set; }
+    [Parameter] public EventCallback OnUpdated { get; set; } = default!;
+
     [Inject] private CollectTariffController Controller { get; set; } = default!;
     [Inject] private Notificator Notificator { get; set; } = default!;
     [Inject] private Navigator Navigator { get; set; } = default!;
@@ -30,6 +32,7 @@ public partial class EditStudentDiscount : ComponentBase
             {
                 await Notificator.ShowSuccess("Se ha actualizado el descuento correctamente.");
                 await Navigator.HideModal("EditDiscountModal");
+                await OnUpdated.InvokeAsync();
                 StateHasChanged();
                 return;
             }

@@ -286,7 +286,7 @@ else
 
     <PaymentViewComponent TariffList="@TariffsToPay" OnComplexObjectCreated="@PayTariffs"/>
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>
-    <EditStudentDiscount StudentId="@StudentId"/>
+    <EditStudentDiscount StudentId="@StudentId" OnUpdated="@LoadStudent"/>
     <ForgetDeb FinishTask="LoadStudent" StudentId="@StudentId" TariffId="@TariffIdForDeb"/>
     
 }
