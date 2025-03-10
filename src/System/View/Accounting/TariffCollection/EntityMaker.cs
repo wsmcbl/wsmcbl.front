@@ -43,7 +43,7 @@ public static class EntityMaker
         }
     }
 
-    public static List<DetailDto> MapToDto(this List<TariffEntity> list, bool isApplyArrears, double amountToPay)
+    public static List<DetailDto> MapToDto(this List<TariffEntity> list, bool applyArrears, double amountToPay)
     {
         List<DetailDto> result = [];
 
@@ -54,7 +54,7 @@ public static class EntityMaker
                 break;
             }
             
-            if (!isApplyArrears)
+            if (!applyArrears)
             {
                 item.Arrears = 0;
                 item.ComputeTotal();
@@ -70,7 +70,7 @@ public static class EntityMaker
             {
                 tariffId = item.TariffId,
                 amount = item.Total,
-                applyArrears = !isApplyArrears
+                applyArrears = applyArrears
             });
         }
 
