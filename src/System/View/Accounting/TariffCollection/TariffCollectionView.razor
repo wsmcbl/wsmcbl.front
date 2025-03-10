@@ -1,5 +1,6 @@
 @page "/accounting/students/{StudentID}"
 
+@inherits BaseView
 @attribute [Authorize(Roles = "admin,cashier")]
 
 @using wsmcbl.src.View.Components;

@@ -3,23 +3,23 @@ using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
-public partial class TariffCollectionView : ComponentBase
+public partial class TariffCollectionView : BaseView
 {
     [Parameter] public string? StudentId { get; set; }
     [Inject] protected CollectTariffController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; private set; } = null!;
-    
-    protected List<TariffEntity>? TariffList { get; set; }
-    protected List<TariffEntity>? TariffsToPay { get; set; }
 
-    
-    protected StudentEntity? Student { get; private set; }
-    protected bool IsLoading() => Student == null || TariffList == null;
-    protected double EstimateTotal { get; set; }
+    private List<TariffEntity>? TariffList { get; set; }
+    private List<TariffEntity>? TariffsToPay { get; set; }
+
+
+    private StudentEntity? Student { get; set; }
+    private double EstimateTotal { get; set; }
     private int TariffIdForDeb {get; set;}
 
     
@@ -46,8 +46,7 @@ public partial class TariffCollectionView : ComponentBase
     
     private void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)
     {
-        if (e.Value == null)
-            return;
+        if (e.Value == null) return;
 
         var isSelect = (bool)e.Value;
         var tariffModal = TariffList!.First(t => t.TariffId == tariff.TariffId);
@@ -65,8 +64,9 @@ public partial class TariffCollectionView : ComponentBase
         {
             TariffsToPay!.Remove(tariffModal);
             EstimateTotal -= tariffModal.Amount;
-            if (EstimateTotal < 0)
-            { EstimateTotal = 0; }}
+            
+            if (EstimateTotal < 0) EstimateTotal = 0;
+        }
     }
 
     private async Task OpenModal()
@@ -79,14 +79,9 @@ public partial class TariffCollectionView : ComponentBase
         await Navigator.ShowModal("EditDiscountModal");
     }
     
-    private async Task HandleKeyDown(KeyboardEventArgs e)
+    private async Task HandleKeyDown(KeyboardEventArgs key)
     {
-        if (TariffsToPay!.Count == 0)
-        {
-            return;
-        }
-        
-        if (e.Key == "Enter" && e.CtrlKey)
+        if (TariffsToPay!.Count != 0 && key is { Key: "Enter", CtrlKey: true })
         {
             await OpenModal();
         }
@@ -126,6 +121,9 @@ public partial class TariffCollectionView : ComponentBase
         TariffIdForDeb = tariffId;
         await Navigator.ShowModal("ForgetDebtModal");
     }
-    
-    
+
+    protected override bool IsLoading()
+    {
+        return Student == null || TariffList == null;
+    }
 }
