@@ -284,7 +284,7 @@ else
         </div>
     </div>
 
-    <PaymentViewComponent TariffList="@TariffsToPay" OnComplexObjectCreated="@PayTariffs"/>
+    <PaymentViewComponent TariffList="@TariffsToPay" CollectTariff="@PayTariffs"/>
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>
     <EditStudentDiscount StudentId="@StudentId" OnUpdated="@LoadStudent"/>
     <ForgetDeb FinishTask="LoadStudent" StudentId="@StudentId" TariffId="@TariffIdForDeb"/>
