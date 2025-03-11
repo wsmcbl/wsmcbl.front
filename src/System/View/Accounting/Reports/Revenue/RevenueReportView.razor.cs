@@ -20,8 +20,11 @@ public partial class RevenueReportView : BaseView
     private string MaxDate { get; set; } = DateTime.UtcNow.AddHours(-6).ToString("yyyy-MM-dd");
     
     //var for paginator
-    private PagedRequest Request { get; set; } = new();
-    private bool hasData {get; set;}
+    private PagedRequest Request { get; set; } = new PagedRequest
+    {
+        sortBy = "dateTime",
+        isAscending = false
+    };    private bool hasData {get; set;}
     
     protected override async Task OnParametersSetAsync()
     {

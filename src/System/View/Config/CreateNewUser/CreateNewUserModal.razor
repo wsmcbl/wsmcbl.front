@@ -83,10 +83,16 @@
                                                 <label for="CashierRol">Cajero</label>
                                             </div>
                                             <div class="checkbox-wrapper-14">
-                                                <input type="checkbox" id="TeacherRol"
-                                                       checked="@((User.roleId == 4))"
-                                                       @onchange="() => User.roleId = 4"/>
-                                                <label for="TeacherRol">Profesor</label>
+                                                <input type="checkbox" id="InspectorRol"
+                                                       checked="@((User.roleId == 6))"
+                                                       @onchange="() => User.roleId = 6"/>
+                                                <label for="InspectorRol">Inspector</label>
+                                            </div>
+                                            <div class="checkbox-wrapper-14">
+                                                <input type="checkbox" id="DirectorRol"
+                                                       checked="@((User.roleId == 5))"
+                                                       @onchange="() => User.roleId = 5"/>
+                                                <label for="DirectorRol">Director</label>
                                             </div>
                                         </div>
 
