@@ -37,6 +37,8 @@ public class GenerateStudentRegisterController
 
     private string GetFormattedDate()
     {
-        return DateTime.Now.ToString("ddMMyyyy.HHmm");
+        var timeZoneUTC6 = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+        var value = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneUTC6);
+        return value.ToString("ddMMyy.HHmm");
     }
 }
