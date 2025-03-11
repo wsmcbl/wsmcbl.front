@@ -21,11 +21,13 @@ public partial class PadronView : BaseView
 
     protected override async Task OnParametersSetAsync()
     {
+        UpdateRequest();
         await LoadPadron();
     }
     private async Task LoadPadron()
     {
         Padron = await Controller.GetPadronList(Request);
+        if (Padron != null) hasData = Padron.data.Count > 0;
     }
     private async Task DowloadPadron()
     {

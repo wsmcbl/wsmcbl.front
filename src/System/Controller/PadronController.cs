@@ -27,7 +27,7 @@ public class PadronController
         var fileBytes = await _apiConsumer.GetBackupAsync(Modules.Secretary, "students/registers/documents");
         if (fileBytes.Length > 0)
         {
-            var fileName = $"Padron_{GetFormattedDate()}.xlsx";
+            var fileName = $"Padron.{GetFormattedDate()}.xlsx";
             var base64 = Convert.ToBase64String(fileBytes);
             var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
             await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
@@ -37,6 +37,6 @@ public class PadronController
 
     private string GetFormattedDate()
     {
-        return DateTime.Now.ToString("dd-MM-yyyy HH:mm");
+        return DateTime.Now.ToString("ddMMyyyy.HHmm");
     }
 }

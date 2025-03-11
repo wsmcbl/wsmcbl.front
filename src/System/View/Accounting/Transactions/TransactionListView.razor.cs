@@ -20,7 +20,13 @@ public partial class TransactionListView : BaseView
     private List<TransactionTypeDto>? transactionTypeList { get; set; }
     
     //var for paginator
-    private PagedRequest Request { get; set; } = new();
+    private PagedRequest Request { get; set; } = new PagedRequest
+    {
+        sortBy = "dateTime",
+        isAscending = false
+    };
+
+    
     private Paginator<TransactionFullDto>? transactionList { get; set; }
     private bool hasData {get; set;}
 
