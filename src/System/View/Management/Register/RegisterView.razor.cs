@@ -48,10 +48,11 @@ public partial class RegisterView : BaseView
     //Method for paginator
     private Task UpdateUrl()
     {
-        var uri = $"/management/padron{Request.ToString()}";
+        var uri = $"/management/registers{Request}";
         Navigator.UpdateUrl(uri);
         return Task.CompletedTask;
     }
+    
     private void  UpdateRequest()
     {
         var uri = new Uri(Navigator.GetUrl());
