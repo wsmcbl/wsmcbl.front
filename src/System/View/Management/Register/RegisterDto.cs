@@ -1,6 +1,6 @@
-namespace wsmcbl.src.View.Management.Padron;
+namespace wsmcbl.src.View.Management.Register;
 
-public class PadronDto
+public class RegisterDto
 {
     public string? studentId { get; set; }
     public string? minedId { get; set; }

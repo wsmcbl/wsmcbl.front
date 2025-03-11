@@ -1,9 +1,10 @@
-@page "/management/padron"
+@page "/management/registers"
+
+@inherits BaseView
+@attribute [Authorize(Roles = "admin, principal, secretary")]
 
 @using wsmcbl.src.Utilities
-@using wsmcbl.src.View.Management.Padron.PrintInfoStudent
-@inherits BaseView
-@attribute [Authorize(Roles = "admin,principal")]
+@using wsmcbl.src.View.Management.Register.PrintInfoStudent
 
 @if (IsLoading())
 {

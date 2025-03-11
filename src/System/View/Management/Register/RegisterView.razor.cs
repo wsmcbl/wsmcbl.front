@@ -5,17 +5,17 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 
-namespace wsmcbl.src.View.Management.Padron;
+namespace wsmcbl.src.View.Management.Register;
 
-public partial class PadronView : BaseView
+public partial class RegisterView : BaseView
 {
     [Inject] PadronController Controller { get; set; } = default!;
     [Inject] Navigator Navigator { get; set; } = default!;
 
-    private PadronDto ThisStudent = new();
+    private RegisterDto ThisStudent = new();
     
     //var for paginator
-    private Paginator<PadronDto>? Padron { get; set; }
+    private Paginator<RegisterDto>? Padron { get; set; }
     private PagedRequest Request { get; set; } = new();
     private bool hasData {get; set;}
 
@@ -38,7 +38,7 @@ public partial class PadronView : BaseView
         return Padron == null;
     }
 
-    private async Task ShowInfoStudent(PadronDto item)
+    private async Task ShowInfoStudent(RegisterDto item)
     {
         ThisStudent = item;
         await Navigator.ShowModal("PdfStudentInfoModal");
