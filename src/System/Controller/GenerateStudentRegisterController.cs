@@ -1,24 +1,24 @@
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Management.Padron;
+using wsmcbl.src.View.Management.Register;
 
 namespace wsmcbl.src.Controller;
 
-public class PadronController
+public class GenerateStudentRegisterController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     private readonly IJSRuntime _jsRuntime;
 
-    public PadronController(ApiConsumerFactory apiConsumerFactory, IJSRuntime jsRuntime)
+    public GenerateStudentRegisterController(ApiConsumerFactory apiConsumerFactory, IJSRuntime jsRuntime)
     {
         _jsRuntime = jsRuntime;
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
 
-    public async Task<Paginator<PadronDto>> GetPadronList(PagedRequest pagedRequest)
+    public async Task<Paginator<RegisterDto>> GetPadronList(PagedRequest pagedRequest)
     {
-        Paginator<PadronDto> defaultResult = new ();
+        Paginator<RegisterDto> defaultResult = new ();
         return await _apiConsumer.GetAsync(Modules.Secretary,$"students/registers{pagedRequest}", defaultResult);
     }
 

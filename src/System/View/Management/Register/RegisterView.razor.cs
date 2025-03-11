@@ -9,7 +9,7 @@ namespace wsmcbl.src.View.Management.Register;
 
 public partial class RegisterView : BaseView
 {
-    [Inject] PadronController Controller { get; set; } = default!;
+    [Inject] GenerateStudentRegisterController Controller { get; set; } = default!;
     [Inject] Navigator Navigator { get; set; } = default!;
 
     private RegisterDto ThisStudent = new();
