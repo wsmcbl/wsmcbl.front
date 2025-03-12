@@ -54,6 +54,7 @@ builder.Services.AddTransient<ApplyArrearsController>();
 builder.Services.AddTransient<BackupController>(); 
 builder.Services.AddTransient<GenerateStudentRegisterController>(); 
 builder.Services.AddTransient<UpdateRolesController>(); 
+builder.Services.AddTransient<EnrollmentGuideController>(); 
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
