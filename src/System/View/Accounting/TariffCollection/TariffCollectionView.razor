@@ -81,7 +81,7 @@ else
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in TariffList!)
+                                    @foreach (var item in TariffList!.OrderBy(t => t.TariffId))
                                     {
                                         if (item.Type == 1)
                                         {
@@ -137,7 +137,7 @@ else
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in TariffList!)
+                                    @foreach (var item in TariffList!.OrderBy(t => t.TariffId))
                                     {
                                         if (item.Type != 1)
                                         {
@@ -255,7 +255,7 @@ else
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in Student.debtList)
+                                    @foreach (var item in Student.debtList.OrderBy(t => t.tariffId))
                                     {
                                             <tr>
                                                 <td>@item.tariffId</td>
