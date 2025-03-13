@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.IdentityModel.Tokens;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Academy.EnrollmentGuide;
 
-public partial class EnrollmentGuideComponent : ComponentBase
+public partial class EnrollmentGuideComponent : BaseView
 {
-    [Inject] EnrollmentGuideController Controller { get; set; } = default!;
-    [Inject] JwtClaimsService JwtClaimsService { get; set; } = default!;
-    [Inject] Notificator Notificator { get; set; } = default!;
+    [Inject] private EnrollmentGuideController Controller { get; set; } = default!;
+    [Inject] private JwtClaimsService JwtClaimsService { get; set; } = default!;
+    [Inject] private Notificator Notificator { get; set; } = default!;
 
     private EnrollmentDto Enrollment { get; set; } = new();
 
@@ -24,5 +24,10 @@ public partial class EnrollmentGuideComponent : ComponentBase
         }
 
         Enrollment = await Controller.GetMyEnrollmentGuide(token);
+    }
+    
+    protected override bool IsLoading()
+    {
+        return Enrollment.studentList.Count != 0;
     }
 }

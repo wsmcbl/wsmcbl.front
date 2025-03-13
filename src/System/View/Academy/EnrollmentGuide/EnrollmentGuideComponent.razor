@@ -1,2 +1,163 @@
 @page "/academy/enrollments/my-enrollment"
+@using wsmcbl.src.Utilities
+@inherits BaseView
+
+@if (!IsLoading())
+{
+    <div class="text-gray-800">Esperando la información....</div>
+}
+else
+{
+    <div class="card shadow h-100 py-2 mb-4">
+        <div class="card-body">
+
+            <!-- Título -->
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="d-flex justify-content-center align-items-center mb-3">
+                        <h5 class="m-0 font-weight-bold text-primary">@Enrollment.label</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Card para el docente -->
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Docente</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">N/A</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card para el parcial activo -->
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Cantidad</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.quantity</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card para la sección guiada -->
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Capacidad</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.capacity</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card para la cantidad de secciones -->
+                <div class="col-md-3 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Tiempo para
+                                        calificar
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">1 dia 5 hrs.</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr/>
+
+            <!-- Pestañas -->
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
+                               aria-controls="PanelStudent" aria-selected="true">
+                                Estudiantes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="TabSubject" data-toggle="tab" href="#PanelSubject" role="tab"
+                               aria-controls="PanelSubject" aria-selected="False">
+                                Asignaturas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="TabMetric" data-toggle="tab" href="#PanelMatrics" role="tab"
+                               aria-controls="PanelMatrics" aria-selected="false">
+                                Metricas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body" id="tabContent">
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
+                            <div class="p-3 table-responsive ">
+                                <table id="dataTable" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Cód.</th>
+                                        <th>Cód. Mined</th>
+                                        <th>Nombre</th>
+                                        <th>Sexo</th>
+                                        <th>Edad</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Enrollment.studentList)
+                                    {
+                                        <tr>
+                                            <td>@item.studentId</td>
+                                            <td>@item.minedId</td>
+                                            <td>@item.fullName</td>
+                                            <td>@item.sex.ToSex()</td>
+                                            <td>@item.age</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="PanelSubject" role="tabpanel" aria-labelledby="TabSubject"></div>
+                        
+                        <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric"></div>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
+}
 
