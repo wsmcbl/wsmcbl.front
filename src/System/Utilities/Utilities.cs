@@ -41,7 +41,14 @@ public static class Utilities
     public static string ToSex(this bool isValid) => isValid ? "Varon" : "Mujer";
     
     public static string ToStringYesOrNo(this bool value) => value ? "Sí" : "No";
-
+    public static string ToSemester(this int value) => value switch
+    {
+        1 => "Primero",
+        2 => "Segundo",
+        3 => "Tercero",
+        4 => "Ambos",
+        _ => "Desconocido"
+    };
     public static string? GetValueOrNull(this string? value) => string.IsNullOrWhiteSpace(value?.Trim()) ? null : value;
     
     public static string GetValueOrDefault(this string? value) => string.IsNullOrWhiteSpace(value) ? "N/A" : value;

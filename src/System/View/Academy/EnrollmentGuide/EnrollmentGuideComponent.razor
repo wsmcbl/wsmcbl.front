@@ -147,7 +147,31 @@ else
                             </div>
                         </div>
                         
-                        <div class="tab-pane fade" id="PanelSubject" role="tabpanel" aria-labelledby="TabSubject"></div>
+                        <div class="tab-pane fade" id="PanelSubject" role="tabpanel" aria-labelledby="TabSubject">
+                            <div class="p-3 table-responsive ">
+                                <table id="dataTableSubject" class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Cód.</th>
+                                        <th>Nombre</th>
+                                        <th>Semestre</th>
+                                        <th>¿Reprobable?</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in Enrollment.subjectList)
+                                    {
+                                        <tr>
+                                            <td>@item.subjectId</td>
+                                            <td>@item.name</td>
+                                            <td>@item.semester.ToSemester()</td>
+                                            <td>@item.isMandatory.ToStringYesOrNo()</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         
                         <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric"></div>
 
