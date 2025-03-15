@@ -1,4 +1,8 @@
 @page "/teacher"
+@using wsmcbl.src.View.Components.GetDateRecordingGrade
 @attribute [Authorize(Roles = "teacher")]
 
-<h1 style="text-align: center;">¡Bienvenido Docente!</h1>
+<h1 style="text-align: center; margin-bottom: 20px;">¡Bienvenido Docente!</h1>
+
+
+<GetDateRecordingGradeComponent/>

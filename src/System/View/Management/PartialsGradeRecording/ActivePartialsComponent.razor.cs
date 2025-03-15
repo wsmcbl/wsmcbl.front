@@ -14,17 +14,37 @@ public partial class ActivePartialsComponent : ComponentBase
     [Parameter] public string Semester { get; set; } = string.Empty;
     [Parameter] public string DateRange { get; set; } = string.Empty;
     [Parameter] public bool isActive {get; set;}
+    [Parameter] public EventCallback IsActiveChanged { get; set; }
 
-    private async Task ActivePartial()
+    private async Task ActivePartial(bool flag)
     {
-        var response =  await Controller.ActivePartials(PartialId, isActive);
-        if (response)
+        if (flag)
         {
-            await Notificator.ShowSuccess("Exito","Hemos activado correctamente el parcial, ahora puedes habilitar el registro de calificaciones");
+            isActive = true;
+            var response =  await Controller.ActivePartials(PartialId, isActive);
+            if (response)
+            {
+                await Notificator.ShowSuccess("Exito","Hemos activado correctamente el parcial, ahora puedes habilitar el registro de calificaciones");
+                await Navigator.HideModal("ActivePartialsModal");
+                await IsActiveChanged.InvokeAsync();
+                return;
+            }
+            await Notificator.ShowError("No hemos podido activar el parcial");
             await Navigator.HideModal("ActivePartialsModal");
         }
-        
-        
-        
+        else
+        {
+            isActive = false;
+            var response =  await Controller.ActivePartials(PartialId, isActive);
+            if (response)
+            {
+                await Notificator.ShowSuccess("Exito","Hemos desactivado correctamente el parcial");
+                await Navigator.HideModal("ActivePartialsModal");
+                await IsActiveChanged.InvokeAsync();
+                return;
+            }
+            await Notificator.ShowError("No hemos podido desactivar el parcial");
+            await Navigator.HideModal("ActivePartialsModal");
+        }
     }
 }

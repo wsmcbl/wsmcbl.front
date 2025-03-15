@@ -55,6 +55,7 @@ builder.Services.AddTransient<BackupController>();
 builder.Services.AddTransient<GenerateStudentRegisterController>(); 
 builder.Services.AddTransient<UpdateRolesController>(); 
 builder.Services.AddTransient<EnrollmentGuideController>(); 
+builder.Services.AddTransient<GetDateMaxOfRecordingGradeController>(); 
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>

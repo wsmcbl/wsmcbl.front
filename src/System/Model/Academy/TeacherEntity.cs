@@ -9,4 +9,5 @@ public class TeacherEntity
     
     public EnrollmentEntity? enrollment { get; set; }
     public List<SubjectEntity>? SubjectList { get; set; }
+    
 }

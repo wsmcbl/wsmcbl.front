@@ -8,9 +8,12 @@
                 </button>
             </div>
             <div class="modal-body">
-
-                <div class="row">
-                    <div class="text-gray-800">Al activar el </div>
+                
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <i class="fas fa-exclamation-triangle fa-2x mr-2"></i>
+                    <div>
+                        <strong>Importante:</strong> Al activar el primer parcial, ya no podras mover a los estudiantes de aulas.
+                    </div>
                 </div>
 
                 <div class="row">
@@ -42,13 +45,7 @@
                                         <label style="display: inline-block; width: 200px;">Periodo:</label>
                                         <input type="text" class="form-control" style="margin-bottom: 10px" disabled @bind="DateRange">
                                     </div>
-
-                                    <div class="checkbox-wrapper-14">
-                                        <input type="checkbox" id="isActivePartials" @bind="isActive" />
-                                        <label for="isActivePartials">Activar Parcial</label>
-                                    </div>
-
-
+                                    
                                 </div>
                             </div>
                         </div>
@@ -58,8 +55,18 @@
 
                 <div class="modal-footer">
                     <div class="right-container">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-success" @onclick="ActivePartial">Activar</button>
+                        @if (isActive)
+                        {
+                            <div class="form-group">
+                                <button class="btn btn-secondary" @onclick="(() => ActivePartial(false))">Desactivar Parcial</button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <button class="btn btn-success" @onclick="(() => ActivePartial(true))">Activar Parciale</button>
+                            </div>
+                        }
                     </div>
                 </div>
 

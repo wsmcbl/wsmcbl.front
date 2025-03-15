@@ -1,5 +1,6 @@
 @page "/management/partials"
 
+@using wsmcbl.src.Utilities
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,principal")]
 
@@ -42,7 +43,7 @@ else
                         <tr>
                             <td> @item.partialId </td>
                             <td> @item.label </td>
-                            <td> @item.isActive </td>
+                            <td> @item.isActive.ToStringYesOrNo() </td>
                             <td> @item.semester </td>
                             <td> @item.period </td>
                             <td>
@@ -57,7 +58,7 @@ else
                                         <div class="dropdown-header">Seleccione una opción:</div>
                                         <a class="dropdown-item" @onclick="() => EnablePartials(item.semester, item.partialId, item.period, item.label, item.isActive)">
 
-                                            1. Habilitar parcial
+                                            1. Ver parcial
                                         </a>
                                         <a class="dropdown-item" @onclick="() => EnableGradeRecording(item.semester, item.partialId, item.period, item.label)">
                                             2. Habilitar registros de calificaciones
@@ -75,7 +76,7 @@ else
     </div>
     
     <ActivePartialsGradeComponent Semester="@SemesterForActive" PartialId="@PartialIdForActive" DateRange="@DateRange" PartialName="@PartialNameForActive"/>
-    <ActivePartialsComponent Semester="@SemesterForActive" DateRange="@DateRange" PartialName="@PartialNameForActive" PartialId="PartialIdForActive" isActive="IsActive"/> 
+    <ActivePartialsComponent Semester="@SemesterForActive" DateRange="@DateRange" PartialName="@PartialNameForActive" PartialId="PartialIdForActive" isActive="IsActive" IsActiveChanged="OnInitializedAsync"/> 
     
     
 }

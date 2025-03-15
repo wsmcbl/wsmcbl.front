@@ -17,17 +17,12 @@ public partial class ActivePartialsGradeComponent : ComponentBase
     
     
     
-    private DateTime DeadLine { get; set; } = DateTime.Now.AddHours(1);
-    private DateTime DeadLineMax { get; set; } = DateTime.Now.AddDays(15);
-    private DateTime DeadLineMin { get; set; } = DateTime.Now.AddHours(1);
+    private DateTime DeadLineMax { get; set; } = DateTime.UtcNow.AddDays(15);
+    private DateTime DeadLineMin { get; set; } = DateTime.UtcNow.AddHours(1);
+    private DateTime DeadLine { get; set; } = DateTime.UtcNow.AddHours(2);
+
 
     private string FormatDateTime(DateTime date) => date.ToString("yyyy-MM-ddTHH:mm");
-    
-    
-    protected override Task OnInitializedAsync()
-    {
-        return Task.CompletedTask;
-    }
 
     private async Task ActivePartials()
     {

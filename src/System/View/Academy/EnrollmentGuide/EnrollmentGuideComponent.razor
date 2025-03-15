@@ -1,12 +1,13 @@
 @page "/academy/enrollments/guide"
 @using wsmcbl.src.Utilities
+@using wsmcbl.src.View.Components.GetDateRecordingGrade
 @inherits BaseView
 
 @attribute [Authorize(Roles = "teacher")]
 
 @if (!IsLoading())
 {
-    <div class="text-gray-800">Esperando la información....</div>
+    <div class="loader"></div>
 }
 else
 {
@@ -71,29 +72,34 @@ else
                         </div>
                     </div>
                 </div>
+                
                 <!-- Card para la cantidad de secciones -->
                 <div class="col-md-3 mb-4">
                     <div class="card border-left-warning shadow h-100 py-2">
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Tiempo para
-                                        calificar
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Varones
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">1 dia 5 hrs.</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.studentList.Count(t => t.sex == true)</div>
+                                </div>
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Mujeres
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.studentList.Count(t => t.sex == false)</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fas fa-hourglass-half fa-2x text-gray-300"></i>
+                                    <i class="fas fa-venus-mars fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
             <hr/>
 
             <!-- Pestañas -->
-
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                     <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
