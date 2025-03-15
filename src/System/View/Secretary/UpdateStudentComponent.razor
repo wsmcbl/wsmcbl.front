@@ -4,13 +4,6 @@
     <div class="col-12 col-md-4" style="margin-bottom: 15px">
         <div class="card">
             <div class="card-body" style="min-height: 500px;">
-
-                @if (isEditing)
-                {
-                    <label style="display: inline-block; width: 200px;">Código Mined:</label>
-                    <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.minedId">
-                    <hr/>
-                }
                 
                 <label class="label-required" style="display: inline-block; width: 200px;">Primer nombre:</label>
                 <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student!.name">
@@ -44,6 +37,26 @@
                     <option value="true">Masculino</option>
                     <option value="false">Femenino</option>
                 </select>
+                
+                <hr/>
+                
+                @if (isView)
+                {
+                    <label style="display: inline-block; width: 200px;">Código Mined:</label>
+                    <input type="text" class="form-control" style="margin-bottom: 10px" @bind="Student.minedId">
+                    <hr/>
+                }
+
+                @if (isChangePass)
+                {
+                    <div class="checkbox-wrapper-14">
+                        <input type="checkbox" id="generateTokenId" @onchange="OnCheckboxChanged" />
+                        <label for="generateTokenId">
+                            <h6 class="text-gray-800">Restablecer Contraseña</h6>
+                        </label>
+                    </div>
+                }
+                
             </div>
         </div>
     </div>

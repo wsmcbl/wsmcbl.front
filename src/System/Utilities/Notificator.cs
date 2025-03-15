@@ -81,4 +81,17 @@ public class Notificator
 
         return result.IsConfirmed;
     }
+    
+    public async Task<bool> ShowAlertQuestionOnlyYes(string title, string content, string confirmText)
+    {
+        var result = await Service.FireAsync(new SweetAlertOptions
+        {
+            Icon = SweetAlertIcon.Error,
+            Title = title,
+            Text = content,
+            ConfirmButtonText = confirmText,
+        });
+
+        return result.IsConfirmed;
+    }
 }
