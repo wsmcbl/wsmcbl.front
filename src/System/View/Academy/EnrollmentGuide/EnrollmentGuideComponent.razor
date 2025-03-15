@@ -152,20 +152,18 @@ else
                                 <table id="dataTableSubject" class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>Cód.</th>
-                                        <th>Nombre</th>
-                                        <th>Semestre</th>
-                                        <th>¿Reprobable?</th>
+                                        <th>Asignaturas</th>
+                                        <th>Maestro</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in Enrollment.subjectList)
+                                    @foreach (var item in Enrollment.subjectTeacherIdList)
                                     {
+                                        var subject = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.name ?? "Materia no encontrada";
+                                        var teacher = Teachers.FirstOrDefault(t => t.teacherId == item.teacherId)?.fullName ?? "Maestro no encontrado";
                                         <tr>
-                                            <td>@item.subjectId</td>
-                                            <td>@item.name</td>
-                                            <td>@item.semester.ToSemester()</td>
-                                            <td>@item.isMandatory.ToStringYesOrNo()</td>
+                                            <td>@subject</td>
+                                            <td>@teacher</td>
                                         </tr>
                                     }
                                     </tbody>
