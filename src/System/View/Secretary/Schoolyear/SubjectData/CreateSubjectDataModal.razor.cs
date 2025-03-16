@@ -4,7 +4,7 @@ using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.src.View.Secretary.SchoolYears;
+namespace wsmcbl.src.View.Secretary.Schoolyear.SubjectData;
 
 public partial class CreateSubjectDataModal : ComponentBase
 {
