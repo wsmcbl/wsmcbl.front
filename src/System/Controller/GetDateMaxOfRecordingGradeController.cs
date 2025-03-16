@@ -6,16 +6,24 @@ namespace wsmcbl.src.Controller;
 
 public class GetDateMaxOfRecordingGradeController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
+    private readonly ApiConsumer _apiConsumer;
     
     public GetDateMaxOfRecordingGradeController(ApiConsumerFactory apiConsumerFactory)
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
+        _apiConsumer = apiConsumerFactory.Default;
     }
     
     public async Task<RecondingGradeDateDto?> GetMaxDate()
     {
         RecondingGradeDateDto defaultResult = new();
-        return await _apiConsumer.GetAsync(Modules.Management, "partials/enables", defaultResult);
+        try
+        {
+            return await _apiConsumer.GetAsync(Modules.Management, "partials/enables", defaultResult);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
     }
 }
