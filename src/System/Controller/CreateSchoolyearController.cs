@@ -37,29 +37,4 @@ public class CreateSchoolyearController
         var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }
-
-    public async Task<bool> CreateNewTariff(SchoolyearTariffDto schoolyearTariff)
-    {
-        var resource = "schoolyears/tariffs";
-        TariffDataDto Default = new();
-        var content = MapperDate.MapToTariffDataDto(schoolyearTariff);
-        var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, content, Default);
-        return response != Default;
-    }
-
-    public async Task<bool> CreateNewSubject(SubjectDto subject)
-    {
-        var resource = "configurations/schoolyears/subjects";
-        SubjectDto Default = new();
-        var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, subject, Default);
-        return response != Default;
-    }
-    
-    public async Task<List<DropDownItem>> GetTypeTariffList()
-    {
-        var resource = "tariffs/types";
-        List<TypeTariffDto> Default = [];
-        var response = await _apiConsumer.GetAsync(Modules.Accounting, resource, Default);
-        return response.Select(dto => dto.ToDropdownList()).ToList();
-    }
 }
