@@ -6,9 +6,9 @@ using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
-namespace wsmcbl.src.View.Secretary.SchoolYears;
+namespace wsmcbl.src.View.Secretary.Schoolyear;
 
-public class ConfigSchoolYear : ComponentBase
+public class CreateSchoolyear : ComponentBase
 {
     [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
