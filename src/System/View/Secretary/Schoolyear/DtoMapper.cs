@@ -1,10 +1,24 @@
 using wsmcbl.src.dto.Output;
+using wsmcbl.src.View.Components.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
+using TariffCreateNewSchoolYearDto = wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear.TariffCreateNewSchoolYearDto;
 
-namespace wsmcbl.src.View.Secretary.SchoolYears;
+namespace wsmcbl.src.View.Secretary.Schoolyear;
 
-public static class MapperDate
+public static class DtoMapper
 {
+    public static List<GradeCreateNewSchoolYearDto> ToListDto(this List<DegreeDto>? listGrade)
+    {
+        return listGrade == null ? [] : 
+            listGrade.Select(e => new GradeCreateNewSchoolYearDto(e)).ToList();
+    }
+    
+    public static List<TariffCreateNewSchoolYearDto> ToListDto(this List<SchoolyearTariffDto> tariffList)
+    {
+        return tariffList.Select(e => new TariffCreateNewSchoolYearDto(e)).ToList();
+    }
+    
     public static TariffDataDto MapToTariffDataDto(SchoolyearTariffDto schoolyearTariffDto)
     {
         return new TariffDataDto
@@ -17,13 +31,6 @@ public static class MapperDate
         };
     }
     
-    public static DateEntity? ToEntityOrNull(this DateOnly? dateOnly)
-    {
-        return dateOnly == null ? null : ToEntity((DateOnly)dateOnly);
-    }
-
-    public static DateEntity ToEntity(this DateOnly dateOnly) => new(dateOnly);
-
     public static int AgeCompute(this DateOnly? birthday)
     {
         if (birthday == null)
