@@ -2,7 +2,7 @@ using wsmcbl.src.View.Components.Dto;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
-public class PartialDto
+public class PartialToCreateDto
 {
     public int partial { get; set; }
     public int semester { get; set; }
