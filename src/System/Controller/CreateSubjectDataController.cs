@@ -3,18 +3,14 @@ using wsmcbl.src.View.Academy.EnrollmentGuide;
 
 namespace wsmcbl.src.Controller;
 
-public class CreateSubjectDataController
+public class CreateSubjectDataController : BaseController
 {
-    private readonly ApiConsumerFactory apiFactory;
-    
-    public CreateSubjectDataController(ApiConsumerFactory apiFactory)
+    public CreateSubjectDataController(ApiConsumerFactory apiFactory) : base(apiFactory, "catalogs")
     {
-        this.apiFactory = apiFactory;
     }
     
     public async Task<bool> CreateSubjectData(SubjectDto subject)
     {
-        var resource = "schoolyears/subjects";
         SubjectDto Default = new();
         var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, subject, Default);
         return response != Default;
