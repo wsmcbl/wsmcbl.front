@@ -59,6 +59,7 @@ builder.Services.AddTransient<EnrollmentGuideController>();
 builder.Services.AddTransient<GetDateMaxOfRecordingGradeController>();
 builder.Services.AddTransient<CreateSchoolyearController>();
 builder.Services.AddTransient<CreateSubjectDataController>();
+builder.Services.AddTransient<CreateTariffDataController>();
 
 
 var app = builder.Build();
