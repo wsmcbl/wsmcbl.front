@@ -12,15 +12,15 @@ public class EnablePartialGradeRecordingController
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<List<PartialListDto>> GetPartials()
+    public async Task<List<PartialDto>> GetPartials()
     {
-        List<PartialListDto> defaultResult = [];
+        List<PartialDto> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Management, "partials", defaultResult);
     }
 
     public async Task<bool> ActivePartials(int partialId, bool isActive)
     {
-        List<PartialListDto> defaultResult = [];
+        List<PartialDto> defaultResult = [];
         return await _apiConsumer.PutAsync(Modules.Management, $"partials/{partialId}/activate?isActive={isActive}", defaultResult);
     }
 
@@ -28,7 +28,7 @@ public class EnablePartialGradeRecordingController
     { 
         var resource = "";
         resource = isActive == false ? $"partials/{partialId}?enable={isActive}" : $"partials/{partialId}?enable={isActive}&deadline={endTime}";
-        List<PartialListDto> defaultResult = [];
+        List<PartialDto> defaultResult = [];
         return await _apiConsumer.PutAsync(Modules.Management, resource, defaultResult);
     }
 }

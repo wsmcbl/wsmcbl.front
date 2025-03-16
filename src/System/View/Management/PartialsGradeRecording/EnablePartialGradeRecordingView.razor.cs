@@ -9,7 +9,7 @@ public partial class EnablePartialGradeRecordingView : BaseView
 {
     [Inject] public EnablePartialGradeRecordingController Controller { get; set; } = default!;
     [Inject] public Navigator Navigator { get; set; } = default!;
-    private List<PartialListDto> Partials { get; set; } = new();
+    private List<PartialDto> Partials { get; set; } = new();
     
     private string SemesterForActive { get; set; } = string.Empty;
     private string DateRange { get; set; } = string.Empty;
