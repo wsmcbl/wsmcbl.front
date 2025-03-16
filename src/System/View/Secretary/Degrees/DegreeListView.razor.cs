@@ -5,7 +5,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
-using wsmcbl.src.View.Secretary.Schoolyear.Dto;
+using wsmcbl.src.View.Secretary.Schoolyear;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 

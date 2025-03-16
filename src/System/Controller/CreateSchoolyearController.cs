@@ -1,5 +1,5 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.View.Secretary.Schoolyear.Dto;
+using wsmcbl.src.View.Secretary.Schoolyear;
 
 namespace wsmcbl.src.Controller;
 
@@ -11,19 +11,23 @@ public class CreateSchoolyearController : BaseController
     
     public async Task<List<BasicSchoolyearDto>> GetSchoolyearList()
     {
-        return await apiFactory.Default.GetAsync(Modules.Secretary, resource,new List<BasicSchoolyearDto>());
+        return await apiFactory.Default
+            .GetAsync(Modules.Secretary, resource,new List<BasicSchoolyearDto>());
     }
     
-    public async Task<Model.Secretary.SchoolYearEntity> GetNewSchoolYears(Model.Secretary.SchoolYearEntity Default)
+    public async Task<SchoolyearDto> GetSchoolyearById(string schoolyearId)
     {
-        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
+        var uri = $"{resource}/{schoolyearId}";
+        
+        var Default = new SchoolyearDto();
+        return await apiFactory.Default.GetAsync(Modules.Secretary, uri, Default);
     }
     
-    public async Task<bool> CreateSchoolyear(Model.Secretary.SchoolYearEntity schoolYearEntity, List<PartialListDto> partials)
+    public async Task<bool> CreateSchoolyear(SchoolyearToCreateDto value)
     {
-        Model.Secretary.SchoolYearEntity Default = new(); 
-        var content = new CreateSchoolYearDto(schoolYearEntity, partials);
-        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, content, Default);
+        var Default = new SchoolyearDto();
+        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, value, Default);
+
         return response != Default;
     }
 }

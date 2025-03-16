@@ -1,11 +1,6 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.dto.Output;
 using wsmcbl.src.Model.Academy;
-using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Degrees.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.Controller;
 
