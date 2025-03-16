@@ -7,10 +7,10 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 public class ListSchoolYears : ComponentBase
 {
     protected List<SchoolYearDto>? SchoolYear;
-    [Inject] protected CreateSchoolYearController Controller { get; set; } = null!;
+    [Inject] protected CreateSchoolyearController Controller { get; set; } = null!;
     
     protected override async Task OnParametersSetAsync()
     {
-        SchoolYear = await Controller.GetSchoolYearsList();
+        SchoolYear = await Controller.GetSchoolyearList();
     }
 }

@@ -8,7 +8,7 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 public partial class ModalNewTariff : ComponentBase
 {
     [Parameter] public List<DropDownItem>? TariffTypeItemList { get; set; }
-    [Inject] protected CreateSchoolYearController controller { get; set; } = null!;
+    [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
     
     private SchoolyearTariffDto SelectedSchoolyearTariff = new();

@@ -10,7 +10,7 @@ namespace wsmcbl.src.View.Secretary.SchoolYears;
 
 public class ConfigSchoolYear : ComponentBase
 {
-    [Inject] protected CreateSchoolYearController controller { get; set; } = null!;
+    [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
     protected SchoolYearEntity? SchoolYear { get; set; }
     private List<PartialListDto>? PartialListDto { get; set; }
@@ -64,7 +64,7 @@ public class ConfigSchoolYear : ComponentBase
     protected async Task SaveSchoolYear()
     {
         SchoolYear!.UpdateTariffList();
-        var response = await controller!.SaveNewSchoolYear(SchoolYear, PartialListDto!);
+        var response = await controller!.CreateSchoolyear(SchoolYear, PartialListDto!);
         if (response)
         {
             await Notificator!.ShowSuccess("Se ha creado el año lectivo correctamente.");

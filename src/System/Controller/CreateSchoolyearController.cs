@@ -7,31 +7,31 @@ using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.Controller;
 
-public class CreateSchoolYearController
+public class CreateSchoolyearController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
 
-    public CreateSchoolYearController(ApiConsumerFactory apiConsumerFactory)
+    public CreateSchoolyearController(ApiConsumerFactory apiConsumerFactory)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<List<SchoolYearDto>> GetSchoolYearsList()
+    public async Task<List<SchoolYearDto>> GetSchoolyearList()
     {
-        var resource = "configurations/schoolyears?q=all";
+        var resource = "schoolyears";
         List<SchoolYearDto> Default = [];
         return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
     }
     
     public async Task<Model.Secretary.SchoolYearEntity> GetNewSchoolYears(Model.Secretary.SchoolYearEntity Default)
     {
-        var resource = "configurations/schoolyears?q=new";
+        var resource = "schoolyears";
         return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
     }
     
-    public async Task<bool> SaveNewSchoolYear(Model.Secretary.SchoolYearEntity schoolYearEntity, List<PartialListDto> partials)
+    public async Task<bool> CreateSchoolyear(Model.Secretary.SchoolYearEntity schoolYearEntity, List<PartialListDto> partials)
     {
-        var resource = "configurations/schoolyears";
+        var resource = "schoolyears";
         Model.Secretary.SchoolYearEntity Default = new(); 
         var content = new CreateSchoolYearDto(schoolYearEntity, partials);
         var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, content, Default);
@@ -40,7 +40,7 @@ public class CreateSchoolYearController
 
     public async Task<bool> CreateNewTariff(SchoolyearTariffDto schoolyearTariff)
     {
-        var resource = "configurations/schoolyears/tariffs";
+        var resource = "schoolyears/tariffs";
         TariffDataDto Default = new();
         var content = MapperDate.MapToTariffDataDto(schoolyearTariff);
         var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, content, Default);

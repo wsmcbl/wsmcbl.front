@@ -17,7 +17,7 @@ public partial class DegreeListView : BaseView
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected CreateEnrollmentController controller { get; set; } = null!;
-    [Inject] protected CreateSchoolYearController SchoolYearController { get; set; } = null!;
+    [Inject] protected CreateSchoolyearController schoolyearController { get; set; } = null!;
     [Inject] protected PrintDocumentController documentController { get; set; } = null!;
     
     private DegreeEntity? Degree { get; set; }
@@ -32,7 +32,7 @@ public partial class DegreeListView : BaseView
     protected override async Task OnInitializedAsync()
     {
         await Load();
-        ThisSchoolYear = await SchoolYearController.GetSchoolYearsList();
+        ThisSchoolYear = await schoolyearController.GetSchoolyearList();
     }
 
     protected override void OnParametersSet()

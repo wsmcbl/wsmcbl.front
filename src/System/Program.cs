@@ -27,7 +27,7 @@ builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredServ
 
 // I iteration
 builder.Services.AddTransient<CollectTariffController>();
-builder.Services.AddTransient<CreateSchoolYearController>();
+builder.Services.AddTransient<CreateSchoolyearController>();
 builder.Services.AddTransient<UpdateOfficialEnrollmentController>();
 builder.Services.AddTransient<EnrollStudentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
