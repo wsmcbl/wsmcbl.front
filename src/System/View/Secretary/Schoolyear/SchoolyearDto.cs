@@ -1,5 +1,6 @@
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.View.Components.Dto;
+using wsmcbl.src.View.Management.PartialsGradeRecording;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
