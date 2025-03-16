@@ -20,4 +20,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="View\Secretary\Schoolyear\SubjectData\CreateSubjectDataModal.razor" />
+    <AdditionalFiles Include="View\Secretary\Schoolyear\TariffData\CreateTariffDataModal.razor" />
+    <AdditionalFiles Include="View\Secretary\Schoolyear\TariffData\UpdateTariffDataModal.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="View\Secretary\Schoolyear\TariffData\SubjectData\CreateSubjectDataModal.razor" />
+  </ItemGroup>
 </Project>

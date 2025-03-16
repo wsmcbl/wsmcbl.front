@@ -3,7 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.src.View.Secretary.Schoolyear;
+namespace wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
 public partial class CreateTariffDataModal : ComponentBase
 {
