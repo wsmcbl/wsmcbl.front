@@ -5,7 +5,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Secretary.Schoolyear.Dto;
 
 namespace wsmcbl.src.View.Secretary.Degrees;
 
@@ -21,7 +21,7 @@ public partial class DegreeListView : BaseView
     [Inject] protected PrintDocumentController documentController { get; set; } = null!;
     
     private DegreeEntity? Degree { get; set; }
-    private List<SchoolYearDto>? ThisSchoolYear; 
+    private List<BasicSchoolyearDto>? SchoolyearList; 
     
     //Var for paginator
     private Paginator<DegreeEntity>? DegreeList { get; set; }
@@ -32,7 +32,7 @@ public partial class DegreeListView : BaseView
     protected override async Task OnInitializedAsync()
     {
         await Load();
-        ThisSchoolYear = await schoolyearController.GetSchoolyearList();
+        SchoolyearList = await schoolyearController.GetSchoolyearList();
     }
 
     protected override void OnParametersSet()

@@ -103,9 +103,9 @@ else
                             <tr>
                                 <td> @item.degreeId </td>
                                 <td>
-                                    @if (ThisSchoolYear != null)
+                                    @if (SchoolyearList != null)
                                     {
-                                        @ThisSchoolYear.FirstOrDefault(t => t.SchoolYearId == item.schoolYear)!.Label
+                                        @SchoolyearList.FirstOrDefault(t => t.SchoolYearId == item.schoolYear)!.Label
                                     }
                                     else
                                     {
