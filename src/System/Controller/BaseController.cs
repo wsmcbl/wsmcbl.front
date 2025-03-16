@@ -4,6 +4,6 @@ namespace wsmcbl.src.Controller;
 
 public class BaseController(ApiConsumerFactory apiFactory, string resource)
 {
-    protected string baseModule = resource;
+    protected string resource = resource;
     protected readonly ApiConsumerFactory apiFactory = apiFactory;
 }

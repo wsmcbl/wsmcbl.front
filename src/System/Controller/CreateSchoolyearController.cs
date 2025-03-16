@@ -7,34 +7,28 @@ using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.Controller;
 
-public class CreateSchoolyearController
+public class CreateSchoolyearController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-
-    public CreateSchoolyearController(ApiConsumerFactory apiConsumerFactory)
+    public CreateSchoolyearController(ApiConsumerFactory apiFactory) : base(apiFactory, "schoolyears")
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<List<SchoolYearDto>> GetSchoolyearList()
     {
-        var resource = "schoolyears";
         List<SchoolYearDto> Default = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
+        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
     }
     
     public async Task<Model.Secretary.SchoolYearEntity> GetNewSchoolYears(Model.Secretary.SchoolYearEntity Default)
     {
-        var resource = "schoolyears";
-        return await _apiConsumer.GetAsync(Modules.Secretary, resource, Default);
+        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
     }
     
     public async Task<bool> CreateSchoolyear(Model.Secretary.SchoolYearEntity schoolYearEntity, List<PartialListDto> partials)
     {
-        var resource = "schoolyears";
         Model.Secretary.SchoolYearEntity Default = new(); 
         var content = new CreateSchoolYearDto(schoolYearEntity, partials);
-        var response = await _apiConsumer.PostAsync(Modules.Secretary, resource, content, Default);
+        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, content, Default);
         return response != Default;
     }
 }
