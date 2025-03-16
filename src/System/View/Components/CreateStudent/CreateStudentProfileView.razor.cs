@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Components.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Components.CreateStudent;
@@ -22,7 +23,7 @@ public partial class CreateStudentProfileView : ComponentBase
     { 
         if (DateTime.TryParse(e.Value?.ToString(), out DateTime selectedDate))
         {
-            StudentToCreate.student.birthday = new DateEntity(selectedDate);
+            StudentToCreate.student.birthday = new DateOnlyDto(selectedDate);
         }
     }
     

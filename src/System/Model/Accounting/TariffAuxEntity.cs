@@ -1,3 +1,4 @@
+using wsmcbl.src.View.Components.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.Model.Accounting;
@@ -40,7 +41,7 @@ public class TariffAuxEntity
             {
                 schoolYear = SchoolYear,
                 concept = Concept,
-                dueDate = DueDate == null ? null : new DateEntity(DueDate),
+                dueDate = DueDate == null ? null : DueDate.MapToDto(),
                 type = Type,
                 modality = item.Key,
                 amount = item.Value

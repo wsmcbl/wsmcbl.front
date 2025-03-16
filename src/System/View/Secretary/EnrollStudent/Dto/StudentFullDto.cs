@@ -1,5 +1,6 @@
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Components.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
@@ -14,7 +15,7 @@ public class StudentFullDto
     public string surname { get; set; } = null!;
     public string? secondSurname { get; set; }
     public bool sex { get; set; }
-    public DateEntity birthday { get; set; } = null!;
+    public DateOnlyDto birthday { get; set; } = null!;
     public bool isActive { get; set; }
     public string? religion { get; set; } = null!;
     public string? diseases { get; set; } = null!;
@@ -41,7 +42,7 @@ public class StudentFullDto
         secondSurname = student.secondSurname.GetValueOrNull();
         
         sex = student.sex;
-        birthday = student.birthday.ToEntityOrNull()!;
+        birthday = student.birthday.MapToDto()!;
         isActive = student.isActive;
         
         religion = student.religion.GetValueOrDefault();

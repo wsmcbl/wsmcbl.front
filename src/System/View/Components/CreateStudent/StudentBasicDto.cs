@@ -1,3 +1,4 @@
+using wsmcbl.src.View.Components.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Components.CreateStudent;
@@ -10,7 +11,7 @@ public class StudentBasicDto
     public string surname { get; set; } 
     public string? secondSurname { get; set; }
     public bool sex { get; set; }
-    public DateEntity birthday { get; set; } = null!;
+    public DateOnlyDto birthday { get; set; } = null!;
 
     public StudentBasicDto()
     {
@@ -32,6 +33,6 @@ public class StudentBasicDto
 
     public void ResetBirthDay()
     {
-        birthday = new DateEntity(DateTime.Today);
+        birthday = new DateOnlyDto(DateTime.Today);
     }
 }

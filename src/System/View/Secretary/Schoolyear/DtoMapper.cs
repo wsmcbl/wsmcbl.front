@@ -25,7 +25,7 @@ public static class DtoMapper
         {
             concept = schoolyearTariffDto.concept,
             amount = schoolyearTariffDto.amount,
-            DueDateEntity = schoolyearTariffDto.OnlyDate.ToEntity(),
+            DueDateEntity = schoolyearTariffDto.OnlyDate.MapToDto(),
             typeId = schoolyearTariffDto.type,
             modality = schoolyearTariffDto.modality
         };
