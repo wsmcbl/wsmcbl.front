@@ -1,6 +1,6 @@
-namespace wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
+namespace wsmcbl.src.View.Secretary.Schoolyear;
 
-public class TariffAndServicesTemplate
+public class TariffDtoTemplate
 {
     public string? concept { get; set; }
     public DateOnly dueDate { get; set; }
