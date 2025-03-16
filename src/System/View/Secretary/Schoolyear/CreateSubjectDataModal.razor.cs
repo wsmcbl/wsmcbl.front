@@ -6,7 +6,7 @@ using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Secretary.SchoolYears;
 
-public partial class ModalNewSubject : ComponentBase
+public partial class CreateSubjectDataModal : ComponentBase
 {
     [Parameter] public SchoolYearEntity? SchoolYearEntity { get; set; }
     [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
