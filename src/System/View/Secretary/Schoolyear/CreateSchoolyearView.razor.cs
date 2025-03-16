@@ -3,68 +3,73 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Base;
+using wsmcbl.src.View.Components.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
-public class CreateSchoolyear : ComponentBase
+public partial class CreateSchoolyearView : BaseView
 {
-    [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
-    [Inject] protected Notificator? Notificator { get; set; }
-    protected SchoolYearEntity? SchoolYear { get; set; }
+    [Inject] protected CreateSchoolyearController schoolyearController { get; set; } = null!;
+    [Inject] protected CreateTariffDataController tariffDataController { get; set; } = null!;
+    [Inject] protected Notificator Notificator { get; set; } = null!;
+    private SchoolYearEntity? Schoolyear { get; set; }
     private List<PartialListDto>? PartialListDto { get; set; }
-    
-    protected DegreeDto? SelectedDegree;
-    protected List<DropDownItem> TariffTypeItemList { get; set; } = new();
-    protected ModalEditTariff? modalEditTariffRef { get; set; }
-    
+
+    private DegreeDto? SelectedDegree;
+    private List<DropDownItem> TariffTypeItemList { get; set; } = new();
+
     protected override async Task OnParametersSetAsync()
     {
         var defaultSchoolyear = new SchoolYearEntity();
-        SchoolYear = await controller!.GetNewSchoolYears(defaultSchoolyear);
-        TariffTypeItemList = await controller.GetTypeTariffList();
+        Schoolyear = await schoolyearController!.GetNewSchoolYears(defaultSchoolyear);
         
-        if (SchoolYear == defaultSchoolyear || TariffTypeItemList == null)
+        TariffTypeItemList = await tariffDataController.GetTypeTariffList();
+
+        if (Schoolyear == defaultSchoolyear || TariffTypeItemList == null)
         {
             throw new InternalException("Es posible que exista más de 2 años lectivos activos al mismo tiempo.");
         }
-        
+
         ConfigInformation();
     }
-    
+
     private void ConfigInformation()
-    { 
-        SchoolYear!.InitTariffAuxList();
-        
+    {
+        Schoolyear!.InitTariffAuxList();
+
         PartialListDto =
         [
-            new PartialListDto { semester = 1, partial = 1},
+            new PartialListDto { semester = 1, partial = 1 },
             new PartialListDto { semester = 1, partial = 2 },
             new PartialListDto { semester = 2, partial = 1 },
             new PartialListDto { semester = 2, partial = 2 }
         ];
     }
-    protected void OnDateChanged(ChangeEventArgs e, int index, bool isStartDate)
+
+    private void OnDateChanged(ChangeEventArgs e, int index, bool isStartDate)
     {
-        if (!DateTime.TryParse(e.Value!.ToString(), out DateTime selectedDate))
+        if (!DateTime.TryParse(e.Value!.ToString(), out var selectedDate))
         {
             return;
         }
-        
+
         if (isStartDate)
         {
-            PartialListDto![index].startDate = new DateEntity(selectedDate);
+            PartialListDto![index].startDate = new DateOnlyDto(selectedDate);
         }
         else
         {
-            PartialListDto![index].deadLine = new DateEntity(selectedDate);
+            PartialListDto![index].deadLine = new DateOnlyDto(selectedDate);
         }
     }
-    protected async Task SaveSchoolYear()
+
+    private async Task CreateSchoolyear()
     {
-        SchoolYear!.UpdateTariffList();
-        var response = await controller!.CreateSchoolyear(SchoolYear, PartialListDto!);
+        Schoolyear!.UpdateTariffList();
+        var response = await schoolyearController!.CreateSchoolyear(Schoolyear, PartialListDto!);
         if (response)
         {
             await Notificator!.ShowSuccess("Se ha creado el año lectivo correctamente.");
@@ -74,35 +79,32 @@ public class CreateSchoolyear : ComponentBase
             await Notificator!.ShowError("Hubo un fallo al crear el año lectivo.");
         }
     }
-    protected void SelectGrade(DegreeDto degree)
+
+    private void SelectGrade(DegreeDto degree)
     {
         SelectedDegree = degree;
     }
-    protected void RemoveSubject(SubjectDto subject)
+
+    private void RemoveSubject(SubjectDto subject)
     {
         if (SelectedDegree != null)
         {
             SelectedDegree.subjects.Remove(subject);
         }
     }
-    protected void RemoveTariff(TariffAuxEntity tariff)
+
+    private void RemoveTariff(TariffAuxEntity tariff)
     {
-        SchoolYear!.tariffAuxList!.Remove(tariff);
+        Schoolyear!.tariffAuxList!.Remove(tariff);
     }
-    protected string GetSelectedClass(DegreeDto degree)
+
+    private string GetSelectedClass(DegreeDto degree)
     {
         return degree == SelectedDegree ? "selected-grade" : string.Empty;
     }
-    protected async Task CallEditTariff(TariffAuxEntity item)
+
+    protected override bool IsLoading()
     {
-        if (modalEditTariffRef != null)
-        {
-            await modalEditTariffRef.EditTariff(item);
-        }
+        return Schoolyear == null;
     }
-    protected void RefreshParentComponent()
-    {
-        StateHasChanged();
-    }
-    
 }
