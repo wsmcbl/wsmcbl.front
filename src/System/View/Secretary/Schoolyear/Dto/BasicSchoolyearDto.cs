@@ -1,11 +1,11 @@
 using Newtonsoft.Json;
 
-namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
+namespace wsmcbl.src.View.Secretary.Schoolyear.Dto;
 
-public class SchoolYearDto
+public class BasicSchoolyearDto
 { 
-    [JsonProperty("schoolYearId")] 
-    public string SchoolYearId { get; set; } = null!;
+    [JsonProperty("schoolyearId")] 
+    public string SchoolyearId { get; set; } = null!;
     
     [JsonProperty("label")] 
     public string Label { get; set; } = null!;
