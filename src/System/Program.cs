@@ -21,27 +21,28 @@ builder.Services.AddTransient<JwtClaimsService>();
 builder.Services.AddTransient<ApiConsumerFactory>();
 builder.Services.AddTransient<CustomAuthenticationStateProvider>();
 
+builder.Services.ConfigAuthentication();
 builder.Services.AddAuthorizationCore();
+
 builder.Services.AddScoped<ProtectedLocalStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
 
-// I iteration
+
 builder.Services.AddTransient<CollectTariffController>();
-builder.Services.AddTransient<CreateSchoolyearController>();
 builder.Services.AddTransient<UpdateOfficialEnrollmentController>();
 builder.Services.AddTransient<EnrollStudentController>();
 builder.Services.AddTransient<PrintReportCardStudentController>();
 
-// II iteration
+
 builder.Services.AddTransient<CreateStudentProfileController>();
 builder.Services.AddTransient<AddingStudentGradesController>();
 builder.Services.AddTransient<LoginController>();
 
-// III iteration
+
 builder.Services.AddTransient<TransactionReportByDateController>();
 builder.Services.AddTransient<UpdateStudentController>();
 
-// IV iteration
+
 builder.Services.AddTransient<CreateUserController>();
 builder.Services.AddTransient<CreateEnrollmentController>();
 builder.Services.AddTransient<ChangeEducationLevelController>();
@@ -49,25 +50,16 @@ builder.Services.AddTransient<PrintDocumentController>(); //(Auxiliar)
 builder.Services.AddTransient<DebtopController>(); 
 builder.Services.AddTransient<EnablePartialGradeRecordingController>(); 
 
-// V iteracion
+
 builder.Services.AddTransient<ApplyArrearsController>(); 
 builder.Services.AddTransient<BackupController>(); 
 builder.Services.AddTransient<GenerateStudentRegisterController>(); 
 builder.Services.AddTransient<UpdateRolesController>(); 
 builder.Services.AddTransient<EnrollmentGuideController>(); 
-builder.Services.AddTransient<GetDateMaxOfRecordingGradeController>(); 
+builder.Services.AddTransient<GetDateMaxOfRecordingGradeController>();
+builder.Services.AddTransient<CreateSchoolyearController>();
+builder.Services.AddTransient<CreateSubjectDataController>();
 
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer(options =>
-    {
-        options.Audience = "wsmcbl.api";
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-        };
-    });
 
 var app = builder.Build();
 
