@@ -1,9 +1,5 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.dto.Output;
-using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.SchoolYears;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
+using wsmcbl.src.View.Secretary.Schoolyear.Dto;
 
 namespace wsmcbl.src.Controller;
 
@@ -13,10 +9,9 @@ public class CreateSchoolyearController : BaseController
     {
     }
     
-    public async Task<List<SchoolYearDto>> GetSchoolyearList()
+    public async Task<List<BasicSchoolyearDto>> GetSchoolyearList()
     {
-        List<SchoolYearDto> Default = [];
-        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
+        return await apiFactory.Default.GetAsync(Modules.Secretary, resource,new List<BasicSchoolyearDto>());
     }
     
     public async Task<Model.Secretary.SchoolYearEntity> GetNewSchoolYears(Model.Secretary.SchoolYearEntity Default)
