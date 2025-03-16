@@ -6,7 +6,7 @@ using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Secretary.SchoolYears;
 
-public partial class ModalEditTariff : ComponentBase
+public partial class UpdateTariffDataModal : ComponentBase
 {
     [Parameter] public List<DropDownItem> TariffTypeItemList { get; set; } = null!;
     [Parameter] public EventCallback OnEditCompleted { get; set; }
