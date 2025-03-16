@@ -1,9 +1,9 @@
 @page "/secretary/schoolyears"
 
-@inherits ListSchoolYears;
-@attribute [Authorize(Roles = "admin,secretary,cashier")]
+@inherits BaseView;
+@attribute [Authorize(Roles = "admin, secretary, cashier")]
 
-@if (SchoolYear == null)
+@if (IsLoading())
 {
     <div class="loader"></div>
 }
@@ -37,7 +37,7 @@ else
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in SchoolYear)
+                    @foreach (var item in SchoolyearList)
                     {
                         <tr>
                             <td>@item.SchoolYearId</td>

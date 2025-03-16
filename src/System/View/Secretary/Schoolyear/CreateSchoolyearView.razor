@@ -1,11 +1,11 @@
 @page "/secretary/schoolyears/new"
 
 @inherits BaseView
-@attribute [Authorize(Roles = "secretary, cashier")]
+@attribute [Authorize(Roles = "admin, secretary, cashier")]
 
 @using wsmcbl.src.Utilities
 
-@if (Schoolyear == null)
+@if (IsLoading())
 {
     <div class="loader"></div>
 }

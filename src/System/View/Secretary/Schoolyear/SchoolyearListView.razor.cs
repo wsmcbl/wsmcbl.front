@@ -1,16 +1,23 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.View.Base;
+using wsmcbl.src.View.Secretary.Schoolyear.Dto;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
-public class SchoolyearList : ComponentBase
+public partial class SchoolyearListView : BaseView
 {
-    protected List<SchoolYearDto>? SchoolYear;
+    private List<BasicSchoolyearDto>? SchoolyearList;
+    
     [Inject] protected CreateSchoolyearController Controller { get; set; } = null!;
     
     protected override async Task OnParametersSetAsync()
     {
-        SchoolYear = await Controller.GetSchoolyearList();
+        SchoolyearList = await Controller.GetSchoolyearList();
+    }
+
+    protected override bool IsLoading()
+    {
+        return SchoolyearList == null;
     }
 }
