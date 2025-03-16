@@ -1,32 +1,32 @@
-namespace wsmcbl.src.View.Secretary.SchoolYears.Dto;
+namespace wsmcbl.src.View.Components.Dto;
 
-public class DateEntity
+public class DateOnlyDto
 {
     public int year { get; set; }
     public int month { get; set; }
     public int day { get; set; }
 
-    public DateEntity()
+    public DateOnlyDto()
     {
     }
     
-    public DateEntity(int year, int month, int day)
+    public DateOnlyDto(int year, int month, int day)
     {
         this.year = year;
         this.month = month;
         this.day = day;
     }
 
-    public DateEntity(DateOnly? date) : this((DateOnly)date!)
+    public DateOnlyDto(DateOnly? date) : this((DateOnly)date!)
     {
         
     }
     
-    public DateEntity(DateOnly date) : this(date.Year, date.Month, date.Day)
+    public DateOnlyDto(DateOnly date) : this(date.Year, date.Month, date.Day)
     {
     }
 
-    public DateEntity(DateTime dateTime) : this(DateOnly.FromDateTime(dateTime))
+    public DateOnlyDto(DateTime dateTime) : this(DateOnly.FromDateTime(dateTime))
     {
     }
 
@@ -40,7 +40,4 @@ public class DateEntity
         var today = DateTime.Today;
         return year == today.Year && month == today.Month && day == today.Day;
     }
-    
-    
-    
 }
