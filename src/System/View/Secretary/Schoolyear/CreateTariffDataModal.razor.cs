@@ -3,9 +3,9 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
-namespace wsmcbl.src.View.Secretary.SchoolYears;
+namespace wsmcbl.src.View.Secretary.Schoolyear;
 
-public partial class ModalNewTariff : ComponentBase
+public partial class CreateTariffDataModal : ComponentBase
 {
     [Parameter] public List<DropDownItem>? TariffTypeItemList { get; set; }
     [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
