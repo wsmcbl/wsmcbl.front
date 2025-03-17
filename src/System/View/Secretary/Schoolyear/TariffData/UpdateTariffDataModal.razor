@@ -12,15 +12,15 @@
                 <form>
                     <div class="form-group">
                         <label for="gradeIntId">Concepto</label>
-                        <input type="text" class="form-control" id="Concept" @bind="SelectedTariff!.Concept" />
+                        <input type="text" class="form-control" id="Concept" @bind="SelectedTariff!.concept" />
                     </div>
                     <div class="form-group">
                         <label for="semester">Vencimiento</label>
-                        <input type="date" class="form-control" id="dueDate" @bind="SelectedTariff.DueDate" />
+                        <input type="date" class="form-control" id="dueDate" @bind="dueDate" />
                     </div>
                     <div class="form-group">
                         <label for="name">Tipo</label>
-                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.Type">
+                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedTariff.typeId">
                             @foreach (var option in TariffTypeItemList)
                             {
                             <option value="@option.Id">@option.Name</option>

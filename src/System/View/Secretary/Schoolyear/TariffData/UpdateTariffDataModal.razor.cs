@@ -12,6 +12,8 @@ public partial class UpdateTariffDataModal : ComponentBase
     [Inject] protected Navigator? navigator { get; set; }
     private TariffDataDto? SelectedTariff { get; set; }
     
+    private DateOnly dueDate { get; set; }
+    
     protected override void OnParametersSet()
     {
         SelectedTariff = new TariffDataDto();
