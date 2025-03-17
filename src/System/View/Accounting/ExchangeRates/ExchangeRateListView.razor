@@ -1,0 +1,13 @@
+@page "/accounting/rates"
+ 
+@inherits BaseView
+@attribute [Authorize(Roles = "admin, cashier")]
+ 
+@if (!IsLoading())
+{
+     <div class="loader"></div>
+}
+else
+{
+    <h3>Tasas de cambios</h3>
+}
