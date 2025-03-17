@@ -20,11 +20,11 @@
                     </div>
                     <div class="form-group">
                         <label for="semester">Vencimiento</label>
-                        <input type="date" class="form-control" id="dueDate" @bind="Tariff.OnlyDate" />
+                        <input type="date" class="form-control" id="dueDate" @bind="dueDate" />
                     </div>
                     <div class="form-group">
                         <label for="name">Tipo</label>
-                        <select id="modality" class="form-control" style="margin: 0px" @bind="Tariff.type">
+                        <select id="modality" class="form-control" style="margin: 0px" @bind="Tariff.typeId">
                             @foreach (var option in TariffTypeItemList!)
                             {
                             <option value="@option.Id">@option.Name</option>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Modalidad</label>
-                        <select id="modality" class="form-control" style="margin: 0px" @bind="Tariff.modality">
+                        <select id="modality" class="form-control" style="margin: 0px" @bind="Tariff.educationalLevel">
                             @foreach (var option in modalityItemList)
                             {
                             <option value="@option.Id">@option.Name</option>

@@ -11,6 +11,7 @@ public partial class CreateTariffDataModal : ComponentBase
     [Inject] protected Notificator? Notificator { get; set; }
     
     private TariffDataDto Tariff = new();
+    private DateOnly dueDate { get; set; }
     private List<DropDownItem> modalityItemList =
     [
         new() { Id = 1, Name = "Preescolar" },
