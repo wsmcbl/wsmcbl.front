@@ -1,8 +1,6 @@
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Components.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
