@@ -37,16 +37,16 @@ else
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in SchoolyearList)
+                    @foreach (var item in SchoolyearList!)
                     {
                         <tr>
-                            <td>@item.SchoolYearId</td>
-                            <td>@item.Label</td>
-                            <td>@item.StartDate</td>
-                            <td>@item.DeadLine</td>
+                            <td>@item.schoolyearId</td>
+                            <td>@item.label</td>
+                            <td>@item.startDate</td>
+                            <td>@item.deadLine</td>
                             <td>
-                                <span class="status-label @(item.IsActive ? "active-status" : "inactive-status")">
-                                    @(item.IsActive ? "ACTIVO" : "INACTIVO")
+                                <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
+                                    @(item.isActive ? "ACTIVO" : "INACTIVO")
                                 </span>
                             </td>
                             <td>
