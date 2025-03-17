@@ -1,7 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.View.Academy.EnrollmentGuide;
-using wsmcbl.src.View.Secretary.Schoolyear.SubjectData;
 
 namespace wsmcbl.src.Controller;
 
@@ -26,9 +25,9 @@ public class CreateSubjectDataController : BaseController
         return response != Default;
     }
     
-    public async Task<List<BasicDegreeDto>> GetDegreeDataList()
+    public async Task<List<DegreeDataEntity>> GetDegreeDataList()
     {
-        var Default = new List<BasicDegreeDto>();
+        var Default = new List<DegreeDataEntity>();
 
         var resource = $"{path}/degrees";
         return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);

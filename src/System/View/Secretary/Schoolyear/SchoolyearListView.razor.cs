@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.View.Base;
-using wsmcbl.src.View.Secretary.Schoolyear.Dto;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
