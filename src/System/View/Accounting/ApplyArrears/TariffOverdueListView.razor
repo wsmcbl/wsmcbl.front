@@ -1,7 +1,7 @@
 @page "/accounting/apply-arrears"
 
 @inherits BaseView
-@attribute [Authorize(Roles = "admin,cashier")]
+@attribute [Authorize(Roles = "admin, cashier")]
 
 @if (!IsLoading())
 {

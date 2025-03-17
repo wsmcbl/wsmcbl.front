@@ -6,7 +6,7 @@ using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Accounting.ApplyArrears;
 
-public partial class TariffsOverduesView : BaseView
+public partial class TariffOverdueListView : BaseView
 {
     [Inject] private ApplyArrearsController Controller { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
@@ -42,7 +42,7 @@ public partial class TariffsOverduesView : BaseView
 
     private async Task LoadTariffList()
     {
-        Tariffs = await Controller.GetTariffsOverdues();
+        Tariffs = await Controller.GetTariffOverdueList();
     }
     
     protected override bool IsLoading()
