@@ -1,2 +1,13 @@
 @page "/secretary/schoolyears/subjects"
-<h3>Lista de asignaturas/grados</h3>
+
+@inherits BaseView;
+@attribute [Authorize(Roles = "admin, secretary, cashier")]
+
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{
+    <h3>Lista de asignaturas/grados</h3>
+}
