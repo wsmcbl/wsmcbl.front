@@ -16,10 +16,10 @@ public class CreateTariffDataController : BaseController
         return await apiFactory.Default.GetAsync(Modules.Secretary, path, Default);
     }
 
-    public async Task<TariffDataDto> CreateTariffData(TariffDataDto value)
+    public async Task<TariffDataDto?> CreateTariffData(TariffDataDto value)
     {
-        TariffDataDto Default = new();
-        return await apiFactory.Default.PostAsync(Modules.Secretary, path, value, Default);
+        return await apiFactory
+            .Default.PostAsync<TariffDataDto, TariffDataDto?>(Modules.Secretary, path, value, null);
     }
 
     public async Task<bool> UpdateTariffData(TariffDataDto value)
