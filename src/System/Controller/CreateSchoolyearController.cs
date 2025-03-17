@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.View.Secretary.Schoolyear;
 
 namespace wsmcbl.src.Controller;
@@ -29,5 +30,12 @@ public class CreateSchoolyearController : BaseController
         var response = await apiFactory.Default.PostAsync(Modules.Secretary, path, value, Default);
 
         return response != Default;
+    }
+    
+    public async Task<List<ExchangeRateEntity>> GetExchangeRateList()
+    {
+        var resource = $"{path}/rates";
+        return await apiFactory.Default
+            .GetAsync(Modules.Secretary, resource, new List<ExchangeRateEntity>());
     }
 }
