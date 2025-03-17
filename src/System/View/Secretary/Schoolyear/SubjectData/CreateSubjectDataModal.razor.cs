@@ -2,14 +2,12 @@ using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear.SubjectData;
 
 public partial class CreateSubjectDataModal : ComponentBase
 {
-    [Parameter] public SchoolyearEntity? SchoolYearEntity { get; set; }
-    [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
+    [Inject] protected CreateSubjectDataController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
     
     private List<DropDownItem> semesterItemList { get; set; } =
@@ -19,12 +17,13 @@ public partial class CreateSubjectDataModal : ComponentBase
         new() { Id = 3, Name = "Ambos" }
     ];    
     private List<DropDownItem> degreeItemList = [];
-    private SubjectDto SubjectNew = new();
+    private SubjectDataEntity SubjectNew = new();
 
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        var degreeList = await controller.GetDegreeDataList();
         var degreeId = 1;
-        foreach (var item in SchoolYearEntity!.degreeList!)
+        foreach (var item in degreeList!)
         {
             degreeItemList.Add(new DropDownItem
             {
@@ -33,13 +32,11 @@ public partial class CreateSubjectDataModal : ComponentBase
             });
             degreeId++;
         }
-
-        return Task.CompletedTask;
     }
 
-    private async Task SaveNewSubject(SubjectDto subject)
+    private async Task SaveNewSubject(SubjectDataEntity subject)
     {
-        var response = await controller.CreateNewSubject(subject);
+        var response = await controller.CreateSubjectData(subject);
         if (response)
         {
             await Notificator!.ShowSuccess("Se ha creado la asignatura correctamente, recarge la página.");
