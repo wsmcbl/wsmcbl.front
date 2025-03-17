@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.Model.Accounting;
-using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 using wsmcbl.src.View.Components.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto.CreateNewSchoolYear;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
@@ -15,20 +11,18 @@ public partial class CreateSchoolyearView : BaseView
     [Inject] protected CreateSchoolyearController schoolyearController { get; set; } = null!;
     [Inject] protected CreateTariffDataController tariffDataController { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
-    private SchoolyearEntity? Schoolyear { get; set; }
-    private List<PartialListDto>? PartialListDto { get; set; }
-
-    private DegreeDto? SelectedDegree;
-    private List<DropDownItem> TariffTypeItemList { get; set; } = new();
+    
+    
+    private DegreeSubjectDto? SelectedDegree { get; set; }
+    private List<PartialToCreateDto>? PartialList { get; set; }
+    private List<TariffDto>? TariffList { get; set; }
+    private List<DropDownItem> TariffTypeList { get; set; } = new();
 
     protected override async Task OnParametersSetAsync()
     {
-        var defaultSchoolyear = new SchoolyearEntity();
-        Schoolyear = await schoolyearController!.GetNewSchoolYears(defaultSchoolyear);
-        
-        TariffTypeItemList = await tariffDataController.GetTariffTypeList();
+        TariffTypeList = await tariffDataController.GetTariffTypeList();
 
-        if (Schoolyear == defaultSchoolyear || TariffTypeItemList == null)
+        if (TariffTypeList == null)
         {
             throw new InternalException("Es posible que exista más de 2 años lectivos activos al mismo tiempo.");
         }
@@ -38,14 +32,12 @@ public partial class CreateSchoolyearView : BaseView
 
     private void ConfigInformation()
     {
-        Schoolyear!.InitTariffAuxList();
-
-        PartialListDto =
+        PartialList =
         [
-            new PartialListDto { semester = 1, partial = 1 },
-            new PartialListDto { semester = 1, partial = 2 },
-            new PartialListDto { semester = 2, partial = 1 },
-            new PartialListDto { semester = 2, partial = 2 }
+            new PartialToCreateDto { semester = 1, partial = 1 },
+            new PartialToCreateDto { semester = 1, partial = 2 },
+            new PartialToCreateDto { semester = 2, partial = 1 },
+            new PartialToCreateDto { semester = 2, partial = 2 }
         ];
     }
 
@@ -58,29 +50,30 @@ public partial class CreateSchoolyearView : BaseView
 
         if (isStartDate)
         {
-            PartialListDto![index].startDate = new DateOnlyDto(selectedDate);
+            PartialList![index].startDate = new DateOnlyDto(selectedDate);
         }
         else
         {
-            PartialListDto![index].deadLine = new DateOnlyDto(selectedDate);
+            PartialList![index].deadLine = new DateOnlyDto(selectedDate);
         }
     }
 
     private async Task CreateSchoolyear()
     {
-        Schoolyear!.UpdateTariffList();
-        var response = await schoolyearController!.CreateSchoolyear(Schoolyear, PartialListDto!);
+        var schoolyear = new SchoolyearToCreateDto(TariffList!, PartialList!);
+        
+        var response = await schoolyearController.CreateSchoolyear(schoolyear);
         if (response)
         {
-            await Notificator!.ShowSuccess("Se ha creado el año lectivo correctamente.");
+            await Notificator.ShowSuccess("Se ha creado el año lectivo correctamente.");
         }
         else
         {
-            await Notificator!.ShowError("Hubo un fallo al crear el año lectivo.");
+            await Notificator.ShowError("Hubo un fallo al crear el año lectivo.");
         }
     }
 
-    private void SelectGrade(DegreeDto degree)
+    private void SelectGrade(DegreeSubjectDto degree)
     {
         SelectedDegree = degree;
     }
@@ -89,22 +82,17 @@ public partial class CreateSchoolyearView : BaseView
     {
         if (SelectedDegree != null)
         {
-            SelectedDegree.subjects.Remove(subject);
+            SelectedDegree.subjectList.Remove(subject);
         }
     }
 
-    private void RemoveTariff(TariffAuxEntity tariff)
-    {
-        Schoolyear!.tariffAuxList!.Remove(tariff);
-    }
-
-    private string GetSelectedClass(DegreeDto degree)
+    private string GetSelectedClass(DegreeSubjectDto degree)
     {
         return degree == SelectedDegree ? "selected-grade" : string.Empty;
     }
 
     protected override bool IsLoading()
     {
-        return Schoolyear == null;
+        return TariffList == null || PartialList == null;
     }
 }

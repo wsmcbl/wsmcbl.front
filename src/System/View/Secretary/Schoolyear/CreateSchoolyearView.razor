@@ -216,7 +216,7 @@ else
                         <tbody>
                         @foreach (var item in Schoolyear.tariffAuxList!)
                         {
-                            var typeTariff = TariffTypeItemList.FirstOrDefault(t => t.Id == item.Type);
+                            var typeTariff = TariffTypeList.FirstOrDefault(t => t.Id == item.Type);
                             <tr>
                                 <td>@item.Concept</td>
                                 <td>@item.DueDate.ToStringFormat()</td>
