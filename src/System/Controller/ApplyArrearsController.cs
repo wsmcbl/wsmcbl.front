@@ -22,7 +22,7 @@ public class ApplyArrearsController : BaseController
         return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, $"{resource}/{tariffId}", defaultResult);
     }
 
-    public async Task<List<DropDownItem>> GetTypeTariffList()
+    public async Task<List<DropDownItem>> GetTariffTypeList()
     {
         List<TariffTypeEntity> defaultResult = [];
 

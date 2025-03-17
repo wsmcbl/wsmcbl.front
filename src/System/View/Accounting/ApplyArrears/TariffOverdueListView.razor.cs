@@ -17,7 +17,7 @@ public partial class TariffOverdueListView : BaseView
     protected override async Task OnParametersSetAsync()
     {
         await LoadTariffList();
-        TariffTypeItemList = await Controller.GetTypeTariffList();
+        TariffTypeItemList = await Controller.GetTariffTypeList();
     }
 
     private async Task ActiveArrears(int tariffId)
