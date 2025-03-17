@@ -1,36 +1,34 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.Controller;
 
-public class ApplyArrearsController
+public class ApplyArrearsController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-    
-    public ApplyArrearsController(ApiConsumerFactory apiConsumerFactory)
+    public ApplyArrearsController(ApiConsumerFactory apiConsumerFactory) : base(apiConsumerFactory, "tariffs")
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<List<TariffEntity>> GetTariffsOverdues()
+    public async Task<List<TariffEntity>> GetTariffOverdueList()
     {
         List<TariffEntity> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Accounting, "tariffs/overdues", defaultResult);
+        return await apiFactory.WithNotificator.GetAsync(Modules.Accounting, $"{resource}/overdues", defaultResult);
     }
     
     public async Task<bool> ActiveArrears(int tariffId)
     {
         List<TariffEntity> defaultResult = [];
-        return await _apiConsumer.PutAsync(Modules.Accounting, $"tariffs/{tariffId}", defaultResult);
+        return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, $"{resource}/{tariffId}", defaultResult);
     }
 
     public async Task<List<DropDownItem>> GetTypeTariffList()
     {
-        var resource = "tariffs/types";
-        List<TypeTariffDto> Default = [];
-        var response = await _apiConsumer.GetAsync(Modules.Accounting, resource, Default);
-        return response.Select(dto => dto.ToDropdownList()).ToList();
+        List<TariffTypeEntity> defaultResult = [];
+
+        var uri = $"{resource}/types";
+        var result = await apiFactory.WithNotificator.GetAsync(Modules.Accounting, uri, defaultResult);
+        
+        return result.Select(e => new DropDownItem(e)).ToList();
     }
 }
