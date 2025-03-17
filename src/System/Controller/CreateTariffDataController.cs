@@ -13,19 +13,19 @@ public class CreateTariffDataController : BaseController
     public async Task<List<TariffDataDto>> GetTariffDataList()
     {
         var Default = new List<TariffDataDto>();
-        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
+        return await apiFactory.Default.GetAsync(Modules.Secretary, path, Default);
     }
 
     public async Task<TariffDataDto> CreateTariffData(TariffDataDto value)
     {
         TariffDataDto Default = new();
-        return await apiFactory.Default.PostAsync(Modules.Secretary, resource, value, Default);
+        return await apiFactory.Default.PostAsync(Modules.Secretary, path, value, Default);
     }
 
     public async Task<bool> UpdateTariffData(TariffDataDto value)
     {
-        var uri = $"{resource}/{value.tariffDataId}";
-        return await apiFactory.Default.PutAsync(Modules.Secretary, uri, value);
+        var resource = $"{path}/{value.tariffDataId}";
+        return await apiFactory.Default.PutAsync(Modules.Secretary, resource, value);
     }
 
     public async Task<List<DropDownItem>> GetTariffTypeList()

@@ -12,21 +12,21 @@ public class CreateSchoolyearController : BaseController
     public async Task<List<BasicSchoolyearDto>> GetSchoolyearList()
     {
         return await apiFactory.Default
-            .GetAsync(Modules.Secretary, resource,new List<BasicSchoolyearDto>());
+            .GetAsync(Modules.Secretary, path, new List<BasicSchoolyearDto>());
     }
     
     public async Task<SchoolyearDto> GetSchoolyearById(string schoolyearId)
     {
-        var uri = $"{resource}/{schoolyearId}";
+        var resource = $"{path}/{schoolyearId}";
         
         var Default = new SchoolyearDto();
-        return await apiFactory.Default.GetAsync(Modules.Secretary, uri, Default);
+        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
     }
     
     public async Task<bool> CreateSchoolyear(SchoolyearToCreateDto value)
     {
         var Default = new SchoolyearDto();
-        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, value, Default);
+        var response = await apiFactory.Default.PostAsync(Modules.Secretary, path, value, Default);
 
         return response != Default;
     }

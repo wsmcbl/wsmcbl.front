@@ -12,7 +12,7 @@ public class CreateSubjectDataController : BaseController
     public async Task<bool> CreateSubjectData(SubjectDto subject)
     {
         SubjectDto Default = new();
-        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, subject, Default);
+        var response = await apiFactory.Default.PostAsync(Modules.Secretary, path, subject, Default);
         return response != Default;
     }
 }

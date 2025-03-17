@@ -13,21 +13,21 @@ public class ApplyArrearsController : BaseController
     public async Task<List<TariffEntity>> GetTariffOverdueList()
     {
         List<TariffEntity> defaultResult = [];
-        return await apiFactory.WithNotificator.GetAsync(Modules.Accounting, $"{resource}/overdues", defaultResult);
+        return await apiFactory.WithNotificator.GetAsync(Modules.Accounting, $"{path}/overdues", defaultResult);
     }
     
     public async Task<bool> ActiveArrears(int tariffId)
     {
         List<TariffEntity> defaultResult = [];
-        return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, $"{resource}/{tariffId}", defaultResult);
+        return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, $"{path}/{tariffId}", defaultResult);
     }
 
     public async Task<List<DropDownItem>> GetTariffTypeList()
     {
         List<TariffTypeEntity> defaultResult = [];
 
-        var uri = $"{resource}/types";
-        var result = await apiFactory.WithNotificator.GetAsync(Modules.Accounting, uri, defaultResult);
+        var resource = $"{path}/types";
+        var result = await apiFactory.WithNotificator.GetAsync(Modules.Accounting, resource, defaultResult);
         
         return result.Select(e => new DropDownItem(e)).ToList();
     }

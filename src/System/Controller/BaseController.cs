@@ -2,8 +2,8 @@ using wsmcbl.src.Controller.Service;
 
 namespace wsmcbl.src.Controller;
 
-public class BaseController(ApiConsumerFactory apiFactory, string resource)
+public class BaseController(ApiConsumerFactory apiFactory, string path)
 {
-    protected string resource = resource;
-    protected readonly ApiConsumerFactory apiFactory = apiFactory;
+    protected string path { get; } = path;
+    protected ApiConsumerFactory apiFactory { get; } = apiFactory;
 }
