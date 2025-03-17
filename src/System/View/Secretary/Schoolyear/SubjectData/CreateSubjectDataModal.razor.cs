@@ -8,7 +8,7 @@ namespace wsmcbl.src.View.Secretary.Schoolyear.SubjectData;
 
 public partial class CreateSubjectDataModal : ComponentBase
 {
-    [Parameter] public SchoolYearEntity? SchoolYearEntity { get; set; }
+    [Parameter] public SchoolyearEntity? SchoolYearEntity { get; set; }
     [Inject] protected CreateSchoolyearController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
     

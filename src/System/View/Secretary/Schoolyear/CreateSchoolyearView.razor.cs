@@ -15,7 +15,7 @@ public partial class CreateSchoolyearView : BaseView
     [Inject] protected CreateSchoolyearController schoolyearController { get; set; } = null!;
     [Inject] protected CreateTariffDataController tariffDataController { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
-    private SchoolYearEntity? Schoolyear { get; set; }
+    private SchoolyearEntity? Schoolyear { get; set; }
     private List<PartialListDto>? PartialListDto { get; set; }
 
     private DegreeDto? SelectedDegree;
@@ -23,7 +23,7 @@ public partial class CreateSchoolyearView : BaseView
 
     protected override async Task OnParametersSetAsync()
     {
-        var defaultSchoolyear = new SchoolYearEntity();
+        var defaultSchoolyear = new SchoolyearEntity();
         Schoolyear = await schoolyearController!.GetNewSchoolYears(defaultSchoolyear);
         
         TariffTypeItemList = await tariffDataController.GetTariffTypeList();
