@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
@@ -13,14 +10,14 @@ public partial class UpdateTariffDataModal : ComponentBase
     
     
     [Inject] protected Navigator? navigator { get; set; }
-    protected TariffAuxEntity? SelectedTariff { get; set; }
+    private TariffDataDto? SelectedTariff { get; set; }
     
     protected override void OnParametersSet()
     {
-        SelectedTariff = new TariffAuxEntity();
+        SelectedTariff = new TariffDataDto();
     }
 
-    public async Task EditTariff(TariffAuxEntity item)
+    public async Task EditTariff(TariffDataDto item)
     {
         SelectedTariff = item;
         await navigator!.ShowModal("ModalEditTariff");
