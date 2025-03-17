@@ -12,19 +12,19 @@
                 <form>
                     <div class="form-group">
                         <label for="gradeIntId">Concepto</label>
-                        <input type="text" class="form-control" id="Concept" @bind="SelectedSchoolyearTariff.concept" />
+                        <input type="text" class="form-control" id="Concept" @bind="Tariff.concept" />
                     </div>
                     <div class="form-group">
                         <label for="name">Monto</label>
-                        <input type="number" class="form-control" id="amount" @bind="SelectedSchoolyearTariff.amount" />
+                        <input type="number" class="form-control" id="amount" @bind="Tariff.amount" />
                     </div>
                     <div class="form-group">
                         <label for="semester">Vencimiento</label>
-                        <input type="date" class="form-control" id="dueDate" @bind="SelectedSchoolyearTariff.OnlyDate" />
+                        <input type="date" class="form-control" id="dueDate" @bind="Tariff.OnlyDate" />
                     </div>
                     <div class="form-group">
                         <label for="name">Tipo</label>
-                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedSchoolyearTariff.type">
+                        <select id="modality" class="form-control" style="margin: 0px" @bind="Tariff.type">
                             @foreach (var option in TariffTypeItemList!)
                             {
                             <option value="@option.Id">@option.Name</option>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Modalidad</label>
-                        <select id="modality" class="form-control" style="margin: 0px" @bind="SelectedSchoolyearTariff.modality">
+                        <select id="modality" class="form-control" style="margin: 0px" @bind="Tariff.modality">
                             @foreach (var option in modalityItemList)
                             {
                             <option value="@option.Id">@option.Name</option>
@@ -46,7 +46,7 @@
             <div class="modal-footer">
                 <div class="right-container">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button class="btn btn-danger" @onclick="() => SaveNewTariff(SelectedSchoolyearTariff)">Guardar</button>
+                    <button class="btn btn-danger" @onclick="() => CreateTariffData(Tariff)">Guardar</button>
                 </div>
             </div>
 
