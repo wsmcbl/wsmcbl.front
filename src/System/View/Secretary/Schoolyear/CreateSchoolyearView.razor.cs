@@ -10,17 +10,21 @@ public partial class CreateSchoolyearView : BaseView
 {
     [Inject] protected CreateSchoolyearController schoolyearController { get; set; } = null!;
     [Inject] protected CreateTariffDataController tariffDataController { get; set; } = null!;
+    [Inject] protected CreateSubjectDataController subjectDataController { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     
     
     private DegreeSubjectDto? SelectedDegree { get; set; }
     private List<PartialToCreateDto>? PartialList { get; set; }
-    private List<TariffDto>? TariffList { get; set; }
+    private List<TariffDtoTemplate>? TariffList { get; set; }
     private List<DropDownItem> TariffTypeList { get; set; } = new();
+    private List<DegreeSubjectDto> degreeList { get; set; } = new();
 
     protected override async Task OnParametersSetAsync()
     {
         TariffTypeList = await tariffDataController.GetTariffTypeList();
+        var list  = await subjectDataController.GetDegreeDataList();
+        degreeList = [];
 
         if (TariffTypeList == null)
         {
@@ -60,7 +64,8 @@ public partial class CreateSchoolyearView : BaseView
 
     private async Task CreateSchoolyear()
     {
-        var schoolyear = new SchoolyearToCreateDto(TariffList!, PartialList!);
+        var list = TariffList!.Select(e => e.ToEntity()).ToList();
+        var schoolyear = new SchoolyearToCreateDto(list, PartialList!);
         
         var response = await schoolyearController.CreateSchoolyear(schoolyear);
         if (response)

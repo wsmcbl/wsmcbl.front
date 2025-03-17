@@ -13,7 +13,7 @@ else
 {
     <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-        <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">@Schoolyear.label</span> </h6>
+        <h6 class="m-0 font-weight-bold text-primary">Configurar Año Lectivo <span class="year-box">VALOR </span> </h6>
         <a class="btn btn-success btn-sm" role="button" @onclick="CreateSchoolyear">Guardar</a>
     </div>
 
@@ -40,7 +40,7 @@ else
                         <div class="card border-bottom-dark shadow h-100 py-2">
                             <div class="card-body">
                                 <label class="label-required" style="display: inline-block; width: 200px;">Tipo de cambio</label>
-                                <input type="number" class="form-control" style="margin-bottom: 10px" @bind="Schoolyear.exchangeRate" min="0" step="0.01">
+                                <input type="number" class="form-control" style="margin-bottom: 10px" min="0" step="0.01">
                             </div>
                         </div>
                     </div>
@@ -137,7 +137,7 @@ else
                     <div class="col-md-4">
                         <h4>Grados</h4>
                         <ul class="list-group">
-                            @foreach (var grade in Schoolyear.degreeList!)
+                            @foreach (var grade in degreeList!)
                             {
                                 <li class="list-group-item @GetSelectedClass(grade)" @onclick="() => SelectGrade(grade)">
                                     @grade.label
@@ -150,10 +150,10 @@ else
                         @if (SelectedDegree != null)
                         {
                             <ul class="list-group">
-                                @foreach (var subject in SelectedDegree.subjects)
+                                @foreach (var subject in SelectedDegree.subjectList)
                                 {
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>@subject.Name</span>
+                                        <span>@subject.name</span>
                                         <button class="btn btn-danger btn-sm" @onclick="() => RemoveSubject(subject)">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
@@ -214,12 +214,12 @@ else
                         </tr>
                         </tfoot>
                         <tbody>
-                        @foreach (var item in Schoolyear.tariffAuxList!)
+                        @foreach (var item in TariffList!)
                         {
-                            var typeTariff = TariffTypeList.FirstOrDefault(t => t.Id == item.Type);
+                            var typeTariff = TariffTypeList.FirstOrDefault(t => t.Id == item.type);
                             <tr>
-                                <td>@item.Concept</td>
-                                <td>@item.DueDate.ToStringFormat()</td>
+                                <td>@item.concept</td>
+                                <td>@item.dueDate.ToStringFormat()</td>
                                 <td>
                                     @if (typeTariff != null)
                                     {
@@ -231,22 +231,13 @@ else
                                     }
                                 </td>
                                 <td style="width: 150px;">
-                                    <InputNumber id="surname" @bind-Value="@item.amounts[1]" class="form-control" min="1"/>
+                                    <InputNumber id="surname" @bind-Value="@item.amount1" class="form-control" min="1"/>
                                 </td>
                                 <td style="width: 150px;">
-                                    <InputNumber id="surname" @bind-Value="@item.amounts[2]" class="form-control" min="1"/>
+                                    <InputNumber id="surname" @bind-Value="@item.amount2" class="form-control" min="1"/>
                                 </td>
                                 <td style="width: 150px;">
-                                    <InputNumber id="surname" @bind-Value="@item.amounts[3]" class="form-control" min="1"/>
-                                </td>
-                                <td>
-                                    <button class="btn btn-secondary" @onclick="() => CallEditTariff(item)">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
-
-                                    <button class="btn btn-danger btn-sm" @onclick="() => RemoveTariff(item)">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
+                                    <InputNumber id="surname" @bind-Value="@item.amount3" class="form-control" min="1"/>
                                 </td>
                             </tr>
                         }
@@ -263,8 +254,4 @@ else
     </div>
 
     </div>
-    
-    <ModalEditTariff @ref="modalEditTariffRef" TariffTypeItemList="TariffTypeItemList" OnEditCompleted="RefreshParentComponent"/>
-    <ModalNewSubject SchoolYearEntity="SchoolYear"/>
-    <ModalNewTariff TariffTypeItemList="TariffTypeItemList"/>
 }
