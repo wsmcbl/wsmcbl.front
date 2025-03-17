@@ -1,8 +1,6 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.dto.Output;
-using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.SchoolYears;
-using wsmcbl.src.View.Secretary.SchoolYears.Dto;
+using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
 namespace wsmcbl.src.Controller;
 
@@ -12,18 +10,27 @@ public class CreateTariffDataController : BaseController
     {
     }
 
-    public async Task<bool> CreateNewTariff(SchoolyearTariffDto schoolyearTariff)
+    public async Task<List<TariffDataDto>> GetTariffDataList()
     {
-        TariffDataDto Default = new();
-        var content = MapperDate.MapToTariffDataDto(schoolyearTariff);
-        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, content, Default);
-        return response != Default;
+        var Default = new List<TariffDataDto>();
+        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
     }
 
-    public async Task<List<DropDownItem>> GetTypeTariffList()
+    public async Task<TariffDataDto> CreateTariffData(TariffDataDto value)
     {
-        List<TypeTariffDto> Default = [];
-        var response = await apiFactory.Default.GetAsync(Modules.Accounting, $"{resource}/types", Default);
-        return response.Select(dto => dto.ToDropdownList()).ToList();
+        TariffDataDto Default = new();
+        return await apiFactory.Default.PostAsync(Modules.Secretary, resource, value, Default);
+    }
+
+    public async Task<bool> UpdateTariffData(TariffDataDto value)
+    {
+        var uri = $"{resource}/{value.tariffDataId}";
+        return await apiFactory.Default.PutAsync(Modules.Secretary, uri, value);
+    }
+
+    public async Task<List<TariffTypeEntity>> GetTariffTypeList()
+    {
+        List<TariffTypeEntity> Default = [];
+        return await apiFactory.Default.GetAsync(Modules.Accounting, $"{resource}/types", Default);
     }
 }

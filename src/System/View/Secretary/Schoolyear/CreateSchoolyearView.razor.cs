@@ -26,7 +26,7 @@ public partial class CreateSchoolyearView : BaseView
         var defaultSchoolyear = new SchoolYearEntity();
         Schoolyear = await schoolyearController!.GetNewSchoolYears(defaultSchoolyear);
         
-        TariffTypeItemList = await tariffDataController.GetTypeTariffList();
+        TariffTypeItemList = await tariffDataController.GetTariffTypeList();
 
         if (Schoolyear == defaultSchoolyear || TariffTypeItemList == null)
         {
