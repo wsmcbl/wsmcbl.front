@@ -1,5 +1,5 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
 namespace wsmcbl.src.Controller;
@@ -28,9 +28,10 @@ public class CreateTariffDataController : BaseController
         return await apiFactory.Default.PutAsync(Modules.Secretary, uri, value);
     }
 
-    public async Task<List<TariffTypeEntity>> GetTariffTypeList()
+    public async Task<List<DropDownItem>> GetTariffTypeList()
     {
-        List<TariffTypeEntity> Default = [];
-        return await apiFactory.Default.GetAsync(Modules.Accounting, $"{resource}/types", Default);
+        var controller = new ApplyArrearsController(apiFactory);
+
+        return await controller.GetTariffTypeList();
     }
 }
