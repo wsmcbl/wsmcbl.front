@@ -42,8 +42,8 @@ else
                         <tr>
                             <td>@item.schoolyearId</td>
                             <td>@item.label</td>
-                            <td>@item.startDate</td>
-                            <td>@item.deadLine</td>
+                            <td>@item.startDate.ToStringFormat()</td>
+                            <td>@item.deadLine.ToStringFormat()</td>
                             <td>
                                 <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
                                     @(item.isActive ? "ACTIVO" : "INACTIVO")
