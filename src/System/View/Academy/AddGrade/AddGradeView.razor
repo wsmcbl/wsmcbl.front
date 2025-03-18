@@ -66,54 +66,70 @@ else
                              id="card-@item.partialId"
                              role="tabpanel" aria-labelledby="panel-@item.partialId">
 
-                            <table class="table table-bordered table-responsive">
-                                <thead>
-                                <tr>
-                                    <th>Estudiante</th>
-                                    @foreach (var subject in subjectList)
-                                    {
-                                        <th>@subject.name</th>
-                                    }
-                                    <th>Conducta</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach (var student in studentList)
-                                {
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
                                     <tr>
-                                        <td>@student.fullName</td>
+                                        <th>Código</th>
+                                        <th>Estudiante</th>
                                         @foreach (var subject in subjectList)
                                         {
-                                            <td>
-                                                @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
-                                                {
-                                                    <div>
-                                                        <label>Etiqueta:</label> @student.gradeList!.First(e => e.subjectId == subject.subjectId).label
-                                                    </div>
-                                                    <div >
-                                                        <label>Nota:</label>
-                                                        <input type="number" class="form-control"
-                                                               @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"/>
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                                    <span>No asignado</span>
-                                                }
-
-                                            </td>
+                                            <th colspan="2">@subject.name</th> <!-- Colspan para agrupar etiqueta y nota -->
                                         }
-                                        <td>
-                                            <div>
-                                                <label>Nota:</label>
-                                                <input type="number" class="form-control"
-                                                       @bind="student.conductGrade"/>
-                                            </div>
-                                        </td>
+                                        <th>Conducta</th>
                                     </tr>
-                                }
-                                </tbody>
-                            </table>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        @foreach (var subject in subjectList)
+                                        {
+                                            <th>Clave</th>
+                                            <th>Valor</th>
+                                        }
+                                        <th>Nota</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var student in studentList)
+                                    {
+                                        <tr>
+                                            <td data-label="Código">@student.studentId</td>
+                                            <td data-label="Estudiante">@student.fullName</td>
+                                            @foreach (var subject in subjectList)
+                                            {
+                                                var grade = student.gradeList?.FirstOrDefault(e => e.subjectId == subject.subjectId);
+                                                <td data-label="@subject.name - Clave">
+                                                    @if (grade != null)
+                                                    {
+                                                        @grade.label
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No asignado</span>
+                                                    }
+                                                </td>
+                                                <td data-label="@subject.name - Valor">
+                                                    @if (grade != null)
+                                                    {
+                                                        <input type="number" class="form-control no-spinner"
+                                                               @bind="grade.grade" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>No asignado</span>
+                                                    }
+                                                </td>
+                                            }
+                                            <td data-label="Conducta">
+                                                <input type="number" class="form-control no-spinner"
+                                                       @bind="student.conductGrade" />
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
                     }
                 </div>
