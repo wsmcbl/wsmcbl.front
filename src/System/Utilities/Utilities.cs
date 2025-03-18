@@ -4,6 +4,8 @@ namespace wsmcbl.src.Utilities;
 
 public static class Utilities
 {
+    public static string dateFormat = "dd/MMM/yyyy";
+    
     public static string TokenKey => "authToken";
     
     public static string ToStringFormat(this DateOnly? date)
@@ -14,7 +16,7 @@ public static class Utilities
         }
 
         var culture = new CultureInfo("es-ES");
-        return ((DateOnly)date).ToString("dd/MMM/yyyy", culture);
+        return ((DateOnly)date).ToString(dateFormat, culture);
     }
 
     private static string ToStringFormat(this DateTime dateTime)
