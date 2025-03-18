@@ -1,3 +1,6 @@
+using System.Globalization;
+using static wsmcbl.src.Utilities.Utilities;
+
 namespace wsmcbl.src.View.Components.Dto;
 
 public class DateOnlyDto
@@ -19,7 +22,6 @@ public class DateOnlyDto
 
     public DateOnlyDto(DateOnly? date) : this((DateOnly)date!)
     {
-        
     }
     
     public DateOnlyDto(DateOnly date) : this(date.Year, date.Month, date.Day)
@@ -39,5 +41,10 @@ public class DateOnlyDto
     {
         var today = DateTime.Today;
         return year == today.Year && month == today.Month && day == today.Day;
+    }
+    
+    public string ToStringFormat()
+    {
+        return ToDateOnly().ToString(dateFormat, new CultureInfo("es-ES"));
     }
 }
