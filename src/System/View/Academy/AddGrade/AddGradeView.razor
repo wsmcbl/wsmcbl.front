@@ -74,34 +74,35 @@ else
                                         <th>Estudiante</th>
                                         @foreach (var subject in subjectList)
                                         {
-                                            <th colspan="2">@subject.name</th> <!-- Colspan para agrupar etiqueta y nota -->
+                                            <th colspan="2" class="tac">
+                                                @subject.initials
+                                            </th>
                                         }
-                                        <th>Conducta</th>
+                                        <th class="tac">Conducta</th>
                                     </tr>
                                     <tr>
                                         <th></th>
                                         <th></th>
                                         @foreach (var subject in subjectList)
                                         {
-                                            <th>Clave</th>
-                                            <th>Valor</th>
+                                            <th class="tac">Clave</th>
+                                            <th class="tac-max">Valor</th>
                                         }
-                                        <th>Nota</th>
+                                        <th class="tac-max">Nota</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var student in studentList)
+                                    @foreach (var student in studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName))
                                     {
                                         <tr>
                                             <td data-label="Código">@student.studentId</td>
-                                            <td data-label="Estudiante">@student.fullName</td>
+                                            <td data-label="Estudiante" style="min-width: 200px">@student.fullName</td>
                                             @foreach (var subject in subjectList)
                                             {
-                                                var grade = student.gradeList?.FirstOrDefault(e => e.subjectId == subject.subjectId);
                                                 <td data-label="@subject.name - Clave">
-                                                    @if (grade != null)
+                                                    @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
-                                                        @grade.label
+                                                        @student.gradeList!.First(e => e.subjectId == subject.subjectId).label
                                                     }
                                                     else
                                                     {
@@ -109,10 +110,10 @@ else
                                                     }
                                                 </td>
                                                 <td data-label="@subject.name - Valor">
-                                                    @if (grade != null)
+                                                    @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
                                                         <input type="number" class="form-control no-spinner"
-                                                               @bind="grade.grade" />
+                                                               @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade" />
                                                     }
                                                     else
                                                     {
