@@ -26,7 +26,7 @@ public partial class ForgetDeb : ComponentBase
         }
         
         var dto = new DebDto(StudentId, TariffId, AuthToken);
-        var response = await Controller.DebitTariff(dto);
+        var response = await Controller.ForgetDebt(dto);
         if (!response)
         {
             await Notificator.ShowError("Hubo un fallo al debitar la tarifa.");
