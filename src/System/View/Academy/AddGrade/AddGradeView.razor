@@ -21,9 +21,9 @@ else
         </div>
 
         <div class="row">
-            <!-- Columna izquierda: Información del Enrollment -->
+
             <div class="col-md-6">
-                <!-- Card del Docente -->
+
                 <div class="card border-left-primary shadow mb-3">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -38,7 +38,7 @@ else
                     </div>
                 </div>
 
-                <!-- Card del Parcial Activo -->
+
                 <div class="card border-left-primary shadow">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -58,7 +58,7 @@ else
             <div class="col-md-6">
                 <div class="card border-left-primary shadow">
                     <div class="card-body">
-                        <!-- Disclaimer mejorado -->
+
                         <div class="alert alert-info" role="alert">
                             <h5 class="alert-heading">
                                 <i class="fas fa-info-circle"></i> Instrucciones para actualizar calificaciones
@@ -73,8 +73,7 @@ else
                                 <li>Sube el archivo editado y haz clic en <strong>"Actualizar calificaciones"</strong>.</li>
                             </ol>
                         </div>
-
-                        <!-- Input para seleccionar archivo -->
+                        
                         @if (archivoExcel == null)
                         {
                             <div class="mb-3">
@@ -102,7 +101,6 @@ else
 
     @if (studentList != null && subjectList != null)
     {
-        //Pestañas para los 4 parciales.
         <div class="card show mb-4">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">

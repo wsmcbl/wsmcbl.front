@@ -149,11 +149,9 @@ public partial class AddGradeView : BaseView
                 worksheet.Cell(fila, columna).Value = student.conductGrade;
                 fila++;
             }
-
-            // Ajustar el ancho de las columnas
+            
             worksheet.Columns().AdjustToContents();
-
-            // Convertir el archivo a un arreglo de bytes
+            
             using (var stream = new MemoryStream())
             {
                 workbook.SaveAs(stream);
@@ -163,15 +161,12 @@ public partial class AddGradeView : BaseView
     }
     private void DescargarExcel()
     {
-        // Generar el archivo Excel
         var contenidoExcel = GenerarExcel();
-
-        // Crear un enlace de descarga
+        
         var nombreArchivo = $"Calificaciones_{GetPartialName()}_{DateTime.Now:yyyyMMdd}.xlsx";
         var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
         var base64Contenido = Convert.ToBase64String(contenidoExcel);
-
-        // Navegar al enlace de descarga
+        
         Navigator.ToPage($"data:{contentType};base64,{base64Contenido}");
     }
     //--------------------------------
@@ -205,10 +200,9 @@ public partial class AddGradeView : BaseView
         using (var stream = new MemoryStream(archivoExcel))
         {
             var workbook = new XLWorkbook(stream);
-            var worksheet = workbook.Worksheet(1); // Obtener la primera hoja
-
-            // Leer los datos del archivo
-            var fila = 3; // Empezar desde la fila 3 (donde están los datos de los estudiantes)
+            var worksheet = workbook.Worksheet(1);
+            
+            var fila = 3;
             while (!worksheet.Cell(fila, 1).IsEmpty())
             {
                 var codigoEstudiante = worksheet.Cell(fila, 1).Value.ToString();
@@ -230,18 +224,15 @@ public partial class AddGradeView : BaseView
 
                         columna += 2;
                     }
-
-                    // Actualizar la conducta
+                    
                     estudiante.conductGrade = int.Parse(worksheet.Cell(fila, columna).Value.ToString());
                 }
 
                 fila++;
             }
         }
-
-        // Actualizar los datos en la base de datos
+        
         await UpdateGradeList();
-        await Notificator.ShowSuccess("Datos actualizados desde el archivo Excel.");
     }
     
     //Utilities Method
