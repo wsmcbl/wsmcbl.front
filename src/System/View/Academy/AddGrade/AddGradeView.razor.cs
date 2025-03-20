@@ -88,7 +88,7 @@ public partial class AddGradeView : BaseView
     private byte[]? archivoExcel;
     
     //Excels Method
-    private byte[] GenerarExcel()
+    private Task <byte[]> GenerarExcel()
     {
         using (var workbook = new XLWorkbook())
         {
@@ -108,8 +108,8 @@ public partial class AddGradeView : BaseView
                 worksheet.Cell(1, columna).Style.Font.Bold = true;
                 worksheet.Cell(1, columna).Style.Fill.BackgroundColor = XLColor.LightGray;
 
-                worksheet.Cell(2, columna).Value = "Clave";
-                worksheet.Cell(2, columna + 1).Value = "Valor";
+                worksheet.Cell(2, columna).Value = "Id";
+                worksheet.Cell(2, columna + 1).Value = "Nota";
                 columna += 2;
             }
 
@@ -155,13 +155,13 @@ public partial class AddGradeView : BaseView
             using (var stream = new MemoryStream())
             {
                 workbook.SaveAs(stream);
-                return stream.ToArray();
+                return Task.FromResult(stream.ToArray());
             }
         }
     }
-    private void DescargarExcel()
+    private async Task DescargarExcel()
     {
-        var contenidoExcel = GenerarExcel();
+        var contenidoExcel = await GenerarExcel();
         
         var nombreArchivo = $"Calificaciones_{GetPartialName()}_{DateTime.Now:yyyyMMdd}.xlsx";
         var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -219,7 +219,14 @@ public partial class AddGradeView : BaseView
                         var grade = estudiante.gradeList!.FirstOrDefault(e => e.subjectId == clave);
                         if (grade != null)
                         {
-                            grade.grade = int.Parse(valor);
+                            if (int.TryParse(valor, out int valorNumerico))
+                            {
+                                grade.grade = valorNumerico >= 0 ? valorNumerico : 0;
+                            }
+                            else
+                            {
+                                grade.grade = 0; 
+                            }
                         }
 
                         columna += 2;

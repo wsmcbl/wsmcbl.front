@@ -39,7 +39,7 @@ else
                 </div>
 
 
-                <div class="card border-left-primary shadow">
+                <div class="card border-left-primary shadow mb-3">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -184,7 +184,7 @@ else
                                                 <td data-label="@subject.name - Valor">
                                                     @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
-                                                        <input type="number" class="form-control no-spinner"
+                                                        <input type="number" min="0" class="form-control no-spinner"
                                                                @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"/>
                                                     }
                                                     else
