@@ -1,0 +1,44 @@
+<div @onkeydown="HandleKeyDown" tabindex="0">
+    <!-- Modal -->
+    <div class="modal fade" id="PdfViewerModal" tabindex="-1" aria-labelledby="PdfViewerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 60%; height: 30%; max-width: 60%; max-height: 30%;">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="PdfViewerModalLabel">@Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    @if (hasPdf())
+                    {
+                        <iframe id="pdfViewer" src="data:application/pdf;base64,@Convert.ToBase64String(PdfContent!)"
+                                width="100%" height="600px"></iframe>
+                    }
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button type="button" class="btn btn-success" @onclick="PrintPdf">Imprimir (F8)</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function printPdf(pdfBase64) {
+        const pdfBlob = new Blob([Uint8Array.from(atob(pdfBase64), c => c.charCodeAt(0))], { type: 'application/pdf' });
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+
+        const printWindow = window.open(pdfUrl);
+        if (printWindow) {
+            printWindow.focus();
+            printWindow.print();
+        }
+    }
+</script>

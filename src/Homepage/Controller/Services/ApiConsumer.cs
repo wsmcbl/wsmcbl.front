@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace wsmcbl.src.Controller.Services;
 
 public class ApiConsumer
@@ -29,25 +31,30 @@ public class ApiConsumer
         if (string.IsNullOrEmpty(api?.Trim()))
             throw new Exception("API environment variable not found.");
 
-        return new Uri($"{api}/v4");
+        return new Uri($"{api}/v5");
     }
     
-    protected virtual async Task<T> GenericHttpResponse<T>(Func<Task<T?>> httpRequest, T defaultResult,
-        HttpResponseMessage response)
+    protected virtual async Task<T?> GenericHttpResponse<T>(Func<Task<T?>> httpRequest, T? defaultResult, HttpResponseMessage response)
     {
         if (response.IsSuccessStatusCode)
         {
-            return (await httpRequest())!;
+            return await httpRequest();
         }
-        
+    
         return defaultResult;
     }
     
-    
-    public async Task<byte[]> GetPdfAsync(Modules module, string resource)
+    public async Task<(byte[]? Pdf, int StatusCode)> GetPdfAsync(Modules module, string resource)
     {
         var response = await _httpClient.GetAsync(BuildUri(module, resource));
-        return await GenericHttpResponse(() => response.Content.ReadAsByteArrayAsync()!, [], response);
+
+        var pdfBytes = await GenericHttpResponse(async () => 
+        {
+            var data = await response.Content.ReadAsByteArrayAsync();
+            return data.Length > 0 ? data : null;
+        }, null, response);
+
+        return (pdfBytes, (int)response.StatusCode);
     }
     
     

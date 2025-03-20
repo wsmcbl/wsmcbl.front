@@ -17,13 +17,13 @@ public class ViewGradeController
 
         try
         {
-            var content = await _apiConsumer.GetPdfAsync(Modules.Secretary, resource); 
+            var (pdf, statusCode) = await _apiConsumer.GetPdfAsync(Modules.Academy, resource); 
             
-            if (content.Length > 0)
+            if (pdf != null && pdf.Length > 0)
             {
-                return (content, 200);
+                return (pdf, 200);
             }
-            return (null, 500);
+            return (null, statusCode);
         }
         catch (HttpRequestException ex)
         {

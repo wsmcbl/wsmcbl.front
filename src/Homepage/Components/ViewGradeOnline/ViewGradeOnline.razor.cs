@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
 
 namespace wsmcbl.src.Components.ViewGradeOnline;
@@ -6,6 +7,7 @@ namespace wsmcbl.src.Components.ViewGradeOnline;
 public partial class ViewGradeOnline : ComponentBase
 {
     [Inject] ViewGradeController Controller { get; set; } = null!;
+    [Inject] private IJSRuntime Js { get; set; } = null!;
     private byte[]? GradePdf { get; set; } = [];
     private string? token {get;set;}
     private string? studentId {get;set;}
@@ -20,6 +22,7 @@ public partial class ViewGradeOnline : ComponentBase
         {
             GradePdf = content;
             ErrorMessage = null;
+            await Js.InvokeVoidAsync("mostrarModal", "PdfViewerModal");
         }
         else
         {
