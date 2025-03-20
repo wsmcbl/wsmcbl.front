@@ -9,22 +9,96 @@
 }
 else
 {
-    <div class="card border-bottom-danger shadow h-100 py-2 mb-4">
-        <div class="card-body">
-            <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="m-0 font-weight-bold text-primary">@enrollmentLabel</h5>
-                    </div>
-                    <div class="py-3">
-                        <div><strong>Docente: </strong>@TeacherName</div>
-                        <div><strong>Parcial activo: </strong>@GetPartialName()</div>
-                        <div><strong>Fecha: </strong>@GetDatetime()</div>
-                    </div>
+<div class="card shadow h-100 py-2 mb-4">
+    <div class="card-body">
+        <!-- Título -->
+        <div class="row no-gutters align-items-center mb-4">
+            <div class="col mr-2">
+                <div class="d-flex justify-content-center align-items-center">
+                    <h5 class="m-0 font-weight-bold text-primary">@enrollmentLabel</h5>
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <!-- Columna izquierda: Información del Enrollment -->
+            <div class="col-md-6">
+                <!-- Card del Docente -->
+                <div class="card border-left-primary shadow mb-3">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Docente</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@(TeacherName ?? "N/A")</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card del Parcial Activo -->
+                <div class="card border-left-primary shadow">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Parcial Activo</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@GetPartialName()</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@GetDatetime()</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card border-left-primary shadow">
+                    <div class="card-body">
+                        <!-- Disclaimer mejorado -->
+                        <div class="alert alert-info" role="alert">
+                            <h5 class="alert-heading">
+                                <i class="fas fa-info-circle"></i> Instrucciones para actualizar calificaciones
+                            </h5>
+                            <hr>
+                            <p class="mb-0">
+                                Para actualizar las calificaciones utilizando una hoja de cálculo, sigue estos pasos:
+                            </p>
+                            <ol class="pl-3">
+                                <li>Descarga la plantilla con el botón <strong>"Descargar Formato"</strong>.</li>
+                                <li>Edita el archivo con los datos actualizados.</li>
+                                <li>Sube el archivo editado y haz clic en <strong>"Actualizar calificaciones"</strong>.</li>
+                            </ol>
+                        </div>
+
+                        <!-- Input para seleccionar archivo -->
+                        @if (archivoExcel == null)
+                        {
+                            <div class="mb-3">
+                                <label for="fileInput" class="btn btn-outline-primary btn-block">
+                                    <i class="fas fa-file-upload"></i> Seleccionar archivo
+                                </label>
+                                <InputFile OnChange="async (e) => await CargarArchivoExcel(e)" id="fileInput" class="d-none" accept=".xlsx"/>
+                            </div>
+                        }
+
+                        <!-- Botón para actualizar datos -->
+                        @if (archivoExcel != null)
+                        {
+                            <button @onclick="ActualizarDatosDesdeExcel" class="btn btn-outline-danger btn-block">
+                                <i class="fas fa-sync-alt"></i> Actualizar calificaciones
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
+</div>
 
     @if (studentList != null && subjectList != null)
     {
@@ -44,15 +118,15 @@ else
                     }
 
                     <li class="nav-item ml-auto">
-                        <button class="disabled btn btn-outline-secondary">
-                            Subir Excel
+                        
+                        <button class="btn btn-outline-primary btn-sm" @onclick="DescargarExcel">
+                            <i class="fas fa-file-download"></i> Descargar Formato
                         </button>
-                        <button class="disabled btn btn-outline-secondary">
-                            Descargar Excel
-                        </button>
+                        
                         <button class="btn btn-success btn-sm" @onclick="UpdateGradeList">
                             Guardar
                         </button>
+
                     </li>
                 </ul>
             </div>
@@ -113,7 +187,7 @@ else
                                                     @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
                                                         <input type="number" class="form-control no-spinner"
-                                                               @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade" />
+                                                               @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"/>
                                                     }
                                                     else
                                                     {
@@ -123,7 +197,7 @@ else
                                             }
                                             <td data-label="Conducta">
                                                 <input type="number" class="form-control no-spinner"
-                                                       @bind="student.conductGrade" />
+                                                       @bind="student.conductGrade"/>
                                             </td>
                                         </tr>
                                     }

@@ -1,5 +1,7 @@
 using System.Globalization;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
@@ -10,9 +12,10 @@ namespace wsmcbl.src.View.Academy.AddGrade;
 public partial class AddGradeView : BaseView
 {
     [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private AddingStudentGradesController controller { get; set; } = null!;
 
-    
+
     [Parameter] public string EnrollmentId { get; set; } = null!;
     private int currentPartial { get; set; }
     private int ActiveTabId { get; set; } = 1;
@@ -82,18 +85,176 @@ public partial class AddGradeView : BaseView
         await Notificator.ShowError("Hubo un fallo al intentar registrar las calificaciones.");
     }
     
-    //Excels Method
+    private byte[]? archivoExcel;
     
+    //Excels Method
+    private byte[] GenerarExcel()
+    {
+        using (var workbook = new XLWorkbook())
+        {
+            var worksheet = workbook.Worksheets.Add("Calificaciones");
+
+            // Encabezados
+            worksheet.Cell(1, 1).Value = "Código";
+            worksheet.Cell(1, 2).Value = "Estudiante";
+
+            // Encabezados de materias
+            int columna = 3;
+            foreach (var subject in subjectList!)
+            {
+                worksheet.Cell(1, columna).Value = subject.initials;
+                worksheet.Cell(1, columna).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Cell(1, columna).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                worksheet.Cell(1, columna).Style.Font.Bold = true;
+                worksheet.Cell(1, columna).Style.Fill.BackgroundColor = XLColor.LightGray;
+
+                worksheet.Cell(2, columna).Value = "Clave";
+                worksheet.Cell(2, columna + 1).Value = "Valor";
+                columna += 2;
+            }
+
+            // Encabezado de conducta
+            worksheet.Cell(1, columna).Value = "Conducta";
+            worksheet.Cell(1, columna).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+            worksheet.Cell(1, columna).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+            worksheet.Cell(1, columna).Style.Font.Bold = true;
+            worksheet.Cell(1, columna).Style.Fill.BackgroundColor = XLColor.LightGray;
+
+            // Datos de estudiantes
+            int fila = 3;
+            foreach (var student in studentList!.OrderBy(s => s.sex).ThenBy(s => s.fullName))
+            {
+                worksheet.Cell(fila, 1).Value = student.studentId;
+                worksheet.Cell(fila, 2).Value = student.fullName;
+
+                columna = 3;
+                foreach (var subject in subjectList!)
+                {
+                    var grade = student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId);
+                    if (grade != null)
+                    {
+                        worksheet.Cell(fila, columna).Value = subject.subjectId;
+                        worksheet.Cell(fila, columna + 1).Value = grade.grade;
+                    }
+                    else
+                    {
+                        worksheet.Cell(fila, columna).Value = "No asignado";
+                        worksheet.Cell(fila, columna + 1).Value = "No asignado";
+                    }
+
+                    columna += 2;
+                }
+
+                // Conducta
+                worksheet.Cell(fila, columna).Value = student.conductGrade;
+                fila++;
+            }
+
+            // Ajustar el ancho de las columnas
+            worksheet.Columns().AdjustToContents();
+
+            // Convertir el archivo a un arreglo de bytes
+            using (var stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+                return stream.ToArray();
+            }
+        }
+    }
+    private void DescargarExcel()
+    {
+        // Generar el archivo Excel
+        var contenidoExcel = GenerarExcel();
+
+        // Crear un enlace de descarga
+        var nombreArchivo = $"Calificaciones_{GetPartialName()}_{DateTime.Now:yyyyMMdd}.xlsx";
+        var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        var base64Contenido = Convert.ToBase64String(contenidoExcel);
+
+        // Navegar al enlace de descarga
+        Navigator.ToPage($"data:{contentType};base64,{base64Contenido}");
+    }
+    //--------------------------------
+    private async Task CargarArchivoExcel(InputFileChangeEventArgs e)
+    {
+        var archivo = e.File;
+        if (archivo != null && archivo.Name.EndsWith(".xlsx"))
+        {
+            using (var stream = archivo.OpenReadStream())
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    archivoExcel = memoryStream.ToArray();
+                }
+            }
+        }
+        else
+        {
+            await Notificator.ShowError("Por favor, selecciona un archivo Excel válido.");
+        }
+    }
+    private async Task ActualizarDatosDesdeExcel()
+    {
+        if (archivoExcel == null)
+        {
+            await Notificator.ShowError("No se ha cargado ningún archivo.");
+            return;
+        }
+
+        using (var stream = new MemoryStream(archivoExcel))
+        {
+            var workbook = new XLWorkbook(stream);
+            var worksheet = workbook.Worksheet(1); // Obtener la primera hoja
+
+            // Leer los datos del archivo
+            var fila = 3; // Empezar desde la fila 3 (donde están los datos de los estudiantes)
+            while (!worksheet.Cell(fila, 1).IsEmpty())
+            {
+                var codigoEstudiante = worksheet.Cell(fila, 1).Value.ToString();
+                var estudiante = studentList!.FirstOrDefault(s => s.studentId == codigoEstudiante);
+
+                if (estudiante != null)
+                {
+                    int columna = 3;
+                    foreach (var subject in subjectList!)
+                    {
+                        var clave = worksheet.Cell(fila, columna).Value.ToString();
+                        var valor = worksheet.Cell(fila, columna + 1).Value.ToString();
+
+                        var grade = estudiante.gradeList!.FirstOrDefault(e => e.subjectId == clave);
+                        if (grade != null)
+                        {
+                            grade.grade = int.Parse(valor);
+                        }
+
+                        columna += 2;
+                    }
+
+                    // Actualizar la conducta
+                    estudiante.conductGrade = int.Parse(worksheet.Cell(fila, columna).Value.ToString());
+                }
+
+                fila++;
+            }
+        }
+
+        // Actualizar los datos en la base de datos
+        await UpdateGradeList();
+        await Notificator.ShowSuccess("Datos actualizados desde el archivo Excel.");
+    }
     
     //Utilities Method
     protected override bool IsLoading()
     {
         return partialList == null;
     }
+
     private static string GetDatetime()
     {
         return DateTime.Now.ToString("dddd dd 'de' MMMM 'de' yyyy", new CultureInfo("es-ES"));
     }
+
     private string GetPartialName()
     {
         var activePartial = partialList!.FirstOrDefault(e => e.partialId == currentPartial);
