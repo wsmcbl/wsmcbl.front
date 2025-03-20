@@ -14,7 +14,7 @@ public static class EntityMaker
             Type = tariff.Type,
             Concept = tariff.Concept,
             Amount = tariff.Amount,
-            DueDate = tariff.DueDate,
+            DueDate = tariff.DueDate?.ToDateOnly(),
             IsLate = tariff.IsLate
         };
     }

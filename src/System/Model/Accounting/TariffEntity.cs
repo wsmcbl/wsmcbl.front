@@ -10,7 +10,7 @@ public class TariffEntity
     public double Arrears { get; set; }
     public double SubAmount { get;  set; }
     public double Total { get;  set; }
-    public string? DueDate { get; set; }
+    public DateOnly? DueDate { get; set; }
     public bool IsLate { get; set; }
     public int Type { get; set; }
     public int educationalLevel { get; set; }
