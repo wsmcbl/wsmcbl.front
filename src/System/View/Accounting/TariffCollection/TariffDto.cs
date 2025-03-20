@@ -8,7 +8,7 @@ public class TariffDto
     [JsonProperty("tariffId")]
     public int TariffId { get; set; }
 
-    [JsonProperty("schoolyear")]
+    [JsonProperty("schoolyearId")]
     public string SchoolYear { get; set; } = null!;
 
     [JsonProperty("concept")]

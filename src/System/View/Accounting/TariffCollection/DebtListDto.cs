@@ -3,7 +3,7 @@ namespace wsmcbl.src.View.Accounting.TariffCollection;
 public class DebtListDto
 {
     public int tariffId { get; set; }
-    public string? schoolYear { get; set; }
+    public string? schoolyearId { get; set; }
     public string? concept { get; set; }
     public double total { get; set; }
     public int discount { get; set; }

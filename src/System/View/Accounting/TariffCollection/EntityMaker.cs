@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using wsmcbl.src.Model.Accounting;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
