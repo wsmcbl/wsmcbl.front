@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.WebUtilities;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Accounting.Reports;
 using wsmcbl.src.View.Accounting.Reports.Revenue;
 using wsmcbl.src.View.Base;
 
@@ -13,8 +12,7 @@ public partial class TransactionListView : BaseView
 {
     [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
-    [Inject] private TransactionReportByDateController controller { get; set; } = null!;
-    [Inject] private CollectTariffController CollectTariffController { get; set; } = null!;
+    [Inject] private CancelTransactionController controller { get; set; } = null!;
     
     private byte[]? InvoicePdf { get; set; } 
     private List<TransactionTypeDto>? transactionTypeList { get; set; }
@@ -32,21 +30,24 @@ public partial class TransactionListView : BaseView
 
     protected override async Task OnParametersSetAsync()
     {
-        transactionTypeList = await controller!.GetTypeTransactions();
+        transactionTypeList = await controller.GetTariffTypeList();
         UpdateRequest();
         await LoadData();
     }
+    
     private async Task LoadData()
     {
-        transactionList = await controller!.GetTransactions(Request);
+        transactionList = await controller.GetTransactionList(Request);
         hasData = transactionList.data.Count > 0;
 
     }
+    
     private async Task GetInvoicePdf(string transactionId)
     {
-        InvoicePdf = await CollectTariffController!.GetInvoice(transactionId);
+        InvoicePdf = await controller.GetInvoice(transactionId);
         await Navigator.ShowPdfModal();
     }
+    
     private async Task CancelTransactions(string transactionId)
     {
         var result = await Notificator
@@ -57,7 +58,7 @@ public partial class TransactionListView : BaseView
             return;
         }
         
-        var response = await CollectTariffController!.CancelTransaction(transactionId);
+        var response = await controller.CancelTransactionById(transactionId);
         if (!response)
         {
             await Notificator.ShowError("Hubo un fallo al anular la transacción.");
@@ -68,11 +69,13 @@ public partial class TransactionListView : BaseView
         await LoadData();
         StateHasChanged();
     }
+    
     private string getTransactionDescription(int type)
     {
         return transactionTypeList!
             .FirstOrDefault(t => t.typeId == type)?.description ?? "Descripción no disponible";
     }
+    
     protected override bool IsLoading()
     {
         return transactionList == null || transactionTypeList == null;
