@@ -8,7 +8,7 @@ public class StudentEntity
     public bool sex { get; set; }
     public string schoolyear { get; set; } = null!;
     public string enrollment { get; set; } = null!;
-    public int conductGrade { get; set; }
+    public decimal conductGrade { get; set; }
     
     public List<GradeEntity>? gradeList {get; set;}
 
