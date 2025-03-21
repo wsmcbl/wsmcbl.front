@@ -10,7 +10,8 @@ namespace wsmcbl.src.View.Accounting.TariffCollection;
 public partial class TariffCollectionView : BaseView
 {
     [Parameter] public string? StudentId { get; set; }
-    [Inject] protected CollectTariffController Controller { get; set; } = null!;
+    [Inject] protected CollectTariffController collectTariffController { get; set; } = null!;
+    [Inject] protected ForgetDebtController forgetDebtController { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; private set; } = null!;
 
@@ -38,9 +39,11 @@ public partial class TariffCollectionView : BaseView
     
     private async Task LoadStudent()
     {
-        Student = await Controller.GetStudent(StudentId!);
-        Student.debtList = await Controller.GetDebtList(StudentId!);
-        TariffList = await Controller.GetTariffListByStudentId(StudentId);
+        Student = await collectTariffController.GetStudent(StudentId!);
+        
+        Student.debtList = await forgetDebtController.GetDebtList(StudentId!);
+        
+        TariffList = await collectTariffController.GetTariffListByStudentId(StudentId);
         TariffList.UpdateAmounts(Student!);
     }
     
@@ -90,9 +93,9 @@ public partial class TariffCollectionView : BaseView
     private byte[]? InvoicePdf { get; set; }
     private async Task PayTariffs(List<DetailDto> detail)
     {
-        await Controller.BuildTransaction(detail);
+        await collectTariffController.BuildTransaction(detail);
 
-        var result = await Controller.SendPay();
+        var result = await collectTariffController.SendPay();
 
         if (string.IsNullOrEmpty(result))
         {
@@ -102,7 +105,7 @@ public partial class TariffCollectionView : BaseView
         await Notificator.ShowSuccess("¡Pago Exitoso!", $"La transacción se completó correctamente.");
         await Navigator.HideModal("PaymentView");
         
-        InvoicePdf = await Controller.GetInvoice(result);
+        InvoicePdf = await collectTariffController.GetInvoice(result);
         await Navigator.ShowPdfModal();
         
         await LoadStudent();

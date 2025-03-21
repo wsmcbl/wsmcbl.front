@@ -10,7 +10,7 @@ public partial class ForgetDeb : ComponentBase
     [Parameter] public string StudentId { get; set; } = null!;
     [Parameter] public int TariffId { get; set; }
     [Inject] public Notificator Notificator { get; set; } = null!;
-    [Inject] public CollectTariffController Controller { get; set; } = null!;
+    [Inject] public ForgetDebtController Controller { get; set; } = null!;
     [Inject] public Navigator Navigator { get; set; } = null!;
     [Parameter] public EventCallback FinishTask { get; set; }
     private string AuthToken { get; set; } = null!;
