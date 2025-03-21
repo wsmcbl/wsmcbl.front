@@ -36,11 +36,10 @@ public class CollectTariffController
 
     public async Task<List<TariffEntity>> GetTariffListByStudentId(string? studentId)
     {
-        var resource = $"students/{studentId}/tariffs";
-        List<TariffDto> defaultResult = [];
-        defaultResult = await _apiConsumer.GetAsync(Modules.Accounting, resource, defaultResult);
-
-        return defaultResult.ToEntity();
+        var resource = $"students/{studentId}/tariffs"; 
+        
+        var result = await _apiConsumer.GetAsync(Modules.Accounting, resource, new List<TariffDto>());
+        return result.Select(e => e.ToEntity()).ToList();
     }
 
     public async Task<string> SendPay()

@@ -4,8 +4,6 @@ namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public static class EntityMaker
 {
-    public static List<TariffEntity> ToEntity(this IEnumerable<TariffDto> list) => list.Select(e => e.ToEntity()).ToList();
-    
     private static void UpdateAmounts(this TariffEntity tariff, StudentEntity student)
     {
         tariff.SetSubamount(student.discount);
