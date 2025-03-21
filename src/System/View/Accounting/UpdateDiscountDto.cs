@@ -1,6 +1,6 @@
-namespace wsmcbl.src.View.Accounting.TariffCollection;
+namespace wsmcbl.src.View.Accounting;
 
-public class EditDiscountDto
+public class UpdateDiscountDto
 {
     public string? studentId { get; set; } = null!;
     public int discountId { get; set; }

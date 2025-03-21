@@ -1,5 +1,5 @@
 using wsmcbl.src.Controller.Service;
-using wsmcbl.src.View.Accounting.TariffCollection;
+using wsmcbl.src.View.Accounting;
 
 namespace wsmcbl.src.Controller;
 
@@ -9,8 +9,8 @@ public class UpdateStudentAccountingController : BaseController
     {
     }
     
-    public async Task<bool> UpdateDiscount(EditDiscountDto editDiscountDto)
+    public async Task<bool> UpdateDiscount(UpdateDiscountDto updateDiscountDto)
     {
-        return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, path, editDiscountDto);
+        return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, path, updateDiscountDto);
     }
 }
