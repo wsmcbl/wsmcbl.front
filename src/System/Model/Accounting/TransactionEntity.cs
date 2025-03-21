@@ -9,4 +9,10 @@ public class TransactionEntity
     public string studentId { get; set; } = null!;
     public DateTime dateTime { get; set; }
     public List<DetailDto> details { get; set; } = null!;
+
+    public TransactionEntity()
+    {
+        transactionId = "";
+        dateTime = DateTime.UtcNow;
+    }
 }
