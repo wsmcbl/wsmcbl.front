@@ -61,21 +61,6 @@ public class CollectTariffController
         return await _apiConsumer.PutAsync(Modules.Accounting, resource, transactionId);
     }
     
-    public async Task<List<DebtDto>> GetDebtList(string studentId)
-    {
-        var resource = $"students/{studentId}/debts";
-        var defaultResult = new List<DebtDto>();
-        await _apiConsumer.GetAsync(Modules.Accounting, resource, defaultResult);
-        
-        return defaultResult;
-    }
-    
-    public async Task<bool> ForgetDebt(string studentId, int tariffId, string authorizationToken)
-    {
-        var resource = $"students/{studentId}/debts?tariffId={tariffId}&authorizationToken={authorizationToken}";
-        return await _apiConsumer.PutAsync<object>(Modules.Accounting, resource, null);
-    }
-    
     public async Task<bool> EditDiscount(EditDiscountDto editDiscountDto)
     {
         return await _apiConsumer.PutAsync(Modules.Accounting, "students", editDiscountDto);
