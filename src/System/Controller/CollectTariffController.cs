@@ -51,11 +51,6 @@ public class CollectTariffController : BaseController
         return await controller.GetInvoice(transactionId);
     }
 
-    public async Task<bool> EditDiscount(EditDiscountDto editDiscountDto)
-    {
-        return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, path, editDiscountDto);
-    }
-
     private TransactionEntity? Transaction { get; set; }
 
     public async Task BuildTransaction(string StudentId, List<DetailDto> transactionDetail)
