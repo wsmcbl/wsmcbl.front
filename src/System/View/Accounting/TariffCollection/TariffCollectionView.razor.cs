@@ -39,7 +39,7 @@ public partial class TariffCollectionView : BaseView
     private async Task LoadStudent()
     {
         Student = await Controller.GetStudent(StudentId!);
-        Student.debtList = await Controller.GetDebitList(StudentId!);
+        Student.debtList = await Controller.GetDebtList(StudentId!);
         TariffList = await Controller.GetTariffListByStudentId(StudentId);
         TariffList.UpdateAmounts(Student!);
     }

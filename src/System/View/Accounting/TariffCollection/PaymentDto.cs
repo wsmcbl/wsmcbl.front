@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public class PaymentDto
@@ -10,6 +8,5 @@ public class PaymentDto
     public double discount { get; set; }
     public double arrears { get; set; } 
     public double debtBalance { get; set; }
-
 }
 

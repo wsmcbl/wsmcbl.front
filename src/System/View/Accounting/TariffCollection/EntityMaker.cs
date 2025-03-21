@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using wsmcbl.src.Model.Accounting;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
@@ -14,7 +13,7 @@ public static class EntityMaker
             Type = tariff.Type,
             Concept = tariff.Concept,
             Amount = tariff.Amount,
-            DueDate = tariff.DueDate,
+            DueDate = tariff.DueDate?.ToDateOnly(),
             IsLate = tariff.IsLate
         };
     }

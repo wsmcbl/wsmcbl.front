@@ -7,7 +7,7 @@ public class TransactionDto
     [JsonProperty("tariffId")]
     public int TariffId { get; set; }
 
-    [JsonProperty("schoolYear")]
+    [JsonProperty("schoolyearId")]
     public string SchoolYear { get; set; } = null!;
 
     [JsonProperty("concept")]

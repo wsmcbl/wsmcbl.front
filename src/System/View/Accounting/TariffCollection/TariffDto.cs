@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using wsmcbl.src.View.Components.Dto;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
@@ -7,7 +8,7 @@ public class TariffDto
     [JsonProperty("tariffId")]
     public int TariffId { get; set; }
 
-    [JsonProperty("schoolYear")]
+    [JsonProperty("schoolyearId")]
     public string SchoolYear { get; set; } = null!;
 
     [JsonProperty("concept")]
@@ -17,7 +18,7 @@ public class TariffDto
     public double Amount { get; set; }
 
     [JsonProperty("dueDate")]
-    public string? DueDate { get; set; }
+    public DateOnlyDto? DueDate { get; set; }
 
     [JsonProperty("isLate")]
     public bool IsLate { get; set; }

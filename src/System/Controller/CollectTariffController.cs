@@ -59,28 +59,27 @@ public class CollectTariffController
     public async Task<bool> CancelTransaction(string transactionId)
     {
         var resource = $"transactions/{transactionId}";
-        var response = await _apiConsumer.PutAsync(Modules.Accounting, resource, transactionId);
-        return response;
+        return await _apiConsumer.PutAsync(Modules.Accounting, resource, transactionId);
     }
     
-    public async Task<List<DebtListDto>> GetDebitList(string studentId)
+    public async Task<List<DebtListDto>> GetDebtList(string studentId)
     {
-        var resource = $"debts?studentId={studentId}";
+        var resource = $"students/{studentId}/debts";
         var defaultResult = new List<DebtListDto>();
-        return await _apiConsumer.GetAsync(Modules.Accounting, resource, defaultResult);
+        await _apiConsumer.GetAsync(Modules.Accounting, resource, defaultResult);
+        
+        return defaultResult;
     }
     
-    public async Task<bool> DebitTariff(DebDto dto)
+    public async Task<bool> ForgetDebt(DebDto dto)
     {
-        var resource = "debts";
-        var response = await _apiConsumer.PutAsync(Modules.Accounting, resource, dto);
-        return response;
+        var resource = $"students/{dto.studentId}/debts?tariffId={dto.tariffId}&authorizationToken={dto.authorizationToken}";
+        return await _apiConsumer.PutAsync<object>(Modules.Accounting, resource, null);
     }
     
     public async Task<bool> EditDiscount(EditDiscountDto editDiscountDto)
     {
-        var response = await _apiConsumer.PutAsync(Modules.Accounting, "students", editDiscountDto);
-        return response;
+        return await _apiConsumer.PutAsync(Modules.Accounting, "students", editDiscountDto);
     }
 
 
@@ -88,13 +87,11 @@ public class CollectTariffController
 
     public async Task BuildTransaction(List<DetailDto> transactionDetail)
     {
-        var CashierId = await GetCashierId();
-        
         Transaction = new TransactionEntity
         {
             transactionId = "",
             studentId = StudentId!,
-            cashierId = CashierId,
+            cashierId = await GetCashierId(),
             dateTime = DateTime.UtcNow,
             details = transactionDetail
         };
@@ -103,6 +100,11 @@ public class CollectTariffController
     private async Task<string> GetCashierId()
     {
         var value = await _JwtClaimsService.GetClaimAsync("roleid");
-        return !string.IsNullOrWhiteSpace(value) ? value : "caj-eurbina";
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            throw new InternalException("Este usuario no puede realizar esta acción.");
+        }
+
+        return value;
     }
 }
