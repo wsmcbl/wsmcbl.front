@@ -51,12 +51,6 @@ public class CollectTariffController : BaseController
         var resource = $"documents/invoices/{transactionId}";
         return await apiFactory.WithNotificator.GetPdfAsync(Modules.Accounting, resource);
     }
-
-    public async Task<bool> CancelTransaction(string transactionId)
-    {
-        var resource = $"transactions/{transactionId}";
-        return await apiFactory.WithNotificator.PutAsync(Modules.Accounting, resource, transactionId);
-    }
     
     public async Task<bool> EditDiscount(EditDiscountDto editDiscountDto)
     {
