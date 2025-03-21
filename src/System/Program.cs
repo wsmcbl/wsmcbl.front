@@ -2,10 +2,8 @@ using wsmcbl.src.Controller;
 using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.IdentityModel.Tokens;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Accounting.TariffCollection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +40,7 @@ builder.Services.AddTransient<LoginController>();
 builder.Services.AddTransient<TransactionReportByDateController>();
 builder.Services.AddTransient<CancelTransactionController>();
 builder.Services.AddTransient<UpdateStudentController>();
+builder.Services.AddTransient<UpdateStudentAccountingController>();
 
 
 builder.Services.AddTransient<CreateUserController>();
