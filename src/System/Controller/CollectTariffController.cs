@@ -71,9 +71,9 @@ public class CollectTariffController
         return defaultResult;
     }
     
-    public async Task<bool> ForgetDebt(DebDto dto)
+    public async Task<bool> ForgetDebt(string studentId, int tariffId, string authorizationToken)
     {
-        var resource = $"students/{dto.studentId}/debts?tariffId={dto.tariffId}&authorizationToken={dto.authorizationToken}";
+        var resource = $"students/{studentId}/debts?tariffId={tariffId}&authorizationToken={authorizationToken}";
         return await _apiConsumer.PutAsync<object>(Modules.Accounting, resource, null);
     }
     
