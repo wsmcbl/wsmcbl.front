@@ -4,22 +4,7 @@ namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public static class EntityMaker
 {
-    private static TariffEntity ToEntity(this TariffDto tariff)
-    {
-        return new TariffEntity
-        {
-            TariffId = tariff.TariffId,
-            SchoolYear = tariff.SchoolYear,
-            Type = tariff.Type,
-            Concept = tariff.Concept,
-            Amount = tariff.Amount,
-            DueDate = tariff.DueDate?.ToDateOnly(),
-            IsLate = tariff.IsLate
-        };
-    }
-
-    public static List<TariffEntity> ToEntity(this IEnumerable<TariffDto> list)
-        => list.Select(e => e.ToEntity()).ToList();
+    public static List<TariffEntity> ToEntity(this IEnumerable<TariffDto> list) => list.Select(e => e.ToEntity()).ToList();
     
     private static void UpdateAmounts(this TariffEntity tariff, StudentEntity student)
     {

@@ -1,30 +1,30 @@
-using Newtonsoft.Json;
+using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.View.Components.Dto;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public class TariffDto
 {
-    [JsonProperty("tariffId")]
-    public int TariffId { get; set; }
+    public int tariffId { get; set; }
+    public string schoolyearId { get; set; } = null!;
+    public string concept { get; set; } = null!;
+    public double amount { get; set; }
+    public DateOnlyDto? dueDate { get; set; }
+    public bool isLate { get; set; }
+    public int type { get; set; }
 
-    [JsonProperty("schoolyearId")]
-    public string SchoolYear { get; set; } = null!;
-
-    [JsonProperty("concept")]
-    public string Concept { get; set; } = null!;
-
-    [JsonProperty("amount")]
-    public double Amount { get; set; }
-
-    [JsonProperty("dueDate")]
-    public DateOnlyDto? DueDate { get; set; }
-
-    [JsonProperty("isLate")]
-    public bool IsLate { get; set; }
-
-    [JsonProperty("type")]
-    public int Type { get; set; }
-    
+    public TariffEntity ToEntity()
+    {
+        return new TariffEntity
+        {
+            TariffId = tariffId,
+            SchoolYear = schoolyearId,
+            Type = type,
+            Concept = concept,
+            Amount = amount,
+            DueDate = dueDate?.ToDateOnly(),
+            IsLate = isLate
+        };
+    }
 }
 
