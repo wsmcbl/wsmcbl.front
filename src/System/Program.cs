@@ -40,6 +40,7 @@ builder.Services.AddTransient<LoginController>();
 
 
 builder.Services.AddTransient<TransactionReportByDateController>();
+builder.Services.AddTransient<CancelTransactionController>();
 builder.Services.AddTransient<UpdateStudentController>();
 
 
