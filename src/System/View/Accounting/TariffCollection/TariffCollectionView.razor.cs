@@ -39,7 +39,7 @@ public partial class TariffCollectionView : BaseView
     
     private async Task LoadStudent()
     {
-        Student = await collectTariffController.GetStudent(StudentId!);
+        Student = await collectTariffController.GetStudentById(StudentId!);
         
         Student.debtList = await forgetDebtController.GetDebtList(StudentId!);
         
@@ -93,7 +93,7 @@ public partial class TariffCollectionView : BaseView
     private byte[]? InvoicePdf { get; set; }
     private async Task PayTariffs(List<DetailDto> detail)
     {
-        await collectTariffController.BuildTransaction(detail);
+        await collectTariffController.BuildTransaction(StudentId!, detail);
 
         var result = await collectTariffController.SendPay();
 
