@@ -15,7 +15,7 @@ public class StudentEntity
     public int discountId { get; set; }
 
     public List<PaymentDto> paymentHistory { get; set; } = null!;
-    public List<DebtListDto> debtList { get; set; } = null!;
+    public List<DebtDto> debtList { get; set; } = null!;
 
     public double GetDebt(int tariffId)
     {

@@ -1,6 +1,6 @@
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
-public class DebtListDto
+public class DebtDto
 {
     public int tariffId { get; set; }
     public string? schoolyearId { get; set; }

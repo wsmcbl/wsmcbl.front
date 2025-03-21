@@ -62,10 +62,10 @@ public class CollectTariffController
         return await _apiConsumer.PutAsync(Modules.Accounting, resource, transactionId);
     }
     
-    public async Task<List<DebtListDto>> GetDebtList(string studentId)
+    public async Task<List<DebtDto>> GetDebtList(string studentId)
     {
         var resource = $"students/{studentId}/debts";
-        var defaultResult = new List<DebtListDto>();
+        var defaultResult = new List<DebtDto>();
         await _apiConsumer.GetAsync(Modules.Accounting, resource, defaultResult);
         
         return defaultResult;
