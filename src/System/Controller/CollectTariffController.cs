@@ -48,8 +48,8 @@ public class CollectTariffController : BaseController
 
     public async Task<byte[]> GetInvoice(string transactionId)
     {
-        var resource = $"documents/invoices/{transactionId}";
-        return await apiFactory.WithNotificator.GetPdfAsync(Modules.Accounting, resource);
+        var controller = new CancelTransactionController(apiFactory);
+        return await controller.GetInvoice(transactionId);
     }
     
     public async Task<bool> EditDiscount(EditDiscountDto editDiscountDto)
