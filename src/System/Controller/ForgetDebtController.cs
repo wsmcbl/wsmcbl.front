@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.TariffCollection;
 
 namespace wsmcbl.src.Controller;
@@ -9,13 +10,13 @@ public class ForgetDebtController : BaseController
     {
     }
     
-    public async Task<List<DebtDto>> GetDebtList(string studentId)
+    public async Task<Paginator<DebtDto>> GetDebtList(string studentId, PagedRequest request)
     {
-        var resource = $"{path}/{studentId}/debts";
-        var defaultResult = new List<DebtDto>();
-        await apiFactory.WithNotificator.GetAsync(Modules.Accounting, resource, defaultResult);
+        var resource = $"{path}/{studentId}/debts{request}";
+        var defaultResult = new Paginator<DebtDto>();
+        var a = await apiFactory.WithNotificator.GetAsync(Modules.Accounting, resource, defaultResult);
         
-        return defaultResult;
+        return a;
     }
     
     public async Task<bool> ForgetDebt(string studentId, int tariffId, string authorizationToken)

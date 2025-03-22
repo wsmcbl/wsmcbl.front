@@ -1,3 +1,4 @@
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.TariffCollection;
 
 namespace wsmcbl.src.Model.Accounting;
@@ -11,13 +12,13 @@ public class StudentEntity
     public string enrollmentLabel { get; set; } = null!;
     public string educationalLevel { get; set; } = null!;
     public string tutor { get; set; } = null!;
-    public double discount { get; set; }
+    public decimal discount { get; set; }
     public int discountId { get; set; }
 
     public List<PaymentDto> paymentHistory { get; set; } = null!;
-    public List<DebtDto> debtList { get; set; } = null!;
+    public Paginator<DebtDto> data { get; set; } = null!;
 
-    public double GetDebt(int tariffId)
+    public decimal GetDebt(int tariffId)
     {
         return paymentHistory.First(t => t.tariffId == tariffId).debtBalance;
     }

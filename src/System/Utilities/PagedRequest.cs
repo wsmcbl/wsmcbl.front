@@ -15,6 +15,13 @@ public class PagedRequest
         pageSize = 10;
         isAscending = true;
     }
+    
+    public PagedRequest(int pagesize)
+    {
+        CurrentPage = 1;
+        pageSize = pagesize;
+        isAscending = true;
+    }
 
     public override string ToString()
     {

@@ -81,22 +81,22 @@ else
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in TariffList!.OrderBy(t => t.TariffId))
+                                    @foreach (var item in TariffList!.OrderBy(t => t.tariffId))
                                     {
-                                        if (item.Type == 1)
+                                        if (item.type == 1)
                                         {
                                             <tr>
-                                                <td>@item.TariffId</td>
-                                                <td>@item.SchoolYear</td>
-                                                <td>@item.Concept</td>
+                                                <td>@item.tariffId</td>
+                                                <td>@item.schoolYear</td>
+                                                <td>@item.concept</td>
                                                 @{
-                                                    var hasDebt = Student!.HasPayments(item.TariffId);
-                                                    var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
+                                                    var hasDebt = Student!.HasPayments(item.tariffId);
+                                                    var amount = hasDebt && Student.GetDebt(item.tariffId) != 0 ? Student.GetDebt(item.tariffId) : item.amount;
                                                 }
                                                 <td>@amount</td>
                                                 <td>@item.GetStringIsLate()</td>
                                                 <td>@item.DueDate</td>
-                                                @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
+                                                @if (hasDebt && Student.GetDebt(item.tariffId) == 0)
                                                 {
                                                     <td class="center-checkbox">
                                                         <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>    
@@ -106,9 +106,9 @@ else
                                                 {
                                                     <td class="center-checkbox">
                                                         <div class="checkbox-wrapper-14">
-                                                            <input type="checkbox" id="checkbox-@item.TariffId"
+                                                            <input type="checkbox" id="checkbox-@item.tariffId"
                                                                    @onchange="(e) => OnSelectItemChanged(e, item)"/>
-                                                            <label for="checkbox-@item.TariffId">Cobrar</label>
+                                                            <label for="checkbox-@item.tariffId">Cobrar</label>
                                                         </div>
                                                     </td>
                                                     
@@ -137,20 +137,20 @@ else
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in TariffList!.OrderBy(t => t.TariffId))
+                                    @foreach (var item in TariffList!.OrderBy(t => t.tariffId))
                                     {
-                                        if (item.Type != 1)
+                                        if (item.type != 1)
                                         {
                                             <tr>
-                                                <td>@item.TariffId</td>
-                                                <td>@item.SchoolYear</td>
-                                                <td>@item.Concept</td>
+                                                <td>@item.tariffId</td>
+                                                <td>@item.schoolYear</td>
+                                                <td>@item.concept</td>
                                                 @{
-                                                    var hasDebt = Student!.HasPayments(item.TariffId);
-                                                    var amount = hasDebt && Student.GetDebt(item.TariffId) != 0 ? Student.GetDebt(item.TariffId) : item.Amount;
+                                                    var hasDebt = Student!.HasPayments(item.tariffId);
+                                                    var amount = hasDebt && Student.GetDebt(item.tariffId) != 0 ? Student.GetDebt(item.tariffId) : item.amount;
                                                 }
                                                 <td>@amount</td>
-                                                @if (hasDebt && Student.GetDebt(item.TariffId) == 0)
+                                                @if (hasDebt && Student.GetDebt(item.tariffId) == 0)
                                                 {
                                                     <td>
                                                         <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
@@ -159,7 +159,7 @@ else
                                                 else
                                                 {
                                                     <td class="center-checkbox">
-                                                        <input type="checkbox" id="checkbox-@item.TariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                        <input type="checkbox" id="checkbox-@item.tariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
                                                     </td>
                                                 }
                                             </tr>
@@ -255,7 +255,7 @@ else
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var item in Student.debtList.OrderBy(t => t.tariffId))
+                                    @foreach (var item in Student.data.data.OrderBy(t => t.tariffId))
                                     {
                                             <tr>
                                                 <td>@item.tariffId</td>

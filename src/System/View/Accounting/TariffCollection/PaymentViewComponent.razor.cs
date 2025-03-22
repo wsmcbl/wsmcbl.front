@@ -10,12 +10,12 @@ public partial class PaymentViewComponent : ComponentBase
     [Inject] protected Navigator Navigator { get; private set; } = null!;
     [Parameter] public List<TariffEntity> TariffList { get; set; } = null!;
 
-    private double Arrears { get; set; }
-    private double Subtotal { get; set; }
-    private double Discount { get; set; }
-    private double Total { get; set; }
+    private decimal Arrears { get; set; }
+    private decimal Subtotal { get; set; }
+    private decimal Discount { get; set; }
+    private decimal Total { get; set; }
 
-    private double AmountToDivide { get; set; }
+    private decimal AmountToDivide { get; set; }
 
     private bool ExonerateArrears;
     private bool ExonerateArrearsChecked
@@ -45,7 +45,7 @@ public partial class PaymentViewComponent : ComponentBase
 
         foreach (var item in TariffList)
         {
-            Subtotal += item.Amount;
+            Subtotal += item.amount;
             Discount += item.Discount;
             Arrears += item.Arrears;
             Total += item.Total;
@@ -56,7 +56,7 @@ public partial class PaymentViewComponent : ComponentBase
 
     [Parameter] public EventCallback<List<DetailDto>> CollectTariff { get; set; }
 
-    private async Task CreateDetail(double amountToPay)
+    private async Task CreateDetail(decimal amountToPay)
     {
         var detail = TariffList.MapToDto(!ExonerateArrears, amountToPay);
 
@@ -67,7 +67,7 @@ public partial class PaymentViewComponent : ComponentBase
 
     private void HandleInputChange(ChangeEventArgs e)
     {
-        AmountToDivide = string.IsNullOrEmpty(e.Value?.ToString()) ? 0 : Convert.ToDouble(e.Value);
+        AmountToDivide = string.IsNullOrEmpty(e.Value?.ToString()) ? 0 : Convert.ToDecimal(e.Value);
         StateHasChanged();
     }
 

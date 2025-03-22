@@ -7,7 +7,7 @@ public class SummaryDto
     public string startDate { get; set; }
     public string endDate { get; set; }
     public int validQuantity { get; set; }
-    public int validTotal { get; set; }
+    public decimal validTotal { get; set; }
     public int invalidQuantity { get; set; }
     public int invalidTotal { get; set; }
     

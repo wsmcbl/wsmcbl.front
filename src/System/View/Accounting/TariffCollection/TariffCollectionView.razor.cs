@@ -20,8 +20,10 @@ public partial class TariffCollectionView : BaseView
 
 
     private StudentEntity? Student { get; set; }
-    private double EstimateTotal { get; set; }
+    private decimal EstimateTotal { get; set; }
     private int TariffIdForDeb {get; set;}
+    
+    private PagedRequest Request { get; set; } = new();
 
     
     protected override async Task OnParametersSetAsync()
@@ -41,7 +43,7 @@ public partial class TariffCollectionView : BaseView
     {
         Student = await collectTariffController.GetStudentById(StudentId!);
         
-        Student.debtList = await forgetDebtController.GetDebtList(StudentId!);
+        Student.data = await forgetDebtController.GetDebtList(StudentId!, Request);
         
         TariffList = await collectTariffController.GetTariffListByStudentId(StudentId);
         TariffList.UpdateAmounts(Student!);
@@ -52,21 +54,21 @@ public partial class TariffCollectionView : BaseView
         if (e.Value == null) return;
 
         var isSelect = (bool)e.Value;
-        var tariffModal = TariffList!.First(t => t.TariffId == tariff.TariffId);
+        var tariffModal = TariffList!.First(t => t.tariffId == tariff.tariffId);
         
-        var hasDebt = Student!.HasPayments(tariff.TariffId);
-        var amount = hasDebt && Student.GetDebt(tariff.TariffId) != 0 ? Student.GetDebt(tariff.TariffId) : tariff.Amount;
-        tariffModal.Amount = amount;
+        var hasDebt = Student!.HasPayments(tariff.tariffId);
+        var amount = hasDebt && Student.GetDebt(tariff.tariffId) != 0 ? Student.GetDebt(tariff.tariffId) : tariff.amount;
+        tariffModal.amount = amount;
         
         if (isSelect && !TariffsToPay!.Contains(tariffModal))
         {
-            EstimateTotal += tariffModal.Amount;
+            EstimateTotal += tariffModal.amount;
             TariffsToPay.Add(tariffModal);
         }
         else
         {
             TariffsToPay!.Remove(tariffModal);
-            EstimateTotal -= tariffModal.Amount;
+            EstimateTotal -= tariffModal.amount;
             
             if (EstimateTotal < 0) EstimateTotal = 0;
         }

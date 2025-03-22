@@ -1,5 +1,6 @@
 @page "/accounting/apply-arrears"
 
+@using wsmcbl.src.Utilities
 @inherits BaseView
 @attribute [Authorize(Roles = "admin, cashier")]
 
@@ -42,12 +43,12 @@ else
                         <tbody>
                         @foreach(var item in Tariffs!)
                         {
-                            var typeTariff = TariffTypeItemList.FirstOrDefault(t => t.Id == item.Type);
+                            var typeTariff = TariffTypeItemList.FirstOrDefault(t => t.Id == item.type);
                             <tr>
-                                <td>@item.TariffId</td>
-                                <td>@item.SchoolYear</td>
-                                <td>@item.Concept</td>
-                                <td>@item.Amount</td>
+                                <td>@item.tariffId</td>
+                                <td>@item.schoolYear</td>
+                                <td>@item.concept</td>
+                                <td>@item.amount</td>
                                 <td>@item.DueDate</td>
                                 <td>
                                     @(item.educationalLevel == 1 ? "Preescolar" :
@@ -56,7 +57,7 @@ else
                                     "Nivel no definido")
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger" @onclick="() => ActiveArrears(item.TariffId)">Activar Mora</button>
+                                    <button class="btn btn-danger" @onclick="() => ActiveArrears(item.tariffId)">Activar Mora</button>
                                 </td>
                             </tr>
                         }

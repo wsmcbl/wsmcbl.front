@@ -7,9 +7,9 @@ public static class EntityMaker
     private static void UpdateAmounts(this TariffEntity tariff, StudentEntity student)
     {
         tariff.SetSubamount(student.discount);
-        if (student.HasPayments(tariff.TariffId))
+        if (student.HasPayments(tariff.tariffId))
         {
-            tariff.SubAmount = student.GetDebt(tariff.TariffId);
+            tariff.SubAmount = student.GetDebt(tariff.tariffId);
             tariff.Discount = 0;
             tariff.Arrears = 0;
         }
@@ -25,7 +25,7 @@ public static class EntityMaker
         }
     }
 
-    public static List<DetailDto> MapToDto(this List<TariffEntity> list, bool applyArrears, double amountToPay)
+    public static List<DetailDto> MapToDto(this List<TariffEntity> list, bool applyArrears, decimal amountToPay)
     {
         List<DetailDto> result = [];
 
@@ -50,7 +50,7 @@ public static class EntityMaker
             
             result.Add(new DetailDto
             {
-                tariffId = item.TariffId,
+                tariffId = item.tariffId,
                 amount = item.Total,
                 applyArrears = applyArrears
             });

@@ -24,7 +24,8 @@ public partial class RevenueReportView : BaseView
     {
         sortBy = "dateTime",
         isAscending = false
-    };    private bool hasData {get; set;}
+    };    
+    private bool hasData {get; set;}
     
     protected override async Task OnParametersSetAsync()
     {
