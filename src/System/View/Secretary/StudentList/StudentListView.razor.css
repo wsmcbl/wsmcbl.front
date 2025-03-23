@@ -3,3 +3,27 @@
     font-style: italic; /* Aplica un estilo en cursiva */
 }
 
+/* Asegura que el menú desplegable se superponga correctamente */
+.dropdown-menu {
+    min-width: 200px; /* Ancho mínimo para que las opciones no se corten */
+    position: absolute; /* Asegura que el menú se posicione correctamente */
+    z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
+    top: 100%; /* Posiciona el menú debajo del botón */
+    left: auto; /* Ajusta la posición horizontal */
+    right: 0; /* Alinea el menú a la derecha */
+    overflow: visible; /* Evita que el menú se corte */
+}
+
+/* Asegura que el contenedor del menú desplegable no corte el contenido */
+.dropdown {
+    position: relative; /* Necesario para que el menú desplegable se posicione correctamente */
+}
+
+/* Evita que los contenedores padres corten el menú desplegable */
+.card-body, .table-responsive, .table {
+    overflow: visible !important; /* Asegura que no haya overflow hidden */
+}
+
+.card-body, .table-responsive, .table {
+    overflow: visible !important; /* Asegura que no haya overflow hidden */
+}

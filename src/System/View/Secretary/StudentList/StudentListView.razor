@@ -124,6 +124,7 @@ else
                             <td> @item.schoolyear </td>
                             <td> @item.enrollment </td>
                             <td>
+
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -131,7 +132,7 @@ else
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                         aria-labelledby="dropdownMenuLink">
+                                         aria-labelledby="dropdownMenuLink" style="min-width: 300px;">
                                         <div class="dropdown-header">Seleccione una opción:</div>
                                         <a class="dropdown-item" href="/secretary/students/@item.studentId">Ver perfil</a>
                                         <a class="dropdown-item" @onclick="() => PrintReportCard(item.studentId)">Ver boleta</a>
@@ -141,6 +142,7 @@ else
                                         <a class="dropdown-item" @onclick="() => UpdateEducationLevel(item.studentId)">Cambiar nivel educativo</a>
                                     </div>
                                 </div>
+                                
                             </td>
                         </tr>
                         }
