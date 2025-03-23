@@ -15,24 +15,34 @@ public partial class GetDateRecordingGradeComponent : ComponentBase
     
     private string CalculateTimeRemaining(string deadline)
     {
-        var deadlineDate = DateTime.Parse(deadline);
+        if (!DateTime.TryParse(deadline, out var deadlineDate))
+        {
+            return "Formato de fecha no válido";
+        }
+
         var timeRemaining = deadlineDate - DateTime.Now;
 
-        if (timeRemaining.TotalDays > 1)
+        if (timeRemaining.TotalMilliseconds <= 0)
+        {
+            return "¡Tiempo agotado!";
+        }
+        else if (timeRemaining.TotalDays >= 2)
         {
             return $"Quedan {timeRemaining.Days} días";
         }
-        else if (timeRemaining.TotalHours > 1)
+        else if (timeRemaining.TotalHours >= 2)
         {
-            return $"Quedan {timeRemaining.Hours} horas";
+            int hours = (int)timeRemaining.TotalHours;
+            return $"Quedan {hours} horas";
         }
-        else if (timeRemaining.TotalMinutes > 1)
+        else if (timeRemaining.TotalMinutes >= 1)
         {
-            return $"Quedan {timeRemaining.Minutes} minutos";
+            int minutes = (int)timeRemaining.TotalMinutes;
+            return $"Quedan {minutes} minutos";
         }
         else
         {
-            return "¡Tiempo agotado!";
+            return "Quedan menos de un minuto";
         }
     }
 }

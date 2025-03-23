@@ -7,8 +7,9 @@ namespace wsmcbl.src.View.Management.PartialsGradeRecording;
 
 public partial class EnablePartialGradeRecordingView : BaseView
 {
-    [Inject] public EnablePartialGradeRecordingController Controller { get; set; } = default!;
-    [Inject] public Navigator Navigator { get; set; } = default!;
+    [Inject] public EnablePartialGradeRecordingController Controller { get; set; } = null!;
+    [Inject] public Navigator Navigator { get; set; } = null!;
+    [Inject] public Notificator Notificator { get; set; } = null!;
     private List<PartialDto> Partials { get; set; } = new();
     
     private string SemesterForActive { get; set; } = string.Empty;
@@ -44,5 +45,21 @@ public partial class EnablePartialGradeRecordingView : BaseView
         PartialNameForActive = itemLabel;
         IsActive = itemisActive;
         await Navigator.ShowModal("ActivePartialsModal");
+    }
+    
+    private async Task DisableGradeRecords(int itemPartialId)
+    {
+        var respo = await Notificator.ShowAlertQuestion("Advertencia","Estas seguro de desactivar el registro de calificaciones", ("Seguro","Cancelar"));
+        if (respo)
+        {
+            var endTime = DateTime.Now.ToString();
+            var response = await Controller.ActiveGradesRecording(itemPartialId, false, endTime);
+            if (response)
+            {
+                await Notificator.ShowSuccess("Hemos deshabilitado con exito el registro de calificaciones");
+                return;
+            }
+            await Notificator.ShowError("No hemos podido deshabilitar el registro de calificaciones");
+        }
     }
 }
