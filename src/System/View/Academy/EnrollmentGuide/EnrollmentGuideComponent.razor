@@ -74,11 +74,13 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Varones</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@(Enrollment.studentList?.Count(t => t.sex == true) ?? 0)</div>
+                                <div
+                                    class="h5 mb-0 font-weight-bold text-gray-800">@(Enrollment.studentList?.Count(t => t.sex == true) ?? 0)</div>
                             </div>
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Mujeres</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@(Enrollment.studentList?.Count(t => t.sex == false) ?? 0)</div>
+                                <div
+                                    class="h5 mb-0 font-weight-bold text-gray-800">@(Enrollment.studentList?.Count(t => t.sex == false) ?? 0)</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-venus-mars fa-2x text-gray-300"></i>
@@ -88,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <hr />
+        <hr/>
 
         <!-- Pestañas -->
         <div class="card shadow mb-4">
@@ -119,7 +121,8 @@
                 <div class="tab-content">
 
                     <!-- Pestaña de Estudiantes -->
-                    <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
+                    <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel"
+                         aria-labelledby="TabStudent">
                         @if (Enrollment.studentList != null && Enrollment.studentList.Any())
                         {
                             <div class="p-3 table-responsive">
@@ -145,15 +148,20 @@
                                             <td>@item.age</td>
                                             <td>
                                                 <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <a class="dropdown-toggle" href="#" role="button"
+                                                       id="dropdownMenuLink"
+                                                       data-toggle="dropdown" aria-haspopup="true"
+                                                       aria-expanded="false">
                                                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                                     </a>
 
-                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                         aria-labelledby="dropdownMenuLink">
+                                                    <div
+                                                        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                        aria-labelledby="dropdownMenuLink">
                                                         <div class="dropdown-header">Seleccione una opción:</div>
-                                                        <a class="dropdown-item" href="/academy/enrollments/guide/students/@item.studentId">Ver perfil</a>
+                                                        <a class="dropdown-item"
+                                                           href="/academy/enrollments/guide/students/@item.studentId">Ver
+                                                            perfil</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -173,10 +181,11 @@
 
                     <!-- Pestaña de Asignaturas -->
                     <div class="tab-pane fade" id="PanelSubject" role="tabpanel" aria-labelledby="TabSubject">
-                        <div class="p-3 table-responsive">
-                            
-                            @if (Enrollment.subjectTeacherIdList != null && Enrollment.subjectTeacherIdList.Any())
-                            {
+
+
+                        @if (Enrollment.subjectTeacherIdList != null && Enrollment.subjectTeacherIdList.Any())
+                        {
+                            <div class="p-3 table-responsive">
                                 <table id="dataTableSubject" class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -196,20 +205,21 @@
                                     }
                                     </tbody>
                                 </table>
-                            }
-                            else
-                            {
-                                <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
-                                    <h5 class="text-gray-800">No hay asignaturas disponibles.</h5>
-                                </div> 
-                            }
-                        </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
+                                <h5 class="text-gray-800">No hay asignaturas disponibles.</h5>
+                            </div>
+                        }
+
                     </div>
 
                     <!-- Pestaña de Métricas -->
                     <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
                         <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
-                            <h5 class="text-gray-800">No hay asignaturas disponibles.</h5>
+                            <h5 class="text-gray-800">Proximamente.</h5>
                         </div>
                     </div>
                 </div>
