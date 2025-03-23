@@ -5,130 +5,124 @@
 
 @attribute [Authorize(Roles = "teacher")]
 
-@if (!IsLoading())
-{
-    <div class="loader"></div>
-}
-else
-{
-    <div class="card shadow h-100 py-2 mb-4">
-        <div class="card-body">
+<div class="card shadow h-100 py-2 mb-4">
+    <div class="card-body">
 
-            <!-- Título -->
-            <div class="row no-gutters align-items-center">
-                <div class="col mr-2">
-                    <div class="d-flex justify-content-center align-items-center mb-3">
-                        <h5 class="m-0 font-weight-bold text-primary">@Enrollment.label</h5>
+        <!-- Título -->
+        <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <h5 class="m-0 font-weight-bold text-primary">@Enrollment.label</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards de información general -->
+        <div class="row">
+            <!-- Card para el docente -->
+            <div class="col-md-3 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Docente</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@(User.getAlias() ?? "N/A")</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <!-- Card para el docente -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-left-primary shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Docente</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@(User.getAlias() ?? "N/A")</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-user-tie fa-2x text-gray-300"></i>
-                                </div>
+            <!-- Card para la cantidad de estudiantes -->
+            <div class="col-md-3 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Cantidad</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.quantity</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Card para el parcial activo -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-left-info shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Cantidad</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.quantity</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-user-graduate fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card para la sección guiada -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-left-success shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Capacidad</div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.capacity</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-users fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card para la cantidad de secciones -->
-                <div class="col-md-3 mb-4">
-                    <div class="card border-left-warning shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Varones
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.studentList.Count(t => t.sex == true)</div>
-                                </div>
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Mujeres
-                                    </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.studentList.Count(t => t.sex == false)</div>
-                                </div>
-                                <div class="col-auto">
-                                    <i class="fas fa-venus-mars fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
             </div>
-            <hr/>
-
-            <!-- Pestañas -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                    <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
-                               aria-controls="PanelStudent" aria-selected="true">
-                                Estudiantes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="TabSubject" data-toggle="tab" href="#PanelSubject" role="tab"
-                               aria-controls="PanelSubject" aria-selected="False">
-                                Asignaturas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="TabMetric" data-toggle="tab" href="#PanelMatrics" role="tab"
-                               aria-controls="PanelMatrics" aria-selected="false">
-                                Metricas
-                            </a>
-                        </li>
-                    </ul>
+            <!-- Card para la capacidad -->
+            <div class="col-md-3 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Capacidad</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Enrollment.capacity</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            <!-- Card para la cantidad de varones y mujeres -->
+            <div class="col-md-3 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Varones</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@(Enrollment.studentList?.Count(t => t.sex == true) ?? 0)</div>
+                            </div>
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Mujeres</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@(Enrollment.studentList?.Count(t => t.sex == false) ?? 0)</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-venus-mars fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
 
-                <div class="card-body" id="tabContent">
-                    <div class="tab-content">
+        <!-- Pestañas -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
+                           aria-controls="PanelStudent" aria-selected="true">
+                            Estudiantes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabSubject" data-toggle="tab" href="#PanelSubject" role="tab"
+                           aria-controls="PanelSubject" aria-selected="False">
+                            Asignaturas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabMetric" data-toggle="tab" href="#PanelMatrics" role="tab"
+                           aria-controls="PanelMatrics" aria-selected="false">
+                            Metricas
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-                        <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
-                            <div class="p-3 table-responsive ">
+            <div class="card-body" id="tabContent">
+                <div class="tab-content">
+
+                    <!-- Pestaña de Estudiantes -->
+                    <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
+                        @if (Enrollment.studentList != null && Enrollment.studentList.Any())
+                        {
+                            <div class="p-3 table-responsive">
                                 <table id="dataTable" class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -168,10 +162,21 @@ else
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        
-                        <div class="tab-pane fade" id="PanelSubject" role="tabpanel" aria-labelledby="TabSubject">
-                            <div class="p-3 table-responsive ">
+                        }
+                        else
+                        {
+                            <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
+                                <h5 class="text-gray-800">No hay estudiantes guiados para usted.</h5>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Pestaña de Asignaturas -->
+                    <div class="tab-pane fade" id="PanelSubject" role="tabpanel" aria-labelledby="TabSubject">
+                        <div class="p-3 table-responsive">
+                            
+                            @if (Enrollment.subjectTeacherIdList != null && Enrollment.subjectTeacherIdList.Any())
+                            {
                                 <table id="dataTableSubject" class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -191,20 +196,25 @@ else
                                     }
                                     </tbody>
                                 </table>
-                            </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
+                                    <h5 class="text-gray-800">No hay asignaturas disponibles.</h5>
+                                </div> 
+                            }
                         </div>
-                        
-                        <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
-                            <div class="text-gray-800">Proximamente</div>
-                        </div>
+                    </div>
 
+                    <!-- Pestaña de Métricas -->
+                    <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
+                        <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
+                            <h5 class="text-gray-800">No hay asignaturas disponibles.</h5>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
-    <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
-}
-
+</div>
+<script src="js/DataTable/dataTableWhitOutOrder.js"></script>
