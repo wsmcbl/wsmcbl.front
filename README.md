@@ -8,4 +8,4 @@
 
 ## Version
 
-* 5.2.0 - SNAPSHOT
+* 5.3.0 - SNAPSHOT
