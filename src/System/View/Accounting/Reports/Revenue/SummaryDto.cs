@@ -9,7 +9,7 @@ public class SummaryDto
     public int validQuantity { get; set; }
     public decimal validTotal { get; set; }
     public int invalidQuantity { get; set; }
-    public int invalidTotal { get; set; }
+    public decimal invalidTotal { get; set; }
     
     public SummaryDto()
     {
