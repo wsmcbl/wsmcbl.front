@@ -140,20 +140,27 @@ public partial class AddGradeView : BaseView
                 // Configuración de posiciones basadas en la estructura
                 const int primeraFilaDatos = 9; // Estudiantes desde fila 9
                 const int filaIdsAsignaturas = 7; // IDs en fila 7
-                const int columnaCodigo = 3; // Código en columna C (ignorando A vacía y B)
                 const int primeraColumnaAsignatura = 6; // Primera asignatura en columna F
 
-                // Leer todas las asignaturas disponibles primero
-                var asignaturas = new Dictionary<int, string>();
+                // 1. Primero identificar la columna de conducta (última columna con IDs de asignaturas)
                 int colAsignatura = primeraColumnaAsignatura;
                 while (!worksheet.Cell(filaIdsAsignaturas, colAsignatura).IsEmpty())
                 {
-                    var idAsignatura = worksheet.Cell(filaIdsAsignaturas, colAsignatura).Value.ToString();
-                    asignaturas[colAsignatura] = idAsignatura;
                     colAsignatura++;
                 }
 
-                // Procesar cada estudiante
+                int columnaConducta = colAsignatura; // Última columna con ID de asignatura
+                int columnaCodigo = columnaConducta + 1; // Código está justo después de conducta
+
+                // 2. Leer todas las asignaturas disponibles
+                var asignaturas = new Dictionary<int, string>();
+                for (int col = primeraColumnaAsignatura; col <= columnaConducta; col++)
+                {
+                    var idAsignatura = worksheet.Cell(filaIdsAsignaturas, col).Value.ToString();
+                    asignaturas[col] = idAsignatura;
+                }
+
+                // 3. Procesar cada estudiante
                 int fila = primeraFilaDatos;
                 while (!worksheet.Cell(fila, columnaCodigo).IsEmpty())
                 {
@@ -169,17 +176,21 @@ public partial class AddGradeView : BaseView
                             if (int.TryParse(notaValue, out int nota))
                             {
                                 var grade = estudiante.gradeList!.FirstOrDefault(g => g.subjectId == idAsignatura);
-                                if (grade != null) grade.grade = Math.Max(0, nota);
+                                if (grade != null) 
+                                {
+                                    grade.grade = Math.Clamp(nota, 0, 100); // Nota entre 0 y 100
+                                }
                             }
                         }
 
-                        // Procesar conducta (última columna)
-                        var conductaCol = asignaturas.Keys.Last() + 1;
-                        estudiante.conductGrade = int.TryParse(
-                            worksheet.Cell(fila, conductaCol).Value.ToString(),
-                            out int conducta)
-                            ? conducta
-                            : 0;
+                        // Procesar conducta
+                        estudiante.conductGrade = Math.Clamp(
+                            int.TryParse(worksheet.Cell(fila, columnaConducta).Value.ToString(), out int conducta)
+                                ? conducta
+                                : 0,
+                            0,
+                            100
+                        );
                     }
 
                     fila++;
