@@ -1,3 +1,4 @@
+using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
@@ -11,12 +12,14 @@ public class AddingStudentGradesController
     private readonly Notificator _notificator;
     private readonly LoginController _loginController;
     private readonly ApiConsumerFactory _apiConsumerFactory;
+    private readonly IJSRuntime _jsRuntime;
 
-    public AddingStudentGradesController(ApiConsumerFactory apiConsumerFactory, LoginController loginController, Notificator notificator)
+    public AddingStudentGradesController(ApiConsumerFactory apiConsumerFactory, LoginController loginController, Notificator notificator, IJSRuntime jsRuntime)
     {
         _apiConsumerFactory = apiConsumerFactory;
         _loginController = loginController;
         _notificator = notificator;
+        _jsRuntime = jsRuntime;
     }
 
     public async Task<List<PartialEntity>> GetPartialList()
@@ -88,4 +91,17 @@ public class AddingStudentGradesController
         var result = await createEnrollmentController.GetDegreeList(new PagedRequest(20));
         return result.data.Where(e => e.quantity > 0).OrderBy(e => e.position).ToList();
     }
+    
+    public async Task GetGradeDocument(string teacherId, string enrollmentId, int partialId)
+    {
+        var fileBytes = await _apiConsumerFactory.WithNotificator.GetBackupAsync(Modules.Academy, $"teachers/{teacherId}/enrollments/{enrollmentId}/documents?partialId={partialId}");
+        if (fileBytes.Length > 0)
+        {
+            var fileName = $"Registro de calificaciones.xlsx";
+            var base64 = Convert.ToBase64String(fileBytes);
+            var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
+            await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
+        }
+    }
+    
 }

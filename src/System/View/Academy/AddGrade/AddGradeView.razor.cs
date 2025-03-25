@@ -34,18 +34,21 @@ public partial class AddGradeView : BaseView
         await LoadTeacherInformation();
         await GetEnrollmentData();
     }
+
     private void LoadActivePartial()
     {
         var activePartial = partialList!.FirstOrDefault(t => t.isActive);
         currentPartial = activePartial?.partialId ?? partialList!.First().partialId;
         ActiveTabId = currentPartial;
     }
+
     private async Task LoadTeacherInformation()
     {
         TeacherId = await controller.GetTeacherId();
         var teacher = await controller.GetTeacherById(TeacherId);
         TeacherName = teacher.fullName;
     }
+
     private async Task GetEnrollmentData()
     {
         var result = await controller.GetEnrollment(TeacherId, EnrollmentId, currentPartial);
@@ -53,6 +56,7 @@ public partial class AddGradeView : BaseView
         subjectList = result.subjectList;
         studentList = result.studentList;
     }
+
     private async Task UpdateGradeList()
     {
         if (studentList == null || studentList.Count == 0)
@@ -84,91 +88,15 @@ public partial class AddGradeView : BaseView
 
         await Notificator.ShowError("Hubo un fallo al intentar registrar las calificaciones.");
     }
-    
+
     private byte[]? archivoExcel;
-    
+
     //Excels Method
-    private Task <byte[]> GenerarExcel()
-    {
-        using (var workbook = new XLWorkbook())
-        {
-            var worksheet = workbook.Worksheets.Add("Calificaciones");
-
-            // Encabezados
-            worksheet.Cell(1, 1).Value = "Código";
-            worksheet.Cell(1, 2).Value = "Estudiante";
-
-            // Encabezados de materias
-            int columna = 3;
-            foreach (var subject in subjectList!)
-            {
-                worksheet.Cell(1, columna).Value = subject.initials;
-                worksheet.Cell(1, columna).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                worksheet.Cell(1, columna).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                worksheet.Cell(1, columna).Style.Font.Bold = true;
-                worksheet.Cell(1, columna).Style.Fill.BackgroundColor = XLColor.LightGray;
-
-                worksheet.Cell(2, columna).Value = "Id";
-                worksheet.Cell(2, columna + 1).Value = "Nota";
-                columna += 2;
-            }
-
-            // Encabezado de conducta
-            worksheet.Cell(1, columna).Value = "Conducta";
-            worksheet.Cell(1, columna).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-            worksheet.Cell(1, columna).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-            worksheet.Cell(1, columna).Style.Font.Bold = true;
-            worksheet.Cell(1, columna).Style.Fill.BackgroundColor = XLColor.LightGray;
-
-            // Datos de estudiantes
-            int fila = 3;
-            foreach (var student in studentList!.OrderBy(s => s.sex).ThenBy(s => s.fullName))
-            {
-                worksheet.Cell(fila, 1).Value = student.studentId;
-                worksheet.Cell(fila, 2).Value = student.fullName;
-
-                columna = 3;
-                foreach (var subject in subjectList!)
-                {
-                    var grade = student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId);
-                    if (grade != null)
-                    {
-                        worksheet.Cell(fila, columna).Value = subject.subjectId;
-                        worksheet.Cell(fila, columna + 1).Value = grade.grade;
-                    }
-                    else
-                    {
-                        worksheet.Cell(fila, columna).Value = "No asignado";
-                        worksheet.Cell(fila, columna + 1).Value = "No asignado";
-                    }
-
-                    columna += 2;
-                }
-
-                // Conducta
-                worksheet.Cell(fila, columna).Value = student.conductGrade;
-                fila++;
-            }
-            
-            worksheet.Columns().AdjustToContents();
-            
-            using (var stream = new MemoryStream())
-            {
-                workbook.SaveAs(stream);
-                return Task.FromResult(stream.ToArray());
-            }
-        }
-    }
     private async Task DescargarExcel()
     {
-        var contenidoExcel = await GenerarExcel();
-        
-        var nombreArchivo = $"Calificaciones_{GetPartialName()}_{DateTime.Now:yyyyMMdd}.xlsx";
-        var contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        var base64Contenido = Convert.ToBase64String(contenidoExcel);
-        
-        Navigator.ToPage($"data:{contentType};base64,{base64Contenido}");
+        await controller.GetGradeDocument(TeacherId, EnrollmentId, currentPartial);
     }
+
     //--------------------------------
     private async Task CargarArchivoExcel(InputFileChangeEventArgs e)
     {
@@ -189,59 +117,80 @@ public partial class AddGradeView : BaseView
             await Notificator.ShowError("Por favor, selecciona un archivo Excel válido.");
         }
     }
+
     private async Task ActualizarDatosDesdeExcel()
     {
-        if (archivoExcel == null)
-        {
-            await Notificator.ShowError("No se ha cargado ningún archivo.");
-            return;
-        }
+        var respon = await Notificator.ShowAlertQuestion("Advertencia",
+            "Al actualizar las calificaciones desde este archivo:\n\n Se sobrescribirán todas las calificaciones registradas previamente para los estudiantes en las asignaturas impartidas por usted.\n\n Los cambios no se pueden deshacer automáticamente. ¿Desea continuar?",
+            ("Si, Seguro", "No, cancelar"));
 
-        using (var stream = new MemoryStream(archivoExcel))
+        if (respon)
         {
-            var workbook = new XLWorkbook(stream);
-            var worksheet = workbook.Worksheet(1);
-            
-            var fila = 3;
-            while (!worksheet.Cell(fila, 1).IsEmpty())
+            if (archivoExcel == null)
             {
-                var codigoEstudiante = worksheet.Cell(fila, 1).Value.ToString();
-                var estudiante = studentList!.FirstOrDefault(s => s.studentId == codigoEstudiante);
+                await Notificator.ShowError("No se ha cargado ningún archivo.");
+                return;
+            }
 
-                if (estudiante != null)
+            using (var stream = new MemoryStream(archivoExcel))
+            {
+                var workbook = new XLWorkbook(stream);
+                var worksheet = workbook.Worksheet(1);
+
+                // Configuración de posiciones basadas en la estructura
+                const int primeraFilaDatos = 9; // Estudiantes desde fila 9
+                const int filaIdsAsignaturas = 7; // IDs en fila 7
+                const int columnaCodigo = 3; // Código en columna C (ignorando A vacía y B)
+                const int primeraColumnaAsignatura = 6; // Primera asignatura en columna F
+
+                // Leer todas las asignaturas disponibles primero
+                var asignaturas = new Dictionary<int, string>();
+                int colAsignatura = primeraColumnaAsignatura;
+                while (!worksheet.Cell(filaIdsAsignaturas, colAsignatura).IsEmpty())
                 {
-                    int columna = 3;
-                    foreach (var subject in subjectList!)
-                    {
-                        var clave = worksheet.Cell(fila, columna).Value.ToString();
-                        var valor = worksheet.Cell(fila, columna + 1).Value.ToString();
+                    var idAsignatura = worksheet.Cell(filaIdsAsignaturas, colAsignatura).Value.ToString();
+                    asignaturas[colAsignatura] = idAsignatura;
+                    colAsignatura++;
+                }
 
-                        var grade = estudiante.gradeList!.FirstOrDefault(e => e.subjectId == clave);
-                        if (grade != null)
+                // Procesar cada estudiante
+                int fila = primeraFilaDatos;
+                while (!worksheet.Cell(fila, columnaCodigo).IsEmpty())
+                {
+                    var codigoEstudiante = worksheet.Cell(fila, columnaCodigo).Value.ToString();
+                    var estudiante = studentList!.FirstOrDefault(s => s.studentId == codigoEstudiante);
+
+                    if (estudiante != null)
+                    {
+                        // Procesar cada asignatura
+                        foreach (var (columna, idAsignatura) in asignaturas)
                         {
-                            if (int.TryParse(valor, out int valorNumerico))
+                            var notaValue = worksheet.Cell(fila, columna).Value.ToString();
+                            if (int.TryParse(notaValue, out int nota))
                             {
-                                grade.grade = valorNumerico >= 0 ? valorNumerico : 0;
-                            }
-                            else
-                            {
-                                grade.grade = 0; 
+                                var grade = estudiante.gradeList!.FirstOrDefault(g => g.subjectId == idAsignatura);
+                                if (grade != null) grade.grade = Math.Max(0, nota);
                             }
                         }
 
-                        columna += 2;
+                        // Procesar conducta (última columna)
+                        var conductaCol = asignaturas.Keys.Last() + 1;
+                        estudiante.conductGrade = int.TryParse(
+                            worksheet.Cell(fila, conductaCol).Value.ToString(),
+                            out int conducta)
+                            ? conducta
+                            : 0;
                     }
-                    
-                    estudiante.conductGrade = int.Parse(worksheet.Cell(fila, columna).Value.ToString());
-                }
 
-                fila++;
+                    fila++;
+                }
             }
+
+            await UpdateGradeList();
+            archivoExcel = null;
         }
-        
-        await UpdateGradeList();
     }
-    
+
     //Utilities Method
     protected override bool IsLoading()
     {
