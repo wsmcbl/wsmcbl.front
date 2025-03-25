@@ -152,16 +152,6 @@ else
                                         }
                                         <th class="tac">Conducta</th>
                                     </tr>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                        @foreach (var subject in subjectList)
-                                        {
-                                            <th class="tac">Clave</th>
-                                            <th class="tac-max">Valor</th>
-                                        }
-                                        <th class="tac-max">Nota</th>
-                                    </tr>
                                     </thead>
                                     <tbody>
                                     @foreach (var student in studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName))
@@ -171,7 +161,7 @@ else
                                             <td data-label="Estudiante" style="min-width: 200px">@student.fullName</td>
                                             @foreach (var subject in subjectList)
                                             {
-                                                <td data-label="@subject.name - Clave">
+                                                <td data-label="@subject.name - Clave" class="tac">
                                                     @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
                                                         @student.gradeList!.First(e => e.subjectId == subject.subjectId).label
@@ -181,7 +171,7 @@ else
                                                         <span>No asignado</span>
                                                     }
                                                 </td>
-                                                <td data-label="@subject.name - Valor">
+                                                <td data-label="@subject.name - Valor" class="tac-max">
                                                     @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
                                                         <input type="number" min="0" class="form-control no-spinner"
@@ -193,7 +183,7 @@ else
                                                     }
                                                 </td>
                                             }
-                                            <td data-label="Conducta">
+                                            <td data-label="Conducta" class="tac-max">
                                                 <input type="number" class="form-control no-spinner"
                                                        @bind="student.conductGrade"/>
                                             </td>

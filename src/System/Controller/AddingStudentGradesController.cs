@@ -92,12 +92,12 @@ public class AddingStudentGradesController
         return result.data.Where(e => e.quantity > 0).OrderBy(e => e.position).ToList();
     }
     
-    public async Task GetGradeDocument(string teacherId, string enrollmentId, int partialId)
+    public async Task GetGradeDocument(string teacherId, string enrollmentId, int partialId, string EnrollmentName)
     {
         var fileBytes = await _apiConsumerFactory.WithNotificator.GetBackupAsync(Modules.Academy, $"teachers/{teacherId}/enrollments/{enrollmentId}/documents?partialId={partialId}");
         if (fileBytes.Length > 0)
         {
-            var fileName = $"Registro de calificaciones.xlsx";
+            var fileName = $"Registro de calificaciones de {EnrollmentName}.xlsx";
             var base64 = Convert.ToBase64String(fileBytes);
             var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
             await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);

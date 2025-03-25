@@ -94,7 +94,7 @@ public partial class AddGradeView : BaseView
     //Excels Method
     private async Task DescargarExcel()
     {
-        await controller.GetGradeDocument(TeacherId, EnrollmentId, currentPartial);
+        await controller.GetGradeDocument(TeacherId, EnrollmentId, currentPartial, enrollmentLabel);
     }
 
     //--------------------------------
@@ -118,89 +118,137 @@ public partial class AddGradeView : BaseView
         }
     }
 
-    private async Task ActualizarDatosDesdeExcel()
-    {
-        var respon = await Notificator.ShowAlertQuestion("Advertencia",
-            "Al actualizar las calificaciones desde este archivo:\n\n Se sobrescribirán todas las calificaciones registradas previamente para los estudiantes en las asignaturas impartidas por usted.\n\n Los cambios no se pueden deshacer automáticamente. ¿Desea continuar?",
-            ("Si, Seguro", "No, cancelar"));
+private async Task ActualizarDatosDesdeExcel()
+{
+    var respon = await Notificator.ShowAlertQuestion("Advertencia",
+        "Al actualizar las calificaciones desde este archivo:\n\n Se sobrescribirán todas las calificaciones registradas previamente para los estudiantes en las asignaturas impartidas por usted.\n\n Los cambios no se pueden deshacer automáticamente. ¿Desea continuar?",
+        ("Si, Seguro", "No, cancelar"));
 
-        if (respon)
+    if (!respon) return;
+
+    if (archivoExcel == null)
+    {
+        await Notificator.ShowError("No se ha cargado ningún archivo.");
+        return;
+    }
+
+    try
+    {
+        using (var stream = new MemoryStream(archivoExcel))
         {
-            if (archivoExcel == null)
+            var workbook = new XLWorkbook(stream);
+            var worksheet = workbook.Worksheet(1);
+
+            // Configuración de posiciones
+            const int primeraFilaDatos = 11;
+            const int filaIdsAsignaturas = 9;
+            const int primeraColumnaAsignatura = 6;
+            
+            // Validar archivo del teacher
+            string valorCeldaA1 = worksheet.Cell("D9").Value.ToString();
+            if (!valorCeldaA1.Equals(TeacherId, StringComparison.OrdinalIgnoreCase))
             {
-                await Notificator.ShowError("No se ha cargado ningún archivo.");
+                await Notificator.ShowError("El archivo seleccionado no es el correcto.");
+                archivoExcel = null;
                 return;
             }
+            
+            // Identificar columnas
+            int colAsignatura = primeraColumnaAsignatura;
+            while (!worksheet.Cell(filaIdsAsignaturas, colAsignatura).IsEmpty())
+                colAsignatura++;
 
-            using (var stream = new MemoryStream(archivoExcel))
+            int columnaConducta = colAsignatura;
+            int columnaCodigo = columnaConducta + 1;
+
+            // Leer asignaturas
+            var asignaturas = new Dictionary<int, string>();
+            for (int col = primeraColumnaAsignatura; col <= columnaConducta; col++)
             {
-                var workbook = new XLWorkbook(stream);
-                var worksheet = workbook.Worksheet(1);
-
-                // Configuración de posiciones basadas en la estructura
-                const int primeraFilaDatos = 9; // Estudiantes desde fila 9
-                const int filaIdsAsignaturas = 7; // IDs en fila 7
-                const int primeraColumnaAsignatura = 6; // Primera asignatura en columna F
-
-                // 1. Primero identificar la columna de conducta (última columna con IDs de asignaturas)
-                int colAsignatura = primeraColumnaAsignatura;
-                while (!worksheet.Cell(filaIdsAsignaturas, colAsignatura).IsEmpty())
-                {
-                    colAsignatura++;
-                }
-
-                int columnaConducta = colAsignatura; // Última columna con ID de asignatura
-                int columnaCodigo = columnaConducta + 1; // Código está justo después de conducta
-
-                // 2. Leer todas las asignaturas disponibles
-                var asignaturas = new Dictionary<int, string>();
-                for (int col = primeraColumnaAsignatura; col <= columnaConducta; col++)
-                {
-                    var idAsignatura = worksheet.Cell(filaIdsAsignaturas, col).Value.ToString();
-                    asignaturas[col] = idAsignatura;
-                }
-
-                // 3. Procesar cada estudiante
-                int fila = primeraFilaDatos;
-                while (!worksheet.Cell(fila, columnaCodigo).IsEmpty())
-                {
-                    var codigoEstudiante = worksheet.Cell(fila, columnaCodigo).Value.ToString();
-                    var estudiante = studentList!.FirstOrDefault(s => s.studentId == codigoEstudiante);
-
-                    if (estudiante != null)
-                    {
-                        // Procesar cada asignatura
-                        foreach (var (columna, idAsignatura) in asignaturas)
-                        {
-                            var notaValue = worksheet.Cell(fila, columna).Value.ToString();
-                            if (int.TryParse(notaValue, out int nota))
-                            {
-                                var grade = estudiante.gradeList!.FirstOrDefault(g => g.subjectId == idAsignatura);
-                                if (grade != null) 
-                                {
-                                    grade.grade = Math.Clamp(nota, 0, 100); // Nota entre 0 y 100
-                                }
-                            }
-                        }
-
-                        // Procesar conducta
-                        estudiante.conductGrade = Math.Clamp(
-                            int.TryParse(worksheet.Cell(fila, columnaConducta).Value.ToString(), out int conducta)
-                                ? conducta
-                                : 0,
-                            0,
-                            100
-                        );
-                    }
-
-                    fila++;
-                }
+                asignaturas[col] = worksheet.Cell(filaIdsAsignaturas, col).Value.ToString();
             }
 
-            await UpdateGradeList();
-            archivoExcel = null;
+            // Procesar estudiantes
+            int fila = primeraFilaDatos;
+            while (!worksheet.Cell(fila, columnaCodigo).IsEmpty())
+            {
+                var codigoEstudiante = worksheet.Cell(fila, columnaCodigo).Value.ToString();
+                var estudiante = studentList!.FirstOrDefault(s => s.studentId == codigoEstudiante);
+
+                if (estudiante == null)
+                {
+                    fila++;
+                    continue;
+                }
+
+                // Procesar asignaturas
+                foreach (var (columna, idAsignatura) in asignaturas)
+                {
+                    var celdaNota = worksheet.Cell(fila, columna);
+                    string nombreAsignatura = worksheet.Cell(10, columna).Value.ToString(); // Fila 10 tiene nombres
+
+                    if (!celdaNota.TryGetValue(out double notaDecimal))
+                    {
+                        string valorCelda = celdaNota.Value.ToString();
+                        valorCelda = valorCelda.Replace(",", ".");
+
+                        if (!double.TryParse(valorCelda, NumberStyles.Any, CultureInfo.InvariantCulture, out notaDecimal))
+                        {
+                            await Notificator.ShowError($"Valor no numérico en {nombreAsignatura} (Fila {fila})");
+                            archivoExcel = null;
+                            return;
+                        }
+                    }
+
+                    if (notaDecimal < 0 || notaDecimal > 100)
+                    {
+                        await Notificator.ShowError($"Nota inválida ({notaDecimal}) en {nombreAsignatura} (Fila {fila}). Debe ser entre 0 y 100.");
+                        archivoExcel = null;
+                        return;
+                    }
+
+                    var grade = estudiante.gradeList!.FirstOrDefault(g => g.subjectId == idAsignatura);
+                    if (grade != null) 
+                    {
+                        grade.grade = (decimal)Math.Round(notaDecimal, 1);
+                    }
+                }
+
+                // Procesar conducta
+                var celdaConducta = worksheet.Cell(fila, columnaConducta);
+                if (celdaConducta.TryGetValue(out double conductaDecimal) || 
+                    double.TryParse(celdaConducta.Value.ToString().Replace(",", "."), 
+                    NumberStyles.Any, CultureInfo.InvariantCulture, out conductaDecimal))
+                {
+                    if (conductaDecimal >= 0 && conductaDecimal <= 100)
+                    {
+                        estudiante.conductGrade = (decimal)Math.Round(conductaDecimal, 1);
+                    }
+                    else
+                    {
+                        await Notificator.ShowError($"Conducta inválida ({conductaDecimal}) en Fila {fila}. Debe ser entre 0 y 100.");
+                        archivoExcel = null;
+                        return;
+                    }
+                }
+                else if (!celdaConducta.IsEmpty())
+                {
+                    await Notificator.ShowError($"Valor de conducta no numérico en Fila {fila}");
+                    archivoExcel = null;
+                    return;
+                }
+
+                fila++;
+            }
         }
+        await UpdateGradeList();
+        archivoExcel = null;
     }
+    catch (Exception ex)
+    {
+        await Notificator.ShowError($"Error al procesar el archivo: {ex.Message}");
+    }
+}
 
     //Utilities Method
     protected override bool IsLoading()
