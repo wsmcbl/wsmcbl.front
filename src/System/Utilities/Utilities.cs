@@ -47,8 +47,7 @@ public static class Utilities
     {
         1 => "Primero",
         2 => "Segundo",
-        3 => "Tercero",
-        4 => "Ambos",
+        3 => "Ambos",
         _ => "Desconocido"
     };
     public static string? GetValueOrNull(this string? value) => string.IsNullOrWhiteSpace(value?.Trim()) ? null : value;
