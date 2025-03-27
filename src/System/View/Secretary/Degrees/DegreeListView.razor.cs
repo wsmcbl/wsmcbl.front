@@ -180,6 +180,10 @@ public partial class DegreeListView : BaseView
         if (e.Key == "Enter")
         {
             hasData = false;
+            if (Request.CurrentPage > 1)
+            {
+                Request.CurrentPage = 1;
+            }
             await UpdateUrl();
             await Load();
             if (DegreeList != null) hasData = DegreeList.data.Count > 0;

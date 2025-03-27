@@ -132,6 +132,10 @@ public partial class RegisterView : BaseView
         if (e.Key == "Enter")
         {
             hasData = false;
+            if (Request.CurrentPage > 1)
+            {
+                Request.CurrentPage = 1;
+            }
             await UpdateUrl();
             await LoadPadron();
             if (Padron != null) hasData = Padron.data.Count > 0;

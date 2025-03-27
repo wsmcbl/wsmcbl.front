@@ -98,6 +98,10 @@ public partial class UserListView : BaseView
         if (e.Key == "Enter")
         {
             hasData = false;
+            if (Request.CurrentPage > 1)
+            {
+                Request.CurrentPage = 1;
+            }
             await LoadUserList();
             if (UserPaginator != null) hasData = UserPaginator.data.Count > 0;
         }

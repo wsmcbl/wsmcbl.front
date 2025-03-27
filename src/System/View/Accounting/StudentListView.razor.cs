@@ -117,6 +117,10 @@ public partial class StudentListView : BaseView
         if (e.Key == "Enter")
         {
             hasData = false;
+            if (Request.CurrentPage > 1)
+            {
+                Request.CurrentPage = 1;
+            }
             await UpdateUrl();
             await LoadStudentList();
             if (StudentList != null) hasData = StudentList.data.Count > 0;

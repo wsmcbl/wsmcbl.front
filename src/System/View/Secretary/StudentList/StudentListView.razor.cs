@@ -82,7 +82,7 @@ public partial class StudentListView : BaseView
     //Method for paginator
     private Task UpdateUrl()
     {
-        var uri = $"/secretary/students{Request.ToString()}";
+        var uri = $"/secretary/students{Request}";
         Navigator.UpdateUrl(uri);
         return Task.CompletedTask;
     }
@@ -165,6 +165,10 @@ public partial class StudentListView : BaseView
         if (e.Key == "Enter")
         {
             hasData = false;
+            if (Request.CurrentPage > 1)
+            {
+                Request.CurrentPage = 1;
+            }
             await UpdateUrl();
             await LoadStudentList();
             if (studentList != null) hasData = studentList.data.Count > 0;
