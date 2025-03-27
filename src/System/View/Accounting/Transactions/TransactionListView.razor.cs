@@ -168,6 +168,10 @@ public partial class TransactionListView : BaseView
         if (e.Key == "Enter")
         {
             hasData = false;
+            if (Request.CurrentPage > 1)
+            {
+                Request.CurrentPage = 1;
+            }
             await UpdateUrl();
             await LoadData();
             if (transactionList != null) hasData = transactionList.data.Count > 0;

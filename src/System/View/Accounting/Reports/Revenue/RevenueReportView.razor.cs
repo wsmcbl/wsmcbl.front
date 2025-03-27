@@ -179,6 +179,10 @@ public partial class RevenueReportView : BaseView
         if (e.Key == "Enter")
         {
             hasData = false;
+            if (Request.CurrentPage > 1)
+            {
+                Request.CurrentPage = 1;
+            }
             await UpdateUrl();
             await GetReport();
             if (report != null) hasData = report.data.Count > 0;
