@@ -50,6 +50,13 @@ public static class Utilities
         3 => "Ambos",
         _ => "Desconocido"
     };
+    public static string ToLevel(this int value) => value switch
+    {
+        1 => "Preescolar",
+        2 => "Primaria",
+        3 => "Secundaria",
+        _ => "Desconocido"
+    };
     public static string? GetValueOrNull(this string? value) => string.IsNullOrWhiteSpace(value?.Trim()) ? null : value;
     
     public static string GetValueOrDefault(this string? value) => string.IsNullOrWhiteSpace(value) ? "N/A" : value;

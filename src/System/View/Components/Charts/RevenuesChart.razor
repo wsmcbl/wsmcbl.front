@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <!-- Fila de Tarjetas KPI -->
+    <div class="row">
+        <!-- Tarjeta Ingreso Esperado -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Ingreso Esperado</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @FormatNicaraguanCurrency(CurrentRevenues.expectedIncomeThisMonth)
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta Ingreso Recibido -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Recibido (Esperado)</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @FormatNicaraguanCurrency(CurrentRevenues.expectedIncomeReceived)
+                                <span class="small">(@FormatPercentage(CompletionPercentage))</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta Total Recibido -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Total Recibido</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @FormatNicaraguanCurrency(CurrentRevenues.totalIncomeThisMonth)
+                                <span class="small">(@FormatPercentage(TotalVsExpectedPercentage) vs esperado)</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fila de Gráficos -->
+    <div class="row">
+        <!-- Gráfico de Barras -->
+        <div class="col-xl-8 col-lg-7">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Comparación de Ingresos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container"> <!-- Cambiado de chart-bar a chart-container -->
+                        <canvas id="incomeBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico Circular -->
+        <div class="col-xl-4 col-lg-5">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Distribución</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container"> <!-- Cambiado de chart-pie a chart-container -->
+                        <canvas id="incomePieChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                <span class="mr-2">
+                    <i class="fas fa-circle text-success"></i> Recibido (Esperado)
+                </span>
+                        <span class="mr-2">
+                    <i class="fas fa-circle text-danger"></i> Faltante
+                </span>
+                        <span class="mr-2">
+                    <i class="fas fa-circle text-info"></i> Adicionales
+                </span>
+                    </div>
+                </div>
+            </div>
+        </div>    </div>
+</div>
