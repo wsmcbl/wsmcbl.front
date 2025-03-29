@@ -57,6 +57,13 @@ public static class Utilities
         3 => "Secundaria",
         _ => "Desconocido"
     };
+    public static string ToTariffType(this int value) => value switch
+    {
+        1 => "Mensualidad",
+        2 => "Matrícula",
+        3 => "Otros",
+        _ => "Desconocido"
+    };
     public static string? GetValueOrNull(this string? value) => string.IsNullOrWhiteSpace(value?.Trim()) ? null : value;
     
     public static string GetValueOrDefault(this string? value) => string.IsNullOrWhiteSpace(value) ? "N/A" : value;

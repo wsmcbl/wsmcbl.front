@@ -1,6 +1,7 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.View.Secretary.Schoolyear;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
 namespace wsmcbl.src.Controller;
 
@@ -37,5 +38,11 @@ public class CreateSchoolyearController : BaseController
         var resource = $"{path}/rates";
         return await apiFactory.Default
             .GetAsync(Modules.Secretary, resource, new List<ExchangeRateEntity>());
+    }
+
+    public async Task<List<TariffDataDto>> GetTariffList()
+    {
+        var resource = "/catalogs/tariffs";
+        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, new List<TariffDataDto>());
     }
 }

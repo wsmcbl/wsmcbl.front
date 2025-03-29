@@ -1,0 +1,73 @@
+@page "/secretary/catalogs/tariffs"
+@using wsmcbl.src.Utilities
+@inherits BaseView
+@attribute [Authorize(Roles = "admin, secretary, cashier")]
+
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{ <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de tarifas</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Concepto</th>
+                        <th>Valor</th>
+                        <th>Vencimiento</th>
+                        <th>Tipo</th>
+                        <th>Nivel</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Concepto</th>
+                        <th>Valor</th>
+                        <th>Vencimiento</th>
+                        <th>Tipo</th>
+                        <th>Nivel</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @if (tariffList != null)
+                    {
+                        foreach (var item in tariffList)
+                        {
+                            <tr>
+                                <td>@item.tariffDataId</td>
+                                <td>@item.concept</td>
+                                <td>@item.amount</td>
+                                <td>@item.dueDate?.ToStringFormat()</td>
+                                <td>@item.typeId.ToTariffType()</td>
+                                <td>@item.typeId.ToLevel()</td>
+                                <td>
+                                    <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
+                                        @(item.isActive ? "ACTIVO" : "INACTIVO")
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-warning btn-sm">Editar</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inicializamos datatable -->
+    <script src="/js/demo/datatables-demo.js"></script>
+}
