@@ -1,5 +1,6 @@
 @page "/secretary/catalogs/tariffs"
 @using wsmcbl.src.Utilities
+@using wsmcbl.src.View.Secretary.Schoolyear.TariffData
 @inherits BaseView
 @attribute [Authorize(Roles = "admin, secretary, cashier")]
 
@@ -11,6 +12,7 @@ else
 { <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Lista de tarifas</h6>
+            <div class="btn btn-primary btn-sm" @onclick="OpenNewTariffModal">Nueva Tarifa</div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -70,4 +72,7 @@ else
 
     <!-- Inicializamos datatable -->
     <script src="/js/demo/datatables-demo.js"></script>
+    
+    
+    <CreateTariffDataModal/>
 }

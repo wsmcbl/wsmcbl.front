@@ -6,12 +6,16 @@ namespace wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
 public partial class CreateTariffDataModal : ComponentBase
 {
-    [Parameter] public List<DropDownItem>? TariffTypeItemList { get; set; }
     [Inject] protected CreateTariffDataController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
     
     private TariffDataDto Tariff = new();
     private DateOnly dueDate { get; set; }
+    private List<DropDownItem>? TariffTypeItemList =
+    [
+        new() { Id = 1, Name = "Matrícula" },
+        new() { Id = 2, Name = "Mensualidad" }
+    ];
     private List<DropDownItem> modalityItemList =
     [
         new() { Id = 1, Name = "Preescolar" },
