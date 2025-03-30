@@ -16,7 +16,7 @@ public class PrintReportCardStudentController
     public async Task<byte[]> GetPdfContent(string studentId)
     {
         var resource = $"documents/report-cards/{studentId}";
-        return await _apiConsumer.GetPdfAsync(Modules.Academy, resource);
+        return await _apiConsumer.GetByteFileAsync(Modules.Academy, resource);
     }
     
     public async Task<Paginator<StudentEntity>> GetAllStudentsList(PagedRequest pagedRequest)

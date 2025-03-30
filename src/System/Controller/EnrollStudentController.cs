@@ -45,6 +45,6 @@ public class EnrollStudentController : BaseController
     public async Task<byte[]> GetEnrollSheetPdf(string studentId)
     {
         var resource = $"{path}/{studentId}/export";
-        return await apiFactory.WithNotificator.GetPdfAsync(Modules.Secretary, resource);
+        return await apiFactory.WithNotificator.GetByteFileAsync(Modules.Secretary, resource);
     }
 }

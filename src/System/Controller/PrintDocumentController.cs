@@ -13,6 +13,6 @@ public class PrintDocumentController
 
     public async Task<byte[]> GetOfficialEnrollmentListDocument()
     {
-        return await _apiConsumer.GetPdfAsync(Modules.Secretary, "degrees/documents");
+        return await _apiConsumer.GetByteFileAsync(Modules.Secretary, "degrees/documents");
     }
 }

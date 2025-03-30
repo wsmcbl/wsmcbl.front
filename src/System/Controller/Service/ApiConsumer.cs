@@ -41,7 +41,7 @@ public class ApiConsumer
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<T>(), defaultResult, response);
     }
     
-    public async Task<byte[]> GetPdfAsync(Modules module, string resource)
+    public async Task<byte[]> GetByteFileAsync(Modules module, string resource)
     {
         await LoadToken();
         var response = await _httpClient.GetAsync(BuildUri(module, resource));

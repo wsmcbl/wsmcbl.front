@@ -10,6 +10,6 @@ public class GenerateDebtorReportController : BaseController
     
     public async Task<byte[]> GetDebtorReport()
     {
-        return await apiFactory.WithNotificator.GetPdfAsync(Modules.Accounting, path);
+        return await apiFactory.WithNotificator.GetByteFileAsync(Modules.Accounting, path);
     }
 }
