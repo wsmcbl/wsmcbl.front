@@ -4,33 +4,36 @@ using wsmcbl.src.View.Management.PartialsGradeRecording;
 
 namespace wsmcbl.src.Controller;
 
-public class EnablePartialGradeRecordingController
+public class EnablePartialGradeRecordingController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-
-    public EnablePartialGradeRecordingController(ApiConsumerFactory apiConsumerFactory)
+    public EnablePartialGradeRecordingController(ApiConsumerFactory apiFactory) : base(apiFactory, "partials")
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<List<PartialDto>> GetPartials()
     {
-        List<PartialDto> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Management, "partials", defaultResult);
+        return await apiFactory
+            .WithNotificator.GetAsync(Modules.Management, path, new List<PartialDto>());
     }
 
     public async Task<bool> ActivePartials(int partialId, bool isActive)
     {
-        List<PartialDto> defaultResult = [];
-        return await _apiConsumer.PutAsync(Modules.Management, $"partials/{partialId}/activate?isActive={isActive}", defaultResult);
+        var resource = $"{path}/{partialId}/activate?isActive={isActive}";
+        
+        return await apiFactory
+            .WithNotificator.PutAsync(Modules.Management, resource, new List<PartialDto>());
     }
 
     public async Task<bool> ActiveGradesRecording(int partialId, bool isActive, string endTime)
     { 
-        var resource = "";
-        resource = isActive == false ? $"partials/{partialId}?enable={isActive}" : $"partials/{partialId}?enable={isActive}&deadline={endTime}";
-        List<PartialDto> defaultResult = [];
-        return await _apiConsumer.PutAsync(Modules.Management, resource, defaultResult);
+        var resource = $"partials/{partialId}?enable={isActive}";
+
+        if (isActive)
+        {
+            resource = $"{resource}&deadline={endTime}";
+        }
+        
+        return await apiFactory.WithNotificator.PutAsync(Modules.Management, resource, new List<PartialDto>());
     }
     
     public async Task<RecondingGradeDateDto?> GetEnablePartial()
@@ -38,7 +41,9 @@ public class EnablePartialGradeRecordingController
         try
         {
             RecondingGradeDateDto defaultResult = new();
-            return await _apiConsumer.GetAsync(Modules.Management, "partials/enables", defaultResult);
+            
+            return await apiFactory
+                .Default.GetAsync(Modules.Management, $"{path}/enables", defaultResult);
         }
         catch (Exception e)
         {
