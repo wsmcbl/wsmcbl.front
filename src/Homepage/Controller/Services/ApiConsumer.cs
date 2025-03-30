@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace wsmcbl.src.Controller.Services;
 
 public class ApiConsumer
@@ -12,6 +10,21 @@ public class ApiConsumer
         _httpClient = httpClient;
         _server = GetServerUri();
     }
+    
+    public async Task<(byte[]? Pdf, int StatusCode)> GetPdfAsync(Modules module, string resource)
+    {
+        var response = await _httpClient.GetAsync(BuildUri(module, resource));
+        
+        var statusCode = (int)response.StatusCode;
+        if (!response.IsSuccessStatusCode)
+        {
+            return (null, statusCode);
+        }
+        
+        var pdfBytes = await response.Content.ReadAsByteArrayAsync();
+        return pdfBytes.Length > 0 ? (pdfBytes, statusCode) : (null, statusCode);
+    }
+    
     private Uri BuildUri(Modules modules, string resource)
     {
         var moduleDir = modules switch
@@ -31,32 +44,6 @@ public class ApiConsumer
         if (string.IsNullOrEmpty(api?.Trim()))
             throw new Exception("API environment variable not found.");
 
-        return new Uri($"{api}/v5");
+        return new Uri($"{api}/v6");
     }
-    
-    protected virtual async Task<T?> GenericHttpResponse<T>(Func<Task<T?>> httpRequest, T? defaultResult, HttpResponseMessage response)
-    {
-        if (response.IsSuccessStatusCode)
-        {
-            return await httpRequest();
-        }
-    
-        return defaultResult;
-    }
-    
-    public async Task<(byte[]? Pdf, int StatusCode)> GetPdfAsync(Modules module, string resource)
-    {
-        var response = await _httpClient.GetAsync(BuildUri(module, resource));
-
-        var pdfBytes = await GenericHttpResponse(async () => 
-        {
-            var data = await response.Content.ReadAsByteArrayAsync();
-            return data.Length > 0 ? data : null;
-        }, null, response);
-
-        return (pdfBytes, (int)response.StatusCode);
-    }
-    
-    
-
 }
