@@ -24,21 +24,25 @@ public class GenerateStudentRegisterController : BaseController
 
     public async Task GetCurrentStudentRegister()
     {
-        var fileBytes = await apiFactory.WithNotificator.GetBackupAsync(Modules.Secretary, $"{path}/documents");
+        var resource = $"{path}/current/export";
         
-        if (fileBytes.Length > 0)
+        var fileBytes = await apiFactory.WithNotificator.GetBackupAsync(Modules.Secretary, resource);
+        if (fileBytes.Length <= 0)
         {
-            var fileName = $"Padron.{GetFormattedDate()}.xlsx";
-            var base64 = Convert.ToBase64String(fileBytes);
-            var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
-            await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
+            throw new InternalException("Error al descargar el archivo.");
         }
+        
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
+        
+        await _jsRuntime.InvokeVoidAsync("downloadFile", GetFileName(), url);
     }
     
-    private string GetFormattedDate()
+    private static string GetFileName()
     {
         var timeZoneUTC6 = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
         var value = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZoneUTC6);
-        return value.ToString("ddMMyy.HHmm");
+        
+        return $"Padrón.{value:ddMMyy.HHmm}.xlsx";
     }
 }
