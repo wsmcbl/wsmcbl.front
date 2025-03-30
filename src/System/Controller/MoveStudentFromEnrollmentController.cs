@@ -15,4 +15,10 @@ public class MoveStudentFromEnrollmentController : BaseController
         
         return await apiFactory.WithNotificator.PutAsync(Modules.Academy, resource, new EnrollStudentDto());
     }
+
+    public async Task<List<DegreeBasicDto>?> GetDegreeBasicList(string studentId)
+    {
+        var controller = new EnrollStudentController(apiFactory);
+        return await controller.GetDegreeBasicList(studentId);
+    }
 }

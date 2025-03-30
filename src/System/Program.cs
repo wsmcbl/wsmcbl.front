@@ -41,6 +41,7 @@ builder.Services.AddTransient<TransactionReportByDateController>();
 builder.Services.AddTransient<CancelTransactionController>();
 builder.Services.AddTransient<UpdateStudentController>();
 builder.Services.AddTransient<UpdateStudentAccountingController>();
+builder.Services.AddTransient<MoveStudentFromEnrollmentController>();
 
 
 builder.Services.AddTransient<CreateUserController>();
@@ -62,7 +63,6 @@ builder.Services.AddTransient<CreateSchoolyearController>();
 builder.Services.AddTransient<CreateSubjectDataController>();
 builder.Services.AddTransient<CreateTariffDataController>();
 builder.Services.AddTransient<DirectorDashboardController>();
-
 
 var app = builder.Build();
 
