@@ -5,26 +5,27 @@ using wsmcbl.src.View.Management.Register;
 
 namespace wsmcbl.src.Controller;
 
-public class GenerateStudentRegisterController
+public class GenerateStudentRegisterController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
     private readonly IJSRuntime _jsRuntime;
 
-    public GenerateStudentRegisterController(ApiConsumerFactory apiConsumerFactory, IJSRuntime jsRuntime)
+    public GenerateStudentRegisterController(ApiConsumerFactory apiFactory, IJSRuntime jsRuntime): base(apiFactory, "students/registers")
     {
         _jsRuntime = jsRuntime;
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
 
     public async Task<Paginator<RegisterDto>> GetPadronList(PagedRequest pagedRequest)
     {
         Paginator<RegisterDto> defaultResult = new ();
-        return await _apiConsumer.GetAsync(Modules.Secretary,$"students/registers{pagedRequest}", defaultResult);
+        
+        return await apiFactory
+            .WithNotificator.GetAsync(Modules.Secretary,$"{path}{pagedRequest}", defaultResult);
     }
 
     public async Task DownloadPadron()
     {
-        var fileBytes = await _apiConsumer.GetBackupAsync(Modules.Secretary, "students/registers/documents");
+        var fileBytes = await apiFactory.WithNotificator.GetBackupAsync(Modules.Secretary, $"{path}/documents");
+        
         if (fileBytes.Length > 0)
         {
             var fileName = $"Padron.{GetFormattedDate()}.xlsx";
@@ -33,7 +34,6 @@ public class GenerateStudentRegisterController
             await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
         }
     }
-
 
     private string GetFormattedDate()
     {
