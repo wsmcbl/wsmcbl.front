@@ -12,6 +12,7 @@ public partial class StudentListView : BaseView
 {
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected EnrollStudentController EnrollController { get; set; } = null!;
+    [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
 
     private string EnrollmentNameForChange { get; set; } = string.Empty;
@@ -37,7 +38,7 @@ public partial class StudentListView : BaseView
     }
     private async Task LoadStudentList()
     {
-        studentList = await PrintController.GetAllStudentsList(Request);
+        studentList = await UpdateController.GetStudentsPaged(Request);
         hasData = studentList.data.Count > 0;
     }
     protected override bool IsLoading()

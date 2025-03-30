@@ -1,5 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
@@ -10,7 +11,16 @@ public class UpdateStudentController : BaseController
     public UpdateStudentController(ApiConsumerFactory apiFactory) : base(apiFactory, "students")
     {
     }
-
+    
+    public async Task<Paginator<Model.Academy.StudentEntity>> GetStudentsPaged(PagedRequest pagedRequest)
+    {
+        var defaultResult = new Paginator<Model.Academy.StudentEntity>();
+        var resource = $"{path}{pagedRequest}";
+        
+        return await apiFactory
+            .WithNotificator.GetAsync(Modules.Secretary, resource, defaultResult);
+    }
+    
     public async Task<StudentEntity> GetStudentById(string? studentId)
     {
         var resource = $"{path}/{studentId}";
