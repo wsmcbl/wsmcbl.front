@@ -94,7 +94,7 @@ public partial class EnrollStudentView : BaseView
             return;
         }
 
-        var response = await Controller.SaveEnrollment(Student, EnrollmentIdSelected, DiscountId, IsRepeating);
+        var response = await Controller.SaveEnroll(Student, EnrollmentIdSelected, DiscountId, IsRepeating);
         if (response)
         {
             await Notificator.ShowSuccess("Se ha registrado la matrícula correctamente.");

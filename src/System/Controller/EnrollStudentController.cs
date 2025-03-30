@@ -14,7 +14,7 @@ public class EnrollStudentController
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<List<StudentDto>> GetStudents()
+    public async Task<List<StudentDto>> GetStudentList()
     {
         List<StudentDto> defaultResult = [];
         return await _apiConsumer.GetAsync(Modules.Secretary, "enrollments/students", defaultResult);
@@ -22,11 +22,12 @@ public class EnrollStudentController
     
     public async Task<List<DegreeBasicDto>> GetDegreeBasicList(string studentId)
     {
+        var resource = $"enrollments/students/{studentId}/degrees";
         List<DegreeBasicDto> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, $"enrollments/students/{studentId}/degrees", defaultResult);
+        return await _apiConsumer.GetAsync(Modules.Secretary, resource, defaultResult);
     }
 
-    public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
+    public async Task<bool> SaveEnroll(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
     {
         var content = student.ToEnrollStudentDto(enrollmentId, discountId, isRepeating);
         return await _apiConsumer.PutAsync(Modules.Secretary, "enrollments", content);
@@ -43,7 +44,7 @@ public class EnrollStudentController
     
     public async Task<byte[]> GetEnrollSheetPdf(string studentId)
     {
-        var resource = $"enrollments/documents/{studentId}";
+        var resource = $"enrollments/students/{studentId}/export";
         return await _apiConsumer.GetPdfAsync(Modules.Secretary, resource);
     }
     
@@ -52,5 +53,4 @@ public class EnrollStudentController
         EnrollStudentDto defaultResult = new();
         return await _apiConsumer.PutAsync(Modules.Academy, $"students?studentId={studentId}&enrollmentId={enrollmentId}", defaultResult);
     }
-    
 }
