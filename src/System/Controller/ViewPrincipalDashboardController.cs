@@ -3,11 +3,11 @@ using wsmcbl.src.View.Components.Charts;
 
 namespace wsmcbl.src.Controller;
 
-public class DirectorDashboardController
+public class ViewPrincipalDashboardController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     
-    public DirectorDashboardController(ApiConsumerFactory apiConsumerFactory)
+    public ViewPrincipalDashboardController(ApiConsumerFactory apiConsumerFactory)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
@@ -18,7 +18,7 @@ public class DirectorDashboardController
         return await _apiConsumer.GetAsync(Modules.Management, "students/distributions", defaultResult);
     }
 
-    public async Task<RevenuesDto> GetCurrenRevenues()
+    public async Task<RevenuesDto> GetCurrentRevenues()
     {
         RevenuesDto defaultResult = new();
         return await _apiConsumer.GetAsync(Modules.Management, "revenues", defaultResult);

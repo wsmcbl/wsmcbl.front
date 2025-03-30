@@ -8,7 +8,7 @@ namespace wsmcbl.src.View.Components.Charts;
 public partial class GradeChart : ComponentBase
 {
     [Inject] IJSRuntime js { get; set; } = null!;
-    [Inject] DirectorDashboardController Controller { get; set; } = null!;
+    [Inject] ViewPrincipalDashboardController Controller { get; set; } = null!;
     private DistributionDto CurrentDistribution { get; set; } = new();
 
     private List<string> level = [];
