@@ -53,7 +53,7 @@ builder.Services.AddTransient<EnablePartialGradeRecordingController>();
 
 
 builder.Services.AddTransient<ApplyArrearsController>(); 
-builder.Services.AddTransient<BackupController>(); 
+builder.Services.AddTransient<CreateBackupController>(); 
 builder.Services.AddTransient<GenerateStudentRegisterController>(); 
 builder.Services.AddTransient<UpdateRolesController>(); 
 builder.Services.AddTransient<EnrollmentGuideController>(); 

@@ -1,15 +1,14 @@
-using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 
 namespace wsmcbl.src.Controller;
 
-public class BackupController
+public class CreateBackupController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     private readonly IJSRuntime _jsRuntime;
 
-    public BackupController(ApiConsumerFactory apiConsumerFactory, IJSRuntime jsRuntime)
+    public CreateBackupController(ApiConsumerFactory apiConsumerFactory, IJSRuntime jsRuntime)
     {
         _jsRuntime = jsRuntime;
         _apiConsumer = apiConsumerFactory.WithNotificator;
