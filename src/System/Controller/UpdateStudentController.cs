@@ -21,14 +21,14 @@ public class UpdateStudentController : BaseController
         return result.ToEntity();
     }
 
-    public async Task<bool> UpdateStudentData(StudentEntity student, bool generateToken, string studentId)
+    public async Task<bool> UpdateStudentData(StudentEntity student, bool generateToken)
     {
-        var resource = $"{path}/{studentId}?withNewToken={generateToken}";
+        var resource = $"{path}/{student.studentId}?withNewToken={generateToken}";
         
         return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, student.MapToDto());
     }
 
-    public async Task<bool> SaveProfile(string studentId, MultipartFormDataContent content)
+    public async Task<bool> UpdatePicture(string studentId, MultipartFormDataContent content)
     {
         var resource = $"{path}/{studentId}/pictures";
         

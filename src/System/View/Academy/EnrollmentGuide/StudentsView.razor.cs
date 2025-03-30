@@ -18,7 +18,7 @@ public partial class StudentsView : BaseView
     private UserEntity User { get; set; } = new();
     private StudentEntity? student { get; set; }
     private bool generateToken { get; set; } = false;
-    private bool EditMode { get; set; } = false;
+    private bool EditMode { get; set; }
 
     
     protected override async Task OnParametersSetAsync()
@@ -31,7 +31,10 @@ public partial class StudentsView : BaseView
             return;
         }
         
-        var response = await Notificator.ShowAlertQuestionOnlyYes("Error","No tienes los permisos suficiente en este momento intentelo mas tarde", "Volver");
+        var response = await Notificator.ShowAlertQuestionOnlyYes("Error",
+            "No tienes los permisos suficiente en este momento intentelo mas tarde",
+            "Volver");
+        
         if (response)
         { 
             Navigator.ToPage("/academy/enrollments/guide");
@@ -53,7 +56,8 @@ public partial class StudentsView : BaseView
             throw new InternalException("StudentEntity must be not null.");
         }
         
-        var response = await Controller.UpdateStudentData(student, generateToken, StudentId!);
+        student.studentId = StudentId;
+        var response = await Controller.UpdateStudentData(student, generateToken);
         if (response)
         {
             await Notificator.ShowSuccess("Se ha actualizado el estudiante correctamente.");
