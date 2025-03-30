@@ -31,7 +31,9 @@ public class AddingStudentGradesController
     public async Task<TeacherEntity> GetTeacherById(string teacherId)
     {
         var defaultResult = new TeacherDto();
-        var result = await _apiConsumerFactory.WithNotificator.GetAsync(Modules.Academy, $"teachers/{teacherId}", defaultResult);
+        var result = await _apiConsumerFactory
+            .WithNotificator
+            .GetAsync(Modules.Academy, $"teachers/{teacherId}", defaultResult);
 
         return result.toEntity();
     }
@@ -86,22 +88,27 @@ public class AddingStudentGradesController
 
     public async Task<List<DegreeEntity>> GetSortedDegreeList()
     {
-        
         var createEnrollmentController = new CreateEnrollmentController(_apiConsumerFactory);
+        
         var result = await createEnrollmentController.GetDegreeList(new PagedRequest(20));
+        
         return result.data.Where(e => e.quantity > 0).OrderBy(e => e.position).ToList();
     }
     
     public async Task GetGradeDocument(string teacherId, string enrollmentId, int partialId, string EnrollmentName)
     {
-        var fileBytes = await _apiConsumerFactory.WithNotificator.GetBackupAsync(Modules.Academy, $"teachers/{teacherId}/enrollments/{enrollmentId}/documents?partialId={partialId}");
-        if (fileBytes.Length > 0)
+        var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}/export?partialId={partialId}";
+        
+        var fileBytes = await _apiConsumerFactory.WithNotificator.GetBackupAsync(Modules.Academy, resource);
+        if (fileBytes.Length <= 0)
         {
-            var fileName = $"Registro de calificaciones de {EnrollmentName}.xlsx";
-            var base64 = Convert.ToBase64String(fileBytes);
-            var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
-            await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
+            throw new InternalException("No se realizó la descarga del archivo.");
         }
+        
+        var fileName = $"{EnrollmentName}. Registro de calificaciones.xlsx";
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
+        await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
     }
     
 }
