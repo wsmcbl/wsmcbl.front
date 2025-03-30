@@ -26,7 +26,7 @@ public class GenerateStudentRegisterController : BaseController
     {
         var resource = $"{path}/current/export";
         
-        var fileBytes = await apiFactory.WithNotificator.GetBackupAsync(Modules.Secretary, resource);
+        var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Secretary, resource);
         if (fileBytes.Length <= 0)
         {
             throw new InternalException("Error al descargar el archivo.");

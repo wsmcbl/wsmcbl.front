@@ -19,7 +19,7 @@ public class CreateBackupController
     {
         const string resource = "backups/current/export";
         
-        var fileBytes = await _apiConsumer.GetBackupAsync(Modules.Config, resource);
+        var fileBytes = await _apiConsumer.GetByteFileAsync(Modules.Config, resource);
         if (fileBytes.Length <= 0)
         {
             throw new InternalException("Ocurrió un error al descargar el archivo.");

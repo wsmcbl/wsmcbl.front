@@ -99,7 +99,7 @@ public class AddingStudentGradesController
     {
         var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}/export?partialId={partialId}";
         
-        var fileBytes = await _apiConsumerFactory.WithNotificator.GetBackupAsync(Modules.Academy, resource);
+        var fileBytes = await _apiConsumerFactory.WithNotificator.GetByteFileAsync(Modules.Academy, resource);
         if (fileBytes.Length <= 0)
         {
             throw new InternalException("No se realizó la descarga del archivo.");
