@@ -2,19 +2,14 @@ using wsmcbl.src.Controller.Service;
 
 namespace wsmcbl.src.Controller;
 
-public class GenerateDebtorReportController
+public class GenerateDebtorReportController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-    
-    public GenerateDebtorReportController(ApiConsumerFactory apiConsumerFactory)
+    public GenerateDebtorReportController(ApiConsumerFactory apiFactory) : base(apiFactory, "debtors/export")
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<byte[]> GetDebtop()
+    public async Task<byte[]> GetDebtorReport()
     {
-        var resource = $"documents/debtor";
-        return await _apiConsumer.GetPdfAsync(Modules.Accounting, resource);
+        return await apiFactory.WithNotificator.GetPdfAsync(Modules.Accounting, path);
     }
-    
 }

@@ -14,7 +14,7 @@ public partial class Cashier : ComponentBase
     
     private async Task GetPdfContent()
     { 
-        Pdf = await Controller.GetDebtop();
+        Pdf = await Controller.GetDebtorReport();
         if (Pdf.Length == 0)
         {
             await Notificator.ShowError("No se pudo generar el documento.");
