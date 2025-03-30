@@ -49,7 +49,7 @@ builder.Services.AddTransient<CreateEnrollmentController>();
 builder.Services.AddTransient<ChangeEducationLevelController>();
 builder.Services.AddTransient<PrintDocumentController>(); //(Auxiliar)
 builder.Services.AddTransient<ForgetDebtController>();
-builder.Services.AddTransient<DebtopController>(); 
+builder.Services.AddTransient<GenerateDebtorReportController>(); 
 builder.Services.AddTransient<EnablePartialGradeRecordingController>(); 
 
 

@@ -2,11 +2,11 @@ using wsmcbl.src.Controller.Service;
 
 namespace wsmcbl.src.Controller;
 
-public class DebtopController
+public class GenerateDebtorReportController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     
-    public DebtopController(ApiConsumerFactory apiConsumerFactory)
+    public GenerateDebtorReportController(ApiConsumerFactory apiConsumerFactory)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
