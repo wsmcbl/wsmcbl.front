@@ -25,7 +25,7 @@ public class CancelTransactionController : BaseController
     
     public async Task<byte[]> GetInvoice(string transactionId)
     {
-        var resource = $"{path}/{transactionId}/invoices";
+        var resource = $"{path}/{transactionId}/export";
         return await apiFactory.WithNotificator.GetPdfAsync(Modules.Accounting, resource);
     }
 
