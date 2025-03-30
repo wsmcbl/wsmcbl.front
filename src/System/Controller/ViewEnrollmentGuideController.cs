@@ -3,11 +3,11 @@ using wsmcbl.src.View.Academy.EnrollmentGuide;
 
 namespace wsmcbl.src.Controller;
 
-public class EnrollmentGuideController
+public class ViewEnrollmentGuideController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
     
-    public EnrollmentGuideController(ApiConsumerFactory apiConsumerFactory)
+    public ViewEnrollmentGuideController(ApiConsumerFactory apiConsumerFactory)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }

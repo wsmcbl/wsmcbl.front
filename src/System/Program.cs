@@ -57,7 +57,7 @@ builder.Services.AddTransient<ApplyArrearsController>();
 builder.Services.AddTransient<CreateBackupController>(); 
 builder.Services.AddTransient<GenerateStudentRegisterController>(); 
 builder.Services.AddTransient<UpdateRolesController>(); 
-builder.Services.AddTransient<EnrollmentGuideController>(); 
+builder.Services.AddTransient<ViewEnrollmentGuideController>(); 
 builder.Services.AddTransient<CreateSchoolyearController>();
 builder.Services.AddTransient<CreateSubjectDataController>();
 builder.Services.AddTransient<CreateTariffDataController>();
