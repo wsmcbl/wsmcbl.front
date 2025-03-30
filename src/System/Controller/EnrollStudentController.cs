@@ -47,10 +47,4 @@ public class EnrollStudentController
         var resource = $"enrollments/students/{studentId}/export";
         return await _apiConsumer.GetPdfAsync(Modules.Secretary, resource);
     }
-    
-    public async Task<bool> UpdateEnrollmet(string studentId, string enrollmentId)
-    {
-        EnrollStudentDto defaultResult = new();
-        return await _apiConsumer.PutAsync(Modules.Academy, $"students?studentId={studentId}&enrollmentId={enrollmentId}", defaultResult);
-    }
 }
