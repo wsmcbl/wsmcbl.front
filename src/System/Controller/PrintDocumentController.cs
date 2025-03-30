@@ -2,17 +2,15 @@ using wsmcbl.src.Controller.Service;
 
 namespace wsmcbl.src.Controller;
 
-public class PrintDocumentController
+public class PrintDocumentController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-    
-    public PrintDocumentController(ApiConsumerFactory apiConsumerFactory)
+    public PrintDocumentController(ApiConsumerFactory apiFactory) : base(apiFactory, string.Empty)
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
 
     public async Task<byte[]> GetOfficialEnrollmentListDocument()
     {
-        return await _apiConsumer.GetByteFileAsync(Modules.Secretary, "degrees/documents");
+        return await apiFactory
+            .WithNotificator.GetByteFileAsync(Modules.Secretary, "degrees/export");
     }
 }
