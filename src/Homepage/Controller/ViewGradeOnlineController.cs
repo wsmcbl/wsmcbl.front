@@ -2,11 +2,11 @@ using wsmcbl.src.Controller.Services;
 
 namespace wsmcbl.src.Controller;
 
-public class ViewGradeController
+public class ViewGradeOnlineController
 {
     private ApiConsumer _apiConsumer { get; set; }
 
-    public ViewGradeController(ApiConsumer apiConsumer)
+    public ViewGradeOnlineController(ApiConsumer apiConsumer)
     {
         _apiConsumer = apiConsumer;
     }
