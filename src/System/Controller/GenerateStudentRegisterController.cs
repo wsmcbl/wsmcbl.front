@@ -14,7 +14,7 @@ public class GenerateStudentRegisterController : BaseController
         _jsRuntime = jsRuntime;
     }
 
-    public async Task<Paginator<RegisterDto>> GetPadronList(PagedRequest pagedRequest)
+    public async Task<Paginator<RegisterDto>> GetStudentRegisterPaged(PagedRequest pagedRequest)
     {
         Paginator<RegisterDto> defaultResult = new ();
         
@@ -22,7 +22,7 @@ public class GenerateStudentRegisterController : BaseController
             .WithNotificator.GetAsync(Modules.Secretary,$"{path}{pagedRequest}", defaultResult);
     }
 
-    public async Task DownloadPadron()
+    public async Task GetCurrentStudentRegister()
     {
         var fileBytes = await apiFactory.WithNotificator.GetBackupAsync(Modules.Secretary, $"{path}/documents");
         
@@ -34,7 +34,7 @@ public class GenerateStudentRegisterController : BaseController
             await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
         }
     }
-
+    
     private string GetFormattedDate()
     {
         var timeZoneUTC6 = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
