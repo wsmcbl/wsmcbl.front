@@ -1,4 +1,5 @@
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.View.Components.GetDateRecordingGrade;
 using wsmcbl.src.View.Management.PartialsGradeRecording;
 
 namespace wsmcbl.src.Controller;
@@ -30,5 +31,19 @@ public class EnablePartialGradeRecordingController
         resource = isActive == false ? $"partials/{partialId}?enable={isActive}" : $"partials/{partialId}?enable={isActive}&deadline={endTime}";
         List<PartialDto> defaultResult = [];
         return await _apiConsumer.PutAsync(Modules.Management, resource, defaultResult);
+    }
+    
+    public async Task<RecondingGradeDateDto?> GetEnablePartial()
+    {
+        try
+        {
+            RecondingGradeDateDto defaultResult = new();
+            return await _apiConsumer.GetAsync(Modules.Management, "partials/enables", defaultResult);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return null;
+        }
     }
 }
