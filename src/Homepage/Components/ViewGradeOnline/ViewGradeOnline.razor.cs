@@ -16,7 +16,7 @@ public partial class ViewGradeOnline : ComponentBase
 
     private async Task GetGrade()
     {
-        var (content, statusCode) = await Controller.GetGrade(studentId, token);
+        var (content, statusCode) = await Controller.GetGradePdf(studentId!, token!);
         
         if (statusCode == 200)
         {
