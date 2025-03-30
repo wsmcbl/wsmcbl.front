@@ -4,23 +4,21 @@ using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.Controller;
 
-public class PrintReportCardStudentController
+public class PrintReportCardStudentController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-    
-    public PrintReportCardStudentController(ApiConsumerFactory apiConsumerFactory)
+    public PrintReportCardStudentController(ApiConsumerFactory apiFactory) : base(apiFactory, "students")
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
     public async Task<byte[]> GetPdfContent(string studentId)
     {
-        var resource = $"documents/report-cards/{studentId}";
-        return await _apiConsumer.GetByteFileAsync(Modules.Academy, resource);
+        var resource = $"students/{studentId}/report-cards/export";
+        
+        return await apiFactory.WithNotificator.GetByteFileAsync(Modules.Academy, resource);
     }
     
     public async Task<Paginator<StudentEntity>> GetAllStudentsList(PagedRequest pagedRequest)
     {
-        return await _apiConsumer.GetAsync(Modules.Secretary, $"students{pagedRequest}", new Paginator<StudentEntity>());
+        return await apiFactory.WithNotificator.GetAsync(Modules.Secretary, $"students{pagedRequest}", new Paginator<StudentEntity>());
     }
 }
