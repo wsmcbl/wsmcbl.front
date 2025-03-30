@@ -1,5 +1,6 @@
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.Controller;
 
@@ -13,23 +14,25 @@ public class CreateBackupController
         _jsRuntime = jsRuntime;
         _apiConsumer = apiConsumerFactory.WithNotificator;
     }
-
     
     public async Task DownloadBackup()
     {
-        var fileBytes = await _apiConsumer.GetBackupAsync(Modules.Config, "backups/current");
-        if (fileBytes.Length > 0)
+        const string resource = "backups/current/export";
+        
+        var fileBytes = await _apiConsumer.GetBackupAsync(Modules.Config, resource);
+        if (fileBytes.Length <= 0)
         {
-            var fileName = $"WSM_Backup_{GetFormattedDate()}.sql";
-            var base64 = Convert.ToBase64String(fileBytes);
-            var url = $"data:application/sql;base64,{base64}";
-            
-            await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
+            throw new InternalException("Ocurrió un error al descargar el archivo.");
         }
+        
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/sql;base64,{base64}";
+            
+        await _jsRuntime.InvokeVoidAsync("downloadFile", GetFileName(), url);
     }
 
-    private string GetFormattedDate()
+    private static string GetFileName()
     {
-        return DateTime.Now.ToString("dd-MM-yyyy HH:mm");
+        return $"wsm.backup.{DateTime.Now:ddMMyy.HHmm}.sql";
     }
 }
