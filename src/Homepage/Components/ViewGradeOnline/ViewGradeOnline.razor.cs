@@ -6,7 +6,7 @@ namespace wsmcbl.src.Components.ViewGradeOnline;
 
 public partial class ViewGradeOnline : ComponentBase
 {
-    [Inject] ViewGradeController Controller { get; set; } = null!;
+    [Inject] ViewGradeOnlineController Controller { get; set; } = null!;
     [Inject] private IJSRuntime Js { get; set; } = null!;
     private byte[]? GradePdf { get; set; } = [];
     private string? token {get;set;}
@@ -16,7 +16,7 @@ public partial class ViewGradeOnline : ComponentBase
 
     private async Task GetGrade()
     {
-        var (content, statusCode) = await Controller.GetGrade(studentId, token);
+        var (content, statusCode) = await Controller.GetGradePdf(studentId!, token!);
         
         if (statusCode == 200)
         {

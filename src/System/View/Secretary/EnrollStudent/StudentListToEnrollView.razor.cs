@@ -17,7 +17,7 @@ public partial class StudentListToEnrollView : BaseView
 
     private async Task LoadStudents()
     {
-        studentList = await Controller!.GetStudents();
+        studentList = await Controller!.GetStudentList();
     }
 
     protected override bool IsLoading()

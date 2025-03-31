@@ -5,17 +5,17 @@ namespace wsmcbl.src.View.Components.GetDateRecordingGrade;
 
 public partial class GetDateRecordingGradeComponent : ComponentBase
 {
-    [Inject] GetDateMaxOfRecordingGradeController Controller { get; set; } = null!;
+    [Inject] private EnablePartialGradeRecordingController Controller { get; set; } = null!;
     private RecondingGradeDateDto? MaxDate { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        MaxDate = await Controller.GetMaxDate();
+        MaxDate = await Controller.GetEnablePartial();
     }
     
-    private string CalculateTimeRemaining(string deadline)
+    private string GetTimeRemaining()
     {
-        if (!DateTime.TryParse(deadline, out var deadlineDate))
+        if (!DateTime.TryParse(MaxDate!.gradeRecordDeadline, out var deadlineDate))
         {
             return "Formato de fecha no válido";
         }
@@ -26,23 +26,23 @@ public partial class GetDateRecordingGradeComponent : ComponentBase
         {
             return "¡Tiempo agotado!";
         }
-        else if (timeRemaining.TotalDays >= 2)
+
+        if (timeRemaining.TotalDays >= 2)
         {
             return $"Quedan {timeRemaining.Days} días";
         }
-        else if (timeRemaining.TotalHours >= 2)
+        if (timeRemaining.TotalHours >= 2)
         {
-            int hours = (int)timeRemaining.TotalHours;
+            var hours = (int)timeRemaining.TotalHours;
             return $"Quedan {hours} horas";
         }
-        else if (timeRemaining.TotalMinutes >= 1)
+        
+        if (timeRemaining.TotalMinutes >= 1)
         {
-            int minutes = (int)timeRemaining.TotalMinutes;
+            var minutes = (int)timeRemaining.TotalMinutes;
             return $"Quedan {minutes} minutos";
         }
-        else
-        {
-            return "Quedan menos de un minuto";
-        }
+        
+        return "Quedan menos de un minuto";
     }
 }

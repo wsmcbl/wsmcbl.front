@@ -8,7 +8,7 @@ namespace wsmcbl.src.View.Components.Charts;
 public partial class RevenuesChart : ComponentBase
 {
     [Inject] IJSRuntime js { get; set; } = null!;
-    [Inject] DirectorDashboardController Controller { get; set; } = null!;
+    [Inject] ViewPrincipalDashboardController Controller { get; set; } = null!;
     
     private RevenuesDto CurrentRevenues { get; set; } = new() 
     {
@@ -38,7 +38,7 @@ public partial class RevenuesChart : ComponentBase
 
     private async Task LoadData()
     {
-        CurrentRevenues = await Controller.GetCurrenRevenues();
+        CurrentRevenues = await Controller.GetCurrentRevenues();
         StateHasChanged();
     }
     

@@ -25,8 +25,9 @@ public partial class UpdateStudentView : BaseView
         {
             throw new InternalException("StudentEntity must be not null.");
         }
-        
-        var response = await Controller.UpdateStudentData(student, generateToken, StudentId!);
+
+        student.studentId = StudentId;
+        var response = await Controller.UpdateStudentData(student, generateToken);
         if (response)
         {
             await Notificator.ShowSuccess("Se ha actualizado el estudiante correctamente.");

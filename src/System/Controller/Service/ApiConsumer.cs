@@ -34,14 +34,6 @@ public class ApiConsumer
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
     }
 
-    public async Task<byte[]> GetBackupAsync(Modules module, string resource)
-    {
-        await LoadToken();
-        var response = await _httpClient.GetAsync(BuildUri(module, resource));
-        return await GenericHttpResponse(() => response.Content.ReadAsByteArrayAsync()!, [], response);
-    }
-
-    
     public async Task<T> GetAsync<T>(Modules module, string resource, T defaultResult)
     {
         await LoadToken();
@@ -49,7 +41,7 @@ public class ApiConsumer
         return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<T>(), defaultResult, response);
     }
     
-    public async Task<byte[]> GetPdfAsync(Modules module, string resource)
+    public async Task<byte[]> GetByteFileAsync(Modules module, string resource)
     {
         await LoadToken();
         var response = await _httpClient.GetAsync(BuildUri(module, resource));
@@ -137,7 +129,7 @@ public class ApiConsumer
         if (string.IsNullOrEmpty(api?.Trim()))
             throw new InternalException("API environment variable not found.");
 
-        return new Uri($"{api}/v5");
+        return new Uri($"{api}/v6");
     }
 
     private static Task<bool> AlwaysTrue() => Task.Delay(0).ContinueWith(_ => true);

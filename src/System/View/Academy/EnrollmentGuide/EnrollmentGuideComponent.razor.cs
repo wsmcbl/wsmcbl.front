@@ -10,7 +10,7 @@ namespace wsmcbl.src.View.Academy.EnrollmentGuide;
 
 public partial class EnrollmentGuideComponent : BaseView
 {
-    [Inject] private EnrollmentGuideController GuideController { get; set; } = null!;
+    [Inject] private ViewEnrollmentGuideController GuideController { get; set; } = null!;
     [Inject] private UpdateOfficialEnrollmentController EnrollmentController { get; set; } = null!;
     [Inject] private LoginController LoginController { get; set; } = null!;
     [Inject] private JwtClaimsService JwtClaimsService { get; set; } = null!;

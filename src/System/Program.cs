@@ -41,6 +41,7 @@ builder.Services.AddTransient<TransactionReportByDateController>();
 builder.Services.AddTransient<CancelTransactionController>();
 builder.Services.AddTransient<UpdateStudentController>();
 builder.Services.AddTransient<UpdateStudentAccountingController>();
+builder.Services.AddTransient<MoveStudentFromEnrollmentController>();
 
 
 builder.Services.AddTransient<CreateUserController>();
@@ -48,21 +49,19 @@ builder.Services.AddTransient<CreateEnrollmentController>();
 builder.Services.AddTransient<ChangeEducationLevelController>();
 builder.Services.AddTransient<PrintDocumentController>(); //(Auxiliar)
 builder.Services.AddTransient<ForgetDebtController>();
-builder.Services.AddTransient<DebtopController>(); 
+builder.Services.AddTransient<GenerateDebtorReportController>(); 
 builder.Services.AddTransient<EnablePartialGradeRecordingController>(); 
 
 
 builder.Services.AddTransient<ApplyArrearsController>(); 
-builder.Services.AddTransient<BackupController>(); 
+builder.Services.AddTransient<CreateBackupController>(); 
 builder.Services.AddTransient<GenerateStudentRegisterController>(); 
 builder.Services.AddTransient<UpdateRolesController>(); 
-builder.Services.AddTransient<EnrollmentGuideController>(); 
-builder.Services.AddTransient<GetDateMaxOfRecordingGradeController>();
+builder.Services.AddTransient<ViewEnrollmentGuideController>(); 
 builder.Services.AddTransient<CreateSchoolyearController>();
 builder.Services.AddTransient<CreateSubjectDataController>();
 builder.Services.AddTransient<CreateTariffDataController>();
-builder.Services.AddTransient<DirectorDashboardController>();
-
+builder.Services.AddTransient<ViewPrincipalDashboardController>();
 
 var app = builder.Build();
 

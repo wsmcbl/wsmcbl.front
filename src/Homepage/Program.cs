@@ -6,8 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 builder.Services.AddHttpClient();
+
 builder.Services.AddTransient<ApiConsumer>();
-builder.Services.AddTransient<ViewGradeController>();
+builder.Services.AddTransient<ViewGradeOnlineController>();
 
 var app = builder.Build();
 

@@ -6,7 +6,7 @@ namespace wsmcbl.src.View.Components.Charts;
 
 public partial class SumaryStudentChart : ComponentBase
 { 
-    [Inject] DirectorDashboardController Controller { get; set; } = null!;
+    [Inject] ViewPrincipalDashboardController Controller { get; set; } = null!;
     private DistributionDto CurrentDistribution { get; set; } = new();
     
     protected override async Task OnParametersSetAsync()

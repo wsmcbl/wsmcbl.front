@@ -42,7 +42,7 @@ public partial class PhotoView : ComponentBase
         imageContent.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
 
         content.Add(imageContent, "profilePicture", "photo.jpg");
-        var result = await controller.SaveProfile(Student.studentId!, content);
+        var result = await controller.UpdatePicture(Student.studentId!, content);
         if (result)
         {
             await Notificator.ShowSuccess("Se ha actualizado la imagen correctamente.");

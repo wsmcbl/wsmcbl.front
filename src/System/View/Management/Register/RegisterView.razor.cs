@@ -26,12 +26,12 @@ public partial class RegisterView : BaseView
     }
     private async Task LoadPadron()
     {
-        Padron = await Controller.GetPadronList(Request);
+        Padron = await Controller.GetStudentRegisterPaged(Request);
         if (Padron != null) hasData = Padron.data.Count > 0;
     }
     private async Task DowloadPadron()
     {
-        await Controller.DownloadPadron();
+        await Controller.GetCurrentStudentRegister();
     }
     protected override bool IsLoading()
     {

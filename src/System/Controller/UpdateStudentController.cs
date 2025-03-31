@@ -1,36 +1,47 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Secretary;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
 namespace wsmcbl.src.Controller;
 
-public class UpdateStudentController
+public class UpdateStudentController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-
-    public UpdateStudentController(ApiConsumerFactory apiConsumerFactory)
+    public UpdateStudentController(ApiConsumerFactory apiFactory) : base(apiFactory, "students")
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
-
+    
+    public async Task<Paginator<Model.Academy.StudentEntity>> GetStudentsPaged(PagedRequest pagedRequest)
+    {
+        var defaultResult = new Paginator<Model.Academy.StudentEntity>();
+        var resource = $"{path}{pagedRequest}";
+        
+        return await apiFactory
+            .WithNotificator.GetAsync(Modules.Secretary, resource, defaultResult);
+    }
+    
     public async Task<StudentEntity> GetStudentById(string? studentId)
     {
-        var resource = $"students/{studentId}";
-        var defaultResult = new StudentFullDto();
-        var result = await _apiConsumer.GetAsync(Modules.Secretary, resource, defaultResult);
+        var resource = $"{path}/{studentId}";
+        
+        var result = await apiFactory
+            .WithNotificator.GetAsync(Modules.Secretary, resource, new StudentFullDto());
 
         return result.ToEntity();
     }
 
-    public async Task<bool> UpdateStudentData(StudentEntity student, bool generateToken, string studentId)
+    public async Task<bool> UpdateStudentData(StudentEntity student, bool generateToken)
     {
-        var resource = $"students/{studentId}?withNewToken={generateToken}";
-        return await _apiConsumer.PutAsync(Modules.Secretary, resource, student.MapToDto());
+        var resource = $"{path}/{student.studentId}?withNewToken={generateToken}";
+        
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, student.MapToDto());
     }
 
-    public async Task<bool> SaveProfile(string studentId, MultipartFormDataContent content)
+    public async Task<bool> UpdatePicture(string studentId, MultipartFormDataContent content)
     {
-        return await _apiConsumer.PutPhotoAsync(Modules.Secretary, $"students/{studentId}/pictures", content);
+        var resource = $"{path}/{studentId}/pictures";
+        
+        return await apiFactory.WithNotificator.PutPhotoAsync(Modules.Secretary, resource, content);
     }
 }

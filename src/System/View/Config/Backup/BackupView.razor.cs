@@ -5,7 +5,7 @@ namespace wsmcbl.src.View.Config.Backup;
 
 public partial class BackupView : ComponentBase
 {
-    [Inject] BackupController Controller { get; set; } = default!;
+    [Inject] CreateBackupController Controller { get; set; } = default!;
     
     private async Task GetBackup()
     {

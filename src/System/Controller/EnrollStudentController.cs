@@ -5,52 +5,46 @@ using StudentEntity = wsmcbl.src.Model.Secretary.StudentEntity;
 
 namespace wsmcbl.src.Controller;
 
-public class EnrollStudentController
+public class EnrollStudentController : BaseController
 {
-    private readonly ApiConsumerWithNotificator _apiConsumer;
-    
-    public EnrollStudentController(ApiConsumerFactory apiConsumerFactory)
+    public EnrollStudentController(ApiConsumerFactory apiFactory) : base(apiFactory, "enrollments/students")
     {
-        _apiConsumer = apiConsumerFactory.WithNotificator;
     }
     
-    public async Task<List<StudentDto>> GetStudents()
+    public async Task<List<StudentDto>> GetStudentList()
     {
-        List<StudentDto> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, "enrollments/students", defaultResult);
+        return await apiFactory
+            .WithNotificator.GetAsync(Modules.Secretary, path, new List<StudentDto>());
     }
     
     public async Task<List<DegreeBasicDto>> GetDegreeBasicList(string studentId)
     {
-        List<DegreeBasicDto> defaultResult = [];
-        return await _apiConsumer.GetAsync(Modules.Secretary, $"enrollments/students/{studentId}/degrees", defaultResult);
+        var resource = $"{path}/{studentId}/degrees";
+        
+        return await apiFactory
+            .WithNotificator.GetAsync(Modules.Secretary, resource, new List<DegreeBasicDto>());
     }
 
-    public async Task<bool> SaveEnrollment(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
+    public async Task<bool> SaveEnroll(StudentEntity student, string enrollmentId, int discountId, bool isRepeating)
     {
         var content = student.ToEnrollStudentDto(enrollmentId, discountId, isRepeating);
-        return await _apiConsumer.PutAsync(Modules.Secretary, "enrollments", content);
+        
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, "enrollments", content);
     }
 
     public async Task<(StudentEntity student, string? enrollmentId, int discountId, bool isRepeating)> GetStudentById(string studentId)
     {
-        var resource = $"enrollments/students/{studentId}";
-        EnrollStudentDto defaultResult = new();
-        var result = await _apiConsumer.GetAsync(Modules.Secretary, resource, defaultResult);
+        var resource = $"{path}/{studentId}";
+        
+        var result = await apiFactory
+            .WithNotificator.GetAsync(Modules.Secretary, resource, new EnrollStudentDto());
         
         return (result.ToStudentEntity(), result.enrollmentId, result.discountId, result.isRepeating);
     }
     
     public async Task<byte[]> GetEnrollSheetPdf(string studentId)
     {
-        var resource = $"enrollments/documents/{studentId}";
-        return await _apiConsumer.GetPdfAsync(Modules.Secretary, resource);
+        var resource = $"{path}/{studentId}/export";
+        return await apiFactory.WithNotificator.GetByteFileAsync(Modules.Secretary, resource);
     }
-    
-    public async Task<bool> UpdateEnrollmet(string studentId, string enrollmentId)
-    {
-        EnrollStudentDto defaultResult = new();
-        return await _apiConsumer.PutAsync(Modules.Academy, $"students?studentId={studentId}&enrollmentId={enrollmentId}", defaultResult);
-    }
-    
 }
