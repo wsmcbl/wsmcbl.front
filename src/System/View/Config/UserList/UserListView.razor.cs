@@ -72,7 +72,7 @@ public partial class UserListView : BaseView
     }
     private async Task ShowPageSize(ChangeEventArgs e)
     {
-        if (int.TryParse(e.Value?.ToString(), out int selectedValue))
+        if (int.TryParse(e.Value?.ToString(), out var selectedValue))
         {
             Request.pageSize = selectedValue;
             Request.CurrentPage = 1;
