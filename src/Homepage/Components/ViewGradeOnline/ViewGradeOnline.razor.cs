@@ -29,7 +29,7 @@ public partial class ViewGradeOnline : ComponentBase
             ErrorMessage = statusCode switch
             {
                 400 => "Solicitud incorrecta. Por favor, revise los datos ingresados.",
-                401 => "No autorizado. Por favor, revise su contraseña.",
+                401 => "No autorizado. Por favor, revise su código y contraseña.",
                 403 => "No tiene permisos para hacer esta consulta.",
                 404 => "El estudiante no fue encontrado.",
                 409 => "El estudiante no esta solvente.",
