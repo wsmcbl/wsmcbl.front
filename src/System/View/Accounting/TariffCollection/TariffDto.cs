@@ -22,7 +22,7 @@ public class TariffDto
             type = type,
             concept = concept,
             amount = amount,
-            DueDate = dueDate?.ToDateOnly(),
+            DueDate = dueDate,
             isLate = isLate
         };
     }

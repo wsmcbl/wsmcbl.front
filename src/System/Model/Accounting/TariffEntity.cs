@@ -1,3 +1,5 @@
+using wsmcbl.src.View.Components.Dto;
+
 namespace wsmcbl.src.Model.Accounting;
 
 public class TariffEntity
@@ -10,7 +12,7 @@ public class TariffEntity
     public decimal Arrears { get; set; }
     public decimal SubAmount { get;  set; }
     public decimal Total { get;  set; }
-    public DateOnly? DueDate { get; set; }
+    public DateOnlyDto? DueDate { get; set; }
     public bool isLate { get; set; }
     public int type { get; set; }
     public int educationalLevel { get; set; }

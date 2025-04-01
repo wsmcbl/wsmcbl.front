@@ -1,3 +1,70 @@
+/* Contenedor principal */
+.student-card-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+/* Tarjeta base */
+.student-card {
+    background: white;
+    border-left: 3px solid;
+    border-radius: 3px;
+    padding: 12px 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Variantes de color */
+.student-card--primary {
+    border-left-color: #4e73df;
+}
+
+.student-card--secondary {
+    border-left-color: #1cc88a;
+}
+
+/* Icono */
+.student-card__icon {
+    font-size: 1.3rem;
+}
+
+.student-card--primary .student-card__icon {
+    color: #4e73df;
+}
+
+.student-card--secondary .student-card__icon {
+    color: #1cc88a;
+}
+
+/* Contenido */
+.student-card__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.student-card__title {
+    font-weight: 600;
+    color: #5a5c69;
+}
+
+.student-card--secondary .student-card__title {
+    font-size: 0.9rem;
+}
+
+.student-card__detail {
+    font-size: 0.8rem;
+    color: #858796;
+    margin-top: 2px;
+}
+
+
+
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
     .checkbox-wrapper-14 input[type=checkbox] {
         --active: #4e73df;

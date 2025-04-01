@@ -11,10 +11,29 @@
 }
 else
 {
-    <div style="background-color: white; border-radius: 6px; padding: 8px 10px; font-weight: bold; font-size: 1rem; display: inline-block; white-space: nowrap;">
-        @Student?.studentId - @(Student?.fullName ?? "Estudiante desconocido")
+    
+    <div class="student-card-container">
+        <div class="student-card student-card--primary">
+            <i class="fas fa-user-graduate student-card__icon"></i>
+            <div class="student-card__content">
+                <div class="student-card__title">@Student?.fullName</div>
+                <div class="student-card__detail">
+                    <span>@Student?.enrollmentLabel</span>
+                </div>
+            </div>
+        </div>
+    
+        <div class="student-card student-card--secondary">
+            <i class="fas fa-id-card student-card__icon"></i>
+            <div class="student-card__content">
+                <div class="student-card__title">Código</div>
+                <div class="student-card__detail">
+                    <span>@Student?.studentId</span>
+                </div>
+            </div>
+        </div>
     </div>
-                    
+    
     <div @onkeydown="HandleKeyDown" tabindex="0">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -95,7 +114,7 @@ else
                                                 }
                                                 <td>@amount</td>
                                                 <td>@item.GetStringIsLate()</td>
-                                                <td>@item.DueDate</td>
+                                                <td>@item.DueDate?.ToStringFormat()</td>
                                                 @if (hasDebt && Student.GetDebt(item.tariffId) == 0)
                                                 {
                                                     <td class="center-checkbox">
