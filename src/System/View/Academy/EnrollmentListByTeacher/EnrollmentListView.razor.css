@@ -1,5 +1,4 @@
 .modern-card {
-    border: 1px solid #4e73df;
     border-radius: 8px;
     background-color: #f8f9fc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -16,6 +15,7 @@
     color: #ffffff;
     font-weight: bold;
     padding: 10px;
+    border-bottom: 2px solid #2e59d9;
     display: flex;
     align-items: center;
 }

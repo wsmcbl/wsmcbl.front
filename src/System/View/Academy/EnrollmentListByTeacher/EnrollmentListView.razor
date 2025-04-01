@@ -97,32 +97,7 @@ else
                 {
                     <div class="col-md-3">
                         <div class="mb-4">
-                            <div class="modern-card">
-                                <div class="card-header">
-                                    <i class="fas fa-folder text-white icon"></i> @item.enrollmentLabel
-                                </div>
-                                <div class="card-body text-center">
-                                    <div class="mb-2"><strong><i class="fas fa-user-alt"></i> Estudiantes: </strong>@item.studentQuantity</div>
-                                    <div><strong><i class="fas fa-book"></i> Asignaturas: </strong>@item.subjectQuantity</div>
-                                    <div class="mt-3">
-                                        <a class="btn btn-primary btn-sm" href="/academy/enrollments/@item.enrollmentId/grades">
-                                            <i class="fas fa-eye"></i> Ver
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-            
-            <hr/>
-            <div class="row">
-                @foreach (var item in enrollmentList)
-                {
-                    <div class="col-md-3">
-                        <div class="mb-4">
-                            <div class="modern-card">
+                            <div class="modern-card" style="border: 1px solid @degreeColorList[item.degreeId]">
                                 <!-- Aquí aplicamos el color dinámico al header -->
                                 <div class="card-header" style="background-color: @degreeColorList[item.degreeId]; border-bottom: 2px solid rgba(0,0,0,0.2);">
                                     <i class="fas fa-folder text-white icon"></i> @item.enrollmentLabel
@@ -143,8 +118,6 @@ else
                     </div>
                 }
             </div>
-            
-            
             
         </div>
     </div>
