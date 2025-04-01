@@ -40,8 +40,20 @@ public partial class EnrollmentListView : BaseView
 
     private void SetupDegreeColorList(List<DegreeEntity> degreeList)
     {
-        List<string> colorList = ["red", "green", "blue", "yellow", "cyan", "magenta", "black", "white", "gray",
-            "orange", "purple", "pink", "brown"];
+        List<string> colorList = [
+            "#4e73df",  // Azul SB-Admin (excelente contraste)
+            "#1cc88a",  // Verde esmeralda
+            "#36b9cc",  // Turquesa
+            "#f6c23e",  // Amarillo (necesitará texto oscuro)
+            "#e74a3b",  // Rojo coral
+            "#5a5c69",  // Gris oscuro
+            "#2e59d9",  // Azul oscuro
+            "#17a673",  // Verde oscuro
+            "#2c9faf",  // Turquesa oscuro
+            "#dda20a",  // Amarillo mostaza
+            "#be2617",  // Rojo vino
+            "#6f42c1"   // Púrpura
+        ];
         
         var colorListQuantity = colorList.Count;
 
