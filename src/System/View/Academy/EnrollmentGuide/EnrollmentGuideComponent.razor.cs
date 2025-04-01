@@ -32,12 +32,18 @@ public partial class EnrollmentGuideComponent : BaseView
         }
 
         Enrollment = await GuideController.GetMyEnrollmentGuide(token);
+        
+        if (Enrollment?.studentList?.Count > 0)
+        {
+            Enrollment.studentList = Enrollment.studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName).ToList();
+        }
+        
         Teachers = await EnrollmentController.GetActiveTeacherList();
         User = await LoginController.getUserById();
         
-        if (Enrollment.studentList == null)
+        if (Enrollment?.studentList == null)
         {
-            Enrollment.studentList = new List<StudentDto>();
+            if (Enrollment != null) Enrollment.studentList = new List<StudentDto>();
         }
     }
     
