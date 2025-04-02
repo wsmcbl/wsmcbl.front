@@ -1,5 +1,6 @@
 @page "/academy/enrollments/guide"
 @using wsmcbl.src.Utilities
+@using wsmcbl.src.View.Academy.PerformanceReportBySection
 @inherits BaseView
 
 @attribute [Authorize(Roles = "teacher")]
@@ -233,6 +234,8 @@
                     <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
                         <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
                             <h5 class="text-gray-800">Proximamente.</h5>
+                            <button class="btn btn-outline-primary" @onclick="ViewPerformanceReport">Ver Sabana de calificaciones</button>
+                            <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
                         </div>
                     </div>
                 </div>

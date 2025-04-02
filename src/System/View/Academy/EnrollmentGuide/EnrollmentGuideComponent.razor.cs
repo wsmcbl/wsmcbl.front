@@ -15,10 +15,12 @@ public partial class EnrollmentGuideComponent : BaseView
     [Inject] private LoginController LoginController { get; set; } = null!;
     [Inject] private JwtClaimsService JwtClaimsService { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private Navigator Navigator { get; set; } = null!;
 
     private EnrollmentDto Enrollment { get; set; } = new();
     private List<TeacherEntity> Teachers { get; set; } = new();
     private UserEntity User { get; set; } = new();
+    private string? TeacherId { get; set; }
     
 
     protected override async Task OnInitializedAsync()
@@ -31,8 +33,8 @@ public partial class EnrollmentGuideComponent : BaseView
             return;
         }
 
-        Enrollment = await GuideController.GetMyEnrollmentGuide(token);
-        
+        TeacherId = token;
+        Enrollment = await GuideController.GetMyEnrollmentGuide(TeacherId);
         if (Enrollment?.studentList?.Count > 0)
         {
             Enrollment.studentList = Enrollment.studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName).ToList();
@@ -55,5 +57,10 @@ public partial class EnrollmentGuideComponent : BaseView
         }
 
         return true; 
+    }
+
+    private async Task ViewPerformanceReport()
+    {
+        await Navigator.ShowModal("ReportGradeModal");
     }
 }
