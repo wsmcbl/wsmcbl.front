@@ -44,6 +44,6 @@ public class ApiConsumer
         if (string.IsNullOrEmpty(api?.Trim()))
             throw new Exception("API environment variable not found.");
 
-        return new Uri($"{api}/v6");
+        return new Uri($"{api}/v5");
     }
 }

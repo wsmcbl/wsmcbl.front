@@ -12,11 +12,8 @@ builder.Services.AddTransient<ViewGradeOnlineController>();
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    app.UseHsts();
-}
+app.UseExceptionHandler("/Error", createScopeForErrors: true);
+app.UseHsts();
 
 app.UseHttpsRedirection();
 
