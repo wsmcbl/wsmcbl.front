@@ -9,26 +9,15 @@ public partial class RevenuesChart : ComponentBase
 {
     [Inject] IJSRuntime js { get; set; } = null!;
     [Inject] ViewPrincipalDashboardController Controller { get; set; } = null!;
+    private RevenuesDto CurrentRevenues { get; set; } = new() { expectedIncomeThisMonth = 0, expectedIncomeReceived = 0, totalIncomeThisMonth = 0 };
     
-    private RevenuesDto CurrentRevenues { get; set; } = new() 
-    {
-        expectedIncomeThisMonth = 0,
-        expectedIncomeReceived = 0,
-        totalIncomeThisMonth = 0
-    };
+    private decimal amountRecivedExpentPorcent => CurrentRevenues.totalIncomeThisMonth != 0 
+    ? (CurrentRevenues.expectedIncomeReceived / CurrentRevenues.totalIncomeThisMonth)
+    : 0;
     
-    private decimal CompletionPercentage => 
-        CurrentRevenues.expectedIncomeThisMonth > 0 
-            ? CurrentRevenues.expectedIncomeReceived / CurrentRevenues.expectedIncomeThisMonth 
-            : 0;
-            
-    private decimal TotalVsExpectedPercentage =>
-        CurrentRevenues.expectedIncomeThisMonth > 0
-            ? CurrentRevenues.totalIncomeThisMonth / CurrentRevenues.expectedIncomeThisMonth
-            : 0;
-
-    private decimal AdditionalIncome =>
-        CurrentRevenues.totalIncomeThisMonth - CurrentRevenues.expectedIncomeReceived;
+    private decimal otherAmountPorcent => CurrentRevenues.totalIncomeThisMonth != 0 
+    ? ((CurrentRevenues.totalIncomeThisMonth - CurrentRevenues.expectedIncomeReceived) / CurrentRevenues.totalIncomeThisMonth)
+    : 0;
     
     protected override async Task OnInitializedAsync()
     {
@@ -49,20 +38,16 @@ public partial class RevenuesChart : ComponentBase
     
     private async Task RenderCharts()
     {
-        var additionalIncome = AdditionalIncome;
-        var pendingIncome = CurrentRevenues.expectedIncomeThisMonth - CurrentRevenues.expectedIncomeReceived;
-
         var chartData = new
         {
             barLabels = new[] { "Ingresos" },
             expected = (double)CurrentRevenues.expectedIncomeThisMonth,
             receivedExpected = (double)CurrentRevenues.expectedIncomeReceived,
-            additional = (double)additionalIncome,
+            
             pieData = new
             {
                 receivedExpected = (double)CurrentRevenues.expectedIncomeReceived,
-                pending = (double)pendingIncome,
-                additional = (double)additionalIncome
+                receivedOther = (double)(CurrentRevenues.totalIncomeThisMonth-CurrentRevenues.expectedIncomeReceived),
             }
         };
 

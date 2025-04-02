@@ -42,12 +42,6 @@ window.RevenueChart = function(data) {
                     backgroundColor: '#1cc88a',
                     borderColor: '#1cc88a'
                 },
-                {
-                    label: 'Recibido (Total)',
-                    data: [data.additional],
-                    backgroundColor: '#36b9cc',
-                    borderColor: '#36b9cc'
-                }
             ]
         },
         options: {
@@ -55,6 +49,7 @@ window.RevenueChart = function(data) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    min: 0,
                     ticks: {
                         callback: function(value) {
                             return formatNicaraguanCurrency(value);
@@ -80,10 +75,10 @@ window.RevenueChart = function(data) {
     new Chart(pieCtx, {
         type: 'doughnut',
         data: {
-            labels: ['Recibido (Esperado)', 'Faltante', 'Recibido (Total)'],
+            labels: [`Ingreso (Esperado)`, `Otros Ingresos `],
             datasets: [{
-                data: [data.pieData.receivedExpected, data.pieData.pending, data.pieData.additional],
-                backgroundColor: ['#1cc88a', '#e74a3b', '#36b9cc'],
+                data: [data.pieData.receivedExpected, data.pieData.receivedOther],
+                backgroundColor: ['#1cc88a', '#e74a3b'],
                 borderWidth: 1
             }]
         },
