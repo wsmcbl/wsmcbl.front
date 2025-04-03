@@ -5,8 +5,7 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "teacher")]
 
-<div class="card shadow h-100 py-2 mb-4">
-    <div class="card-body">
+    <div>
 
         <!-- Pestañas -->
         <div class="card shadow mb-4">
@@ -66,7 +65,7 @@
 
                     <!-- Pestaña de Estadisticas -->
                     <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
-
+                        <div class="text-gray-800 text-center">Proximamente...</div>
                     </div>
 
                     <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
@@ -77,6 +76,5 @@
 
         </div>
     </div>
-</div>
 <script src="js/ResponsiveTabs.js"></script>
 
