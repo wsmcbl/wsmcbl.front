@@ -1,0 +1,82 @@
+@page "/academy/enrollments/register"
+@using wsmcbl.src.View.Academy.PerformanceReportBySectionDocument
+@using wsmcbl.src.View.Academy.PerformanceReportBySection
+@using wsmcbl.src.View.Academy.TopStudents
+@inherits BaseView
+@attribute [Authorize(Roles = "teacher")]
+
+<div class="card shadow h-100 py-2 mb-4">
+    <div class="card-body">
+
+        <!-- Pestañas -->
+        <div class="card shadow mb-4">
+
+            <div class="card-header py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="d-block d-md-none w-100 mb-2">
+                    <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
+                        <option value="PanelTop">Top</option>
+                        <option value="PanelSabana">Sabana</option>
+                        <option value="PanelMatrics">Estadisticas</option>
+                    </select>
+                </div>
+
+                <ul class="nav nav-tabs card-header-tabs d-none d-md-flex" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="TabTop" data-toggle="tab" href="#PanelTop" role="tab"
+                           aria-controls="PanelTop" aria-selected="true">
+                            Top
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabSabana" data-toggle="tab" href="#PanelSabana" role="tab"
+                           aria-controls="PanelSabana" aria-selected="False">
+                            Sabana
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabMetric" data-toggle="tab" href="#PanelMatrics" role="tab"
+                           aria-controls="PanelMatrics" aria-selected="false">
+                            Estadisticas
+                        </a>
+                    </li>
+                </ul>
+
+
+                <button class="btn btn-primary btn-sm" @onclick="ViewPerformanceReport">
+                    <i class="fas fa-file-download"></i>
+                    <span class="d-none d-md-inline">Generar Sabana</span>
+                    <span class="d-inline d-md-none">Sabana</span>
+                </button>
+
+            </div>
+
+            <div class="card-body" id="tabContent">
+                <div class="tab-content">
+
+                    <!-- Pestaña de Top -->
+                    <div class="tab-pane fade show active" id="PanelTop" role="tabpanel" aria-labelledby="TabTop">
+                        <TopPerformanceStudentsView PartialId="@CurrentPartial" TeacherId="@TeacherId" /> 
+                    </div>
+
+                    <!-- Pestaña de Sabana -->
+                    <div class="tab-pane fade" id="PanelSabana" role="tabpanel" aria-labelledby="TabSabana">
+                        <PerformanceReportBySectionView PartialId="@CurrentPartial" TeacherId="@TeacherId"
+                                                        subjectList="@Enrollment.subjectList"/>
+                    </div>
+
+                    <!-- Pestaña de Estadisticas -->
+                    <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
+
+                    </div>
+
+                    <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script src="js/ResponsiveTabs.js"></script>
+

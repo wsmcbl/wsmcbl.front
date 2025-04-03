@@ -2,6 +2,7 @@ using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Academy.PerformanceReportBySection;
+using wsmcbl.src.View.Academy.TopStudents;
 
 namespace wsmcbl.src.Controller;
 
@@ -35,4 +36,10 @@ public class GeneratePerformanceReportBySection : BaseController
         var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
         await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
     }
+
+    public async Task<List<TopStudentsDto>?> GetTopStudents(string teacherId, int partialId)
+    {
+        List<TopStudentsDto> defaultResult = [];
+        return await apiFactory.WithNotificator.GetAsync(Modules.Academy,
+            $"teachers/{teacherId}/enrollments/guide/performance?partial={partialId}", defaultResult);    }
 }
