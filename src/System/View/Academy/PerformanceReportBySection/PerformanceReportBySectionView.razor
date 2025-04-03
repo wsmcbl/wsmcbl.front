@@ -1,0 +1,93 @@
+@inherits BaseView
+
+@if (IsLoading())
+{
+    <div class="text-gray-800">Cargando....</div>
+}
+else
+{
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="dataTable2" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Código</th>
+                    <th>Mined</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    @if (StudentsList != null && StudentsList.Any())
+                    {
+                        foreach (var subject in StudentsList[0].gradeList)
+                        {
+                            var subjectName = subjectList.FirstOrDefault(t => t.subjectId == subject.subjectId)?.initials ?? "Materia no encontrada";
+                            <th class="tac">
+                                @subjectName
+                            </th>
+                        }
+                    }
+                    <th>Promedio</th>
+                    <th>Conducta</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Código</th>
+                    <th>Mined</th>
+                    <th>Nombre</th>
+                    <th>Sexo</th>
+                    @if (StudentsList != null && StudentsList.Any())
+                    {
+                        foreach (var subject in StudentsList[0].gradeList)
+                        {
+                            var subjectName = subjectList.FirstOrDefault(t => t.subjectId == subject.subjectId)?.initials ?? "Materia no encontrada";
+                            <th class="tac">
+                                @subjectName
+                            </th>
+                        }
+                    }
+                    <th>Promedio</th>
+                    <th>Conducta</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                @for (int i = 0; i < StudentsList!.Count; i++)
+                {
+                    var student = StudentsList[i];
+                    <tr>
+                        <td class="text-center">@(i + 1)</td>
+
+                       
+                        <td>@student.studentId</td>
+                        <td>@student.minedId</td>
+                        <td style="min-width: 200px">@student.fullName</td>
+                        <td>@(student.sex ? "Mujer" : "Varón")</td>
+
+                        @foreach (var subject in student.gradeList)
+                        {
+                            <td class="tac-max">
+                                @subject.grade.ToString("0.0")
+                                <br/>
+                                <small class="text-muted">@subject.label</small>
+                            </td>
+                        }
+
+                        <td class="tac-max">
+                            @student.gradeAverage.ToString("0.0")
+                            <br/>
+                            <small class="text-muted">@student.labelAverage</small>
+                        </td>
+                        <td class="tac-max">
+                            @student.conductGrade.ToString("0.0")
+                            <br/>
+                            <small class="text-muted">@student.conductGradeLabel</small>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="js/DataTable/dataTableWhitOutOrder2.js"></script>
+}

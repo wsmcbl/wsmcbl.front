@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.IdentityModel.Tokens;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 
-namespace wsmcbl.src.View.Academy.PerformanceReportBySection;
+namespace wsmcbl.src.View.Academy.PerformanceReportBySectionDocument;
 
 public partial class PerformanceReportView : ComponentBase
 {

@@ -1,5 +1,6 @@
 @page "/academy/enrollments/guide"
 @using wsmcbl.src.Utilities
+@using wsmcbl.src.View.Academy.PerformanceReportBySectionDocument
 @using wsmcbl.src.View.Academy.PerformanceReportBySection
 @inherits BaseView
 
@@ -94,8 +95,18 @@
 
         <!-- Pestañas -->
         <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+
+            <div class="card-header py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="d-block d-md-none w-100 mb-2">
+                    <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
+                        <option value="PanelStudent">Estudiantes</option>
+                        <option value="PanelSubject">Asignaturas</option>
+                        <option value="PanelMatrics">Métricas</option>
+                        <option value="PanelRegister">Registro</option>
+                    </select>
+                </div>
+
+                <ul class="nav nav-tabs card-header-tabs d-none d-md-flex" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
                            aria-controls="PanelStudent" aria-selected="true">
@@ -111,12 +122,27 @@
                     <li class="nav-item">
                         <a class="nav-link" id="TabMetric" data-toggle="tab" href="#PanelMatrics" role="tab"
                            aria-controls="PanelMatrics" aria-selected="false">
-                            Metricas
+                            Métricas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabRegister" data-toggle="tab" href="#PanelRegister" role="tab"
+                           aria-controls="PanelRegister" aria-selected="false">
+                            Registro
                         </a>
                     </li>
                 </ul>
-            </div>
 
+
+                <button class="btn btn-primary btn-sm" @onclick="ViewPerformanceReport">
+                    <i class="fas fa-file-download"></i>
+                    <span class="d-none d-md-inline">Generar Sabana</span>
+                    <span class="d-inline d-md-none">Sabana</span>
+                </button>
+
+
+            </div>
+            
             <div class="card-body" id="tabContent">
                 <div class="tab-content">
 
@@ -158,11 +184,13 @@
                                                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                                     </a>
 
-                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                         aria-labelledby="dropdownMenuLink">
+                                                    <div
+                                                        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                        aria-labelledby="dropdownMenuLink">
                                                         <div class="dropdown-header">Seleccione una opción:</div>
                                                         <a class="dropdown-item"
-                                                           href="/academy/enrollments/guide/students/@item.studentId">Ver perfil</a>
+                                                           href="/academy/enrollments/guide/students/@item.studentId">Ver
+                                                            perfil</a>
                                                     </div>
                                                 </div>
                                             </td>
@@ -171,7 +199,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                        <script defer src="js/DataTable/dataTableWhitOutOrder.js"></script>
+                            <script defer src="js/DataTable/dataTableWhitOutOrder.js"></script>
                         }
                         else
                         {
@@ -200,23 +228,23 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        @for (int i = 0; i < Enrollment.subjectTeacherIdList.Count; i++)
-                                        {
-                                            var item = Enrollment.subjectTeacherIdList[i];
-                                            var clave = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.initials ?? "Materia no encontrada";
-                                            var subject = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.name ?? "Materia no encontrada";
-                                            var teacher = Teachers.FirstOrDefault(t => t.teacherId == item.teacherId)?.fullName ?? "Maestro no encontrado";
-                                            var semester = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.semester ?? 0;
-                                            var isMandatory = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.isMandatory;
-                                            <tr>
-                                                <td>@(i + 1)</td> <!-- Columna con el número de posición -->
-                                                <td>@clave</td>
-                                                <td>@subject</td>
-                                                <td>@teacher</td>
-                                                <td>@semester.ToSemester()</td>
-                                                <td>@(isMandatory == true ? "Sí" : "No")</td>
-                                            </tr>
-                                        }
+                                    @for (int i = 0; i < Enrollment.subjectTeacherIdList.Count; i++)
+                                    {
+                                        var item = Enrollment.subjectTeacherIdList[i];
+                                        var clave = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.initials ?? "Materia no encontrada";
+                                        var subject = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.name ?? "Materia no encontrada";
+                                        var teacher = Teachers.FirstOrDefault(t => t.teacherId == item.teacherId)?.fullName ?? "Maestro no encontrado";
+                                        var semester = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.semester ?? 0;
+                                        var isMandatory = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.isMandatory;
+                                        <tr>
+                                            <td>@(i + 1)</td>
+                                            <td>@clave</td>
+                                            <td>@subject</td>
+                                            <td>@teacher</td>
+                                            <td>@semester.ToSemester()</td>
+                                            <td>@(isMandatory == true ? "Sí" : "No")</td>
+                                        </tr>
+                                    }
                                     </tbody>
                                 </table>
                             </div>
@@ -234,12 +262,20 @@
                     <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
                         <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
                             <h5 class="text-gray-800">Proximamente.</h5>
-                            <button class="btn btn-outline-primary" @onclick="ViewPerformanceReport">Ver Sabana de calificaciones</button>
-                            <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
                         </div>
                     </div>
+
+                    <div class="tab-pane fade" id="PanelRegister" role="tabpanel" aria-labelledby="TabRegister">
+                        <PerformanceReportBySectionView PartialId="@CurrentPartial" TeacherId="@TeacherId"
+                                                        subjectList="@Enrollment.subjectList"/>
+                    </div>
+
+                    <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script src="js/ResponsiveTabs.js"></script>

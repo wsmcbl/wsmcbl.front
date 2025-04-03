@@ -21,6 +21,7 @@ public partial class EnrollmentGuideComponent : BaseView
     private List<TeacherEntity> Teachers { get; set; } = new();
     private UserEntity User { get; set; } = new();
     private string? TeacherId { get; set; }
+    private int CurrentPartial { get; set; } = 1;
     
 
     protected override async Task OnInitializedAsync()
