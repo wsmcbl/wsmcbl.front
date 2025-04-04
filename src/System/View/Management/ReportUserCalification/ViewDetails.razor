@@ -19,6 +19,7 @@
                         <thead>
                         <tr>
                             <th class="text-center">#</th>
+                            <th class="text-center">Grado</th>
                             <th>Asignatura</th>
                             <th class="text-center">Alumnos</th>
                             <th class="text-center">Calificados</th>
@@ -28,6 +29,7 @@
                         <tfoot>
                         <tr>
                             <th class="text-center">#</th>
+                            <th class="text-center">Grado</th>
                             <th>Asignatura</th>
                             <th class="text-center">Alumnos</th>
                             <th class="text-center">Calificados</th>
@@ -41,10 +43,12 @@
                             {
                                 var details = Subjects[i];
                                 var name = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.name ?? "Materia no encontrada";
+                                var enrollment = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.degree ?? "Materia no encontrada";
                                 var count = Subjects[i].studentCount - Subjects[i].gradedStudentCount;
 
                                 <tr>
                                     <td class="text-center">@(i + 1)</td>
+                                    <td>@enrollment</td>
                                     <td>@name</td>
                                     <td class="text-center">@details.studentCount</td>
                                     <td class="text-center">@details.gradedStudentCount</td>
