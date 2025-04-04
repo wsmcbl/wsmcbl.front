@@ -15,10 +15,12 @@ public partial class RegisterView : BaseView
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
     private EnrollmentDto Enrollment { get; set; } = new();
-    private int CurrentPartial { get; set; } = 1;
     private string? TeacherId { get; set; }
     private TeacherEntity Teacher { get; set; } = new();
+    private List<PartialEntity> Partial { get; set; } = new();
     private bool Isguide  { get; set; }
+    private int CurrentPartial { get; set; } = 1;
+
 
     
     protected override async Task OnInitializedAsync()
@@ -37,11 +39,13 @@ public partial class RegisterView : BaseView
         {
             Isguide = true;
             Enrollment = await GuideController.GetMyEnrollmentGuide(TeacherId);
+            Partial = await AddingStudentGradesController.GetPartialList();
+            CurrentPartial = Partial?.FirstOrDefault(t => t.isActive)?.partialId ?? 1;            
+            
             if (Enrollment?.studentList?.Count > 0)
             {
                 Enrollment.studentList = Enrollment.studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName).ToList();
             }
-        
             if (Enrollment?.studentList == null)
             {
                 if (Enrollment != null) Enrollment.studentList = new List<StudentDto>();
