@@ -67,19 +67,19 @@ else
                         @foreach (var subject in student.gradeList)
                         {
                             <td class="tac-max">
-                                @subject.grade.ToString("0.0")
+                                @subject.grade
                                 <br/>
                                 <small class="text-muted">@subject.label</small>
                             </td>
                         }
 
                         <td class="tac-max">
-                            @student.gradeAverage.ToString("0.0")
+                            @student.gradeAverage
                             <br/>
                             <small class="text-muted">@student.labelAverage</small>
                         </td>
                         <td class="tac-max">
-                            @student.conductGrade.ToString("0.0")
+                            @student.conductGrade
                             <br/>
                             <small class="text-muted">@student.conductGradeLabel</small>
                         </td>
