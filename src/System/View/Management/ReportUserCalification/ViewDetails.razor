@@ -41,13 +41,14 @@
                             {
                                 var details = Subjects[i];
                                 var name = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.name ?? "Materia no encontrada";
+                                var count = Subjects[i].studentCount - Subjects[i].gradedStudentCount;
 
                                 <tr>
                                     <td class="text-center">@(i + 1)</td>
                                     <td>@name</td>
                                     <td class="text-center">@details.studentCount</td>
                                     <td class="text-center">@details.gradedStudentCount</td>
-                                    <td class="text-center">@(details?.studentCount ?? 0 - details?.gradedStudentCount ?? 0)</td>
+                                    <td class="text-center">@count</td>
                                 </tr>
                             }
                         }
