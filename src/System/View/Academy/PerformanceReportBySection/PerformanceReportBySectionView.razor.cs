@@ -11,12 +11,16 @@ public partial class PerformanceReportBySectionView : BaseView
     [Parameter] public List<SubjectDto> subjectList { get; set; } = new();
     [Parameter] public string? TeacherId { get; set; }
     [Parameter] public int PartialId { get; set; }
+    [Parameter] public bool Isguide { get; set; }
     private List<StudentsGradeSumaryDto>? StudentsList { get; set; }
 
     
     protected override async Task OnParametersSetAsync()
     {
-        await LoadStudent();
+        if (Isguide)
+        {      
+            await LoadStudent();
+        }
     }
 
     private async Task LoadStudent()
