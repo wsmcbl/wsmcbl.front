@@ -1,4 +1,4 @@
-@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+@supports (-webkit-appearance: none) or (-moz-appearance: none) { 
     .checkbox-wrapper-14 input[type=checkbox] {
         --active: #4e73df;
         --active-inner: #fff;
