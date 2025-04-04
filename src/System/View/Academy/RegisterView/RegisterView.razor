@@ -68,7 +68,16 @@
 
                     <!-- Pestaña de Estadisticas -->
                     <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
-                        <div class="text-gray-800 text-center">Proximamente...</div>
+                        <div class="text-gray-800 text-center">
+                            @if (Isguide)
+                            {
+                                <button class="btn btn-primary btn-sm" @onclick="DowloadStats">Descargar</button>
+                            }
+                            else
+                            {
+                                <div>Cargando.... es posible que no tengas sección guiada.</div>
+                            }
+                        </div>
                     </div>
 
                     <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>

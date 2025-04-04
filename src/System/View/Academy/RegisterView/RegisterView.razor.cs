@@ -59,4 +59,8 @@ public partial class RegisterView : BaseView
         await Navigator.ShowModal("ReportGradeModal");
     }
 
+    private async Task DowloadStats()
+    {
+        await GuideController.GetGradeDocument(TeacherId!, Enrollment.enrollmentId, CurrentPartial, Enrollment.label);
+    }
 }
