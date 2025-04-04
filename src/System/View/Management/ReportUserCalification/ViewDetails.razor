@@ -1,0 +1,69 @@
+@inherits BaseView
+
+@if (Subjects != null)
+{
+    <div class="modal fade" id="DetailReportTeacherModal" tabindex="-1" aria-labelledby="DetailReportTeacherModalModal"
+         aria-hidden="true">
+        <div class="modal-dialog custom-centered" style="width: 70%; max-width: 80%;">
+            <div class="modal-content" style="height: 30%; max-height: 30%;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalPdfTitle">Reporte de calificaciones</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <table id="dataTable" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Asignatura</th>
+                            <th class="text-center">Alumnos</th>
+                            <th class="text-center">Calificados</th>
+                            <th class="text-center">Restantes</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Asignatura</th>
+                            <th class="text-center">Alumnos</th>
+                            <th class="text-center">Calificados</th>
+                            <th class="text-center">Restantes</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        @if (Subjects.Count > 0)
+                        {
+                            @for (int i = 0; i < Subjects!.Count; i++)
+                            {
+                                var details = Subjects[i];
+                                var name = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.name ?? "Materia no encontrada";
+
+                                <tr>
+                                    <td class="text-center">@(i + 1)</td>
+                                    <td>@name</td>
+                                    <td class="text-center">@details.studentCount</td>
+                                    <td class="text-center">@details.gradedStudentCount</td>
+                                    <td class="text-center">@(details?.studentCount ?? 0 - details?.gradedStudentCount ?? 0)</td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="right-container">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+

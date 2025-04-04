@@ -1,0 +1,57 @@
+@using wsmcbl.src.Utilities
+@inherits BaseView
+
+@if (IsLoading())
+{
+    <div class="text-gray-800">Cargando....</div>
+}
+else
+{
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Reporte del trabajo de calificación por docentes</h6>
+        </div>
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th class="text-center">¿Calificó?</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th class="text-center">¿Calificó?</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @for (int i = 0; i < teacherList!.Count; i++)
+                    {
+                        var teacher = teacherList[i];
+                        var data = teacherList[i].subjectList;
+                        <tr>
+                            <td>@(i + 1)</td>
+                            <td>@teacher.name</td>
+                            <td class="text-center">@teacher.hasSubmittedGrades.ToStringYesOrNo()</td>
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-sm" @onclick="() => ViewDatails(data)">Ver detalles</button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
+    </div>
+}
+
+<ViewDetails Subjects="toDetailsView"/>
