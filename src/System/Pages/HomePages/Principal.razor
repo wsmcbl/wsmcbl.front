@@ -1,9 +1,19 @@
 @page "/principal"
 @using wsmcbl.src.View.Components.GetDateRecordingGrade
 @using wsmcbl.src.View.Management.ReportUserCalification
+@using wsmcbl.src.View.Components.ViewEnrollmentReports
 @attribute [Authorize(Roles = "principal")]
 
 <h1 style="text-align: center; margin-bottom: 20px">¡Bienvenido Director!</h1>
 
+<div class="row justify-content-end">
+    <button type="button" data-toggle="modal" data-target="#DownloadReportByEnrollmentModal"
+            class="btn btn-primary">
+        Descargar reporte por sección
+    </button>
+</div>
+
+<ViewEnrollmentReports/>
 <GetDateRecordingGradeComponent/>
 <ReportTecherCalification/>
+
