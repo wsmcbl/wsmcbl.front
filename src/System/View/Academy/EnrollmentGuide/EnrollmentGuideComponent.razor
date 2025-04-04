@@ -101,8 +101,6 @@
                     <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
                         <option value="PanelStudent">Estudiantes</option>
                         <option value="PanelSubject">Asignaturas</option>
-                        <option value="PanelMatrics">Métricas</option>
-                        <option value="PanelRegister">Registro</option>
                     </select>
                 </div>
 
@@ -119,29 +117,9 @@
                             Asignaturas
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="TabMetric" data-toggle="tab" href="#PanelMatrics" role="tab"
-                           aria-controls="PanelMatrics" aria-selected="false">
-                            Métricas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="TabRegister" data-toggle="tab" href="#PanelRegister" role="tab"
-                           aria-controls="PanelRegister" aria-selected="false">
-                            Registro
-                        </a>
-                    </li>
                 </ul>
-
-
-                <button class="btn btn-primary btn-sm" @onclick="ViewPerformanceReport">
-                    <i class="fas fa-file-download"></i>
-                    <span class="d-none d-md-inline">Generar Sabana</span>
-                    <span class="d-inline d-md-none">Sabana</span>
-                </button>
-
-
-            </div>
+            
+                </div>
             
             <div class="card-body" id="tabContent">
                 <div class="tab-content">
@@ -257,21 +235,7 @@
                         }
 
                     </div>
-
-                    <!-- Pestaña de Métricas -->
-                    <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
-                        <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
-                            <h5 class="text-gray-800">Proximamente.</h5>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane fade" id="PanelRegister" role="tabpanel" aria-labelledby="TabRegister">
-                        <PerformanceReportBySectionView PartialId="@CurrentPartial" TeacherId="@TeacherId"
-                                                        subjectList="@Enrollment.subjectList"/>
-                    </div>
-
-                    <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
-
+                    
                 </div>
             </div>
         </div>

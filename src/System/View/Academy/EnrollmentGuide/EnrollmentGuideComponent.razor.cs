@@ -10,6 +10,7 @@ namespace wsmcbl.src.View.Academy.EnrollmentGuide;
 
 public partial class EnrollmentGuideComponent : BaseView
 {
+    [Inject] private AddingStudentGradesController AddingStudentGradesController { get; set; } = null!;
     [Inject] private ViewEnrollmentGuideController GuideController { get; set; } = null!;
     [Inject] private UpdateOfficialEnrollmentController EnrollmentController { get; set; } = null!;
     [Inject] private LoginController LoginController { get; set; } = null!;
@@ -19,6 +20,7 @@ public partial class EnrollmentGuideComponent : BaseView
 
     private EnrollmentDto Enrollment { get; set; } = new();
     private List<TeacherEntity> Teachers { get; set; } = new();
+    private TeacherEntity thisTeacher { get; set; } = new();
     private UserEntity User { get; set; } = new();
     private string? TeacherId { get; set; }
     private int CurrentPartial { get; set; } = 1;
@@ -35,19 +37,25 @@ public partial class EnrollmentGuideComponent : BaseView
         }
 
         TeacherId = token;
-        Enrollment = await GuideController.GetMyEnrollmentGuide(TeacherId);
-        if (Enrollment?.studentList?.Count > 0)
+        thisTeacher = await AddingStudentGradesController.GetTeacherById(TeacherId);
+
+        if (thisTeacher.isGuide)
         {
-            Enrollment.studentList = Enrollment.studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName).ToList();
+            Enrollment = await GuideController.GetMyEnrollmentGuide(TeacherId);
+            if (Enrollment?.studentList?.Count > 0)
+            {
+                Enrollment.studentList = Enrollment.studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName).ToList();
+            }
+        
+            Teachers = await EnrollmentController.GetActiveTeacherList();
+            User = await LoginController.getUserById();
+        
+            if (Enrollment?.studentList == null)
+            {
+                if (Enrollment != null) Enrollment.studentList = new List<StudentDto>();
+            }
         }
         
-        Teachers = await EnrollmentController.GetActiveTeacherList();
-        User = await LoginController.getUserById();
-        
-        if (Enrollment?.studentList == null)
-        {
-            if (Enrollment != null) Enrollment.studentList = new List<StudentDto>();
-        }
     }
     
     protected override bool IsLoading()
