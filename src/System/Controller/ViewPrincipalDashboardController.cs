@@ -2,14 +2,13 @@ using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Components.Charts;
-using wsmcbl.src.View.Components.ViewEnrollmentReports;
 using wsmcbl.src.View.Management.ReportUserCalification;
 
 namespace wsmcbl.src.Controller;
 
 public class ViewPrincipalDashboardController : BaseController
 {
-    private IJSRuntime _jsRuntime;
+    private readonly IJSRuntime _jsRuntime;
     public ViewPrincipalDashboardController(ApiConsumerFactory apiFactory, IJSRuntime jsRuntime) : base(apiFactory, string.Empty)
     {
         _jsRuntime = jsRuntime;

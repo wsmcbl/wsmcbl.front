@@ -53,4 +53,9 @@ public class FullEnrollmentDto
         
         return gradeList;
     }
+
+    public void OrderSubjectList()
+    {
+        subjectList = subjectList.OrderBy(e => e.areaId).ThenBy(e => e.number).ToList();
+    }
 }

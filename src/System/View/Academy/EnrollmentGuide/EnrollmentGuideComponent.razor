@@ -198,9 +198,9 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Clave</th>
+                                        <th>Abrev.</th>
                                         <th>Asignaturas</th>
-                                        <th>Maestro</th>
+                                        <th>Docente</th>
                                         <th>Semestre</th>
                                         <th>¿Reprobable?</th>
                                     </tr>
@@ -211,7 +211,7 @@
                                         var item = Enrollment.subjectTeacherIdList[i];
                                         var clave = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.initials ?? "Materia no encontrada";
                                         var subject = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.name ?? "Materia no encontrada";
-                                        var teacher = Teachers.FirstOrDefault(t => t.teacherId == item.teacherId)?.fullName ?? "Maestro no encontrado";
+                                        var teacher = Teachers.FirstOrDefault(t => t.teacherId == item.teacherId)?.fullName ?? "Docente no encontrado";
                                         var semester = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.semester ?? 0;
                                         var isMandatory = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == item.subjectId)?.isMandatory;
                                         <tr>
