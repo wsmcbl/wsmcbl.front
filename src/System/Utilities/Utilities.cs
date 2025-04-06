@@ -67,4 +67,26 @@ public static class Utilities
     public static string? GetValueOrNull(this string? value) => string.IsNullOrWhiteSpace(value?.Trim()) ? null : value;
     
     public static string GetValueOrDefault(this string? value) => string.IsNullOrWhiteSpace(value) ? "N/A" : value;
+    
+    
+    public static DateTime toUTC6(this DateTime datetime)
+    {
+        var timeZoneUTC6 = TimeZoneInfo.FindSystemTimeZoneById("Central America Standard Time");
+        return TimeZoneInfo.ConvertTimeFromUtc(datetime, timeZoneUTC6);
+    }
+    
+    public static string toStringUtc6(this DateTime datetime, bool withDayName = false)
+    {
+        var culture = new CultureInfo("es-ES")
+        {
+            DateTimeFormat =
+            {
+                AMDesignator = "am",
+                PMDesignator = "pm"
+            }
+        };
+
+        var dayFormat = withDayName ? "dddd" : "ddd.";
+        return datetime.toUTC6().ToString($"{dayFormat} dd/MMM/yyyy, h:mm tt", culture);
+    }
 }
