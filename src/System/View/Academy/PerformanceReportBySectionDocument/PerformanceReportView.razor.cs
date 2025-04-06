@@ -6,8 +6,8 @@ namespace wsmcbl.src.View.Academy.PerformanceReportBySectionDocument;
 
 public partial class PerformanceReportView : ComponentBase
 {
-    [Inject] GeneratePerformanceReportBySection Controller { get; set; } = null!;
-    [Inject] Notificator Notificator { get; set; } = null!;
+    [Inject] private GeneratePerformanceReportBySection Controller { get; set; } = null!;
+    [Inject] private Notificator Notificator { get; set; } = null!;
     [Parameter] public string? TeacherId { get; set; }
     [Parameter] public string? EnrollmentName { get; set; }
     private int PartialId { get; set; } = 0;

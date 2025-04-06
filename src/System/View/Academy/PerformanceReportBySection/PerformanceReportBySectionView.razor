@@ -26,8 +26,8 @@ else
                             </th>
                         }
                     }
-                    <th>Promedio</th>
                     <th>Conducta</th>
+                    <th>Promedio</th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -47,8 +47,8 @@ else
                             </th>
                         }
                     }
-                    <th>Promedio</th>
                     <th>Conducta</th>
+                    <th>Promedio</th>
                 </tr>
                 </tfoot>
                 <tbody>
@@ -62,7 +62,7 @@ else
                         <td>@student.studentId</td>
                         <td>@student.minedId</td>
                         <td style="min-width: 200px">@student.fullName</td>
-                        <td>@(student.sex ? "Mujer" : "Varón")</td>
+                        <td>@(!student.sex ? "Mujer" : "Varón")</td>
 
                         @foreach (var subject in student.gradeList)
                         {
@@ -74,14 +74,15 @@ else
                         }
 
                         <td class="tac-max">
-                            @student.gradeAverage
-                            <br/>
-                            <small class="text-muted">@student.labelAverage</small>
-                        </td>
-                        <td class="tac-max">
                             @student.conductGrade
                             <br/>
                             <small class="text-muted">@student.conductGradeLabel</small>
+                        </td>
+                    
+                        <td class="tac-max">
+                            @student.gradeAverage
+                            <br/>
+                            <small class="text-muted">@student.labelAverage</small>
                         </td>
                     </tr>
                 }

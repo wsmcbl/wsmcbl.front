@@ -18,8 +18,8 @@ public partial class RegisterView : BaseView
     private string? TeacherId { get; set; }
     private TeacherEntity Teacher { get; set; } = new();
     private List<PartialEntity> Partial { get; set; } = new();
-    private bool Isguide  { get; set; }
-    private int CurrentPartial { get; set; } = 1;
+    private bool IsGuide  { get; set; }
+    private int CurrentPartialId { get; set; } = 1;
 
 
     
@@ -35,23 +35,20 @@ public partial class RegisterView : BaseView
 
         TeacherId = token;
         Teacher = await AddingStudentGradesController.GetTeacherById(TeacherId);
-        if (Teacher.isGuide)
+        if (!Teacher.isGuide)
         {
-            Isguide = true;
-            Enrollment = await GuideController.GetMyEnrollmentGuide(TeacherId);
-            Partial = await AddingStudentGradesController.GetPartialList();
-            CurrentPartial = Partial?.FirstOrDefault(t => t.isActive)?.partialId ?? 1;            
-            
-            if (Enrollment?.studentList?.Count > 0)
-            {
-                Enrollment.studentList = Enrollment.studentList.OrderBy(s => s.sex).ThenBy(s => s.fullName).ToList();
-            }
-            if (Enrollment?.studentList == null)
-            {
-                if (Enrollment != null) Enrollment.studentList = new List<StudentDto>();
-            }
+            return;
         }
         
+        IsGuide = Teacher.isGuide;
+        Enrollment = await GuideController.GetMyEnrollmentGuide(TeacherId);
+        Partial = await AddingStudentGradesController.GetPartialList();
+        CurrentPartialId = Partial.FirstOrDefault(t => t.isActive)?.partialId ?? 1;            
+            
+        if (Enrollment.studentList.Count > 0)
+        {
+            Enrollment.OrderStudentList();
+        }
     }
     
     private async Task ViewPerformanceReport()
@@ -59,8 +56,8 @@ public partial class RegisterView : BaseView
         await Navigator.ShowModal("ReportGradeModal");
     }
 
-    private async Task DowloadStats()
+    private async Task DownloadStats()
     {
-        await GuideController.GetGradeDocument(TeacherId!, Enrollment.enrollmentId, CurrentPartial, Enrollment.label);
+        await GuideController.GetGradeDocument(TeacherId!, CurrentPartialId, Enrollment.label);
     }
 }

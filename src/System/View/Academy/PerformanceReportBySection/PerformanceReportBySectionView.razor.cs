@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
-using wsmcbl.src.View.Academy.EnrollmentGuide;
+using wsmcbl.src.Model.Academy;
 using wsmcbl.src.View.Base;
 
 namespace wsmcbl.src.View.Academy.PerformanceReportBySection;
@@ -8,18 +8,30 @@ namespace wsmcbl.src.View.Academy.PerformanceReportBySection;
 public partial class PerformanceReportBySectionView : BaseView
 {
     [Inject] GeneratePerformanceReportBySection Controller {get; set;} = null!;
-    [Parameter] public List<SubjectDto> subjectList { get; set; } = new();
+    [Parameter] public List<SubjectEntity> subjectList { get; set; } = new();
     [Parameter] public string? TeacherId { get; set; }
     [Parameter] public int PartialId { get; set; }
-    [Parameter] public bool Isguide { get; set; }
+    [Parameter] public bool IsGuide { get; set; }
     private List<StudentsGradeSumaryDto>? StudentsList { get; set; }
 
     
     protected override async Task OnParametersSetAsync()
     {
-        if (Isguide)
+        if (!IsGuide)
         {      
-            await LoadStudent();
+            return;
+        }
+        
+        await LoadStudent();
+        orderStudentGradeList();
+    }
+
+    private void orderStudentGradeList()
+    {
+        var list = subjectList.Select(e => e.subjectId).ToList();
+        foreach (var item in StudentsList!)
+        {
+            item.gradeList = item.gradeList.OrderBy(e => list.IndexOf(e.subjectId)).ToList();
         }
     }
 
@@ -27,7 +39,7 @@ public partial class PerformanceReportBySectionView : BaseView
     {
         if (!string.IsNullOrEmpty(TeacherId))
         {
-            StudentsList = await Controller.GetStudentsGradeSumary(TeacherId, PartialId);
+            StudentsList = await Controller.GetStudentsGradeSummary(TeacherId, PartialId);
         }
     }
 

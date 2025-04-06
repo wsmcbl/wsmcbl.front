@@ -13,9 +13,9 @@
             <div class="card-header py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div class="d-block d-md-none w-100 mb-2">
                     <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
-                        <option value="PanelTop">Top</option>
+                        <option value="PanelTop">Rendimiento</option>
                         <option value="PanelSabana">Sabana</option>
-                        <option value="PanelMatrics">Estadisticas</option>
+                        <option value="PanelMatrics">Estadísticas</option>
                     </select>
                 </div>
 
@@ -23,7 +23,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="TabTop" data-toggle="tab" href="#PanelTop" role="tab"
                            aria-controls="PanelTop" aria-selected="true">
-                            Top
+                            Rendimiento
                         </a>
                     </li>
                     <li class="nav-item">
@@ -35,7 +35,7 @@
                     <li class="nav-item">
                         <a class="nav-link" id="TabMetric" data-toggle="tab" href="#PanelMatrics" role="tab"
                            aria-controls="PanelMatrics" aria-selected="false">
-                            Estadisticas
+                            Estadísticas
                         </a>
                     </li>
                 </ul>
@@ -57,21 +57,21 @@
 
                     <!-- Pestaña de Top -->
                     <div class="tab-pane fade show active" id="PanelTop" role="tabpanel" aria-labelledby="TabTop">
-                        <TopPerformanceStudentsView PartialId="@CurrentPartial" TeacherId="@TeacherId" Isguide="@Isguide"/> 
+                        <TopPerformanceStudentsView PartialId="@CurrentPartialId" TeacherId="@TeacherId" IsGuide="@IsGuide"/> 
                     </div>
 
                     <!-- Pestaña de Sabana -->
                     <div class="tab-pane fade" id="PanelSabana" role="tabpanel" aria-labelledby="TabSabana">
-                        <PerformanceReportBySectionView PartialId="@CurrentPartial" TeacherId="@TeacherId"
-                                                        subjectList="@Enrollment.subjectList" Isguide="Isguide"/>
+                        <PerformanceReportBySectionView PartialId="@CurrentPartialId" TeacherId="@TeacherId"
+                                                        subjectList="@Enrollment.subjectList" IsGuide="IsGuide"/>
                     </div>
 
                     <!-- Pestaña de Estadisticas -->
                     <div class="tab-pane fade" id="PanelMatrics" role="tabpanel" aria-labelledby="TabMetric">
                         <div class="text-gray-800 text-center">
-                            @if (Isguide)
+                            @if (IsGuide)
                             {
-                                <button class="btn btn-primary btn-sm" @onclick="DowloadStats">Descargar</button>
+                                <button class="btn btn-primary btn-sm" @onclick="DownloadStats">Descargar</button>
                             }
                             else
                             {
