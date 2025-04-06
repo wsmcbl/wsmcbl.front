@@ -74,20 +74,20 @@ else
                             </ol>
                         </div>
                         
-                        @if (archivoExcel == null)
+                        @if (xlsxFile == null)
                         {
                             <div class="mb-3">
                                 <label for="fileInput" class="btn btn-outline-primary btn-block">
                                     <i class="fas fa-file-upload"></i> Seleccionar archivo
                                 </label>
-                                <InputFile OnChange="async (e) => await CargarArchivoExcel(e)" id="fileInput" class="d-none" accept=".xlsx"/>
+                                <InputFile OnChange="async (e) => await LoadXlsxFile(e)" id="fileInput" class="d-none" accept=".xlsx"/>
                             </div>
                         }
 
                         <!-- Botón para actualizar datos -->
-                        @if (archivoExcel != null)
+                        @if (xlsxFile != null)
                         {
-                            <button @onclick="ActualizarDatosDesdeExcel" class="btn btn-outline-danger btn-block">
+                            <button @onclick="UpdateGradesFromXlsxFile" class="btn btn-outline-danger btn-block">
                                 <i class="fas fa-sync-alt"></i> Actualizar calificaciones
                             </button>
                         }
@@ -117,7 +117,7 @@ else
 
                     <li class="nav-item ml-auto">
                         
-                        <button class="btn btn-outline-primary btn-sm" @onclick="DescargarExcel">
+                        <button class="btn btn-outline-primary btn-sm" @onclick="DownloadXlsx">
                             <i class="fas fa-file-download"></i> Descargar Formato
                         </button>
                         
