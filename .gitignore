@@ -11,3 +11,4 @@ bin/
 Properties/
 
 **/*.user
+qodana.yaml
