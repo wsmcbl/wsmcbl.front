@@ -8,6 +8,8 @@ public class SubjectEntity
     public string? name { get; set; } 
     public bool isMandatory { get; set; }
     public int semester { get; set; }
+    public int areaId { get; set; }
+    public int number { get; set; }
 
     public void updateData(SubjectEntity subject)
     {
