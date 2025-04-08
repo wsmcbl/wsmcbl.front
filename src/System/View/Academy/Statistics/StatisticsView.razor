@@ -1,0 +1,76 @@
+@inherits BaseView
+
+
+@if (EvaluationSumary != null)
+{
+    <div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Evaluación</th>
+                <th>Total</th>
+                <th>Varones</th>
+                <th>Mujeres</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>Matrícula inicial</td>
+                <td>@EvaluationSumary.initialQuantity.total</td>
+                <td>@EvaluationSumary.initialQuantity.males</td>
+                <td>@EvaluationSumary.initialQuantity.females</td>
+            </tr>
+            <tr>
+                <td>Matrícula actual</td>
+                <td>@EvaluationSumary.currentQuantity.total</td>
+                <td>@EvaluationSumary.currentQuantity.males</td>
+                <td>@EvaluationSumary.currentQuantity.females</td>
+            </tr>
+            <tr>
+                <td>Retención de matrícula (%)</td>
+                <td>(@((EvaluationSumary.currentQuantity.total * 100 / EvaluationSumary.initialQuantity.total).ToString("0") + "%"))</td>                
+                <td>(@((EvaluationSumary.currentQuantity.males * 100 / EvaluationSumary.initialQuantity.males).ToString("0") + "%"))</td>                
+                <td>(@((EvaluationSumary.currentQuantity.females * 100 / EvaluationSumary.initialQuantity.females).ToString("0") + "%"))</td>                
+            </tr>
+            <tr>
+                <td>Aprobados limpios</td>
+                <td>@EvaluationSumary.approved.total</td>
+                <td>@EvaluationSumary.approved.males</td>
+                <td>@EvaluationSumary.approved.females</td>
+            </tr>
+            <tr>
+                <td>Rendimiento academico</td>
+                <td>(@((EvaluationSumary.approved.total * 100 / EvaluationSumary.currentQuantity.total).ToString("0") + "%"))</td>
+                <td>(@((EvaluationSumary.approved.males * 100 / EvaluationSumary.currentQuantity.males).ToString("0") + "%"))</td>
+                <td>(@((EvaluationSumary.approved.females * 100 / EvaluationSumary.currentQuantity.females).ToString("0") + "%"))</td>
+
+            </tr>
+            <tr>
+                <td>Aplazados de 1 a 2</td>
+                <td>@EvaluationSumary.failedFromOneToTwo.total</td>
+                <td>@EvaluationSumary.failedFromOneToTwo.males</td>
+                <td>@EvaluationSumary.failedFromOneToTwo.females</td>
+            </tr>
+            <tr>
+                <td>Aplazados de 3 a mas</td>
+                <td>@EvaluationSumary.failedFromThreeToMore.total</td>
+                <td>@EvaluationSumary.failedFromThreeToMore.males</td>
+                <td>@EvaluationSumary.failedFromThreeToMore.females</td>
+            </tr>
+            <tr>
+                <td>No evaluados</td>
+                <td>@EvaluationSumary.notEvaluated.total</td>
+                <td>@EvaluationSumary.notEvaluated.males</td>
+                <td>@EvaluationSumary.notEvaluated.females</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+}
+else
+{
+    <div>Cargando.... es posible que no tengas sección guiada.</div>
+}

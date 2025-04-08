@@ -2,6 +2,7 @@
 @using wsmcbl.src.View.Academy.PerformanceReportBySectionDocument
 @using wsmcbl.src.View.Academy.PerformanceReportBySection
 @using wsmcbl.src.View.Academy.TopStudents
+@using wsmcbl.src.View.Academy.Statistics
 @inherits BaseView
 @attribute [Authorize(Roles = "teacher")]
 
@@ -72,6 +73,7 @@
                             @if (IsGuide)
                             {
                                 <button class="btn btn-primary btn-sm" @onclick="DownloadStats">Descargar</button>
+                                <StatisticsView TeacherId="@TeacherId" PartialId="CurrentPartialId"/>
                             }
                             else
                             {
