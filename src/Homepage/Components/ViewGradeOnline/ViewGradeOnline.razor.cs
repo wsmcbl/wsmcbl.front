@@ -16,27 +16,38 @@ public partial class ViewGradeOnline : ComponentBase
 
     private async Task GetGrade()
     {
-        var (content, statusCode) = await Controller.GetGradePdf(studentId!, token!);
-        
-        if (statusCode == 200)
+        DateTime today = DateTime.Today;
+        DateTime targetDate = new DateTime(2025, 4, 11);
+        if (today == targetDate)
         {
-            GradePdf = content;
-            ErrorMessage = null;
-            await Js.InvokeVoidAsync("mostrarModal", "PdfViewerModal");
+            var (content, statusCode) = await Controller.GetGradePdf(studentId!, token!);
+        
+            if (statusCode == 200)
+            {
+                GradePdf = content;
+                ErrorMessage = null;
+                await Js.InvokeVoidAsync("mostrarModal", "PdfViewerModal");
+            }
+            else
+            {
+                ErrorMessage = statusCode switch
+                {
+                    400 => "Solicitud incorrecta. Por favor, revise los datos ingresados.",
+                    401 => "No autorizado. Por favor, revise su código y contraseña.",
+                    403 => "No tiene permisos para hacer esta consulta.",
+                    404 => "El estudiante no fue encontrado.",
+                    409 => "El estudiante no esta solvente.",
+                    500 => "Inténtelo nuevamente más tarde.",
+                    _ => "Ocurrió un error inesperado. Código: " + statusCode
+                };
+            
+            }
         }
         else
         {
-            ErrorMessage = statusCode switch
-            {
-                400 => "Solicitud incorrecta. Por favor, revise los datos ingresados.",
-                401 => "No autorizado. Por favor, revise su código y contraseña.",
-                403 => "No tiene permisos para hacer esta consulta.",
-                404 => "El estudiante no fue encontrado.",
-                409 => "El estudiante no esta solvente.",
-                500 => "Inténtelo nuevamente más tarde.",
-                _ => "Ocurrió un error inesperado. Código: " + statusCode
-            };
-            
+            ErrorMessage = "Las calificaciones estaran disponibles el dia 11 de abril de 2025.";
+            Console.WriteLine($"Verificando fecha del servidor: {today:dd/MM/yyyy}");
         }
+        
     }
 }
