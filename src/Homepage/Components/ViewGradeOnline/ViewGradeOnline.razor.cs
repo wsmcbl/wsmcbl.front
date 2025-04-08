@@ -16,6 +16,7 @@ public partial class ViewGradeOnline : ComponentBase
 
     private async Task GetGrade()
     {
+        //server in CDT, UTC-5
         DateTime today = DateTime.Today;
         DateTime targetDate = new DateTime(2025, 4, 11);
         if (today == targetDate)
