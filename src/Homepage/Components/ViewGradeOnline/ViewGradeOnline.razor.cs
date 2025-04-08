@@ -16,10 +16,20 @@ public partial class ViewGradeOnline : ComponentBase
 
     private async Task GetGrade()
     {
-        //server in CDT, UTC-5
-        DateTime today = DateTime.Today;
-        DateTime targetDate = new DateTime(2025, 4, 11);
-        if (today == targetDate)
+        // Zona horaria del servidor: CDT (UTC-5)
+        // Zona horaria de Nicaragua: (UTC-6) - 1 hora menos que el servidor
+
+        // Fecha y hora objetivo en Nicaragua: Jueves 10 de abril a las 6:00 AM (UTC-6)
+        // Esto equivale a 7:00 AM en el servidor (UTC-5)
+            DateTime serverNow = DateTime.Now; // Hora actual del servidor (UTC-5)
+
+        // Crear la fecha objetivo en la zona horaria de Nicaragua (UTC-6)
+        DateTime targetDateInNicaragua = new DateTime(2025, 4, 10, 6, 0, 0); // 10/4/2025 6:00 AM UTC-6
+
+        // Convertir la hora de Nicaragua a la hora del servidor (sumar 1 hora)
+        DateTime targetDateInServerTime = targetDateInNicaragua.AddHours(1); // 10/4/2025 7:00 AM UTC-5
+
+        if (serverNow >= targetDateInServerTime)
         {
             var (content, statusCode) = await Controller.GetGradePdf(studentId!, token!);
         
@@ -47,7 +57,7 @@ public partial class ViewGradeOnline : ComponentBase
         else
         {
             ErrorMessage = "Las calificaciones estaran disponibles el dia 11 de abril de 2025.";
-            Console.WriteLine($"Verificando fecha del servidor: {today:dd/MM/yyyy}");
+            Console.WriteLine($"Verificando fecha del servidor: {serverNow:dd/MM/yyyy}");
         }
         
     }
