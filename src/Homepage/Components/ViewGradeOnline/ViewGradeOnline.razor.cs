@@ -21,7 +21,7 @@ public partial class ViewGradeOnline : ComponentBase
 
         // Fecha y hora objetivo en Nicaragua: Jueves 10 de abril a las 6:00 AM (UTC-6)
         // Esto equivale a 7:00 AM en el servidor (UTC-5)
-            DateTime serverNow = DateTime.Now; // Hora actual del servidor (UTC-5)
+        DateTime serverNow = DateTime.Today; // Hora actual del servidor (UTC-5)
 
         // Crear la fecha objetivo en la zona horaria de Nicaragua (UTC-6)
         DateTime targetDateInNicaragua = new DateTime(2025, 4, 10, 6, 0, 0); // 10/4/2025 6:00 AM UTC-6
