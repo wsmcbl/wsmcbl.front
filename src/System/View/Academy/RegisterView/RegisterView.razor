@@ -7,10 +7,9 @@
 @attribute [Authorize(Roles = "teacher")]
 
     <div>
-
         <!-- Pestañas -->
         <div class="card shadow mb-4">
-
+            
             <div class="card-header py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
                 <div class="d-block d-md-none w-100 mb-2">
                     <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
@@ -24,7 +23,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" id="TabTop" data-toggle="tab" href="#PanelTop" role="tab"
                            aria-controls="PanelTop" aria-selected="true">
-                            Rendimiento
+                            Rendimiento @Enrollment.label
                         </a>
                     </li>
                     <li class="nav-item">
@@ -46,11 +45,11 @@
                 {
                     <button class="btn btn-primary btn-sm" @onclick="ViewPerformanceReport">
                         <i class="fas fa-file-download"></i>
-                        <span class="d-none d-md-inline">Generar Sabana</span>
+                        <span class="d-none d-md-inline">Descargar Sabana</span>
                         <span class="d-inline d-md-none">Sabana</span>
                     </button>
                 }
-                
+
             </div>
 
             <div class="card-body" id="tabContent">
@@ -58,7 +57,7 @@
 
                     <!-- Pestaña de Top -->
                     <div class="tab-pane fade show active" id="PanelTop" role="tabpanel" aria-labelledby="TabTop">
-                        <TopPerformanceStudentsView PartialId="@CurrentPartialId" TeacherId="@TeacherId" IsGuide="@IsGuide"/> 
+                        <TopPerformanceStudentsView PartialId="@CurrentPartialId" TeacherId="@TeacherId" IsGuide="@IsGuide"/>
                     </div>
 
                     <!-- Pestaña de Sabana -->
@@ -72,7 +71,7 @@
                         <div class="text-gray-800 text-center">
                             @if (IsGuide)
                             {
-                                <button class="btn btn-primary btn-sm" @onclick="DownloadStats">Descargar</button>
+                                <button class="btn btn-primary btn-sm" @onclick="DownloadStats"><i class="fas fa-file-download"></i> Descargar Estadística</button>
                                 <StatisticsView TeacherId="@TeacherId" PartialId="CurrentPartialId"/>
                             }
                             else

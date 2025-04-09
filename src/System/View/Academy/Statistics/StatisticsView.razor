@@ -1,74 +1,172 @@
 @inherits BaseView
 
 
-@if (EvaluationSumary != null)
+@if (EvaluationSumary != null && CualitativeDetails != null && SubjectDetails != null)
 {
     <div class="card-body">
-    <div class="table-responsive">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Evaluación</th>
-                <th>Total</th>
-                <th>Varones</th>
-                <th>Mujeres</th>
-            </tr>
-            </thead>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Evaluación</th>
+                            <th>Total</th>
+                            <th>Varones</th>
+                            <th>Mujeres</th>
+                        </tr>
+                        </thead>
 
-            <tbody>
-            <tr>
-                <td>Matrícula inicial</td>
-                <td>@EvaluationSumary.initialQuantity.total</td>
-                <td>@EvaluationSumary.initialQuantity.males</td>
-                <td>@EvaluationSumary.initialQuantity.females</td>
-            </tr>
-            <tr>
-                <td>Matrícula actual</td>
-                <td>@EvaluationSumary.currentQuantity.total</td>
-                <td>@EvaluationSumary.currentQuantity.males</td>
-                <td>@EvaluationSumary.currentQuantity.females</td>
-            </tr>
-            <tr>
-                <td>Retención de matrícula (%)</td>
-                <td>(@((EvaluationSumary.currentQuantity.total * 100 / EvaluationSumary.initialQuantity.total).ToString("0") + "%"))</td>                
-                <td>(@((EvaluationSumary.currentQuantity.males * 100 / EvaluationSumary.initialQuantity.males).ToString("0") + "%"))</td>                
-                <td>(@((EvaluationSumary.currentQuantity.females * 100 / EvaluationSumary.initialQuantity.females).ToString("0") + "%"))</td>                
-            </tr>
-            <tr>
-                <td>Aprobados limpios</td>
-                <td>@EvaluationSumary.approved.total</td>
-                <td>@EvaluationSumary.approved.males</td>
-                <td>@EvaluationSumary.approved.females</td>
-            </tr>
-            <tr>
-                <td>Rendimiento academico</td>
-                <td>(@((EvaluationSumary.approved.total * 100 / EvaluationSumary.currentQuantity.total).ToString("0") + "%"))</td>
-                <td>(@((EvaluationSumary.approved.males * 100 / EvaluationSumary.currentQuantity.males).ToString("0") + "%"))</td>
-                <td>(@((EvaluationSumary.approved.females * 100 / EvaluationSumary.currentQuantity.females).ToString("0") + "%"))</td>
+                        <tbody>
+                        <tr>
+                            <td>Matrícula inicial</td>
+                            <td>@EvaluationSumary.initialQuantity.total</td>
+                            <td>@EvaluationSumary.initialQuantity.males</td>
+                            <td>@EvaluationSumary.initialQuantity.females</td>
+                        </tr>
+                        <tr>
+                            <td>Matrícula actual</td>
+                            <td>@EvaluationSumary.currentQuantity.total</td>
+                            <td>@EvaluationSumary.currentQuantity.males</td>
+                            <td>@EvaluationSumary.currentQuantity.females</td>
+                        </tr>
+                        <tr>
+                            <td>Retención de matrícula (%)</td>
+                            <td>(@((EvaluationSumary.currentQuantity.total * 100 / EvaluationSumary.initialQuantity.total).ToString("0") + "%"))</td>
+                            <td>(@((EvaluationSumary.currentQuantity.males * 100 / EvaluationSumary.initialQuantity.males).ToString("0") + "%"))</td>
+                            <td>(@((EvaluationSumary.currentQuantity.females * 100 / EvaluationSumary.initialQuantity.females).ToString("0") + "%"))</td>
+                        </tr>
+                        <tr>
+                            <td class="has-comment">Aprobados limpios <i class="fas fa-info-circle comment-indicator"></i>
+                                <div class="comment">Estudiantes que aprobaron segun el promedio.</div>
+                            </td>                       
+                            <td>@EvaluationSumary.approved.total</td>
+                            <td>@EvaluationSumary.approved.males</td>
+                            <td>@EvaluationSumary.approved.females</td>
+                        </tr>
+                        <tr>
+                            <td>Rendimiento academico</td>
+                            <td>(@((EvaluationSumary.approved.total * 100 / EvaluationSumary.currentQuantity.total).ToString("0") + "%"))</td>
+                            <td>(@((EvaluationSumary.approved.males * 100 / EvaluationSumary.currentQuantity.males).ToString("0") + "%"))</td>
+                            <td>(@((EvaluationSumary.approved.females * 100 / EvaluationSumary.currentQuantity.females).ToString("0") + "%"))</td>
 
-            </tr>
-            <tr>
-                <td>Aplazados de 1 a 2</td>
-                <td>@EvaluationSumary.failedFromOneToTwo.total</td>
-                <td>@EvaluationSumary.failedFromOneToTwo.males</td>
-                <td>@EvaluationSumary.failedFromOneToTwo.females</td>
-            </tr>
-            <tr>
-                <td>Aplazados de 3 a mas</td>
-                <td>@EvaluationSumary.failedFromThreeToMore.total</td>
-                <td>@EvaluationSumary.failedFromThreeToMore.males</td>
-                <td>@EvaluationSumary.failedFromThreeToMore.females</td>
-            </tr>
-            <tr>
-                <td>No evaluados</td>
-                <td>@EvaluationSumary.notEvaluated.total</td>
-                <td>@EvaluationSumary.notEvaluated.males</td>
-                <td>@EvaluationSumary.notEvaluated.females</td>
-            </tr>
-            </tbody>
-        </table>
+                        </tr>
+                        <tr>
+                            <td>Aplazados de 1 a 2</td>
+                            <td>@EvaluationSumary.failedFromOneToTwo.total</td>
+                            <td>@EvaluationSumary.failedFromOneToTwo.males</td>
+                            <td>@EvaluationSumary.failedFromOneToTwo.females</td>
+                        </tr>
+                        <tr>
+                            <td>Aplazados de 3 a mas</td>
+                            <td>@EvaluationSumary.failedFromThreeToMore.total</td>
+                            <td>@EvaluationSumary.failedFromThreeToMore.males</td>
+                            <td>@EvaluationSumary.failedFromThreeToMore.females</td>
+                        </tr>
+                        <tr>
+                            <td>No evaluados</td>
+                            <td>@EvaluationSumary.notEvaluated.total</td>
+                            <td>@EvaluationSumary.notEvaluated.males</td>
+                            <td>@EvaluationSumary.notEvaluated.females</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th colspan="4">Evaluación cualitativa</th>
+                    </tr>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Total</th>
+                        <th>Hombres</th>
+                        <th>Mujeres</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>AA (100 - 90)</td>
+                        <td>@CualitativeDetails.AA.total</td>
+                        <td>@CualitativeDetails.AA.males</td>
+                        <td>@CualitativeDetails.AA.females</td>
+                    </tr>
+                    <tr>
+                        <td>AS (89 - 76)</td>
+                        <td>@CualitativeDetails.AS.total</td>
+                        <td>@CualitativeDetails.AS.males</td>
+                        <td>@CualitativeDetails.AS.females</td>
+                    </tr>
+                    <tr>
+                        <td>AF (75 - 60)</td>
+                        <td>@CualitativeDetails.AF.total</td>
+                        <td>@CualitativeDetails.AF.males</td>
+                        <td>@CualitativeDetails.AF.females</td>
+                    </tr>
+                    <tr>
+                        <td>AI (59 - 0)</td>
+                        <td>@CualitativeDetails.AI.total</td>
+                        <td>@CualitativeDetails.AI.males</td>
+                        <td>@CualitativeDetails.AI.females</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td>Totales</td>
+                        <td>@CualitativeDetails.Quantity.total</td>
+                        <td>@CualitativeDetails.Quantity.males</td>
+                        <td>@CualitativeDetails.Quantity.females</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">Asignaturas</th>
+                        <th colspan="3">Aprobados</th>
+                        <th colspan="3">Aplazados</th>
+                        <th colspan="3">No evaluados</th>
+                    </tr>
+                    <tr>
+                        <th>Total</th>
+                        <th>Varones</th>
+                        <th>Mujeres</th>
+                        <th>Total</th>
+                        <th>Varones</th>
+                        <th>Mujeres</th>
+                        <th>Total</th>
+                        <th>Varones</th>
+                        <th>Mujeres</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var subject in SubjectDetails)
+                    {
+                        var name = Enrollment.subjectList.FirstOrDefault(t => t.subjectId == subject.subjectId)?.name ?? "Materia no encontrada";
+                        var teacher = Teachers.FirstOrDefault(t => t.teacherId == subject.teacherId)?.fullName ?? "Docente no encontrado";
+                        
+                        <tr>
+                            <td class="has-comment text-left">@name <i class="fas fa-info-circle comment-indicator"></i>
+                                <div class="comment">Docente: @teacher</div>
+                            </td>
+                            <td>@subject.approved.total</td>
+                            <td>@subject.approved.males</td>
+                            <td>@subject.approved.females</td>
+                            <td>@subject.failed.total</td>
+                            <td>@subject.failed.males</td>
+                            <td>@subject.failed.females</td>
+                            <td>@subject.notEvaluated.total</td>
+                            <td>@subject.notEvaluated.males</td>
+                            <td>@subject.notEvaluated.females</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
 }
 else
 {
