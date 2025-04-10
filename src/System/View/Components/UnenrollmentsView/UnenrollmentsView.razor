@@ -1,9 +1,11 @@
-@page "/secretary/enroll/students"
+@page "/secretary/withdrawns/students"
 
+@using wsmcbl.src.Utilities
 @inherits BaseView
 @attribute [Authorize(Roles = "admin,secretary,cashier")]
 
-@if(IsLoading())
+
+@if (IsLoading())
 {
     <div class="loader"></div>
 }
@@ -11,35 +13,42 @@ else
 {
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Listado de estudiantes para matricular</h6>
-            <button class="btn btn-success btn-sm" @onclick="LoadStudents">Actualizar</button>
+            <h6 class="m-0 font-weight-bold text-primary">Listado de estudiantes retirados</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table id="dataTable" class="table table-bordered">
                     <thead>
                     <tr>
+                        <th>Año</th>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Matricular</th>
+                        <th>Ultima matricula</th>
+                        <th>Matrículado</th>
+                        <th>De baja el</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
+                        <th>Año</th>
                         <th>Id</th>
                         <th>Nombre</th>
-                        <th>Matricular</th>
+                        <th>Ultima matricula</th>
+                        <th>Matrículado</th>
+                        <th>De baja el</th>
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach(var item in studentList!)
+                    @foreach(var item in StudentsList!)
                     {
                         <tr>
-                            <td>@item.StudentId</td>
-                            <td>@item.Fullname</td>
-                            <td>
-                                <a href="/secretary/enroll/students/@item.StudentId" class="btn btn-success btn-sm">Matricular</a>
-                            </td>
+                            <td>@item.schoolyearId</td>
+                            <td>@item.studentId</td>
+                            <td>@item.fullName</td>
+                            <td>@item.lastEnrollmentLabel</td>
+                            <td>@item.enrolledAt.toStringUtc6()</td>
+                            <td>@item.withdrawnAt.toStringUtc6()</td>
+
                         </tr>
                     }
                     </tbody>

@@ -65,6 +65,7 @@ builder.Services.AddTransient<ViewPrincipalDashboardController>();
 
 builder.Services.AddTransient<GeneratePerformanceReportBySection>();
 builder.Services.AddTransient<GenerateEvaluationStatsBySectionController>();
+builder.Services.AddTransient<UnenrollmentController>();
 
 var app = builder.Build();
 
