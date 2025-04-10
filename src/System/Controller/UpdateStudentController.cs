@@ -44,4 +44,10 @@ public class UpdateStudentController : BaseController
         
         return await apiFactory.WithNotificator.PutPhotoAsync(Modules.Secretary, resource, content);
     }
+    
+    public async Task<bool> UpdateStudentState(string studentId)
+    {
+        var resource = $"{path}/{studentId}/state";
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, false);
+    }
 }

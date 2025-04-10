@@ -73,12 +73,12 @@ public partial class StudentListView : BaseView
     {
         StudentIdForMove = studentId;
         EnrollmentNameForChange = enrollmentId;
-        await Navigator!.ShowModal("MoveStudentModal");
+        await Navigator.ShowModal("MoveStudentModal");
     }
     private async Task UpdateEducationLevel(string studentId)
     {
         StudentIdForChangeEducationLevel = studentId;
-        await Navigator!.ShowModal("ChangeEducationLevelModal");
+        await Navigator.ShowModal("ChangeEducationLevelModal");
     }
     private async Task Withdraw(string studentId, string studentName)
     {
@@ -88,10 +88,22 @@ public partial class StudentListView : BaseView
             var response = await UnenrollmentController.Withdraw(studentId);
             if (response)
             {
-                await Notificator.ShowSuccess("Hemos dado de baja con exito al estudiante");
-                return;
+                await Notificator.ShowSuccess($"Hemos dado de baja con exito al estudiante {studentName}");
+                await LoadStudentList();
             }
-            await Notificator.ShowError("Ha ocurrido un error");
+        }
+    }
+    private async Task ChangeStudentState(string studentId, string fullName)
+    {
+        var desc = await Notificator.ShowAlertQuestion("Advertencia", $"¿Estas seguro que deseas cambiar es estado de: {fullName}?", ("Si","No"));
+        if (desc)
+        {
+            var response = await UpdateController.UpdateStudentState(studentId);
+            if (response)
+            {
+                await Notificator.ShowSuccess($"Hemos actualizado el estado del estudiante {fullName}");
+                await LoadStudentList();
+            }
         }
     }
     
