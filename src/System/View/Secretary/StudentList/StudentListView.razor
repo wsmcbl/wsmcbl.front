@@ -140,6 +140,8 @@ else
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" @onclick="() => UpdateEnrollment(item.studentId, item.enrollment)">Cambiar matrícula</a>
                                         <a class="dropdown-item" @onclick="() => UpdateEducationLevel(item.studentId)">Cambiar nivel educativo</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" @onclick="() => Withdraw(item.studentId, item.fullName)">Dar de baja</a>
                                     </div>
                                 </div>
                                 

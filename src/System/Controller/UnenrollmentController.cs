@@ -15,5 +15,10 @@ public class UnenrollmentController : BaseController
         return await apiFactory
             .WithNotificator.GetAsync(Modules.Secretary, path, defaultResult);
     }
-    
+
+    public async Task<bool> Withdraw(string studentId)
+    {
+        var resource = $"{path}/{studentId}";
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, studentId);
+    }
 }

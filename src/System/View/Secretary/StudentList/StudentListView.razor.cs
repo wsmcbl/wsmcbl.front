@@ -11,7 +11,9 @@ namespace wsmcbl.src.View.Secretary.StudentList;
 public partial class StudentListView : BaseView
 {
     [Inject] protected Navigator Navigator { get; set; } = null!;
+    [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected EnrollStudentController EnrollController { get; set; } = null!;
+    [Inject] protected UnenrollmentController UnenrollmentController { get; set; } = null!;
     [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
 
@@ -78,6 +80,22 @@ public partial class StudentListView : BaseView
         StudentIdForChangeEducationLevel = studentId;
         await Navigator!.ShowModal("ChangeEducationLevelModal");
     }
+    private async Task Withdraw(string studentId, string studentName)
+    {
+        var desc = await Notificator.ShowAlertQuestion("Advertencia", $"¿Estas seguro que deseas dar de baja al estudiante {studentName}?", ("Si","No"));
+        if (desc)
+        {
+            var response = await UnenrollmentController.Withdraw(studentId);
+            if (response)
+            {
+                await Notificator.ShowSuccess("Hemos dado de baja con exito al estudiante");
+                return;
+            }
+            await Notificator.ShowError("Ha ocurrido un error");
+        }
+    }
+    
+    
     private string GetStatusLabel(bool value) => value ? "active-status" : "inactive-status";
     
     //Method for paginator

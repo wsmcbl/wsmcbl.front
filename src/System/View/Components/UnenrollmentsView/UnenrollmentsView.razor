@@ -39,7 +39,7 @@ else
                     </tr>
                     </tfoot>
                     <tbody>
-                    @foreach(var item in StudentsList!)
+                    @foreach(var item in StudentsList!.OrderByDescending(t => t.withdrawnAt))
                     {
                         <tr>
                             <td>@SchoolYearLabels![item.schoolyearId]</td>
@@ -57,5 +57,5 @@ else
         </div>
     </div>
     <!-- Inicializamos datatable -->
-    <script src="js/DataTable/dataTableOrderByName.js"></script>
+    <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
 }
