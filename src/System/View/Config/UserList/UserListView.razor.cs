@@ -111,4 +111,18 @@ public partial class UserListView : BaseView
         Request.SearchText = string.Empty;
         await LoadUserList();
     }
+    
+    private async Task ChangeUserState(string studentId, string fullName)
+    {
+        var desc = await Notificator.ShowAlertQuestion("Advertencia", $"¿Estas seguro que deseas cambiar es estado de: {fullName}?", ("Si","No"));
+        if (desc)
+        {
+            var response = await Controller.UpdateUserState(studentId);
+            if (response)
+            {
+                await Notificator.ShowSuccess($"Hemos actualizado el estado del usuario {fullName}");
+                await LoadUserList();
+            }
+        }
+    }
 }

@@ -54,4 +54,9 @@ public class CreateUserController
         return await _apiConsumer.PutWhitData(Modules.Config, $"users/{userId}/passwords", defaultResult);
     }
     
+    public async Task<bool> UpdateUserState(string userId)
+    {
+        return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}/state", false);
+    }
+    
 }

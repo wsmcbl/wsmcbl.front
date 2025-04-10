@@ -18,6 +18,7 @@ function imprimirContenido() {
     <html>
       <head>
         <title>Impresión de Credenciales</title>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
         <style>
           /* Estilo global */
           body {
@@ -85,6 +86,17 @@ function imprimirContenido() {
             margin-top: 0;
             color: #007bff;
           }
+          
+          .password-field {
+              font-family: 'Fira Code', monospace;
+              font-size: 14px;
+              letter-spacing: 1px;
+              background-color: #f5f5f5;
+              padding: 2px 5px;
+              border-radius: 3px;
+              display: inline-block;
+              margin-left: 5px;
+           }
 
           /* Pie de página */
           .footer {
@@ -126,7 +138,7 @@ function imprimirContenido() {
             <h3>Credenciales de Acceso</h3>
             <p><strong>Usuario:</strong> ${nombre}</p>
             <p><strong>Correo:</strong> ${email}</p>
-            <p><strong>Contraseña:</strong> ${contrasena}</p>
+            <p><strong>Contraseña:</strong><span class="password-field">${contrasena}</span></p>
             <p><strong>URL de Acceso:</strong> <a href="https://wsm.cbl-edu.com" target="_blank">https://wsm.cbl-edu.com</a></p>
           </div>
 
