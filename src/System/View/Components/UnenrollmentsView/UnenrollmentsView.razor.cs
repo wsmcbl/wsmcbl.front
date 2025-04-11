@@ -7,7 +7,7 @@ namespace wsmcbl.src.View.Components.UnenrollmentsView;
 
 public partial class UnenrollmentsView : BaseView
 {
-    [Inject] UnenrollmentController Controller { get; set; } = null!;
+    [Inject] UnenrollController Controller { get; set; } = null!;
     [Inject] GetSchoolYearServices SchoolYearService { get; set; } = null!;
     private List<UnenrollmentBasicDto>? StudentsList { get; set; }
     private Dictionary<string, string>? SchoolYearLabels { get; set; }

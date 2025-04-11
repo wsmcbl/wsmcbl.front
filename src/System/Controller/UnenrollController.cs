@@ -3,9 +3,9 @@ using wsmcbl.src.View.Components.UnenrollmentsView;
 
 namespace wsmcbl.src.Controller;
 
-public class UnenrollmentController : BaseController
+public class UnenrollController : BaseController
 {
-    public UnenrollmentController(ApiConsumerFactory apiFactory) : base(apiFactory, "withdrawns/students")
+    public UnenrollController(ApiConsumerFactory apiFactory) : base(apiFactory, "withdrawals/students")
     {
     }
     

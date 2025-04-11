@@ -13,7 +13,7 @@ public partial class StudentListView : BaseView
     [Inject] protected Navigator Navigator { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected EnrollStudentController EnrollController { get; set; } = null!;
-    [Inject] protected UnenrollmentController UnenrollmentController { get; set; } = null!;
+    [Inject] protected UnenrollController unenrollController { get; set; } = null!;
     [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
 
@@ -85,7 +85,7 @@ public partial class StudentListView : BaseView
         var desc = await Notificator.ShowAlertQuestion("Advertencia", $"¿Estas seguro que deseas dar de baja al estudiante {studentName}?", ("Si","No"));
         if (desc)
         {
-            var response = await UnenrollmentController.Withdraw(studentId);
+            var response = await unenrollController.Withdraw(studentId);
             if (response)
             {
                 await Notificator.ShowSuccess($"Hemos dado de baja con exito al estudiante {studentName}");
