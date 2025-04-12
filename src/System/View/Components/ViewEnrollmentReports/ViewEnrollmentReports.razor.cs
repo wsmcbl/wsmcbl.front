@@ -1,56 +1,55 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Model.Academy;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
+using wsmcbl.src.View.Secretary.Schoolyear;
 
 namespace wsmcbl.src.View.Components.ViewEnrollmentReports;
 
 public partial class ViewEnrollmentReports : BaseView
 {
     [Inject] ViewPrincipalDashboardController Controller { get; set; } = null!;
+    [Inject] protected CreateEnrollmentController controller { get; set; } = null!;
     private string? MyEnrollmentId { get; set; }
     private string? MyLabel { get; set; }
-    public class Enrollment
+    private List<CombinedDegreeDto> _resultado = new();
+    private List<EnrollmentListDto> MyEnrollmentList { get; set; } = new();
+    private Paginator<DegreeEntity>? DegreeList { get; set; }
+    private PagedRequest Request { get; set; } = new() { pageSize = 200 };
+    
+    protected override async Task OnParametersSetAsync()
     {
-        public string EnrollmentId { get; set; } = string.Empty;
-        public string Label { get; set; } = string.Empty;
-        
-        public Enrollment() { }
-        public Enrollment(string enrollmentId, string label)
-        {
-            EnrollmentId = enrollmentId;
-            Label = label;
-        }
+        MyEnrollmentList = await Controller.GetEnrollmentsList();
+        DegreeList = await controller.GetDegreeList(Request);
+        _resultado = CombineDegreesWithEnrollments(DegreeList.data, MyEnrollmentList);
     }
-    private List<Enrollment> enrollments = new List<Enrollment>
-    {
-        new Enrollment("enr00026", "Octavo Grado B"),
-        new Enrollment("enr00027", "Octavo Grado C"),
-        new Enrollment("enr00031", "Segundo Grado B"),
-        new Enrollment("enr00028", "Primer Grado A"),
-        new Enrollment("enr00016", "Tercer Nivel B"),
-        new Enrollment("enr00012", "Septimo Grado A"),
-        new Enrollment("enr00018", "Tercer Grado B"),
-        new Enrollment("enr00017", "Tercer Grado A"),
-        new Enrollment("enr00034", "Cuarto Grado A"),
-        new Enrollment("enr00030", "Segundo Grado A"),
-        new Enrollment("enr00020", "Sexto Grado B"),
-        new Enrollment("enr00019", "Sexto Grado A"),
-        new Enrollment("enr00025", "Octavo Grado A"),
-        new Enrollment("enr00023", "Undécimo Grado A"),
-        new Enrollment("enr00024", "Undécimo Grado B"),
-        new Enrollment("enr00021", "Quinto Grado A"),
-        new Enrollment("enr00022", "Quinto Grado B"),
-        new Enrollment("enr00015", "Tercer Nivel A"),
-        new Enrollment("enr00032", "Noveno Grado A"),
-        new Enrollment("enr00033", "Noveno Grado B"),
-        new Enrollment("enr00029", "Primer Grado B"),
-        new Enrollment("enr00010", "Décimo Grado A"),
-        new Enrollment("enr00011", "Décimo Grado B"),
-        new Enrollment("enr00035", "Cuarto Grado B"),
-        new Enrollment("enr00013", "Septimo Grado B"),
-        new Enrollment("enr00014", "Septimo Grado C")
-    };
 
+    public List<CombinedDegreeDto> CombineDegreesWithEnrollments(
+        List<DegreeEntity> degrees, 
+        List<EnrollmentListDto> allEnrollments)
+    {
+        return degrees
+            // 1. Filtrar solo degrees con quantity > 0
+            .Where(degree => degree.quantity > 0)
+            // 2. Ordenar por position
+            .OrderBy(degree => degree.position)
+            // 3. Proyectar a CombinedDegreeDto
+            .Select(degree => new CombinedDegreeDto
+            {
+                DegreeId = degree.degreeId,
+                Label = degree.label,
+                SchoolYear = degree.schoolYear,
+                Position = degree.position,
+                EducationalLevel = degree.educationalLevel,
+                
+                EnrollmentList = allEnrollments
+                    .Where(e => e.degreeId == degree.degreeId)
+                    .ToList()
+            })
+            .ToList();
+    }
+    
     private void SetEnrollmentId(string enrollmentId, string label)
     {
         MyEnrollmentId = enrollmentId;

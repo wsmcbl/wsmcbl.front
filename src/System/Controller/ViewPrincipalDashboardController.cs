@@ -2,6 +2,7 @@ using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Components.Charts;
+using wsmcbl.src.View.Components.ViewEnrollmentReports;
 using wsmcbl.src.View.Management.ReportUserCalification;
 
 namespace wsmcbl.src.Controller;
@@ -42,6 +43,12 @@ public class ViewPrincipalDashboardController : BaseController
         List<SubjectsDto> defaultResult = [];
         return await apiFactory
             .WithNotificator.GetAsync(Modules.Management, "subjects", defaultResult);
+    }
+    
+    public async Task<List<EnrollmentListDto>> GetEnrollmentsList()
+    {
+        List<EnrollmentListDto> defaultResult = [];
+        return await apiFactory.WithNotificator.GetAsync(Modules.Management, "enrollments", defaultResult);
     }
     
     public async Task GetReportOfEnrollment(string enrollmentId, int partialId, string name)

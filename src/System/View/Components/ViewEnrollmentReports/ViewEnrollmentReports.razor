@@ -1,13 +1,12 @@
 @inherits BaseView
 
-@if (enrollments.Any())
+@if (MyEnrollmentList.Any())
 {
     <div class="modal fade" id="DownloadReportByEnrollmentModal" tabindex="-1" aria-labelledby="DownloadReportByEnrollmentModal"
          aria-hidden="true">
-        <div class="modal-dialog custom-centered" style="width: 70%; max-width: 80%;">
-            <div class="modal-content" style="height: 30%; max-height: 30%;">
+        <div class="modal-dialog modal-xl custom-centered">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalPdfTitle">Reporte de calificaciones</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -15,18 +14,45 @@
 
                 <div class="modal-body">
 
-                    <div class="form-group">
-                        <h6 class="label-required">Selecccione una sección.</h6>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Seleccione una sección</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="list-group">
+                                @foreach (var degree in _resultado)
+                                {
+                                    <div class="mb-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h5 class="font-weight-bold text-gray-800 mb-0">@degree.Label</h5>
+                                            <span class="badge badge-primary">@degree.EnrollmentList.Count secciones</span>
+                                        </div>
 
-                        @foreach (var item in enrollments)
-                        {
-                            <div class="checkbox-wrapper-14">
-                                <input type="checkbox" id="@item.EnrollmentId"
-                                       @onchange="() => SetEnrollmentId(item.EnrollmentId, item.Label)"/>
-                                <label for="@item.EnrollmentId">@item.Label</label>
+                                        <div class="list-group">
+                                            @foreach (var enrollment in degree.EnrollmentList.OrderBy(t => t.tag))
+                                            {
+                                                <label class="list-group-item d-flex align-items-center @(MyEnrollmentId == enrollment.enrollmentId ? "active" : "")"
+                                                       @onclick="() => SetEnrollmentId(enrollment.enrollmentId, enrollment.label)">
+                                                    <div class="custom-control custom-radio mr-3">
+                                                        <input type="radio"
+                                                               class="custom-control-input"
+                                                               name="enrollmentGroup"
+                                                               checked="@(MyEnrollmentId == enrollment.enrollmentId)">
+                                                        <span class="custom-control-label"></span>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="d-flex justify-content-between">
+                                                            <span class="font-weight-bold">@enrollment.label</span>
+                                                            <small class="text-muted">@enrollment.tag</small>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            }
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                        }
-                        
+                        </div>
                     </div>
 
                 </div>

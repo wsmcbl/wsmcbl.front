@@ -3,7 +3,7 @@ namespace wsmcbl.src.Model.Academy;
 public class EnrollmentEntity
 {
     public string enrollmentId { get; set; } = null!;
-    public string? teacherId { get; set; }
+    public string teacherId { get; set; } = null!;
     public string label { get; set; } = null!;
     public int capacity { get; set; }
     public int quantity { get; set; }

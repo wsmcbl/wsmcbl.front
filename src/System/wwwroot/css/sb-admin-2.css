@@ -11,10 +11,62 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+
+
+/* Modales reutilizables - Sistema de anchos */
+.modal.custom-centered {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-dialog.modal-xs {
+  width: 300px;
+  margin: 0 auto;
+}
+
+.modal-dialog.modal-sm {
+  width: 400px;
+  margin: 0 auto;
+}
+
+.modal-dialog.modal-md {
+  width: 60%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.modal-dialog.modal-lg {
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.modal-dialog.modal-xl {
+  width: 90%;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+/* Responsive - Todos los modales en mobile */
+@media (max-width: 768px) {
+  .modal-dialog {
+    width: 95% !important;
+    margin: 10px auto !important;
+  }
+}
+
+/* Contenedor de botones flotantes a la derecha */
+.modal-footer .right-container {
+  margin-left: auto;
+}
+/* Modales reutilizables - Sistema de anchos */
+
+
+
 .clickable-row {
   cursor: pointer;
 }
-
 
 .status-label {
   display: inline-block;
