@@ -117,8 +117,8 @@ else
                             <td> @item.studentId </td>
                             <td> @item.fullName </td>
                             <td>
-                                <span class="status-label @GetStatusLabel(item.isActive)">
-                                    @item.isActive.ToStringYesOrNo()
+                                <span class="status-label @item.isActive.ToActiveClass()">
+                                    @item.isActive.ToActive()
                                 </span>
                             </td>
                             <td> @item.schoolyear </td>

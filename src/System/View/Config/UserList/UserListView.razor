@@ -3,6 +3,7 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin")]
 
+@using wsmcbl.src.Utilities
 @using wsmcbl.src.View.Config.CreateNewUser
 @using wsmcbl.src.View.Config.UserInformationView
 
@@ -90,6 +91,12 @@ else
                                 Rol
                                 <span>@(Request.sortBy == "roleId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
                             </th>
+
+                            <th @onclick="@(() => SortByColumn("isActive"))"
+                                class="@(Request.sortBy == "isActive" ? "font-weight-bold" : "")">
+                                Rol
+                                <span>@(Request.sortBy == "isActive" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                            </th>
                             
                             <th>Acción</th>
                         </tr>
@@ -102,6 +109,11 @@ else
                                 <td> @item.userId </td>
                                 <td> @item.fullName </td>
                                 <td> @item.RoleName </td>
+                                <td>
+                                    <span class="status-label @item.isActive.ToActiveClass()">
+                                        @item.isActive.ToActive()
+                                    </span>
+                                </td>
                                 <td>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"

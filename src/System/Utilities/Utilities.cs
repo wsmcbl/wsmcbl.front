@@ -40,6 +40,8 @@ public static class Utilities
     } 
     
     public static string ToStringValid(this bool isValid) => isValid ? "Válido" : "Inválido";
+    public static string ToActive(this bool isValid) => isValid ? "Activo" : "Inactivo";
+    public static string ToActiveClass(this bool isValid) => isValid ? "active-status" : "inactive-status";
     public static string ToSex(this bool isValid) => isValid ? "Varon" : "Mujer";
     
     public static string ToStringYesOrNo(this bool value) => value ? "Sí" : "No";

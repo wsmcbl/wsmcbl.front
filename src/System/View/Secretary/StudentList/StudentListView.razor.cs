@@ -108,7 +108,6 @@ public partial class StudentListView : BaseView
     }
     
     
-    private string GetStatusLabel(bool value) => value ? "active-status" : "inactive-status";
     
     //Method for paginator
     private Task UpdateUrl()
