@@ -4,8 +4,8 @@
 {
     <div class="modal fade" id="DetailReportTeacherModal" tabindex="-1" aria-labelledby="DetailReportTeacherModalModal"
          aria-hidden="true">
-        <div class="modal-dialog custom-centered" style="width: 70%; max-width: 80%;">
-            <div class="modal-content" style="height: 30%; max-height: 30%;">
+        <div class="modal-dialog modal-lg custom-centered">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="ModalPdfTitle">Reporte de calificaciones</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -14,51 +14,51 @@
                 </div>
 
                 <div class="modal-body">
-
-                    <table id="dataTable" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Grado</th>
-                            <th>Asignatura</th>
-                            <th class="text-center">Alumnos</th>
-                            <th class="text-center">Calificados</th>
-                            <th class="text-center">Restantes</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Grado</th>
-                            <th>Asignatura</th>
-                            <th class="text-center">Alumnos</th>
-                            <th class="text-center">Calificados</th>
-                            <th class="text-center">Restantes</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        @if (Subjects.Count > 0)
-                        {
-                            @for (int i = 0; i < Subjects!.Count; i++)
+                    <div class="table-responsive">
+                        <table id="dataTable" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Grado</th>
+                                <th>Asignatura</th>
+                                <th class="text-center">Alumnos</th>
+                                <th class="text-center">Calificados</th>
+                                <th class="text-center">Restantes</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">Grado</th>
+                                <th>Asignatura</th>
+                                <th class="text-center">Alumnos</th>
+                                <th class="text-center">Calificados</th>
+                                <th class="text-center">Restantes</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            @if (Subjects.Count > 0)
                             {
-                                var details = Subjects[i];
-                                var name = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.name ?? "Materia no encontrada";
-                                var enrollment = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.degree ?? "Materia no encontrada";
-                                var count = Subjects[i].studentCount - Subjects[i].gradedStudentCount;
+                                @for (int i = 0; i < Subjects!.Count; i++)
+                                {
+                                    var details = Subjects[i];
+                                    var name = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.name ?? "Materia no encontrada";
+                                    var enrollment = ListOfSubjects.FirstOrDefault(t => t.subjectId == details.subjectId)?.degree ?? "Materia no encontrada";
+                                    var count = Subjects[i].studentCount - Subjects[i].gradedStudentCount;
 
-                                <tr>
-                                    <td class="text-center">@(i + 1)</td>
-                                    <td>@enrollment</td>
-                                    <td>@name</td>
-                                    <td class="text-center">@details.studentCount</td>
-                                    <td class="text-center">@details.gradedStudentCount</td>
-                                    <td class="text-center">@count</td>
-                                </tr>
+                                    <tr>
+                                        <td class="text-center">@(i + 1)</td>
+                                        <td>@enrollment</td>
+                                        <td>@name</td>
+                                        <td class="text-center">@details.studentCount</td>
+                                        <td class="text-center">@details.gradedStudentCount</td>
+                                        <td class="text-center">@count</td>
+                                    </tr>
+                                }
                             }
-                        }
-                        </tbody>
-                    </table>
-
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
