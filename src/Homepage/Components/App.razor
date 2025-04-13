@@ -1,17 +1,16 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
+    <base href="/" />
+    <!-- Esto es crucial para rutas dinámicas -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--Tecnologia-->
-    <link rel="stylesheet" href="wsmcbl.homepage.styles.css"/>
+    <link rel="stylesheet" href="/wsmcbl.homepage.styles.css"/>
     <HeadOutlet @rendermode="InteractiveServer"/>
 </head>
 
 <body>
 <Routes @rendermode="InteractiveServer"/>
-
-<!--Tecnologia-->
-<script src="_framework/blazor.web.js"></script>
 </body>
-
 </html>

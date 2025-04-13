@@ -13,4 +13,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\System\wsmcbl.system.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="obj\" />
+    </ItemGroup>
 </Project>

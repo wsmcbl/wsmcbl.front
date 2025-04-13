@@ -1,16 +1,19 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.Components.ViewGradeOnline;
 
 public partial class ViewGradeOnline : ComponentBase
 {
     [Inject] ViewGradeOnlineController Controller { get; set; } = null!;
-    [Inject] private IJSRuntime Js { get; set; } = null!;
+    [Inject] HomeNavigator homeNavigator { get; set; } = null!;
+    private StudentInfoDto? Student { get; set; }
     private byte[]? GradePdf { get; set; } = [];
     private string? token { get; set; }
-    private string? studentId { get; set; }
+    private string studentId { get; set; } = string.Empty;
     private string? ErrorMessage { get; set; }
 
 
@@ -26,27 +29,24 @@ public partial class ViewGradeOnline : ComponentBase
             Console.WriteLine($"Verificando fecha del servidor: {serverNow:dd/MM/yyyy}");
             return;
         }
-
-        var (content, statusCode) = await Controller.GetGradePdf(studentId!, token!);
-
-        if (statusCode == 200)
+        
+        try
         {
-            GradePdf = content;
-            ErrorMessage = null;
-            await Js.InvokeVoidAsync("mostrarModal", "PdfViewerModal");
-        }
-        else
-        {
-            ErrorMessage = statusCode switch
+            if (studentId != string.Empty && token != string.Empty)
             {
-                400 => "Solicitud incorrecta. Por favor, revise los datos ingresados.",
-                401 => "No autorizado. Por favor, revise su código y contraseña.",
-                403 => "No tiene permisos para hacer esta consulta.",
-                404 => "El estudiante no fue encontrado.",
-                409 => "El estudiante no esta solvente.",
-                500 => "Inténtelo nuevamente más tarde.",
-                _ => "Ocurrió un error inesperado. Código: " + statusCode
-            };
+                Student = await Controller.GetInfoStudent(studentId!);
+            }
         }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
+        
+        
+        if (Student != null && !token.IsNullOrEmpty())
+        { 
+            homeNavigator.ToPage($"/online-grades/{studentId}/{token}");
+        }
+        
     }
 }
