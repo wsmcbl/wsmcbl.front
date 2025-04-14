@@ -139,7 +139,7 @@ else
                                         <a class="dropdown-item" @onclick="() => PrintEnrollSheet(item.studentId)">Ver hoja de matrícula</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" @onclick="() => UpdateEnrollment(item.studentId, item.enrollment)">Cambiar matrícula</a>
-                                        <a class="dropdown-item" @onclick="() => UpdateEducationLevel(item.studentId)">Cambiar nivel educativo</a>
+                                        <a class="dropdown-item">Cambiar nivel educativo</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" @onclick="() => Withdraw(item.studentId, item.fullName)">Dar de baja</a>
                                         <a class="dropdown-item" @onclick="() => ChangeStudentState(item.studentId, item.fullName)">Activar/Desactivar</a>
@@ -226,5 +226,4 @@ else
     
     <MoveStudentView StudentId="@StudentIdForMove" EnrollmentName="@EnrollmentNameForChange" OnMoveStudents="LoadStudentList"/>
     
-    <ChangeEducationLevelView StudentId="@StudentIdForChangeEducationLevel"/>
 }

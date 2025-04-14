@@ -1,3 +1,4 @@
+@using wsmcbl.src.View.Secretary.StudentList.ModifyEducationLevel
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
         
@@ -29,27 +30,32 @@
                     <i class="fas fa-heartbeat text-secondary"></i>
                     @(Student.diseases ?? "Sin condiciones médicas")
                 </p>
+                <p class="mb-1">
+                    <i class="fas fa-heartbeat text-secondary"></i>
+                    @(Student.diseases ?? "Sin condiciones médicas")
+                </p>
             </div>
         </div>
 
         <!-- Columna de acciones -->
         <div class="col-md-3 p-3 border-left">
             <button class="btn btn-block btn-sm btn-outline-primary mb-2">
-                <i class="fas fa-id-card"></i> Matrícula
+                <i class="fas fa-id-card"></i> Cambiar de Matrícula
             </button>
-            <button class="btn btn-block btn-sm btn-outline-secondary mb-2">
-                <i class="fas fa-graduation-cap"></i> Nivel
-            </button>
-            <button class="btn btn-block btn-sm @(Student.isActive ? "btn-outline-danger" : "btn-outline-success") mb-2">
-                <i class="fas fa-power-off"></i> @(Student.isActive ? "Desactivar" : "Activar")
+            <button class="btn btn-block btn-sm btn-outline-secondary mb-2" @onclick="UpdateEducationLevel">
+                <i class="fas fa-graduation-cap"></i> Cambiar de nivel educativo
             </button>
             <button class="btn btn-block btn-sm btn-outline-dark">
                 <i class="fas fa-key"></i> Contraseña
+            </button>
+            <button class="btn btn-block btn-sm @(Student.isActive ? "btn-outline-danger" : "btn-outline-success") mb-2" @onclick="ChangeStudentState">
+                <i class="fas fa-power-off"></i> @(Student.isActive ? "Desactivar" : "Activar")
+            </button>
+            <button class="btn btn-block btn-sm btn-outline-dark" @onclick="Withdraw">
+                <i class="fas fa-key"></i> Dar de baja
             </button>
         </div>
     </div>
 </div>
 
-<style>
-
-</style>
+<ChangeEducationLevelView StudentId="@Student.studentId"/>
