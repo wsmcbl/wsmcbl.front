@@ -1,74 +1,106 @@
 <div class="modal fade" id="MoveStudentModal" tabindex="-1" aria-labelledby="MoveStudentModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document"
-         style="width: 80%; max-width: 90%; height: 40%; max-height: 40%; margin: auto;">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalMoveStudent">Cambiar Matrícula</h5>
+            <div class="modal-header py-3">
+                <h5 class="modal-title text-gray-800 font-weight-bold">
+                    <i class="fas fa-exchange-alt mr-2"></i>Cambio de Matrícula
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div>
-                                <strong>Estudiante: </strong> <label>@StudentId</label>
-                            </div>
-                            <div>
-                                <strong>Matriculado en: </strong> <label>@EnrollmentName</label>
+                <!-- Encabezado de información del estudiante -->
+                <div class="card mb-4 border-left-primary">
+                    <div class="card-body py-2">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <span class="font-weight-bold text-gray-800">Estudiante:</span>
+                                        <span class="ml-2">@StudentName</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-weight-bold text-gray-800">Código:</span>
+                                        <span class="ml-2">@StudentId</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <label style="display: inline-block; width: 200px;">Grado:</label>
-                        <select id="grade" class="form-control" style="margin: 0" @onchange="GetSelectDegreeId">
-                            @if (Degrees != null && Degrees.Any())
-                            {
-                                @foreach (var option in Degrees.OrderBy(d => d.position))
-                                {
-                                    <option value="@option.degreeId">@option.label</option>
-                                }
-                            }
-                            else
-                            {
-                                <option value="">No hay secciones disponibles</option>
-                            }
-                        </select>
+                </div>
 
-                        <label style="display: inline-block; width: 200px;">Sección:</label>
-                        <select id="seccion" class="form-control" style="margin: 0" @onchange="SetEnrollmentSelect">
-                            @if (Enrollments != null && Enrollments.Any())
-                            {
-                                @foreach (var option in Enrollments)
+                <div class="row">
+                    <!-- Columna izquierda - Requisitos -->
+                    <div class="col-md-6 pr-3">
+                        <div class="alert alert-warning d-flex align-items-start mb-4" role="alert">
+                            <i class="fas fa-exclamation-triangle mr-3 mt-1"></i>
+                            <div>
+                                <h6 class="font-weight-bold text-gray-800 mb-2">Requisitos para el cambio</h6>
+                                <ul class="pl-3 mb-0">
+                                    <li class="mb-1">El estudiante debe estar <span class="font-weight-bold">activo</span> en el sistema</li>
+                                    <li>El estudiante debe estar <span class="font-weight-bold">matrículado</span></li>
+                                    <li class="mb-1">No debe existir ningún examen parcial en progreso</li>
+                                    <li>No debe estar activo ningún período de calificaciones</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna derecha - Formulario -->
+                    <div class="col-md-6 pl-3">
+                        <div class="form-group">
+                            <label class="font-weight-bold text-gray-800">Grado:</label>
+                            <select class="form-control form-control-sm" @onchange="GetSelectDegreeId">
+                                @if (Degrees?.Any() == true)
                                 {
-                                    <option value="@option.enrollmentId">@option.label</option>
+                                    @foreach (var option in Degrees.OrderBy(d => d.position))
+                                    {
+                                        <option value="@option.degreeId">@option.label</option>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                <option value="">No hay secciones disponibles</option>
-                            }
-                        </select>
-                        <p style="margin-top: 15px">Cupos Restante @EnrollmentQuantity / @EnrollmentCapacity</p>
+                                else
+                                {
+                                    <option value="">No hay grados disponibles</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold text-gray-800">Sección:</label>
+                            <select class="form-control form-control-sm" @onchange="SetEnrollmentSelect">
+                                @if (Enrollments?.Any() == true)
+                                {
+                                    @foreach (var option in Enrollments)
+                                    {
+                                        <option value="@option.enrollmentId">@option.label</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">No hay secciones disponibles</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="alert alert-info mt-3 py-2">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            <span class="font-weight-bold">Cupos:</span> 
+                            <span>@EnrollmentQuantity / @EnrollmentCapacity</span>
+                        </div>
                     </div>
                 </div>
-
-
             </div>
-
-            <div class="modal-footer">
-                <div class="right-container">
-                    <button type="button" class="btn btn-success" @onclick="UpdateStudentEnrollment">Actualizar matrícula</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
+            
+            <div class="modal-footer bg-gray-100">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                    <i class="fas fa-times mr-1"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" @onclick="UpdateStudentEnrollment">
+                    <i class="fas fa-save mr-1"></i> Actualizar
+                </button>
             </div>
-
         </div>
     </div>
 </div>
-
-
-

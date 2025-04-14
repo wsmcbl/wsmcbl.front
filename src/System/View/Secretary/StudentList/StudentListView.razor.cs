@@ -16,9 +16,6 @@ public partial class StudentListView : BaseView
     [Inject] protected UnenrollController unenrollController { get; set; } = null!;
     [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
     [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
-
-    private string EnrollmentNameForChange { get; set; } = string.Empty;
-    private string StudentIdForMove { get; set; } = string.Empty;
     private byte[]? PdfDocument { get; set; }
     private string? PdfDocumentName { get; set; }
     
@@ -26,8 +23,7 @@ public partial class StudentListView : BaseView
     private Paginator<StudentEntity>? studentList { get; set; }
     private PagedRequest Request { get; set; } = new();
     private bool hasData {get; set;}
-
-
+    
     protected override void OnParametersSet()
     {
         PdfDocument = [];
@@ -68,40 +64,6 @@ public partial class StudentListView : BaseView
         PdfDocumentName = "Hoja de matrícula";
         await Navigator.ShowPdfModal();
     }
-    private async Task UpdateEnrollment(string studentId, string enrollmentId)
-    {
-        StudentIdForMove = studentId;
-        EnrollmentNameForChange = enrollmentId;
-        await Navigator.ShowModal("MoveStudentModal");
-    }
-    private async Task Withdraw(string studentId, string studentName)
-    {
-        var desc = await Notificator.ShowAlertQuestion("Advertencia", $"¿Estas seguro que deseas dar de baja al estudiante {studentName}?", ("Si","No"));
-        if (desc)
-        {
-            var response = await unenrollController.Withdraw(studentId);
-            if (response)
-            {
-                await Notificator.ShowSuccess($"Hemos dado de baja con exito al estudiante {studentName}");
-                await LoadStudentList();
-            }
-        }
-    }
-    private async Task ChangeStudentState(string studentId, string fullName)
-    {
-        var desc = await Notificator.ShowAlertQuestion("Advertencia", $"¿Estas seguro que deseas cambiar es estado de: {fullName}?", ("Si","No"));
-        if (desc)
-        {
-            var response = await UpdateController.UpdateStudentState(studentId);
-            if (response)
-            {
-                await Notificator.ShowSuccess($"Hemos actualizado el estado del estudiante {fullName}");
-                await LoadStudentList();
-            }
-        }
-    }
-    
-    
     
     //Method for paginator
     private Task UpdateUrl()

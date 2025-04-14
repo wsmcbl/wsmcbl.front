@@ -66,4 +66,8 @@ public partial class DashboardStudentView : ComponentBase
             }
         }
     }
+    private async Task UpdateEnrollment()
+    {
+        await Navigator.ShowModal("MoveStudentModal");
+    }
 }

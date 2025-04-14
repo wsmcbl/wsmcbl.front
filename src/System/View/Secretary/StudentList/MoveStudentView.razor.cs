@@ -8,8 +8,7 @@ namespace wsmcbl.src.View.Secretary.StudentList;
 public partial class MoveStudentView : ComponentBase
 {
     [Parameter] public string StudentId { get; set; } = "";
-    [Parameter] public string EnrollmentName { get; set; } = "";
-    [Parameter] public EventCallback OnMoveStudents { get; set; }
+    [Parameter] public string StudentName { get; set; } = "";
     [Inject] protected MoveStudentFromEnrollmentController Controller { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     private List<DegreeBasicDto>? Degrees { get; set; }
@@ -70,8 +69,6 @@ public partial class MoveStudentView : ComponentBase
         }
         
         await Notificator.ShowSuccess("Se ha actualizado la matrícula correctamente.");
-        await OnMoveStudents.InvokeAsync();
-        
         await LoadDegrees();
     }
 }
