@@ -1,0 +1,55 @@
+<div class="card shadow-sm mb-4 student-profile-compact">
+    <div class="row no-gutters">
+        
+        <!-- Columna de foto -->
+        <div class="col-md-3 text-center bg-light p-3">
+            <img src="@GetProfilePicture()"
+                 class="rounded mb-2 profile-picture-rect"
+                 alt="Foto de perfil">
+        </div>
+
+        <!-- Columna de información -->
+        <div class="col-md-6 p-3">
+            <h5 class="font-weight-bold text-primary mb-1">@Student.FullName() 
+                <span class="badge @(Student.isActive ? "badge-success" : "badge-danger")">
+                @(Student.isActive ? "Activo" : "Inactivo")
+            </span></h5>
+            <p class="text-muted small mb-2">@Student.studentId</p>
+
+            <div class="student-details">
+                <p class="mb-1">
+                    <i class="fas fa-venus-mars text-secondary"></i>
+                    @(Student.sex ? "Masculino" : "Femenino"), años
+                </p>
+                <p class="mb-1 text-truncate">
+                    <i class="fas fa-home text-secondary"></i>
+                    @Student.address
+                </p>
+                <p class="mb-1">
+                    <i class="fas fa-heartbeat text-secondary"></i>
+                    @(Student.diseases ?? "Sin condiciones médicas")
+                </p>
+            </div>
+        </div>
+
+        <!-- Columna de acciones -->
+        <div class="col-md-3 p-3 border-left">
+            <button class="btn btn-block btn-sm btn-outline-primary mb-2">
+                <i class="fas fa-id-card"></i> Matrícula
+            </button>
+            <button class="btn btn-block btn-sm btn-outline-secondary mb-2">
+                <i class="fas fa-graduation-cap"></i> Nivel
+            </button>
+            <button class="btn btn-block btn-sm @(Student.isActive ? "btn-outline-danger" : "btn-outline-success") mb-2">
+                <i class="fas fa-power-off"></i> @(Student.isActive ? "Desactivar" : "Activar")
+            </button>
+            <button class="btn btn-block btn-sm btn-outline-dark">
+                <i class="fas fa-key"></i> Contraseña
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+
+</style>
