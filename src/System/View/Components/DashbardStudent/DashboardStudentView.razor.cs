@@ -70,4 +70,9 @@ public partial class DashboardStudentView : ComponentBase
     {
         await Navigator.ShowModal("MoveStudentModal");
     }
+
+    private async Task ViewPassword()
+    {
+        await Navigator.ShowModal("AccessInfoModal");
+    }
 }

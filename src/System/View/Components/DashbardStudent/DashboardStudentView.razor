@@ -1,5 +1,6 @@
 @using wsmcbl.src.View.Secretary.StudentList.ModifyEducationLevel
 @using wsmcbl.src.View.Secretary.StudentList
+@using wsmcbl.src.View.Components.StudentPasswordView
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
         
@@ -42,7 +43,7 @@
             <button class="btn btn-block btn-sm btn-outline-secondary mb-2" @onclick="UpdateEducationLevel">
                 <i class="fas fa-graduation-cap"></i> Cambiar de nivel educativo
             </button>
-            <button class="btn btn-block btn-sm btn-outline-dark">
+            <button class="btn btn-block btn-sm btn-outline-dark" @onclick="ViewPassword">
                 <i class="fas fa-key"></i> Ver Contraseña
             </button>
             <button class="btn btn-block btn-sm @(Student.isActive ? "btn-outline-danger" : "btn-outline-success") mb-2" @onclick="ChangeStudentState">
@@ -57,4 +58,5 @@
 
 <ChangeEducationLevelView StudentId="@Student.studentId"/>
 <MoveStudentView StudentId="@Student.studentId" StudentName="@Student.FullName()"/>
+<StudentPasswordView StudentId="@Student.studentId"/>
 
