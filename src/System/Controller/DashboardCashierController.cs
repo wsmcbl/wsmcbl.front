@@ -16,4 +16,11 @@ public class DashboardCashierController : BaseController
         var resource = $"{path}?month={month}";
         return await apiFactory.WithNotificator.GetAsync(Modules.Accounting, resource, defaultResult);
     }
+
+    public async Task<DetailsThisMonthDto> GetDetails(string month)
+    {
+        var defaultResult = new DetailsThisMonthDto();
+        var resource = $"{path}/expected-monthly?month={month}";
+        return await apiFactory.WithNotificator.GetAsync(Modules.Accounting, resource, defaultResult);    
+    }
 }

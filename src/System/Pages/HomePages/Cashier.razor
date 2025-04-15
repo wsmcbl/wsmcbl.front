@@ -3,8 +3,33 @@
 @using wsmcbl.src.View.Accounting.Charts
 @attribute [Authorize(Roles = "cashier")]
 
-<MonthSumary/>
+<div class="row">
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle"
+                type="button"
+                id="monthDropdownButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+            <span id="selectedMonth">@selectedMonthDisplay</span>
+        </button>
 
+        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+             aria-labelledby="monthDropdownButton">
+            @foreach (var month in months)
+            {
+                <button type="button"
+                        class="dropdown-item"
+                        @onclick="() => OnMonthSelected(month)">
+                    @month.Display
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+<MonthSumary Month="@selectedMonthValue"/>
+<MonthDetails Month="@selectedMonthValue"/>
 
 <div class="container-fluid">
     <!-- Título de Bienvenida -->
@@ -65,20 +90,22 @@
                             </div>
                         </div>
                         <div class="dropdown">
-                            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Seleccionar
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/accounting/reports/revenues">Reporte de Ingresos</a>
                                 <button class="dropdown-item" @onclick="GetPdfContent">Reporte de Deudores</button>
-                                <a class="dropdown-item" href="/accounting/reports/transactions">Ver las Transacciones</a>
+                                <a class="dropdown-item" href="/accounting/reports/transactions">Ver las
+                                    Transacciones</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 

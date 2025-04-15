@@ -2,30 +2,6 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Resumen Financiero</h6>
-
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle"
-                    type="button"
-                    id="monthDropdownButton"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-                <span id="selectedMonth">@selectedMonthDisplay</span>
-            </button>
-
-            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                 aria-labelledby="monthDropdownButton">
-                @foreach (var month in months)
-                {
-                    <button type="button"
-                            class="dropdown-item"
-                            @onclick="async () => await OnMonthSelected(month)">
-                        @month.Display
-                    </button>
-                }
-            </div>
-        </div>
-
     </div>
     <div class="card-body">
         <div class="row">

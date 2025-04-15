@@ -22,7 +22,6 @@ public partial class RevenuesChart : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
-        await base.OnInitializedAsync();
     }
 
     private async Task LoadData()
