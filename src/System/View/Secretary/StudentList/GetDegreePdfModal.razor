@@ -1,50 +1,49 @@
-<div class="modal fade" id="DowloadDegreeDocument" tabindex="-1" aria-labelledby="AccessInfoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Encabezado -->
-            <div class="modal-header py-3 bg-gray-100">
-                <h5 class="modal-title text-gray-800 font-weight-bold">
-                    <i class="fas fa-user-lock mr-2"></i>Acceso al sistema de calificaciones
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<div @onkeydown="HandleKeyDown" tabindex="0">
+    <div class="modal fade" id="DowloadDegreeDocument" tabindex="-1" aria-labelledby="AccessInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
-            <!-- Cuerpo del Modal -->
-            <div class="modal-body">
-                
-                <!-- Nota importante -->
-                <div class="alert alert-warning mb-4">
-                    <div class="d-flex align-items-start">
-                        <i class="fas fa-exclamation-triangle mr-3 mt-1"></i>
-                        <div>
-                            <h6 class="font-weight-bold text-gray-800 mb-2">Para descargar la boleta ingrese el:</h6>
-                            <ul class="pl-3 mb-0">
-                                <div class="form-group">
-                                    <label for="authorizationToken">Codigo de seguridad:</label>
-                                    <input id="authorizationToken" class="form-control" type="password" @bind="Token" placeholder="Obligatorio"/>
-                                </div>
-                            </ul>
+                <div class="modal-header py-3 bg-gray-100">
+                    <h5 class="modal-title text-gray-800 font-weight-bold">
+                        <i class="fas fa-user-lock mr-2"></i>Acceso al sistema de calificaciones
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="alert alert-warning mb-4">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-exclamation-triangle mr-3 mt-1"></i>
+                            <div>
+                                <h6 class="font-weight-bold text-gray-800 mb-2">Para descargar la boleta ingrese el:</h6>
+                                <ul class="pl-3 mb-0">
+                                    <div class="form-group">
+                                        <label for="authorizationToken">Codigo de seguridad:</label>
+                                        <input id="authorizationToken" class="form-control" type="password" @bind="Token" placeholder="Obligatorio"/>
+                                    </div>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="d-flex justify-content-center mt-4">
+                        <button class="btn btn-primary" @onclick="DowloadDocument">
+                            <i class="fas fa-sync-alt mr-2"></i>Descargar
+                        </button>
                     </div>
                 </div>
 
-                <!-- Botones de acción -->
-                <div class="d-flex justify-content-between mt-4">
-                    <button class="btn btn-primary" @onclick="DowloadDocument">
-                        <i class="fas fa-sync-alt mr-2"></i>Descargar
-                    </button>
+                <div class="modal-footer bg-gray-100 py-2">
+                    <small class="text-muted">
+                        <i class="fas fa-shield-alt mr-1"></i>Sistema seguro - WSM-CBL
+                    </small>
                 </div>
-            </div>
-
-            <!-- Pie del Modal -->
-            <div class="modal-footer bg-gray-100 py-2">
-                <small class="text-muted">
-                    <i class="fas fa-shield-alt mr-1"></i>Sistema seguro - WSM-CBL
-                </small>
             </div>
         </div>
     </div>
 </div>
+
 

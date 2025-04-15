@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 
@@ -15,15 +16,26 @@ public partial class GetDegreePdfModal : ComponentBase
     private string Token {get;set;} = string.Empty;
     
     
+    private async Task HandleKeyDown(KeyboardEventArgs key)
+    {
+        if (key is { Key: "Enter"})
+        {
+            await DowloadDocument();
+        }
+    }
+    
     private async Task DowloadDocument()
     {
-        PdfDocument = await PrintController.GetPdfContent(StudentId, Token);
-        if (PdfDocument.Length == 0)
+        if (Token != string.Empty)
         {
-            return;
+            PdfDocument = await PrintController.GetPdfContent(StudentId, Token);
+            if (PdfDocument.Length == 0)
+            {
+                return;
+            }
+            await PdfDocumentChanged.InvokeAsync(PdfDocument);
+            await Navigator.HideModal("DowloadDegreeDocument");
+            await Navigator.ShowPdfModal();
         }
-        await PdfDocumentChanged.InvokeAsync(PdfDocument);
-        await Navigator.HideModal("DowloadDegreeDocument");
-        await Navigator.ShowPdfModal();
     }
 }
