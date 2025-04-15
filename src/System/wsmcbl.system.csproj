@@ -25,8 +25,4 @@
   <ItemGroup>
     <Content Remove="wwwroot\vendor\chart.js\Chart.umd.min.js" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="View\Accounting\Charts\" />
-  </ItemGroup>
 </Project>

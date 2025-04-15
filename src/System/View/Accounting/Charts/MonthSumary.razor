@@ -1,0 +1,123 @@
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Resumen Financiero</h6>
+
+        <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span id="selectedMonth">@selectedMonthDisplay</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="dropdownMenuLink" id="monthDropdown">
+                @foreach (var month in months)
+                {
+                    <a class="dropdown-item"
+                       @onclick="() => OnMonthSelected(month)">
+                        @month.Display
+                    </a>
+                }
+            </div>
+        </div>
+        
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <!-- Card Total -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total General
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @FormatCurrency(Sumary.total.amount)
+                                </div>
+                                <div class="mt-2 text-muted small">
+                                    @Sumary.total.studentQuantity estudiantes
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Meses Pasados -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Meses Anteriores
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @FormatCurrency(Sumary.pastMonths.amount)
+                                </div>
+                                <div class="mt-2 text-muted small">
+                                    @Sumary.pastMonths.studentQuantity estudiantes
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-history fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Mes Actual -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Mes Actual
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @FormatCurrency(Sumary.currentMonth.amount)
+                                </div>
+                                <div class="mt-2 text-muted small">
+                                    @Sumary.currentMonth.studentQuantity estudiantes
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Meses Futuros -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Meses Futuros
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @FormatCurrency(Sumary.futureMonths.amount)
+                                </div>
+                                <div class="mt-2 text-muted small">
+                                    @Sumary.futureMonths.studentQuantity estudiantes
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-arrow-up fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

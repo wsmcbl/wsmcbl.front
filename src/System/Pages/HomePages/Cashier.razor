@@ -1,6 +1,10 @@
 @page "/cashier"
 @using wsmcbl.src.View.Components
+@using wsmcbl.src.View.Accounting.Charts
 @attribute [Authorize(Roles = "cashier")]
+
+<MonthSumary/>
+
 
 <div class="container-fluid">
     <!-- Título de Bienvenida -->
