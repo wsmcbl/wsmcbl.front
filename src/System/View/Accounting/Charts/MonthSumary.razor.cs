@@ -5,10 +5,10 @@ namespace wsmcbl.src.View.Accounting.Charts;
 
 public partial class MonthSumary : ComponentBase
 {
+    
     [Inject] DashboardCashierController Controller { get; set; } = null!;
-    private SummaryThisMonthDto Sumary { get; set; } = new();
     [Parameter] public string Month { get; set; } = string.Empty;
-
+    private SummaryThisMonthDto Sumary { get; set; } = new();
     
     protected override async Task OnParametersSetAsync()
     {

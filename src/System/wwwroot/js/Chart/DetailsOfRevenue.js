@@ -1,7 +1,13 @@
 function RevenueChart(detailsDto) {
-    const ctx = document.getElementById('financialBarChart').getContext('2d');
+    const ctx = document.getElementById('financialBarChart');
+    if (!ctx) return;
 
-    // Calcular el valor mínimo para establecer suggestedMin
+    // Destruir gráfico anterior si existe
+    if (ctx.chart) {
+        ctx.chart.destroy();
+    }
+
+    // Calcular valores mínimos y máximos
     const allValues = [
         detailsDto.preschool.regularStudent.amount,
         detailsDto.preschool.discountedStudent.amount,
@@ -11,14 +17,18 @@ function RevenueChart(detailsDto) {
         detailsDto.secondary.discountedStudent.amount
     ];
     const minValue = Math.min(...allValues);
+    const maxValue = Math.max(...allValues);
 
-    // Extrae datos del DTO con los nuevos colores
+    // Configuración responsive
+    const isMobile = window.innerWidth <= 768;
+    const barThickness = isMobile ? 20 : 30;
+
     const chartData = {
         labels: ['Preescolar', 'Primaria', 'Secundaria'],
         datasets: [
             {
                 label: 'Estudiantes Regulares',
-                backgroundColor: '#4e73df', // Azul
+                backgroundColor: '#4e73df',
                 borderColor: '#2e59d9',
                 borderWidth: 1,
                 data: [
@@ -29,7 +39,7 @@ function RevenueChart(detailsDto) {
             },
             {
                 label: 'Estudiantes con Descuento',
-                backgroundColor: '#f6c23e', // Amarillo
+                backgroundColor: '#f6c23e',
                 borderColor: '#f4b619',
                 borderWidth: 1,
                 data: [
@@ -41,56 +51,90 @@ function RevenueChart(detailsDto) {
         ]
     };
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: chartData,
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            layout: {
-                padding: {
-                    left: 30,
-                    right: 30,
-                    top: 20,
-                    bottom: 20
-                }
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display: false
-                    },
-                    barPercentage: 0.5
-                }],
-                yAxes: [{
-                    ticks: {
-                        suggestedMin: minValue > 0 ? minValue * 0.9 : 0, // No menor que cero
-                        beginAtZero: false,
-                        callback: function(value) {
-                            return 'C$' + value.toLocaleString('es-ES');
-                        }
-                    },
-                    gridLines: {
-                        color: 'rgba(0, 0, 0, 0.05)'
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+            padding: {
+                left: isMobile ? 10 : 30,
+                right: isMobile ? 10 : 30,
+                top: 10,
+                bottom: isMobile ? 30 : 20
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    font: {
+                        size: isMobile ? 10 : 12
                     }
-                }]
+                },
+                barThickness: barThickness
             },
+            y: {
+                min: minValue > 0 ? minValue * 0.9 : 0,
+                ticks: {
+                    font: {
+                        size: isMobile ? 10 : 12
+                    },
+                    callback: function(value) {
+                        // Formato corto para móviles
+                        if (isMobile && value >= 1000) {
+                            return 'C$' + (value/1000).toFixed(1) + 'k';
+                        }
+                        return 'C$' + value.toLocaleString('es-ES');
+                    }
+                },
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                }
+            }
+        },
+        plugins: {
             legend: {
-                display: true,
-                position: 'bottom',
+                position: isMobile ? 'top' : 'bottom',
                 labels: {
                     boxWidth: 12,
                     padding: 20,
-                    usePointStyle: true
-                }
-            },
-            tooltips: {
-                callbacks: {
-                    label: function(tooltipItem, data) {
-                        return data.datasets[tooltipItem.datasetIndex].label + ': C$' + tooltipItem.yLabel.toLocaleString('es-ES');
+                    usePointStyle: true,
+                    font: {
+                        size: isMobile ? 12 : 13
                     }
                 }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return `${context.dataset.label}: C$${context.parsed.y.toLocaleString('es-ES')}`;
+                    }
+                },
+                titleFont: {
+                    size: isMobile ? 12 : 14
+                },
+                bodyFont: {
+                    size: isMobile ? 12 : 13
+                }
             }
+        },
+        animation: {
+            duration: isMobile ? 1000 : 1500
+        }
+    };
+
+    // Crear nuevo gráfico
+    ctx.chart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: options
+    });
+
+    // Manejar redimensionamiento
+    window.addEventListener('resize', function() {
+        if (ctx.chart) {
+            ctx.chart.resize();
         }
     });
 }

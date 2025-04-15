@@ -3,110 +3,158 @@
 @using wsmcbl.src.View.Accounting.Charts
 @attribute [Authorize(Roles = "cashier")]
 
-<div class="row">
-    <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle"
-                type="button"
-                id="monthDropdownButton"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
-            <span id="selectedMonth">@selectedMonthDisplay</span>
-        </button>
-
-        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-             aria-labelledby="monthDropdownButton">
-            @foreach (var month in months)
-            {
-                <button type="button"
-                        class="dropdown-item"
-                        @onclick="() => OnMonthSelected(month)">
-                    @month.Display
-                </button>
-            }
+<div class="container-fluid">
+    
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+        <!-- Título -->
+        <div class="text-center text-md-left mb-3 mb-md-0">
+            <h1 class="h3 mb-1 text-gray-800">¡Bienvenido Cajero!</h1>
+            <p class="mb-0 text-muted">Panel de control y gestión financiera</p>
         </div>
+
+        <!-- Dropdown de Mes -->
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle shadow-sm"
+                    type="button"
+                    id="monthDropdownButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                <i class="fas fa-calendar-alt fa-sm mr-2"></i>
+                <span id="selectedMonth">@selectedMonthDisplay</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                 aria-labelledby="monthDropdownButton">
+                @foreach (var month in months)
+                {
+                    <button type="button"
+                            class="dropdown-item d-flex align-items-center"
+                            @onclick="() => OnMonthSelected(month)">
+                        <i class="fas fa-calendar-day fa-sm mr-2 text-gray-400"></i>
+                        @month.Display
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                <i class="fas fa-search mr-1"></i> Buscar Estudiantes
+                            </div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                Acceso a información estudiantil
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <a href="/accounting/students" class="btn btn-primary btn-circle btn-sm">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                <i class="fas fa-exclamation-triangle mr-1"></i> Aplicar Mora
+                            </div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                Gestión de cargos por mora
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <a href="/accounting/apply-arrears" class="btn btn-warning btn-circle btn-sm">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                <i class="fas fa-file-alt mr-1"></i> Reportes
+                            </div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                Generar documentos
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div class="dropdown no-arrow">
+                                <a class="btn btn-info btn-circle btn-sm dropdown-toggle" href="#" role="button"
+                                   id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="/accounting/reports/revenues">
+                                        <i class="fas fa-chart-line fa-sm mr-2 text-primary"></i> Ingresos
+                                    </a>
+                                    <button class="dropdown-item" @onclick="GetPdfContent">
+                                        <i class="fas fa-file-invoice-dollar fa-sm mr-2 text-warning"></i> Deudores
+                                    </button>
+                                    <a class="dropdown-item" href="/accounting/reports/transactions">
+                                        <i class="fas fa-exchange-alt fa-sm mr-2 text-info"></i> Transacciones
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                <i class="fas fa-chart-bar mr-1"></i> Estadísticas
+                            </div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">
+                                Visualización de datos
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <a href="/accounting/statistics" class="btn btn-success btn-circle btn-sm">
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Gráficos -->
+    <div class="row">
+        <DonusDistributionRevenues/>
+        <BarDistributionRevenues/>
     </div>
 </div>
 
 <MonthSumary Month="@selectedMonthValue"/>
-<MonthDetails Month="@selectedMonthValue"/>
 
-<div class="container-fluid">
-    <!-- Título de Bienvenida -->
-    <h1 class="mt-4 text-center">¡Bienvenido Cajero!</h1>
-    <p class="text-center mb-4">Seleccione una opción para comenzar.</p>
-
-    <!-- Grid de Tarjetas -->
-    <div class="row">
-        <!-- Tarjeta 1: Buscar Estudiantes -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-primary shadow">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                <i class="fas fa-search mr-2"></i>Buscar Estudiantes
-                            </div>
-                            <div class="h7 mb-0 font-weight-bold text-gray-800">
-                                Acceda a la información de los estudiantes.
-                            </div>
-                        </div>
-                        <a href="/accounting/students" class="btn btn-primary btn-sm">Ir</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta 2: Aplicar Mora -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow">
-                <div class="card-body p-3"> <!-- Reducimos el padding -->
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>Aplicar Mora
-                            </div>
-                            <div class="h7 mb-0 font-weight-bold text-gray-800">
-                                Gestione los cargos por mora.
-                            </div>
-                        </div>
-                        <a class="btn btn-success btn-sm" href="/accounting/apply-arrears">Ir</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tarjeta 3: Reportes -->
-        <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-info shadow">
-                <div class="card-body p-3"> <!-- Reducimos el padding -->
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                <i class="fas fa-file-alt mr-2"></i>Reportes
-                            </div>
-                            <div class="h7 mb-0 font-weight-bold text-gray-800">
-                                Seleccione una opción para continuar.
-                            </div>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Seleccionar
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="/accounting/reports/revenues">Reporte de Ingresos</a>
-                                <button class="dropdown-item" @onclick="GetPdfContent">Reporte de Deudores</button>
-                                <a class="dropdown-item" href="/accounting/reports/transactions">Ver las
-                                    Transacciones</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
+<div class="row">
+    <MonthDetails Month="@selectedMonthValue"/>
+    <MonthDistribution Month="@selectedMonthValue"/>
 </div>
 
 <PdfViewer Title="Listado de deudores" PdfContent="@Pdf"/>

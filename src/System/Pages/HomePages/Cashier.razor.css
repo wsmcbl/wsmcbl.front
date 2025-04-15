@@ -1,0 +1,25 @@
+/* Estilos SB Admin 2 personalizados */
+.btn-circle {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-circle.btn-sm {
+    width: 25px;
+    height: 25px;
+}
+.card {
+    transition: all 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+.dropdown-item {
+    display: flex;
+    align-items: center;
+}
