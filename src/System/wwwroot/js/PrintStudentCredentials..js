@@ -122,5 +122,10 @@ window.printStudentCredentials = function(studentId, tempPassword) {
 
     printWindow.document.open();
     printWindow.document.write(printContent);
-    
+    printWindow.document.close();
+
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 100);
 }

@@ -40,7 +40,7 @@
             <button class="btn btn-block btn-sm btn-outline-primary mb-2" @onclick="UpdateEnrollment">
                 <i class="fas fa-id-card"></i> Cambiar de Matrícula
             </button>
-            <button class="btn btn-block btn-sm btn-outline-secondary mb-2" @onclick="UpdateEducationLevel">
+            <button class="btn btn-block btn-sm btn-outline-primary mb-2" @onclick="UpdateEducationLevel">
                 <i class="fas fa-graduation-cap"></i> Cambiar de nivel educativo
             </button>
             <button class="btn btn-block btn-sm btn-outline-dark" @onclick="ViewPassword">
@@ -49,7 +49,7 @@
             <button class="btn btn-block btn-sm @(Student.isActive ? "btn-outline-danger" : "btn-outline-success") mb-2" @onclick="ChangeStudentState">
                 <i class="fas fa-power-off"></i> @(Student.isActive ? "Desactivar" : "Activar")
             </button>
-            <button class="btn btn-block btn-sm btn-outline-dark" @onclick="Withdraw">
+            <button class="btn btn-block btn-sm btn-outline-danger" @onclick="Withdraw">
                 <i class="fas fa-key"></i> Dar de baja
             </button>
         </div>
