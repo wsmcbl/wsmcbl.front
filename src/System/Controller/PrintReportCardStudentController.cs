@@ -8,9 +8,9 @@ public class PrintReportCardStudentController : BaseController
     {
     }
     
-    public async Task<byte[]> GetPdfContent(string studentId)
+    public async Task<byte[]> GetPdfContent(string studentId, string token)
     {
-        var resource = $"students/{studentId}/report-card/export";
+        var resource = $"students/{studentId}/grades/export?token=IamAdmin&adminToken={token}";
         
         return await apiFactory.WithNotificator.GetByteFileAsync(Modules.Academy, resource);
     }

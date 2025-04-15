@@ -15,9 +15,9 @@ public partial class StudentListView : BaseView
     [Inject] protected EnrollStudentController EnrollController { get; set; } = null!;
     [Inject] protected UnenrollController unenrollController { get; set; } = null!;
     [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
-    [Inject] protected PrintReportCardStudentController PrintController { get; set; } = null!;
-    private byte[]? PdfDocument { get; set; }
+    private byte[] PdfDocument { get; set; } = [];
     private string? PdfDocumentName { get; set; }
+    private string ThisStudent { get; set; } = string.Empty;
     
     //var for paginator
     private Paginator<StudentEntity>? studentList { get; set; }
@@ -42,16 +42,17 @@ public partial class StudentListView : BaseView
     {
         return studentList == null;
     }
+    private Task HandlePdfDocumentChanged(byte[] newPdf)
+    {
+        PdfDocument = newPdf;
+        return Task.CompletedTask;
+    }
+    
     private async Task PrintReportCard(string studentId)
     {
-        PdfDocument = await PrintController.GetPdfContent(studentId);
-        if (PdfDocument.Length == 0)
-        {
-            return;
-        }
-
+        ThisStudent = studentId;
         PdfDocumentName = "Boleta de calificaciones";
-        await Navigator.ShowPdfModal();
+        await Navigator.ShowModal("DowloadDegreeDocument");
     }
     private async Task PrintEnrollSheet(string studentId)
     {

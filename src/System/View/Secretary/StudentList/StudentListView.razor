@@ -217,5 +217,8 @@ else
     
     <PdfViewer Title="@PdfDocumentName" PdfContent="@PdfDocument"/>
     <CreateStudentProfileView onNewStudentCreated="@LoadStudentList"/>
-    
+    <GetDegreePdfModal 
+        PdfDocument="@PdfDocument" 
+        StudentId="@ThisStudent"
+        PdfDocumentChanged="HandlePdfDocumentChanged"/>    
 }
