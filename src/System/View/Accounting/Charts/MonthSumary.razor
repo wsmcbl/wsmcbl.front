@@ -37,6 +37,10 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Total General
+                                    <i class="fas fa-info-circle text-muted ml-1"
+                                       data-toggle="tooltip"
+                                       title="Suma total de los pagos realizados por todos los estudiantes en el mes seleccionado.">
+                                    </i>
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     @FormatCurrency(Sumary.total.amount)
@@ -59,8 +63,12 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Meses Anteriores
+                                    <i class="fas fa-info-circle text-muted ml-1"
+                                       data-toggle="tooltip"
+                                       title="Suma total de los pagos realizados por los estudiantes de meses anteriores.">
+                                    </i>
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     @FormatCurrency(Sumary.pastMonths.amount)
@@ -83,8 +91,12 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                    Mes Actual
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Mes actual
+                                    <i class="fas fa-info-circle text-muted ml-1"
+                                       data-toggle="tooltip"
+                                       title="Suma total de los pagos realizados por todos los estudiantes correspondientes al mes actual.">
+                                    </i>
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     @FormatCurrency(Sumary.currentMonth.amount)
@@ -107,8 +119,12 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Meses Futuros
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Meses futuros
+                                    <i class="fas fa-info-circle text-muted ml-1"
+                                       data-toggle="tooltip"
+                                       title="Suma total de los pagos realizados por todos los estudiantes de mensualidades futuras.">
+                                    </i>
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     @FormatCurrency(Sumary.futureMonths.amount)
@@ -127,3 +143,9 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
