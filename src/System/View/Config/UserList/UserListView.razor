@@ -22,7 +22,8 @@ else
                     Nuevo Usuario
                 </button>
 
-                <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-success btn-sm dropdown-toggle dropdown-toggle-split"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="sr-only">Toggle Dropdown</span>
                 </button>
 
@@ -33,31 +34,52 @@ else
         </div>
         <div class="card-body">
             <!---------------------------------------------------------->
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label class="d-flex align-items-center">
-                        Mostrar
-                        <select class="form-control form-control-sm d-inline-block w-auto mx-2" @onchange="ShowPageSize">
+            <div class="row mb-3 align-items-center">
+                <!-- Selector de registros por página -->
+                <div class="col-12 col-sm-6 mb-2 mb-sm-0">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <label class="mb-0 mr-2">Mostrar</label>
+                        <select class="form-control form-control-sm d-inline-block w-auto mx-2"
+                                @onchange="ShowPageSize">
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
                         </select>
-                        registros
-                    </label>
+                        <span class="text-nowrap">registros</span>
+                    </div>
                 </div>
 
-                <div class="col-md-6 d-flex justify-content-end">
-                    <div class="input-group" style="width: 200px;">
-                        <input type="text" class="form-control form-control-sm" placeholder="Buscar..." @bind="Request.SearchText" @onkeyup="Searching">
+                <!-- Barra de búsqueda -->
+                <div class="col-12 col-sm-6">
+                    <div class="input-group input-group-sm">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Buscar usuarios..."
+                               @bind="Request.SearchText"
+                               @onkeyup="Searching"
+                               aria-label="Buscar usuarios">
+
                         @if (!string.IsNullOrEmpty(Request.SearchText))
                         {
-                            <div class="">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
-                                    ✖
+                            <div class="input-group-append">
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        @onclick="ClearSearch"
+                                        aria-label="Limpiar búsqueda">
+                                    <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         }
+                        <div class="input-group-append">
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    @onkeyup="Searching"
+                                    aria-label="Buscar">
+                                <i class="fas fa-search"></i>
+                                <span class="d-none d-sm-inline ml-1">Buscar</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,143 +92,214 @@ else
             else
             {
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <div class="d-none d-md-block">
+                        <table class="table table-bordered">
 
-                        <thead>
-                        <tr>
-                            <th @onclick="@(() => SortByColumn("userId"))"
-                                class="@(Request.sortBy == "userId" ? "font-weight-bold" : "")">
-                                Id
-                                <span>@(Request.sortBy == "userId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-                            
-                            <th @onclick="@(() => SortByColumn("name"))"
-                                class="@(Request.sortBy == "name" ? "font-weight-bold" : "")">
-                                Nombre
-                                <span>@(Request.sortBy == "name" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-                            
-                            <th @onclick="@(() => SortByColumn("roleId"))"
-                                class="@(Request.sortBy == "roleId" ? "font-weight-bold" : "")">
-                                Rol
-                                <span>@(Request.sortBy == "roleId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-
-                            <th @onclick="@(() => SortByColumn("isActive"))"
-                                class="@(Request.sortBy == "isActive" ? "font-weight-bold" : "")">
-                                Rol
-                                <span>@(Request.sortBy == "isActive" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-                            
-                            <th>Acción</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        @foreach (var item in UserPaginator!.data)
-                        {
+                            <thead>
                             <tr>
-                                <td> @item.userId </td>
-                                <td> @item.fullName </td>
-                                <td> @item.RoleName </td>
-                                <td>
-                                    <span class="status-label @item.isActive.ToActiveClass()">
-                                        @item.isActive.ToActive()
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
+                                <th @onclick="@(() => SortByColumn("userId"))"
+                                    class="@(Request.sortBy == "userId" ? "font-weight-bold" : "")">
+                                    Id
+                                    <span>@(Request.sortBy == "userId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
 
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                             aria-labelledby="dropdownMenuLink" style="min-width: 200px;">
-                                            <div class="dropdown-header">Seleccione una opción:</div>
-                                            <button class="dropdown-item" @onclick="() => ViewUserData(item.userId)">Ver perfil</button>
-                                            <a class="dropdown-item" @onclick="() => ChangePassword(item.userId)">Cambiar contraseña</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" @onclick="() => ChangeUserState(item.userId, item.fullName)">Activar / Desactivar</a>
-                                        </div>
-                                    </div>
-                                </td>
+                                <th @onclick="@(() => SortByColumn("name"))"
+                                    class="@(Request.sortBy == "name" ? "font-weight-bold" : "")">
+                                    Nombre
+                                    <span>@(Request.sortBy == "name" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn("roleId"))"
+                                    class="@(Request.sortBy == "roleId" ? "font-weight-bold" : "")">
+                                    Rol
+                                    <span>@(Request.sortBy == "roleId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn("isActive"))"
+                                    class="@(Request.sortBy == "isActive" ? "font-weight-bold" : "")">
+                                    Rol
+                                    <span>@(Request.sortBy == "isActive" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th>Acción</th>
                             </tr>
-                        }
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                            @foreach (var item in UserPaginator!.data)
+                            {
+                                <tr>
+                                    <td> @item.userId </td>
+                                    <td> @item.fullName </td>
+                                    <td> @item.RoleName </td>
+                                    <td>
+                                        <span class="status-label @item.isActive.ToActiveClass()">
+                                            @item.isActive.ToActive()
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                 aria-labelledby="dropdownMenuLink" style="min-width: 200px;">
+                                                <div class="dropdown-header">Seleccione una opción:</div>
+                                                <button class="dropdown-item" @onclick="() => ViewUserData(item.userId)">Ver
+                                                    perfil
+                                                </button>
+                                                <a class="dropdown-item" @onclick="() => ChangePassword(item.userId)">Cambiar
+                                                    contraseña</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item"
+                                                   @onclick="() => ChangeUserState(item.userId, item.fullName)">Activar /
+                                                    Desactivar</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="row">
-                        
-                    <div class="col-sm-12 col-md-5">
-                        <p>
-                            Mostrando @UserPaginator.data.Count registros de @UserPaginator.quantity
+                
+                <!-- Versión Mobile (visible solo en pantallas pequeñas) -->
+                <div class="d-md-none">
+                    @foreach (var item in UserPaginator!.data)
+                    {
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="font-weight-bold mb-1">@item.fullName</h6>
+                                        <small class="text-muted">ID: @item.userId</small>
+                                    </div>
+                                    <span
+                                        class="status-label @item.isActive.ToActiveClass()">@item.isActive.ToActive()</span>
+                                </div>
+
+                                <div class="mt-2">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Rol:</span>
+                                        <span>@item.RoleName</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-around mt-2">
+                                    
+                                    <button @onclick="() => ViewUserData(item.userId)"
+                                            class="btn btn-sm btn-outline-success"
+                                            title="Ver Perfil">
+                                        <i class="fas fa-user"></i>
+                                    </button>
+                                    
+                                    <button @onclick="() => ChangePassword(item.userId)"
+                                            class="btn btn-sm btn-outline-info"
+                                            title="Cambiar contraseña">
+                                        <i class="fas fa-key"></i>
+                                    </button>
+
+                                    <button @onclick="() => ChangeUserState(item.userId, item.fullName)"
+                                            class="btn btn-sm btn-outline-info"
+                                            title=@(item.isActive ? "Desactivar" : "Activar")>
+                                        <i class="@(item.isActive ? "fas fa-toggle-on text-success" : "fas fa-toggle-off text-secondary") fa-lg"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Versión Mobile -->
+                <div class="row align-items-center">
+                    
+                    <div class="col-12 col-md-5 mb-2 mb-md-0 text-center text-md-left">
+                        <p class="mb-0">
+                            Mostrando <span class="font-weight-bold">@UserPaginator.data.Count</span> de
+                            <span class="font-weight-bold">@UserPaginator.quantity</span> registros
                         </p>
                     </div>
 
-                    <div class="col-sm-12 col-md-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            <ul class="pagination d-flex justify-content-end">
-                                <!-- Botón Anterior -->
-                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
-                                    <a @onclick="GoToPreviousPage" class="page-link">Anterior</a>
+                    <div class="col-12 col-md-7">
+                        <nav aria-label="Paginación de resultados">
+                            <ul class="pagination justify-content-center justify-content-md-end mb-0">
+
+                                <li class="page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
+                                    <a @onclick="GoToPreviousPage" class="page-link" aria-label="Anterior">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
                                 </li>
 
-                                <!-- Primera Página -->
-                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "active" : "")">
-                                    <a @onclick="() => ShowPage(1)" class="page-link">1</a>
-                                </li>
+                                @if (Request.CurrentPage > 1)
+                                {
+                                    <li class="page-item d-none d-sm-block">
+                                        <a @onclick="() => ShowPage(1)" class="page-link">1</a>
+                                    </li>
+                                }
 
-                                <!-- ... si la página actual está lejos de la primera página -->
                                 @if (Request.CurrentPage > 3)
                                 {
-                                    <li class="paginate_button page-item disabled">
+                                    <li class="page-item disabled d-none d-sm-block">
                                         <span class="page-link">...</span>
                                     </li>
                                 }
 
-                                <!-- Página actual -->
-                                @if (Request.CurrentPage > 1 && Request.CurrentPage < UserPaginator.totalPages)
+                                @{
+                                    var startPage = Math.Max(2, Request.CurrentPage - 1);
+                                    var endPage = Math.Min(UserPaginator.totalPages - 1, Request.CurrentPage + 1);
+                                }
+
+                                @for (int i = startPage; i <= endPage; i++)
                                 {
-                                    <li class="paginate_button page-item active">
-                                        <a class="page-link">@Request.CurrentPage</a>
+                                    <li class="page-item @(Request.CurrentPage == i ? "active" : "")">
+                                        <a @onclick="() => ShowPage(i)" class="page-link">@i</a>
                                     </li>
                                 }
 
-                                <!-- ... si la página actual está lejos de la última página -->
                                 @if (Request.CurrentPage < UserPaginator.totalPages - 2)
                                 {
-                                    <li class="paginate_button page-item disabled">
+                                    <li class="page-item disabled d-none d-sm-block">
                                         <span class="page-link">...</span>
                                     </li>
                                 }
 
-                                <!-- Última Página -->
-                                @if (UserPaginator.totalPages > 1)
+                                @if (UserPaginator.totalPages > 1 && Request.CurrentPage < UserPaginator.totalPages)
                                 {
-                                    <li class="paginate_button page-item @(Request.CurrentPage == UserPaginator.totalPages ? "active" : "")">
-                                        <a @onclick="() => ShowPage(UserPaginator.totalPages)" class="page-link">@UserPaginator.totalPages</a>
+                                    <li class="page-item d-none d-sm-block">
+                                        <a @onclick="() => ShowPage(UserPaginator.totalPages)" class="page-link">
+                                            @UserPaginator.totalPages
+                                        </a>
                                     </li>
                                 }
 
-                                <!-- Botón Siguiente -->
-                                <li class="paginate_button page-item @(Request.CurrentPage == UserPaginator.totalPages ? "disabled" : "")">
-                                    <a @onclick="GoToNextPage" class="page-link">Siguiente</a>
+                                <li class="page-item @(Request.CurrentPage == UserPaginator.totalPages ? "disabled" : "")">
+                                    <a @onclick="GoToNextPage" class="page-link" aria-label="Siguiente">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+
+                                <li class="page-item disabled d-sm-none mx-2">
+                                    <span class="page-link">
+                                        @Request.CurrentPage / @UserPaginator.totalPages
+                                    </span>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
                     </div>
-                    
                 </div>
             }
             <!---------------------------------------------------------->
         </div>
     </div>
-    
+
     <CreateNewUserModal UserEntity="@User" OnUserUpdated="HandleUserUpdated"/>
     <UserInformationModal UserInfo="@User"/>
     <ViewUserInfo userId="@UserIdForViewInformation"/>
-    
-    
+
+
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>
 }

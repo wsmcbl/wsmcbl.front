@@ -218,9 +218,9 @@ else
                     }
                 </div>
                 
-                <!-- Versión Mobile (visible solo en pantallas pequeñas) -->
+                <!-- Versión Mobile -->
                 <div class="row align-items-center">
-                    <!-- Información de registros - ahora centrado verticalmente -->
+
                     <div class="col-12 col-md-5 mb-2 mb-md-0 text-center text-md-left">
                         <p class="mb-0">
                             Mostrando <span class="font-weight-bold">@studentList.data.Count</span> de
@@ -228,18 +228,16 @@ else
                         </p>
                     </div>
 
-                    <!-- Paginación - rediseñada para mobile -->
                     <div class="col-12 col-md-7">
                         <nav aria-label="Paginación de resultados">
                             <ul class="pagination justify-content-center justify-content-md-end mb-0">
-                                <!-- Botón Anterior -->
+
                                 <li class="page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
                                     <a @onclick="GoToPreviousPage" class="page-link" aria-label="Anterior">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>
 
-                                <!-- Primera Página - solo visible cuando no es la página actual -->
                                 @if (Request.CurrentPage > 1)
                                 {
                                     <li class="page-item d-none d-sm-block">
@@ -247,7 +245,6 @@ else
                                     </li>
                                 }
 
-                                <!-- Puntos suspensivos si hay páginas ocultas al inicio -->
                                 @if (Request.CurrentPage > 3)
                                 {
                                     <li class="page-item disabled d-none d-sm-block">
@@ -255,7 +252,6 @@ else
                                     </li>
                                 }
 
-                                <!-- Páginas alrededor de la actual -->
                                 @{
                                     var startPage = Math.Max(2, Request.CurrentPage - 1);
                                     var endPage = Math.Min(studentList.totalPages - 1, Request.CurrentPage + 1);
@@ -268,7 +264,6 @@ else
                                     </li>
                                 }
 
-                                <!-- Puntos suspensivos si hay páginas ocultas al final -->
                                 @if (Request.CurrentPage < studentList.totalPages - 2)
                                 {
                                     <li class="page-item disabled d-none d-sm-block">
@@ -276,7 +271,6 @@ else
                                     </li>
                                 }
 
-                                <!-- Última Página - solo visible cuando no es la página actual -->
                                 @if (studentList.totalPages > 1 && Request.CurrentPage < studentList.totalPages)
                                 {
                                     <li class="page-item d-none d-sm-block">
@@ -286,18 +280,16 @@ else
                                     </li>
                                 }
 
-                                <!-- Botón Siguiente -->
                                 <li class="page-item @(Request.CurrentPage == studentList.totalPages ? "disabled" : "")">
                                     <a @onclick="GoToNextPage" class="page-link" aria-label="Siguiente">
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
                                 </li>
 
-                                <!-- Indicador de página actual en mobile -->
                                 <li class="page-item disabled d-sm-none mx-2">
-                    <span class="page-link">
-                        @Request.CurrentPage / @studentList.totalPages
-                    </span>
+                                    <span class="page-link">
+                                        @Request.CurrentPage / @studentList.totalPages
+                                    </span>
                                 </li>
                             </ul>
                         </nav>
