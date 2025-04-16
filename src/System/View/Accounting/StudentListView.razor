@@ -4,6 +4,7 @@
 @attribute [Authorize(Roles = "admin,cashier")]
 
 @using wsmcbl.src.Model.Accounting
+@using wsmcbl.src.Utilities
 @using wsmcbl.src.View.Components.CreateStudent;
 
 @if (IsLoading())
@@ -31,37 +32,60 @@ else
                 </div>
             </div>
         </div>
-        
+
         <!------------------------------------------------------------------------------------------------------------------------------------->
         <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label class="d-flex align-items-center">
-                        Mostrar
-                        <select class="form-control form-control-sm d-inline-block w-auto mx-2" @onchange="ShowPageSize">
+
+            <div class="row mb-3 align-items-center">
+                <!-- Selector de registros por página -->
+                <div class="col-12 col-sm-6 mb-2 mb-sm-0">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <label class="mb-0 mr-2">Mostrar</label>
+                        <select class="form-control form-control-sm d-inline-block w-auto mx-2"
+                                @onchange="ShowPageSize">
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
                             <option value="100">100</option>
                         </select>
-                        registros
-                    </label>
+                        <span class="text-nowrap">registros</span>
+                    </div>
                 </div>
 
-                <div class="col-md-6 d-flex justify-content-end">
-                    <div class="input-group" style="width: 200px;">
-                        <input type="text" class="form-control form-control-sm" placeholder="Buscar..." @bind="Request.SearchText" @onkeyup="Searching">
+                <!-- Barra de búsqueda -->
+                <div class="col-12 col-sm-6">
+                    <div class="input-group input-group-sm">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Buscar estudiantes..."
+                               @bind="Request.SearchText"
+                               @onkeyup="Searching"
+                               aria-label="Buscar estudiantes">
+
                         @if (!string.IsNullOrEmpty(Request.SearchText))
                         {
-                            <div class="">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
-                                    ✖
+                            <div class="input-group-append">
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        @onclick="ClearSearch"
+                                        aria-label="Limpiar búsqueda">
+                                    <i class="fas fa-times"></i>
                                 </button>
                             </div>
                         }
+                        <div class="input-group-append">
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    @onkeyup="Searching"
+                                    aria-label="Buscar">
+                                <i class="fas fa-search"></i>
+                                <span class="d-none d-sm-inline ml-1">Buscar</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
             @if (!hasData)
             {
                 <div class="d-flex align-items-center justify-content-center">
@@ -70,124 +94,186 @@ else
             }
             else
             {
+                <!-- Versión para Desktop -->
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <div class="d-none d-md-block">
+                        <table class="table table-bordered">
 
-                        <thead>
-                        <tr>
-                            
-                            <th @onclick="@(() => SortByColumn("studentId"))"
-                                class="@(Request.sortBy == "studentId" ? "font-weight-bold" : "")">
-                                Id
-                                <span>@(Request.sortBy == "studentId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-
-                            <th @onclick="@(() => SortByColumn("fullName"))"
-                                class="@(Request.sortBy == "fullName" ? "font-weight-bold" : "")">
-                                Nombre
-                                <span>@(Request.sortBy == "fullName" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-
-                            <th @onclick="@(() => SortByColumn("tutor"))"
-                                class="@(Request.sortBy == "tutor" ? "font-weight-bold" : "")">
-                                Tutor
-                                <span>@(Request.sortBy == "tutor" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-
-                            <th @onclick="@(() => SortByColumn("enrollment"))"
-                                class="@(Request.sortBy == "enrollment" ? "font-weight-bold" : "")">
-                                Matrícula
-                                <span>@(Request.sortBy == "enrollment" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
-                            </th>
-                            
-                            <th>Acción</th>
-                        </tr>
-                        </thead>
-                        
-                        <tbody>
-                        @foreach (var item in StudentList!.data)
-                        {
+                            <thead>
                             <tr>
-                                <td>@item.studentId</td>
-                                <td>@item.fullName</td>
-                                <td>@item.tutor</td>
-                                <td>@item.enrollmentLabel</td>
-                                <td>
-                                    <a href="/accounting/students/@item.studentId" class="btn btn-success btn-sm">Ver
-                                        perfil</a>
-                                </td>
+
+                                <th @onclick="@(() => SortByColumn("studentId"))"
+                                    class="@(Request.sortBy == "studentId" ? "font-weight-bold" : "")">
+                                    Id
+                                    <span>@(Request.sortBy == "studentId" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn("fullName"))"
+                                    class="@(Request.sortBy == "fullName" ? "font-weight-bold" : "")">
+                                    Nombre
+                                    <span>@(Request.sortBy == "fullName" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn("tutor"))"
+                                    class="@(Request.sortBy == "tutor" ? "font-weight-bold" : "")">
+                                    Tutor
+                                    <span>@(Request.sortBy == "tutor" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th @onclick="@(() => SortByColumn("enrollment"))"
+                                    class="@(Request.sortBy == "enrollment" ? "font-weight-bold" : "")">
+                                    Matrícula
+                                    <span>@(Request.sortBy == "enrollment" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                </th>
+
+                                <th>Acción</th>
                             </tr>
-                        }
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                            @foreach (var item in StudentList!.data)
+                            {
+                                <tr>
+                                    <td>@item.studentId</td>
+                                    <td>@item.fullName</td>
+                                    <td>@item.tutor</td>
+                                    <td>@item.enrollmentLabel</td>
+                                    <td>
+                                        <a href="/accounting/students/@item.studentId" class="btn btn-success btn-sm">Ver
+                                            perfil</a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="row">
-                        
-                    <div class="col-sm-12 col-md-5">
-                        <p>
-                            Mostrando @StudentList.data.Count registros de @StudentList.quantity
+                
+                <!-- Versión para Mobile -->
+                <div class="d-md-none">
+                    @foreach (var item in StudentList!.data)
+                    {
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="font-weight-bold mb-1">@item.fullName</h6>
+                                        <small class="text-muted">ID: @item.studentId</small>
+                                    </div>
+                                </div>
+
+                                <div class="mt-2">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="text-muted">Tutor:</span>
+                                        <span>@item.tutor</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Matrícula:</span>
+                                        <span>@item.enrollmentLabel</span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-around mt-2">
+                                    <a href="/accounting/students/@item.studentId"
+                                       class="btn btn-sm btn-outline-success"
+                                       title="Ver perfil">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Versión para Mobile -->
+                <div class="row align-items-center">
+                    <!-- Información de registros - ahora centrado verticalmente -->
+                    <div class="col-12 col-md-5 mb-2 mb-md-0 text-center text-md-left">
+                        <p class="mb-0">
+                            Mostrando <span class="font-weight-bold">@StudentList.data.Count</span> de
+                            <span class="font-weight-bold">@StudentList.quantity</span> registros
                         </p>
                     </div>
 
-                    <div class="col-sm-12 col-md-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            <ul class="pagination d-flex justify-content-end">
+                    <!-- Paginación - rediseñada para mobile -->
+                    <div class="col-12 col-md-7">
+                        <nav aria-label="Paginación de resultados">
+                            <ul class="pagination justify-content-center justify-content-md-end mb-0">
                                 <!-- Botón Anterior -->
-                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
-                                    <a @onclick="GoToPreviousPage" class="page-link">Anterior</a>
+                                <li class="page-item @(Request.CurrentPage == 1 ? "disabled" : "")">
+                                    <a @onclick="GoToPreviousPage" class="page-link" aria-label="Anterior">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
                                 </li>
 
-                                <!-- Primera Página -->
-                                <li class="paginate_button page-item @(Request.CurrentPage == 1 ? "active" : "")">
-                                    <a @onclick="() => ShowPage(1)" class="page-link">1</a>
-                                </li>
-
-                                <!-- Páginas adyacentes a la página actual -->
-                                @for (int i = Math.Max(2, Request.CurrentPage - 2); i <= Math.Min(StudentList.totalPages - 1, Request.CurrentPage + 2); i++)
+                                <!-- Primera Página - solo visible cuando no es la página actual -->
+                                @if (Request.CurrentPage > 1)
                                 {
-                                    int pageNumber = i; // Asegúrate de que pageNumber sea igual a i
-                                    <li class="paginate_button page-item @(Request.CurrentPage == pageNumber ? "active" : "")">
-                                        <a @onclick="() => ShowPage(pageNumber)" class="page-link">@pageNumber</a>
+                                    <li class="page-item d-none d-sm-block">
+                                        <a @onclick="() => ShowPage(1)" class="page-link">1</a>
                                     </li>
                                 }
 
-                                <!-- Página actual -->
-                                @if (Request.CurrentPage > 1 && Request.CurrentPage < StudentList.totalPages)
+                                <!-- Puntos suspensivos si hay páginas ocultas al inicio -->
+                                @if (Request.CurrentPage > 3)
                                 {
-                                    <li class="paginate_button page-item active">
-                                        <a class="page-link">@Request.CurrentPage</a>
-                                    </li>
-                                }
-
-                                <!-- ... si la página actual está lejos de la última página -->
-                                @if (Request.CurrentPage < StudentList.totalPages - 2)
-                                {
-                                    <li class="paginate_button page-item disabled">
+                                    <li class="page-item disabled d-none d-sm-block">
                                         <span class="page-link">...</span>
                                     </li>
                                 }
 
-                                <!-- Última Página -->
-                                @if (StudentList.totalPages > 1)
+                                <!-- Páginas alrededor de la actual -->
+                                @{
+                                    var startPage = Math.Max(2, Request.CurrentPage - 1);
+                                    var endPage = Math.Min(StudentList.totalPages - 1, Request.CurrentPage + 1);
+                                }
+
+                                @for (int i = startPage; i <= endPage; i++)
                                 {
-                                    <li class="paginate_button page-item @(Request.CurrentPage == StudentList.totalPages ? "active" : "")">
-                                        <a @onclick="() => ShowPage(StudentList.totalPages)" class="page-link">@StudentList.totalPages</a>
+                                    <li class="page-item @(Request.CurrentPage == i ? "active" : "")">
+                                        <a @onclick="() => ShowPage(i)" class="page-link">@i</a>
+                                    </li>
+                                }
+
+                                <!-- Puntos suspensivos si hay páginas ocultas al final -->
+                                @if (Request.CurrentPage < StudentList.totalPages - 2)
+                                {
+                                    <li class="page-item disabled d-none d-sm-block">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                }
+
+                                <!-- Última Página - solo visible cuando no es la página actual -->
+                                @if (StudentList.totalPages > 1 && Request.CurrentPage < StudentList.totalPages)
+                                {
+                                    <li class="page-item d-none d-sm-block">
+                                        <a @onclick="() => ShowPage(StudentList.totalPages)" class="page-link">
+                                            @StudentList.totalPages
+                                        </a>
                                     </li>
                                 }
 
                                 <!-- Botón Siguiente -->
-                                <li class="paginate_button page-item @(Request.CurrentPage == StudentList.totalPages ? "disabled" : "")">
-                                    <a @onclick="GoToNextPage" class="page-link">Siguiente</a>
+                                <li class="page-item @(Request.CurrentPage == StudentList.totalPages ? "disabled" : "")">
+                                    <a @onclick="GoToNextPage" class="page-link" aria-label="Siguiente">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+
+                                <!-- Indicador de página actual en mobile -->
+                                <li class="page-item disabled d-sm-none mx-2">
+                                    <span class="page-link">
+                                        @Request.CurrentPage / @StudentList.totalPages
+                                    </span>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
                     </div>
-                    
                 </div>
             }
         </div>
         <!-------------------------------------------------------------------------------------------------------------------------------------->
-        
+
     </div>
 
     <script defer src="js/DataTable/dataTableOrderByName.js"></script>
