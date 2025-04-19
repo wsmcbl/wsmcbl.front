@@ -5,6 +5,7 @@
 
 <div class="container-fluid">
     
+    <!-- Bienvenida y selector de fecha -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
         <!-- Título -->
         <div class="text-center text-md-left mb-3 mb-md-0">
@@ -37,7 +38,8 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- Tarjeta de opciones -->
     <div class="row">
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -142,6 +144,9 @@
             </div>
         </div>
     </div>
+    
+    <!-- Tarjetas de resumen -->
+    <MonthSumary Month="@selectedMonthValue"/>
 
     <!-- Sección de Gráficos -->
     <div class="row">
@@ -150,7 +155,6 @@
     </div>
 </div>
 
-<MonthSumary Month="@selectedMonthValue"/>
 
 <div class="row">
     <MonthDetails Month="@selectedMonthValue"/>
