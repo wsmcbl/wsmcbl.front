@@ -66,7 +66,7 @@
                     <button class="dropdown-item" @onclick="DownloadCertificate">
                         <i class="fas fa-certificate mr-2"></i> Alumno Activo
                     </button>
-                    <button class="dropdown-item">
+                    <button class="dropdown-item" @onclick="PrintReportCard">
                         <i class="fas fa-file-contract mr-2"></i> Boleta
                     </button>
                     <!-- Agrega más opciones de documentos aquí -->
@@ -89,4 +89,11 @@
 <ChangeEducationLevelView StudentId="@Student.studentId"/>
 <MoveStudentView StudentId="@Student.studentId" StudentName="@Student.FullName()"/>
 <StudentPasswordView StudentId="@Student.studentId"/>
+
+<PdfViewer Title="@Student.FullName()" PdfContent="@PdfDocument"/>
+
+<GetDegreePdfModal
+    PdfDocument="@PdfDocument"
+    StudentId="@Student.studentId"
+    PdfDocumentChanged="HandlePdfDocumentChanged"/>
 

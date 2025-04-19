@@ -14,6 +14,8 @@ public partial class DashboardStudentView : ComponentBase
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
     [Parameter] public StudentEntity Student { get; set; } = new();
+    private byte[] PdfDocument { get; set; } = [];
+
 
     protected override async Task OnParametersSetAsync()
     {
@@ -75,9 +77,17 @@ public partial class DashboardStudentView : ComponentBase
     {
         await Navigator.ShowModal("AccessInfoModal");
     }
-
     private async Task DownloadCertificate()
     {
         await PrintDocumentByStudentController.GetCertificate(Student.studentId!, Student.FullName());
+    }
+    private async Task PrintReportCard()
+    {
+        await Navigator.ShowModal("DowloadDegreeDocument");
+    }
+    private Task HandlePdfDocumentChanged(byte[] newPdf)
+    {
+        PdfDocument = newPdf;
+        return Task.CompletedTask;
     }
 }
