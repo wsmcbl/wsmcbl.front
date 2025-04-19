@@ -2,7 +2,6 @@
 @using wsmcbl.src.View.Secretary.StudentList
 @using wsmcbl.src.View.Components.StudentPasswordView
 @using wsmcbl.src.View.Secretary.Schoolyear
-@using wsmcbl.src.View.Components.GenerateProforma
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
         
@@ -39,44 +38,42 @@
 
         <!-- Columna de acciones -->
         <div class="col-md-3 p-3 border-left">
-            <!-- Dropdown para Matrículas -->
+
             <div class="dropdown mb-2">
                 <button class="btn btn-outline-primary btn-block btn-sm dropdown-toggle" type="button" id="enrollmentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-id-card"></i> Acciones de Academicas
+                    <i class="fas fa-user-graduate"></i> Acciones Académicas
                 </button>
                 <div class="dropdown-menu" aria-labelledby="enrollmentDropdown">
                     <button class="dropdown-item" @onclick="UpdateEnrollment">
                         <i class="fas fa-exchange-alt mr-2"></i> Cambiar de Matrícula
                     </button>
                     <button class="dropdown-item" @onclick="UpdateEducationLevel">
-                        <i class="fas fa-graduation-cap mr-2"></i> Cambiar nivel educativo
+                        <i class="fas fa-level-up-alt mr-2"></i> Cambiar nivel educativo
                     </button>
                     <div class="dropdown-divider"></div>
                     <button class="dropdown-item text-danger" @onclick="Withdraw">
-                        <i class="fas fa-user-times mr-2"></i> Dar de baja
+                        <i class="fas fa-user-slash mr-2"></i> Dar de baja
                     </button>
                 </div>
             </div>
 
-            <!-- Dropdown para Documentos -->
             <div class="dropdown mb-2">
                 <button class="btn btn-outline-secondary btn-block btn-sm dropdown-toggle" type="button" id="documentsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file-alt"></i> Generar Documentos
+                    <i class="fas fa-file-download"></i> Generar Documentos
                 </button>
                 <div class="dropdown-menu" aria-labelledby="documentsDropdown">
                     <button class="dropdown-item" @onclick="DownloadCertificate">
-                        <i class="fas fa-certificate mr-2"></i> Alumno Activo
+                        <i class="fas fa-user-check mr-2"></i> Alumno Activo
                     </button>
                     <button class="dropdown-item" @onclick="PrintReportCard">
-                        <i class="fas fa-file-contract mr-2"></i> Boleta
+                        <i class="fas fa-file-signature mr-2"></i> Boleta
                     </button>
                     <button class="dropdown-item" @onclick="PrintProforma">
-                        <i class="fas fa-file-contract mr-2"></i> Proforma
+                        <i class="fas fa-file-invoice-dollar mr-2"></i> Proforma
                     </button>
                 </div>
             </div>
 
-            <!-- Acciones individuales importantes -->
             <button class="btn btn-block btn-sm btn-outline-dark mb-2" @onclick="ViewPassword">
                 <i class="fas fa-key"></i> Ver Contraseña
             </button>
