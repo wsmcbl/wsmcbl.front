@@ -68,6 +68,10 @@ builder.Services.AddTransient<GenerateEvaluationStatsBySectionController>();
 builder.Services.AddTransient<UnenrollController>();
 builder.Services.AddTransient<GetSchoolYearServices>();
 builder.Services.AddTransient<DashboardCashierController>();
+builder.Services.AddTransient<PrintDocumentByStudentController>();
+
+
+
 
 var app = builder.Build();
 

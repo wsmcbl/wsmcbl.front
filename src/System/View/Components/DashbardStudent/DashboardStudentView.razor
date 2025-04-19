@@ -1,6 +1,7 @@
 @using wsmcbl.src.View.Secretary.StudentList.ModifyEducationLevel
 @using wsmcbl.src.View.Secretary.StudentList
 @using wsmcbl.src.View.Components.StudentPasswordView
+@using wsmcbl.src.View.Secretary.Schoolyear
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
         
@@ -22,7 +23,7 @@
             <div class="student-details">
                 <p class="mb-1">
                     <i class="fas fa-venus-mars text-secondary"></i>
-                    @(Student.sex ? "Masculino" : "Femenino"), años
+                    @(Student.sex ? "Masculino" : "Femenino"), @Student.birthday.AgeCompute() años
                 </p>
                 <p class="mb-1 text-truncate">
                     <i class="fas fa-home text-secondary"></i>
@@ -37,22 +38,51 @@
 
         <!-- Columna de acciones -->
         <div class="col-md-3 p-3 border-left">
-            <button class="btn btn-block btn-sm btn-outline-primary mb-2" @onclick="UpdateEnrollment">
-                <i class="fas fa-id-card"></i> Cambiar de Matrícula
-            </button>
-            <button class="btn btn-block btn-sm btn-outline-primary mb-2" @onclick="UpdateEducationLevel">
-                <i class="fas fa-graduation-cap"></i> Cambiar de nivel educativo
-            </button>
-            <button class="btn btn-block btn-sm btn-outline-dark" @onclick="ViewPassword">
+            <!-- Dropdown para Matrículas -->
+            <div class="dropdown mb-2">
+                <button class="btn btn-outline-primary btn-block btn-sm dropdown-toggle" type="button" id="enrollmentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-id-card"></i> Acciones de Academicas
+                </button>
+                <div class="dropdown-menu" aria-labelledby="enrollmentDropdown">
+                    <button class="dropdown-item" @onclick="UpdateEnrollment">
+                        <i class="fas fa-exchange-alt mr-2"></i> Cambiar de Matrícula
+                    </button>
+                    <button class="dropdown-item" @onclick="UpdateEducationLevel">
+                        <i class="fas fa-graduation-cap mr-2"></i> Cambiar nivel educativo
+                    </button>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item text-danger" @onclick="Withdraw">
+                        <i class="fas fa-user-times mr-2"></i> Dar de baja
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dropdown para Documentos -->
+            <div class="dropdown mb-2">
+                <button class="btn btn-outline-secondary btn-block btn-sm dropdown-toggle" type="button" id="documentsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-file-alt"></i> Generar Documentos
+                </button>
+                <div class="dropdown-menu" aria-labelledby="documentsDropdown">
+                    <button class="dropdown-item" @onclick="DownloadCertificate">
+                        <i class="fas fa-certificate mr-2"></i> Alumno Activo
+                    </button>
+                    <button class="dropdown-item">
+                        <i class="fas fa-file-contract mr-2"></i> Boleta
+                    </button>
+                    <!-- Agrega más opciones de documentos aquí -->
+                </div>
+            </div>
+
+            <!-- Acciones individuales importantes -->
+            <button class="btn btn-block btn-sm btn-outline-dark mb-2" @onclick="ViewPassword">
                 <i class="fas fa-key"></i> Ver Contraseña
             </button>
+
             <button class="btn btn-block btn-sm @(Student.isActive ? "btn-outline-danger" : "btn-outline-success") mb-2" @onclick="ChangeStudentState">
                 <i class="fas fa-power-off"></i> @(Student.isActive ? "Desactivar" : "Activar")
             </button>
-            <button class="btn btn-block btn-sm btn-outline-danger" @onclick="Withdraw">
-                <i class="fas fa-key"></i> Dar de baja
-            </button>
         </div>
+        
     </div>
 </div>
 
