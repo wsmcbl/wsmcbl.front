@@ -1,9 +1,9 @@
 <div class="modal fade" id="DownloadProformaModal" tabindex="-1" aria-labelledby="DownloadProformaModal" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header py-3">
+            <div class="modal-header py-3 bg-light">
                 <h5 class="modal-title text-gray-800 font-weight-bold">
-                    <i class="fas fa-graduation-cap mr-2"></i>Cambio de Nivel Educativo
+                    <i class="fas fa-file-invoice mr-2"></i>Generar proformas
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -11,56 +11,67 @@
             </div>
 
             <div class="modal-body">
-
-                <div class="alert alert-info mb-4 text-center">
-                    <div class="d-flex flex-column align-items-center">
-                        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
-                        <h6>Para generar una proforma introduce el nombre del cliente, y selecciona el grado / nivel que
-                            corresponda</h6>
+                <!-- Encabezado descriptivo -->
+                <div class="text-center mb-4">
+                    <div class="mb-3">
+                        <i class="fas fa-file-alt fa-3x text-primary"></i>
                     </div>
+                    <h4 class="text-gray-800 mb-3">Generar proforma</h4>
+                    <p class="text-muted">Complete los siguientes campos requeridos</p>
                 </div>
-                
-                <div class="alert alert-info mb-4 text-center">
-                    <div class="d-flex flex-column align-items-center">
-                        <div class="form-group w-75">
-                            <label for="customer">Cliente:</label>
-                            <input id="customer"
-                                   class="form-control text-center"
+
+                <!-- Formulario -->
+                <div class="px-lg-4">
+                    <!-- Campo Cliente -->
+                    <div class="form-group mb-4">
+                        <label class="font-weight-bold text-gray-800 mb-2">Cliente</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white">
+                                    <i class="fas fa-user text-gray-600"></i>
+                                </span>
+                            </div>
+                            <input class="form-control"
                                    type="text"
                                    @bind="Name"
-                                   placeholder="Introducir nombre"/>
+                                   placeholder="Nombre completo del cliente"/>
                         </div>
-                        
-                        <div class="form-group w-75">
-                            
-                            <label class="font-weight-bold text-gray-800">Grado:</label>
-                            <select class="form-control form-control-sm" @onchange="GetSelectDegreeId">
-                                @if (Degrees?.Any() == true)
+                    </div>
+
+                    <!-- Selector de Grado -->
+                    <div class="form-group">
+                        <label class="font-weight-bold text-gray-800 mb-2">Grado/Nivel</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-white">
+                                    <i class="fas fa-graduation-cap text-gray-600"></i>
+                                </span>
+                            </div>
+                            <select class="form-control" @onchange="GetSelectDegreeId">
+                                @if (DegreeList?.data.Any() == true)
                                 {
-                                    @foreach (var option in Degrees.OrderBy(d => d.position))
+                                    <option value="" selected disabled>Seleccione un grado</option>
+                                    @foreach (var option in DegreeList.data.OrderBy(d => d.position))
                                     {
                                         <option value="@option.degreeId">@option.label</option>
                                     }
                                 }
                                 else
                                 {
-                                    <option value="">No hay grados disponibles</option>
+                                    <option value="" disabled>No hay grados disponibles</option>
                                 }
                             </select>
-
                         </div>
-                        
                     </div>
                 </div>
-              
             </div>
 
-            <div class="modal-footer bg-gray-100">
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
-                    <i class="fas fa-times mr-1"></i> Cancelar
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <i class="fas fa-times mr-2"></i> Cancelar
                 </button>
-                <button type="button" class="btn btn-primary btn-sm" @onclick="DownloadDocument">
-                    <i class="fas fa-save mr-1"></i> Generar
+                <button type="button" class="btn btn-primary" @onclick="DownloadDocument" disabled="@(string.IsNullOrEmpty(Name))">
+                    <i class="fas fa-file-download mr-2"></i> Generar
                 </button>
             </div>
         </div>

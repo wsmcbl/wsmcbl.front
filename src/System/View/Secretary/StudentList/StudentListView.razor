@@ -7,6 +7,7 @@
 @using wsmcbl.src.View.Components
 @using wsmcbl.src.View.Components.CreateStudent
 @using wsmcbl.src.View.Secretary.StudentList.ModifyEducationLevel
+@using wsmcbl.src.View.Components.GenerateProforma
 
 @if (IsLoading())
 {
@@ -30,7 +31,9 @@ else
 
                 <div class="dropdown-menu">
                     <a class="dropdown-item" @onclick="LoadStudentList">Actualizar</a>
-                </div>
+                    <a class="dropdown-item" @onclick="GenerateProforma">Generar proforma</a>
+
+                </div>  
             </div>
         </div>
 
@@ -306,4 +309,6 @@ else
         PdfDocument="@PdfDocument"
         StudentId="@ThisStudent"
         PdfDocumentChanged="HandlePdfDocumentChanged"/>
+    
+    <GeneratePriceView/>
 }

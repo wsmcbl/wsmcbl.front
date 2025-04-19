@@ -16,7 +16,7 @@ public partial class ViewEnrollmentReports : BaseView
     private List<CombinedDegreeDto> _resultado = new();
     private List<EnrollmentListDto> MyEnrollmentList { get; set; } = new();
     private Paginator<DegreeEntity>? DegreeList { get; set; }
-    private PagedRequest Request { get; set; } = new() { pageSize = 200 };
+    private PagedRequest Request { get; set; } = new() { pageSize = 100 };
     
     protected override async Task OnParametersSetAsync()
     {

@@ -66,6 +66,11 @@ public partial class StudentListView : BaseView
         await Navigator.ShowPdfModal();
     }
     
+    private async Task GenerateProforma()
+    {
+        await Navigator.ShowModal("DownloadProformaModal");
+    }
+    
     //Method for paginator
     private Task UpdateUrl()
     {
