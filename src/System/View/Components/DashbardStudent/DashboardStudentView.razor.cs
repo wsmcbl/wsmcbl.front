@@ -8,7 +8,6 @@ namespace wsmcbl.src.View.Components.DashbardStudent;
 public partial class DashboardStudentView : ComponentBase
 {
     [Inject] protected PrintDocumentByStudentController PrintDocumentByStudentController { get; set; } = null!;
-    [Inject] protected ChangeEducationLevelController ChangeEducationLevelController { get; set; } = null!;
     [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
     [Inject] protected UnenrollController unenrollController { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
