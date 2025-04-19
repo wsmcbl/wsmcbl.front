@@ -14,8 +14,6 @@ public partial class GetDegreePdfModal : ComponentBase
     public EventCallback<byte[]> PdfDocumentChanged { get; set; }
     [Parameter] public string StudentId {get;set;} = string.Empty;
     private string Token {get;set;} = string.Empty;
-    
-    
     private async Task HandleKeyDown(KeyboardEventArgs key)
     {
         if (key is { Key: "Enter"})
@@ -23,7 +21,14 @@ public partial class GetDegreePdfModal : ComponentBase
             await DowloadDocument();
         }
     }
-    
+    private async Task HandleSubmit()
+    {
+        if (string.IsNullOrEmpty(Token))
+        {
+            return;
+        }
+        await DowloadDocument();
+    }
     private async Task DowloadDocument()
     {
         if (Token != string.Empty)
