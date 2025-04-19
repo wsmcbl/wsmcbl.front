@@ -150,18 +150,18 @@ else
                                     </td>
                                     <td> @item.schoolyear </td>
                                     <td> @item.enrollment </td>
-                                    <td class="text-nowrap">
-                                        <div class="btn-group btn-group-sm" role="group">
+                                    <td class="text-nowrap text-center">
+                                        <div class="btn-group btn-group-sm d-flex justify-content-center" role="group">
                                             <a href="/secretary/students/@item.studentId"
-                                               class="btn btn-outline-primary">
+                                               class="btn btn-outline-primary mx-1">
                                                 <i class="fas fa-user mr-1"></i> Perfil
                                             </a>
                                             <button @onclick="() => PrintReportCard(item.studentId)"
-                                                    class="btn btn-outline-success">
+                                                    class="btn btn-outline-success mx-1"> 
                                                 <i class="fas fa-file-alt mr-1"></i> Boleta
                                             </button>
                                             <button @onclick="() => PrintEnrollSheet(item.studentId)"
-                                                    class="btn btn-outline-info">
+                                                    class="btn btn-outline-info mx-1">
                                                 <i class="fas fa-file-contract mr-1"></i> Matrícula
                                             </button>
                                         </div>
