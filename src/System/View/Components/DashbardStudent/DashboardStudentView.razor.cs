@@ -83,6 +83,10 @@ public partial class DashboardStudentView : ComponentBase
     private async Task PrintReportCard()
     {
         await Navigator.ShowModal("DowloadDegreeDocument");
+    }    
+    private async Task PrintProforma()
+    {
+        await PrintDocumentByStudentController.GetProforma(Student.studentId!);
     }
     private Task HandlePdfDocumentChanged(byte[] newPdf)
     {

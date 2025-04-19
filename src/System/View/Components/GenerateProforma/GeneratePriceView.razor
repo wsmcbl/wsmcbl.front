@@ -1,5 +1,68 @@
-<h3>GeneratePriceView</h3>
+<div class="modal fade" id="DownloadProformaModal" tabindex="-1" aria-labelledby="DownloadProformaModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h5 class="modal-title text-gray-800 font-weight-bold">
+                    <i class="fas fa-graduation-cap mr-2"></i>Cambio de Nivel Educativo
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-@code {
-    
-}
+            <div class="modal-body">
+
+                <div class="alert alert-info mb-4 text-center">
+                    <div class="d-flex flex-column align-items-center">
+                        <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+                        <h6>Para generar una proforma introduce el nombre del cliente, y selecciona el grado / nivel que
+                            corresponda</h6>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mb-4 text-center">
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="form-group w-75">
+                            <label for="customer">Cliente:</label>
+                            <input id="customer"
+                                   class="form-control text-center"
+                                   type="text"
+                                   @bind="Name"
+                                   placeholder="Introducir nombre"/>
+                        </div>
+                        
+                        <div class="form-group w-75">
+                            
+                            <label class="font-weight-bold text-gray-800">Grado:</label>
+                            <select class="form-control form-control-sm" @onchange="GetSelectDegreeId">
+                                @if (Degrees?.Any() == true)
+                                {
+                                    @foreach (var option in Degrees.OrderBy(d => d.position))
+                                    {
+                                        <option value="@option.degreeId">@option.label</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="">No hay grados disponibles</option>
+                                }
+                            </select>
+
+                        </div>
+                        
+                    </div>
+                </div>
+              
+            </div>
+
+            <div class="modal-footer bg-gray-100">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
+                    <i class="fas fa-times mr-1"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" @onclick="DownloadDocument">
+                    <i class="fas fa-save mr-1"></i> Generar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

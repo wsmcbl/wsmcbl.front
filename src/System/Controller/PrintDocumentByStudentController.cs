@@ -29,6 +29,22 @@ public class PrintDocumentByStudentController : BaseController
 
         await _jsRuntime.InvokeVoidAsync("downloadFile", docname, url);
     }
-    
-    
+
+
+    public async Task GetProforma(string studentId)
+    {
+        var resource = $"{path}/proforma/export?studentId={studentId}";
+
+        var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Academy, resource);
+        if (fileBytes.Length <= 0)
+        {
+            throw new InternalException("Error al descargar el archivo.");
+        }
+
+        var docname = $"Proforma.pdf";
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/pdf;base64,{base64}";
+
+        await _jsRuntime.InvokeVoidAsync("downloadFile", docname, url);
+    }
 }

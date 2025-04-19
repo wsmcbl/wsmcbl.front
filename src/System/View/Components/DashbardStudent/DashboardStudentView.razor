@@ -2,6 +2,7 @@
 @using wsmcbl.src.View.Secretary.StudentList
 @using wsmcbl.src.View.Components.StudentPasswordView
 @using wsmcbl.src.View.Secretary.Schoolyear
+@using wsmcbl.src.View.Components.GenerateProforma
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
         
@@ -69,7 +70,7 @@
                     <button class="dropdown-item" @onclick="PrintReportCard">
                         <i class="fas fa-file-contract mr-2"></i> Boleta
                     </button>
-                    <button class="dropdown-item" @onclick="PrintReportCard">
+                    <button class="dropdown-item" @onclick="PrintProforma">
                         <i class="fas fa-file-contract mr-2"></i> Proforma
                     </button>
                 </div>
