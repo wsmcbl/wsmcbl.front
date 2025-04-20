@@ -9,6 +9,7 @@ public partial class MonthDistribution : ComponentBase
 {
     [Inject] DashboardCashierController Controller { get; set; } = null!;
     [Parameter] public string Month { get; set; } = string.Empty;
+    [Parameter] public string MonthLabel { get; set; } = string.Empty;
     [Inject] IJSRuntime JS { get; set; } = null!;
     private SummaryThisMonthDto Sumary { get; set; } = new();
     private DistributionLevelsDto Data { get; set; } = new();

@@ -10,6 +10,7 @@ public partial class MonthDetails : ComponentBase
     [Inject] IJSRuntime JS { get; set; } = null!;
     private DetailsThisMonthDto Details { get; set; } = new();
     [Parameter] public string Month { get; set; } = string.Empty;
+    [Parameter] public string MonthLabel { get; set; } = string.Empty;
 
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -28,5 +29,20 @@ public partial class MonthDetails : ComponentBase
     {
         await JS.InvokeVoidAsync("RevenueChart", Details);
     }
-
+    private decimal TotalElementaryAmount()
+    {
+        return Details.elementary.regularStudent.amount + Details.elementary.discountedStudent.amount;
+    }
+    private decimal TotalPreschoolAmount()
+    {
+        return Details.preschool.regularStudent.amount + Details.preschool.discountedStudent.amount;
+    }
+    private decimal TotalSecondaryAmount()
+    {
+        return Details.secondary.regularStudent.amount + Details.secondary.discountedStudent.amount;
+    }
+    private decimal TotalGeneralAmount()
+    {
+        return TotalPreschoolAmount() + TotalElementaryAmount() + TotalSecondaryAmount();
+    }
 }
