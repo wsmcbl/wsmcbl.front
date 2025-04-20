@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using wsmcbl.src.Controller;
@@ -6,9 +7,10 @@ namespace wsmcbl.src.View.Accounting.Charts;
 
 public partial class MonthDistribution : ComponentBase
 {
-    [Parameter] public string Month { get; set; } = string.Empty;
     [Inject] DashboardCashierController Controller { get; set; } = null!;
+    [Parameter] public string Month { get; set; } = string.Empty;
     [Inject] IJSRuntime JS { get; set; } = null!;
+    private SummaryThisMonthDto Sumary { get; set; } = new();
     private DistributionLevelsDto Data { get; set; } = new();
     private bool IsLoading { get; set; }
     
@@ -24,6 +26,7 @@ public partial class MonthDistribution : ComponentBase
     {
         IsLoading = true;
         Data = await Controller.GetDistibution(Month);
+        Sumary = await Controller.GetRevenueMonth(Month);
         IsLoading = false;
         StateHasChanged();
     }
@@ -47,6 +50,12 @@ public partial class MonthDistribution : ComponentBase
     {
         if (total == 0) return "0";
         return Math.Round((partial / total) * 100, 1).ToString("0.0");
+    }
+    
+    private string CalculatePercentageForProgressBar(decimal partial, decimal total)
+    {
+        if (total == 0) return "0";
+        return Math.Round((partial / total) * 100, 1).ToString("0.0", CultureInfo.InvariantCulture);
     }
 
 }

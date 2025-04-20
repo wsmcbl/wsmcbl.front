@@ -147,18 +147,13 @@
     
     <!-- Tarjetas de resumen -->
     <MonthSumary Month="@selectedMonthValue"/>
-
-    <!-- Sección de Gráficos -->
-    <div class="row">
-        <DonusDistributionRevenues/>
-        <BarDistributionRevenues/>
-    </div>
-</div>
-
-
-<div class="row">
-    <MonthDetails Month="@selectedMonthValue"/>
+    
+    <!-- Resumen de ingresos mensuales y su desglose -->
     <MonthDistribution Month="@selectedMonthValue"/>
+    
+    <!-- Total de ingresos a recaudar este mes -->
+    <MonthDetails Month="@selectedMonthValue"/>
+    
 </div>
 
 <PdfViewer Title="Listado de deudores" PdfContent="@Pdf"/>

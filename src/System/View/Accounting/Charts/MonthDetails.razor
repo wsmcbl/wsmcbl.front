@@ -1,89 +1,126 @@
-<div class="col-lg-6 mb-3">
-    <div class="card shadow mb-4 h-100">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Detalle de Tarifas por Nivel</h6>
-        </div>
-        <div class="card-body">
-            <!-- Preescolar -->
-            <div class="card border-left-primary shadow mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Preescolar</div>
-                            <div class="mb-1"><small class="text-muted">Tarifa:</small> @FormatCurrency(Details.preschool.tariffAmount)</div>
+<div class="card shadow mb-4">
+
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Detalles de pagos correspondiente al mes @Month</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-7 mb-3">
+                <!-- Preescolar -->
+                <div class="card border-left-primary shadow mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Preescolar
+                                </div>
+                                <div class="mb-1">
+                                    <small
+                                        class="text-muted">Tarifa:</small> @FormatCurrency(Details.preschool.tariffAmount)
+                                </div>
+                            </div>
+                            <span
+                                class="badge badge-primary">@Details.preschool.total.studentQuantity estudiantes</span>
                         </div>
-                        <span class="badge badge-primary">@Details.preschool.total.studentQuantity estudiantes</span>
-                    </div>
-                    <div class="mt-2">
-                        <div class="d-flex justify-content-between">
+                        <div class="mt-2">
+                            <div class="d-flex justify-content-between">
                             <span class="text-primary">
                                 <small>Regular:</small> @FormatCurrency(Details.preschool.regularStudent.amount)
                             </span>
-                            <span class="text-muted small">@Details.preschool.regularStudent.studentQuantity</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
+                                <span
+                                    class="text-muted small">@Details.preschool.regularStudent.studentQuantity</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
                             <span class="text-primary">
                                 <small>Descuento:</small> @FormatCurrency(Details.preschool.discountedStudent.amount)
                             </span>
-                            <span class="text-muted small">@Details.preschool.discountedStudent.studentQuantity</span>
+                                <span
+                                    class="text-muted small">@Details.preschool.discountedStudent.studentQuantity</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Primaria -->
-            <div class="card border-left-success shadow mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Primaria</div>
-                            <div class="mb-1"><small class="text-muted">Tarifa:</small> @FormatCurrency(Details.elementary.tariffAmount)</div>
+                <!-- Primaria -->
+                <div class="card border-left-success shadow mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Primaria
+                                </div>
+                                <div class="mb-1">
+                                    <small
+                                        class="text-muted">Tarifa:</small> @FormatCurrency(Details.elementary.tariffAmount)
+                                </div>
+                            </div>
+                            <span
+                                class="badge badge-success">@Details.elementary.total.studentQuantity estudiantes</span>
                         </div>
-                        <span class="badge badge-success">@Details.elementary.total.studentQuantity estudiantes</span>
-                    </div>
-                    <div class="mt-2">
-                        <div class="d-flex justify-content-between">
+                        <div class="mt-2">
+                            <div class="d-flex justify-content-between">
                             <span class="text-success">
                                 <small>Regular:</small> @FormatCurrency(Details.elementary.regularStudent.amount)
                             </span>
-                            <span class="text-muted small">@Details.elementary.regularStudent.studentQuantity</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
+                                <span
+                                    class="text-muted small">@Details.elementary.regularStudent.studentQuantity</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
                             <span class="text-success">
                                 <small>Descuento:</small> @FormatCurrency(Details.elementary.discountedStudent.amount)
                             </span>
-                            <span class="text-muted small">@Details.elementary.discountedStudent.studentQuantity</span>
+                                <span
+                                    class="text-muted small">@Details.elementary.discountedStudent.studentQuantity</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Secundaria -->
-            <div class="card border-left-info shadow">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Secundaria</div>
-                            <div class="mb-1"><small class="text-muted">Tarifa:</small> @FormatCurrency(Details.secondary.tariffAmount)</div>
+                <!-- Secundaria -->
+                <div class="card border-left-info shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Secundaria</div>
+                                <div class="mb-1">
+                                    <small
+                                        class="text-muted">Tarifa:</small> @FormatCurrency(Details.secondary.tariffAmount)
+                                </div>
+                            </div>
+                            <span
+                                class="badge badge-info">@Details.secondary.total.studentQuantity estudiantes</span>
                         </div>
-                        <span class="badge badge-info">@Details.secondary.total.studentQuantity estudiantes</span>
-                    </div>
-                    <div class="mt-2">
-                        <div class="d-flex justify-content-between">
+                        <div class="mt-2">
+                            <div class="d-flex justify-content-between">
                             <span class="text-info">
                                 <small>Regular:</small> @FormatCurrency(Details.secondary.regularStudent.amount)
                             </span>
-                            <span class="text-muted small">@Details.secondary.regularStudent.studentQuantity</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
+                                <span
+                                    class="text-muted small">@Details.secondary.regularStudent.studentQuantity</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
                             <span class="text-info">
                                 <small>Descuento:</small> @FormatCurrency(Details.secondary.discountedStudent.amount)
                             </span>
-                            <span class="text-muted small">@Details.secondary.discountedStudent.studentQuantity</span>
+                                <span
+                                    class="text-muted small">@Details.secondary.discountedStudent.studentQuantity</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-5 mb-3">
+
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Comparación pagos regulares vs con descuento</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="position: relative; height:60vh; min-height: 300px;">
+                            <canvas id="financialBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
         </div>
     </div>
+
 </div>

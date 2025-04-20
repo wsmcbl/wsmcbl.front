@@ -1,123 +1,217 @@
-<div class="col-lg-6 mb-3">
-    <div class="card shadow mb-4 h-100">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Resumen Financiero</h6>
-        </div>
-        <div class="card-body">
-            <!-- Totales -->
-            <div class="row mb-4">
-                <div class="col-md-6 mb-3 mb-md-0">
-                    <div class="card border-left-success shadow h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-success">
-                                        <i class="fas fa-dollar-sign text-white"></i>
+<div class="card shadow mb-4">
+
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Detalles de estudiantes que han pagado el mes de @Month</h6>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-7 mb-3">
+                <div class="card-body">
+                    
+                    <!-- Totales -->
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3 ">
+                            <div class="card border-left-success shadow h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-success">
+                                                <i class="fas fa-dollar-sign text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Total cobrado
+                                                <i class="fas fa-info-circle text-muted ml-1"
+                                                   data-toggle="tooltip"
+                                                   title="Suma total de todos los ingresos correspondientes al arancel del mes de @Month.">
+                                                </i>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                @FormatCurrency(Data.total.amount)
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        Total Recaudado
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3 ">
+                            <div class="card border-left-success shadow h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-info">
+                                                <i class="fas fa-users text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Total de estudiantes
+                                                <i class="fas fa-info-circle text-muted ml-1"
+                                                   data-toggle="tooltip"
+                                                   title="Suma total de todos los estudiantes que han pagado la mensualidad de @Month.">
+                                                </i>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                @Data.total.studentQuantity
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        @FormatCurrency(Data.total.amount)
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3 ">
+                            <div class="card border-left-success shadow h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-success">
+                                                <i class="fas fa-dollar-sign text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Cobrados en otros meses
+                                                <i class="fas fa-info-circle text-muted ml-1"
+                                                   data-toggle="tooltip"
+                                                   title="Ingresos cobrados en otros meses correspondiente al arancel del mes de @Month.">
+                                                </i>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                @FormatCurrency(Data.total.amount - Sumary.currentMonth.amount)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3 ">
+                            <div class="card border-left-info shadow h-100">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="mr-3">
+                                            <div class="icon-circle bg-info">
+                                                <i class="fas fa-users text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                                Pagarón en otros meses
+                                                <i class="fas fa-info-circle text-muted ml-1"
+                                                   data-toggle="tooltip"
+                                                   title="Suma total de todos los estudiantes que pagaron el arancel @Month en otros meses.">
+                                                </i>
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                                @(Data.total.studentQuantity - @Sumary.currentMonth.studentQuantity)
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card border-left-info shadow h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-info">
-                                        <i class="fas fa-users text-white"></i>
+                    
+                    <!-- Distribución por niveles -->
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h6 class="font-weight-bold text-gray-800 mb-3">Distribución de pagos del mes de @Month por Nivel Educativo</h6>
+
+                            <!-- Preescolar -->
+                            <div class="card mb-3 shadow-sm">
+                                <div class="card-body py-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="font-weight-bold text-primary">Preescolar</span>
+                                            <span
+                                                class="text-muted small ml-2">@Data.preschool.studentQuantity estudiantes</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <div
+                                                class="font-weight-bold">@FormatCurrency(Data.preschool.amount)</div>
+                                            <div class="progress mt-1" style="height: 5px;">
+                                                <div class="progress-bar bg-primary" role="progressbar"
+                                                     style="width: @CalculatePercentageForProgressBar(Data.preschool.amount, Data.total.amount)%"></div>
+                                            </div>
+                                            <small
+                                                class="text-muted">@CalculatePercentage(Data.preschool.amount, Data.total.amount)%
+                                                del total</small>
+                                        </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                        Total Estudiantes
+                            </div>
+
+                            <!-- Primaria -->
+                            <div class="card mb-3 shadow-sm">
+                                <div class="card-body py-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="font-weight-bold text-success">Primaria</span>
+                                            <span
+                                                class="text-muted small ml-2">@Data.elementary.studentQuantity estudiantes</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <div
+                                                class="font-weight-bold">@FormatCurrency(Data.elementary.amount)</div>
+                                            <div class="progress mt-1" style="height: 5px;">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                     style="width: @CalculatePercentageForProgressBar(Data.elementary.amount, Data.total.amount)%"></div>
+                                            </div>
+                                            <small
+                                                class="text-muted">@CalculatePercentage(Data.elementary.amount, Data.total.amount)%
+                                                del total</small>
+                                        </div>
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                        @Data.total.studentQuantity
+                                </div>
+                            </div>
+
+                            <!-- Secundaria -->
+                            <div class="card shadow-sm">
+                                <div class="card-body py-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="font-weight-bold text-info">Secundaria</span>
+                                            <span
+                                                class="text-muted small ml-2">@Data.secondary.studentQuantity estudiantes</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <div
+                                                class="font-weight-bold">@FormatCurrency(Data.secondary.amount)</div>
+                                            <div class="progress mt-1" style="height: 5px;">
+                                                <div class="progress-bar bg-info" role="progressbar"
+                                                     style="width: @CalculatePercentageForProgressBar(Data.secondary.amount, Data.total.amount)%"></div>
+                                            </div>
+                                            <small
+                                                class="text-muted">@CalculatePercentage(Data.secondary.amount, Data.total.amount)%
+                                                del total</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </div>
-
-            <!-- Distribución por niveles -->
-            <div class="row">
-                <div class="col-md-12">
-                    <h6 class="font-weight-bold text-gray-800 mb-3">Distribución por Nivel Educativo</h6>
-
-                    <!-- Preescolar -->
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-body py-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="font-weight-bold text-primary">Preescolar</span>
-                                    <span class="text-muted small ml-2">@Data.preschool.studentQuantity estudiantes</span>
-                                </div>
-                                <div class="text-right">
-                                    <div class="font-weight-bold">@FormatCurrency(Data.preschool.amount)</div>
-                                    <div class="progress mt-1" style="height: 5px;">
-                                        <div class="progress-bar bg-primary" role="progressbar"
-                                             style="width: @CalculatePercentage(Data.preschool.amount, Data.total.amount)%"></div>
-                                    </div>
-                                    <small class="text-muted">@CalculatePercentage(Data.preschool.amount, Data.total.amount)% del total</small>
-                                </div>
-                            </div>
-                        </div>
+            
+            <div class="col-lg-5 mb-3">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Distribución de pagos por nivel</h6>
                     </div>
-
-                    <!-- Primaria -->
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-body py-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="font-weight-bold text-success">Primaria</span>
-                                    <span class="text-muted small ml-2">@Data.elementary.studentQuantity estudiantes</span>
-                                </div>
-                                <div class="text-right">
-                                    <div class="font-weight-bold">@FormatCurrency(Data.elementary.amount)</div>
-                                    <div class="progress mt-1" style="height: 5px;">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                             style="width: @CalculatePercentage(Data.elementary.amount, Data.total.amount)%"></div>
-                                    </div>
-                                    <small class="text-muted">@CalculatePercentage(Data.elementary.amount, Data.total.amount)% del total</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Secundaria -->
-                    <div class="card shadow-sm">
-                        <div class="card-body py-2">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span class="font-weight-bold text-info">Secundaria</span>
-                                    <span class="text-muted small ml-2">@Data.secondary.studentQuantity estudiantes</span>
-                                </div>
-                                <div class="text-right">
-                                    <div class="font-weight-bold">@FormatCurrency(Data.secondary.amount)</div>
-                                    <div class="progress mt-1" style="height: 5px;">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                             style="width: @CalculatePercentage(Data.secondary.amount, Data.total.amount)%"></div>
-                                    </div>
-                                    <small class="text-muted">@CalculatePercentage(Data.secondary.amount, Data.total.amount)% del total</small>
-                                </div>
-                            </div>
+                    <div class="card-body">
+                        <div class="chart-bar">
+                            <canvas id="levelsDonutChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
 <style>
@@ -129,9 +223,11 @@
         align-items: center;
         justify-content: center;
     }
+
     .card {
         transition: all 0.3s ease;
     }
+
     .card:hover {
         transform: translateY(-2px);
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
