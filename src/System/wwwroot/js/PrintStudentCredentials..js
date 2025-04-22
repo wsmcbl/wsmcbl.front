@@ -83,8 +83,8 @@ window.printStudentCredentials = function(studentId, tempPassword) {
         <div class="section-title">INSTRUCCIONES DE ACCESO:</div>
         <ol>
             <li>Ingrese a: cbl-edu.com/online-grades</li>
-            <li>ID de usuario: <strong>${studentId}</strong></li>
-            <li>Contraseña temporal: 
+            <li>Código del estudiante: <strong>${studentId}</strong></li>
+            <li>Contraseña: 
                 <div class="password">${tempPassword}</div>
             </li>
             <li>Haga clic en "Ver calificaciones"</li>

@@ -1,6 +1,7 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Components.StudentPasswordView;
 using wsmcbl.src.View.Secretary.EnrollStudent;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
@@ -50,4 +51,15 @@ public class UpdateStudentController : BaseController
         var resource = $"{path}/{studentId}/state";
         return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, false);
     }
+    public async Task<StudentPassDto> GetStudentToken(string studentId)
+    {
+        var resource = $"{path}/{studentId}/token";
+        return  await apiFactory.WithNotificator.GetAsync(Modules.Secretary, resource, new StudentPassDto());
+    }
+    public async Task<bool> UpdateStudentToken(string studentId)
+    {
+        var resource = $"{path}/{studentId}/token";
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, false);
+    }
+    
 }
