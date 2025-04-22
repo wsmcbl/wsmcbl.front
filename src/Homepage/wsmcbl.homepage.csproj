@@ -15,10 +15,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\System\wsmcbl.system.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="obj\" />
+      <_ContentIncludedByDefault Remove="Components\ViewHomeStudent\HomeStudents.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Shared\_Host.cshtml" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Shared\_Layout.cshtml" />
     </ItemGroup>
 </Project>

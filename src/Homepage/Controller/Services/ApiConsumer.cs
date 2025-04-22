@@ -1,5 +1,3 @@
-using wsmcbl.src.Utilities;
-
 namespace wsmcbl.src.Controller.Services;
 
 public class ApiConsumer
@@ -11,18 +9,6 @@ public class ApiConsumer
     {
         _httpClient = httpClient;
         _server = GetServerUri();
-    }
-    
-    public async Task<T> GetAsync<T>(Modules module, string resource, T defaultResult)
-    {
-        var response = await _httpClient.GetAsync(BuildUri(module, resource));
-        return await GenericHttpResponse(() => response.Content.ReadFromJsonAsync<T>(), defaultResult, response);
-    }
-    
-    public async Task<byte[]> GetByteFileAsync(Modules module, string resource)
-    {
-        var response = await _httpClient.GetAsync(BuildUri(module, resource));
-        return await GenericHttpResponse(() => response.Content.ReadAsByteArrayAsync()!, [], response);
     }
     
     public async Task<(byte[]? Pdf, int StatusCode)> GetPdfAsync(Modules module, string resource)
@@ -39,19 +25,6 @@ public class ApiConsumer
         return pdfBytes.Length > 0 ? (pdfBytes, statusCode) : (null, statusCode);
     }
     
-    protected virtual async Task<T> GenericHttpResponse<T>(Func<Task<T?>> httpRequest, T defaultResult,
-        HttpResponseMessage response)
-    {
-        if (response.IsSuccessStatusCode)
-        {
-            return (await httpRequest())!;
-        }
-        
-        var problem = await response.Content.ReadFromJsonAsync<ApiProblemDetails>();
-        throw new InternalException("Lo sentimos, ocurrió un error.",
-            $"{problem!.Errors}",  problem!.GetValidationErrors(), (int)response.StatusCode);
-    }
-    
     private Uri BuildUri(Modules modules, string resource)
     {
         var moduleDir = modules switch
@@ -64,6 +37,7 @@ public class ApiConsumer
         };
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
     }
+    
     private static Uri GetServerUri()
     {
         var api = Environment.GetEnvironmentVariable("API");
