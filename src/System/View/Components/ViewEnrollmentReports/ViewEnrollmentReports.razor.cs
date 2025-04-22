@@ -58,6 +58,6 @@ public partial class ViewEnrollmentReports : BaseView
     
     private async Task DowloadReport()
     {
-        await Controller.GetReportOfEnrollment(MyEnrollmentId!, 1, $"Reporte de {MyLabel}");
+        await Controller.GetReportFromEnrollment(MyEnrollmentId!, 1, $"Reporte de {MyLabel}");
     }
 }

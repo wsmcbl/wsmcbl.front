@@ -48,12 +48,15 @@ public class ViewPrincipalDashboardController : BaseController
     public async Task<List<EnrollmentListDto>> GetEnrollmentsList()
     {
         List<EnrollmentListDto> defaultResult = [];
-        return await apiFactory.WithNotificator.GetAsync(Modules.Management, "enrollments", defaultResult);
+        var result = await apiFactory
+            .WithNotificator.GetAsync(Modules.Management, "enrollments", defaultResult);
+
+        return result.Where(e => e.quantity > 0).ToList();
     }
     
-    public async Task GetReportOfEnrollment(string enrollmentId, int partialId, string name)
+    public async Task GetReportFromEnrollment(string enrollmentId, int partialId, string name)
     {
-        var resource = $"enrollments/{enrollmentId}/grades/export?partial={partialId}";
+        var resource = $"enrollments/{enrollmentId}/grades/export?partialId={partialId}";
         
         var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Management, resource);
         if (fileBytes.Length <= 0)
