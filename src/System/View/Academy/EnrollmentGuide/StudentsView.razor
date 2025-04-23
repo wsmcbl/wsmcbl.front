@@ -10,9 +10,23 @@
 else
 {
     <div class="card shadow mb-4">
-        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            
-            <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+
+        <div class="card-header py-3 d-flex justify-content-between align-items-center flex-wrap">
+            <!-- Mobile: Selector + Botón -->
+            <div class="d-block d-md-none w-100 mb-2 d-flex align-items-center" style="gap: 10px;">
+                <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
+                    <option value="PanelStudent">Estudiantes</option>
+                    <option value="PanelTutor">Parientes</option>
+                    <option value="PanelMedidas">Medidas</option>
+                </select>
+                @if (EditMode)
+                {
+                    <button class="btn btn-success btn-sm flex-shrink-0" @onclick="UpdateStudent">Actualizar</button>
+                }
+            </div>
+
+            <!-- Escritorio: Pestañas -->
+            <ul class="nav nav-tabs card-header-tabs d-none d-md-flex mb-0" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="TabStudent" data-toggle="tab" href="#PanelStudent" role="tab"
                        aria-controls="PanelStudent" aria-selected="true">
@@ -20,7 +34,7 @@ else
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="TabAcademy" data-toggle="tab" href="#PanelTutor" role="tab"
+                    <a class="nav-link" id="TabTutor" data-toggle="tab" href="#PanelTutor" role="tab"
                        aria-controls="PanelTutor" aria-selected="false">
                         Parientes
                     </a>
@@ -35,14 +49,13 @@ else
 
             @if (EditMode)
             {
-                <div style="display: flex; flex-direction: row; gap: 10px;">
-                    <div>
-                        <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar datos</button>
-                    </div>
+                <div class="d-none d-md-flex" style="gap: 10px;">
+                    <button class="btn btn-success btn-sm" @onclick="UpdateStudent">Actualizar datos</button>
                 </div>
             }
-            
         </div>
+        
+        
 
         <div class="card-body" id="tabContent">
             <div class="tab-content">
@@ -73,7 +86,7 @@ else
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
