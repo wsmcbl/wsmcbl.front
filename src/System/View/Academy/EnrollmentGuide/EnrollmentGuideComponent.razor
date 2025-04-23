@@ -123,70 +123,101 @@
             
             <div class="card-body" id="tabContent">
                 <div class="tab-content">
-
+                    
                     <!-- Pestaña de Estudiantes -->
                     <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel"
                          aria-labelledby="TabStudent">
-                        @if (Enrollment.studentList != null && Enrollment.studentList.Any())
-                        {
-                            <div class="p-3 table-responsive">
-                                <table id="dataTable" class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Cód.</th>
-                                        <th>Cód. Mined</th>
-                                        <th>Nombre</th>
-                                        <th>Sexo</th>
-                                        <th>Edad</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @for (int i = 0; i < Enrollment.studentList.Count; i++)
-                                    {
-                                        var item = Enrollment.studentList[i];
+                        
+                        <!-- Versión Desktop -->
+                        <div class="d-none d-md-block">
+                            @if (Enrollment.studentList != null && Enrollment.studentList.Any())
+                            {
+                                <div class="p-3 table-responsive">
+                                    <table id="dataTable" class="table table-bordered">
+                                        <thead>
                                         <tr>
-                                            <td>@(i + 1)</td>
-                                            <td>@item.studentId</td>
-                                            <td>@item.minedId</td>
-                                            <td>@item.fullName</td>
-                                            <td>@item.sex.ToSex()</td>
-                                            <td>@item.age</td>
-                                            <td>
-                                                <div class="dropdown no-arrow">
-                                                    <a class="dropdown-toggle" href="#" role="button"
-                                                       id="dropdownMenuLink"
-                                                       data-toggle="dropdown" aria-haspopup="true"
-                                                       aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-
-                                                    <div
-                                                        class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                        aria-labelledby="dropdownMenuLink">
-                                                        <div class="dropdown-header">Seleccione una opción:</div>
-                                                        <a class="dropdown-item"
-                                                           href="/academy/enrollments/guide/students/@item.studentId">Ver
-                                                            perfil</a>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            <th>#</th>
+                                            <th>Cód.</th>
+                                            <th>Cód. Mined</th>
+                                            <th>Nombre</th>
+                                            <th>Sexo</th>
+                                            <th>Edad</th>
+                                            <th>Acciones</th>
                                         </tr>
-                                    }
-                                    </tbody>
-                                </table>
-                            </div>
-                            <script defer src="js/DataTable/dataTableWhitOutOrder.js"></script>
-                        }
-                        else
-                        {
-                            <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
-                                <h5 class="text-gray-800">No hay estudiantes guiados para usted.</h5>
-                            </div>
-                        }
-                    </div>
+                                        </thead>
+                                        <tbody>
+                                        @for (int i = 0; i < Enrollment.studentList.Count; i++)
+                                        {
+                                            var item = Enrollment.studentList[i];
+                                            <tr>
+                                                <td>@(i + 1)</td>
+                                                <td>@item.studentId</td>
+                                                <td>@item.minedId</td>
+                                                <td>@item.fullName</td>
+                                                <td>@item.sex.ToSex()</td>
+                                                <td>@item.age</td>
+                                                <td class="text-nowrap text-center">
+                                                    <div class="btn-group btn-group-sm d-flex justify-content-center" role="group">
+                                                        <a href="/academy/enrollments/guide/students/@item.studentId"
+                                                           class="btn btn-outline-primary mx-1">
+                                                            <i class="fas fa-eye mr-1"></i> Ver perfil
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <script defer src="js/DataTable/dataTableWhitOutOrder.js"></script>
+                            }
+                            else
+                            {
+                                <div class="d-flex align-items-center justify-content-center" style="height: 100px;">
+                                    <h5 class="text-gray-800">No hay estudiantes guiados para usted.</h5>
+                                </div>
+                            }
+                        </div>
 
+                        <!-- Versión Mobile -->
+                        <div class="d-md-none">
+                            @if (Enrollment.studentList != null && Enrollment.studentList.Any())
+                            {
+                                @for (int i = 0; i < Enrollment.studentList.Count; i++)
+                                {
+                                    var item = Enrollment.studentList[i];
+                                    <div class="card mb-3 shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h6 class="font-weight-bold mb-1">@(i + 1) - @item.fullName</h6>
+                                                    <small class="text-muted">Código: @item.studentId</small>
+                                                </div>
+                                                <span
+                                                    class="status-label @item.sex.ToActiveClass()">@item.sex.ToSex()</span>
+                                            </div>
+
+                                            <div class="mt-2">
+                                                <div class="d-flex justify-content-between mb-1">
+                                                    <span class="text-muted">Edad:</span>
+                                                    <span>@item.age</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex justify-content-around mt-2">
+                                                <a href="/academy/enrollments/guide/students/@item.studentId"
+                                                   class="btn btn-sm btn-outline-primary"
+                                                   title="Ver perfil"> Ver perfil
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                    
                     <!-- Pestaña de Asignaturas -->
                     <div class="tab-pane fade" id="PanelSubject" role="tabpanel" aria-labelledby="TabSubject">
 
@@ -235,7 +266,7 @@
                         }
 
                     </div>
-                    
+
                 </div>
             </div>
         </div>
