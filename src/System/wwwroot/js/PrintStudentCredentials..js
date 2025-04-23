@@ -92,7 +92,7 @@ window.printStudentCredentials = function(studentId, tempPassword) {
         
         <div class="section-title">PARA VER SUS NOTAS:</div>
         <ol>
-            <li>Debe estar al dia con sus pagos"</li>
+            <li>Debe estar al dia con sus pagos</li>
         </ol>
         
         <div class="warning-box">
