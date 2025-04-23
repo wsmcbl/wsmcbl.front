@@ -131,4 +131,9 @@ public partial class TariffCollectionView : BaseView
     {
         return Student == null || TariffList == null;
     }
+
+    private async Task DownLoadState()
+    {
+        await collectTariffController.GetAccountStatement(StudentId!);
+    }
 }

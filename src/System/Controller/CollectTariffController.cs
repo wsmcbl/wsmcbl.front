@@ -1,3 +1,4 @@
+using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
@@ -7,12 +8,14 @@ namespace wsmcbl.src.Controller;
 
 public class CollectTariffController : BaseController
 {
-    private readonly JwtClaimsService _JwtClaimsService;
+    private readonly JwtClaimsService _jwtClaimsService;
+    private readonly IJSRuntime _jsRuntime;
 
-    public CollectTariffController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService)
+    public CollectTariffController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService, IJSRuntime jsRuntime)
         : base(apiConsumerFactory, "students")
     {
-        _JwtClaimsService = jwtClaimsService;
+        _jwtClaimsService = jwtClaimsService;
+        _jsRuntime = jsRuntime;
     }
 
     public async Task<Paginator<StudentEntity>> GetStudentList(PagedRequest pagedRequest)
@@ -53,11 +56,11 @@ public class CollectTariffController : BaseController
 
     private TransactionEntity? Transaction { get; set; }
 
-    public async Task BuildTransaction(string StudentId, List<DetailDto> transactionDetail)
+    public async Task BuildTransaction(string studentId, List<DetailDto> transactionDetail)
     {
         Transaction = new TransactionEntity
         {
-            studentId = StudentId,
+            studentId = studentId,
             cashierId = await GetCashierId(),
             details = transactionDetail
         };
@@ -65,12 +68,28 @@ public class CollectTariffController : BaseController
 
     private async Task<string> GetCashierId()
     {
-        var value = await _JwtClaimsService.GetClaimAsync("roleid");
+        var value = await _jwtClaimsService.GetClaimAsync("roleid");
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new InternalException("Este usuario no puede realizar esta acción.");
         }
 
         return value;
+    }
+    
+    public async Task GetAccountStatement(string studentId)
+    {
+        var resource = $"{path}/{studentId}/account-statement/export";
+        var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Accounting, resource);
+        if (fileBytes.Length <= 0)
+        {
+            throw new InternalException("Error al descargar el archivo.");
+        }
+
+        var docname = $"Estado de cuenta de {studentId}.pdf";
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/pdf;base64,{base64}";
+
+        await _jsRuntime.InvokeVoidAsync("downloadFile", docname, url);
     }
 }
