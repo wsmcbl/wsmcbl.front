@@ -36,9 +36,25 @@ else
     
     <div @onkeydown="HandleKeyDown" tabindex="0">
         <div class="card shadow mb-4">
-            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            
+            <div class="card-header py-3 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="d-block d-md-none w-100 mb-2 d-flex align-items-center" style="gap: 10px;">
+                    <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
+                        <option value="PanelTariffs">Mensualidades</option>
+                        <option value="PanelServices">Servicios</option>
+                        <option value="PanelDebt">Historial</option>
+                        <option value="PanelStudent">Estudiante</option>
+                    </select>
+                    @if (TariffsToPay!.Any())
+                    {
+                            <button class="btn btn-success btn-sm flex-shrink-0"
+                                    @onclick="OpenModal">
+                                Cobrar
+                            </button>
+                    }
+                </div>
 
-                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs card-header-tabs d-none d-md-flex" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="TabTariffs" data-toggle="tab" href="#PanelTariffs" role="tab"
                            aria-controls="PanelTariffs" aria-selected="true">
@@ -64,21 +80,21 @@ else
                         </a>
                     </li>
                 </ul>
-
                 @if (TariffsToPay!.Any())
                 {
-                    <button type="button" class="btn btn-success"
-                            @onclick="OpenModal">
-                        Cobrar C$ @EstimateTotal
-                    </button>
-                }
-                else
+                    <div class="d-none d-md-flex" style="gap: 10px;">
+                        <button class="btn btn-success btn-sm" @onclick="OpenModal">
+                            Cobrar C$ @EstimateTotal
+                        </button>
+                    </div>
+                }else
                 {
-                    <button type="button" class="disabled btn btn-outline-secondary">
-                        Cobrar
-                    </button>
+                    <div class="d-none d-md-flex" style="gap: 10px;">
+                        <button class="disabled btn btn-outline-secondary btn-sm">
+                            Cobrar
+                        </button>
+                    </div>
                 }
-
             </div>
 
             <div class="card-body" id="tabContent">
@@ -118,7 +134,7 @@ else
                                                 @if (hasDebt && Student.GetDebt(item.tariffId) == 0)
                                                 {
                                                     <td class="center-checkbox">
-                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>    
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
                                                     </td>
                                                 }
                                                 else
@@ -130,8 +146,8 @@ else
                                                             <label for="checkbox-@item.tariffId">Cobrar</label>
                                                         </div>
                                                     </td>
-                                                    
-                                                    
+
+
                                                 }
                                             </tr>
                                         }
@@ -276,26 +292,26 @@ else
                                     <tbody>
                                     @foreach (var item in Student.data.data.OrderBy(t => t.tariffId))
                                     {
-                                            <tr>
-                                                <td>@item.tariffId</td>
-                                                <td>@item.schoolyearId</td>
-                                                <td>@item.concept</td>
-                                                <td>@item.subTotal</td>
-                                                <td>@item.arrears</td>
-                                                <td>@item.discount</td>
-                                                <td>@item.total</td>
-                                                <td>@item.debtBalance</td>
-                                                <td>
-                                                    @if (item.itPaid == true)
-                                                    { 
-                                                        <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
-                                                    }
-                                                    else
-                                                    {
-                                                        <button class="btn btn-warning btn-sm" @onclick="() => OpenDebtModal(item.tariffId)">Debitar</button>
-                                                    }
-                                                </td>
-                                            </tr>
+                                        <tr>
+                                            <td>@item.tariffId</td>
+                                            <td>@item.schoolyearId</td>
+                                            <td>@item.concept</td>
+                                            <td>@item.subTotal</td>
+                                            <td>@item.arrears</td>
+                                            <td>@item.discount</td>
+                                            <td>@item.total</td>
+                                            <td>@item.debtBalance</td>
+                                            <td>
+                                                @if (item.itPaid == true)
+                                                {
+                                                    <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-warning btn-sm" @onclick="() => OpenDebtModal(item.tariffId)">Debitar</button>
+                                                }
+                                            </td>
+                                        </tr>
                                     }
                                     </tbody>
                                 </table>
@@ -308,6 +324,8 @@ else
         </div>
     </div>
 
+    <script src="js/ResponsiveTabs.js"></script>
+    
     <PaymentViewComponent TariffList="@TariffsToPay" CollectTariff="@PayTariffs"/>
     <PdfViewer Title="Recibo de transacción" PdfContent="@InvoicePdf"/>
     <EditStudentDiscount StudentId="@StudentId" OnUpdated="@LoadStudent"/>
