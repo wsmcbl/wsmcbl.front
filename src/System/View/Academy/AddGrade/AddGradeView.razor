@@ -21,34 +21,84 @@ else
         </div>
 
         <div class="row">
-
             <div class="col-md-6">
-
-                <div class="card border-left-primary shadow mb-3">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Docente</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@(TeacherName ?? "N/A")</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                <!-- Tarjetas en versión compacta -->
+                <div class="row">
+                    <!-- Docente -->
+                    <div class="col-sm-6 mb-3">
+                        <div class="card border-left-primary shadow h-100">
+                            <div class="card-body py-2">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Docente
+                                        </div>
+                                        <div
+                                            class="h6 mb-0 font-weight-bold text-gray-800 text-truncate">@(TeacherName ?? "N/A")</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-tie text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-
-                <div class="card border-left-primary shadow mb-3">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Parcial Activo</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@GetPartialName()</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">@GetDatetime()</div>
+                    <!-- Parcial Activo -->
+                    <div class="col-sm-6 mb-3">
+                        <div class="card border-left-primary shadow h-100">
+                            <div class="card-body py-2">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Parcial
+                                            Activo
+                                        </div>
+                                        <div class="h6 mb-0 font-weight-bold text-gray-800">@GetPartialName()</div>
+                                        <div class="text-xs text-gray-800">@GetDatetime()</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar-alt text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+
+                    <!-- Estudiantes sin calificar -->
+                    <div class="col-sm-6 mb-3">
+                        <div class="card border-left-danger shadow h-100">
+                            <div class="card-body py-2">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Sin
+                                            calificar asignaturas
+                                        </div>
+                                        <div
+                                            class="h6 mb-0 font-weight-bold text-gray-800">@CountStudentsWithoutAnyGradesAssigned()</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-user-times text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estudiantes sin conducta -->
+                    <div class="col-sm-6 mb-3">
+                        <div class="card border-left-warning shadow h-100">
+                            <div class="card-body py-2">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Sin
+                                            calificar conducta
+                                        </div>
+                                        <div
+                                            class="h6 mb-0 font-weight-bold text-gray-800">@CountStudentsWithUnqualifiedConduct()</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-exclamation-triangle text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -56,46 +106,58 @@ else
             </div>
 
             <div class="col-md-6">
-                <div class="card border-left-primary shadow">
+                <div class="card border-left-primary shadow h-100">
                     <div class="card-body">
+                        <!-- Botón para mostrar/ocultar instrucciones -->
+                        <button class="btn btn-link btn-sm p-0 mb-2 text-left w-100" @onclick="ToggleInstructions">
+                            <i class="fas fa-chevron-@(showInstructions ? "up" : "down") mr-1"></i>
+                            Mostrar @(showInstructions ? "menos" : "instrucciones")
+                        </button>
 
-                        <div class="alert alert-info" role="alert">
-                            <h5 class="alert-heading">
-                                <i class="fas fa-info-circle"></i> Instrucciones para actualizar calificaciones
-                            </h5>
-                            <hr>
-                            <p class="mb-0">
-                                Para actualizar las calificaciones utilizando una hoja de cálculo, sigue estos pasos:
+                        <!-- Instrucciones (ocultas por defecto) -->
+                        <div class="alert alert-info mb-3 py-2 @(showInstructions ? "" : "d-none")" role="alert">
+                            <h6 class="alert-heading mb-1">
+                                <i class="fas fa-info-circle"></i> Instrucciones detalladas
+                            </h6>
+                            <hr class="my-2">
+                            <p class="small mb-1">
+                                Para actualizar calificaciones con hoja de cálculo:
                             </p>
-                            <ol class="pl-3">
-                                <li>Descarga la plantilla con el botón <strong>"Descargar Formato"</strong>.</li>
-                                <li>Edita el archivo con los datos actualizados.</li>
-                                <li>Sube el archivo editado y haz clic en <strong>"Actualizar calificaciones"</strong>.</li>
+                            <ol class="small pl-3 mb-1">
+                                <li>Descarga la plantilla con el botón inferior descargar formato</li>
+                                <li>Edita el archivo con los datos actualizados</li>
+                                <li>Sube el archivo editado usando el botón "Seleccionar archivo"</li>
+                                <li>Confirma la actualización con "Actualizar calificaciones"</li>
                             </ol>
                         </div>
-                        
-                        @if (xlsxFile == null)
-                        {
-                            <div class="mb-3">
-                                <label for="fileInput" class="btn btn-outline-primary btn-block">
-                                    <i class="fas fa-file-upload"></i> Seleccionar archivo
-                                </label>
-                                <InputFile OnChange="async (e) => await LoadXlsxFile(e)" id="fileInput" class="d-none" accept=".xlsx"/>
-                            </div>
-                        }
 
-                        <!-- Botón para actualizar datos -->
-                        @if (xlsxFile != null)
-                        {
-                            <button @onclick="UpdateGradesFromXlsxFile" class="btn btn-outline-danger btn-block">
-                                <i class="fas fa-sync-alt"></i> Actualizar calificaciones
-                            </button>
-                        }
+                        <!-- Botones siempre visibles -->
+                        <div class="d-flex flex-column gap-2">
+                            @if (xlsxFile == null)
+                            {
+                                <div>
+                                    <label for="fileInput" class="btn btn-outline-primary btn-block">
+                                        <i class="fas fa-file-upload"></i> Seleccionar archivo
+                                    </label>
+                                    <InputFile OnChange="async (e) => await LoadXlsxFile(e)" id="fileInput"
+                                               class="d-none"
+                                               accept=".xlsx"/>
+                                </div>
+                            }
+
+                            @if (xlsxFile != null)
+                            {
+                                <button @onclick="UpdateGradesFromXlsxFile" class="btn btn-outline-danger btn-block">
+                                    <i class="fas fa-sync-alt"></i> Actualizar calificaciones
+                                </button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
             
         </div>
+        
     </div>
 </div>
 

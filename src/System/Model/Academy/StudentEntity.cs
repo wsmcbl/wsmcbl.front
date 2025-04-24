@@ -23,12 +23,17 @@ public class StudentEntity
         
         conductGrade = gradeList[0].conductGrade;
     }
-
     public void UpdateConductGradeIntoList()
     {
         foreach (var item in gradeList!)
         {
             item.conductGrade = conductGrade;
         }
+    }
+    public bool HasAnyZeroGrade()
+    {
+        return gradeList == null || 
+               gradeList.Count == 0 || 
+               gradeList.Any(g => g.grade == 0);
     }
 }

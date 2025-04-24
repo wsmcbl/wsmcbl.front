@@ -22,6 +22,7 @@ public partial class AddGradeView : BaseView
     private string TeacherId { get; set; } = null!;
     private string? TeacherName { get; set; } = string.Empty;
     private string enrollmentLabel { get; set; } = null!;
+    private bool showInstructions;
 
     private List<PartialEntity>? partialList { get; set; }
     private List<SubjectEntity>? subjectList { get; set; }
@@ -35,21 +36,18 @@ public partial class AddGradeView : BaseView
         await LoadTeacherInformation();
         await GetEnrollmentData();
     }
-
     private void LoadActivePartial()
     {
         var activePartial = partialList!.FirstOrDefault(t => t.isActive);
         currentPartial = activePartial?.partialId ?? partialList!.First().partialId;
         ActiveTabId = currentPartial;
     }
-
     private async Task LoadTeacherInformation()
     {
         TeacherId = await controller.GetTeacherId();
         var teacher = await controller.GetTeacherById(TeacherId);
         TeacherName = teacher.fullName;
     }
-
     private async Task GetEnrollmentData()
     {
         var result = await controller.GetEnrollment(TeacherId, EnrollmentId, currentPartial);
@@ -57,7 +55,6 @@ public partial class AddGradeView : BaseView
         subjectList = result.subjectList;
         studentList = result.studentList;
     }
-
     private async Task UpdateGradeList()
     {
         var gradeList = new List<GradeEntity>();
@@ -95,7 +92,6 @@ public partial class AddGradeView : BaseView
     {
         await controller.GetGradeDocument(TeacherId, EnrollmentId, currentPartial, enrollmentLabel);
     }
-
     private async Task LoadXlsxFile(InputFileChangeEventArgs e)
     {
         var file = e.File;
@@ -112,7 +108,6 @@ public partial class AddGradeView : BaseView
             await Notificator.ShowError("Por favor, selecciona un archivo Excel válido.");
         }
     }
-
     private async Task UpdateGradesFromXlsxFile()
     {
         if (xlsxFile == null)
@@ -121,11 +116,11 @@ public partial class AddGradeView : BaseView
             return;
         }
 
-        var Option = await Notificator.ShowAlertQuestion("Advertencia",
+        var option = await Notificator.ShowAlertQuestion("Advertencia",
             "Al actualizar las calificaciones desde este archivo:\n\n Se sobrescribirán todas las calificaciones registradas previamente para los estudiantes en las asignaturas impartidas por usted.\n\n Los cambios no se pueden deshacer automáticamente. ¿Desea continuar?",
             ("Sí, Seguro", "No, cancelar"));
 
-        if (!Option) return;
+        if (!option) return;
 
         try
         {
@@ -136,7 +131,6 @@ public partial class AddGradeView : BaseView
             await Notificator.ShowError($"Error al procesar el archivo: {ex.Message}");
         }
     }
-
     private async Task LoadGradesFromXlsxFile()
     {
         using (var stream = new MemoryStream(xlsxFile!))
@@ -259,18 +253,15 @@ public partial class AddGradeView : BaseView
     {
         return partialList == null;
     }
-
     private static string GetDatetime()
     {
         return DateTime.UtcNow.toStringUtc6(true);
     }
-
     private string GetPartialName()
     {
         var activePartial = partialList!.FirstOrDefault(e => e.partialId == currentPartial);
         return activePartial != null ? activePartial.label : "No hay parcial activo";
     }
-
     private async Task<bool> CheckStudentGrades(StudentEntity student)
     {
         // Lista para acumular todos los errores encontrados
@@ -324,5 +315,21 @@ public partial class AddGradeView : BaseView
 
         await Notificator.ShowError(errorMessage.ToString());
         return false;
+    }
+    private void ToggleInstructions()
+    {
+        showInstructions = !showInstructions;
+    }
+    
+    //Check Method
+    private int CountStudentsWithUnqualifiedConduct()
+    {
+        if (studentList == null) return 0;
+        return studentList.Count(s => s.conductGrade == 0);
+    }
+    private int CountStudentsWithoutAnyGradesAssigned()
+    {
+        if (studentList == null) return 0;
+        return studentList.Count(s => s.HasAnyZeroGrade());
     }
 }
