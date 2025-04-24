@@ -91,4 +91,6 @@ public static class Utilities
         var dayFormat = withDayName ? "dddd" : "ddd.";
         return datetime.toUTC6().ToString($"{dayFormat} dd/MMM/yyyy, h:mm tt", culture);
     }
+    
+    public static decimal round(this decimal value) => Math.Round(value, 2);
 }

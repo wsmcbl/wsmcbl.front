@@ -1,5 +1,6 @@
 @inherits BaseView
 
+@using wsmcbl.src.Utilities
 
 @if (EvaluationSumary != null && CualitativeDetails != null && SubjectDetails != null)
 {
@@ -34,13 +35,13 @@
                         <tr class="total-row">
                             <td>Retención (%)</td>
                             <td>
-                                (@((EvaluationSumary.currentQuantity.total * 100 / EvaluationSumary.initialQuantity.total).ToString() + "%"))
+                                (@((EvaluationSumary.currentQuantity.total * 100m / EvaluationSumary.initialQuantity.total).round().ToString() + "%"))
                             </td>
                             <td>
-                                (@((EvaluationSumary.currentQuantity.males * 100 / EvaluationSumary.initialQuantity.males).ToString() + "%"))
+                                (@((EvaluationSumary.currentQuantity.males * 100m / EvaluationSumary.initialQuantity.males).round().ToString() + "%"))
                             </td>
                             <td>
-                                (@((EvaluationSumary.currentQuantity.females * 100 / EvaluationSumary.initialQuantity.females).ToString() + "%"))
+                                (@((EvaluationSumary.currentQuantity.females * 100m / EvaluationSumary.initialQuantity.females).round().ToString() + "%"))
                             </td>
                         </tr>
                         </tbody>
@@ -71,13 +72,13 @@
                         <tr>
                             <td>Rendimiento academico (%)</td>
                             <td>
-                                (@((EvaluationSumary.approved.total * 100 / EvaluationSumary.currentQuantity.total).ToString() + "%"))
+                                (@((EvaluationSumary.approved.total * 100m / EvaluationSumary.currentQuantity.total).round().ToString() + "%"))
                             </td>
                             <td>
-                                (@((EvaluationSumary.approved.males * 100 / EvaluationSumary.currentQuantity.males).ToString() + "%"))
+                                (@((EvaluationSumary.approved.males * 100m / EvaluationSumary.currentQuantity.males).round().ToString() + "%"))
                             </td>
                             <td>
-                                (@((EvaluationSumary.approved.females * 100 / EvaluationSumary.currentQuantity.females).ToString() + "%"))
+                                (@((EvaluationSumary.approved.females * 100m / EvaluationSumary.currentQuantity.females).round().ToString() + "%"))
                             </td>
 
                         </tr>
