@@ -53,12 +53,22 @@
     width: 150px;
     min-width: 100px;
 }
-.no-spinner::-webkit-inner-spin-button,
-.no-spinner::-webkit-outer-spin-button {
+
+/* Elimina los controles de incremento en navegadores WebKit */
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+
+/* Elimina los controles en Firefox */
 .no-spinner {
     -moz-appearance: textfield;
 }
+
+/* Estilo para mostrar claramente que es un campo numérico */
+.no-spinner {
+    text-align: center;
+}
+
 

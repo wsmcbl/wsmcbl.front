@@ -104,7 +104,6 @@ else
                     </div>
                 </div>
             </div>
-
             <div class="col-md-6">
                 <div class="card border-left-primary shadow h-100">
                     <div class="card-body">
@@ -155,7 +154,6 @@ else
                     </div>
                 </div>
             </div>
-            
         </div>
         
     </div>
@@ -236,8 +234,12 @@ else
                                                 <td data-label="@subject.name - Valor" class="tac-max">
                                                     @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
-                                                        <input type="number" min="0" class="form-control no-spinner"
-                                                               @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"/>
+                                                        <input type="number" 
+                                                               min="0" 
+                                                               max="100" 
+                                                               class="form-control no-spinner @(student.gradeList!.First(e => e.subjectId == subject.subjectId).grade == 0 ? "bg-danger text-white" : "")" 
+                                                               @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"
+                                                               onwheel="this.blur()"/>
                                                     }
                                                     else
                                                     {
@@ -246,8 +248,12 @@ else
                                                 </td>
                                             }
                                             <td data-label="Conducta" class="tac-max">
-                                                <input type="number" class="form-control no-spinner"
-                                                       @bind="student.conductGrade"/>
+                                                <input type="number" 
+                                                       min="0" 
+                                                       max="100" 
+                                                       class="form-control no-spinner @(student.conductGrade == 0 ? "bg-danger text-white" : "")" 
+                                                       @bind="student.conductGrade"
+                                                       onwheel="this.blur()"/>
                                             </td>
                                         </tr>
                                     }
