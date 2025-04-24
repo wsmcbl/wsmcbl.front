@@ -6,29 +6,6 @@ help: ## Show this help message
 	@echo 'targets:'
 	@egrep '^(.+)\:\ ##\ (.+)' ${MAKEFILE_LIST} | column -t -c 2 -s ':#'
 
-b = unknown
-
-mer-b2dev: ## Merge branch (b) into develop
-	git checkout develop
-	git merge --no-ff -m "Merge $(b) into develop" $(b)
-	git checkout $(b)
-
-mer-dev2b: ## Merge develop into branch (b)
-	git checkout $(b)
-	git merge --no-ff -m "Merge develop into $(b)" develop
-
-mer-cur2dev: ## Merge current-branch into develop
-	$(MAKE) mer-b2dev b=$(shell git rev-parse --abbrev-ref HEAD)
-
-mer-cur2b: ## Merge current-branch into branch (b)
-	$(MAKE) mer-cur2dev
-	$(MAKE) mer-dev2b
-
-gpc: ## git push origin current brach
-	git push origin $(shell git rev-parse --abbrev-ref HEAD)
-
-
-
 build: ## Rebuilds all the containers
 	docker-compose build
 
