@@ -5,12 +5,10 @@ namespace wsmcbl.src.Controller.Service;
 public class TurnstileService
 {
     private readonly IHttpClientFactory _clientFactory;
-    private readonly IConfiguration _config;
 
-    public TurnstileService(IHttpClientFactory clientFactory, IConfiguration config)
+    public TurnstileService(IHttpClientFactory clientFactory)
     {
         _clientFactory = clientFactory;
-        _config = config;
     }
     
     public class TurnstileResponse
@@ -22,12 +20,17 @@ public class TurnstileService
     public async Task<bool> ValidateTokenAsync(string token)
     {
         var client = _clientFactory.CreateClient();
-        var secret = "0x4AAAAAABT_ZnFUiTDZQjO-LRTCHP1u5BM";
-
+        var secret = Environment.GetEnvironmentVariable("CAPTCHA");
+        Console.Write(secret);
+        if (string.IsNullOrWhiteSpace(secret))
+        {
+            throw new InvalidOperationException("La variable de entorno 'TURNSTILE' no está configurada.");
+        }
+        
         var response = await client.PostAsync("https://challenges.cloudflare.com/turnstile/v0/siteverify", 
             new FormUrlEncodedContent(new Dictionary<string, string>
             {
-                {"secret", secret},
+                {"secret", secret!},
                 {"response", token}
             }));
 
