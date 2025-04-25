@@ -70,7 +70,7 @@ builder.Services.AddTransient<GetSchoolYearServices>();
 builder.Services.AddTransient<DashboardCashierController>();
 builder.Services.AddTransient<PrintDocumentByStudentController>();
 
-
+builder.Services.AddScoped<TurnstileService>();
 
 
 var app = builder.Build();

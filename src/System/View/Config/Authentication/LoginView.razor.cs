@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 
 namespace wsmcbl.src.View.Config.Authentication;
@@ -14,6 +15,7 @@ public partial class LoginView : ComponentBase
     [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private LoginController controller { get; set; } = null!;
     [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
+    [Inject] private TurnstileService turnstileService { get; set; } = null!;
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
     
     protected override async Task OnInitializedAsync()
@@ -36,6 +38,20 @@ public partial class LoginView : ComponentBase
     }
     private async Task Login()
     {
+        if (string.IsNullOrWhiteSpace(_turnstileToken))
+        {
+            errorMessage = "Complete el captcha";
+            return;
+        }
+
+        var isValid = await turnstileService.ValidateTokenAsync(_turnstileToken);
+        if (!isValid)
+        {
+            errorMessage = "Captcha inválido";
+            return;
+        }
+        
+        
         errorMessage = "Iniciando sesión ...";
         var token = await controller.login(email, password);
         if (token == string.Empty)
@@ -48,7 +64,6 @@ public partial class LoginView : ComponentBase
         StateHasChanged();
         await Task.Delay(100);
         
-        //validar que rol tiene el usuario y redireccionarlo al homepage especifico.
         var userRole = await jwtClaimsService.GetClaimRole("role");
         
         var roleRoutes = new Dictionary<string, string>
@@ -73,5 +88,18 @@ public partial class LoginView : ComponentBase
         {
             await Login();
         }
+    }
+    
+    //captcha
+    private string? _turnstileToken;
+    private void TurnstileCallback(string token)
+    {
+        _turnstileToken = token;
+        StateHasChanged();
+    }
+
+    private void TurnstileErrorCallback()
+    {
+        Console.WriteLine("Error al cargar Turnstile.");
     }
 }

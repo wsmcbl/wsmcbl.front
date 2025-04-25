@@ -1,6 +1,7 @@
 @page "/"
 
 @layout EmptyLayout
+@using BlazorTurnstile
 
 <AuthorizeView>
     <NotAuthorized>
@@ -20,18 +21,34 @@
                                     </div>
                                     <form class="user">
                                         <div class="form-group mb-3">
+                                            <label for="login_email" class="label-required">Correo institucional:</label>
                                             <input type="email" class="form-control"
                                                    id="login_email" aria-describedby="emailHelp"
                                                    placeholder="Ingrese su correo..." @bind="email">
                                         </div>
                                         <div class="form-group mb-4">
+                                            <label for="login_password" class="label-required">Contraseña:</label>
                                             <input type="password"
                                                    class="form-control"
                                                    id="login_password"
                                                    placeholder="Ingrese su contraseña"
                                                    @bind-value="password"
-                                                   @bind-value:event="oninput" />
+                                                   @bind-value:event="oninput"/>
                                         </div>
+                                        
+                                        <div class="form-group d-flex justify-content-center">
+                                            <div class="turnstile-wrapper">
+                                                <Turnstile @bind-Token="@_turnstileToken"
+                                                           SiteKey="0x4AAAAAABT_ZnL2ixIngZyI"
+                                                           Appearance="@TurnstileAppearance.Always"
+                                                           Execution="@TurnstileExecution.Render"
+                                                           Theme="@TurnstileTheme.Light"
+                                                           OnCallback="@TurnstileCallback"
+                                                           OnErrorCallback="@TurnstileErrorCallback"
+                                                           ResponseField="@true" />
+                                            </div>
+                                        </div>
+                                        
                                         <div class="text-center">
                                             <button type="button" class="btn btn-success w-100" @onclick="async () => await Login()">Iniciar Sesión</button>
                                         </div>
