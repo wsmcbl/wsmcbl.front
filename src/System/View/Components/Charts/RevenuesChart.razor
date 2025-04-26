@@ -1,7 +1,35 @@
+<style>
+    .chart-container {
+        position: relative;
+        height: 60vh;
+        min-height: 300px;
+        width: 100%;
+    }
+
+    #incomeBarChart {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    @@media (max-width: 768px) {
+    .chart-container {
+        height: 70vh !important;
+        min-height: 400px !important;
+    }
+    }
+    .card {
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+</style>
+
 <div class="container-fluid">
     <!-- Fila de Tarjetas KPI -->
     <div class="row">
-        
         <!-- Tarjeta Ingreso Esperado -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -113,7 +141,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="row">
@@ -129,31 +156,3 @@
     </div>
 </div>
 
-<style>
-    .chart-container {
-        position: relative;
-        height: 60vh;
-        min-height: 300px;
-        width: 100%;
-    }
-
-    #incomeBarChart {
-        display: block;
-        width: 100% !important;
-        height: 100% !important;
-    }
-
-    @@media (max-width: 768px) {
-    .chart-container {
-        height: 70vh !important;
-        min-height: 400px !important;
-    }
-    }
-    .card {
-        transition: all 0.3s ease;
-    }
-    .card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-    }
-</style>

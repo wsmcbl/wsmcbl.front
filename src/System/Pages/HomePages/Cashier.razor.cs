@@ -56,8 +56,4 @@ public partial class Cashier : ComponentBase
         
         await Navigator.ShowPdfModal();
     }
-    
-    
-    
-    
 }
