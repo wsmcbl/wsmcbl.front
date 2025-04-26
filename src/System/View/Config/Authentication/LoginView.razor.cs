@@ -51,7 +51,6 @@ public partial class LoginView : ComponentBase
             return;
         }
         
-        
         errorMessage = "Iniciando sesión ...";
         var token = await controller.login(email, password);
         if (token == string.Empty)

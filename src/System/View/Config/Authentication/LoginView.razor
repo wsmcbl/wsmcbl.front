@@ -1,65 +1,74 @@
 @page "/"
-
 @layout EmptyLayout
 @using BlazorTurnstile
 
 <AuthorizeView>
     <NotAuthorized>
-        <div @onkeydown="HandleKeyDown" tabindex="0">
-            <div class="blue-background d-flex align-items-center justify-content-center">
-                <div class="card o-hidden border-0 shadow-lg" style="max-width: 40rem; width: 100%;">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row g-0">
-                            <!-- Imagen a la izquierda -->
-                            <div class="col-md-5 bg-login-image"></div>
-                            <!-- Formulario -->
-                            <div class="col-md-7">
-                                <div class="p-4">
-                                    <div class="text-center mb-4">
-                                        <h1 class="h4 text-gray-900">Colegio Bautista Libertad</h1>
-                                    </div>
-                                    <form class="user">
-                                        <div class="form-group mb-3">
-                                            <label for="login_email" class="label-required">Correo institucional:</label>
-                                            <input type="email" class="form-control"
-                                                   id="login_email" aria-describedby="emailHelp"
-                                                   placeholder="Ingrese su correo..." @bind="email">
-                                        </div>
-                                        <div class="form-group mb-4">
-                                            <label for="login_password" class="label-required">Contraseña:</label>
-                                            <input type="password"
-                                                   class="form-control"
-                                                   id="login_password"
-                                                   placeholder="Ingrese su contraseña"
-                                                   @bind-value="password"
-                                                   @bind-value:event="oninput"/>
-                                        </div>
-                                        
-                                        <div class="form-group d-flex justify-content-center">
-                                            <div class="turnstile-wrapper">
-                                                <Turnstile @bind-Token="@_turnstileToken"
-                                                           SiteKey="0x4AAAAAABT_ZnL2ixIngZyI"
-                                                           Appearance="@TurnstileAppearance.Always"
-                                                           Execution="@TurnstileExecution.Render"
-                                                           Theme="@TurnstileTheme.Light"
-                                                           OnCallback="@TurnstileCallback"
-                                                           OnErrorCallback="@TurnstileErrorCallback"
-                                                           ResponseField="@true" />
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="text-center">
-                                            <button type="button" class="btn btn-success w-100" @onclick="async () => await Login()">Iniciar Sesión</button>
-                                        </div>
-                                        <div style="margin-top: 10px;">
-                                            @if (!string.IsNullOrEmpty(errorMessage))
-                                            {
-                                                <label>@errorMessage</label>
-                                            }
-                                        </div>
-                                    </form>
+        <div class="login-container" @onkeydown="HandleKeyDown" tabindex="0">
+            <div class="login-wrapper">
+                <div class="login-card shadow-lg">
+                    <div class="login-row">
+                        <!-- Imagen del negocio -->
+                        <div class="login-image-col">
+                            <div class="login-image-overlay"></div>
+                            <div class="login-image-content">
+                                <h2>Colegio Bautista Libertad</h2>
+                                <p>Educación con valores cristianos</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Formulario -->
+                        <div class="login-form-col">
+                            <div class="login-form-container">
+                                <div class="text-center mb-4">
+                                    <h1 class="h4 text-gray-900">Bienvenido</h1>
+                                    <p class="text-muted">Ingrese sus credenciales para continuar</p>
                                 </div>
+                                
+                                <form class="login-form">
+                                    <div class="form-group">
+                                        <label class="label-required" for="login_email">Correo institucional</label>
+                                        <input type="email" class="form-control"
+                                               id="login_email" 
+                                               placeholder="usuario@cbl-edu.com" 
+                                               @bind="email">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="label-required" for="login_password">Contraseña</label>
+                                        <input type="password"
+                                               class="form-control"
+                                               id="login_password"
+                                               placeholder="Ingrese su contraseña"
+                                               @bind-value="password"
+                                               @bind-value:event="oninput"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="mb-2">Verifica que eres humano</label>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <Turnstile @bind-Token="@_turnstileToken"
+                                                       SiteKey="0x4AAAAAABT_ZnL2ixIngZyI"
+                                                       Appearance="@TurnstileAppearance.Always"
+                                                       Execution="@TurnstileExecution.Render"
+                                                       Theme="@TurnstileTheme.Auto"
+                                                       OnCallback="@TurnstileCallback"
+                                                       OnErrorCallback="@TurnstileErrorCallback"
+                                                       ResponseField="@false" />
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary btn-block" @onclick="async () => await Login()">
+                                        Iniciar Sesión
+                                    </button>
+                                    
+                                    @if (!string.IsNullOrEmpty(errorMessage))
+                                    {
+                                        <div class="alert alert-danger mt-3 mb-0">
+                                            @errorMessage
+                                        </div>
+                                    }
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -68,7 +77,3 @@
         </div>
     </NotAuthorized>
 </AuthorizeView>
-
-
-
-
