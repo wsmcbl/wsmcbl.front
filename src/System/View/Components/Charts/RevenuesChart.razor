@@ -1,17 +1,25 @@
 <div class="container-fluid">
     <!-- Fila de Tarjetas KPI -->
     <div class="row">
+        
         <!-- Tarjeta Ingreso Esperado -->
-        <div class="col-xl-6 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 font-weight-bold text-primary text-uppercase mb-1">
-                                Ingreso
-                                Esperado: @FormatNicaraguanCurrency(CurrentRevenues.expectedIncomeThisMonth)</div>
-                            <div class="h6 mb-0 font-weight-bold text-gray-800">
-                                Ingreso Recibidos: @FormatNicaraguanCurrency(CurrentRevenues.expectedIncomeReceived)
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Ingresos pronosticado
+                                <i class="fas fa-info-circle text-muted ml-1"
+                                   data-toggle="tooltip"
+                                   title="Suma total de ingresos si todos los estudiantes cancelan la mensualidad actual.">
+                                </i>
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @FormatNicaraguanCurrency(CurrentRevenues.expectedIncomeThisMonth)
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Ingresos pronosticado en el mes.
                             </div>
                         </div>
                         <div class="col-auto">
@@ -23,16 +31,79 @@
         </div>
 
         <!-- Tarjeta Ingreso Recibido -->
-        <div class="col-xl-6 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Ingresos recíbidos
+                                <i class="fas fa-info-circle text-muted ml-1"
+                                   data-toggle="tooltip"
+                                   title="Ingresos recibidos hasta la fecha correspondientes a la mensualidad actual.">
+                                </i>
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @FormatNicaraguanCurrency(CurrentRevenues.expectedIncomeReceived)
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Ingresos recibidos de este mes.
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-history fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta de otros Ingresos -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Otros Ingresos
+                                <i class="fas fa-info-circle text-muted ml-1"
+                                   data-toggle="tooltip"
+                                   title="Suma de todas las mensualidades canceladas que no corresponden a la mensualidad actual.">
+                                </i>
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @FormatNicaraguanCurrency(CurrentRevenues.totalIncomeThisMonth - CurrentRevenues.expectedIncomeReceived)
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Ingresos correspondientes a otras mensualidades (pasadas o futuras).
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-arrow-up fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta Ingreso Total -->
+        <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total Recibido
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total recibido este mes
+                                <i class="fas fa-info-circle text-muted ml-1"
+                                   data-toggle="tooltip"
+                                   title="Suma total de los pagos realizados por todos los estudiantes correspondientes al mes actual.">
+                                </i>
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 @FormatNicaraguanCurrency(CurrentRevenues.totalIncomeThisMonth)
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Ingresos de esta mensualidad + ingresos de otras mensuaalidades.
                             </div>
                         </div>
                         <div class="col-auto">
@@ -49,38 +120,11 @@
     <div class="row">
         <!-- Gráfico de Barras -->
         <div class="col-xl-7 col-lg-7">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Comparación de Ingresos</h6>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container"> <!-- Cambiado de chart-bar a chart-container -->
-                        <canvas id="incomeBarChart"></canvas>
-                    </div>
-                </div>
-            </div>
+            <IncomeBarChart/>
         </div>
 
         <!-- Gráfico Circular -->
         <div class="col-xl-5 col-lg-5">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Distribución</h6>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container"> <!-- Cambiado de chart-pie a chart-container -->
-                        <canvas id="incomePieChart"></canvas>
-                    </div>
-                    <div class="mt-4 text-center small">
-                <span class="mr-2">
-                    <i class="fas fa-circle text-success"></i> Ingresos correspondiente a este mes. @FormatPercentage(amountRecivedExpentPorcent)
-                </span>
-                        <span class="mr-2">
-                    <i class="fas fa-circle text-danger"></i> Otros Ingresos @FormatPercentage(otherAmountPorcent)
-                </span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
