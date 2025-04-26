@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
@@ -43,14 +44,16 @@ public partial class LoginView : ComponentBase
             errorMessage = "Complete el captcha";
             return;
         }
-
+        if (!ValidateEmail())
+        {
+            return;
+        }
         var isValid = await turnstileService.ValidateTokenAsync(_turnstileToken);
         if (!isValid)
         {
             errorMessage = "Captcha inválido";
             return;
         }
-        
         errorMessage = "Iniciando sesión ...";
         var token = await controller.login(email, password);
         if (token == string.Empty)
@@ -77,7 +80,7 @@ public partial class LoginView : ComponentBase
 
         if (userRole is not null && roleRoutes.TryGetValue(userRole, out var route))
         {
-             Navigator!.ToPage(route);
+             Navigator.ToPage(route);
         }
         
     }
@@ -88,7 +91,31 @@ public partial class LoginView : ComponentBase
             await Login();
         }
     }
-    
+    private bool ValidateEmail()
+    {
+        var regex = new Regex(@"^[a-zA-Z]+\.[a-zA-Z]+(\d{2})?@cbl-edu\.com$", RegexOptions.IgnoreCase);
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            errorMessage = "El correo electrónico es requerido";
+            return false;
+        }
+        if (!regex.IsMatch(email))
+        {
+            errorMessage = "Formato inválido. Use: su correo institucional";;
+            return false;
+        }
+        if (email.Any(char.IsDigit))
+        {
+            var digitCount = email.Split('@')[0].ToCharArray().Count(char.IsDigit);
+            if (digitCount != 2)
+            {
+                errorMessage = "Debe incluir exactamente 2 dígitos cuando use números";
+                return false;
+            }
+        }
+        errorMessage = "";
+        return true;
+    }
     //captcha
     private string? _turnstileToken;
     private void TurnstileCallback(string token)
