@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.IdentityModel.Tokens;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Config;
@@ -28,18 +27,18 @@ public partial class ViewUserInfo : BaseView
             permissions = await CreateUserController.GetPermissionList();
             User = await LoginController.getUserById(userId);
             GetRoleName();
-            CofigEditUser();
+            ConfigEditUser();
         }
     }
     
     private  void GetRoleName()
     {
-        RoleName = Enum.IsDefined(typeof(Role), User!.roleId) 
+        RoleName = Enum.IsDefined(typeof(Role), User.roleId) 
             ? ((Role)User.roleId).ToString() 
             : "Sin asignar";
     }
 
-    private void CofigEditUser()
+    private void ConfigEditUser()
     {
         EditUser.name = User.name;
         EditUser.secondName = User.secondName;
@@ -74,8 +73,9 @@ public partial class ViewUserInfo : BaseView
         {
             await Notificator.ShowError("Error","Valide los datos ingresados");
         }
-        
-        var response = await CreateUserController.UpdateUser(EditUser!, userId!);
+
+        var toBasicUser = EditUser.ToBasicUserInfo();
+        var response = await CreateUserController.UpdateUser(toBasicUser, userId!);
         if (response)
         {
             await Notificator.ShowSuccess("Exito", "Hemos actualizado los datos del usuario con exito");
@@ -84,6 +84,18 @@ public partial class ViewUserInfo : BaseView
         }
         
         await Notificator.ShowError("Error", "No hemos actualizado los datos");
+    }
+    
+    private async Task UpdateUserPermissions()
+    {
+        var response = await CreateUserController.UpdateUserPermissions(userId!, EditUser.permissionList);
+        if (response.Any())
+        {
+            await Notificator.ShowSuccess("Exito", "Hemos actualizado los permisos del usuario con exito");
+            await OnParametersSetAsync();
+            return;
+        }
+        await Notificator.ShowError("Error", "No hemos actualizado los permisos");
     }
     
     protected override bool IsLoading()

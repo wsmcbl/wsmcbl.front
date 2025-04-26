@@ -43,7 +43,7 @@ public class CreateUserController
         return await _apiConsumer.PostAsync(Modules.Config, resource, userdata, defaultResult);
     }
 
-    public async Task<bool> UpdateUser(EditUserDto userdata, string userId)
+    public async Task<bool> UpdateUser(EditUserDto.BasicUserInfoDto userdata, string userId)
     {
         return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}", userdata);
     }
@@ -59,4 +59,8 @@ public class CreateUserController
         return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}/state", false);
     }
     
+    public async Task<List<int>> UpdateUserPermissions(string userId, List<int> permissionIds)
+    { 
+        return await _apiConsumer.PutWhitData(Modules.Config, $"users/{userId}/permissions", permissionIds);
+    }
 }

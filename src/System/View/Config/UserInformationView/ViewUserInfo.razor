@@ -12,19 +12,18 @@
             {
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 font-weight-bold text-primary">@User?.getFullName()</h6>
-                        <button class="btn btn-success btn-sm" @onclick="UpdateUser">Actualizar</button>
+                        <h6 class="m-0 font-weight-bold text-primary">@User.getFullName()</h6>
                     </div>
                     <div class="card-body">
-
                         <div class="row">
                             <!-- Columna de Datos del Usuario -->
                             <div class="col-md-6">
                                 <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                         <h6 class="m-0 font-weight-bold text-danger">
                                             <i class="fas fa-user-circle mr-2"></i>Datos del Usuario
                                         </h6>
+                                        <button class="btn btn-success btn-sm" @onclick="UpdateUser">Actualizar Info</button>
                                     </div>
                                     <div class="card-body">
                                         <div class="form-row">
@@ -56,11 +55,8 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="mail" class="font-weight-bold text-gray-800">Correo:</label>
-                                                @if (User != null)
-                                                {
-                                                    <InputText id="mail" @bind-Value="@(User.email)" class="form-control"
+                                                <InputText id="mail" @bind-Value="@(User.email)" class="form-control"
                                                                placeholder="Sin asignar" disabled/>
-                                                }
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="rol" class="font-weight-bold text-gray-800">Rol:</label>
@@ -72,11 +68,8 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="mail" class="font-weight-bold text-gray-800">Grupo en Nextcloud:</label>
-                                                @if (User != null)
-                                                {
-                                                    <InputText id="mail" @bind-Value="@(User.nextCloudGroup)" class="form-control"
+                                                <InputText id="mail" @bind-Value="@(User.nextCloudGroup)" class="form-control"
                                                                placeholder="Sin asignar" disabled/>
-                                                }
                                             </div>
                                         </div>
                                         
@@ -87,10 +80,11 @@
                             <!-- Columna de Permisos -->
                             <div class="col-md-6">
                                 <div class="card shadow mb-4">
-                                    <div class="card-header py-3">
+                                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                         <h6 class="m-0 font-weight-bold text-danger">
                                             <i class="fas fa-key mr-2"></i>Permisos
                                         </h6>
+                                        <button class="btn btn-success btn-sm" @onclick="UpdateUserPermissions">Actualizar Permisos</button>
                                     </div>
                                     <div class="card-body">
                                         <div class="accordion" id="permissionsAccordion">
@@ -110,7 +104,7 @@
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                                       checked="@(EditUser!.permissionList?.Contains(item.permissionId) == true)"                                                           
+                                                                       checked="@(EditUser.permissionList?.Contains(item.permissionId) == true)"                                                           
                                                                        @onchange="() => AddPermissions(item.permissionId)" />
                                                                 <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                             </div>
@@ -135,7 +129,7 @@
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                                       checked="@(EditUser!.permissionList?.Contains(item.permissionId) == true)"                                                           
+                                                                       checked="@(EditUser.permissionList?.Contains(item.permissionId) == true)"                                                           
                                                                        @onchange="() => AddPermissions(item.permissionId)" />
                                                                 <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                             </div>
@@ -160,7 +154,7 @@
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                                       checked="@(EditUser!.permissionList?.Contains(item.permissionId) == true)"                                                           
+                                                                       checked="@(EditUser.permissionList?.Contains(item.permissionId) == true)"                                                           
                                                                        @onchange="() => AddPermissions(item.permissionId)" />
                                                                 <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                             </div>
@@ -185,7 +179,7 @@
                                                         {
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input" id="@item.permissionId"
-                                                                       checked="@(EditUser!.permissionList?.Contains(item.permissionId) == true)"                                                           
+                                                                       checked="@(EditUser.permissionList?.Contains(item.permissionId) == true)"                                                           
                                                                        @onchange="() => AddPermissions(item.permissionId)" />
                                                                 <label class="custom-control-label" for="@item.permissionId">@item.name</label>
                                                             </div>
@@ -193,12 +187,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             }
