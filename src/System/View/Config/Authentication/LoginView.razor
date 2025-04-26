@@ -47,11 +47,12 @@
                                     <div class="form-group">
                                         <label class="mb-2">Verifica que eres humano</label>
                                         <div class="d-flex justify-content-center align-items-center">
-                                            <Turnstile @bind-Token="@_turnstileToken"
+                                            <Turnstile @key="@_turnstileKey" 
+                                                       @bind-Token="@_turnstileToken"
                                                        SiteKey="0x4AAAAAABT_ZnL2ixIngZyI"
                                                        Appearance="@TurnstileAppearance.Always"
                                                        Execution="@TurnstileExecution.Render"
-                                                       Theme="@TurnstileTheme.Auto"
+                                                       Theme="@TurnstileTheme.Light"
                                                        OnCallback="@TurnstileCallback"
                                                        OnErrorCallback="@TurnstileErrorCallback"
                                                        ResponseField="@false" />

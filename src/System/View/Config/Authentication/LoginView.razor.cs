@@ -18,6 +18,7 @@ public partial class LoginView : ComponentBase
     [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
     [Inject] private TurnstileService turnstileService { get; set; } = null!;
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
+    private int _turnstileKey = 0;
     
     protected override async Task OnInitializedAsync()
     {
@@ -59,6 +60,7 @@ public partial class LoginView : ComponentBase
         if (token == string.Empty)
         {
             errorMessage = controller.errorMessage;
+            ResetTurnstile();
             return;
         }
         
@@ -83,6 +85,11 @@ public partial class LoginView : ComponentBase
              Navigator.ToPage(route);
         }
         
+    }
+    private void ResetTurnstile() {
+        _turnstileToken = string.Empty;
+        _turnstileKey++;
+        StateHasChanged();
     }
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
