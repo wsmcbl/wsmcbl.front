@@ -1,4 +1,5 @@
 ﻿@page "/dashboard"
+@attribute [Authorize(Roles = "admin")]
 @using wsmcbl.src.View.Components.Charts
 @using wsmcbl.src.View.Accounting.Charts
 @using wsmcbl.src.View.Components
