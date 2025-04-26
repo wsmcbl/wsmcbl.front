@@ -116,7 +116,6 @@
 
     </div>
 
-    <!-- Fila de Gráficos -->
     <div class="row">
         <!-- Gráfico de Barras -->
         <div class="col-xl-7 col-lg-7">
@@ -129,3 +128,25 @@
         </div>
     </div>
 </div>
+
+<style>
+    .chart-container {
+        position: relative;
+        height: 60vh;
+        min-height: 300px;
+        width: 100%;
+    }
+
+    #incomeBarChart {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    @@media (max-width: 768px) {
+    .chart-container {
+        height: 70vh !important;
+        min-height: 400px !important;
+    }
+    }
+</style>

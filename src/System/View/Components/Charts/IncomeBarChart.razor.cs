@@ -8,7 +8,6 @@ public partial class IncomeBarChart : ComponentBase
 {
     [Inject] ViewPrincipalDashboardController Controller { get; set; } = null!;
     [Inject] private IJSRuntime js { get; set; } = null!;
-
     private RevenuesDto Data { get; set; } = new();
     private bool IsLoading { get; set; } = true;
     
