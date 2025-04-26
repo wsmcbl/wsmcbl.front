@@ -24,7 +24,7 @@ public class TurnstileService
         Console.Write(secret);
         if (string.IsNullOrWhiteSpace(secret))
         {
-            throw new InvalidOperationException("La variable de entorno 'TURNSTILE' no está configurada.");
+            throw new InvalidOperationException("La variable de entorno 'CAPTCHA' no está configurada.");
         }
         
         var response = await client.PostAsync("https://challenges.cloudflare.com/turnstile/v0/siteverify", 
