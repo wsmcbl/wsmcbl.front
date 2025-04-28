@@ -10,6 +10,7 @@ public partial class DashboardStudentView : ComponentBase
     [Inject] protected PrintDocumentByStudentController PrintDocumentByStudentController { get; set; } = null!;
     [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
     [Inject] protected UnenrollController unenrollController { get; set; } = null!;
+    [Inject] protected CollectTariffController collectTariffController { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
     [Parameter] public StudentEntity Student { get; set; } = new();
@@ -80,6 +81,9 @@ public partial class DashboardStudentView : ComponentBase
     {
         await PrintDocumentByStudentController.GetCertificate(Student.studentId!, Student.FullName());
     }
+    private async Task DownLoadState()
+    {
+        await collectTariffController.GetAccountStatement(Student.studentId!); }
     private async Task PrintReportCard()
     {
         await Navigator.ShowModal("DowloadDegreeDocument");
