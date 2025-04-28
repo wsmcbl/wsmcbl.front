@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
@@ -10,16 +11,20 @@ public partial class TariffOverdueListView : BaseView
 {
     [Inject] private ApplyArrearsController Controller { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
-    
-    private List<DropDownItem> TariffTypeItemList { get; set; } = [];
+    [Inject] private GetSchoolYearServices GetSchoolYearServices { get; set; } = null!;
     private List<TariffEntity>? Tariffs { get; set; }
+    private Dictionary<string, string>? SchoolYearLabels { get; set; }
     
     protected override async Task OnParametersSetAsync()
     {
         await LoadTariffList();
-        TariffTypeItemList = await Controller.GetTariffTypeList();
     }
-
+    private async Task LoadTariffList()
+    {
+        Tariffs = await Controller.GetTariffOverdueList();
+        var schoolYearId = Tariffs.Select(s => s.schoolyearId).Distinct().ToList();
+        SchoolYearLabels = await GetSchoolYearServices.GetSchoolYearLabelsBatch(schoolYearId);
+    }
     private async Task ActiveArrears(int tariffId)
     {
         var active = await Notificator.ShowAlertQuestion("Advertencia",
@@ -39,16 +44,8 @@ public partial class TariffOverdueListView : BaseView
         await LoadTariffList();
         await Notificator.ShowSuccess("Exito", "Hemos activado la mora correctamente.");
     }
-
-    private async Task LoadTariffList()
-    {
-        Tariffs = await Controller.GetTariffOverdueList();
-    }
-    
     protected override bool IsLoading()
     {
         return Tariffs != null;
     }
-    
-    private string GetStatusLabel(bool value) => value ? "active-status" : "inactive-status";
 }

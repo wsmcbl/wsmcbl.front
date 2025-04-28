@@ -18,7 +18,7 @@ public class TariffDto
         return new TariffEntity
         {
             tariffId = tariffId,
-            schoolYear = schoolyearId,
+            schoolyearId = schoolyearId,
             type = type,
             concept = concept,
             amount = amount,

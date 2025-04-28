@@ -5,7 +5,7 @@ namespace wsmcbl.src.Model.Accounting;
 public class TariffEntity
 {
     public int tariffId { get; set; }
-    public string schoolYear { get; set; } = null!;
+    public string schoolyearId { get; set; } = null!;
     public string concept { get; set; } = null!;
     public decimal amount { get; set; }
     public decimal Discount { get; set; }
