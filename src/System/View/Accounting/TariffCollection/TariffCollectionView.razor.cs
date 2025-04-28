@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using wsmcbl.src.Controller;
+using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
@@ -12,11 +13,13 @@ public partial class TariffCollectionView : BaseView
     [Parameter] public string? StudentId { get; set; }
     [Inject] protected CollectTariffController collectTariffController { get; set; } = null!;
     [Inject] protected ForgetDebtController forgetDebtController { get; set; } = null!;
+    [Inject] private GetSchoolYearServices GetSchoolYearServices { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; private set; } = null!;
 
     private List<TariffEntity>? TariffList { get; set; }
     private List<TariffEntity>? TariffsToPay { get; set; }
+    private Dictionary<string, string>? SchoolYearLabels { get; set; }
 
 
     private StudentEntity? Student { get; set; }
@@ -47,6 +50,10 @@ public partial class TariffCollectionView : BaseView
         
         TariffList = await collectTariffController.GetTariffListByStudentId(StudentId);
         TariffList.UpdateAmounts(Student!);
+        
+        //Obtenemos los label de tododas las tarifas del student.
+        var schoolYearsId = TariffList.Select(s => s.schoolyearId).Distinct().ToList();
+        SchoolYearLabels = await GetSchoolYearServices.GetSchoolYearLabelsBatch(schoolYearsId);
     }
     
     private void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)

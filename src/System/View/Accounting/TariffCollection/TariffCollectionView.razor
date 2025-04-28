@@ -122,7 +122,7 @@ else
                                         {
                                             <tr>
                                                 <td>@item.tariffId</td>
-                                                <td>@item.schoolyearId</td>
+                                                <td>@SchoolYearLabels![item.schoolyearId]</td>
                                                 <td>@item.concept</td>
                                                 @{
                                                     var hasDebt = Student!.HasPayments(item.tariffId);
@@ -178,7 +178,7 @@ else
                                         {
                                             <tr>
                                                 <td>@item.tariffId</td>
-                                                <td>@item.schoolyearId</td>
+                                                <td>@SchoolYearLabels![item.schoolyearId]</td>
                                                 <td>@item.concept</td>
                                                 @{
                                                     var hasDebt = Student!.HasPayments(item.tariffId);
@@ -308,7 +308,7 @@ else
                                     {
                                         <tr>
                                             <td>@item.tariffId</td>
-                                            <td>@item.schoolyearId</td>
+                                            <td>@SchoolYearLabels![item.schoolyearId!]</td>
                                             <td>@item.concept</td>
                                             <td>@item.subTotal</td>
                                             <td>@item.arrears</td>
@@ -316,7 +316,7 @@ else
                                             <td>@item.total</td>
                                             <td>@item.debtBalance</td>
                                             <td>
-                                                @if (item.itPaid == true)
+                                                @if (item.itPaid)
                                                 {
                                                     <button type="button" class="btn btn-danger btn-sm" disabled> Pagado </button>
                                                 }
