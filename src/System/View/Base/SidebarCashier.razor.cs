@@ -11,7 +11,6 @@ public partial class SidebarCashier : ComponentBase
     [Inject] private LoginController controller { get; set; } = null!;
     [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
     [Inject] private CustomAuthenticationStateProvider? AuthStateProvider { get; set; }
-    private UserEntity? User { get; set; }
     protected string? UserRole { get; set; }
     private List<string> UserPermissions { get; set; } = new();
     

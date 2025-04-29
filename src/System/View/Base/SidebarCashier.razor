@@ -48,22 +48,26 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Opciones de secretaría</h6>
                             <a class="collapse-item" href="/secretary/students">Estudiantes</a>
-                            @if (HasPermission("enrollment:read")){<a class="collapse-item" href="/secretary/enroll/students">Matricular</a> }
-                            @if (HasPermission("degree:read")){<a class="collapse-item" href="/secretary/degrees">Grados</a> }
-                            @if (HasPermission("degree:read")){<a class="collapse-item" href="/secretary/schoolyears">Años lectivos</a> }
+                            @if (HasPermission("student:enroll")){ <a class="collapse-item" href="/secretary/enroll/students">Matricular</a> }
+                            @if (HasPermission("degree:read")){ <a class="collapse-item" href="/secretary/degrees">Grados</a> }
+                            @if (HasPermission("schoolyear:read")){ <a class="collapse-item" href="/secretary/schoolyears">Años lectivos</a> }
                             <div class="dropdown-divider"></div>
-                            <a class="collapse-item" href="/secretary/withdrawns/students">Retirados</a>
-                            <a class="collapse-item" href="/secretary/catalogs/tariffs">Tarifas</a>
+                            @if (HasPermission("student:read")){ <a class="collapse-item" href="/secretary/withdrawns/students">Retirados</a> }
+                            @if (HasPermission("tariff:read")){ <a class="collapse-item" href="/secretary/catalogs/tariffs">Tarifas</a>  }
+                            
                         </div>
                     </div>
                 </li>
+
+                @if (HasPermission("student:read"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/management/registers">
+                            <i class="fas fa-folder-open"></i>
+                            <span>Padrón</span></a>
+                    </li>
+                }
                 
-                //Acceso al padron.
-                <li class="nav-item">
-                    <a class="nav-link" href="/management/registers">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Padrón</span></a>
-                </li>
             }
             
             <hr class="sidebar-divider d-none d-md-block">

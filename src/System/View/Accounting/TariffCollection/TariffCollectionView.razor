@@ -32,6 +32,22 @@ else
                 </div>
             </div>
         </div>
+        
+        @if (HasPermission("student:read"))
+        {
+            <div class="student-card student-card--primary">
+                <i class="fas fa-eye student-card__icon"></i>
+                <div class="student-card__content">
+                    <div class="student-card__title">Perfil</div>
+                    <div class="student-card__detail">
+                        <a href="/secretary/students/@Student?.studentId"
+                           class="student-card__link">
+                            Ver perfil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
     
     <div @onkeydown="HandleKeyDown" tabindex="0">

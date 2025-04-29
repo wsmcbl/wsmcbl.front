@@ -12,6 +12,7 @@ public partial class TariffCollectionView : BaseView
 {
     [Parameter] public string? StudentId { get; set; }
     [Inject] protected CollectTariffController collectTariffController { get; set; } = null!;
+    [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
     [Inject] protected ForgetDebtController forgetDebtController { get; set; } = null!;
     [Inject] private GetSchoolYearServices GetSchoolYearServices { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
@@ -20,6 +21,8 @@ public partial class TariffCollectionView : BaseView
     private List<TariffEntity>? TariffList { get; set; }
     private List<TariffEntity>? TariffsToPay { get; set; }
     private Dictionary<string, string>? SchoolYearLabels { get; set; }
+    private List<string> UserPermissions { get; set; } = new();
+
 
 
     private StudentEntity? Student { get; set; }
@@ -44,6 +47,8 @@ public partial class TariffCollectionView : BaseView
     
     private async Task LoadStudent()
     {
+        UserPermissions = await jwtClaimsService.GetUserPermissionsAsync();
+
         Student = await collectTariffController.GetStudentById(StudentId!);
         
         Student.data = await forgetDebtController.GetDebtList(StudentId!, Request);
@@ -55,7 +60,10 @@ public partial class TariffCollectionView : BaseView
         var schoolYearsId = TariffList.Select(s => s.schoolyearId).Distinct().ToList();
         SchoolYearLabels = await GetSchoolYearServices.GetSchoolYearLabelsBatch(schoolYearsId);
     }
-    
+    private bool HasPermission(string permission)
+    {
+        return UserPermissions.Contains(permission);
+    }
     private void OnSelectItemChanged(ChangeEventArgs e, TariffEntity tariff)
     {
         if (e.Value == null) return;
