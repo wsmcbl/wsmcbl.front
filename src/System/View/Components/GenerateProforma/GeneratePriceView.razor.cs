@@ -4,6 +4,7 @@ using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 using wsmcbl.src.View.Secretary.Schoolyear;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.TariffList;
 
 namespace wsmcbl.src.View.Components.GenerateProforma;
 

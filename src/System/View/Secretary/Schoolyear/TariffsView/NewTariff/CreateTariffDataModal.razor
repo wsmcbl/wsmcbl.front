@@ -11,16 +11,17 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="gradeIntId">Concepto</label>
-                        <input type="text" class="form-control" id="Concept" @bind="Tariff.concept" />
+                        <label for="concept">Concepto</label>
+                        <input type="text" class="form-control" id="concept" @bind="Tariff.concept" />
                     </div>
                     <div class="form-group">
-                        <label for="name">Monto</label>
+                        <label for="amount">Monto</label>
                         <input type="number" class="form-control" id="amount" @bind="Tariff.amount" />
                     </div>
                     <div class="form-group">
-                        <label for="semester">Vencimiento</label>
+                        <label for="dueDate">Vencimiento</label>
                         <input type="date" class="form-control" id="dueDate" @bind="dueDate" />
+                        <text class="text-gray-800">No vence</text> <input type="checkbox" @bind="isOverdue"/>
                     </div>
                     <div class="form-group">
                         <label for="type">Tipo</label>
@@ -46,7 +47,7 @@
             <div class="modal-footer">
                 <div class="right-container">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button class="btn btn-danger" @onclick="() => CreateTariffData(Tariff)">Guardar</button>
+                    <button class="btn btn-danger" @onclick="CreateTariffData">Guardar</button>
                 </div>
             </div>
 

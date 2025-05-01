@@ -4,7 +4,7 @@ using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
-namespace wsmcbl.src.View.Secretary.Schoolyear.TariffsView;
+namespace wsmcbl.src.View.Secretary.Schoolyear.TariffsView.TariffList;
 
 public partial class TariffsView : BaseView
 {

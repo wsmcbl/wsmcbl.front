@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
-namespace wsmcbl.src.View.Secretary.Schoolyear.TariffData;
+namespace wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff;
 
 public partial class CreateTariffDataModal : ComponentBase
 {
     [Inject] protected CreateTariffDataController controller { get; set; } = null!;
     [Inject] protected Notificator? Notificator { get; set; }
+    private bool isOverdue { get; set; } = false;
     
     private TariffDataDto Tariff = new();
     private DateOnly dueDate { get; set; }
@@ -23,12 +25,19 @@ public partial class CreateTariffDataModal : ComponentBase
         new() { Id = 3, Name = "Secundaria" }
     ];
     
-    private async Task CreateTariffData(TariffDataDto tariff)
+    private async Task CreateTariffData()
     {
-        var response = await controller.CreateTariffData(tariff);
-        if (response == null)
+
+        if (isOverdue)
+        {
+            Tariff.dueDate = null;
+        }
+        
+        var response = await controller.CreateTariffData(Tariff);
+        if (response != null)
         {
             await Notificator!.ShowSuccess("Se ha registrado el arancel correctamente.");
+            
         }
         else
         {

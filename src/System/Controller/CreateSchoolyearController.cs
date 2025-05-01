@@ -2,6 +2,7 @@ using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.View.Secretary.Schoolyear;
 using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.TariffList;
 
 namespace wsmcbl.src.Controller;
 

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Utilities;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
 
-namespace wsmcbl.src.View.Secretary.Schoolyear.TariffData;
+namespace wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff;
 
 public partial class UpdateTariffDataModal : ComponentBase
 {
