@@ -11,6 +11,7 @@ services:
       - app-network
     environment:
       API: ${API}
+      CAPTCHA : ${CAPTCHA}
   
   homepage:
     build:
