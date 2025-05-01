@@ -63,7 +63,7 @@ public class AddingStudentGradesController
         {
             if (e.StatusCode == 409)
             {
-                await _notificator.ShowInformation("El registro de calificaciones no está activo en este momento. " +
+                await _notificator.ShowInformation("El registro de calificaciones para este parcial no está activo en este momento. " +
                                              "Por favor, inténtelo más tarde.");
             }
         }

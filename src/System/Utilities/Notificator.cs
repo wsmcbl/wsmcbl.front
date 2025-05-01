@@ -18,7 +18,7 @@ public class Notificator
         await Service.FireAsync(new SweetAlertOptions{ Title = title, Text = text, Icon = SweetAlertIcon.Success});
     }
 
-    public async Task ShowInformation(string text) => await ShowInformation("Información no válida.",text);
+    public async Task ShowInformation(string text) => await ShowInformation("Advertencia.",text);
     
     public async Task ShowInformation(string title, string text)
     {

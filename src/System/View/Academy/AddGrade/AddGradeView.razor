@@ -109,12 +109,12 @@ else
                     <div class="card-body">
                         <!-- Botón para mostrar/ocultar instrucciones -->
                         <button class="btn btn-link btn-sm p-0 mb-2 text-left w-100" @onclick="ToggleInstructions">
-                            <i class="fas fa-chevron-@(showInstructions ? "up" : "down") mr-1"></i>
-                            Mostrar @(showInstructions ? "menos" : "instrucciones")
+                            <i class="fas fa-chevron-@(_showInstructions ? "up" : "down") mr-1"></i>
+                            Mostrar @(_showInstructions ? "menos" : "instrucciones")
                         </button>
 
                         <!-- Instrucciones (ocultas por defecto) -->
-                        <div class="alert alert-info mb-3 py-2 @(showInstructions ? "" : "d-none")" role="alert">
+                        <div class="alert alert-info mb-3 py-2 @(_showInstructions ? "" : "d-none")" role="alert">
                             <h6 class="alert-heading mb-1">
                                 <i class="fas fa-info-circle"></i> Instrucciones detalladas
                             </h6>
@@ -162,6 +162,7 @@ else
     @if (studentList != null && subjectList != null)
     {
         <div class="card show mb-4">
+            
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                     @foreach (var item in partialList!.OrderBy(t => t.partialId))
@@ -169,18 +170,18 @@ else
                         <li class="nav-item">
                             <a class="nav-link @(ActiveTabId == item.partialId ? "active" : "")"
                                id="panel-@item.partialId"
-                               @onclick="(() => ActiveTabId = item.partialId)">
+                               @onclick="() => ChangePartial(item.partialId)">
                                 @item.label
                             </a>
                         </li>
                     }
 
                     <li class="nav-item ml-auto">
-                        
+
                         <button class="btn btn-outline-primary btn-sm" @onclick="DownloadXlsx">
                             <i class="fas fa-file-download"></i> Descargar Formato
                         </button>
-                        
+
                         <button class="btn btn-success btn-sm" @onclick="UpdateGradeList">
                             Guardar
                         </button>
@@ -188,8 +189,7 @@ else
                     </li>
                 </ul>
             </div>
-
-
+            
             <div class="card-body" id="tabContent">
                 <div class="tab-content">
                     @foreach (var item in partialList!.OrderBy(t => t.partialId))
@@ -234,10 +234,11 @@ else
                                                 <td data-label="@subject.name - Valor" class="tac-max">
                                                     @if (student.gradeList!.FirstOrDefault(e => e.subjectId == subject.subjectId) != null)
                                                     {
-                                                        <input type="number" 
-                                                               min="0" 
-                                                               max="100" 
-                                                               class="form-control no-spinner @(student.gradeList!.First(e => e.subjectId == subject.subjectId).grade == 0 ? "bg-danger text-white" : "")" 
+                                                        <input type="number"
+                                                               min="0"
+                                                               max="100"
+                                                               disabled="@(ActiveTabId != partialList?.FirstOrDefault(t => t.isActive)?.partialId)"
+                                                               class="form-control no-spinner @(student.gradeList!.First(e => e.subjectId == subject.subjectId).grade == 0 ? "bg-danger text-white" : "")"
                                                                @bind="student.gradeList!.First(e => e.subjectId == subject.subjectId).grade"
                                                                onwheel="this.blur()"/>
                                                     }
@@ -248,10 +249,11 @@ else
                                                 </td>
                                             }
                                             <td data-label="Conducta" class="tac-max">
-                                                <input type="number" 
-                                                       min="0" 
-                                                       max="100" 
-                                                       class="form-control no-spinner @(student.conductGrade == 0 ? "bg-danger text-white" : "")" 
+                                                <input type="number"
+                                                       min="0"
+                                                       max="100"
+                                                       disabled="@(ActiveTabId != partialList?.FirstOrDefault(t => t.isActive)?.partialId)"
+                                                       class="form-control no-spinner @(student.conductGrade == 0 ? "bg-danger text-white" : "")"
                                                        @bind="student.conductGrade"
                                                        onwheel="this.blur()"/>
                                             </td>
@@ -265,6 +267,7 @@ else
                     }
                 </div>
             </div>
+            
         </div>
     }
     else

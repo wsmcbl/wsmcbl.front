@@ -22,7 +22,7 @@ public partial class AddGradeView : BaseView
     private string TeacherId { get; set; } = null!;
     private string? TeacherName { get; set; } = string.Empty;
     private string enrollmentLabel { get; set; } = null!;
-    private bool showInstructions;
+    private bool _showInstructions;
 
     private List<PartialEntity>? partialList { get; set; }
     private List<SubjectEntity>? subjectList { get; set; }
@@ -41,6 +41,13 @@ public partial class AddGradeView : BaseView
         var activePartial = partialList!.FirstOrDefault(t => t.isActive);
         currentPartial = activePartial?.partialId ?? partialList!.First().partialId;
         ActiveTabId = currentPartial;
+    }
+
+    private async Task ChangePartial(int partialId)
+    {
+        currentPartial = partialId;
+        ActiveTabId = currentPartial;
+        await GetEnrollmentData();
     }
     private async Task LoadTeacherInformation()
     {
@@ -318,7 +325,7 @@ public partial class AddGradeView : BaseView
     }
     private void ToggleInstructions()
     {
-        showInstructions = !showInstructions;
+        _showInstructions = !_showInstructions;
     }
     
     //Check Method
