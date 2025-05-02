@@ -16,19 +16,23 @@ public class CreateSubjectDataController : BaseController
         var resource = $"{path}/subjects";
         return await apiFactory.WithNotificator.GetAsync(Modules.Secretary, resource, defaultResult);
     }
-    
-    public async Task<bool> CreateSubjectData(SubjectDataEntity subject)
-    {
-        SubjectDto Default = new();
-        var response = await apiFactory.Default.PostAsync(Modules.Secretary, path, subject, Default);
-        return response != Default;
-    }
-    
     public async Task<List<DegreeDataEntity>> GetDegreeDataList()
     {
-        var Default = new List<DegreeDataEntity>();
-
+        var defaultResult = new List<DegreeDataEntity>();
         var resource = $"{path}/degrees";
-        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
+        return await apiFactory.WithNotificator.GetAsync(Modules.Secretary, resource, defaultResult);
+    }
+    public async Task<List<SubjectAreaEntity>> GetAreaList()
+    {
+        var defaultResult = new List<SubjectAreaEntity>();
+        var resource = $"{path}/subjects/areas";
+        return await apiFactory.WithNotificator.GetAsync(Modules.Secretary, resource, defaultResult);
+    }
+    public async Task<bool> CreateSubjectData(SubjectDataEntity subject)
+    {
+        SubjectDto defaultResult = new();
+        var resource = $"{path}/subjects";
+        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, subject, defaultResult);
+        return response != defaultResult;
     }
 }

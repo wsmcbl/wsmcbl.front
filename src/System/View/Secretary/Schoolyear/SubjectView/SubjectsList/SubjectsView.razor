@@ -1,5 +1,7 @@
 @page "/secretary/catalogs/subjects"
 
+@using wsmcbl.src.Utilities
+@using wsmcbl.src.View.Secretary.Schoolyear.SubjectView.NewSubjects
 @inherits BaseView;
 @attribute [Authorize(Roles = "admin, secretary, cashier")]
 
@@ -12,7 +14,7 @@ else
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Lista de asignaturas</h6>
-            <div class="btn btn-primary btn-sm">Nueva Asignatura</div>
+            <div class="btn btn-primary btn-sm" @onclick="CreateNewSubject">Nueva Asignatura</div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -48,12 +50,16 @@ else
                     {
                         foreach (var item in Subjects.OrderByDescending(t => t.number))
                         {
+                            var degreeName = DegreeList.FirstOrDefault(d => d.degreeDataId == item.degreeDataId)!.label;
+                            var areaName = AreaList.FirstOrDefault(d => d.areaId == item.areaId)!.name;
+                            
                             <tr>
                                 <td>@item.subjectDataId</td>
-                                <td>@item.areaId</td>
-                                <td>@item.degreeDataId</td>
+                                <td>@areaName</td>
+                                <td>@degreeName</td>
                                 <td>@item.name</td>
-                                <td>@item.isMandatory</td>
+                                <td>@item.isMandatory.ToStringYesOrNo()</td>
+                                <td>@item.semester.ToSemester()</td>
                                 <td>@item.initials</td>
                                 <td>
                                     <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
@@ -73,6 +79,7 @@ else
             </div>
         </div>
     </div>
-
     <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
+    
+    <CreateSubjectDataModal OnEditCompleted="OnParametersSetAsync"/>
 }
