@@ -11,19 +11,22 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="concept">Concepto</label>
+                        <label for="concept" class="label-required">Concepto</label>
                         <input type="text" class="form-control" id="concept" @bind="_tariff.concept" />
                     </div>
                     <div class="form-group">
-                        <label for="amount">Monto</label>
+                        <label for="amount" class="label-required">Monto</label>
                         <input type="number" class="form-control" id="amount" @bind="_tariff.amount" />
                     </div>
                     
                     <div class="form-group">
                         <label for="dueDate">Vencimiento</label>
                         <input type="date" class="form-control" id="dueDate" @bind="dueDate" />
+                        
                         <div class="checkbox-wrapper-14 mt-3">
-                            <input type="checkbox" id="isOverdue"  @bind="isOverdue"/>
+                            <input type="checkbox" id="isOverdue"
+                                   checked="@(_tariff.dueDate is null)"
+                                   @onchange="() => isOverdue = !isOverdue"/>
                             <label for="isOverdue">No vence</label>
                         </div>
                     </div>
@@ -32,11 +35,11 @@
                         <input type="checkbox" id="isActive"
                                checked="@(_tariff.isActive)"
                                @onchange="() => _tariff.isActive = !_tariff.isActive"/>
-                        <label for="isActive">Habilitado / Deshabilitado</label>
+                        <label for="isActive">¿Activo?</label>
                     </div>
                     
                     <div class="form-group">
-                        <label for="type">Tipo</label>
+                        <label for="type" class="label-required">Tipo</label>
                         <select id="type" class="form-control" @bind="_tariff.typeId">
                             @foreach (var option in _tariffTypeItemList!)
                             {
@@ -45,7 +48,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="modality">Modalidad</label>
+                        <label for="modality" class="label-required">Modalidad</label>
                         <select id="modality" class="form-control" @bind="_tariff.educationalLevel">
                             @foreach (var option in _modalityItemList)
                             {

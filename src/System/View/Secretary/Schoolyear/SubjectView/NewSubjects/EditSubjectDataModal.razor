@@ -46,15 +46,18 @@
                         <input type="number" class="form-control" id="position" @bind="editSubject.number"/>
                     </div>
                     
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="isMandatory" @bind="editSubject.isMandatory"/>
-                        <label class="form-check-label" for="isMandatory">Es Obligatorio</label>
+                    <div class="checkbox-wrapper-14 mt-3">
+                        <input type="checkbox" id="isMandatory"
+                               checked="@(editSubject.isMandatory)"
+                               @onchange="() => editSubject.isMandatory = !editSubject.isMandatory"/>
+                        <label for="isMandatory">¿Obligatorio?</label>
                     </div>
                     
-                    
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="isActive" @bind="editSubject.isActive"/>
-                        <label class="form-check-label" for="isActive">Activo / Inactivo</label>
+                    <div class="checkbox-wrapper-14 mt-3">
+                        <input type="checkbox" id="isActive"
+                               checked="@(editSubject.isActive)"
+                               @onchange="() => editSubject.isActive = !editSubject.isActive"/>
+                        <label for="isActive">¿Activo?</label>
                     </div>
                     
                     <div class="form-group">

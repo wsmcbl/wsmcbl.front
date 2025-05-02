@@ -40,4 +40,10 @@ public class CreateSubjectDataController : BaseController
         var resource = $"{path}/subjects/{subject.subjectDataId}";
         return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, subject);
     }
+    
+    public async Task<bool> UpdateArea(int areaId, string areaName)
+    {
+        var resource = $"{path}/subjects/areas/{areaId}?name={areaName}";
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, false);
+    }
 }

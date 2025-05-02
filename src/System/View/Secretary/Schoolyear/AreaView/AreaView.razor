@@ -1,0 +1,54 @@
+@page "/secretary/catalogs/area"
+@inherits BaseView
+@attribute [Authorize(Roles = "admin, secretary, cashier")]
+
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{ 
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de areas</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @foreach (var item in AreaList!.OrderByDescending(t => t.areaId))
+                    {
+                        <tr>
+                            <td>@item.areaId</td>
+                            <td>@item.name</td>
+                            <td>
+                                <a class="btn btn-outline-secondary btn-sm" @onclick="() => OpenEditAreaModal(item)">
+                                    Editar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
+    <AreaEditModal Area="AreaEdit" onEditComplete="OnParametersSetAsync"/>
+
+}
