@@ -36,4 +36,9 @@
     <AdditionalFiles Include="View\Secretary\Schoolyear\TariffsView\NewTariff\CreateTariffDataModal.razor" />
     <AdditionalFiles Include="View\Secretary\Schoolyear\TariffsView\NewTariff\UpdateTariffDataModal.razor" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="View\Secretary\Schoolyear\SubjectView\NewSubjects\" />
+    <Folder Include="View\Secretary\Schoolyear\SubjectView\SubjectsList\" />
+  </ItemGroup>
 </Project>
