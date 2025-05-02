@@ -10,12 +10,11 @@ public class CreateSubjectDataController : BaseController
     {
     }
     
-    public async Task<List<SubjectDataEntity>> GetSubjectDataList()
+    public async Task<List<SubjectDataEntity>> GetSubjectList()
     {
-        var Default = new List<SubjectDataEntity>();
-
+        var defaultResult = new List<SubjectDataEntity>();
         var resource = $"{path}/subjects";
-        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
+        return await apiFactory.WithNotificator.GetAsync(Modules.Secretary, resource, defaultResult);
     }
     
     public async Task<bool> CreateSubjectData(SubjectDataEntity subject)
