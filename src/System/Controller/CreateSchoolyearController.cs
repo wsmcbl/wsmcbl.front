@@ -1,6 +1,7 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.View.Secretary.Schoolyear;
+using wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.Details;
 using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff;
 using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.TariffList;
 
@@ -18,12 +19,11 @@ public class CreateSchoolyearController : BaseController
             .GetAsync(Modules.Secretary, path, new List<BasicSchoolyearDto>());
     }
     
-    public async Task<SchoolyearDto> GetSchoolyearById(string schoolyearId)
+    public async Task<SchoolYearFullDto> GetSchoolyearById(string schoolyearId)
     {
         var resource = $"{path}/{schoolyearId}";
-        
-        var Default = new SchoolyearDto();
-        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, Default);
+        var defaultResult = new SchoolYearFullDto();
+        return await apiFactory.Default.GetAsync(Modules.Secretary, resource, defaultResult);
     }
     
     public async Task<bool> CreateSchoolyear(SchoolyearToCreateDto value)

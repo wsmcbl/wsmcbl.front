@@ -1,0 +1,248 @@
+@page "/secretary/schoolyear/details/{schoolYearId}"
+@inherits BaseView
+@attribute [Authorize(Roles = "admin, secretary, cashier")]
+
+@if (IsLoading())
+{
+    <div class="loader"></div>
+}
+else
+{ 
+<div class="card shadow mb-4">
+    <!-- Card Header -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Detalles del año escolar @SchoolYear!.label</h6>
+        <div>
+            <span class="badge @(SchoolYear.isActive ? "badge-success" : "badge-secondary")">
+                @(SchoolYear.isActive ? "Activo" : "Inactivo")
+            </span>
+        </div>
+    </div>
+    
+    <div class="card-body">
+        
+        <!-- Información básica -->
+        <div class="row mb-4">
+            <div class="col-xl-6 col-md-12 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Información básica
+                                </div>
+                                <div class="mb-1"><strong>ID:</strong> @SchoolYear.schoolyearId</div>
+                                <div class="mb-1"><strong>Período:</strong> @SchoolYear.startDate al @SchoolYear.deadLine</div>
+                                <div><strong>Tipo de cambio:</strong> @SchoolYear.exchangeRate.value.ToString("N2") (USD)</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-md-12 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Parámetros
+                                </div>
+                                <div class="mb-1"><strong>Fecha límite:</strong> @SchoolYear.deadLine</div>
+                                <div><strong>Estado:</strong>
+                                    <span class="badge @(SchoolYear.isActive ? "badge-success" : "badge-secondary")">
+                                        @(SchoolYear.isActive ? "Activo" : "Inactivo")
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-cog fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestañas -->
+        <ul class="nav nav-tabs" id="schoolYearTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="partials-tab" data-toggle="tab" href="#partials" role="tab">
+                    <i class="fas fa-calendar-week mr-1"></i> Parciales
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="degrees-tab" data-toggle="tab" href="#degrees" role="tab">
+                    <i class="fas fa-graduation-cap mr-1"></i> Grados/Niveles
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tariffs-tab" data-toggle="tab" href="#tariffs" role="tab">
+                    <i class="fas fa-money-bill-wave mr-1"></i> Tarifas
+                </a>
+            </li>
+        </ul>
+
+        <!-- Contenido de pestañas -->
+        <div class="tab-content pt-3" id="schoolYearTabsContent">
+            
+            <!-- Pestaña de Parciales -->
+            <div class="tab-pane fade show active" id="partials" role="tabpanel">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Parcial</th>
+                            <th>Semestre</th>
+                            <th>Período</th>
+                            <th>Estado</th>
+                            <th>Posición</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var partial in SchoolYear.partialList.OrderBy(p => p.position))
+                        {
+                            <tr>
+                                <td>@partial.label</td>
+                                <td>@partial.semester</td>
+                                <td>@partial.period</td>
+                                <td>
+                                    <span class="badge @(partial.isActive ? "badge-success" : "badge-secondary")">
+                                        @(partial.isActive ? "Activo" : "Inactivo")
+                                    </span>
+                                </td>
+                                <td>@partial.position</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pestaña de Grados/Niveles -->
+            <div class="tab-pane fade" id="degrees" role="tabpanel">
+                <div class="accordion" id="degreesAccordion">
+                    @foreach (var degree in SchoolYear.degreeList.OrderBy(d => d.tag))
+                    {
+                        <div class="card">
+                            <div class="card-header py-3" id="heading-@degree.tag">
+                                <h6 class="m-0 font-weight-bold text-primary">
+                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-@degree.tag" aria-expanded="true">
+                                        <i class="fas fa-fw @(degree.educationalLevel == "Preescolar" ? "fa-child" : degree.educationalLevel == "Primaria" ? "fa-school" : "fa-user-graduate") mr-2"></i>
+                                        @degree.label (@degree.educationalLevel)
+                                    </button>
+                                </h6>
+                            </div>
+
+                            <div id="collapse-@degree.tag" class="collapse" aria-labelledby="heading-@degree.tag" data-parent="#degreesAccordion">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th>Asignatura</th>
+                                                <th>Iniciales</th>
+                                                <th>Área</th>
+                                                <th>Semestre</th>
+                                                <th>Número</th>
+                                                <th>Obligatoria</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach (var subject in degree.SubjectList.OrderBy(s => s.number))
+                                            {
+                                                <tr>
+                                                    <td>@subject.name</td>
+                                                    <td>@subject.initials</td>
+                                                    <td>@subject.areaId</td>
+                                                    <td>@subject.semester</td>
+                                                    <td>@subject.number</td>
+                                                    <td class="text-center">
+                                                        @if (subject.isMandatory)
+                                                        {
+                                                            <i class="fas fa-check-circle text-success"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fas fa-times-circle text-secondary"></i>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                            }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Pestaña de Tarifas -->
+            <div class="tab-pane fade" id="tariffs" role="tabpanel">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="small font-weight-bold text-primary">Filtrar por nivel:</label>
+                            <select class="form-control form-control-sm" @bind="selectedEducationalLevel">
+                                <option value="0">Todos</option>
+                                <option value="1">Preescolar</option>
+                                <option value="2">Primaria</option>
+                                <option value="3">Secundaria</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Monto</th>
+                            <th>Fecha límite</th>
+                            <th>Nivel</th>
+                            <th>Tipo</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var tariff in FilteredTariffs)
+                        {
+                            <tr>
+                                <td>@tariff.concept</td>
+                                <td>C$ @tariff.amount</td>
+                                <td>
+                                    @if (tariff.dueDate != null)
+                                    {
+                                        @($"{tariff.dueDate.day}/{tariff.dueDate.month}/{tariff.dueDate.year}")
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No vence</span>
+                                    }
+                                </td>
+                                <td>
+                                    <span class="badge @(tariff.educationalLevel == 1 ? "badge-info" : tariff.educationalLevel == 2 ? "badge-primary" : "badge-success")">
+                                        @GetEducationalLevelName(tariff.educationalLevel)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge @(tariff.typeId == 1 ? "badge-warning" : "badge-danger")">
+                                        @(tariff.typeId == 1 ? "Mensualidad" : "Matrícula")
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}

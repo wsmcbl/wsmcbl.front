@@ -22,7 +22,7 @@ public class EnrollmentEntity
                 continue;
             }
 
-            item.updateData(result);
+            item.UpdateData(result);
         }
     }
 }

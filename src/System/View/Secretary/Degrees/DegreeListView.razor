@@ -116,7 +116,7 @@ else
                                 <td> @item.quantity</td>
                                 <td> @item.educationalLevel</td>
                                 <td>
-                                    @if (item.haveEnrollments())
+                                    @if (item.HaveEnrollments())
                                     {
                                         <button type="button" class="btn btn-danger" @onclick="() => CreateEnrollmentModal(item.degreeId!)">
                                             Configurar

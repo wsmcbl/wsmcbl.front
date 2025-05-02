@@ -46,7 +46,7 @@ else
                                 <td>@SchoolYearLabels![item.schoolyearId]</td>
                                 <td>@item.concept</td>
                                 <td>@item.amount</td>
-                                <td>@item.DueDate?.ToStringFormat()</td>
+                                <td>@item.dueDate?.ToStringFormat()</td>
                                 <td>
                                     @(item.educationalLevel == 1 ? "Preescolar" :
                                     item.educationalLevel == 2 ? "Primaria" :

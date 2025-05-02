@@ -19,10 +19,10 @@ public class TariffDto
         {
             tariffId = tariffId,
             schoolyearId = schoolyearId,
-            type = type,
+            typeId = type,
             concept = concept,
             amount = amount,
-            DueDate = dueDate,
+            dueDate = dueDate,
             isLate = isLate
         };
     }

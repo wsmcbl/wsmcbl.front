@@ -134,7 +134,7 @@ else
                                     <tbody>
                                     @foreach (var item in TariffList!.OrderBy(t => t.tariffId))
                                     {
-                                        if (item.type == 1)
+                                        if (item.typeId == 1)
                                         {
                                             <tr>
                                                 <td>@item.tariffId</td>
@@ -146,7 +146,7 @@ else
                                                 }
                                                 <td>@amount</td>
                                                 <td>@item.GetStringIsLate()</td>
-                                                <td>@item.DueDate?.ToStringFormat()</td>
+                                                <td>@item.dueDate?.ToStringFormat()</td>
                                                 @if (hasDebt && Student.GetDebt(item.tariffId) == 0)
                                                 {
                                                     <td class="center-checkbox">
@@ -190,7 +190,7 @@ else
                                     <tbody>
                                     @foreach (var item in TariffList!.OrderBy(t => t.tariffId))
                                     {
-                                        if (item.type != 1)
+                                        if (item.typeId != 1)
                                         {
                                             <tr>
                                                 <td>@item.tariffId</td>
