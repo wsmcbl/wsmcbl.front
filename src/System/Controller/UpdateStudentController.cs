@@ -35,7 +35,6 @@ public class UpdateStudentController : BaseController
     public async Task<bool> UpdateStudentData(StudentEntity student, bool generateToken)
     {
         var resource = $"{path}/{student.studentId}?withNewToken={generateToken}";
-        
         return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, student.MapToDto());
     }
 

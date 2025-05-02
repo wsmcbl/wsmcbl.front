@@ -1,6 +1,6 @@
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
-using wsmcbl.src.View.Secretary.Schoolyear.TariffData;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff;
 
 namespace wsmcbl.src.Controller;
 
@@ -9,28 +9,22 @@ public class CreateTariffDataController : BaseController
     public CreateTariffDataController(ApiConsumerFactory apiFactory) : base(apiFactory, "catalogs/tariffs")
     {
     }
-
-    public async Task<List<TariffDataDto>> GetTariffDataList()
+    
+    public async Task<CreateTariffDto?> CreateTariffData(CreateTariffDto tariff)
     {
-        var Default = new List<TariffDataDto>();
-        return await apiFactory.Default.GetAsync(Modules.Secretary, path, Default);
+        return await apiFactory.WithNotificator.PostAsync<CreateTariffDto, CreateTariffDto?>(Modules.Secretary, path, tariff, null);
     }
-
-    public async Task<TariffDataDto?> CreateTariffData(TariffDataDto tariff)
+    
+    public async Task<bool> UpdateTariffData(CreateTariffDto tariff)
     {
-        return await apiFactory.WithNotificator.PostAsync<TariffDataDto, TariffDataDto?>(Modules.Secretary, path, tariff, null);
+        var resource = $"{path}/{tariff.tariffDataId}";
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, tariff);
     }
-
-    public async Task<bool> UpdateTariffData(TariffDataDto value)
-    {
-        var resource = $"{path}/{value.tariffDataId}";
-        return await apiFactory.Default.PutAsync(Modules.Secretary, resource, value);
-    }
-
+    
     public async Task<List<DropDownItem>> GetTariffTypeList()
     {
         var controller = new ApplyArrearsController(apiFactory);
-
         return await controller.GetTariffTypeList();
     }
+    
 }

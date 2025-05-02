@@ -1,8 +1,8 @@
 using wsmcbl.src.View.Components.Dto;
 
-namespace wsmcbl.src.View.Secretary.Schoolyear.TariffData;
+namespace wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff;
 
-public class TariffDataDto
+public class CreateTariffDto
 {
     public int tariffDataId { get; set; }
     public string concept { get; set; } = null!;

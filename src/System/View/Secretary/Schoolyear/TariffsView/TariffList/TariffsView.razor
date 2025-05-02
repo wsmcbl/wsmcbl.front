@@ -1,6 +1,5 @@
 @page "/secretary/catalogs/tariffs"
 @using wsmcbl.src.Utilities
-@using wsmcbl.src.View.Secretary.Schoolyear.TariffData
 @using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff
 @inherits BaseView
 @attribute [Authorize(Roles = "admin, secretary, cashier")]
@@ -45,7 +44,7 @@ else
                     <tbody>
                     @if (tariffList != null)
                     {
-                        foreach (var item in tariffList)
+                        foreach (var item in tariffList.OrderByDescending(t => t.tariffDataId))
                         {
                             <tr>
                                 <td>@item.tariffDataId</td>
@@ -53,14 +52,16 @@ else
                                 <td>@item.amount</td>
                                 <td>@item.dueDate?.ToStringFormat()</td>
                                 <td>@item.typeId.ToTariffType()</td>
-                                <td>@item.typeId.ToLevel()</td>
+                                <td>@item.educationalLevel.ToLevel()</td>
                                 <td>
                                     <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
                                         @(item.isActive ? "ACTIVO" : "INACTIVO")
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-warning btn-sm">Editar</a>
+                                    <a class="btn btn-outline-secondary btn-sm" @onclick="() => OpenEditTariffModal(item)">
+                                        Editar
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -71,9 +72,7 @@ else
         </div>
     </div>
 
-    <!-- Inicializamos datatable -->
-    <script src="/js/demo/datatables-demo.js"></script>
-    
-    
+    <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
     <CreateTariffDataModal/>
+    <UpdateTariffDataModal  tariffData="EditTariff" OnEditCompleted="OnParametersSetAsync"/>
 }
