@@ -73,7 +73,6 @@ public partial class ViewUserInfo : BaseView
         {
             await Notificator.ShowError("Error","Valide los datos ingresados");
         }
-
         var toBasicUser = EditUser.ToBasicUserInfo();
         var response = await CreateUserController.UpdateUser(toBasicUser, userId!);
         if (response)
@@ -89,7 +88,7 @@ public partial class ViewUserInfo : BaseView
     private async Task UpdateUserPermissions()
     {
         var response = await CreateUserController.UpdateUserPermissions(userId!, EditUser.permissionList);
-        if (response.Any())
+        if (response)
         {
             await Notificator.ShowSuccess("Exito", "Hemos actualizado los permisos del usuario con exito");
             await OnParametersSetAsync();

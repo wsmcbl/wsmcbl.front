@@ -59,8 +59,8 @@ public class CreateUserController
         return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}/state", false);
     }
     
-    public async Task<List<int>> UpdateUserPermissions(string userId, List<int> permissionIds)
+    public async Task<bool> UpdateUserPermissions(string userId, List<int> permissionIds)
     { 
-        return await _apiConsumer.PutWhitData(Modules.Config, $"users/{userId}/permissions", permissionIds);
+        return await _apiConsumer.PutAsync(Modules.Config, $"users/{userId}/permissions", permissionIds);
     }
 }
