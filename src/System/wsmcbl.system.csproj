@@ -39,6 +39,5 @@
 
   <ItemGroup>
     <Folder Include="View\Secretary\Schoolyear\SubjectView\NewSubjects\" />
-    <Folder Include="View\Secretary\Schoolyear\SubjectView\SubjectsList\" />
   </ItemGroup>
 </Project>

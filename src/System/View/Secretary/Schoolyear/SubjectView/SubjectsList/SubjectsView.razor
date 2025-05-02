@@ -1,7 +1,6 @@
-@page "/secretary/catalogs/tariffs"
-@using wsmcbl.src.Utilities
-@using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff
-@inherits BaseView
+@page "/secretary/catalogs/subjects"
+
+@inherits BaseView;
 @attribute [Authorize(Roles = "admin, secretary, cashier")]
 
 @if (IsLoading())
@@ -9,11 +8,11 @@
     <div class="loader"></div>
 }
 else
-{ 
+{
     <div class="card shadow mb-4">
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">Lista de tarifas</h6>
-            <div class="btn btn-primary btn-sm" @onclick="OpenNewTariffModal">Nueva Tarifa</div>
+            <h6 class="m-0 font-weight-bold text-primary">Lista de asignaturas</h6>
+            <div class="btn btn-primary btn-sm">Nueva Asignatura</div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -21,11 +20,12 @@ else
                     <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Concepto</th>
-                        <th>Valor</th>
-                        <th>Vencimiento</th>
-                        <th>Tipo</th>
-                        <th>Nivel</th>
+                        <th>Area</th>
+                        <th>Grado</th>
+                        <th>Nombre</th>
+                        <th>¿Reprobable?</th>
+                        <th>Semestre</th>
+                        <th>Iniciales</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -33,34 +33,35 @@ else
                     <tfoot>
                     <tr>
                         <th>Id</th>
-                        <th>Concepto</th>
-                        <th>Valor</th>
-                        <th>Vencimiento</th>
-                        <th>Tipo</th>
-                        <th>Nivel</th>
+                        <th>Area</th>
+                        <th>Grado</th>
+                        <th>Nombre</th>
+                        <th>¿Reprobable?</th>
+                        <th>Semestre</th>
+                        <th>Iniciales</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                     </tfoot>
                     <tbody>
-                    @if (tariffList != null)
+                    @if (Subjects != null)
                     {
-                        foreach (var item in tariffList.OrderByDescending(t => t.tariffDataId))
+                        foreach (var item in Subjects.OrderByDescending(t => t.number))
                         {
                             <tr>
-                                <td>@item.tariffDataId</td>
-                                <td>@item.concept</td>
-                                <td>@item.amount</td>
-                                <td>@item.dueDate?.ToStringFormat()</td>
-                                <td>@item.typeId.ToTariffType()</td>
-                                <td>@item.educationalLevel.ToLevel()</td>
+                                <td>@item.subjectDataId</td>
+                                <td>@item.areaId</td>
+                                <td>@item.degreeDataId</td>
+                                <td>@item.name</td>
+                                <td>@item.isMandatory</td>
+                                <td>@item.initials</td>
                                 <td>
                                     <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
                                         @(item.isActive ? "ACTIVO" : "INACTIVO")
                                     </span>
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-secondary btn-sm" @onclick="() => OpenEditTariffModal(item)">
+                                    <a class="btn btn-outline-secondary btn-sm">
                                         Editar
                                     </a>
                                 </td>
@@ -74,6 +75,4 @@ else
     </div>
 
     <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
-    <CreateTariffDataModal  OnEditCompleted="OnParametersSetAsync"/>
-    <UpdateTariffDataModal  tariffData="EditTariff" OnEditCompleted="OnParametersSetAsync"/>
 }
