@@ -13,6 +13,7 @@ public partial class SubjectsView : BaseView
     private List<SubjectDataEntity>? Subjects { get; set; }
     private List<DegreeDataEntity> DegreeList { get; set; } = new();
     private List<SubjectAreaEntity> AreaList { get; set; } = new();
+    private SubjectDataEntity EditSubject { get; set; } = new();
 
 
     protected override async Task OnParametersSetAsync()
@@ -29,5 +30,11 @@ public partial class SubjectsView : BaseView
     private async Task CreateNewSubject()
     {
         await Navigator.ShowModal("ModalNewSubject");
+    }
+
+    private async Task OpenEditModal(SubjectDataEntity subject)
+    {
+        EditSubject = subject;
+        await Navigator.ShowModal("ModalEditSubject");
     }
 }

@@ -1,0 +1,83 @@
+<div class="modal fade" id="ModalEditSubject" tabindex="-1" role="dialog" aria-labelledby="ModalSubject" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalSubject">Editar Asignatura</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    
+                    <div class="form-group">
+                        <label for="AreaId" class="label-required">Area</label>
+                        <select id="AreaId" class="form-control" style="margin: 0" @bind="editSubject.areaId">
+                            @foreach (var option in AreaList)
+                            {
+                                <option value="@option.areaId">@option.name</option>
+                            }
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gradeIntId" class="label-required">Grado</label>
+                        <select id="gradeIntId" class="form-control" style="margin: 0" @bind="editSubject.degreeDataId">
+                            @foreach (var option in _degreeItemList)
+                            {
+                                <option value="@option.Id">@option.Name</option>
+                            }
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name" class="label-required">Nombre</label>
+                        <input type="text" class="form-control" id="name" @bind="editSubject.name"/>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="abreviation" class="label-required">Abreviación</label>
+                        <input type="text" class="form-control" id="abreviation" @bind="editSubject.initials"/>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="position" class="label-required">Posición</label>
+                        <input type="number" class="form-control" id="position" @bind="editSubject.number"/>
+                    </div>
+                    
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="isMandatory" @bind="editSubject.isMandatory"/>
+                        <label class="form-check-label" for="isMandatory">Es Obligatorio</label>
+                    </div>
+                    
+                    
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="isActive" @bind="editSubject.isActive"/>
+                        <label class="form-check-label" for="isActive">Activo / Inactivo</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="semester" class="label-required">Semestre</label>
+                        <select id="semester" class="form-control" style="margin: 0" @bind="editSubject.semester">
+                            @foreach (var option in semesterItemList)
+                            {
+                                <option value="@option.Id">@option.Name</option>
+                            }
+                        </select>
+                    </div>
+                    
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger" @onclick="UpdateSubject">Actualizar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+    

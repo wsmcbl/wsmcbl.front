@@ -22,6 +22,7 @@ else
                     <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Posición</th>
                         <th>Area</th>
                         <th>Grado</th>
                         <th>Nombre</th>
@@ -35,6 +36,7 @@ else
                     <tfoot>
                     <tr>
                         <th>Id</th>
+                        <th>Posición</th>
                         <th>Area</th>
                         <th>Grado</th>
                         <th>Nombre</th>
@@ -48,13 +50,14 @@ else
                     <tbody>
                     @if (Subjects != null)
                     {
-                        foreach (var item in Subjects.OrderByDescending(t => t.number))
+                        foreach (var item in Subjects.OrderByDescending(t => t.subjectDataId))
                         {
                             var degreeName = DegreeList.FirstOrDefault(d => d.degreeDataId == item.degreeDataId)!.label;
                             var areaName = AreaList.FirstOrDefault(d => d.areaId == item.areaId)!.name;
                             
                             <tr>
                                 <td>@item.subjectDataId</td>
+                                <td>@item.number</td>
                                 <td>@areaName</td>
                                 <td>@degreeName</td>
                                 <td>@item.name</td>
@@ -67,7 +70,7 @@ else
                                     </span>
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-secondary btn-sm">
+                                    <a class="btn btn-outline-secondary btn-sm" @onclick="() => OpenEditModal(item)">
                                         Editar
                                     </a>
                                 </td>
@@ -82,4 +85,5 @@ else
     <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
     
     <CreateSubjectDataModal OnEditCompleted="OnParametersSetAsync"/>
+    <EditSubjectDataModal editSubject="EditSubject" OnEditCompleted="OnParametersSetAsync"/>
 }

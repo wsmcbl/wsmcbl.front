@@ -32,7 +32,12 @@ public class CreateSubjectDataController : BaseController
     {
         SubjectDto defaultResult = new();
         var resource = $"{path}/subjects";
-        var response = await apiFactory.Default.PostAsync(Modules.Secretary, resource, subject, defaultResult);
+        var response = await apiFactory.WithNotificator.PostAsync(Modules.Secretary, resource, subject, defaultResult);
         return response != defaultResult;
+    }
+    public async Task<bool> UpdateSubjectData(SubjectDataEntity subject)
+    {
+        var resource = $"{path}/subjects/{subject.subjectDataId}";
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, subject);
     }
 }
