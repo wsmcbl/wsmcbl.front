@@ -1,0 +1,214 @@
+@page "/secretary/schoolyear/new/details"
+@inherits BaseView
+@attribute [Authorize(Roles = "admin, secretary, cashier")]
+
+<div class="card shadow mb-4">
+    <!-- Card Header -->
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Configuración de Artículo</h6>
+    </div>
+
+    <!-- Card Body -->
+    <div class="card-body">
+        <!-- Stepper -->
+        <div class="stepper-wrapper mb-5">
+            <div class="stepper-item @(currentStep >= 1 ? "completed" : "") @(currentStep == 1 ? "active" : "")">
+                <div class="step-counter">1</div>
+                <div class="step-name">Semestres</div>
+            </div>
+            <div class="stepper-item @(currentStep >= 2 ? "completed" : "") @(currentStep == 2 ? "active" : "")">
+                <div class="step-counter">2</div>
+                <div class="step-name">Cantidad</div>
+            </div>
+            <div class="stepper-item @(currentStep >= 3 ? "completed" : "") @(currentStep == 3 ? "active" : "")">
+                <div class="step-counter">3</div>
+                <div class="step-name">Finalizar</div>
+            </div>
+        </div>
+
+        <!-- 1 Semestres -->
+        <div class="step-content @(currentStep == 1 ? "d-block" : "d-none")">
+            <div class="row">
+                <!-- Primer Semestre -->
+                <div class="col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100">
+                        <div class="card-header bg-primary text-white py-2">
+                            <h6 class="m-0 font-weight-bold">I Semestre</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="font-weight-bold text-primary label-required">Primer Parcial</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="small">Inicio</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 0, true)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small">Fin</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 0, false)"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label class="font-weight-bold text-primary label-required">Segundo Parcial</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="small">Inicio</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 1, true)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small">Fin</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 1, false)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segundo Semestre -->
+                <div class="col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100">
+                        <div class="card-header bg-success text-white py-2">
+                            <h6 class="m-0 font-weight-bold">II Semestre</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="font-weight-bold text-primary label-required">Tercer Parcial</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="small">Inicio</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 2, true)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small">Fin</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 2, false)"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label class="font-weight-bold text-primary label-required">Cuarto Parcial</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="small">Inicio</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 3, true)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="small">Fin</label>
+                                        <input type="date" class="form-control"
+                                               @onchange="(e) => OnDateChanged(e, 3, false)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-end mt-4">
+                <button class="btn btn-primary" @onclick="NextStep">Siguiente <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 2: Cantidad -->
+        <div class="step-content @(currentStep == 2 ? "d-block" : "d-none")">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold text-primary">Precio Unitario (C$)</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">C$</span>
+                            </div>
+                            <input type="number" class="form-control" @bind="article.Price" min="0" step="0.01"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="font-weight-bold text-primary">Cantidad Disponible</label>
+                        <input type="number" class="form-control" @bind="article.Quantity" min="0"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="font-weight-bold text-primary">Impuesto</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" @bind="article.Tax" min="0" max="100"/>
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-secondary" @onclick="PrevStep">
+                    <i class="fas fa-arrow-left mr-1"></i> Anterior
+                </button>
+                <button class="btn btn-primary" @onclick="NextStep">
+                    Siguiente <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 3: Finalizar -->
+        <div class="step-content @(currentStep == 3 ? "d-block" : "d-none")">
+            <div class="alert alert-success">
+                <h5 class="alert-heading"><i class="fas fa-check-circle mr-2"></i>¡Configuración casi lista!</h5>
+                <p>Revise los detalles antes de finalizar:</p>
+            </div>
+
+            <div class="card mb-4 border-left-info">
+                <div class="card-body">
+                    <h6 class="font-weight-bold text-primary mb-3">Resumen de Configuración</h6>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Nombre:</strong> @article.Name</p>
+                            <p><strong>Categoría:</strong> @article.Category</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Precio Unitario:</strong> C$ @article.Price.ToString("N2")</p>
+                            <p><strong>Cantidad:</strong> @article.Quantity</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <p><strong>Descripción:</strong></p>
+                        <p class="text-muted">@article.Description</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" @bind="termsAccepted"/>
+                <label class="form-check-label">Acepto los términos y condiciones</label>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-secondary" @onclick="PrevStep">
+                    <i class="fas fa-arrow-left mr-1"></i> Anterior
+                </button>
+                <button class="btn btn-success" @onclick="FinishSetup" disabled="@(!termsAccepted)">
+                    <i class="fas fa-check mr-1"></i> Finalizar Configuración
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+

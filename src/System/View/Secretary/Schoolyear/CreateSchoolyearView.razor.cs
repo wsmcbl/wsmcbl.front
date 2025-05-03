@@ -3,6 +3,7 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 using wsmcbl.src.View.Components.Dto;
+using wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.New;
 
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
@@ -15,7 +16,7 @@ public partial class CreateSchoolyearView : BaseView
     
     
     private DegreeSubjectDto? SelectedDegree { get; set; }
-    private List<PartialToCreateDto>? PartialList { get; set; }
+    private List<PartialsDto>? PartialList { get; set; }
     private List<TariffDtoTemplate>? TariffList { get; set; }
     private List<DropDownItem> TariffTypeList { get; set; } = new();
     private List<DegreeSubjectDto> degreeList { get; set; } = new();
@@ -38,10 +39,10 @@ public partial class CreateSchoolyearView : BaseView
     {
         PartialList =
         [
-            new PartialToCreateDto { semester = 1, partial = 1 },
-            new PartialToCreateDto { semester = 1, partial = 2 },
-            new PartialToCreateDto { semester = 2, partial = 1 },
-            new PartialToCreateDto { semester = 2, partial = 2 }
+            new PartialsDto { semester = 1, partial = 1 },
+            new PartialsDto { semester = 1, partial = 2 },
+            new PartialsDto { semester = 2, partial = 1 },
+            new PartialsDto { semester = 2, partial = 2 }
         ];
     }
 

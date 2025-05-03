@@ -1,6 +1,6 @@
 using wsmcbl.src.View.Components.Dto;
 
-namespace wsmcbl.src.View.Secretary.Schoolyear;
+namespace wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.New;
 
 public class TariffDto
 {

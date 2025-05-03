@@ -1,3 +1,5 @@
+using wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.New;
+
 namespace wsmcbl.src.View.Secretary.Schoolyear;
 
 public class TariffDtoTemplate
