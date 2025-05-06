@@ -22,10 +22,8 @@ else
                     <tr>
                         <th>Id</th>
                         <th>Concepto</th>
-                        <th>Valor</th>
                         <th>Vencimiento</th>
                         <th>Tipo</th>
-                        <th>Nivel</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -34,10 +32,8 @@ else
                     <tr>
                         <th>Id</th>
                         <th>Concepto</th>
-                        <th>Valor</th>
                         <th>Vencimiento</th>
                         <th>Tipo</th>
-                        <th>Nivel</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -50,10 +46,8 @@ else
                             <tr>
                                 <td>@item.tariffDataId</td>
                                 <td>@item.concept</td>
-                                <td>@item.amount</td>
                                 <td>@item.dueDate?.ToStringFormat()</td>
                                 <td>@item.typeId.ToTariffType()</td>
-                                <td>@item.educationalLevel.ToLevel()</td>
                                 <td>
                                     <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
                                         @(item.isActive ? "ACTIVO" : "INACTIVO")

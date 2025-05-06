@@ -1,3 +1,4 @@
+@using wsmcbl.src.View.Components
 <div class="modal fade" id="ModalNewTariff" tabindex="-1" role="dialog" aria-labelledby="ModalTariff" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -16,22 +17,12 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="amount">Monto</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">C$</span>
-                            </div>
-                            <input type="number" id="amount" class="form-control" @bind="_tariff.amount" min="0" step="0.01"/>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
                         <label for="dueDate">Vencimiento</label>
                         <input type="date" class="form-control" id="dueDate" @bind="dueDate" />
                         
                         <div class="checkbox-wrapper-14 mt-3">
                             <input type="checkbox" id="isOverdue"
-                                   checked="@(_tariff.dueDate is null)"
+                                   checked="@(isOverdue)"
                                    @onchange="() => isOverdue = !isOverdue"/>
                             <label for="isOverdue">No vence</label>
                         </div>
@@ -53,15 +44,7 @@
                             }
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="modality" class="label-required">Modalidad</label>
-                        <select id="modality" class="form-control" @bind="_tariff.educationalLevel">
-                            @foreach (var option in _modalityItemList)
-                            {
-                            <option value="@option.Id">@option.Name</option>
-                            }
-                        </select>
-                    </div>
+                    <RequerideMessage/>
                 </form>
             </div>
 

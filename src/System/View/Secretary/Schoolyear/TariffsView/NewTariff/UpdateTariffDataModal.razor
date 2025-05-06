@@ -1,3 +1,4 @@
+@using wsmcbl.src.View.Components
 <div class="modal fade" id="ModalEditTariff" tabindex="-1" role="dialog" aria-labelledby="ModalEdit" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -10,61 +11,43 @@
 
             <div class="modal-body">
                 <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="concept">Concepto</label>
-                        <input type="text" class="form-control" id="concept" @bind="tariffData.concept" />
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="amount">Monto</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">C$</span>
+                    <form>
+                        <div class="form-group">
+                            <label for="concept" class="label-required">Concepto</label>
+                            <input type="text" class="form-control" id="concept" @bind="tariffData.concept"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dueDate">Vencimiento</label>
+                            <input type="date" min="@(DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" id="dueDate" @bind="dueDate"/>
+
+                            <div class="checkbox-wrapper-14 mt-3">
+                                <input type="checkbox" id="isOverdue"
+                                       checked="@(isOverdue)"
+                                       @onchange="() => isOverdue = !isOverdue"/>
+                                <label for="isOverdue">No vence</label>
                             </div>
-                            <input type="number" id="amount" class="form-control" @bind="tariffData.amount" min="0" step="0.01"/>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="dueDate">Vencimiento</label>
-                        <input type="date" min="@(DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control" id="dueDate" @bind="dueDate" />
-                        
+
                         <div class="checkbox-wrapper-14 mt-3">
-                            <input type="checkbox" id="isOverdue"
-                                   checked="@(tariffData.dueDate is null)"
-                                   @onchange="() => isOverdue = !isOverdue"/>
-                            <label for="isOverdue">No vence</label>
+                            <input type="checkbox" id="isActive"
+                                   checked="@(tariffData.isActive)"
+                                   @onchange="() => tariffData.isActive = !tariffData.isActive"/>
+                            <label for="isActive" class="label-required">¿Activo?</label>
                         </div>
-                    </div>
-                    
-                    <div class="checkbox-wrapper-14 mt-3">
-                        <input type="checkbox" id="isActive"
-                               checked="@(tariffData.isActive)"
-                               @onchange="() => tariffData.isActive = !tariffData.isActive"/>
-                        <label for="isActive">¿Activo?</label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="type">Tipo</label>
-                        <select id="type" class="form-control" @bind="tariffData.typeId">
-                            @foreach (var option in _tariffTypeItemList)
-                            {
-                            <option value="@option.Id">@option.Name</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="modality">Modalidad</label>
-                        <select id="modality" class="form-control" @bind="tariffData.educationalLevel">
-                            @foreach (var option in _modalityItemList)
-                            {
-                            <option value="@option.Id">@option.Name</option>
-                            }
-                        </select>
-                    </div>
-                </form>
-            </div>
+
+                        <div class="form-group">
+                            <label for="type" class="label-required">Tipo</label>
+                            <select id="type" class="form-control" @bind="tariffData.typeId">
+                                @foreach (var option in _tariffTypeItemList)
+                                {
+                                    <option value="@option.Id">@option.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </form>
+                    <RequerideMessage/>
+                </div>
             </div>
 
             <div class="modal-footer">
