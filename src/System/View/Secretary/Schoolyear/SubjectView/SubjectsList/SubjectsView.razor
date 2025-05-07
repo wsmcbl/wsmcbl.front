@@ -12,78 +12,180 @@
 else
 {
     <div class="card shadow mb-4">
+
         <div class="card-header py-3 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">Lista de asignaturas</h6>
-            <div class="btn btn-primary btn-sm" @onclick="CreateNewSubject">Nueva Asignatura</div>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Posición</th>
-                        <th>Area</th>
-                        <th>Grado</th>
-                        <th>Nombre</th>
-                        <th>¿Reprobable?</th>
-                        <th>Semestre</th>
-                        <th>Iniciales</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Id</th>
-                        <th>Posición</th>
-                        <th>Area</th>
-                        <th>Grado</th>
-                        <th>Nombre</th>
-                        <th>¿Reprobable?</th>
-                        <th>Semestre</th>
-                        <th>Iniciales</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    @if (Subjects != null)
-                    {
-                        foreach (var item in Subjects.OrderByDescending(t => t.subjectDataId))
+            <div>
+                <div class="dropdown d-inline-block mr-2">
+                    <button class="btn btn-outline-primary dropdown-toggle btn-sm" type="button"
+                            id="degreeFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @(SelectedDegreeId == 0 ? "Filtrar por Grado" : DegreeList.FirstOrDefault(d => d.degreeDataId == SelectedDegreeId)?.label)
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="degreeFilterDropdown">
+                        <a class="dropdown-item" @onclick="() => FilterByDegree(0)">Todos los Grados</a>
+                        @foreach (var degree in DegreeList)
                         {
-                            var degreeName = DegreeList.FirstOrDefault(d => d.degreeDataId == item.degreeDataId)!.label;
-                            var areaName = AreaList.FirstOrDefault(d => d.areaId == item.areaId)!.name;
-                            
-                            <tr>
-                                <td>@item.subjectDataId</td>
-                                <td>@item.number</td>
-                                <td>@areaName</td>
-                                <td>@degreeName</td>
-                                <td>@item.name</td>
-                                <td>@item.isMandatory.ToStringYesOrNo()</td>
-                                <td>@item.semester.ToSemester()</td>
-                                <td>@item.initials</td>
-                                <td>
-                                    <span class="status-label @(item.isActive ? "active-status" : "inactive-status")">
-                                        @(item.isActive ? "ACTIVO" : "INACTIVO")
-                                    </span>
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline-secondary btn-sm" @onclick="() => OpenEditModal(item)">
-                                        Editar
-                                    </a>
-                                </td>
-                            </tr>
+                            <a class="dropdown-item"
+                               @onclick="() => FilterByDegree(degree.degreeDataId)">@degree.label</a>
                         }
-                    }
-                    </tbody>
-                </table>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-sm" @onclick="CreateNewSubject">Nueva Asignatura</button>
             </div>
         </div>
+
+        <div class="card-body">
+            @{
+                var groupedSubjects = Subjects?
+                    .Where(s => SelectedDegreeId == 0 || s.degreeDataId == SelectedDegreeId)
+                    .GroupBy(s => new
+                    {
+                        AreaId = s.areaId,
+                        DegreeId = s.degreeDataId
+                    })
+                    .OrderBy(g => g.Key.DegreeId)
+                    .ThenBy(g => g.Key.AreaId);
+            }
+
+            @if (groupedSubjects != null)
+            {
+                @foreach (var group in groupedSubjects)
+                {
+                    var area = AreaList.FirstOrDefault(a => a.areaId == group.Key.AreaId);
+                    var degree = DegreeList.FirstOrDefault(d => d.degreeDataId == group.Key.DegreeId);
+
+                    <div class="mb-5">
+
+                        <div class="container-fluid px-0">
+                            <div class="d-flex justify-content-between align-items-center mb-3 bg-light p-3 rounded">
+                                <h5 class="font-weight-bold text-gray-800 mb-0">
+                                    @degree?.label - @area?.name
+                                </h5>
+                                <span class="badge badge-primary badge-pill">
+                                    @group.Count() Asignatura(s)
+                                </span>
+                            </div>
+
+                            <!-- Tabla desktop -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover d-none d-md-block mb-0 w-100">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th style="width: 8%">Posición</th>
+                                        <th>Nombre</th>
+                                        <th style="width: 12%">¿Reprobable?</th>
+                                        <th style="width: 12%">Semestre</th>
+                                        <th style="width: 10%">Iniciales</th>
+                                        <th style="width: 10%">Estado</th>
+                                        <th style="width: 18%">Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item in group.OrderBy(s => s.number))
+                                    {
+                                        <tr>
+                                            <td>@item.number</td>
+                                            <td>@item.name</td>
+                                            <td>@item.isMandatory.ToStringYesOrNo()</td>
+                                            <td>@item.semester.ToSemester()</td>
+                                            <td>@item.initials</td>
+                                            <td>
+                                                    <span
+                                                        class="badge @(item.isActive ? "badge-success" : "badge-secondary")">
+                                                        @(item.isActive ? "ACTIVO" : "INACTIVO")
+                                                    </span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex flex-nowrap">
+                                                    <div class="btn-group btn-group-sm mr-2">
+                                                        <button class="btn btn-outline-primary py-1 px-2"
+                                                                @onclick="() => UpdatePosition(true, item)"
+                                                                disabled="@IsFirstInGroup(item)"
+                                                                aria-label="Mover arriba">
+                                                            <i class="fas fa-arrow-up fa-xs"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-primary py-1 px-2"
+                                                                @onclick="() => UpdatePosition(false, item)"
+                                                                disabled="@IsLastInGroup(item)"
+                                                                aria-label="Mover abajo">
+                                                            <i class="fas fa-arrow-down fa-xs"></i>
+                                                        </button>
+                                                    </div>
+                                                    <button class="btn btn-outline-info btn-sm py-1 px-2"
+                                                            @onclick="() => OpenEditModal(item)"
+                                                            aria-label="Editar asignatura">
+                                                        <i class="fas fa-pencil-alt fa-xs"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Versión móvil  -->
+                        <div class="d-md-none">
+                            @foreach (var item in group.OrderBy(s => s.number))
+                            {
+                                <div class="card mb-3 border-left-primary shadow-sm">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <h6 class="card-title font-weight-bold mb-1">
+                                                @item.name <small class="text-muted">(@item.initials)</small>
+                                            </h6>
+                                            <span class="badge @(item.isActive ? "badge-success" : "badge-secondary")">
+                                                @(item.isActive ? "ACTIVO" : "INACTIVO")
+                                            </span>
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            <div class="col-6">
+                                                <small class="text-muted">Posición</small>
+                                                <div>@item.number</div>
+                                            </div>
+                                            <div class="col-6">
+                                                <small class="text-muted">Semestre</small>
+                                                <div>@item.semester.ToSemester()</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            <div class="col-6">
+                                                <small class="text-muted">Reprobable</small>
+                                                <div>@item.isMandatory.ToStringYesOrNo()</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <div class="btn-group">
+                                                <button class="btn btn-outline-primary btn-sm"
+                                                        @onclick="() => UpdatePosition(true, item)"
+                                                        disabled="@IsFirstInGroup(item)">
+                                                    <i class="fas fa-arrow-up"></i>
+                                                </button>
+                                                <button class="btn btn-outline-primary btn-sm"
+                                                        @onclick="() => UpdatePosition(false, item)"
+                                                        disabled="@IsLastInGroup(item)">
+                                                    <i class="fas fa-arrow-down"></i>
+                                                </button>
+                                                <button class="btn btn-outline-info btn-sm"
+                                                        @onclick="() => OpenEditModal(item)">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                }
+            }
+        </div>
     </div>
-    <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
-    
     <CreateSubjectDataModal OnEditCompleted="OnParametersSetAsync"/>
     <EditSubjectDataModal editSubject="EditSubject" OnEditCompleted="OnParametersSetAsync"/>
 }
