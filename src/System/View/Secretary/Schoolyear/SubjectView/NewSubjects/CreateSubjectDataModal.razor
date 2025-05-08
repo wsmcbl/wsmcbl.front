@@ -1,6 +1,6 @@
 @using wsmcbl.src.View.Components
-<div class="modal fade" id="ModalNewSubject" tabindex="-1" role="dialog" aria-labelledby="ModalSubject" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="ModalNewSubject" tabindex="-1" aria-labelledby="ModalSubject" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalSubject">Nueva Asignatura</h5>
@@ -11,64 +11,70 @@
 
             <div class="modal-body">
                 <form>
-                    
-                    <div class="form-group">
-                        <label for="AreaId" class="label-required">Area</label>
-                        <select id="AreaId" class="form-control" style="margin: 0" @bind="_subjectNew.areaId">
-                            @foreach (var option in AreaList)
-                            {
-                                <option value="@option.areaId">@option.name</option>
-                            }
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="gradeIntId" class="label-required">Grado</label>
-                        <select id="gradeIntId" class="form-control" style="margin: 0" @bind="_subjectNew.degreeDataId">
-                            @foreach (var option in _degreeItemList)
-                            {
-                                <option value="@option.Id">@option.Name</option>
-                            }
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="name" class="label-required">Nombre</label>
-                        <input type="text" class="form-control" id="name" @bind="_subjectNew.name"/>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="abreviation" class="label-required">Abreviación</label>
-                        <input type="text" class="form-control" id="abreviation" @bind="_subjectNew.initials"/>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="position" class="label-required">Posición</label>
-                        <input type="number" class="form-control" id="position" @bind="_subjectNew.number"/>
-                    </div>
-                    
-                    <div class="checkbox-wrapper-14 mt-3">
-                        <input type="checkbox" id="isMandatory"
-                               checked="@(_subjectNew.isMandatory)"
-                               @onchange="() => _subjectNew.isMandatory = !_subjectNew.isMandatory"/>
-                        <label for="isMandatory">¿Obligatorio?</label>
-                    </div>
-                    
-                    <div class="checkbox-wrapper-14 mt-3">
-                        <input type="checkbox" id="isActive"
-                               checked="@(_subjectNew.isActive)"
-                               @onchange="() => _subjectNew.isActive = !_subjectNew.isActive"/>
-                        <label for="isActive">¿Activo?</label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="semester" class="label-required">Semestre</label>
-                        <select id="semester" class="form-control" style="margin: 0" @bind="_subjectNew.semester">
-                            @foreach (var option in semesterItemList)
-                            {
-                                <option value="@option.Id">@option.Name</option>
-                            }
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="AreaId" class="label-required">Area</label>
+                                <select id="AreaId" class="form-control" style="margin: 0" @bind="_subjectNew.areaId">
+                                    @foreach (var option in AreaList)
+                                    {
+                                        <option value="@option.areaId">@option.name</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="gradeIntId" class="label-required">Grado</label>
+                                <select id="gradeIntId" class="form-control" style="margin: 0"
+                                        @bind="_subjectNew.degreeDataId">
+                                    @foreach (var option in _degreeItemList)
+                                    {
+                                        <option value="@option.Id">@option.Name</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="label-required">Nombre</label>
+                                <input type="text" class="form-control" id="name" @bind="_subjectNew.name"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="abreviation" class="label-required">Abreviación</label>
+                                <input type="text" class="form-control" id="abreviation" @bind="_subjectNew.initials"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="position" class="label-required">Posición</label>
+                                <input type="number" class="form-control" id="position" @bind="_subjectNew.number"/>
+                            </div>
+
+                            <div class="checkbox-wrapper-14 mt-3">
+                                <input type="checkbox" id="isMandatory"
+                                       checked="@(_subjectNew.isMandatory)"
+                                       @onchange="() => _subjectNew.isMandatory = !_subjectNew.isMandatory"/>
+                                <label for="isMandatory">¿Obligatorio?</label>
+                            </div>
+
+                            <div class="checkbox-wrapper-14 mt-3">
+                                <input type="checkbox" id="isActive"
+                                       checked="@(_subjectNew.isActive)"
+                                       @onchange="() => _subjectNew.isActive = !_subjectNew.isActive"/>
+                                <label for="isActive">¿Activo?</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="semester" class="label-required">Semestre</label>
+                                <select id="semester" class="form-control" style="margin: 0"
+                                        @bind="_subjectNew.semester">
+                                    @foreach (var option in semesterItemList)
+                                    {
+                                        <option value="@option.Id">@option.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <RequerideMessage/>
                 </form>
