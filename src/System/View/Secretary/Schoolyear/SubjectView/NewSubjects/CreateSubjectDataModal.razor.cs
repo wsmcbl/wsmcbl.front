@@ -33,6 +33,7 @@ public partial class CreateSubjectDataModal : ComponentBase
     {
         var degreeList = await controller.GetDegreeDataList();
         var degreeId = 1;
+        _degreeItemList = new();
         foreach (var item in degreeList)
         {
             _degreeItemList.Add(new DropDownItem
