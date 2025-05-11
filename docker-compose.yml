@@ -2,16 +2,16 @@ services:
   system:
     build:
       context: .
-      dockerfile: ./Config/System/Dockerfile
+      dockerfile: ./config/Dockerfile
     restart: unless-stopped
     container_name: system
-    ports:
-      - '4001:8080'
     networks:
       - app-network
     environment:
-      API: ${API}
-      CAPTCHA : ${CAPTCHA}
+      - API=${API}
+      - CAPTCHA=${CAPTCHA}
+    ports:
+      - '4001:8080'
 
 networks:
   app-network:
