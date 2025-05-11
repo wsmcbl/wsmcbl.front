@@ -12,19 +12,6 @@ services:
     environment:
       API: ${API}
       CAPTCHA : ${CAPTCHA}
-  
-  homepage:
-    build:
-      context: .
-      dockerfile: ./Config/Homepage/Dockerfile
-    restart: unless-stopped
-    container_name: homepage
-    ports:
-      - '4002:8080'
-    networks:
-      - app-network
-    environment:
-      API: ${API}
 
 networks:
   app-network:

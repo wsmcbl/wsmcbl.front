@@ -26,14 +26,4 @@
   <ItemGroup>
     <Content Remove="wwwroot\vendor\chart.js\Chart.umd.min.js" />
   </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="View\Secretary\Schoolyear\NewTariff\CreateTariffDataModal.razor" />
-    <_ContentIncludedByDefault Remove="View\Secretary\Schoolyear\NewTariff\UpdateTariffDataModal.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="View\Secretary\Schoolyear\TariffsView\NewTariff\CreateTariffDataModal.razor" />
-    <AdditionalFiles Include="View\Secretary\Schoolyear\TariffsView\NewTariff\UpdateTariffDataModal.razor" />
-  </ItemGroup>
 </Project>
