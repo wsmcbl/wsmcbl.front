@@ -2,6 +2,7 @@
 @using wsmcbl.src.View.Secretary.StudentList
 @using wsmcbl.src.View.Components.StudentPasswordView
 @using wsmcbl.src.View.Secretary.Schoolyear
+@using wsmcbl.src.View.Components.GetAcademicReport
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
         
@@ -71,6 +72,9 @@
                     <button class="dropdown-item" @onclick="PrintReportCard">
                         <i class="fas fa-file-signature mr-2"></i> Boleta
                     </button>
+                    <button class="dropdown-item" @onclick="OpenAcademicReportModal">
+                        <i class="fas fa-file-invoice-dollar mr-2"></i> Historia Academico
+                    </button>
                     <button class="dropdown-item" @onclick="PrintProforma">
                         <i class="fas fa-file-invoice-dollar mr-2"></i> Proforma
                     </button>
@@ -92,6 +96,7 @@
 <ChangeEducationLevelView StudentId="@Student.studentId"/>
 <MoveStudentView StudentId="@Student.studentId" StudentName="@Student.FullName()"/>
 <StudentPasswordView StudentId="@Student.studentId"/>
+<GetAcademicReportView StudentId="@Student.studentId" />">
 
 <PdfViewer Title="@Student.FullName()" PdfContent="@PdfDocument"/>
 

@@ -97,4 +97,9 @@ public partial class DashboardStudentView : ComponentBase
         PdfDocument = newPdf;
         return Task.CompletedTask;
     }
+
+    private async Task OpenAcademicReportModal()
+    {
+        await Navigator.ShowModal("ModalAcademicReport");
+    }
 }

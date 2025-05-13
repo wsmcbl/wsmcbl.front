@@ -1,0 +1,32 @@
+<div class="modal fade" id="ModalAcademicReport" tabindex="-1" role="dialog" aria-labelledby="AcademicReport" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AcademicReport">Seleccione el año lectivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="schoolYear" class="label-required">Tipo</label>
+                    <select id="schoolYear" class="form-control" @bind="SelectedSchoolYear.id">
+                        @foreach (var option in schoolYearList!)
+                        {
+                            <option value="@option.schoolyearId">@option.label</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger" @onclick="GetReport">Ver reporte</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
