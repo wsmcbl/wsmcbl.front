@@ -11,20 +11,20 @@ public partial class GetAcademicReportView : ComponentBase
     [Inject] private PrintReportCardStudentController Controller { get; set; } = null!;
     [Inject] private CreateSchoolyearController SchoolYearController { get; set; } = null!;
     private List<BasicSchoolyearDto> schoolYearList { get; set; } = [];
-    private (string? id, string? name) SelectedSchoolYear = (null, null);
+    private (string? id, string? name) _selectedSchoolYear = (null, null);
 
     protected override async Task OnParametersSetAsync()
     {
         schoolYearList = await SchoolYearController.GetSchoolyearList();
-        SelectedSchoolYear.id = schoolYearList.First(s => s.isActive).schoolyearId;
-        SelectedSchoolYear.name = schoolYearList.First(s => s.isActive).label;
+        _selectedSchoolYear.id = schoolYearList.First(s => s.isActive).schoolyearId;
+        _selectedSchoolYear.name = schoolYearList.First(s => s.isActive).label;
     }
 
     private async Task GetReport()
     {
-        if (!string.IsNullOrEmpty(SelectedSchoolYear.id))
+        if (!string.IsNullOrEmpty(_selectedSchoolYear.id))
         {
-            await Controller.GetAcademicReportBySchoolYear(StudentId, StudentName, SelectedSchoolYear.id, SelectedSchoolYear.name!);
+            await Controller.GetAcademicReportBySchoolYear(StudentId, StudentName, _selectedSchoolYear.id, _selectedSchoolYear.name!);
         }
     }
 }

@@ -3,17 +3,16 @@
 @using wsmcbl.src.View.Components.StudentPasswordView
 @using wsmcbl.src.View.Secretary.Schoolyear
 @using wsmcbl.src.View.Components.GetAcademicReport
+
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
         
-        <!-- Columna de foto -->
         <div class="col-md-3 text-center bg-light p-3">
             <img src="@GetProfilePicture()"
                  class="rounded mb-2 profile-picture-rect"
                  alt="Foto de perfil">
         </div>
 
-        <!-- Columna de información -->
         <div class="col-md-6 p-3">
             <h5 class="font-weight-bold text-primary mb-1">@Student.FullName() 
                 <span class="badge @(Student.isActive ? "badge-success" : "badge-danger")">
@@ -37,56 +36,78 @@
             </div>
         </div>
 
-        <!-- Columna de acciones -->
         <div class="col-md-3 p-3 border-left">
 
             <div class="dropdown mb-2">
                 <button class="btn btn-outline-primary btn-block btn-sm dropdown-toggle" type="button" id="enrollmentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user-graduate"></i> Acciones Académicas
+                    <i class="fas fa-user-graduate mr-1"></i> Acciones Académicas
                 </button>
-                <div class="dropdown-menu" aria-labelledby="enrollmentDropdown">
+                <div class="dropdown-menu dropdown-menu-lg p-0" aria-labelledby="enrollmentDropdown">
+                    <h6 class="dropdown-header bg-light py-2">
+                        <i class="fas fa-sync-alt mr-2 text-info"></i>Modificaciones
+                    </h6>
                     <button class="dropdown-item" @onclick="UpdateEnrollment">
-                        <i class="fas fa-exchange-alt mr-2"></i> Cambiar de Matrícula
+                        <i class="fas fa-exchange-alt mr-2 text-warning"></i> Cambiar Matrícula
                     </button>
                     <button class="dropdown-item" @onclick="UpdateEducationLevel">
-                        <i class="fas fa-level-up-alt mr-2"></i> Cambiar nivel educativo
+                        <i class="fas fa-level-up-alt mr-2 text-primary"></i> Cambiar Nivel
                     </button>
-                    <div class="dropdown-divider"></div>
+            
+                    <div class="dropdown-divider m-0"></div>
+            
+                    <h6 class="dropdown-header bg-light py-2">
+                        <i class="fas fa-exclamation-triangle mr-2 text-danger"></i>Acciones Críticas
+                    </h6>
                     <button class="dropdown-item text-danger" @onclick="Withdraw">
-                        <i class="fas fa-user-slash mr-2"></i> Dar de baja
+                        <i class="fas fa-user-slash mr-2"></i> Dar de Baja
                     </button>
                 </div>
             </div>
 
             <div class="dropdown mb-2">
                 <button class="btn btn-outline-secondary btn-block btn-sm dropdown-toggle" type="button" id="documentsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-file-download"></i> Generar Documentos
+                    <i class="fas fa-file-export mr-1"></i> Generar Documentos
                 </button>
-                <div class="dropdown-menu" aria-labelledby="documentsDropdown">
+                <div class="dropdown-menu dropdown-menu-lg p-0" aria-labelledby="documentsDropdown">
+                    <!-- Certificaciones -->
+                    <h6 class="dropdown-header bg-light py-2">
+                        <i class="fas fa-certificate mr-2 text-success"></i>Certificaciones
+                    </h6>
                     <button class="dropdown-item" @onclick="DownloadCertificate">
-                        <i class="fas fa-user-check mr-2"></i> Alumno Activo
+                        <i class="fas fa-user-check mr-2 text-success"></i> Constancia de Alumno Activo
                     </button>
-                    <button class="dropdown-item" @onclick="DownLoadState">
-                        <i class="fas fa-download mr-2"></i> Estado de cuenta
-                    </button>
+            
+                    <!-- Académicos -->
+                    <h6 class="dropdown-header bg-light py-2">
+                        <i class="fas fa-graduation-cap mr-2 text-info"></i>Registros Académicos
+                    </h6>
                     <button class="dropdown-item" @onclick="PrintReportCard">
-                        <i class="fas fa-file-signature mr-2"></i> Boleta
+                        <i class="fas fa-file-signature mr-2 text-info"></i> Boleta de Calificaciones
                     </button>
                     <button class="dropdown-item" @onclick="OpenAcademicReportModal">
-                        <i class="fas fa-file-invoice-dollar mr-2"></i> Historia Academico
+                        <i class="fas fa-scroll mr-2 text-info"></i> Historial Académico
+                    </button>
+            
+                    <!-- Financieros -->
+                    <h6 class="dropdown-header bg-light py-2">
+                        <i class="fas fa-file-invoice-dollar mr-2 text-primary"></i>Documentos Financieros
+                    </h6>
+                    <button class="dropdown-item" @onclick="DownLoadState">
+                        <i class="fas fa-file-invoice mr-2 text-primary"></i> Estado de Cuenta
                     </button>
                     <button class="dropdown-item" @onclick="PrintProforma">
-                        <i class="fas fa-file-invoice-dollar mr-2"></i> Proforma
+                        <i class="fas fa-receipt mr-2 text-primary"></i> Proforma de Pagos
                     </button>
                 </div>
             </div>
 
             <button class="btn btn-block btn-sm btn-outline-dark mb-2" @onclick="ViewPassword">
-                <i class="fas fa-key"></i> Ver Contraseña
+                <i class="fas fa-key mr-1"></i> Ver Contraseña
             </button>
 
             <button class="btn btn-block btn-sm @(Student.isActive ? "btn-outline-danger" : "btn-outline-success") mb-2" @onclick="ChangeStudentState">
-                <i class="fas fa-power-off"></i> @(Student.isActive ? "Desactivar" : "Activar")
+                <i class="fas @(Student.isActive ? "fa-toggle-off" : "fa-toggle-on") mr-1"></i> 
+                @(Student.isActive ? "Desactivar Alumno" : "Activar Alumno")
             </button>
         </div>
         
@@ -96,7 +117,7 @@
 <ChangeEducationLevelView StudentId="@Student.studentId"/>
 <MoveStudentView StudentId="@Student.studentId" StudentName="@Student.FullName()"/>
 <StudentPasswordView StudentId="@Student.studentId"/>
-<GetAcademicReportView StudentId="@Student.studentId" StudentName="@Student.FullName()" />">
+<GetAcademicReportView StudentId="@Student.studentId" StudentName="@Student.FullName()" />
 
 <PdfViewer Title="@Student.FullName()" PdfContent="@PdfDocument"/>
 

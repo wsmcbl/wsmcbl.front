@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="schoolYear" class="label-required">Tipo</label>
-                    <select id="schoolYear" class="form-control" @bind="SelectedSchoolYear.id">
+                    <select id="schoolYear" class="form-control" @bind="_selectedSchoolYear.id">
                         @foreach (var option in schoolYearList!)
                         {
                             <option value="@option.schoolyearId">@option.label</option>
