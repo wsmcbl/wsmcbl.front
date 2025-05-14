@@ -96,7 +96,7 @@
 <ChangeEducationLevelView StudentId="@Student.studentId"/>
 <MoveStudentView StudentId="@Student.studentId" StudentName="@Student.FullName()"/>
 <StudentPasswordView StudentId="@Student.studentId"/>
-<GetAcademicReportView StudentId="@Student.studentId" />">
+<GetAcademicReportView StudentId="@Student.studentId" StudentName="@Student.FullName()" />">
 
 <PdfViewer Title="@Student.FullName()" PdfContent="@PdfDocument"/>
 

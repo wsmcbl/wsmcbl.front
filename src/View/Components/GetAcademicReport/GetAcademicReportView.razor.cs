@@ -16,6 +16,8 @@ public partial class GetAcademicReportView : ComponentBase
     protected override async Task OnParametersSetAsync()
     {
         schoolYearList = await SchoolYearController.GetSchoolyearList();
+        SelectedSchoolYear.id = schoolYearList.First(s => s.isActive).schoolyearId;
+        SelectedSchoolYear.name = schoolYearList.First(s => s.isActive).label;
     }
 
     private async Task GetReport()
