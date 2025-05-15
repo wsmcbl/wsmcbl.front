@@ -12,65 +12,31 @@ window.printStudentCredentials = function(studentId, tempPassword) {
         <meta charset="UTF-8">
         <title>Credenciales de Acceso</title>
         <style>
-            @page {
-                size: 58mm;
-                margin: 2mm;
-            }
+            @page { margin: 0; size: auto; }
             body {
-                font-family: Arial, sans-serif;
-                font-size: 9px;
-                width: 58mm;
-                padding: 2mm;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
+                font-family: "Courier New", monospace;
+                font-size: 12px;
+                margin: 2mm;
+                padding: 0;
+                white-space: pre-line;
             }
             .header {
                 text-align: center;
                 font-weight: bold;
-                margin-bottom: 2mm;
-                font-size: 11px;
-                border-bottom: 1px solid #000;
-                padding-bottom: 2mm;
-            }
-            .section-title {
-                font-weight: bold;
-                margin: 2mm 0 1mm 0;
-                font-size: 10px;
-                color: #2c3e50;
-            }
-            .credentials-box {
-                margin: 2mm 0;
-                padding: 2mm;
-                background-color: #f8f9fa;
-                border: 1px dashed #6c757d;
+                margin-bottom: 3mm;
+                text-decoration: underline;
             }
             .password {
-                font-family: "Consolas", monospace;
-                font-size: 12px;
-                font-weight: bold;
+                font-family: "Courier New", monospace;
+                font-size: 14px;
                 text-align: center;
-                margin: 1mm 0;
-                background-color: #e9ecef;
-                padding: 1mm;
-                word-break: break-all;
-            }
-            .warning-box {
                 margin: 2mm 0;
-                padding: 2mm;
-                background-color: #fff3cd;
-                border: 1px dashed #ffc107;
-                font-size: 8px;
-            }
-            .contact-info {
-                margin-top: 3mm;
-                font-size: 8px;
-                text-align: center;
-                border-top: 1px solid #000;
-                padding-top: 2mm;
+                letter-spacing: 1px;
+                font-weight: bold;
             }
             ol, ul {
-                padding-left: 4mm;
-                margin: 1mm 0;
+                padding-left: 5mm;
+                margin: 2mm 0;
             }
             li {
                 margin-bottom: 1mm;
@@ -80,35 +46,24 @@ window.printStudentCredentials = function(studentId, tempPassword) {
     <body>
         <div class="header">COLEGIO BAUTISTA LIBERTAD</div>
         
-        <div class="section-title">INSTRUCCIONES DE ACCESO:</div>
+        <strong>INSTRUCCIONES DE ACCESO:</strong>
         <ol>
             <li>Ingrese a: cbl-edu.com/online-grades</li>
-            <li>Código del estudiante: <strong>${studentId}</strong></li>
-            <li>Contraseña: 
-                <div class="password">${tempPassword}</div>
-            </li>
+            <li>Código del estudiante: ${studentId}</li>
+            <li>Contraseña: ${tempPassword}</li>
             <li>Haga clic en "Ver calificaciones"</li>
         </ol>
-        
-        <div class="section-title">PARA VER SUS NOTAS:</div>
+        <strong>PARA VER SUS NOTAS:</strong>
         <ol>
             <li>Debe estar al dia con sus pagos</li>
         </ol>
-        
-        <div class="warning-box">
-            <div style="font-weight: bold; margin-bottom: 1mm;">RECOMENDACIONES DE SEGURIDAD:</div>
-            <ul>
-                <li>No comparta sus credenciales con terceros</li>
-                <li>Guarde esta información en lugar seguro</li>
-            </ul>
-        </div>
-        
-        <div class="contact-info">
-            <strong>¿Problemas con el acceso?</strong><br>
-            Contacte a: soporte@cbl-edu.com<br>
-            Teléfono: 2270-5587<br>
-            Celular: 8270-4585<br>
-            ${new Date().toLocaleDateString()}
+        <strong>RECOMENDACIONES:</strong>
+        <ul>
+            <li>No comparta sus credenciales</li>
+            <li>Guarde esta información</li>
+        </ul>
+        <div style="text-align: center; font-size: 10px;">
+            ${new Date().toLocaleDateString()} | soporte@cbl-edu.com
         </div>
     </body>
     </html>
@@ -124,8 +79,9 @@ window.printStudentCredentials = function(studentId, tempPassword) {
     printWindow.document.write(printContent);
     printWindow.document.close();
 
+    // Esperar breve momento para que cargue el contenido antes de imprimir
     setTimeout(() => {
         printWindow.print();
-        printWindow.close();
-    }, 100);
-}
+        // No cerramos automáticamente para permitir reimpresión si falla
+    }, 200);
+};
