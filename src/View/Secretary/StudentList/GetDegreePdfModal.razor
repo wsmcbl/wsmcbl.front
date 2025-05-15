@@ -1,38 +1,40 @@
-@using Microsoft.IdentityModel.Tokens
-<div @onkeydown="HandleKeyDown" tabindex="0">
-    <div class="modal fade" id="DowloadDegreeDocument" tabindex="-1" aria-labelledby="AccessInfoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+<div class="modal fade" id="DowloadDegreeDocument" tabindex="-1" aria-labelledby="AccessInfoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
 
-                <div class="modal-header py-3 bg-gray-100">
-                    <h5 class="modal-title text-gray-800 font-weight-bold">
-                        <i class="fas fa-user-lock mr-2"></i>Acceso al sistema de calificaciones
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+            <div class="modal-header py-3 bg-gray-100">
+                <h5 class="modal-title text-gray-800 font-weight-bold">
+                    <i class="fas fa-user-lock mr-2"></i>Acceso al sistema de calificaciones
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-                <div class="modal-body">
+            <div class="modal-body">
 
-                    @if (AlertMessage == "El estudiante esta solvente.")
-                    {
-                        <div class="alert alert-success mb-4 text-center">
-                            <div class="d-flex flex-column align-items-center">
-                                @AlertMessage
-                            </div>
+                @if (AlertMessage == "")
+                {
+                    <div class="d-flex flex-column align-items-center mb-4">
+                        <div class="alert alert-success text-center w-100" style="max-width: 500px;">
+                            Para ver la boleta del estudiante haz click en ver.
                         </div>
-                    }
-                    else if (AlertMessage == "Advertencia el estudiante no esta solvente.")
-                    {
-                        <div class="alert alert-danger mb-4 text-center">
-                            <div class="d-flex flex-column align-items-center">
-                                @AlertMessage
-                            </div>
+                        <button class="btn btn-primary" @onclick="CheckSolvency">
+                            <i class="fas fa-sync-alt mr-2"></i>Ver
+                        </button>
+                    </div>
+                }
+
+                @if (AlertMessage == "Advertencia el estudiante no esta solvente.")
+                {
+                    <div class="alert alert-danger mb-4 text-center">
+                        <div class="d-flex flex-column align-items-center">
+                            @AlertMessage
                         </div>
-                    }
-                    
-                    <EditForm Model="@this" OnValidSubmit="@HandleSubmit">
+                    </div>
+
+                    <EditForm Model="@this" OnValidSubmit="@DownloadDocument">
                         <div class="alert alert-warning mb-4 text-center">
                             <div class="d-flex flex-column align-items-center">
                                 <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
@@ -57,13 +59,14 @@
                             </button>
                         </div>
                     </EditForm>
-                </div>
+                }
 
-                <div class="modal-footer bg-gray-100 py-2">
-                    <small class="text-muted">
-                        <i class="fas fa-shield-alt mr-1"></i>Sistema seguro - WSM-CBL
-                    </small>
-                </div>
+            </div>
+
+            <div class="modal-footer bg-gray-100 py-2">
+                <small class="text-muted">
+                    <i class="fas fa-shield-alt mr-1"></i>Sistema seguro - WSM-CBL
+                </small>
             </div>
         </div>
     </div>

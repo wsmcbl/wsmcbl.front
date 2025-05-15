@@ -53,7 +53,7 @@ public class UpdateStudentController : BaseController
     public async Task<StudentPassDto> GetStudentToken(string studentId)
     {
         var resource = $"{path}/{studentId}/token";
-        return  await apiFactory.WithNotificator.GetAsync(Modules.Secretary, resource, new StudentPassDto());
+        return  await apiFactory.Default.GetAsync(Modules.Secretary, resource, new StudentPassDto());
     }
     public async Task<bool> UpdateStudentToken(string studentId)
     {
