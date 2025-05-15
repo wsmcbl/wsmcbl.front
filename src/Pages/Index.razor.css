@@ -1,10 +1,33 @@
-h1{
-    color: #4e73df;
-}
 .card {
-    transition: all 0.3s ease;
+    position: relative;
+    overflow: visible !important;
+    z-index: auto !important;
 }
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+
+.card-body {
+    position: static !important;
+    overflow: visible !important;
+}
+
+.card.border-left-info .dropdown-menu {
+    z-index: 1070 !important;
+    position: absolute !important;
+    transform: translate3d(-120px, 0px, 0px) !important;
+}
+.report-card {
+    isolation: isolate;
+}
+
+.report-card .dropdown-menu {
+    z-index: 1070 !important;
+    transform: translate3d(-120px, 0px, 0px) !important;
+}
+/* Dropdown general */
+.dropdown-menu {
+    z-index: 1060 !important;
+    position: absolute !important;
+}
+
+.dropdown {
+    position: relative !important;
 }

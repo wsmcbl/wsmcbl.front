@@ -1,4 +1,45 @@
-/* Estilos SB Admin 2 personalizados */
+.card {
+    position: relative;
+    overflow: visible !important;
+    z-index: auto !important;
+}
+
+.card-body {
+    position: static !important;
+    overflow: visible !important;
+}
+
+.card.border-left-info .dropdown-menu {
+    z-index: 1070 !important; 
+    position: absolute !important;
+    transform: translate3d(-120px, 0px, 0px) !important;
+}
+.report-card {
+    isolation: isolate;
+}
+
+.report-card .dropdown-menu {
+    z-index: 1070 !important;
+    transform: translate3d(-120px, 0px, 0px) !important;
+}
+
+/* Dropdown general */
+.dropdown-menu {
+    z-index: 1060 !important;
+    position: absolute !important;
+}
+
+.dropdown {
+    position: relative !important;
+}
+
+/* Asegura que el botón dropdown no afecte el flujo */
+.btn-circle.dropdown-toggle {
+    position: relative;
+    z-index: auto;
+}
+
+/* Tus estilos existentes (mantenerlos) */
 .btn-circle {
     border-radius: 50%;
     width: 30px;
@@ -7,19 +48,4 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-.btn-circle.btn-sm {
-    width: 25px;
-    height: 25px;
-}
-.card {
-    transition: all 0.3s ease;
-}
-.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
-.dropdown-item {
-    display: flex;
-    align-items: center;
 }
