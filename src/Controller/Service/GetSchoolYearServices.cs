@@ -11,7 +11,7 @@ public class GetSchoolYearServices
 
     public async Task<Dictionary<string, string>> GetSchoolYearLabelsBatch(IEnumerable<string> ids)
     {
-        var allSchoolYears = await _controller.GetSchoolyearList();
+        var allSchoolYears = await _controller.GetSchoolYearList();
         return allSchoolYears
             .Where(x => ids.Contains(x.schoolyearId))
             .ToDictionary(x => x.schoolyearId, x => x.label);
@@ -24,7 +24,7 @@ public class GetSchoolYearServices
             throw new ArgumentException("School year ID cannot be null or empty", nameof(schoolYearId));
         }
 
-        var schoolyearList = await _controller.GetSchoolyearList();
+        var schoolyearList = await _controller.GetSchoolYearList();
         
         var schoolYear = schoolyearList.FirstOrDefault(t => t.schoolyearId == schoolYearId);
         

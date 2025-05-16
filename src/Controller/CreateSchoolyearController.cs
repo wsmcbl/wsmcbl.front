@@ -1,7 +1,8 @@
+using System.Text.Json;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
-using wsmcbl.src.View.Secretary.Schoolyear;
 using wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.Details;
+using wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.New;
 using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.NewTariff;
 using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.TariffList;
 
@@ -13,25 +14,26 @@ public class CreateSchoolyearController : BaseController
     {
     }
     
-    public async Task<List<BasicSchoolyearDto>> GetSchoolyearList()
+    public async Task<List<BasicSchoolyearDto>> GetSchoolYearList()
     {
         return await apiFactory.Default
             .GetAsync(Modules.Secretary, path, new List<BasicSchoolyearDto>());
     }
     
-    public async Task<SchoolYearFullDto> GetSchoolyearById(string schoolyearId)
+    public async Task<SchoolYearFullDto> GetSchoolYearById(string schoolYearId)
     {
-        var resource = $"{path}/{schoolyearId}";
+        var resource = $"{path}/{schoolYearId}";
         var defaultResult = new SchoolYearFullDto();
         return await apiFactory.Default.GetAsync(Modules.Secretary, resource, defaultResult);
     }
     
-    public async Task<bool> CreateSchoolyear(SchoolyearToCreateDto value)
+    public async Task<bool> CreateSchoolYear(CreateSchoolYearDto value)
     {
-        var Default = new SchoolyearDto();
-        var response = await apiFactory.Default.PostAsync(Modules.Secretary, path, value, Default);
-
-        return response != Default;
+        var defaultResult = new CreateSchoolYearDto();
+        var json = JsonSerializer.Serialize(value);
+        Console.WriteLine(json);
+        var response = await apiFactory.Default.PostAsync(Modules.Secretary, path, value, defaultResult);
+        return response != defaultResult;
     }
     
     public async Task<List<ExchangeRateEntity>> GetExchangeRateList()

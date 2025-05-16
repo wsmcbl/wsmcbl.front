@@ -33,7 +33,7 @@ public partial class DegreeListView : BaseView
     protected override async Task OnInitializedAsync()
     {
         await Load();
-        SchoolyearList = await schoolyearController.GetSchoolyearList();
+        SchoolyearList = await schoolyearController.GetSchoolYearList();
     }
 
     protected override void OnParametersSet()

@@ -37,6 +37,16 @@ public class DateOnlyDto
         return new DateOnly(year, month, day);
     }
     
+    public DateOnly? ToDateOnlyDto(DateOnlyDto? date)
+    {
+        if (date is null)
+        {
+            return null;
+        }
+    
+        return new DateOnly(date.year, date.month, date.day);
+    }
+    
     public bool IsNotDateValid()
     {
         var today = DateTime.Today;

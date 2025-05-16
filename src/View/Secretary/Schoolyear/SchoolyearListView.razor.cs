@@ -13,7 +13,7 @@ public partial class SchoolyearListView : BaseView
     
     protected override async Task OnParametersSetAsync()
     {
-        SchoolyearList = await Controller.GetSchoolyearList();
+        SchoolyearList = await Controller.GetSchoolYearList();
     }
 
     protected override bool IsLoading()

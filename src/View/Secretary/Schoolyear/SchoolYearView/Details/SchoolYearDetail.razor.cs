@@ -31,7 +31,7 @@ public partial class SchoolYearDetail : BaseView
 
     protected override async Task OnParametersSetAsync()
     {
-        SchoolYear = await Controller.GetSchoolyearById(schoolYearId);
+        SchoolYear = await Controller.GetSchoolYearById(schoolYearId);
     }
     protected override bool IsLoading()
     {

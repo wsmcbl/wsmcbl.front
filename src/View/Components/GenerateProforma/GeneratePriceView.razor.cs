@@ -24,7 +24,7 @@ public partial class GeneratePriceView : ComponentBase
     protected override async Task OnParametersSetAsync()
     {
         DegreeList = await controller.GetDegreeList(Request);
-        _schoolyearList = await SchoolyearController.GetSchoolyearList();
+        _schoolyearList = await SchoolyearController.GetSchoolYearList();
         await GetDegreeActive();
     }
 
