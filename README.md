@@ -8,4 +8,4 @@
 
 ## Version
 
-* 6.6.0 - SNAPSHOT
+* 7.0.0 - SNAPSHOT
