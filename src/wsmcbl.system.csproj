@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <AssemblyTitle>CLIENT APP WSMCBL SNAPSHOT</AssemblyTitle>
+    <AssemblyTitle>CLIENT APP WSMCBL BETA</AssemblyTitle>
     <AssemblyVersion>6.6.0</AssemblyVersion>
     <AssemblyDescription>Aplicación cliente del proyecto WSMCBL desarrollado en Blazor.</AssemblyDescription>
     <RootNamespace>wsmcbl.src</RootNamespace>
@@ -21,24 +21,5 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.11" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="wwwroot\vendor\chart.js\Chart.umd.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="System\Properties\launchSettings.json" />
-    <_ContentIncludedByDefault Remove="Homepage\bin\Debug\net8.0\wsmcbl.homepage.deps.json" />
-    <_ContentIncludedByDefault Remove="Homepage\bin\Debug\net8.0\wsmcbl.homepage.runtimeconfig.json" />
-    <_ContentIncludedByDefault Remove="Homepage\bin\Debug\net8.0\wsmcbl.homepage.staticwebassets.runtime.json" />
-    <_ContentIncludedByDefault Remove="Homepage\obj\Debug\net8.0\staticwebassets.build.json" />
-    <_ContentIncludedByDefault Remove="Homepage\obj\Debug\net8.0\staticwebassets.development.json" />
-    <_ContentIncludedByDefault Remove="Homepage\obj\Debug\net8.0\staticwebassets.pack.json" />
-    <_ContentIncludedByDefault Remove="Homepage\obj\Debug\net8.0\wsmcbl.homepage.sourcelink.json" />
-    <_ContentIncludedByDefault Remove="Homepage\obj\project.assets.json" />
-    <_ContentIncludedByDefault Remove="Homepage\obj\project.packagespec.json" />
-    <_ContentIncludedByDefault Remove="Homepage\obj\wsmcbl.homepage.csproj.nuget.dgspec.json" />
-    <_ContentIncludedByDefault Remove="Homepage\Properties\launchSettings.json" />
   </ItemGroup>
 </Project>
