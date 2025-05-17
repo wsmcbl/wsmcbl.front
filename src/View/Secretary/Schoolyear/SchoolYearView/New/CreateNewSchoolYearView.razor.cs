@@ -2,6 +2,7 @@ using System.Formats.Tar;
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Accounting;
+using wsmcbl.src.Model.Secretary;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
 using wsmcbl.src.View.Components.Dto;
@@ -11,6 +12,7 @@ namespace wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.New;
 
 public partial class CreateNewSchoolYearView : BaseView
 {
+    [Inject] private CreateSubjectDataController CreateSubjectDataController { get; set; } = null!;
     [Inject] private CreateTariffDataController CreateTariffDataController { get; set; } = null!;
     [Inject] private CreateSchoolyearController CreateSchoolYearController { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
@@ -27,11 +29,27 @@ public partial class CreateNewSchoolYearView : BaseView
     private List<CreateTariffDto> originalTariffList { get; set; } = new();
     private List<TariffDtoTemplate> TariffList { get; set; } = new();
     private List<TariffDto> TariffToCreateList { get; set; } = new();
+
+    private List<SubjectDataEntity> Subjects { get; set; } = new();
+    private List<SubjectAreaEntity> AreaList { get; set; } = new();
+    private List<DegreeDataEntity> DegreeList { get; set; } = new();
+    private int SelectedDegreeId { get; set; }
+        
+    
+    private void FilterByDegree(int degreeId)
+    {
+        SelectedDegreeId = degreeId;
+    }
+
+    
     
     protected override async Task OnParametersSetAsync()
     {
         TariffTypeList = await CreateTariffDataController.GetTariffTypeList();
         originalTariffList = await CreateSchoolYearController.GetTariffList();
+        Subjects = await CreateSubjectDataController.GetSubjectList();
+        DegreeList = await CreateSubjectDataController.GetDegreeDataList();
+        AreaList = await CreateSubjectDataController.GetAreaList();
         ConfigInformation();
     }
 

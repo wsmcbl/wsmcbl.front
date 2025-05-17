@@ -210,22 +210,100 @@
                     <i class="fas fa-info-circle mr-2"></i> Asignaturas
                 </h5>
                 <p class="mb-0">
-                    <a href="/secretary/catalogs/subjects" class="alert-link">Para agregar o editar asignaturas, haga clic
+                    <a href="/secretary/catalogs/subjects" class="alert-link">Para agregar o editar asignaturas, haga
+                        clic
                         aquí.</a>
                 </p>
             </div>
 
-            <div class="card shadow mb-4">
+            
+             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">
-                        Lista de Asignaturas por Grado
-                    </h6>
+                    <h6 class="m-0 font-weight-bold text-primary"> Lista de Asignaturas por Grado </h6>
+                    <div>
+                        <div class="dropdown d-inline-block mr-2">
+                            <button class="btn btn-outline-primary dropdown-toggle btn-sm" type="button"
+                                    id="degreeFilterDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @(SelectedDegreeId == 0 ? "Filtrar por Grado" : DegreeList.FirstOrDefault(d => d.degreeDataId == SelectedDegreeId)?.label)
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="degreeFilterDropdown">
+                                <a class="dropdown-item" @onclick="() => FilterByDegree(0)">Todos los Grados</a>
+                                @foreach (var degree in DegreeList)
+                                {
+                                    <a class="dropdown-item"
+                                       @onclick="() => FilterByDegree(degree.degreeDataId)">@degree.label</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
-                   
+                    <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
+                        <table class="table table-bordered table-hover" id="gradetable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Posición</th>
+                                <th>Nombre</th>
+                                <th>¿Reprobable?</th>
+                                <th>Semestre</th>
+                                <th>Iniciales</th>
+                                <th>Estado</th>
+                            </tr>
+                            </thead>
+                            <tfoot class="thead-light">
+                            <tr>
+                                <th>Posición</th>
+                                <th>Nombre</th>
+                                <th>¿Reprobable?</th>
+                                <th>Semestre</th>
+                                <th>Iniciales</th>
+                                <th>Estado</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            @{
+                                var groupedSubjects = Subjects?
+                                    .Where(s => SelectedDegreeId == 0 || s.degreeDataId == SelectedDegreeId)
+                                    .GroupBy(s => new
+                                    {
+                                        AreaId = s.areaId,
+                                        DegreeId = s.degreeDataId
+                                    })
+                                    .OrderBy(g => g.Key.DegreeId)
+                                    .ThenBy(g => g.Key.AreaId);
+                            }
+                            
+                            @if (groupedSubjects != null)
+                            {
+                                @foreach (var group in groupedSubjects)
+                                {
+                                    var area = AreaList.FirstOrDefault(a => a.areaId == group.Key.AreaId);
+                                    var degree = DegreeList.FirstOrDefault(d => d.degreeDataId == group.Key.DegreeId);
+                                    
+                                    @foreach (var item in group.OrderBy(s => s.number))
+                                    {
+                                        <tr>
+                                            <td>@item.number</td>
+                                            <td>@item.name</td>
+                                            <td>@item.isMandatory.ToStringYesOrNo()</td>
+                                            <td>@item.semester.ToSemester()</td>
+                                            <td>@item.initials</td>
+                                            <td>
+                                                    <span
+                                                        class="badge @(item.isActive ? "badge-success" : "badge-secondary")">
+                                                        @(item.isActive ? "ACTIVO" : "INACTIVO")
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-
+            
             <div class="d-flex justify-content-between mt-4">
                 <button class="btn btn-secondary shadow-sm" @onclick="PrevStep">
                     <i class="fas fa-arrow-left mr-1"></i> Anterior
@@ -235,7 +313,7 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- Step 4: Finalizar -->
         <div class="step-content @(currentStep == 4 ? "d-block" : "d-none")">
             <div class="alert alert-success">
