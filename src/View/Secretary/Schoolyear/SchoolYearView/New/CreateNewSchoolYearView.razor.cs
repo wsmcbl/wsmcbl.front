@@ -141,7 +141,7 @@ public partial class CreateNewSchoolYearView : BaseView
     private int currentStep = 1;
     private void NextStep()
     {
-        if (currentStep < 3) currentStep++;
+        if (currentStep < 4) currentStep++;
     }
     private void PrevStep()
     {

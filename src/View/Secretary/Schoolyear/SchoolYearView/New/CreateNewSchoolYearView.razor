@@ -6,7 +6,7 @@
 <div class="card shadow mb-4">
     <!-- Card Header -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Configuración de Artículo</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Configuración de un nuevo año lectivo</h6>
     </div>
 
     <!-- Card Body -->
@@ -19,15 +19,19 @@
             </div>
             <div class="stepper-item @(currentStep >= 2 ? "completed" : "") @(currentStep == 2 ? "active" : "")">
                 <div class="step-counter">2</div>
-                <div class="step-name">Cantidad</div>
+                <div class="step-name">Aranceles</div>
             </div>
             <div class="stepper-item @(currentStep >= 3 ? "completed" : "") @(currentStep == 3 ? "active" : "")">
+                <div class="step-counter">3</div>
+                <div class="step-name">Asignaturas</div>
+            </div>
+            <div class="stepper-item @(currentStep >= 4 ? "completed" : "") @(currentStep == 4 ? "active" : "")">
                 <div class="step-counter">3</div>
                 <div class="step-name">Finalizar</div>
             </div>
         </div>
 
-        <!-- 1 Semestres -->
+        <!-- Step 1: Semestres -->
         <div class="step-content @(currentStep == 1 ? "d-block" : "d-none")">
             <div class="row">
                 <!-- Primer Semestre -->
@@ -114,73 +118,126 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="d-flex justify-content-end mt-4">
                 <button class="btn btn-primary" @onclick="NextStep">Siguiente <i class="fas fa-arrow-right ml-1"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Step 2: Cantidad -->
+        <!-- Step 2: Aranceles -->
         <div class="step-content @(currentStep == 2 ? "d-block" : "d-none")">
-            
-           <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
-                    <table id="gradetable" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>Concepto</th>
-                            <th>Vencimiento</th>
-                            <th>Tipo</th>
-                            <th>Edu. Inicial</th>
-                            <th>Primaria</th>
-                            <th>Secundaria</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                            <th>Concepto</th>
-                            <th>Vencimiento</th>
-                            <th>Tipo</th>
-                            <th>Edu. Inicial</th>
-                            <th>Primaria</th>
-                            <th>Secundaria</th>
-                        </tr>
-                        </tfoot>
-                        <tbody>
-                        @foreach (var item in TariffList!)
-                        {
-                            var typeTariff = TariffTypeList.FirstOrDefault(t => t.Id == item.type);
-                            <tr>
-                                <td>@item.concept</td>
-                                <td>@(item.dueDate.ToStringFormat() ?? "No vence")</td>
-                                <td>@(typeTariff?.Name ?? "<a>Sin Tipo</a>")</td>
-                                <td style="width: 150px;">
-                                    <InputNumber id="surname" @bind-Value="@item.amount1" class="form-control" min="1"/>
-                                </td>
-                                <td style="width: 150px;">
-                                    <InputNumber id="surname" @bind-Value="@item.amount2" class="form-control" min="1"/>
-                                </td>
-                                <td style="width: 150px;">
-                                    <InputNumber id="surname" @bind-Value="@item.amount3" class="form-control" min="1"/>
-                                </td>
-                            </tr>
-                        }
-                        </tbody>
-                    </table>
+
+            <div class="alert alert-info shadow-sm">
+                <h5 class="alert-heading">
+                    <i class="fas fa-info-circle mr-2"></i> Aranceles
+                </h5>
+                <p class="mb-0">
+                    <a href="/secretary/catalogs/tariffs" class="alert-link">Para agregar o editar aranceles, haga clic
+                        aquí.</a>
+                </p>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Lista de Aranceles por Nivel Educativo
+                    </h6>
                 </div>
+                <div class="card-body">
+                    <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
+                        <table class="table table-bordered table-hover" id="gradetable">
+                            <thead class="thead-light">
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Vencimiento</th>
+                                <th>Tipo</th>
+                                <th>Edu. Inicial</th>
+                                <th>Primaria</th>
+                                <th>Secundaria</th>
+                            </tr>
+                            </thead>
+                            <tfoot class="thead-light">
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Vencimiento</th>
+                                <th>Tipo</th>
+                                <th>Edu. Inicial</th>
+                                <th>Primaria</th>
+                                <th>Secundaria</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            @foreach (var item in TariffList)
+                            {
+                                var typeTariff = TariffTypeList.FirstOrDefault(t => t.Id == item.type);
+                                <tr>
+                                    <td>@item.concept</td>
+                                    <td>@(string.IsNullOrEmpty(item.dueDate.ToStringFormat()) ? "No vence" : item.dueDate.ToStringFormat())</td>
+                                    <td>@(typeTariff?.Name ?? "<span class='text-danger'>Sin Tipo</span>")</td>
+                                    <td style="width: 150px;">
+                                        <InputNumber @bind-Value="@item.amount1" class="form-control" min="1"/>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <InputNumber @bind-Value="@item.amount2" class="form-control" min="1"/>
+                                    </td>
+                                    <td style="width: 150px;">
+                                        <InputNumber @bind-Value="@item.amount3" class="form-control" min="1"/>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
             <div class="d-flex justify-content-between mt-4">
-                <button class="btn btn-secondary" @onclick="PrevStep">
+                <button class="btn btn-secondary shadow-sm" @onclick="PrevStep">
                     <i class="fas fa-arrow-left mr-1"></i> Anterior
                 </button>
-                <button class="btn btn-primary" @onclick="NextStep">
+                <button class="btn btn-primary shadow-sm" @onclick="NextStep">
                     Siguiente <i class="fas fa-arrow-right ml-1"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Step 3: Finalizar -->
+        <!-- Step 3: Asignaturas -->
         <div class="step-content @(currentStep == 3 ? "d-block" : "d-none")">
+
+            <div class="alert alert-info shadow-sm">
+                <h5 class="alert-heading">
+                    <i class="fas fa-info-circle mr-2"></i> Asignaturas
+                </h5>
+                <p class="mb-0">
+                    <a href="/secretary/catalogs/subjects" class="alert-link">Para agregar o editar asignaturas, haga clic
+                        aquí.</a>
+                </p>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        Lista de Asignaturas por Grado
+                    </h6>
+                </div>
+                <div class="card-body">
+                   
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <button class="btn btn-secondary shadow-sm" @onclick="PrevStep">
+                    <i class="fas fa-arrow-left mr-1"></i> Anterior
+                </button>
+                <button class="btn btn-primary shadow-sm" @onclick="NextStep">
+                    Siguiente <i class="fas fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Step 4: Finalizar -->
+        <div class="step-content @(currentStep == 4 ? "d-block" : "d-none")">
             <div class="alert alert-success">
                 <h5 class="alert-heading"><i class="fas fa-check-circle mr-2"></i>¡Configuración casi lista!</h5>
                 <p>Revise los detalles antes de finalizar:</p>
