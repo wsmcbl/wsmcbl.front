@@ -1,6 +1,4 @@
-using wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.New;
-
-namespace wsmcbl.src.View.Secretary.Schoolyear;
+namespace wsmcbl.src.View.Secretary.Schoolyear.SchoolYearView.New;
 
 public class TariffDtoTemplate
 {
@@ -10,9 +8,4 @@ public class TariffDtoTemplate
     public int amount1 { get; set; }
     public int amount2 { get; set; }
     public int amount3 { get; set; }
-
-    public TariffDto ToEntity()
-    {
-        return new TariffDto();
-    }
 }

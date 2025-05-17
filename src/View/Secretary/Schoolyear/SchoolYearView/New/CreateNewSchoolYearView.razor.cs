@@ -18,10 +18,10 @@ public partial class CreateNewSchoolYearView : BaseView
     private CreateSchoolYearDto SchoolYear { get; set; } = new();
     private List<PartialsDto> PartialList = 
     [
-        new() { semester = 1, partial = 1 },
-        new() { semester = 1, partial = 2 },
-        new() { semester = 2, partial = 1 },
-        new() { semester = 2, partial = 2 }
+        new() { semester = 1, partial = 1, startDate = new DateOnlyDto(DateTime.Now), deadLine = new DateOnlyDto(DateTime.Now)},
+        new() { semester = 1, partial = 2, startDate = new DateOnlyDto(DateTime.Now.AddMonths(1)), deadLine = new DateOnlyDto(DateTime.Now.AddMonths(1)) },
+        new() { semester = 2, partial = 1, startDate = new DateOnlyDto(DateTime.Now.AddMonths(1)), deadLine = new DateOnlyDto(DateTime.Now.AddMonths(1)) },
+        new() { semester = 2, partial = 2, startDate = new DateOnlyDto(DateTime.Now.AddMonths(1)), deadLine = new DateOnlyDto(DateTime.Now.AddMonths(1)) }
     ];
     private List<DropDownItem> TariffTypeList { get; set; } = new();
     private List<CreateTariffDto> originalTariffList { get; set; } = new();
@@ -69,6 +69,12 @@ public partial class CreateNewSchoolYearView : BaseView
     {
         foreach (var tariff in TariffList)
         {
+            if (tariff.amount1 >= 0 || tariff.amount2 >= 0 || tariff.amount3 >= 0)
+            {
+                await Notificator.ShowError("No se puede crear un arancel con valores negativos o cero.");
+                return;
+            }
+            
             TariffToCreateList.Add(new TariffDto
             {
                 concept = tariff.concept ?? "N/A",
@@ -95,17 +101,17 @@ public partial class CreateNewSchoolYearView : BaseView
                 typeId = tariff.type,
                 educationalLevel = 3
             });
-            
         }
+        
         SchoolYear.partialList = PartialList;
         SchoolYear.tariffList = TariffToCreateList;
+        
         var response = await CreateSchoolYearController.CreateSchoolYear(SchoolYear);
         if (response)
         {
             await Notificator.ShowSuccess("Hemos creado correctamente el nuevo año lectivo");
             return;
         }
-
         await Notificator.ShowError("Obtuvimos unos problemas para crear el nuevo año lectivo");
     }
 
