@@ -3,11 +3,49 @@
 @inherits BaseView
 @attribute [Authorize(Roles = "admin, cashier")]
  
-@if (!IsLoading())
+@if (IsLoading())
 {
      <div class="loader"></div>
 }
 else
 {
-    <h3>Tasas de cambios</h3>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h6 class="m-0 font-weight-bold text-primary">Lista de tasas de cambio</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Año</th>
+                        <th>Valor</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Año</th>
+                        <th>Valor</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    @if (ExchangeRate != null)
+                    {
+                        foreach (var item in ExchangeRate.OrderByDescending(t => t.rateId))
+                        {
+                            var label = schoolYearList.FirstOrDefault(s => s.schoolyearId == item?.schoolyearId)?.label ?? "N/A";
+                            <tr>
+                                <td>@item.rateId</td>
+                                <td>@label</td>
+                                <td>@item.value </td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
