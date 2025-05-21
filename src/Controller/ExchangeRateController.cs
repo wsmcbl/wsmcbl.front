@@ -1,3 +1,4 @@
+using System.Globalization;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.View.Accounting.ExchangeRates;
 
@@ -15,5 +16,11 @@ public class ExchangeRateController : BaseController
         var resource = $"{path}/rates";
         return await apiFactory.WithNotificator.GetAsync(Modules.Secretary, resource, defaultResult);
     }
-    
+
+    public async Task<bool> UpdateExchangeRate(decimal value)
+    {
+        var valueString = value.ToString(CultureInfo.InvariantCulture);
+        var resource = $"{path}/rates/current?exchange={valueString}";
+        return await apiFactory.WithNotificator.PutAsync(Modules.Secretary, resource, false);
+    }
 }

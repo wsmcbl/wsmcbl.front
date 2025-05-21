@@ -1,0 +1,10 @@
+#dataTable th,
+#dataTable td {
+    text-align: center !important;
+    vertical-align: middle !important; /* Opcional: centra verticalmente */
+}
+
+.table-bordered th,
+.table-bordered td {
+    text-align: center !important;
+}

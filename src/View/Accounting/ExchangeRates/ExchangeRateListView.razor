@@ -21,6 +21,7 @@ else
                         <th>Id</th>
                         <th>Año</th>
                         <th>Valor</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -28,6 +29,7 @@ else
                         <th>Id</th>
                         <th>Año</th>
                         <th>Valor</th>
+                        <th>Acciones</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -40,6 +42,9 @@ else
                                 <td>@item.rateId</td>
                                 <td>@label</td>
                                 <td>@item.value </td>
+                                <td>
+                                    <button class="btn btn-outline-secondary" @onclick="() => OpenEditModal(item, label)">Editar</button>
+                                </td>
                             </tr>
                         }
                     }
@@ -48,4 +53,6 @@ else
             </div>
         </div>
     </div>
+    
+    <ExchangeRateEditModal ExchangeRate="@EditExchangeRate" SchoolYearLabel="@EditSchoolYearLabel" OnUpdate="OnParametersSetAsync" />
 }
