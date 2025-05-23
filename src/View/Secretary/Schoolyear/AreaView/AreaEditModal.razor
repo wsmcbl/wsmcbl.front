@@ -1,3 +1,4 @@
+@using wsmcbl.src.View.Components
 <div class="modal fade" id="ModalEditArea" tabindex="-1" aria-labelledby="ModalEdit" aria-hidden="true">
 <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -10,12 +11,13 @@
 
             <div class="modal-body">
                 <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="concept" class="label-required">Concepto</label>
-                        <input type="text" class="form-control" id="concept" @bind="Area.name" />
-                    </div>
-                </form>
+                    <form>
+                        <div class="form-group">
+                            <label for="concept" class="label-required">Concepto</label>
+                            <input type="text" class="form-control" id="concept" @bind="Area.name" />
+                        </div>
+                    </form>
+                    <RequerideMessage/>
             </div>
             </div>
 

@@ -30,8 +30,6 @@ public class CreateSchoolyearController : BaseController
     public async Task<bool> CreateSchoolYear(CreateSchoolYearDto value)
     {
         var defaultResult = new SchoolYearFullDto();
-        var json = JsonSerializer.Serialize(value);
-        Console.WriteLine(json);
         var response = await apiFactory.Default.PostAsync(Modules.Secretary, path, value, defaultResult);
         return response.schoolyearId != defaultResult.schoolyearId;
     }

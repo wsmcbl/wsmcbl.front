@@ -16,6 +16,7 @@ public partial class CreateNewSchoolYearView : BaseView
     [Inject] private CreateTariffDataController CreateTariffDataController { get; set; } = null!;
     [Inject] private CreateSchoolyearController CreateSchoolYearController { get; set; } = null!;
     [Inject] private Notificator Notificator { get; set; } = null!;
+    [Inject] private Navigator Navigator { get; set; } = null!;
     
     private CreateSchoolYearDto SchoolYear { get; set; } = new();
     private List<PartialsDto> PartialList = 
@@ -87,7 +88,7 @@ public partial class CreateNewSchoolYearView : BaseView
     {
         foreach (var tariff in TariffList)
         {
-            if (tariff.amount1 >= 0 || tariff.amount2 >= 0 || tariff.amount3 >= 0)
+            if (tariff.amount1 <= 0 || tariff.amount2 <= 0 || tariff.amount3 <= 0)
             {
                 await Notificator.ShowError("No se puede crear un arancel con valores negativos o cero.");
                 return;
@@ -128,6 +129,7 @@ public partial class CreateNewSchoolYearView : BaseView
         if (response)
         {
             await Notificator.ShowSuccess("Hemos creado correctamente el nuevo año lectivo");
+            Navigator.ToPage("/secretary/schoolyears");
             return;
         }
         await Notificator.ShowError("Obtuvimos unos problemas para crear el nuevo año lectivo");
