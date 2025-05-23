@@ -35,4 +35,18 @@ public class GetSchoolYearServices
 
         return schoolYear.label;
     }
+    
+    public async Task<string> GetSchoolYearActiveId()
+    {
+        var schoolyearList = await _controller.GetSchoolYearList();
+        var schoolYear = schoolyearList.FirstOrDefault(t => t.isActive)?.schoolyearId ?? "N/A";
+        return schoolYear;
+    }
+    
+    public async Task<string> GetSchoolYearActiveLabel()
+    {
+        var schoolyearList = await _controller.GetSchoolYearList();
+        var schoolYear = schoolyearList.FirstOrDefault(t => t.isActive)?.label ?? "N/A";
+        return schoolYear;
+    }
 }

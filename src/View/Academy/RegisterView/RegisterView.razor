@@ -39,17 +39,7 @@
                         </a>
                     </li>
                 </ul>
-
-
-                @if (Teacher.isGuide)
-                {
-                    <button class="btn btn-primary btn-sm" @onclick="ViewPerformanceReport">
-                        <i class="fas fa-file-download"></i>
-                        <span class="d-none d-md-inline">Descargar Sabana</span>
-                        <span class="d-inline d-md-none">Sabana</span>
-                    </button>
-                }
-
+                
             </div>
 
             <div class="card-body" id="tabContent">
@@ -62,6 +52,16 @@
 
                     <!-- Pestaña de Sabana -->
                     <div class="tab-pane fade" id="PanelSabana" role="tabpanel" aria-labelledby="TabSabana">
+                        @if (Teacher.isGuide)
+                        {
+                            <div class="text-right mb-3">
+                                <button class="btn btn-primary btn-sm" @onclick="ViewPerformanceReport">
+                                    <i class="fas fa-file-download"></i>
+                                    <span class="d-none d-md-inline">Descargar Sabana</span>
+                                    <span class="d-inline d-md-none">Sabana</span>
+                                </button>
+                            </div>
+                        }
                         <PerformanceReportBySectionView PartialId="@CurrentPartialId" TeacherId="@TeacherId"
                                                         subjectList="@Enrollment.subjectList" IsGuide="IsGuide"/>
                     </div>
@@ -71,7 +71,13 @@
                         <div class="text-gray-800 text-center">
                             @if (IsGuide)
                             {
-                                <button class="btn btn-primary btn-sm" @onclick="DownloadStats"><i class="fas fa-file-download"></i> Descargar Estadística</button>
+                                <div class="text-right mb-3">
+                                    <button class="btn btn-primary btn-sm" @onclick="DownloadStats">
+                                        <i class="fas fa-file-download"></i>
+                                        <span class="d-none d-md-inline">Descargar Estadistica</span>
+                                        <span class="d-inline d-md-none">Estadistica</span>
+                                    </button>
+                                </div>
                                 <StatisticsView TeacherId="@TeacherId" PartialId="CurrentPartialId"/>
                             }
                             else
@@ -82,6 +88,7 @@
                     </div>
 
                     <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
+                    <DowloadStatisticsModal TeacherId="@TeacherId" EnrollmentLabel="@Enrollment.label"/>
 
                 </div>
             </div>

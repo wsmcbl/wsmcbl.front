@@ -13,13 +13,15 @@ public class AddingStudentGradesController
     private readonly LoginController _loginController;
     private readonly ApiConsumerFactory _apiConsumerFactory;
     private readonly IJSRuntime _jsRuntime;
+    private readonly GetSchoolYearServices _schoolYearServices;
 
-    public AddingStudentGradesController(ApiConsumerFactory apiConsumerFactory, LoginController loginController, Notificator notificator, IJSRuntime jsRuntime)
+    public AddingStudentGradesController(ApiConsumerFactory apiConsumerFactory, LoginController loginController, Notificator notificator, IJSRuntime jsRuntime, GetSchoolYearServices schoolYearServices)
     {
         _apiConsumerFactory = apiConsumerFactory;
         _loginController = loginController;
         _notificator = notificator;
         _jsRuntime = jsRuntime;
+        _schoolYearServices = schoolYearServices;
     }
 
     public async Task<List<PartialEntity>> GetPartialList()
@@ -96,7 +98,7 @@ public class AddingStudentGradesController
         return result.data.Where(e => e.quantity > 0).OrderBy(e => e.position).ToList();
     }
     
-    public async Task GetGradeDocument(string teacherId, string enrollmentId, int partialId, string enrollmentLabel)
+    public async Task GetGradeDocument(string teacherId, string enrollmentId, int partialId, string partialLabel, string enrollmentLabel)
     {
         var resource = $"teachers/{teacherId}/enrollments/{enrollmentId}/export?partialId={partialId}";
         
@@ -106,9 +108,9 @@ public class AddingStudentGradesController
             throw new InternalException("No se realizó la descarga del archivo.");
         }
         
-        // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$ REPARAR SCHOOLYEAR Y PARTIAL $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-        var NameGenerator = new EnrollmentFileNameGenerator(enrollmentLabel, "2025");
-        var fileName = NameGenerator.GetFileName(1, "calificaciones");
+        var schoolYearLabel = await _schoolYearServices.GetSchoolYearActiveLabel();
+        var nameGenerator = new EnrollmentFileNameGenerator(enrollmentLabel, schoolYearLabel);
+        var fileName = nameGenerator.GetFileName(partialLabel, "calificaciones");
         
         var base64 = Convert.ToBase64String(fileBytes);
         var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";

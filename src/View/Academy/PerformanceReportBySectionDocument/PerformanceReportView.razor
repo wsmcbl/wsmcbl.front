@@ -1,8 +1,8 @@
 <div class="modal fade" id="ReportGradeModal" tabindex="-1" aria-labelledby="ReportGradeModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="ModalPdfTitle">Generar registro de notas por parcial</h5>
+                <h5 class="modal-title" id="ModalPdfTitle">Descargar registro de notas por parcial</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -11,31 +11,15 @@
             <div class="modal-body">
 
                 <div class="form-group">
-                    <h6 class="label-required">Selecccione un parcial.</h6>
 
-                    <div class="checkbox-wrapper-14">
-                        <input type="checkbox" id="partial1"
-                               checked="@((PartialId == 1))"
-                               @onchange="() => PartialId = 1"/>
-                        <label for="partial1">I Parcial</label>
-                    </div>
-                    <div class="checkbox-wrapper-14">
-                        <input type="checkbox" id="partial2"
-                               checked="@((PartialId == 2))"
-                               @onchange="() => PartialId = 2"/>
-                        <label for="partial2">II Parcial</label>
-                    </div>
-                    <div class="checkbox-wrapper-14">
-                        <input type="checkbox" id="partial3"
-                               checked="@((PartialId == 3))"
-                               @onchange="() => PartialId = 3"/>
-                        <label for="partial3">III Parcial</label>
-                    </div>
-                    <div class="checkbox-wrapper-14">
-                        <input type="checkbox" id="partial4"
-                               checked="@((PartialId == 4))"
-                               @onchange="() => PartialId = 4"/>
-                        <label for="partial4">IV Parcial</label>
+                    <div class="form-group">
+                        <label for="typePerformance" class="label-required">Selecccione un parcial.</label>
+                        <select id="typePerformance" class="form-control" @bind="PartialId">
+                            @foreach (var option in Partial.OrderBy(t => t.partialId))
+                            {
+                                <option value="@option.partialId">@option.label</option>
+                            }
+                        </select>
                     </div>
                     
                 </div>
@@ -45,10 +29,7 @@
             <div class="modal-footer">
                 <div class="right-container">
                     <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">Cerrar</button>
-                    @if (PartialId != 0)
-                    {
-                        <button type="button" class="btn btn-outline-success" @onclick="DownloadReport">Generar</button>
-                    }
+                    <button type="button" class="btn btn-danger" @onclick="DownloadReport">Generar</button>
                 </div>
             </div>
 

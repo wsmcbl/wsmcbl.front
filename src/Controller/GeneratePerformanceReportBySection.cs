@@ -9,12 +9,13 @@ namespace wsmcbl.src.Controller;
 public class GeneratePerformanceReportBySection : BaseController
 {
     private readonly IJSRuntime _jsRuntime;
-    private Notificator Notificator { get; set; }
-
-    public GeneratePerformanceReportBySection(ApiConsumerFactory apiFactory, IJSRuntime jsRuntime, Notificator notificator) : base(apiFactory, "teachers")
+    private readonly Notificator _notificator;
+    private readonly GetSchoolYearServices _schoolYearServices;
+    public GeneratePerformanceReportBySection(ApiConsumerFactory apiFactory, IJSRuntime jsRuntime, Notificator notificator, GetSchoolYearServices getSchoolYearServices) : base(apiFactory, "teachers")
     {
         _jsRuntime = jsRuntime;
-        Notificator = notificator;
+        _notificator = notificator;
+        _schoolYearServices = getSchoolYearServices;
     }
 
     public async Task<List<StudentsGradeSumaryDto>> GetStudentsGradeSummary(string teacherId, int partialId)
@@ -24,20 +25,20 @@ public class GeneratePerformanceReportBySection : BaseController
             $"{path}/{teacherId}/enrollments/guide/grades/summary?partialId={partialId}", defaultResult);
     }
 
-    public async Task GetEnrollmentGradeByTeacherXlsx(string teacherId, int partialId, string enrollmentName)
+    public async Task GetEnrollmentGradeByTeacherXlsx(string teacherId, int partialId, string partialLabel, string enrollmentName)
     {
         var resource = $"{path}/{teacherId}/enrollments/guide/grades/summary/export?partialId={partialId}";
         
         var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Academy, resource);
         if (fileBytes.Length <= 0)
         {
-            await Notificator.ShowError("No se realizó la descarga del archivo.");
+            await _notificator.ShowError("No se realizó la descarga del archivo. \n\n Es posible que no existan registros para el parcial seleccionado.");
             return;
         }
 
-        // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$ REPARAR SCHOOLYEAR Y PARTIAL $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-        var NameGenerator = new EnrollmentFileNameGenerator(enrollmentName, "2025");
-        var fileName = NameGenerator.GetFileName(1, "sabana");
+        var schoolYearLabel = await _schoolYearServices.GetSchoolYearActiveLabel();
+        var nameGenerator = new EnrollmentFileNameGenerator(enrollmentName, schoolYearLabel);
+        var fileName = nameGenerator.GetFileName(partialLabel, "sabana");
         
         
         var base64 = Convert.ToBase64String(fileBytes);

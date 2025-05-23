@@ -97,7 +97,13 @@ public partial class AddGradeView : BaseView
     //Excels Method
     private async Task DownloadXlsx()
     {
-        await controller.GetGradeDocument(TeacherId, EnrollmentId, currentPartial, enrollmentLabel);
+        if (partialList != null)
+        {
+            var partialLabel = partialList.FirstOrDefault(t => t.partialId == currentPartial)?.label ?? "N/A";
+            await controller.GetGradeDocument(TeacherId, EnrollmentId, currentPartial, partialLabel, enrollmentLabel);
+            return;
+        }
+        await Notificator.ShowError("Error: Lista de parciales nula.");
     }
     private async Task LoadXlsxFile(InputFileChangeEventArgs e)
     {

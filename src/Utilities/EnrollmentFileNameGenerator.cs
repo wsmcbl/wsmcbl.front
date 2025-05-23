@@ -47,24 +47,13 @@ public class EnrollmentFileNameGenerator
         }).ToString();
     }
 
-    public string GetFileName(int partial, string type)
+    public string GetFileName(string partialLabel, string type)
     {
         var now = DateTime.UtcNow.toUTC6();
         var date = now.ToString("yyyyMMdd"); // 20250405
         var time = now.ToString("HHmmss"); // 143045
 
-        return $"{enrollmentAbbreviation}.{getPartial(partial)}.{schoolyear}.{type.ToUpper()}.{date}.{time}.xlsx";
+        return $"{enrollmentAbbreviation}.{partialLabel}.{schoolyear}.{type.ToUpper()}.{date}.{time}.xlsx";
     }
-
-    private static string getPartial(int value)
-    {
-        return value switch
-        {
-            1 => "I",
-            2 => "II",
-            3 => "III",
-            4 => "IV",
-            _ => "X"
-        };
-    }
+    
 }
