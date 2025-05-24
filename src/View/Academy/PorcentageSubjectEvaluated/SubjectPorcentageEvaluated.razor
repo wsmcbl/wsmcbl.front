@@ -1,0 +1,124 @@
+<div class="container-fluid">
+    <!-- Encabezado -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Estadísticas de Asignaturas</h1>
+        <div class="d-flex">
+            <span class="badge badge-primary align-self-center mr-2">
+                Total: @Subjects.Count
+            </span>
+            <span class="badge badge-success align-self-center">
+                Mostrando: @FilteredSubjects.Count
+            </span>
+        </div>
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" 
+                       class="form-control bg-light border-0 small" 
+                       placeholder="Buscar por ID o matrícula..." 
+                       @bind="SearchTerm" 
+                       @bind:event="oninput" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" 
+                            type="button" 
+                            @onclick="ClearSearch"
+                            disabled="@string.IsNullOrEmpty(SearchTerm)">
+                        <i class="fas fa-times"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje cuando no hay resultados -->
+    @if (!FilteredSubjects.Any())
+    {
+        <div class="alert alert-warning">
+            No se encontraron asignaturas que coincidan con la búsqueda.
+            <button class="btn btn-link p-0" @onclick="ClearSearch">
+                Mostrar todas las asignaturas
+            </button>
+        </div>
+    }
+
+    <!-- Grid de tarjetas -->
+    <div class="row">
+        @foreach (var subject in FilteredSubjects)
+        {
+            var enrollmentName = EnrollmentList.FirstOrDefault(s => s.enrollmentId == subject.enrollmentId)?.enrollmentLabel ?? "No encontrado";
+            var subjectName = SubjectListForTeacher.FirstOrDefault(s => s.subjectId == subject.subjectId)?.name ?? "No encontrado";
+            
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    @subjectName
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    Matrícula: @enrollmentName
+                                </div>
+                                
+                                <!-- Barra de progreso -->
+                                <div class="mt-3">
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar bg-success" 
+                                             role="progressbar" 
+                                             style="width: @GetPercentageEvaluated(subject)%"
+                                             aria-valuenow="@GetPercentageEvaluated(subject)"
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100">
+                                            @GetPercentageEvaluated(subject)%
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">
+                                        Evaluados: @(subject.studentsCount.total - subject.studentsNotEvaluated.total)/@subject.studentsCount.total
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-book fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                        
+                        <!-- Estadísticas de estudiantes -->
+                        <div class="mt-3">
+                            <div class="row text-center">
+                                <div class="col-4 border-right">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase">Total</div>
+                                    <div class="h5 mb-0 font-weight-bold">@subject.studentsCount.total</div>
+                                </div>
+                                <div class="col-4 border-right">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase">Hombres</div>
+                                    <div class="h5 mb-0 font-weight-bold">@subject.studentsCount.males</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-xs font-weight-bold text-info text-uppercase">Mujeres</div>
+                                    <div class="h5 mb-0 font-weight-bold">@subject.studentsCount.females</div>
+                                </div>
+                            </div>
+                            
+                            <!-- No evaluados -->
+                            <div class="mt-2 text-center">
+                                <span class="badge badge-danger">
+                                    <i class="fas fa-exclamation-circle"></i> 
+                                    No evaluados: @subject.studentsNotEvaluated.total
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex align-items-center justify-content-between small">
+                        <a class="text-primary" href="/academy/enrollments/@subject.enrollmentId/grades">
+                            <i class="fas fa-eye"></i> Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            }
+    </div>
+    
+</div>
