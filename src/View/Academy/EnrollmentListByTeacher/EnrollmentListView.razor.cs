@@ -8,7 +8,6 @@ namespace wsmcbl.src.View.Academy.EnrollmentListByTeacher;
 public partial class EnrollmentListView : BaseView
 {
     [Inject] private AddingStudentGradesController controller { get; set; } = null!;
-
     private TeacherEntity? teacher { get; set; }
     private List<EnrollmentByTeacherDto> enrollmentList { get; set; } = [];
     private List<PartialEntity> partialList { get; set; } = [];

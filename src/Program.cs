@@ -72,6 +72,7 @@ builder.Services.AddTransient<PrintDocumentByStudentController>();
 
 builder.Services.AddScoped<TurnstileService>();
 builder.Services.AddScoped<ExchangeRateController>();
+builder.Services.AddScoped<TeacherDashboardController>();
 
 
 var app = builder.Build();

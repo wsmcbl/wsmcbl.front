@@ -1,0 +1,51 @@
+@using wsmcbl.src.Utilities
+@if (SubjectListForTeacher.Any())
+{
+    <div class="container-fluid">
+        <!-- Card -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Listado de Asignaturas</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Iniciales</th>
+                            <th>Asignatura</th>
+                            <th>Sección</th>
+                            <th>Área</th>
+                            <th>¿Reprobable?</th>
+                            <th>Semestre</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var subject in SubjectListForTeacher.OrderBy(t => t.number))
+                        {
+                            var area = AreaList.FirstOrDefault(t => t.areaId == subject.areaId)?.name ?? "Area no encontrada";
+                            var enrollment = EnrollmentList.FirstOrDefault(e => e.enrollmentId == subject.enrollmentId)?.enrollmentLabel ?? "Sección no encontrado";
+                            <tr>
+                                <td>@subject.initials</td>
+                                <td>@subject.name</td>
+                                <td>@enrollment</td>
+                                <td style="max-width: 150px;">
+                                    <div class="d-flex align-items-center">
+                                        <span class="text-truncate">@area</span>
+                                        <i class="fas fa-info-circle ml-2 text-primary" data-toggle="tooltip" data-placement="top" title="@area"></i>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span
+                                        class="@subject.isMandatory.ToActiveClass()">@subject.isMandatory.ToStringYesOrNo()</span>
+                                </td>
+                                <td>@subject.semester.ToSemester()</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
