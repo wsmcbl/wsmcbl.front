@@ -210,7 +210,11 @@ else
                                                 else
                                                 {
                                                     <td class="center-checkbox">
-                                                        <input type="checkbox" id="checkbox-@item.tariffId" @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                        <div class="checkbox-wrapper-14">
+                                                            <input type="checkbox" id="checkbox-@item.tariffId"
+                                                                   @onchange="(e) => OnSelectItemChanged(e, item)"/>
+                                                            <label for="checkbox-@item.tariffId">Cobrar</label>
+                                                        </div>
                                                     </td>
                                                 }
                                             </tr>

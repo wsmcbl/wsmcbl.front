@@ -15,7 +15,7 @@ window.printStudentCredentials = function(studentId, tempPassword) {
             @page { margin: 0; size: auto; }
             body {
                 font-family: "Courier New", monospace;
-                font-size: 12px;
+                font-size: 10px;
                 margin: 2mm;
                 padding: 0;
                 white-space: pre-line;
@@ -28,7 +28,7 @@ window.printStudentCredentials = function(studentId, tempPassword) {
             }
             .password {
                 font-family: "Courier New", monospace;
-                font-size: 14px;
+                font-size: 12px;
                 text-align: center;
                 margin: 2mm 0;
                 letter-spacing: 1px;
@@ -79,9 +79,7 @@ window.printStudentCredentials = function(studentId, tempPassword) {
     printWindow.document.write(printContent);
     printWindow.document.close();
 
-    // Esperar breve momento para que cargue el contenido antes de imprimir
     setTimeout(() => {
         printWindow.print();
-        // No cerramos automáticamente para permitir reimpresión si falla
     }, 200);
 };

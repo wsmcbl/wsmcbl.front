@@ -42,7 +42,7 @@
                                             <select id="sexo" @onchange="OnSexChanged" class="form-control">
                                                 @foreach (var item in sex)
                                                 {
-                                                <option value="@item.Id.ToString()">@item.Gender</option>
+                                                    <option value="@item.Id.ToString()">@item.Gender</option>
                                                 }
                                             </select>
                                         </div>
@@ -60,7 +60,7 @@
                                             <select id="modality" @onchange="OnModalityChanged" class="form-control">
                                                 @foreach (var item in modalitySelect)
                                                 {
-                                                <option value="@item.Id.ToString()">@item.Modality</option>
+                                                    <option value="@item.Id.ToString()">@item.Modality</option>
                                                 }
                                             </select>
                                         </div>
@@ -85,6 +85,7 @@
                             </div>
                         </div>
                     </div>
+                    <RequerideMessage/>
 
                     <div class="modal-footer">
                         <div class="right-container">
