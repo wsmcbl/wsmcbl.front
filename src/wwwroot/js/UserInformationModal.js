@@ -111,7 +111,7 @@ function imprimirContenido() {
         <div class="print-container">
           <!-- Encabezado -->
           <div class="header">
-            <img src="https://cbl-edu.com/assets/img/cbl_logo.png" alt="Logo de la Compañía">
+            <img src="https://cbl-edu.com/assets/material-kit-3/img/logos/CBL_COLOR.png" alt="Logo de la Compañía">
             <h1>Colegio Bautista Libertad</h1>
           </div>
 
