@@ -2,73 +2,122 @@
 
 @if (MyEnrollmentList.Any())
 {
-    <div class="modal fade" id="DownloadReportByEnrollmentModal" tabindex="-1" aria-labelledby="DownloadReportByEnrollmentModal"
+    <div class="modal fade" id="DownloadReportByEnrollmentModal" tabindex="-1"
+         aria-labelledby="DownloadReportByEnrollmentModal"
          aria-hidden="true">
         <div class="modal-dialog modal-xl custom-centered">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h5 class="modal-title">Seleccione una sección</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
                 <div class="modal-body">
-
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Seleccione una sección</h6>
-                        </div>
+                    <div class="card shadow">
                         <div class="card-body">
-                            <div class="list-group">
-                                @foreach (var degree in _resultado)
-                                {
-                                    <div class="mb-4">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h5 class="font-weight-bold text-gray-800 mb-0">@degree.Label</h5>
-                                            <span class="badge badge-primary">@degree.EnrollmentList.Count secciones</span>
-                                        </div>
-
-                                        <div class="list-group">
-                                            @foreach (var enrollment in degree.EnrollmentList.OrderBy(t => t.tag))
-                                            {
-                                                <label class="list-group-item d-flex align-items-center @(MyEnrollmentId == enrollment.enrollmentId ? "active" : "")"
-                                                       @onclick="() => SetEnrollmentId(enrollment.enrollmentId, enrollment.label)">
-                                                    <div class="custom-control custom-radio mr-3">
-                                                        <input type="radio"
-                                                               class="custom-control-input"
-                                                               name="enrollmentGroup"
-                                                               checked="@(MyEnrollmentId == enrollment.enrollmentId)">
-                                                        <span class="custom-control-label"></span>
-                                                    </div>
-                                                    <div class="flex-grow-1">
-                                                        <div class="d-flex justify-content-between">
-                                                            <span class="font-weight-bold">@enrollment.label</span>
-                                                            <small class="text-muted">@enrollment.tag</small>
-                                                        </div>
-                                                    </div>
-                                                </label>
-                                            }
-                                        </div>
-                                    </div>
+                            <div class="row">
+                                @{
+                                    var half = (int)Math.Ceiling(_resultado.Count / 2.0);
+                                    var firstCol = _resultado.Take(half);
+                                    var secondCol = _resultado.Skip(half);
                                 }
+
+                                <!-- Primera columna -->
+                                <div class="col-md-6 pr-3 border-right">
+                                    <div class="list-group">
+                                        @foreach (var degree in firstCol)
+                                        {
+                                            <div class="mb-4">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <h5 class="font-weight-bold text-gray-800 mb-0">@degree.Label</h5>
+                                                    <span
+                                                        class="badge badge-primary">@degree.EnrollmentList.Count secciones</span>
+                                                </div>
+
+                                                <div class="list-group">
+                                                    @foreach (var enrollment in degree.EnrollmentList.OrderBy(t => t.tag))
+                                                    {
+                                                        <label
+                                                            class="list-group-item d-flex align-items-center @(MyEnrollmentId == enrollment.enrollmentId ? "active" : "")"
+                                                            @onclick="() => SetEnrollmentId(enrollment.enrollmentId, enrollment.label)">
+                                                            <div class="custom-control custom-radio mr-3">
+                                                                <input type="radio"
+                                                                       class="custom-control-input"
+                                                                       name="enrollmentGroup"
+                                                                       checked="@(MyEnrollmentId == enrollment.enrollmentId)">
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <span
+                                                                        class="font-weight-bold">@enrollment.label</span>
+                                                                    <small class="text-muted">@enrollment.tag</small>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- Segunda columna -->
+                                <div class="col-md-6 pl-3">
+                                    <div class="list-group">
+                                        @foreach (var degree in secondCol)
+                                        {
+                                            <div class="mb-4">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <h5 class="font-weight-bold text-gray-800 mb-0">@degree.Label</h5>
+                                                    <span
+                                                        class="badge badge-primary">@degree.EnrollmentList.Count secciones</span>
+                                                </div>
+
+                                                <div class="list-group">
+                                                    @foreach (var enrollment in degree.EnrollmentList.OrderBy(t => t.tag))
+                                                    {
+                                                        <label
+                                                            class="list-group-item d-flex align-items-center @(MyEnrollmentId == enrollment.enrollmentId ? "active" : "")"
+                                                            @onclick="() => SetEnrollmentId(enrollment.enrollmentId, enrollment.label)">
+                                                            <div class="custom-control custom-radio mr-3">
+                                                                <input type="radio"
+                                                                       class="custom-control-input"
+                                                                       name="enrollmentGroup"
+                                                                       checked="@(MyEnrollmentId == enrollment.enrollmentId)">
+                                                                <span class="custom-control-label"></span>
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <span
+                                                                        class="font-weight-bold">@enrollment.label</span>
+                                                                    <small class="text-muted">@enrollment.tag</small>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="modal-footer">
-                    <div class="right-container">
-                        <button type="button" class="btn btn-primary" @onclick="OpenModal">Generar</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" @onclick="OpenModal">Generar</button>
                 </div>
-
             </div>
         </div>
     </div>
     
-    <div class="modal fade" id="ModalDownloadReportOfGrade" tabindex="-1" role="dialog" aria-labelledby="ModalDownloadReportOfGrade" aria-hidden="true">
+    <div class="modal fade" id="ModalDownloadReportOfGrade" tabindex="-1" role="dialog"
+         aria-labelledby="ModalDownloadReportOfGrade" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -103,8 +152,5 @@
             </div>
         </div>
     </div>
-    
-    
-    
 }
 

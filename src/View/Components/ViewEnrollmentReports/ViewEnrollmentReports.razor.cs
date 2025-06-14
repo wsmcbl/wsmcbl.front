@@ -73,6 +73,7 @@ public partial class ViewEnrollmentReports : BaseView
 
     private async Task OpenModal()
     {
+        await Navigator.HideModal("DownloadReportByEnrollmentModal");
         await Navigator.ShowModal("ModalDownloadReportOfGrade");
     }
 }
