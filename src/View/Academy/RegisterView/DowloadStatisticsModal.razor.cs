@@ -13,7 +13,6 @@ public partial class DowloadStatisticsModal : ComponentBase
     [Inject] private ViewEnrollmentGuideController GuideController { get; set; } = null!;
     
     private int CurrentPartialId { get; set; } = 1;
-    private int CurrentPartialLabel { get; set; } = 1;
     private List<PartialEntity> Partial { get; set; } = new();
 
     protected override async Task OnParametersSetAsync()

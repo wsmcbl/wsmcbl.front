@@ -3,14 +3,15 @@ using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
-using wsmcbl.src.View.Secretary.Schoolyear;
 
 namespace wsmcbl.src.View.Components.ViewEnrollmentReports;
 
 public partial class ViewEnrollmentReports : BaseView
 {
-    [Inject] ViewPrincipalDashboardController Controller { get; set; } = null!;
-    [Inject] protected CreateEnrollmentController controller { get; set; } = null!;
+    [Inject] ViewPrincipalDashboardController ViewPrincipalDashboardController { get; set; } = null!;
+    [Inject] protected CreateEnrollmentController CreateEnrollmentController { get; set; } = null!;
+    [Inject] private AddingStudentGradesController AddingStudentGradesController { get; set; } = null!;  
+    [Inject] private Navigator Navigator { get; set; } = null!;  
     private string? MyEnrollmentId { get; set; }
     private string? MyLabel { get; set; }
     private List<CombinedDegreeDto> _resultado = new();
@@ -18,14 +19,23 @@ public partial class ViewEnrollmentReports : BaseView
     private Paginator<DegreeEntity>? DegreeList { get; set; }
     private PagedRequest Request { get; set; } = new() { pageSize = 100 };
     
+    //Get active partial
+    private int CurrentPartialId { get; set; } = 1;
+    private List<PartialEntity> Partial { get; set; } = new();
+
+    
+    
     protected override async Task OnParametersSetAsync()
     {
-        MyEnrollmentList = await Controller.GetEnrollmentsList();
-        DegreeList = await controller.GetDegreeList(Request);
+        MyEnrollmentList = await ViewPrincipalDashboardController.GetEnrollmentsList();
+        DegreeList = await CreateEnrollmentController.GetDegreeList(Request);
         _resultado = CombineDegreesWithEnrollments(DegreeList.data, MyEnrollmentList);
+        
+        Partial = await AddingStudentGradesController.GetPartialList();
+        CurrentPartialId = Partial.FirstOrDefault(t => t.isActive)?.partialId ?? 1;     
     }
 
-    public List<CombinedDegreeDto> CombineDegreesWithEnrollments(
+    private List<CombinedDegreeDto> CombineDegreesWithEnrollments(
         List<DegreeEntity> degrees, 
         List<EnrollmentListDto> allEnrollments)
     {
@@ -56,8 +66,13 @@ public partial class ViewEnrollmentReports : BaseView
         MyLabel = label;
     }
     
-    private async Task DowloadReport()
+    private async Task DownloadReport()
     {
-        await Controller.GetReportFromEnrollment(MyEnrollmentId!, 1, $"Reporte de {MyLabel}");
+        await ViewPrincipalDashboardController.GetReportFromEnrollment(MyEnrollmentId!, CurrentPartialId, $"Reporte de {MyLabel}");
+    }
+
+    private async Task OpenModal()
+    {
+        await Navigator.ShowModal("ModalDownloadReportOfGrade");
     }
 }
