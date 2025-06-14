@@ -22,7 +22,7 @@ public partial class ReportTecherCalification : BaseView
         return teacherList == null;
     }
 
-    private async Task ViewDatails(List<SubjectsReportDto> item)
+    private async Task ViewDetails(List<SubjectsReportDto> item)
     {
         toDetailsView = item;
         await Navigator.ShowModal("DetailReportTeacherModal");
