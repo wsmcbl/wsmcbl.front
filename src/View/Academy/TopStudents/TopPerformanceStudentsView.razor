@@ -4,6 +4,10 @@
 {
     <div class="text-gray-800 text-center">Cargando.... es posible que no tengas sección guiada.</div>
 }
+else if (!string.IsNullOrEmpty(_errorMessage))
+{
+    <div class="alert alert-danger">@_errorMessage</div>
+}
 else
 {
     <div class="card-body">
@@ -21,44 +25,34 @@ else
                     <th>NT Final</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                    <th>#</th>
-                    <th>Código</th>
-                    <th>Nombre</th>
-                    <th>I Parcial</th>
-                    <th>II Parcial</th>
-                    <th>III Parcial</th>
-                    <th>IV Parcial</th>
-                    <th>NT Final</th>
-                </tr>
-                </tfoot>
                 <tbody>
-                @for (int i = 0; i < Students!.Count; i++)
+                @for (int i = 0; i < ConsolidatedStudents.Count; i++)
                 {
-                    var student = Students[i];
+                    var student = ConsolidatedStudents[i];
                     <tr>
                         <td class="text-center">@(i + 1)</td>
-                        <td>@student.studentId</td>
-                        <td style="min-width: 200px">@student.fullName</td>
+                        <td>@student.StudentId</td>
+                        <td style="min-width: 200px">@student.FullName</td>
 
-                        @{
-                            var averages = student.averageList;
-                            while (averages.Count < 4)
-                            {
-                                averages.Add(new Average() { grade = 0, label = "-" });
-                            }
-                            
-                            for (int j = 0; j < 4; j++)
-                            {
-                                <td class="tac-max">
-                                    @averages[j].grade
+                        @for (int partialIndex = 0; partialIndex < 4; partialIndex++)
+                        {
+                            <td class="tac-max">
+                                @if (student.PartialGrades.TryGetValue(partialIndex, out var grade))
+                                {
+                                    @grade.Grade
                                     <br/>
-                                    <small class="text-muted">@averages[j].label</small>
-                                </td>
-                            }
+                                    <small class="text-muted">@grade.Label</small>
+                                }
+                                else
+                                {
+                                    @:-
+                                    <br/>
+                                    <small class="text-muted">-</small>
+                                }
+                            </td>
                         }
-                        <td class="tac">@student.finalGrade</td>
+                    
+                        <td class="tac">@student.FinalGrade</td>
                     </tr>
                 }
                 </tbody>
