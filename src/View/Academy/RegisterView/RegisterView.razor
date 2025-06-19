@@ -1,5 +1,4 @@
 @page "/academy/enrollments/register"
-@using wsmcbl.src.View.Academy.PerformanceReportBySectionDocument
 @using wsmcbl.src.View.Academy.PerformanceReportBySection
 @using wsmcbl.src.View.Academy.TopStudents
 @using wsmcbl.src.View.Academy.Statistics
@@ -52,18 +51,8 @@
 
                     <!-- Pestaña de Sabana -->
                     <div class="tab-pane fade" id="PanelSabana" role="tabpanel" aria-labelledby="TabSabana">
-                        @if (Teacher.isGuide)
-                        {
-                            <div class="text-right mb-3">
-                                <button class="btn btn-primary btn-sm" @onclick="ViewPerformanceReport">
-                                    <i class="fas fa-file-download"></i>
-                                    <span class="d-none d-md-inline">Descargar Sabana</span>
-                                    <span class="d-inline d-md-none">Sabana</span>
-                                </button>
-                            </div>
-                        }
                         <PerformanceReportBySectionView PartialId="@CurrentPartialId" TeacherId="@TeacherId"
-                                                        subjectList="@Enrollment.subjectList" IsGuide="IsGuide"/>
+                                                        subjectList="@Enrollment.subjectList" IsGuide="IsGuide" EnrollmentName="@Enrollment.label"/>
                     </div>
 
                     <!-- Pestaña de Estadisticas -->
@@ -87,7 +76,6 @@
                         </div>
                     </div>
 
-                    <PerformanceReportView TeacherId="@TeacherId" EnrollmentName="@Enrollment.label"/>
                     <DowloadStatisticsModal TeacherId="@TeacherId" EnrollmentLabel="@Enrollment.label"/>
 
                 </div>

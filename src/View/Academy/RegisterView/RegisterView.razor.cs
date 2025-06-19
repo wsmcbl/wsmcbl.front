@@ -51,11 +51,6 @@ public partial class RegisterView : BaseView
         }
     }
     
-    private async Task ViewPerformanceReport()
-    {
-        await Navigator.ShowModal("ReportGradeModal");
-    }
-
     private async Task DownloadStats()
     {
         await Navigator.ShowModal("ModalDownloadStatistics");

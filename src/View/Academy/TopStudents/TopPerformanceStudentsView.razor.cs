@@ -14,7 +14,6 @@ public partial class TopPerformanceStudentsView : BaseView
     [Parameter] public bool IsGuide { get; set; }
     
     private List<PartialEntity> Partials { get; set; } = new();
-    private List<PartialEntity> OrderedPartials { get; set; } = new();
     private List<ConsolidatedStudentDto> ConsolidatedStudents { get; set; } = new();
     private bool _isLoading = true;
     private string? _errorMessage;
@@ -44,20 +43,20 @@ public partial class TopPerformanceStudentsView : BaseView
 
     private async Task LoadDataAsync()
     {
-        Partials = await AddingStudentGradesController.GetPartialList();
-        OrderedPartials = Partials.OrderBy(t => t.partialId).ToList();
+        Partials = (await AddingStudentGradesController.GetPartialList()).OrderBy(t => t.partialId).ToList();
         
-        if (OrderedPartials.Count < 4)
+        
+        if (Partials.Count < 4)
         {
             throw new InvalidOperationException("Se requieren exactamente 4 parciales");
         }
         
         var tasks = new[]
         {
-            GetPartialDataSafe(OrderedPartials[0].partialId),
-            GetPartialDataSafe(OrderedPartials[1].partialId),
-            GetPartialDataSafe(OrderedPartials[2].partialId),
-            GetPartialDataSafe(OrderedPartials[3].partialId)
+            GetPartialDataSafe(Partials[0].partialId),
+            GetPartialDataSafe(Partials[1].partialId),
+            GetPartialDataSafe(Partials[2].partialId),
+            GetPartialDataSafe(Partials[3].partialId)
         };
 
         var results = await Task.WhenAll(tasks);
