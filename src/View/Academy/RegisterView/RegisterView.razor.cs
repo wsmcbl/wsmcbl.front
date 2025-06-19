@@ -20,8 +20,7 @@ public partial class RegisterView : BaseView
     private List<PartialEntity> Partial { get; set; } = new();
     private bool IsGuide  { get; set; }
     private int CurrentPartialId { get; set; } = 1;
-
-
+    
     
     protected override async Task OnInitializedAsync()
     {
@@ -50,9 +49,5 @@ public partial class RegisterView : BaseView
             Enrollment.OrderStudentList();
         }
     }
-    
-    private async Task DownloadStats()
-    {
-        await Navigator.ShowModal("ModalDownloadStatistics");
-    }
+
 }

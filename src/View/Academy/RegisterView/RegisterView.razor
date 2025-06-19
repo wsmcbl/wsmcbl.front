@@ -60,14 +60,7 @@
                         <div class="text-gray-800 text-center">
                             @if (IsGuide)
                             {
-                                <div class="text-right mb-3">
-                                    <button class="btn btn-primary btn-sm" @onclick="DownloadStats">
-                                        <i class="fas fa-file-download"></i>
-                                        <span class="d-none d-md-inline">Descargar Estadistica</span>
-                                        <span class="d-inline d-md-none">Estadistica</span>
-                                    </button>
-                                </div>
-                                <StatisticsView TeacherId="@TeacherId" PartialId="CurrentPartialId"/>
+                                <StatisticsView TeacherId="@TeacherId" PartialId="CurrentPartialId" EnrollmentLabel="@Enrollment.label"/>
                             }
                             else
                             {
@@ -75,9 +68,7 @@
                             }
                         </div>
                     </div>
-
-                    <DowloadStatisticsModal TeacherId="@TeacherId" EnrollmentLabel="@Enrollment.label"/>
-
+                    
                 </div>
             </div>
 

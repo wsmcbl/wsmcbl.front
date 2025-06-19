@@ -4,6 +4,22 @@
 
 @if (EvaluationSumary != null && CualitativeDetails != null && SubjectDetails != null)
 {
+    <div class="input-group">
+        <select class="custom-select" @onchange="OnPartialSelected">
+            @foreach(var item in Partials)
+            {
+                <option value="@item.partialId" selected="@(item.isActive ? "selected" : null)">@item.label</option>
+            }
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-primary btn-sm" @onclick="DownloadPartialReport">
+                <i class="fas fa-file-download"></i>
+                <span class="d-none d-md-inline">Descargar Estadística</span>
+                <span class="d-inline d-md-none">Estadística</span>
+            </button>
+        </div>
+    </div>
+    
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
@@ -114,7 +130,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <table class="table table-bordered">
+                <table class="table table-responsive">
                     <thead>
                     <tr>
                         <th>Promedios</th>

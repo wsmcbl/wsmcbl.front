@@ -15,9 +15,9 @@ public partial class PerformanceReportBySectionView : BaseView
     [Parameter] public string EnrollmentName { get; set; } = "N/A";
     [Parameter] public string? TeacherId { get; set; }
     [Parameter] public int PartialId { get; set; }
-    private int PartialSelected { get; set; }
     [Parameter] public bool IsGuide { get; set; }
     private List<StudentsGradeSumaryDto>? StudentsList { get; set; }
+    private int PartialSelected { get; set; }
     private List<PartialEntity> Partials { get; set; } = new();
 
 
