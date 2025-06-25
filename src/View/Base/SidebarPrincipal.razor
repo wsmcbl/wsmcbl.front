@@ -14,22 +14,30 @@
             <span>Inicio</span></a>
     </li>
     
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+    
     <AuthorizeView Roles="admin,principal">
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePrincipal"
-               aria-expanded="true" aria-controls="collapsePrincipal">
-                <i class="fas fa-user-shield"></i>
-                <span>Administración</span>
+            <a class="nav-link collapsed" href="/management/registers">
+                <i class="fas fa-fw fa-archive"></i>
+                <span>Padrón</span>
             </a>
-            <div id="collapsePrincipal" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Opciones administrativas</h6>
-                    <a class="collapse-item" href="/management/registers">Padrón</a>
-                    <a class="collapse-item" href="/management/partials">Parciales</a>
-                </div>
-            </div>
         </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/management/partials">
+                <i class="fas fa-fw fa-calendar-check"></i>
+                <span>Parciales</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/management/reports">
+                <i class="fas fa-fw fa-file-excel"></i>
+                <span>Sabanas</span>
+            </a>
+        </li>
+        
+        
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">

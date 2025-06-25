@@ -1,7 +1,4 @@
 @page "/principal"
-@using wsmcbl.src.View.Components.GetDateRecordingGrade
-@using wsmcbl.src.View.Management.ReportUserCalification
-@using wsmcbl.src.View.Components.ViewEnrollmentReports
 @using wsmcbl.src.View.Components.Charts
 @attribute [Authorize(Roles = "principal")]
 
@@ -22,14 +19,7 @@
 </div>
 <!-- Summary Chart -->
 
-<div class="row justify-content-end">
-    <button type="button" data-toggle="modal" data-target="#DownloadReportByEnrollmentModal"
-            class="btn btn-primary">
-        Descargar reporte por sección
-    </button>
-</div>
 
-<ViewEnrollmentReports/>
-<GetDateRecordingGradeComponent/>
-<ReportTecherCalification/>
+
+
 
