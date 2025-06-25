@@ -8,8 +8,8 @@ namespace wsmcbl.src.View.Components.ViewEnrollmentReports;
 
 public partial class ViewEnrollmentReports : BaseView
 {
-    [Inject] ViewPrincipalDashboardController ViewPrincipalDashboardController { get; set; } = null!;
-    [Inject] protected CreateEnrollmentController CreateEnrollmentController { get; set; } = null!;
+    [Inject] private ViewPrincipalDashboardController ViewPrincipalDashboardController { get; set; } = null!;
+    [Inject] private CreateEnrollmentController CreateEnrollmentController { get; set; } = null!;
     [Inject] private AddingStudentGradesController AddingStudentGradesController { get; set; } = null!;  
     [Inject] private Navigator Navigator { get; set; } = null!;  
     private string? MyEnrollmentId { get; set; }

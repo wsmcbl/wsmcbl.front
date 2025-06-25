@@ -69,4 +69,36 @@ public class ViewPrincipalDashboardController : BaseController
         var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
         await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
     }
+    
+    public async Task GetSummaryReport(int partialId, string partialName)
+    {
+        var resource = $"degrees/report/export?partialId={partialId}";
+        
+        var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Management, resource);
+        if (fileBytes.Length <= 0)
+        {
+            throw new InternalException("No se realizó la descarga del archivo.");
+        }
+        
+        var fileName = $"Resumen estadistico {partialName}.xlsx";
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
+        await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
+    }
+    
+    public async Task GetSummaryReportFailed(int partialId, string partialName)
+    {
+        var resource = $"students/failed/report/export?partialId={partialId}";
+        
+        var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Management, resource);
+        if (fileBytes.Length <= 0)
+        {
+            throw new InternalException("No se realizó la descarga del archivo.");
+        }
+        
+        var fileName = $"Estudiantes reprobados {partialName}.xlsx";
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
+        await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
+    }
 }

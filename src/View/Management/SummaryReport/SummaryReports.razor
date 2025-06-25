@@ -1,0 +1,144 @@
+@page "/management/reports/summary"
+@using wsmcbl.src.View.Components
+@attribute [Authorize(Roles = "principal")]
+
+<div class="text-center mb-4">
+    <h1 class="h3 mb-3 text-gray-900">
+        <i class="fas fa-file-download mr-2"></i>Reportes Estadístico
+    </h1>
+    
+    <p class="text-gray-800 h5 mt-2">
+        Generar un resumen estadístico general en  formato de hoja de cálculo (Excel).
+    </p>
+</div>
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Generar Reportes</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 border-left-primary shadow">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <i class="fas fa-chart-pie fa-3x text-primary mb-3"></i>
+                            <h5 class="font-weight-bold text-gray-800">Reporte Estadístico Global</h5>
+                            <p class="text-muted small">Reporte estadístico de primaria y secundaria.</p>
+                            <button type="button" data-toggle="modal" data-target="#DownloadSummaryModal"
+                                    class="btn btn-primary btn-icon-split mt-2">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span class="text">Generar Reporte</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 border-left-warning shadow">
+                    <div class="card-body">
+                        <div class="text-center">
+                            <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                            <h5 class="font-weight-bold text-gray-800">Estudiantes Reprobados</h5>
+                            <p class="text-muted small">Listado de alumnos reprobados por parcial</p>
+                            <button type="button" data-toggle="modal" data-target="#DownloadSummaryFailedModal"
+                                    class="btn btn-warning btn-icon-split mt-2">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-download"></i>
+                                </span>
+                                <span class="text">Generar Reporte</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    <strong>Tip:</strong> Seleccione el tipo de reporte que necesita y el parcial correspondiente. Todos los archivos se generan en formato Excel.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DownloadSummaryModal" tabindex="-1" role="dialog"
+     aria-labelledby="DownloadSummaryModal" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Descargue el resumen estadístico de calificaciones</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="titleReport" class="label-required">Selecccione un parcial.</label>
+                        <select id="titleReport" class="form-control" @bind="CurrentPartialId">
+                            @foreach (var option in Partial.OrderBy(t => t.partialId))
+                            {
+                                <option value="@option.partialId">@option.label</option>
+                            }
+                        </select>
+                    </div>
+                    <RequerideMessage/>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger" @onclick="DownloadReport">Descargar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="DownloadSummaryFailedModal" tabindex="-1" role="dialog"
+     aria-labelledby="DownloadSummaryFailedModal" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Descargue el resumen de estudiantes reprobados</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="titleReportFailed" class="label-required">Selecccione un parcial.</label>
+                        <select id="titleReportFailed" class="form-control" @bind="CurrentPartialId">
+                            @foreach (var option in Partial.OrderBy(t => t.partialId))
+                            {
+                                <option value="@option.partialId">@option.label</option>
+                            }
+                        </select>
+                    </div>
+                    <RequerideMessage/>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="right-container">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-danger" @onclick="DownloadReportFailed">Descargar</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
