@@ -76,7 +76,7 @@ public partial class PerformanceReportBySectionView : BaseView
     {
         if (TeacherId != null && !string.IsNullOrEmpty(EnrollmentName))
         {
-            var partialLabel = Partials.FirstOrDefault(t => t.partialId == PartialId)?.label ?? "N/A";
+            var partialLabel = Partials.FirstOrDefault(t => t.partialId == PartialSelected)?.label ?? "N/A";
             await generatePerformanceReportBySectionController.GetEnrollmentGradeByTeacherXlsx(TeacherId, PartialSelected, partialLabel, EnrollmentName);
         }
     }
