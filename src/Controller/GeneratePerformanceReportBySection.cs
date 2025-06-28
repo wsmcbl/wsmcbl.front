@@ -46,9 +46,9 @@ public class GeneratePerformanceReportBySection : BaseController
         await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
     }
 
-    public async Task<List<TopStudentsDto>?> GetTopStudents(string teacherId, int partialId)
+    public async Task<List<TopStudentsDto>?> GetTopStudents(string teacherId)
     {
         List<TopStudentsDto> defaultResult = [];
         return await apiFactory.WithNotificator.GetAsync(Modules.Academy,
-            $"{path}/{teacherId}/enrollments/guide/performance?partialId={partialId}", defaultResult);    }
+            $"{path}/{teacherId}/enrollments/guide/performance", defaultResult);    }
 }

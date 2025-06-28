@@ -1,12 +1,9 @@
+@using System.Globalization
 @inherits BaseView
 
 @if (IsLoading())
 {
     <div class="text-gray-800 text-center">Cargando.... es posible que no tengas sección guiada.</div>
-}
-else if (!string.IsNullOrEmpty(_errorMessage))
-{
-    <div class="alert alert-danger">@_errorMessage</div>
 }
 else
 {
@@ -15,45 +12,36 @@ else
             <table id="dataTable" class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>#</th>
                     <th>Código</th>
                     <th>Nombre</th>
-                    <th>I Parcial</th>
-                    <th>II Parcial</th>
-                    <th>III Parcial</th>
-                    <th>IV Parcial</th>
+                    @foreach (var partials in Partials.OrderBy(p => p.partialId))
+                    {
+                        <th>@partials.label</th>
+                    }
                     <th>NT Final</th>
                 </tr>
                 </thead>
                 <tbody>
-                @for (int i = 0; i < ConsolidatedStudents.Count; i++)
+                @if (Students != null)
                 {
-                    var student = ConsolidatedStudents[i];
-                    <tr>
-                        <td class="text-center">@(i + 1)</td>
-                        <td>@student.StudentId</td>
-                        <td style="min-width: 200px">@student.FullName</td>
+                    foreach (var student in Students)
+                    {
+                        <tr>
+                            <td>@student.studentId</td>
+                            <td>@student.fullName</td>
+                            @foreach (var partial in Partials.OrderBy(p => p.partialId))
+                            {
+                                <td>
+                                    @{
+                                        var average = student.averageList.FirstOrDefault(a => a.partialId == partial.partialId);
+                                    }
 
-                        @for (int partialIndex = 0; partialIndex < 4; partialIndex++)
-                        {
-                            <td class="tac-max">
-                                @if (student.PartialGrades.TryGetValue(partialIndex, out var grade))
-                                {
-                                    @grade.Grade
-                                    <br/>
-                                    <small class="text-muted">@grade.Label</small>
-                                }
-                                else
-                                {
-                                    @:-
-                                    <br/>
-                                    <small class="text-muted">-</small>
-                                }
-                            </td>
-                        }
-                    
-                        <td class="tac">@student.FinalGrade</td>
-                    </tr>
+                                    @(average != null ? average.grade.ToString(CultureInfo.InvariantCulture) : "-")
+                                </td>
+                            }
+                            <td>@student.averageGrade</td>
+                        </tr>
+                    }
                 }
                 </tbody>
             </table>
