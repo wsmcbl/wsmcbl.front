@@ -101,7 +101,7 @@
                         <tr>
                             <td class="has-comment">Reprobados de 1 a 2 <i
                                     class="fas fa-info-circle comment-indicator"></i>
-                                <div class="comment">Estudiantes que reprobaron 1 o 2 asignaturas en el promedio.</div>
+                                <div class="comment">Estudiantes que reprobaron 1 o 2 asignaturas.</div>
                             </td>
                             <td>@EvaluationSumary.failedFromOneToTwo.total</td>
                             <td>@EvaluationSumary.failedFromOneToTwo.males</td>
@@ -110,7 +110,7 @@
                         <tr>
                             <td class="has-comment">Reprobados de 3 a mas <i
                                     class="fas fa-info-circle comment-indicator"></i>
-                                <div class="comment">Estudiantes que reprobaron 3 o mas asignaturas en el promedio.
+                                <div class="comment">Estudiantes que reprobarón 3 o mas asignaturas.
                                 </div>
                             </td>
                             <td>@EvaluationSumary.failedFromThreeToMore.total</td>
@@ -119,7 +119,7 @@
                         </tr>
                         <tr>
                             <td class="has-comment">No evaluados <i class="fas fa-info-circle comment-indicator"></i>
-                                <div class="comment">Estudiantes que se les registro 0 en todas sus asignaturas.</div>
+                                <div class="comment">Estudiantes que se les registro 0 en todas sus asignaturas y conducta.</div>
                             </td>
                             <td>@EvaluationSumary.notEvaluated.total</td>
                             <td>@EvaluationSumary.notEvaluated.males</td>
@@ -129,8 +129,8 @@
                     </table>
                 </div>
             </div>
-            <div class="col-md-6">
-                <table class="table table-responsive">
+            <div class="col-md-6 table-responsive">
+                <table class="table table-bordered">
                     <thead>
                     <tr>
                         <th>Promedios</th>
@@ -141,25 +141,33 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td>AA (100 - 90)</td>
+                        <td class="has-comment">AA (100 - 90)<i class="fas fa-info-circle comment-indicator"></i>
+                            <div class="comment mt-2">Obtuvierón entre 100 y 90 en el promedio.</div>
+                        </td>
                         <td>@CualitativeDetails.AA.total</td>
                         <td>@CualitativeDetails.AA.males</td>
                         <td>@CualitativeDetails.AA.females</td>
                     </tr>
                     <tr>
-                        <td>AS (89 - 76)</td>
+                        <td class="has-comment">AS (89 - 76)<i class="fas fa-info-circle comment-indicator"></i>
+                            <div class="comment mt-2">Obtuvierón entre 89 y 76 en el promedio.</div>
+                        </td>
                         <td>@CualitativeDetails.AS.total</td>
                         <td>@CualitativeDetails.AS.males</td>
                         <td>@CualitativeDetails.AS.females</td>
                     </tr>
                     <tr>
-                        <td>AF (75 - 60)</td>
+                        <td class="has-comment">AF (75 - 60)<i class="fas fa-info-circle comment-indicator"></i>
+                            <div class="comment mt-2">Obtuvierón entre 75 y 60 en el promedio.</div>
+                        </td>
                         <td>@CualitativeDetails.AF.total</td>
                         <td>@CualitativeDetails.AF.males</td>
                         <td>@CualitativeDetails.AF.females</td>
                     </tr>
                     <tr>
-                        <td>AI (59 - 0)</td>
+                        <td class="has-comment">AI (59 - 0)<i class="fas fa-info-circle comment-indicator"></i>
+                            <div class="comment mt-2">Obtuvierón entre 59 y 0 en el promedio.</div>
+                        </td>
                         <td>@CualitativeDetails.AI.total</td>
                         <td>@CualitativeDetails.AI.males</td>
                         <td>@CualitativeDetails.AI.females</td>
