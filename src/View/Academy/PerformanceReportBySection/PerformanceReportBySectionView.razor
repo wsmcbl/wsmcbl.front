@@ -35,7 +35,7 @@ else
                     <th>Sexo</th>
                     @if (StudentsList != null && StudentsList.Any())
                     {
-                        foreach (var subject in StudentsList[0].gradeList)
+                        foreach (var subject in StudentsList[0].gradeList.OrderBy(s => s.subjectId))
                         {
                             var subjectName = subjectList.FirstOrDefault(t => t.subjectId == subject.subjectId)?.initials ?? "Materia no encontrada";
                             <th class="tac">
@@ -56,7 +56,7 @@ else
                     <th>Sexo</th>
                     @if (StudentsList != null && StudentsList.Any())
                     {
-                        foreach (var subject in StudentsList[0].gradeList)
+                        foreach (var subject in StudentsList[0].gradeList.OrderBy(s => s.subjectId))
                         {
                             var subjectName = subjectList.FirstOrDefault(t => t.subjectId == subject.subjectId)?.initials ?? "Materia no encontrada";
                             <th class="tac">
@@ -81,12 +81,15 @@ else
                         <td style="min-width: 200px">@student.fullName</td>
                         <td>@(!student.sex ? "Mujer" : "Varón")</td>
 
-                        @foreach (var subject in student.gradeList)
+                        @foreach (var subject in student.gradeList.OrderBy(s => s.subjectId))
                         {
-                            <td class="tac-max">
-                                @subject.grade
+                            var grade =  student.gradeList.FirstOrDefault(t => t.subjectId == subject.subjectId)?.grade ?? 0;
+                            var gradeLabel =  student.gradeList.FirstOrDefault(t => t.subjectId == subject.subjectId)?.label ?? "No encontrada";
+
+                            <td class="@(grade < 60 ? "tac-max red-background" : "tac-max")">
+                                @grade 
                                 <br/>
-                                <small class="text-muted">@subject.label</small>
+                                <small class="@(grade < 60 ? " " : "text-muted")" >@gradeLabel</small>
                             </td>
                         }
 

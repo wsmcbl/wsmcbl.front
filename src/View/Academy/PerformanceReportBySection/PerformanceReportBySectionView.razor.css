@@ -9,3 +9,7 @@
     width: 100px;
     min-width: 90px;
 }
+
+.red-background {
+    background-color: #f8796d;
+}
