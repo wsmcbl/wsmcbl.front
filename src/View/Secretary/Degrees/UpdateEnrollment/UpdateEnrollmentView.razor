@@ -49,10 +49,20 @@ else
                                     <div class="card-body">
 
 
-                                        <label style="display: inline-block; width: 200px;">Nombre:</label>
-                                        <input type="text" class="form-control" disabled="disabled"
-                                               style="margin-bottom: 10px" @bind="enrollment.label">
-
+                                        
+                                        <div class="row">
+                                            <div class="col">
+                                                <label style="display: inline-block; width: 200px;">Nombre:</label>
+                                                <input type="text" class="form-control" disabled="disabled"
+                                                       style="margin-bottom: 10px" @bind="enrollment.label">
+                                            </div>
+                                            <div class="col">
+                                                <label style="display: inline-block; width: 200px;">Matrícula Id:</label>
+                                                <input type="text" class="form-control" disabled="disabled"
+                                                       style="margin-bottom: 10px" @bind="enrollment.enrollmentId">
+                                            </div>
+                                        </div>
+                                        
                                         <label style="display: inline-block; width: 200px;">Docente guía:</label>
                                         <div class="row">
                                             <div class="col-md-8">
