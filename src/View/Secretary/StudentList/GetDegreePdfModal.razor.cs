@@ -37,34 +37,45 @@ public partial class GetDegreePdfModal : ComponentBase
             return;
         }
 
-        _studentBasic = await UpdateStudentController.GetStudentToken(StudentId); //obtuve el token del estudiante
-
-        if (!_studentBasic.isActive || _studentBasic.accessToken == "N/A")
+        var result = await CheckStudentStatus();
+        if (result)
         {
-            await Notificator.ShowError("El estudiante no esta activo o no tiene una contraseña asignada.");
-            return;
-        }
+            _studentFull = await PrintController.GetFullInfoStudent(_studentBasic.studentId, _studentBasic.accessToken); //obtenemos la informacion sobre la solvencia.
 
-        _studentFull = await PrintController.GetFullInfoStudent(_studentBasic.studentId, _studentBasic.accessToken); //obtenemos la informacion sobre la solvencia.
-
-        if (_studentFull.hasSolvency)
-        {
-            PdfDocument = await PrintController.GetDegreeWhitStudentToken(_studentBasic.studentId, _studentBasic.accessToken);
-            
-            if (PdfDocument.Length == 0)
+            if (_studentFull.hasSolvency)
             {
-                return;
+                PdfDocument = await PrintController.GetDegreeWhitStudentToken(_studentBasic.studentId, _studentBasic.accessToken);
+            
+                if (PdfDocument.Length == 0)
+                {
+                    return;
+                }
+                await PdfDocumentChanged.InvokeAsync(PdfDocument);
+                await Navigator.HideModal("DowloadDegreeDocument");
+                AlertMessage = "";
+                await Navigator.ShowPdfModal();
             }
-            await PdfDocumentChanged.InvokeAsync(PdfDocument);
-            await Navigator.HideModal("DowloadDegreeDocument");
-            AlertMessage = "";
-            await Navigator.ShowPdfModal();
-        }
-        else
-        {
-            AlertMessage = "Advertencia el estudiante no esta solvente.";
+            else
+            {
+                AlertMessage = "Advertencia el estudiante no esta solvente.";
+            } 
         }
     }
+
+    private async Task<bool> CheckStudentStatus()
+    {
+        _studentBasic = await UpdateStudentController.GetStudentToken(StudentId); //obtuve el token del estudiante
+        
+        if (!_studentBasic.isActive || _studentBasic.accessToken == "N/A")
+        {
+            await Notificator.ShowInformation("El estudiante no esta activo o no tiene una contraseña asignada.");
+            AlertMessage = "Advertencia el estudiante no esta activo.";
+            return false;
+        }
+        
+        return true;
+    }
+    
     
     private async Task DownloadDocument()
     {
