@@ -10,8 +10,6 @@ services:
     environment:
       - API=${API}
       - CAPTCHA=${CAPTCHA}
-    ports:
-      - '4001:8080'
 
 networks:
   app-network:
