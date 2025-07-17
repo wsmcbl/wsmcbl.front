@@ -119,7 +119,6 @@ public partial class TariffCollectionView : BaseView
             await Notificator.ShowError("¡Error en el Pago!", "La transacción no se completó.");
             return;
         }
-        await Notificator.ShowSuccess("¡Pago Exitoso!", $"La transacción se completó correctamente.");
         await Navigator.HideModal("PaymentView");
         
         InvoicePdf = await collectTariffController.GetInvoice(result);

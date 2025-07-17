@@ -27,7 +27,7 @@ public static class EntityMaker
 
     public static List<DetailDto> MapToDto(this List<TariffEntity> list, bool applyArrears, decimal amountToPay)
     {
-        List<DetailDto> result = [];
+        List<DetailDto> result = new List<DetailDto>();
 
         foreach (var item in list)
         {
@@ -35,25 +35,32 @@ public static class EntityMaker
             {
                 break;
             }
-            
+        
             if (!applyArrears)
             {
                 item.Arrears = 0;
                 item.ComputeTotal();
             }
 
-            if (amountToPay < item.Total)
+            decimal amountToUse = 0;
+        
+            if (amountToPay >= item.Total)
             {
-                item.Total = amountToPay;
-                amountToPay -= item.Total;
+                amountToUse = item.Total;
             }
-            
+            else
+            {
+                amountToUse = amountToPay;
+            }
+        
             result.Add(new DetailDto
             {
                 tariffId = item.tariffId,
-                amount = item.Total,
+                amount = amountToUse,
                 applyArrears = applyArrears
             });
+        
+            amountToPay -= amountToUse;
         }
 
         return result;
