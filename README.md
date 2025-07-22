@@ -8,4 +8,4 @@
 
 ## Version
 
-* 7.3.0 - SNAPSHOT
+* 7.3.1 - BETA
