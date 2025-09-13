@@ -29,7 +29,7 @@ public partial class TariffCollectionView : BaseView
     private decimal EstimateTotal { get; set; }
     private int TariffIdForDeb {get; set;}
     
-    private PagedRequest Request { get; set; } = new();
+    private PagedRequest Request { get; set; } = new( pagesize: 170);
 
     
     protected override async Task OnParametersSetAsync()
