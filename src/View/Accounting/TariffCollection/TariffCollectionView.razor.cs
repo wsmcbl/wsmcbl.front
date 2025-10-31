@@ -158,8 +158,12 @@ public partial class TariffCollectionView : BaseView
 
     private async Task InsertNewTariff()
     {
-        var response = await collectTariffController.InsertNewTariffForNewSchoolYear(StudentId!, SchoolYearForReintegration, ModalitiForReintegration);
-        await Notificator.ShowInformation($"Se agregarón {response.inserted_records} aranceles por un total de C$ {response.total_amount}");
-        await LoadStudent();
+        var desc = await Notificator.ShowAlertQuestion("¿Estas seguro?","Estas a punto de ingresar las tarifas para un nuevo año lectivo",("Si","No"));
+        if (desc)
+        {
+            var response = await collectTariffController.InsertNewTariffForNewSchoolYear(StudentId!, SchoolYearForReintegration, ModalitiForReintegration);
+            await Notificator.ShowSuccess($"Se agregarón {response.inserted_records} aranceles por un total de C$ {response.total_amount}");
+            await LoadStudent();    
+        }
     }
 }
