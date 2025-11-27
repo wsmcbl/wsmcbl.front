@@ -92,4 +92,10 @@ public class CollectTariffController : BaseController
 
         await _jsRuntime.InvokeVoidAsync("downloadFile", docname, url);
     }
+
+    public async Task<ResultInsertNewTariffNewSchoolYearDto> InsertNewTariffForNewSchoolYear(string studentId, string schoolYearId, int level)
+    {
+        var resource = $"enrollments/new?studentId={studentId}&schoolyearid={schoolYearId}&level={level}";
+        return await apiFactory.WithNotificator.PostAsync(Modules.Secretary, resource, new ResultInsertNewTariffNewSchoolYearDto(), new ResultInsertNewTariffNewSchoolYearDto());
+    }
 }

@@ -5,6 +5,7 @@ using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Accounting;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Base;
+using wsmcbl.src.View.Secretary.Schoolyear.TariffsView.TariffList;
 
 namespace wsmcbl.src.View.Accounting.TariffCollection;
 
@@ -15,6 +16,7 @@ public partial class TariffCollectionView : BaseView
     [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
     [Inject] protected ForgetDebtController forgetDebtController { get; set; } = null!;
     [Inject] private GetSchoolYearServices GetSchoolYearServices { get; set; } = null!;
+    [Inject] private CreateSchoolyearController CreateSchoolyearController { get; set; } = null!;
     [Inject] protected Notificator Notificator { get; set; } = null!;
     [Inject] protected Navigator Navigator { get; private set; } = null!;
 
@@ -30,7 +32,9 @@ public partial class TariffCollectionView : BaseView
     private int TariffIdForDeb {get; set;}
     
     private PagedRequest Request { get; set; } = new( pagesize: 170);
-
+    private List<BasicSchoolyearDto> schoolyearList = [];
+    private string SchoolYearForReintegration = String.Empty;
+    private int ModalitiForReintegration = 0;
     
     protected override async Task OnParametersSetAsync()
     {
@@ -59,6 +63,7 @@ public partial class TariffCollectionView : BaseView
         //Obtenemos los label de tododas las tarifas del student.
         var schoolYearsId = TariffList.Select(s => s.schoolyearId).Distinct().ToList();
         SchoolYearLabels = await GetSchoolYearServices.GetSchoolYearLabelsBatch(schoolYearsId);
+        schoolyearList = await CreateSchoolyearController.GetSchoolYearList();
     }
     private bool HasPermission(string permission)
     {
@@ -149,5 +154,12 @@ public partial class TariffCollectionView : BaseView
     private async Task DownLoadState()
     {
         await collectTariffController.GetAccountStatement(StudentId!);
+    }
+
+    private async Task InsertNewTariff()
+    {
+        var response = await collectTariffController.InsertNewTariffForNewSchoolYear(StudentId!, SchoolYearForReintegration, ModalitiForReintegration);
+        await Notificator.ShowInformation($"Se agregarón {response.inserted_records} aranceles por un total de C$ {response.total_amount}");
+        await LoadStudent();
     }
 }
