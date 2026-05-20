@@ -38,13 +38,16 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="sexo" class="label-required">Sexo:</label>
-                                            <select id="sexo" @onchange="OnSexChanged" class="form-control">
-                                                @foreach (var item in sex)
-                                                {
-                                                    <option value="@item.Id.ToString()">@item.Gender</option>
-                                                }
-                                            </select>
+                                            <div class="form-group">
+                                                <label for="sexo" class="label-required">Sexo:</label>
+                                                <select id="sexo" @onchange="OnSexChanged" class="form-control">
+                                                    @foreach (var item in sex)
+                                                    {
+                                                        // Si item.Id es null, value será una cadena vacía ""
+                                                        <option value="@(item.Id?.ToString() ?? "")">@item.Gender</option>
+                                                    }
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

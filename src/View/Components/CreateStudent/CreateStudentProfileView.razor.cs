@@ -14,7 +14,7 @@ public partial class CreateStudentProfileView : ComponentBase
     [Parameter] public EventCallback onNewStudentCreated { get; set; }
     
     private StudentToCreateDto StudentToCreate { get; set; } = null!;
-    private List<(bool Id, string Gender)> sex { get; set; } = null!;
+    private List<(bool? Id, string Gender)> sex { get; set; } = null!;
     private List<(int Id, string Modality)> modalitySelect { get; set; } = null!;
     private string MaxDate => DateTime.Today.AddYears(-4).ToString("yyyy-MM-dd");
 
@@ -28,8 +28,16 @@ public partial class CreateStudentProfileView : ComponentBase
     
     private void OnSexChanged(ChangeEventArgs e)
     {
-        if(e.Value == null) return;
-        StudentToCreate.student.sex = bool.Parse(e.Value.ToString()!);
+        string selectedValue = e.Value?.ToString() ?? "";
+
+        if (string.IsNullOrEmpty(selectedValue))
+        {
+            StudentToCreate.student.sex = null;
+        }
+        else
+        {
+            StudentToCreate.student.sex = bool.Parse(selectedValue);
+        }
     }    
     private void OnModalityChanged(ChangeEventArgs e)
     {
@@ -41,12 +49,14 @@ public partial class CreateStudentProfileView : ComponentBase
     {
         sex =
         [
+            (null, "Seleccione"),
             (false, "Femenino"),
             (true, "Masculino")
         ];
 
         modalitySelect =
         [
+            (0, "Seleccione"),
             (1, "Preescolar"),
             (2, "Primaria"),
             (3, "Secundaria")
@@ -62,6 +72,18 @@ public partial class CreateStudentProfileView : ComponentBase
         if (!StudentToCreate.IsNameValid())
         {
             await _notificator.ShowInformation("El primer nombre y el primer apellido son obligatorios, ingreselos.");
+            return true;
+        }
+        
+        if (StudentToCreate.student.sex == null)
+        {
+            await _notificator.ShowInformation("El sexo del estudiante es obligatorio, por favor selecciónelo.");
+            return true;
+        }
+        
+        if (StudentToCreate.educationalLevel == 0)
+        {
+            await _notificator.ShowInformation("La modalidad del estudiante es obligatoria, por favor seleccióne una.");
             return true;
         }
 

@@ -13,7 +13,7 @@ public class StudentToCreateDto
         student.ResetBirthDay();
         
         tutor = new TutorToCreateDto();
-        educationalLevel = 1;
+        educationalLevel = 0;
     }
     
      public bool IsNameValid()
