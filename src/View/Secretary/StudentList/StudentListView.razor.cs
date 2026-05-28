@@ -16,7 +16,7 @@ public partial class StudentListView : BaseView
     [Inject] protected UnenrollController unenrollController { get; set; } = null!;
     [Inject] protected UpdateStudentController UpdateController { get; set; } = null!;
     private byte[] PdfDocument { get; set; } = [];
-    private string? PdfDocumentName { get; set; }
+    private string PdfDocumentName { get; set; } = "";
     private string ThisStudent { get; set; } = string.Empty;
     
     //var for paginator
