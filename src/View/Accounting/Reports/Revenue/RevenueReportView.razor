@@ -13,7 +13,7 @@ else
 {
     <div class="card shadow h-100 py-2 mb-4">
         <div class="card-body">
-            
+
             <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                     <div class="d-flex justify-content-center align-items-center mb-3">
@@ -26,7 +26,8 @@ else
                 <div class="col-auto">
                     <div style="display: flex; flex-direction: row; gap: 10px; align-items: center;">
                         <label style="margin: 0; align-self: center;">Desde:</label>
-                        <input type="date" class="form-control" min="2000-01-01" max="@MaxDate" @bind="startDate" lang="es-ES"/>
+                        <input type="date" class="form-control" min="2000-01-01" max="@MaxDate" @bind="startDate"
+                               lang="es-ES"/>
                     </div>
                 </div>
 
@@ -48,6 +49,15 @@ else
                             @onclick="() => ClearData()">Limpiar
                     </button>
                 </div>
+
+                <div class="col-auto">
+                    @if (hasData)
+                    {
+                        <button class="btn btn-outline-info btn-sm me-2"
+                                @onclick="() => DownLoadState()">Descargar
+                        </button>
+                    }
+                </div>
             </div>
 
             <hr>
@@ -62,8 +72,10 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Total válido:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report!.summary.getValidTotalString()</div>
-                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.summary.validQuantity</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">
+                                        C$ @report!.summary.getValidTotalString()</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-800">
+                                        Transacciones: @report.summary.validQuantity</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -81,8 +93,10 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Total inválido:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">C$ @report.summary.getInvalidTotalString()</div>
-                                    <div class="h7 mb-0 font-weight-bold text-gray-800">Transacciones: @report.summary.invalidQuantity</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-900">
+                                        C$ @report.summary.getInvalidTotalString()</div>
+                                    <div class="h7 mb-0 font-weight-bold text-gray-800">
+                                        Transacciones: @report.summary.invalidQuantity</div>
 
                                 </div>
                                 <div class="col-auto">
@@ -119,7 +133,8 @@ else
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         Consultado en:
                                     </div>
-                                    <div class="h5 mb-0 font-weight-bold text-gray-900">@report.summary.consultedIn.ToDateTimeFormat()</div>
+                                    <div
+                                        class="h5 mb-0 font-weight-bold text-gray-900">@report.summary.consultedIn.ToDateTimeFormat()</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -129,7 +144,7 @@ else
                     </div>
                 </div>
             </div>
-            
+
             <div class="row d-flex justify-content-around mb-2">
                 <!-- Rango consultado -->
                 <a class="btn btn-info btn-icon-split">
@@ -160,7 +175,8 @@ else
                     <div class="col-md-6">
                         <label class="d-flex align-items-center">
                             Mostrar
-                            <select class="form-control form-control-sm d-inline-block w-auto mx-2" @onchange="ShowPageSize">
+                            <select class="form-control form-control-sm d-inline-block w-auto mx-2"
+                                    @onchange="ShowPageSize">
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -172,11 +188,13 @@ else
 
                     <div class="col-md-6 d-flex justify-content-end">
                         <div class="input-group" style="width: 200px;">
-                            <input type="text" class="form-control form-control-sm" placeholder="Buscar..." @bind="Request.SearchText" @onkeyup="Searching">
+                            <input type="text" class="form-control form-control-sm" placeholder="Buscar..."
+                                   @bind="Request.SearchText" @onkeyup="Searching">
                             @if (!string.IsNullOrEmpty(Request.SearchText))
                             {
                                 <div class="">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" @onclick="ClearSearch">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            @onclick="ClearSearch">
                                         ✖
                                     </button>
                                 </div>
@@ -200,37 +218,37 @@ else
                                 <th @onclick="@(() => SortByColumn(""))"
                                     class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
                                     Factura
-                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                    <span>@(Request.sortBy == "" ? Request.isAscending ? "↑" : "↓" : "↑")</span>
                                 </th>
 
                                 <th @onclick="@(() => SortByColumn(""))"
                                     class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
                                     Estudiante
-                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                    <span>@(Request.sortBy == "" ? Request.isAscending ? "↑" : "↓" : "↑")</span>
                                 </th>
 
                                 <th @onclick="@(() => SortByColumn(""))"
                                     class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
                                     Monto
-                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                    <span>@(Request.sortBy == "" ? Request.isAscending ? "↑" : "↓" : "↑")</span>
                                 </th>
 
                                 <th @onclick="@(() => SortByColumn(""))"
                                     class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
                                     Tipo
-                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                    <span>@(Request.sortBy == "" ? Request.isAscending ? "↑" : "↓" : "↑")</span>
                                 </th>
 
                                 <th @onclick="@(() => SortByColumn(""))"
                                     class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
                                     Fecha
-                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                    <span>@(Request.sortBy == "" ? Request.isAscending ? "↑" : "↓" : "↑")</span>
                                 </th>
 
                                 <th @onclick="@(() => SortByColumn(""))"
                                     class="@(Request.sortBy == "" ? "font-weight-bold" : "")">
                                     Estado
-                                    <span>@(Request.sortBy == "" ? (Request.isAscending ? "↑" : "↓") : "↑")</span>
+                                    <span>@(Request.sortBy == "" ? Request.isAscending ? "↑" : "↓" : "↑")</span>
                                 </th>
 
                             </tr>
@@ -281,9 +299,9 @@ else
                                     }
 
                                     <!-- Páginas adyacentes a la página actual -->
-                                    @for (int i = Math.Max(2, Request.CurrentPage - 2); i <= Math.Min(report.totalPages - 1, Request.CurrentPage + 2); i++)
+                                    @for (var i = Math.Max(2, Request.CurrentPage - 2); i <= Math.Min(report.totalPages - 1, Request.CurrentPage + 2); i++)
                                     {
-                                        int pageNumber = i; // Asegúrate de que pageNumber sea igual a i
+                                        var pageNumber = i; // Asegúrate de que pageNumber sea igual a i
                                         <li class="paginate_button page-item @(Request.CurrentPage == pageNumber ? "active" : "")">
                                             <a @onclick="() => ShowPage(pageNumber)" class="page-link">@pageNumber</a>
                                         </li>
@@ -301,7 +319,8 @@ else
                                     @if (report.totalPages > 1)
                                     {
                                         <li class="paginate_button page-item @(Request.CurrentPage == report.totalPages ? "active" : "")">
-                                            <a @onclick="() => ShowPage(report.totalPages)" class="page-link">@report.totalPages</a>
+                                            <a @onclick="() => ShowPage(report.totalPages)"
+                                               class="page-link">@report.totalPages</a>
                                         </li>
                                     }
 

@@ -10,12 +10,14 @@ public class CollectTariffController : BaseController
 {
     private readonly JwtClaimsService _jwtClaimsService;
     private readonly IJSRuntime _jsRuntime;
+    private readonly Notificator _notificator;
 
-    public CollectTariffController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService, IJSRuntime jsRuntime)
+    public CollectTariffController(ApiConsumerFactory apiConsumerFactory, JwtClaimsService jwtClaimsService, IJSRuntime jsRuntime, Notificator notificator)
         : base(apiConsumerFactory, "students")
     {
         _jwtClaimsService = jwtClaimsService;
         _jsRuntime = jsRuntime;
+        _notificator = notificator;
     }
 
     public async Task<Paginator<StudentEntity>> GetStudentList(PagedRequest pagedRequest)
@@ -50,7 +52,7 @@ public class CollectTariffController : BaseController
 
     public async Task<byte[]> GetInvoice(string transactionId)
     {
-        var controller = new CancelTransactionController(apiFactory);
+        var controller = new CancelTransactionController(apiFactory,_jsRuntime,_notificator);
         return await controller.GetInvoice(transactionId);
     }
 
