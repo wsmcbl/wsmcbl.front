@@ -1,3 +1,4 @@
+using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Accounting.Reports.Revenue;
@@ -7,8 +8,17 @@ namespace wsmcbl.src.Controller;
 
 public class CancelTransactionController : BaseController
 {
-    public CancelTransactionController(ApiConsumerFactory apiFactory) : base(apiFactory, "transactions")
+    private readonly IJSRuntime _jsRuntime;
+    private readonly Notificator _notificator;
+    
+    public CancelTransactionController(
+        ApiConsumerFactory apiFactory, 
+        IJSRuntime jsRuntime, 
+        Notificator notificator) 
+        : base(apiFactory, "transactions")
     {
+        _jsRuntime = jsRuntime;
+        _notificator = notificator;
     }
     
     public async Task<Paginator<TransactionFullDto>> GetTransactionList(PagedRequest pagedRequest)
@@ -31,7 +41,7 @@ public class CancelTransactionController : BaseController
 
     public async Task<List<TransactionTypeDto>?> GetTariffTypeList()
     {
-        var controller = new TransactionReportByDateController(apiFactory);
+        var controller = new TransactionReportByDateController(apiFactory, _jsRuntime, _notificator);
         return await controller.GetTypeTransactions();
     }
 }

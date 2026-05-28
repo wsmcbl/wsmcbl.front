@@ -5,5 +5,6 @@ public enum Modules
     Academy,
     Management,
     Accounting,
-    Config
+    Config,
+    Resources
 }

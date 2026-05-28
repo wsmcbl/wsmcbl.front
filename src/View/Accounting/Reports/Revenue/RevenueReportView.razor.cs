@@ -83,6 +83,14 @@ public partial class RevenueReportView : BaseView
             SetDefaultDate();
         }
     }
+
+    private async Task DownLoadState()
+    {
+        var startDateStr = startDate.ToString("dd-MM-yyyy");
+        var endDateStr = endDate.ToString("dd-MM-yyyy"); 
+        await controller.GetReportJson(startDateStr, endDateStr);
+    }
+    
     protected override bool IsLoading()
     {
         return report == null || transactionTypeList == null;

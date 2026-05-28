@@ -28,6 +28,7 @@ public class ApiConsumer
             Modules.Accounting => "accounting",
             Modules.Config => "config",
             Modules.Management => "management",
+            Modules.Resources => "resources",
             _ => ""
         };
         return new Uri($"{_server}/{moduleDir}/{resource.TrimStart('/')}");
