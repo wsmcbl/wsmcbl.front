@@ -22,11 +22,12 @@ public partial class DegreeListView : BaseView
     [Inject] protected PrintDocumentController documentController { get; set; } = null!;
     
     private DegreeEntity? Degree { get; set; }
+    private string SelectedSchoolYearId { get; set; } = null!;
     private List<BasicSchoolyearDto>? SchoolyearList; 
     
     //Var for paginator
     private Paginator<DegreeEntity>? DegreeList { get; set; }
-    private PagedRequest Request { get; set; } = new() { pageSize = 25 };
+    private PagedRequest Request { get; set; } = new() { pageSize = 30 };
     private bool hasData {get; set;}
     
     
@@ -34,6 +35,7 @@ public partial class DegreeListView : BaseView
     {
         await Load();
         SchoolyearList = await schoolyearController.GetSchoolYearList();
+        SelectedSchoolYearId = SchoolyearList?.FirstOrDefault(t => t.isActive)?.schoolyearId ?? "";
     }
 
     protected override void OnParametersSet()
@@ -92,7 +94,12 @@ public partial class DegreeListView : BaseView
         }
         
         await Navigator.ShowPdfModal();
+    }    
+    private void FilterByDegree(string select)
+    {
+        SelectedSchoolYearId = string.IsNullOrEmpty(select) ? "" : select;
     }
+    
     
     
     //Method for paginator
