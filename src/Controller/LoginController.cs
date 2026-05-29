@@ -43,7 +43,9 @@ public class LoginController
         errorMessage = statusCode switch
         {
             400 => "Usuario no autorizado, verifique su correo y contraseña.",
-            _ => "Lo sentimos, ocurrió un error el sistema, intente más tarde."
+            401 => "Usuario deshabilitado",
+            409 => "Usuario deshabilitado",
+            _ => "Lo sentimos, ocurrió un error, intente más tarde."
         };
     }
 
