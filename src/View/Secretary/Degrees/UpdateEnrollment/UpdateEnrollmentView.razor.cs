@@ -17,6 +17,7 @@ public partial class UpdateEnrollmentView : BaseView
     private string EnrollmentFlags { get; set; } = "N/A";
     private string SubjectFlags { get; set; } = "N/A";
     private string SubjectChangeName { get; set; } = "N/A";
+    private bool IsLoadingReport { get; set; } = false;
     
     private int ActiveTab { get; set; } = 1;
     private int Panel { get; set; } = 1;
@@ -123,7 +124,11 @@ public partial class UpdateEnrollmentView : BaseView
         var response = await Notificator.ShowAlertQuestion("Generar Boletines", "¿Estas seguro de generar todos los boletines para los estudiantes de la sección seleccionada?", ("Si", "No"));
         if (response)
         {
+            IsLoadingReport = true;
+            StateHasChanged();
             await Controller.GetGradeReportByEnrollmetId(enrollmentEnrollmentId);
+            IsLoadingReport = false;
+            StateHasChanged();
         }
     }
 }
