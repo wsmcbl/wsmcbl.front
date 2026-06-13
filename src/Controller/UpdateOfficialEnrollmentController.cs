@@ -1,5 +1,7 @@
+using Microsoft.JSInterop;
 using wsmcbl.src.Controller.Service;
 using wsmcbl.src.Model.Academy;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Secretary.Degrees.Dto;
 
 namespace wsmcbl.src.Controller;
@@ -7,10 +9,12 @@ namespace wsmcbl.src.Controller;
 public class UpdateOfficialEnrollmentController
 {
     private readonly ApiConsumerWithNotificator _apiConsumer;
+    private readonly IJSRuntime _jsRuntime;
 
-    public UpdateOfficialEnrollmentController(ApiConsumerFactory apiConsumerFactory)
+    public UpdateOfficialEnrollmentController(ApiConsumerFactory apiConsumerFactory, IJSRuntime jsRuntime)
     {
         _apiConsumer = apiConsumerFactory.WithNotificator;
+        _jsRuntime = jsRuntime;
     }
     
     public async Task<List<TeacherEntity>> GetActiveTeacherList()
@@ -57,5 +61,22 @@ public class UpdateOfficialEnrollmentController
         }
 
         return true;
+    }
+    
+    public async Task GetGradeReportByEnrollmetId(string enrollmentId)
+    {
+        var resource = $"students/report-grade-list/export?enrollmentid={enrollmentId}";
+
+        var fileBytes = await _apiConsumer.GetByteFileAsync(Modules.Academy, resource);
+        if (fileBytes.Length <= 0)
+        {
+            throw new InternalException("Error al descargar el archivo.");
+        }
+
+        var docname = $"Boletines de {enrollmentId}.pdf";
+        var base64 = Convert.ToBase64String(fileBytes);
+        var url = $"data:application/pdf;base64,{base64}";
+
+        await _jsRuntime.InvokeVoidAsync("downloadFile", docname, url);
     }
 }

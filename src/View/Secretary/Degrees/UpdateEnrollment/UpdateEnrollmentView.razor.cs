@@ -118,8 +118,12 @@ public partial class UpdateEnrollmentView : BaseView
         return teacher?.fullName ?? "N/A";
     }
 
-    private Task GenerateGradeReport(string enrollmentEnrollmentId)
+    private async Task GenerateGradeReport(string enrollmentEnrollmentId)
     {
-        throw new NotImplementedException();
+        var response = await Notificator.ShowAlertQuestion("Generar Boletines", "¿Estas seguro de generar todos los boletines para los estudiantes de la sección seleccionada?", ("Si", "No"));
+        if (response)
+        {
+            await Controller.GetGradeReportByEnrollmetId(enrollmentEnrollmentId);
+        }
     }
 }
