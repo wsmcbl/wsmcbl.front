@@ -14,9 +14,9 @@ public partial class UpdateEnrollmentView : BaseView
     [Inject] protected UpdateOfficialEnrollmentController Controller { get; set; } = null!;
 
     private string? TeacherFlags { get; set; } = "N/A";
-    private string? EnrollmentFlags { get; set; } = "N/A";
-    private string? SubjectFlags { get; set; } = "N/A";
-    private string? SubjectChangeName { get; set; } = "N/A";
+    private string EnrollmentFlags { get; set; } = "N/A";
+    private string SubjectFlags { get; set; } = "N/A";
+    private string SubjectChangeName { get; set; } = "N/A";
     
     private int ActiveTab { get; set; } = 1;
     private int Panel { get; set; } = 1;
@@ -116,5 +116,10 @@ public partial class UpdateEnrollmentView : BaseView
         
         var teacher = teacherList.FirstOrDefault(t => t.teacherId == teacherId);
         return teacher?.fullName ?? "N/A";
+    }
+
+    private Task GenerateGradeReport(string enrollmentEnrollmentId)
+    {
+        throw new NotImplementedException();
     }
 }
