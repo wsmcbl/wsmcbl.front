@@ -28,3 +28,61 @@
     color: white;
     display: inline-block;
 }
+
+.modal-overlay {
+    /* Cambiado a fixed para que se posicione respecto a la pantalla del navegador */
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* Forzamos a que ocupe el 100% del ancho y alto de la pantalla */
+    width: 100vw;
+    height: 100vh;
+    /* Un fondo un poco más oscuro para que sea evidente que la pantalla está congelada (opcional, puedes bajarlo a 0.09 si prefieres) */
+    background-color: rgba(0, 0, 0, 0.4);
+
+    /* Centrado perfecto usando Flexbox */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Un z-index alto para garantizar que flote por encima de cualquier navbar o tarjeta */
+    z-index: 9999;
+}
+
+.WaitingMakeUser {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    --c: no-repeat linear-gradient(rgb(78, 115, 223) 0 0);
+    background: var(--c) center/100% 10px,
+    var(--c) center/10px 100%;
+}
+
+.WaitingMakeUser:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--c) 0 0,
+    var(--c) 100% 0,
+    var(--c) 0 100%,
+    var(--c) 100% 100%;
+    background-size: 15.5px 15.5px;
+    animation: l16 1.5s infinite cubic-bezier(0.3,1,0,1);
+}
+
+@keyframes l16 {
+    33% { inset: -10px; transform: rotate(0deg); }
+    66% { inset: -10px; transform: rotate(90deg); }
+    100% { inset: 0; transform: rotate(90deg); }
+}
+
+.loader-text {
+    margin-top: 25px;
+    font-size: 18px;
+    /* Cambiado a blanco o un color claro para que resalte sobre el fondo oscuro de la pantalla completa */
+    color: #ffffff;
+    font-weight: bold;
+    /* Añade una pequeña sombra para mejorar la legibilidad en cualquier fondo */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}

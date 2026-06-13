@@ -19,7 +19,8 @@ else
                     <li class="nav-item">
                         <a class="nav-link @(ActiveTab == 0 ? "active" : "")" id="panel-@Panel"
                            href="#card-@item.enrollmentId" data-toggle="tab" role="tab"
-                           aria-controls="card-@item.enrollmentId" aria-selected="@(ActiveTab == 0 ? "true" : "false")" @onclick="(() => ActiveTab = Panel)">
+                           aria-controls="card-@item.enrollmentId" aria-selected="@(ActiveTab == 0 ? "true" : "false")"
+                           @onclick="(() => ActiveTab = Panel)">
                             @item.label
                         </a>
                     </li>
@@ -34,86 +35,147 @@ else
             </ul>
         </div>
 
-        @{ ActiveTab = 0;}
-        
+        @{ ActiveTab = 0; }
+
         <div class="card-body" id="tabContent">
             <div class="tab-content">
                 @foreach (var enrollment in enrollmentList)
                 {
-                    <!-- Inicio datos de matricula -->
                     <div class="tab-pane fade @(ActiveTab == 0 ? "show active" : "")" id="card-@enrollment.enrollmentId"
                          role="tabpanel" aria-labelledby="panel-@enrollment.enrollmentId">
+                        
+                        @if (IsLoadingReport)
+                        {
+                            <div class="modal-overlay">
+                                <div class="WaitingMakeUser"></div>
+                                <div class="loader-text">Construyendo el documento, por favor espere...</div>
+                            </div>
+                        }
+                        
+                        <!-- Inicio datos de matricula -->
                         <div class="row">
-                            <div class="col-12 col-md-6" style="margin-bottom: 15px">
-                                <div class="card">
+                            <!-- Información principal -->
+                            <div class="col-12 col-lg-8 mb-4">
+                                <div class="card shadow h-100">
+
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary">
+                                            Información de Matrícula
+                                        </h6>
+
+                                        <button @onclick="() => GenerateGradeReport(enrollment.enrollmentId)"
+                                                class="btn btn-outline-danger btn-sm">
+                                            <i class="fas fa-file-alt mr-1"></i>
+                                            Generar Boletines de @enrollment.label
+                                        </button>
+                                    </div>
+
                                     <div class="card-body">
 
+                                        <div class="row">
 
-                                        
-                                        <div class="row">
-                                            <div class="col">
-                                                <label style="display: inline-block; width: 200px;">Nombre:</label>
-                                                <input type="text" class="form-control" disabled="disabled"
-                                                       style="margin-bottom: 10px" @bind="enrollment.label">
-                                            </div>
-                                            <div class="col">
-                                                <label style="display: inline-block; width: 200px;">Matrícula Id:</label>
-                                                <input type="text" class="form-control" disabled="disabled"
-                                                       style="margin-bottom: 10px" @bind="enrollment.enrollmentId">
-                                            </div>
-                                        </div>
-                                        
-                                        <label style="display: inline-block; width: 200px;">Docente guía:</label>
-                                        <div class="row">
-                                            <div class="col-md-8">
+                                            <div class="col-md-6 mb-3">
+                                                <label>Nombre</label>
                                                 <input class="form-control"
-                                                       value="@GetTeacherNameById(enrollment.teacherId)"
-                                                       disabled="disabled">
+                                                       disabled
+                                                       @bind="enrollment.label"/>
                                             </div>
-                                            <div class="col-md-4">
-                                                <button class="btn btn-outline-info btn-sm"
-                                                        @onclick="() => ChangeTeacherGuide(enrollment.teacherId, enrollment.enrollmentId)">
-                                                    <i class="fa fa-sync"></i> Cambiar docente
-                                                </button>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label>Matrícula ID</label>
+                                                <input class="form-control"
+                                                       disabled
+                                                       @bind="enrollment.enrollmentId"/>
                                             </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label>Año Lectivo</label>
+                                                <input class="form-control"
+                                                       disabled
+                                                       @bind="enrollment.schoolyear"/>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label>Docente Guía</label>
+
+                                                <div class="input-group">
+
+                                                    <input class="form-control"
+                                                           disabled
+                                                           value="@GetTeacherNameById(enrollment.teacherId)"/>
+
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-info"
+                                                                @onclick="() => ChangeTeacherGuide(enrollment.teacherId, enrollment.enrollmentId)">
+                                                            <i class="fa fa-sync"></i>
+                                                            Cambiar
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </div>
+
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-3" style="margin-bottom: 15px">
-                                <div class="card">
+                            <!-- Datos operativos -->
+                            <div class="col-12 col-lg-4 mb-4">
+                                <div class="card shadow h-100">
+
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">
+                                            Configuración del Aula
+                                        </h6>
+                                    </div>
+
                                     <div class="card-body">
 
-                                        <label style="display: inline-block; width: 200px;">Año lectivo:</label>
-                                        <input type="text" class="form-control" disabled="disabled"
-                                               @bind="enrollment.schoolyear" style="margin-bottom: 10px">
+                                        <div class="form-group">
+                                            <label class="label-required">
+                                                Capacidad
+                                            </label>
 
-                                        <label class="label-required" style="display: inline-block; width: 200px;">Capacidad:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px" min="10"
-                                               @bind="enrollment.capacity">
+                                            <input type="number"
+                                                   class="form-control"
+                                                   min="10"
+                                                   @bind="enrollment.capacity">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>
+                                                Capacidad Usada
+                                            </label>
+
+                                            <input type="text"
+                                                   class="form-control"
+                                                   readonly
+                                                   @bind="enrollment.quantity">
+                                        </div>
+
+                                        <div class="form-group mb-0">
+                                            <label class="label-required">
+                                                # De Aula
+                                            </label>
+
+                                            <input type="text"
+                                                   class="form-control"
+                                                   @bind="enrollment.section">
+                                        </div>
+
                                     </div>
+
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3" style="margin-bottom: 15px">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <label style="display: inline-block; width: 200px;">Capacidad usada:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px"
-                                               @bind="enrollment.quantity">
 
-                                        <label class="label-required" style="display: inline-block; width: 200px;"># De
-                                            Aula:</label>
-                                        <input type="text" class="form-control" style="margin-bottom: 10px"
-                                               @bind="enrollment.section">
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <!-- Fin datos de matricula -->
 
-                        <!-- Inicio de los estudiantes -->                       
+                        <!-- Inicio de los estudiantes -->
                         <div class="card" style="margin-bottom: 15px">
                             <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                 <h6 class="m-0 font-weight-bold text-primary">Estudiantes</h6>
@@ -151,16 +213,22 @@ else
                                                     <td>@(item.sex ? "Varón" : "Mujer")</td>
                                                     <td>
                                                         <div class="dropdown no-arrow">
-                                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <a class="dropdown-toggle" href="#" role="button"
+                                                               id="dropdownMenuLink"
+                                                               data-toggle="dropdown" aria-haspopup="true"
+                                                               aria-expanded="false">
                                                                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                                             </a>
 
-                                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                                 aria-labelledby="dropdownMenuLink">
-                                                                <div class="dropdown-header">Seleccione una opción:</div>
-                                                                <a class="dropdown-item" href="#">Ver perfil (Próximamente)</a>
-                                                                <a class="dropdown-item" href="#">Mover (Próximamente)</a>
+                                                            <div
+                                                                class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                                aria-labelledby="dropdownMenuLink">
+                                                                <div class="dropdown-header">Seleccione una opción:
+                                                                </div>
+                                                                <a class="dropdown-item" href="#">Ver perfil
+                                                                    (Próximamente)</a>
+                                                                <a class="dropdown-item" href="#">Mover
+                                                                    (Próximamente)</a>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -245,7 +313,5 @@ else
                             TeacherGuideUpdated="LoadDegree"/>
     <UpdateTeacherOfSubjectView SubjectId="@SubjectFlags" SubjectName="@SubjectChangeName"
                                 EnrollmentId="@EnrollmentFlags" TeacherSubjectUpdated="LoadDegree"/>
-                                
-    
 }
 
