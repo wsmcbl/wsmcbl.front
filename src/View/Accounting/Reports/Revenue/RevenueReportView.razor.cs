@@ -84,12 +84,35 @@ public partial class RevenueReportView : BaseView
         }
     }
 
-    private async Task DownLoadState()
+    private string formatoSeleccionado { get; set; } = "excel";
+    
+    private async Task ProcesarDescarga()
+    {
+        if (formatoSeleccionado == "excel")
+        {
+            await DownLoadStateExcel();
+        }
+        else if (formatoSeleccionado == "json")
+        {
+            await DownLoadStateJson();
+        }
+    }
+    
+    private async Task DownLoadStateJson()
     {
         var startDateStr = startDate.ToString("dd-MM-yyyy");
         var endDateStr = endDate.ToString("dd-MM-yyyy"); 
         await controller.GetReportJson(startDateStr, endDateStr);
     }
+    
+    private async Task DownLoadStateExcel()
+    {
+        var startDateStr = startDate.ToString("dd-MM-yyyy");
+        var endDateStr = endDate.ToString("dd-MM-yyyy"); 
+        await controller.GetReportExcel(startDateStr, endDateStr);
+    }
+    
+    
     
     protected override bool IsLoading()
     {

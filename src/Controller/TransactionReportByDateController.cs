@@ -52,4 +52,24 @@ public class TransactionReportByDateController : BaseController
         var url = $"data:application/json;base64,{base64}";
         await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
     }
+    
+    public async Task GetReportExcel(string start, string end)
+    {
+        var resource = $"{path}/invoices/export?from={start}&to={end}";
+        
+        var fileBytes = await _apiConsumerFactory.WithNotificator.GetByteFileAsync(Modules.Resources, resource);
+
+        if (fileBytes == null || fileBytes.Length <= 0)
+        {
+            await _notificator.ShowError("No se pudo descargar el archivo solicitado o no hay transacciones en este rango.");
+            return;
+        }
+        
+        var fileName = $"Transacciones_de_caja_del_{start}_al_{end}.xlsx";
+        
+        var base64 = Convert.ToBase64String(fileBytes);
+        var excelMimeType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        var url = $"data:{excelMimeType};base64,{base64}";
+        await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
+    }
 }
