@@ -53,9 +53,18 @@ else
                 <div class="col-auto">
                     @if (hasData)
                     {
-                        <button class="btn btn-outline-info btn-sm me-2"
-                                @onclick="() => DownLoadState()">Descargar
-                        </button>
+                        <div class="input-group input-group-sm d-inline-flex ms-2" style="width: auto; vertical-align: middle;">
+                            <select class="custom-select custom-select-sm" @bind="formatoSeleccionado">
+                                <option value="excel">Excel (.xlsx)</option>
+                                <option value="json">JSON (.json)</option>
+                            </select>
+    
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-info btn-sm" type="button" @onclick="ProcesarDescarga">
+                                    <i class="fas fa-download fa-sm mr-1"></i> Descargar
+                                </button>
+                            </div>
+                        </div>
                     }
                 </div>
             </div>
