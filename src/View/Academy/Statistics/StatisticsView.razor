@@ -6,7 +6,7 @@
 {
     <div class="input-group">
         <select class="custom-select" @onchange="OnPartialSelected">
-            @foreach(var item in Partials)
+            @foreach (var item in Partials)
             {
                 <option value="@item.partialId" selected="@(item.isActive ? "selected" : null)">@item.label</option>
             }
@@ -19,7 +19,7 @@
             </button>
         </div>
     </div>
-    
+
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
@@ -51,13 +51,13 @@
                         <tr class="total-row">
                             <td>Retención (%)</td>
                             <td>
-                                (@((EvaluationSumary.currentQuantity.total * 100m / EvaluationSumary.initialQuantity.total).round().ToString() + "%"))
+                                @CalcularPorcentaje(EvaluationSumary.currentQuantity.total, EvaluationSumary.initialQuantity.total)
                             </td>
                             <td>
-                                (@((EvaluationSumary.currentQuantity.males * 100m / EvaluationSumary.initialQuantity.males).round().ToString() + "%"))
+                                @CalcularPorcentaje(EvaluationSumary.currentQuantity.males, EvaluationSumary.initialQuantity.males)
                             </td>
                             <td>
-                                (@((EvaluationSumary.currentQuantity.females * 100m / EvaluationSumary.initialQuantity.females).round().ToString() + "%"))
+                                @CalcularPorcentaje(EvaluationSumary.currentQuantity.females, EvaluationSumary.initialQuantity.females)
                             </td>
                         </tr>
                         </tbody>
@@ -88,15 +88,14 @@
                         <tr>
                             <td>Rendimiento academico (%)</td>
                             <td>
-                                (@((EvaluationSumary.approved.total * 100m / EvaluationSumary.currentQuantity.total).round().ToString() + "%"))
+                                @CalcularPorcentaje(EvaluationSumary.approved.total, EvaluationSumary.currentQuantity.total)
                             </td>
                             <td>
-                                (@((EvaluationSumary.approved.males * 100m / EvaluationSumary.currentQuantity.males).round().ToString() + "%"))
+                                @CalcularPorcentaje(EvaluationSumary.approved.males, EvaluationSumary.currentQuantity.males)
                             </td>
                             <td>
-                                (@((EvaluationSumary.approved.females * 100m / EvaluationSumary.currentQuantity.females).round().ToString() + "%"))
+                                @CalcularPorcentaje(EvaluationSumary.approved.females, EvaluationSumary.currentQuantity.females)
                             </td>
-
                         </tr>
                         <tr>
                             <td class="has-comment">Reprobados de 1 a 2 <i
@@ -119,7 +118,9 @@
                         </tr>
                         <tr>
                             <td class="has-comment">No evaluados <i class="fas fa-info-circle comment-indicator"></i>
-                                <div class="comment">Estudiantes que se les registro 0 en todas sus asignaturas y conducta.</div>
+                                <div class="comment">Estudiantes que se les registro 0 en todas sus asignaturas y
+                                    conducta.
+                                </div>
                             </td>
                             <td>@EvaluationSumary.notEvaluated.total</td>
                             <td>@EvaluationSumary.notEvaluated.males</td>
