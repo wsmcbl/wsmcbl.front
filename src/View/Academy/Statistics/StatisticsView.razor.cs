@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using wsmcbl.src.Controller;
 using wsmcbl.src.Model.Academy;
+using wsmcbl.src.Utilities;
 using wsmcbl.src.View.Academy.EnrollmentGuide;
 using wsmcbl.src.View.Base;
 
@@ -21,19 +22,19 @@ public partial class StatisticsView : BaseView
     private List<SubjectDetailsDto>? SubjectDetails { get; set; }
     private EnrollmentDto Enrollment { get; set; } = new();
     private List<TeacherEntity> Teachers { get; set; } = new();
-    
+
     private List<PartialEntity> Partials { get; set; } = new();
     private int PartialSelected { get; set; }
 
-    
+
     protected override async Task OnParametersSetAsync()
     {
         Teachers = await EnrollmentController.GetActiveTeacherList();
         Enrollment = await GuideController.GetMyEnrollmentGuide(TeacherId);
-        await LoadPartials();     
+        await LoadPartials();
         await LoadData();
     }
-    
+
     private async Task LoadPartials()
     {
         Partials = (await AddingStudentGradesController.GetPartialList()).OrderBy(t => t.partialId).ToList();
@@ -62,10 +63,21 @@ public partial class StatisticsView : BaseView
             }
         }
     }
+
     private async Task DownloadPartialReport()
     {
         var partialLabel = Partials.FirstOrDefault(t => t.partialId == PartialSelected)?.label ?? "N/A";
         await GuideController.GetStatisticsDocument(TeacherId, PartialSelected, partialLabel, EnrollmentLabel);
     }
 
+    private string CalcularPorcentaje(decimal numerador, decimal denominador)
+    {
+        if (denominador == 0)
+        {
+            return "0%";
+        }
+
+        decimal resultado = (numerador * 100m) / denominador;
+        return $"{resultado.round()}%";
+    }
 }
