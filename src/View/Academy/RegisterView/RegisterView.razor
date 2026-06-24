@@ -1,5 +1,6 @@
 @page "/academy/enrollments/register"
 @using wsmcbl.src.View.Academy.PerformanceReportBySection
+@using wsmcbl.src.View.Academy.SemestralReport
 @using wsmcbl.src.View.Academy.TopStudents
 @using wsmcbl.src.View.Academy.Statistics
 @inherits BaseView
@@ -13,7 +14,8 @@
                 <div class="d-block d-md-none w-100 mb-2">
                     <select class="form-control" id="mobileTabSelector" onchange="switchTab(this.value)">
                         <option value="PanelTop">Rendimiento</option>
-                        <option value="PanelSabana">Sabana</option>
+                        <option value="PanelSabana">Sabanas</option>
+                        <option value="PanelSemestral">Semestral</option>
                         <option value="PanelMatrics">Estadísticas</option>
                     </select>
                 </div>
@@ -28,7 +30,13 @@
                     <li class="nav-item">
                         <a class="nav-link" id="TabSabana" data-toggle="tab" href="#PanelSabana" role="tab"
                            aria-controls="PanelSabana" aria-selected="False">
-                            Sabana
+                            Sabanas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="TabSemestral" data-toggle="tab" href="#PanelSemestral" role="tab"
+                           aria-controls="PanelSemestral" aria-selected="False">
+                            Semestral
                         </a>
                     </li>
                     <li class="nav-item">
@@ -53,6 +61,11 @@
                     <div class="tab-pane fade" id="PanelSabana" role="tabpanel" aria-labelledby="TabSabana">
                         <PerformanceReportBySectionView PartialId="@CurrentPartialId" TeacherId="@TeacherId"
                                                         subjectList="@Enrollment.subjectList" IsGuide="IsGuide" EnrollmentName="@Enrollment.label"/>
+                    </div>
+                    
+                    <!-- Pestaña de Semestral -->
+                    <div class="tab-pane fade" id="PanelSemestral" role="tabpanel" aria-labelledby="TabSemestral">
+                        <SemestralReportView IsGuide="IsGuide" TeacherId="@TeacherId"/>
                     </div>
 
                     <!-- Pestaña de Estadisticas -->

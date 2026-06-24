@@ -15,7 +15,7 @@ public partial class RegisterView : BaseView
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
     private EnrollmentDto Enrollment { get; set; } = new();
-    private string? TeacherId { get; set; }
+    private string TeacherId { get; set; } = string.Empty;
     private TeacherEntity Teacher { get; set; } = new();
     private List<PartialEntity> Partial { get; set; } = new();
     private bool IsGuide  { get; set; }
