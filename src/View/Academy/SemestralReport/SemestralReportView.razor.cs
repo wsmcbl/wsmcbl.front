@@ -39,7 +39,11 @@ public partial class SemestralReportView : BaseView
     private async Task GenerarReporte()
     {
         List<int> idsParaReporte = SelectedPartialIds.ToList();
-        await generatePerformanceReportBySectionController.GetSemestralReportByPartialsIdXlsx(TeacherId, idsParaReporte);
+        
+        var firstSelectedPartial = Partials?.FirstOrDefault(p => p.partialId == idsParaReporte.FirstOrDefault());
+        string? semesterName = firstSelectedPartial?.semester;
+
+        await generatePerformanceReportBySectionController.GetSemestralReportByPartialsIdXlsx(TeacherId, idsParaReporte, semesterName);
     }
 
     protected override bool IsLoading()

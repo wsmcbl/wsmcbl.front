@@ -46,16 +46,17 @@ public class GeneratePerformanceReportBySection : BaseController
         await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
     }
     
-    public async Task GetSemestralReportByPartialsIdXlsx(string teacherId, List<int> partialId)
+    public async Task GetSemestralReportByPartialsIdXlsx(string teacherId, List<int> partialId, string? semesterName = null)
     {
         if (partialId == null || !partialId.Any())
         {
             await _notificator.ShowError("Debe seleccionar al menos un parcial para generar el reporte.");
             return;
         }
-        
+
         string queryParams = string.Join("&", partialId.Select(id => $"partialIds={id}"));
         var resource = $"{path}/{teacherId}/enrollments/guide/grades/summary/export-multi?{queryParams}";
+    
         var fileBytes = await apiFactory.WithNotificator.GetByteFileAsync(Modules.Academy, resource);
     
         if (fileBytes == null || fileBytes.Length <= 0)
@@ -63,12 +64,22 @@ public class GeneratePerformanceReportBySection : BaseController
             await _notificator.ShowError("No se realizó la descarga del archivo. \n\n Es posible que no existan registros para el parcial seleccionado.");
             return;
         }
-        
+    
         var base64 = Convert.ToBase64String(fileBytes);
         var url = $"data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64}";
     
-        // Tip de oro: Añade la extensión .xlsx al nombre para que Excel lo reconozca de inmediato
-        await _jsRuntime.InvokeVoidAsync("downloadFile", "Reporte Semestral.xlsx", url);
+        string fileName;
+        if (string.IsNullOrWhiteSpace(semesterName))
+        {
+            fileName = "Reporte_Semestral.xlsx";
+        }
+        else
+        {
+            string cleanSemester = semesterName.Replace(" ", "_");
+            fileName = $"Reporte_Semestral_{cleanSemester}.xlsx";
+        }
+    
+        await _jsRuntime.InvokeVoidAsync("downloadFile", fileName, url);
     }
 
     public async Task<List<TopStudentsDto>?> GetTopStudents(string teacherId)
