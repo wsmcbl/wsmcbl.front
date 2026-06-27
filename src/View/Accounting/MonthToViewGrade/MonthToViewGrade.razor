@@ -1,0 +1,127 @@
+@page "/accounting/month-to-view-grade"
+
+@inherits BaseView
+@attribute [Authorize(Roles = "admin,cashier")]
+
+<div class="container-fluid">
+
+    <div class="p-4 bg-white rounded shadow-sm border mb-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="h4 font-weight-bold text-gray-800 mb-2">
+                    <i class="fas fa-sliders-h text-primary mr-2"></i>Parámetros de Visibilidad de Calificaciones para estudiantes
+                </h1>
+                <p class="text-gray-600 mb-0" style="font-size: 0.9rem;">
+                    Este módulo controla el acceso de los estudiantes a sus notas. Edite el 
+                    <strong class="text-dark">Valor</strong> del registro para restringir o permitir la vista de las notas a los estudiantes.
+                    Si se selecciona el mes 6 los estudiantes deberan estar al dia con la mensualidad de Junio del año en curso.
+                </p>
+            </div>
+            <div class="col-lg-4 border-left d-none d-lg-block pl-4">
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-exclamation-triangle text-warning mr-3 mt-1"></i>
+                    <div>
+                        <h6 class="font-weight-bold text-gray-800 mb-1" style="font-size: 0.8rem;">RESTRICCIÓN</h6>
+                        <p class="text-muted mb-0 small">
+                            El sistema mapea este valor con el calendario escolar. Use un formato estrictamente del <strong>1 al 12</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Elementos del Sistema</h6>
+        </div>
+        <div class="card-body">
+
+            @if (isLoading)
+            {
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                    <p class="mt-2 text-gray-600">Cargando elementos multimedia...</p>
+                </div>
+            }
+            else if (Listmedia == null || !Listmedia.Any())
+            {
+                <div class="alert alert-info text-center mb-0" role="alert">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    No se encontraron elementos multimedia registrados para mostrar.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-bordered align-middle" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">ID</th>
+                                <th style="width: 55%;">(Mes Asignado)</th>
+                                <th class="text-center" style="width: 30%;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var media in Listmedia)
+                            {
+                                <tr>
+                                    <td> @media.mediaId </td>
+                                    <td class="align-middle">
+                                        Debe tener pagado el mes de 
+                                        <span class="font-weight-bold text-gray-800">@ObtenerNombreMes(media.value)</span></td>                                    
+                                    <td class="text-center align-middle">
+                                        <button class="btn btn-success btn-sm shadow-sm px-3"
+                                                data-toggle="modal"
+                                                data-target="#EditMedia"
+                                                @onclick="() => UpdateMedia(media.mediaId)">
+                                            <i class="fas fa-pen-alt mr-1"></i> Editar
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <script src="js/DataTable/dataTableWhitOutOrder.js"></script>
+            }
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="EditMedia" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow border-0">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title font-weight-bold" id="myModalLabel">
+                    <i class="fas fa-edit mr-2"></i>Editar Información (ID: @MediaEdit.mediaId)
+                </h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body text-gray-900">
+                @if (MediaEdit != null)
+                {
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold small text-uppercase text-gray-700">Valor (Mes del 1 al 12)</label>
+                        <input type="number" min="1" max="12" class="form-control font-weight-bold text-primary" @bind="MediaEdit.value" placeholder="Ej. 12"/>
+                    </div>
+                }
+            </div>
+
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary shadow-sm" @onclick="SaveChange" data-dismiss="modal">
+                    <i class="fas fa-save mr-1"></i> Guardar Cambios
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
