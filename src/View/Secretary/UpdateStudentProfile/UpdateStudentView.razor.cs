@@ -8,7 +8,7 @@ namespace wsmcbl.src.View.Secretary.UpdateStudentProfile;
 
 public partial class UpdateStudentView : BaseView
 {
-    [Parameter] public string? StudentId { get; set; }
+    [Parameter] public string StudentId { get; set; } = string.Empty;
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private UpdateStudentController Controller { get; set; } = null!;
     private StudentEntity? student { get; set; }

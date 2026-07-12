@@ -60,17 +60,27 @@ else
             <div class="tab-content">
 
                 <div class="tab-pane fade show active" id="PanelStudent" role="tabpanel" aria-labelledby="TabStudent">
-                    <UpdateStudentComponent Student="Student"/>
+                    @if (Student != null)
+                    {
+                        <UpdateStudentComponent Student="Student"/>
+                    }
                 </div>
 
                 <div class="tab-pane fade" id="PanelTutor" role="tabpanel" aria-labelledby="TabTutor">
-                    <UpdateParentsComponent Student="Student"/>
+                    @if (Student != null)
+                    {
+                        <UpdateParentsComponent Student="Student"/>
+                    }
                 </div>
 
                 <div class="tab-pane fade" id="PanelAcademy" role="tabpanel" aria-labelledby="TabAcademy">
-                    <TabAcademy Student="Student" DegreeList="DegreeList" @bind-DiscountId="DiscountId"
-                                @bind-EnrollmentIdSelected="EnrollmentIdSelected" SelectRepeat="@IsRepeating"
-                                SelectRepeatChanged="@OnRepeatSelectionChanged"/>
+                    @if (Student != null)
+                    { 
+                        <TabAcademy Student="Student" DegreeList="DegreeList" @bind-DiscountId="DiscountId"
+                                    @bind-EnrollmentIdSelected="EnrollmentIdSelected" SelectRepeat="@IsRepeating"
+                                    SelectRepeatChanged="@OnRepeatSelectionChanged"/>
+                    }
+
                 </div>
                 <RequerideMessage/>
             </div>

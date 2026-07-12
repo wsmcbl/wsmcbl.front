@@ -11,7 +11,7 @@ namespace wsmcbl.src.View.Accounting.TariffCollection;
 
 public partial class TariffCollectionView : BaseView
 {
-    [Parameter] public string? StudentId { get; set; }
+    [Parameter] public string StudentId { get; set; } = string.Empty;
     [Inject] protected CollectTariffController collectTariffController { get; set; } = null!;
     [Inject] private JwtClaimsService jwtClaimsService { get; set; } = null!;
     [Inject] protected ForgetDebtController forgetDebtController { get; set; } = null!;
@@ -21,7 +21,7 @@ public partial class TariffCollectionView : BaseView
     [Inject] protected Navigator Navigator { get; private set; } = null!;
 
     private List<TariffEntity>? TariffList { get; set; }
-    private List<TariffEntity>? TariffsToPay { get; set; }
+    private List<TariffEntity> TariffsToPay { get; set; } = [];
     private Dictionary<string, string>? SchoolYearLabels { get; set; }
     private List<string> UserPermissions { get; set; } = new();
 
@@ -45,7 +45,6 @@ public partial class TariffCollectionView : BaseView
 
         await LoadStudent();
         InvoicePdf = [];
-        TariffsToPay = [];
         EstimateTotal = 0;
     }
     
