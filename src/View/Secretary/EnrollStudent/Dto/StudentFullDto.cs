@@ -6,7 +6,7 @@ namespace wsmcbl.src.View.Secretary.EnrollStudent.Dto;
 
 public class StudentFullDto
 {
-    public string? studentId { get; set; } = null!;
+    public string studentId { get; set; } = string.Empty;
     public string? minedId { get; set; }
     public string name { get; set; } = null!;
     public string? secondName { get; set; }

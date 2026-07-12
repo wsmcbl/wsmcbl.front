@@ -9,7 +9,7 @@ namespace wsmcbl.src.View.Academy.EnrollmentGuide;
 
 public partial class StudentsView : BaseView
 {
-    [Parameter] public string? StudentId { get; set; }
+    [Parameter] public string StudentId { get; set; } = string.Empty;
     [Inject] private Notificator Notificator { get; set; } = null!;
     [Inject] private Navigator Navigator { get; set; } = null!;
     [Inject] private LoginController LoginController { get; set; } = null!;

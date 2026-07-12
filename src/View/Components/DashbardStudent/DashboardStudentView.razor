@@ -3,6 +3,7 @@
 @using wsmcbl.src.View.Components.StudentPasswordView
 @using wsmcbl.src.View.Secretary.Schoolyear
 @using wsmcbl.src.View.Components.GetAcademicReport
+@using wsmcbl.src.View.Secretary.AddGradeToStudentReturning
 
 <div class="card shadow-sm mb-4 student-profile-compact">
     <div class="row no-gutters">
@@ -51,6 +52,9 @@
                     </button>
                     <button class="dropdown-item" @onclick="UpdateEducationLevel">
                         <i class="fas fa-level-up-alt mr-2 text-primary"></i> Cambiar Nivel
+                    </button>
+                    <button class="dropdown-item" @onclick="AddGradeReturnigStudent">
+                        <i class="fas fa-edit mr-2 text-danger"></i> Agrega / Actualiza Calificaciones
                     </button>
             
                     <div class="dropdown-divider m-0"></div>
@@ -118,6 +122,7 @@
 <MoveStudentView StudentId="@Student.studentId" StudentName="@Student.FullName()"/>
 <StudentPasswordView StudentId="@Student.studentId"/>
 <GetAcademicReportView StudentId="@Student.studentId" StudentName="@Student.FullName()" />
+<AddGradeStudentReturning StudentId="@Student.studentId"></AddGradeStudentReturning>
 
 <PdfViewer Title="@Student.FullName()" PdfContent="@PdfDocument"/>
 
