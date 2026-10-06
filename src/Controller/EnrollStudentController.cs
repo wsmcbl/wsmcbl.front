@@ -37,7 +37,7 @@ public class EnrollStudentController : BaseController
         var resource = $"{path}/{studentId}";
         
         var result = await apiFactory
-            .WithNotificator.GetAsync(Modules.Secretary, resource, new EnrollStudentDto());
+            .Default.GetAsync(Modules.Secretary, resource, new EnrollStudentDto());
         
         return (result.ToStudentEntity(), result.enrollmentId, result.discountId, result.isRepeating);
     }
