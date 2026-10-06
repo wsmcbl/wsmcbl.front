@@ -17,10 +17,6 @@ public partial class AddGradeStudentReturning : BaseView
     [Inject] protected ViewPrincipalDashboardController SubjectController { get; set; } = null!;
     [Inject] protected UpdateOfficialEnrollmentController EnrollmentController { get; set; } = null!;
     [Inject] protected Notificator notificator { get; set; } = null!;
-    
-
-
-
 
     private StudentEntity FullStudent { get; set; } = new();
     private List<DetailForSubjectAddGradeReturning> DetailSubject { get; set; } = new();
@@ -29,20 +25,44 @@ public partial class AddGradeStudentReturning : BaseView
     private List<SubjectsDto> SubjectCatalog { get; set; } = [];
     private List<TeacherEntity> TeachersCatalog { get; set; } = [];
 
-
-    
-
     private int? PartialId { get; set; }
     private string EnrollmentId { get; set; } = string.Empty;
 
+    // Banderas de estado para evitar bloqueos y manejar errores
+    private bool loading = true;
+    private bool isEnrolled = true;
+
     protected override async Task OnParametersSetAsync()
     {
-        if (StudentId != string.Empty)
+        if (!string.IsNullOrWhiteSpace(StudentId))
         {
-            var result = await Controller.GetStudentById(StudentId);
-            if (result.enrollmentId != null) EnrollmentId = result.enrollmentId;
-            FullStudent = result.student;
-            await GetPartialList();
+            loading = true;
+            try
+            {
+                var result = await Controller.GetStudentById(StudentId);
+                
+                if (!string.IsNullOrEmpty(result.enrollmentId))
+                {
+                    EnrollmentId = result.enrollmentId;
+                    FullStudent = result.student;
+                    isEnrolled = true;
+                    await GetPartialList();
+                }
+                else
+                {
+                    isEnrolled = false;
+                }
+            }
+            catch (Exception)
+            {
+                // Absorbe el 409 u otros errores de falta de matrícula/solvencia
+                isEnrolled = false;
+                EnrollmentId = string.Empty;
+            }
+            finally
+            {
+                loading = false;
+            }
         }
     }
     
@@ -64,11 +84,12 @@ public partial class AddGradeStudentReturning : BaseView
     
     private async Task Save()
     {
+        if (!isEnrolled) return;
+
         var des = await notificator.ShowAlertQuestion("Advertencia",
             "Al realizar esta acción se actualizaran las calificaciones existentes, o se agregaran si no existen. ¿Estas seguro de continuar?",
             ("SI", "NO"));
         if (!des) { return; }
-        
         
         if (Grade.grades.Count == 0)
         {
@@ -111,7 +132,7 @@ public partial class AddGradeStudentReturning : BaseView
     
     private async Task GetGradeInfo()
     {
-        if (PartialId.HasValue)
+        if (PartialId.HasValue && !string.IsNullOrEmpty(EnrollmentId))
         {
             DetailSubject = await ReturningController.GetSubjectInfo(EnrollmentId, PartialId);
             SubjectCatalog = await SubjectController.GetSubjectOfSchoolYear();
@@ -120,15 +141,7 @@ public partial class AddGradeStudentReturning : BaseView
         }
     } 
 
-    protected override bool IsLoading()
-    {
-        if (EnrollmentId != string.Empty)
-        {
-            return false;   
-        }
-        
-        return true;
-    }
+    protected override bool IsLoading() => loading;
 
     private void OnCheckboxChange(ChangeEventArgs e, int partialId)
     {
@@ -136,12 +149,10 @@ public partial class AddGradeStudentReturning : BaseView
 
         if (isChecked)
         {
-            // Marca este checkbox y desmarca automáticamente los demás
             PartialId = partialId;
         }
         else if (PartialId == partialId)
         {
-            // Permite desmarcarlo si el usuario hace clic de nuevo en el mismo
             PartialId = null; 
         }
     }
